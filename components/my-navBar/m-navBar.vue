@@ -33,7 +33,7 @@
 <script>
 	import util from '../../commom/util.js'
 	export default {
-		name:'mynavBar',
+		name: 'mynavBar',
 		props: {
 			personInfo: {
 				type: Object,
@@ -55,8 +55,8 @@
 			}
 		},
 		methods: {
-			upLoadImg:function(){
-				this.$set(this.personInfo,'img_url',util.getPersonal().img_url);
+			upLoadImg: function() {
+				this.$set(this.personInfo, 'img_url', util.getPersonal().img_url);
 			},
 			headImg: function() {
 				this.$refs.showPersonInfo.close();
@@ -65,6 +65,10 @@
 			clickLeftImg() {
 				if (this.navItem.index == 0) {
 					this.$refs.showPersonInfo.open();
+				} else if (this.navItem.index > 4) {
+					uni.switchTab({
+						url: '/pages/more/index'
+					});
 				}
 			},
 			closeDrawer() {
