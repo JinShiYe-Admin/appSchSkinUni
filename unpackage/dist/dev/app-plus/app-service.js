@@ -9111,6 +9111,9 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    uniGrid: __webpack_require__(/*! @/components/uni-grid/uni-grid.vue */ 64).default,
+    uniGridItem: __webpack_require__(/*! @/components/uni-grid-item/uni-grid-item.vue */ 69)
+      .default,
     uTabbarMy: __webpack_require__(/*! @/third-ui/uview-ui/components/u-tabbar-my/u-tabbar-my.vue */ 74)
       .default
   }
@@ -9142,7 +9145,90 @@ var render = function() {
         ref: "mynavBar",
         attrs: { navItem: _vm.tabBarItem, personInfo: _vm.personInfo, _i: 1 }
       }),
-      _c("u-tabbar-my", { attrs: { list: _vm.tabbar, _i: 2 } })
+      _vm._$s(2, "i", _vm.tabBarItem.childList.length > 0)
+        ? _c(
+            "view",
+            [
+              _c(
+                "uni-grid",
+                {
+                  attrs: {
+                    column: 4,
+                    showBorder: false,
+                    square: false,
+                    highlight: false,
+                    _i: 3
+                  }
+                },
+                _vm._l(
+                  _vm._$s(4, "f", { forItems: _vm.tabBarItem.childList }),
+                  function(chilItem, chiilIndex, $20, $30) {
+                    return _c(
+                      "uni-grid-item",
+                      {
+                        key: _vm._$s(4, "f", {
+                          forIndex: $20,
+                          key: chiilIndex
+                        }),
+                        attrs: { index: chiilIndex, _i: "4-" + $30 }
+                      },
+                      [
+                        _c(
+                          "view",
+                          {
+                            staticClass: _vm._$s(
+                              "5-" + $30,
+                              "sc",
+                              "grid-item-box"
+                            ),
+                            attrs: { _i: "5-" + $30 },
+                            on: {
+                              click: function($event) {
+                                return _vm.clickItem(chilItem)
+                              }
+                            }
+                          },
+                          [
+                            _c("image", {
+                              staticClass: _vm._$s("6-" + $30, "sc", "moreImg"),
+                              attrs: {
+                                src: _vm._$s(
+                                  "6-" + $30,
+                                  "a-src",
+                                  chilItem.icon
+                                ),
+                                _i: "6-" + $30
+                              }
+                            }),
+                            _c(
+                              "text",
+                              {
+                                staticClass: _vm._$s("7-" + $30, "sc", "text"),
+                                attrs: { _i: "7-" + $30 }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._$s(
+                                    "7-" + $30,
+                                    "t0-0",
+                                    _vm._s(chilItem.text)
+                                  )
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  }
+                ),
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _c("u-tabbar-my", { attrs: { list: _vm.tabbar, _i: 8 } })
     ],
     1
   )
@@ -9173,7 +9259,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _App
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("/* WEBPACK VAR INJECTION */(function(__f__) {Object.defineProperty(exports, \"__esModule\", { value: true });exports.default = void 0;\n\n\n\n\n\n\n\nvar _util = _interopRequireDefault(__webpack_require__(/*! ../../commom/util.js */ 10));\nvar _mNavBar = _interopRequireDefault(__webpack_require__(/*! @/components/my-navBar/m-navBar */ 146));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //\n//\n//\n//\n//\n//\n//\nvar _this;var _default = { data: function data() {return { personInfo: {}, tabbar: [], tabBarItem: {} };\n\n  },\n  components: {\n    mynavBar: _mNavBar.default },\n\n  methods: {},\n\n\n  onLoad: function onLoad(option) {\n    _this = this;\n    // 添加监听，如果修改了头像，将左上角和个人中心的也对应修改\n    uni.$on('updateHeadImg', function (data) {\n      _this.$refs.mynavBar.upLoadImg();\n    });\n    __f__(\"log\", 'BBBoption:' + JSON.stringify(option), \" at pages/markingPapers/index.vue:32\");\n    this.tabbar = _util.default.getMenu();\n    this.personInfo = _util.default.getPersonal();\n    __f__(\"log\", 'personInfo:' + JSON.stringify(this.personInfo), \" at pages/markingPapers/index.vue:35\");\n    if (_util.default.getTabbarMenu().url) {\n      this.tabBarItem = _util.default.getTabbarMenu();\n      _util.default.setTabbarMenu({});\n    } else {\n      this.tabBarItem = _util.default.getPageData(option);\n    }\n    __f__(\"log\", 'this.tabBarItem:' + JSON.stringify(this.tabBarItem), \" at pages/markingPapers/index.vue:42\");\n  } };exports.default = _default;\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/lib/format-log.js */ 9)[\"default\"]))//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVuaS1hcHA6Ly8vcGFnZXMvbWFya2luZ1BhcGVycy9pbmRleC52dWUiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7QUFRQTtBQUNBLHVHOzs7Ozs7O0FBQ0EsVSxlQUNBLEVBQ0EsSUFEQSxrQkFDQSxDQUNBLFNBQ0EsY0FEQSxFQUVBLFVBRkEsRUFHQSxjQUhBOztBQUtBLEdBUEE7QUFRQTtBQUNBLDhCQURBLEVBUkE7O0FBV0EsYUFYQTs7O0FBY0EsUUFkQSxrQkFjQSxNQWRBLEVBY0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLEtBRkE7QUFHQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLEtBSEEsTUFHQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLEdBL0JBLEUiLCJmaWxlIjoiMjAyLmpzIiwic291cmNlc0NvbnRlbnQiOlsiPHRlbXBsYXRlPlxyXG5cdDx2aWV3PlxyXG5cdFx0PG15bmF2QmFyIHJlZj1cIm15bmF2QmFyXCIgOm5hdkl0ZW09J3RhYkJhckl0ZW0nIDpwZXJzb25JbmZvPSdwZXJzb25JbmZvJz48L215bmF2QmFyPlxyXG5cdFx0PHUtdGFiYmFyLW15IDpsaXN0PVwidGFiYmFyXCI+PC91LXRhYmJhci1teT5cclxuXHQ8L3ZpZXc+XHJcbjwvdGVtcGxhdGU+XHJcblxyXG48c2NyaXB0PlxyXG5cdGltcG9ydCB1dGlsIGZyb20gJy4uLy4uL2NvbW1vbS91dGlsLmpzJztcclxuXHRpbXBvcnQgbXluYXZCYXIgZnJvbSAnQC9jb21wb25lbnRzL215LW5hdkJhci9tLW5hdkJhcic7XG5cdGxldCBfdGhpcztcclxuXHRleHBvcnQgZGVmYXVsdCB7XHJcblx0XHRkYXRhKCkge1xyXG5cdFx0XHRyZXR1cm4ge1xyXG5cdFx0XHRcdHBlcnNvbkluZm86IHt9LFxyXG5cdFx0XHRcdHRhYmJhcjogW10sXHJcblx0XHRcdFx0dGFiQmFySXRlbToge31cclxuXHRcdFx0fVxyXG5cdFx0fSxcclxuXHRcdGNvbXBvbmVudHM6IHtcclxuXHRcdFx0bXluYXZCYXJcclxuXHRcdH0sXHJcblx0XHRtZXRob2RzOiB7XHJcblx0XHRcdFxyXG5cdFx0fSxcclxuXHRcdG9uTG9hZChvcHRpb24pIHtcblx0XHRcdF90aGlzID0gdGhpcztcblx0XHRcdC8vIOa3u+WKoOebkeWQrO+8jOWmguaenOS/ruaUueS6huWktOWDj++8jOWwhuW3puS4iuinkuWSjOS4quS6uuS4reW/g+eahOS5n+WvueW6lOS/ruaUuVxuXHRcdFx0dW5pLiRvbigndXBkYXRlSGVhZEltZycsIGZ1bmN0aW9uKGRhdGEpIHtcblx0XHRcdFx0X3RoaXMuJHJlZnMubXluYXZCYXIudXBMb2FkSW1nKCk7XG5cdFx0XHR9KVxyXG5cdFx0XHRjb25zb2xlLmxvZygnQkJCb3B0aW9uOicgKyBKU09OLnN0cmluZ2lmeShvcHRpb24pKTtcclxuXHRcdFx0dGhpcy50YWJiYXIgPSB1dGlsLmdldE1lbnUoKTtcclxuXHRcdFx0dGhpcy5wZXJzb25JbmZvID0gdXRpbC5nZXRQZXJzb25hbCgpO1xyXG5cdFx0XHRjb25zb2xlLmxvZygncGVyc29uSW5mbzonICsgSlNPTi5zdHJpbmdpZnkodGhpcy5wZXJzb25JbmZvKSk7XHJcblx0XHRcdGlmKHV0aWwuZ2V0VGFiYmFyTWVudSgpLnVybCl7XG5cdFx0XHRcdHRoaXMudGFiQmFySXRlbSA9IHV0aWwuZ2V0VGFiYmFyTWVudSgpO1xuXHRcdFx0XHR1dGlsLnNldFRhYmJhck1lbnUoe30pO1xuXHRcdFx0fWVsc2V7XG5cdFx0XHRcdHRoaXMudGFiQmFySXRlbSA9IHV0aWwuZ2V0UGFnZURhdGEob3B0aW9uKTtcblx0XHRcdH1cclxuXHRcdFx0Y29uc29sZS5sb2coJ3RoaXMudGFiQmFySXRlbTonICsgSlNPTi5zdHJpbmdpZnkodGhpcy50YWJCYXJJdGVtKSk7XHJcblx0XHR9XHJcblx0fVxyXG48L3NjcmlwdD5cclxuXHJcbjxzdHlsZT5cclxuPC9zdHlsZT4iXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///202\n");
+eval("/* WEBPACK VAR INJECTION */(function(__f__) {Object.defineProperty(exports, \"__esModule\", { value: true });exports.default = void 0;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nvar _util = _interopRequireDefault(__webpack_require__(/*! ../../commom/util.js */ 10));\nvar _mNavBar = _interopRequireDefault(__webpack_require__(/*! @/components/my-navBar/m-navBar */ 146));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\nvar _this;var _default = { data: function data() {return { personInfo: {}, tabbar: [], tabBarItem: {} };}, components: { mynavBar: _mNavBar.default }, methods: {}, onLoad: function onLoad(option) {_this = this; // 添加监听，如果修改了头像，将左上角和个人中心的也对应修改\n    uni.$on('updateHeadImg', function (data) {\n      _this.$refs.mynavBar.upLoadImg();\n    });\n    __f__(\"log\", 'BBBoption:' + JSON.stringify(option), \" at pages/markingPapers/index.vue:43\");\n    this.tabbar = _util.default.getMenu();\n    this.personInfo = _util.default.getPersonal();\n    __f__(\"log\", 'personInfo:' + JSON.stringify(this.personInfo), \" at pages/markingPapers/index.vue:46\");\n    if (_util.default.getTabbarMenu().url) {\n      this.tabBarItem = _util.default.getTabbarMenu();\n      _util.default.setTabbarMenu({});\n    } else {\n      this.tabBarItem = _util.default.getPageData(option);\n    }\n    __f__(\"log\", 'this.tabBarItem:' + JSON.stringify(this.tabBarItem), \" at pages/markingPapers/index.vue:53\");\n  } };exports.default = _default;\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/lib/format-log.js */ 9)[\"default\"]))//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVuaS1hcHA6Ly8vcGFnZXMvbWFya2luZ1BhcGVycy9pbmRleC52dWUiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQW1CQTtBQUNBLHVHOzs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFDQSxVLGVBQ0EsRUFDQSxJQURBLGtCQUNBLENBQ0EsU0FDQSxjQURBLEVBRUEsVUFGQSxFQUdBLGNBSEEsR0FLQSxDQVBBLEVBUUEsY0FDQSwwQkFEQSxFQVJBLEVBV0EsV0FYQSxFQWNBLE1BZEEsa0JBY0EsTUFkQSxFQWNBLENBQ0EsYUFEQSxDQUVBO0FBQ0E7QUFDQTtBQUNBLEtBRkE7QUFHQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLEtBSEEsTUFHQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLEdBL0JBLEUiLCJmaWxlIjoiMjAyLmpzIiwic291cmNlc0NvbnRlbnQiOlsiPHRlbXBsYXRlPlxyXG5cdDx2aWV3PlxyXG5cdFx0PG15bmF2QmFyIHJlZj1cIm15bmF2QmFyXCIgOm5hdkl0ZW09J3RhYkJhckl0ZW0nIDpwZXJzb25JbmZvPSdwZXJzb25JbmZvJz48L215bmF2QmFyPlxyXG5cdFx0PHZpZXcgdi1pZj1cInRhYkJhckl0ZW0uY2hpbGRMaXN0Lmxlbmd0aD4wXCI+XHJcblx0XHRcdDx1bmktZ3JpZCA6Y29sdW1uPVwiNFwiIDpzaG93Qm9yZGVyPSdmYWxzZScgOnNxdWFyZT1cImZhbHNlXCIgOmhpZ2hsaWdodD1cImZhbHNlXCI+XHJcblx0XHRcdFx0PHVuaS1ncmlkLWl0ZW0gdi1mb3I9XCIoY2hpbEl0ZW0sIGNoaWlsSW5kZXgpIGluIHRhYkJhckl0ZW0uY2hpbGRMaXN0XCIgOmluZGV4PVwiY2hpaWxJbmRleFwiXHJcblx0XHRcdFx0XHQ6a2V5PVwiY2hpaWxJbmRleFwiPlxyXG5cdFx0XHRcdFx0PHZpZXcgY2xhc3M9XCJncmlkLWl0ZW0tYm94XCIgQGNsaWNrPVwiY2xpY2tJdGVtKGNoaWxJdGVtKVwiPlxyXG5cdFx0XHRcdFx0XHQ8aW1hZ2UgOnNyYz1cImNoaWxJdGVtLmljb25cIiBjbGFzcz1cIm1vcmVJbWdcIiBtb2RlPVwiYXNwZWN0RmlsbFwiIC8+XHJcblx0XHRcdFx0XHRcdDx0ZXh0IHN0eWxlPVwibWFyZ2luLXRvcDogMTBweDtmb250LXNpemU6IDEycHg7Y29sb3I6ICNDMEMwQzA7XCIgY2xhc3M9XCJ0ZXh0XCI+e3sgY2hpbEl0ZW0udGV4dCB9fTwvdGV4dD5cclxuXHRcdFx0XHRcdDwvdmlldz5cclxuXHRcdFx0XHQ8L3VuaS1ncmlkLWl0ZW0+XHJcblx0XHRcdDwvdW5pLWdyaWQ+XHJcblx0XHQ8L3ZpZXc+XHJcblx0XHQ8dS10YWJiYXItbXkgOmxpc3Q9XCJ0YWJiYXJcIj48L3UtdGFiYmFyLW15PlxyXG5cdDwvdmlldz5cclxuPC90ZW1wbGF0ZT5cclxuXHJcbjxzY3JpcHQ+XHJcblx0aW1wb3J0IHV0aWwgZnJvbSAnLi4vLi4vY29tbW9tL3V0aWwuanMnO1xyXG5cdGltcG9ydCBteW5hdkJhciBmcm9tICdAL2NvbXBvbmVudHMvbXktbmF2QmFyL20tbmF2QmFyJztcclxuXHRsZXQgX3RoaXM7XHJcblx0ZXhwb3J0IGRlZmF1bHQge1xyXG5cdFx0ZGF0YSgpIHtcclxuXHRcdFx0cmV0dXJuIHtcclxuXHRcdFx0XHRwZXJzb25JbmZvOiB7fSxcclxuXHRcdFx0XHR0YWJiYXI6IFtdLFxyXG5cdFx0XHRcdHRhYkJhckl0ZW06IHt9XHJcblx0XHRcdH1cclxuXHRcdH0sXHJcblx0XHRjb21wb25lbnRzOiB7XHJcblx0XHRcdG15bmF2QmFyXHJcblx0XHR9LFxyXG5cdFx0bWV0aG9kczoge1xyXG5cclxuXHRcdH0sXHJcblx0XHRvbkxvYWQob3B0aW9uKSB7XHJcblx0XHRcdF90aGlzID0gdGhpcztcclxuXHRcdFx0Ly8g5re75Yqg55uR5ZCs77yM5aaC5p6c5L+u5pS55LqG5aS05YOP77yM5bCG5bem5LiK6KeS5ZKM5Liq5Lq65Lit5b+D55qE5Lmf5a+55bqU5L+u5pS5XHJcblx0XHRcdHVuaS4kb24oJ3VwZGF0ZUhlYWRJbWcnLCBmdW5jdGlvbihkYXRhKSB7XHJcblx0XHRcdFx0X3RoaXMuJHJlZnMubXluYXZCYXIudXBMb2FkSW1nKCk7XHJcblx0XHRcdH0pXHJcblx0XHRcdGNvbnNvbGUubG9nKCdCQkJvcHRpb246JyArIEpTT04uc3RyaW5naWZ5KG9wdGlvbikpO1xyXG5cdFx0XHR0aGlzLnRhYmJhciA9IHV0aWwuZ2V0TWVudSgpO1xyXG5cdFx0XHR0aGlzLnBlcnNvbkluZm8gPSB1dGlsLmdldFBlcnNvbmFsKCk7XHJcblx0XHRcdGNvbnNvbGUubG9nKCdwZXJzb25JbmZvOicgKyBKU09OLnN0cmluZ2lmeSh0aGlzLnBlcnNvbkluZm8pKTtcclxuXHRcdFx0aWYgKHV0aWwuZ2V0VGFiYmFyTWVudSgpLnVybCkge1xyXG5cdFx0XHRcdHRoaXMudGFiQmFySXRlbSA9IHV0aWwuZ2V0VGFiYmFyTWVudSgpO1xyXG5cdFx0XHRcdHV0aWwuc2V0VGFiYmFyTWVudSh7fSk7XHJcblx0XHRcdH0gZWxzZSB7XHJcblx0XHRcdFx0dGhpcy50YWJCYXJJdGVtID0gdXRpbC5nZXRQYWdlRGF0YShvcHRpb24pO1xyXG5cdFx0XHR9XHJcblx0XHRcdGNvbnNvbGUubG9nKCd0aGlzLnRhYkJhckl0ZW06JyArIEpTT04uc3RyaW5naWZ5KHRoaXMudGFiQmFySXRlbSkpO1xyXG5cdFx0fVxyXG5cdH1cclxuPC9zY3JpcHQ+XHJcblxyXG48c3R5bGU+XHJcblx0Lm1vcmVJbWcge1xyXG5cdFx0d2lkdGg6IDM1cHg7XHJcblx0XHRoZWlnaHQ6IDM1cHg7XHJcblx0fVxyXG5cclxuXHQuZ3JpZC1pdGVtLWJveCB7XHJcblx0XHRmbGV4OiAxO1xyXG5cdFx0LyogI2lmbmRlZiBBUFAtTlZVRSAqL1xyXG5cdFx0ZGlzcGxheTogZmxleDtcclxuXHRcdC8qICNlbmRpZiAqL1xyXG5cdFx0ZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuXHRcdGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcblx0XHRqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcclxuXHRcdHBhZGRpbmc6IDE1cHggMDtcclxuXHR9XHJcbjwvc3R5bGU+XG4iXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///202\n");
 
 /***/ }),
 /* 203 */
@@ -9529,7 +9615,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _App
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("/* WEBPACK VAR INJECTION */(function(__f__) {Object.defineProperty(exports, \"__esModule\", { value: true });exports.default = void 0;\n\n\n\n\n\n\n\nvar _util = _interopRequireDefault(__webpack_require__(/*! ../../commom/util.js */ 10));\nvar _mNavBar = _interopRequireDefault(__webpack_require__(/*! @/components/my-navBar/m-navBar */ 146));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //\n//\n//\n//\n//\n//\n//\nvar _this;var _default = { data: function data() {return { personInfo: {}, tabbar: [], tabBarItem: {} };\n\n  },\n  components: {\n    mynavBar: _mNavBar.default },\n\n  methods: {},\n\n\n  onLoad: function onLoad(option) {\n    _this = this;\n    // 添加监听，如果修改了头像，将左上角和个人中心的也对应修改\n    uni.$on('updateHeadImg', function (data) {\n      _this.$refs.mynavBar.upLoadImg();\n    });\n    __f__(\"log\", 'BBBoption:' + JSON.stringify(option), \" at pages/examination/index.vue:32\");\n    this.tabbar = _util.default.getMenu();\n    this.personInfo = _util.default.getPersonal();\n    __f__(\"log\", 'personInfo:' + JSON.stringify(this.personInfo), \" at pages/examination/index.vue:35\");\n    if (_util.default.getTabbarMenu().url) {\n      this.tabBarItem = _util.default.getTabbarMenu();\n      _util.default.setTabbarMenu({});\n    } else {\n      this.tabBarItem = _util.default.getPageData(option);\n    }\n    __f__(\"log\", 'this.tabBarItem:' + JSON.stringify(this.tabBarItem), \" at pages/examination/index.vue:42\");\n  } };exports.default = _default;\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/lib/format-log.js */ 9)[\"default\"]))//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVuaS1hcHA6Ly8vcGFnZXMvbWFya2luZ1BhcGVycy9pbmRleC52dWUiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7QUFRQTtBQUNBLHVHOzs7Ozs7O0FBQ0EsVSxlQUNBLEVBQ0EsSUFEQSxrQkFDQSxDQUNBLFNBQ0EsY0FEQSxFQUVBLFVBRkEsRUFHQSxjQUhBOztBQUtBLEdBUEE7QUFRQTtBQUNBLDhCQURBLEVBUkE7O0FBV0EsYUFYQTs7O0FBY0EsUUFkQSxrQkFjQSxNQWRBLEVBY0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLEtBRkE7QUFHQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLEtBSEEsTUFHQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLEdBL0JBLEUiLCJmaWxlIjoiMjIyLmpzIiwic291cmNlc0NvbnRlbnQiOlsiPHRlbXBsYXRlPlxyXG5cdDx2aWV3PlxyXG5cdFx0PG15bmF2QmFyIHJlZj1cIm15bmF2QmFyXCIgOm5hdkl0ZW09J3RhYkJhckl0ZW0nIDpwZXJzb25JbmZvPSdwZXJzb25JbmZvJz48L215bmF2QmFyPlxyXG5cdFx0PHUtdGFiYmFyLW15IDpsaXN0PVwidGFiYmFyXCI+PC91LXRhYmJhci1teT5cclxuXHQ8L3ZpZXc+XHJcbjwvdGVtcGxhdGU+XHJcblxyXG48c2NyaXB0PlxyXG5cdGltcG9ydCB1dGlsIGZyb20gJy4uLy4uL2NvbW1vbS91dGlsLmpzJztcclxuXHRpbXBvcnQgbXluYXZCYXIgZnJvbSAnQC9jb21wb25lbnRzL215LW5hdkJhci9tLW5hdkJhcic7XG5cdGxldCBfdGhpcztcclxuXHRleHBvcnQgZGVmYXVsdCB7XHJcblx0XHRkYXRhKCkge1xyXG5cdFx0XHRyZXR1cm4ge1xyXG5cdFx0XHRcdHBlcnNvbkluZm86IHt9LFxyXG5cdFx0XHRcdHRhYmJhcjogW10sXHJcblx0XHRcdFx0dGFiQmFySXRlbToge31cclxuXHRcdFx0fVxyXG5cdFx0fSxcclxuXHRcdGNvbXBvbmVudHM6IHtcclxuXHRcdFx0bXluYXZCYXJcclxuXHRcdH0sXHJcblx0XHRtZXRob2RzOiB7XHJcblx0XHRcdFxyXG5cdFx0fSxcclxuXHRcdG9uTG9hZChvcHRpb24pIHtcblx0XHRcdF90aGlzID0gdGhpcztcblx0XHRcdC8vIOa3u+WKoOebkeWQrO+8jOWmguaenOS/ruaUueS6huWktOWDj++8jOWwhuW3puS4iuinkuWSjOS4quS6uuS4reW/g+eahOS5n+WvueW6lOS/ruaUuVxuXHRcdFx0dW5pLiRvbigndXBkYXRlSGVhZEltZycsIGZ1bmN0aW9uKGRhdGEpIHtcblx0XHRcdFx0X3RoaXMuJHJlZnMubXluYXZCYXIudXBMb2FkSW1nKCk7XG5cdFx0XHR9KVxyXG5cdFx0XHRjb25zb2xlLmxvZygnQkJCb3B0aW9uOicgKyBKU09OLnN0cmluZ2lmeShvcHRpb24pKTtcclxuXHRcdFx0dGhpcy50YWJiYXIgPSB1dGlsLmdldE1lbnUoKTtcclxuXHRcdFx0dGhpcy5wZXJzb25JbmZvID0gdXRpbC5nZXRQZXJzb25hbCgpO1xyXG5cdFx0XHRjb25zb2xlLmxvZygncGVyc29uSW5mbzonICsgSlNPTi5zdHJpbmdpZnkodGhpcy5wZXJzb25JbmZvKSk7XHJcblx0XHRcdGlmKHV0aWwuZ2V0VGFiYmFyTWVudSgpLnVybCl7XG5cdFx0XHRcdHRoaXMudGFiQmFySXRlbSA9IHV0aWwuZ2V0VGFiYmFyTWVudSgpO1xuXHRcdFx0XHR1dGlsLnNldFRhYmJhck1lbnUoe30pO1xuXHRcdFx0fWVsc2V7XG5cdFx0XHRcdHRoaXMudGFiQmFySXRlbSA9IHV0aWwuZ2V0UGFnZURhdGEob3B0aW9uKTtcblx0XHRcdH1cclxuXHRcdFx0Y29uc29sZS5sb2coJ3RoaXMudGFiQmFySXRlbTonICsgSlNPTi5zdHJpbmdpZnkodGhpcy50YWJCYXJJdGVtKSk7XHJcblx0XHR9XHJcblx0fVxyXG48L3NjcmlwdD5cclxuXHJcbjxzdHlsZT5cclxuPC9zdHlsZT4iXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///222\n");
+eval("/* WEBPACK VAR INJECTION */(function(__f__) {Object.defineProperty(exports, \"__esModule\", { value: true });exports.default = void 0;\n\n\n\n\n\n\n\nvar _util = _interopRequireDefault(__webpack_require__(/*! ../../commom/util.js */ 10));\nvar _mNavBar = _interopRequireDefault(__webpack_require__(/*! @/components/my-navBar/m-navBar */ 146));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //\n//\n//\n//\n//\n//\n//\nvar _this;var _default = { data: function data() {return { personInfo: {}, tabbar: [], tabBarItem: {} };\n\n  },\n  components: {\n    mynavBar: _mNavBar.default },\n\n  methods: {},\n\n\n  onLoad: function onLoad(option) {\n    _this = this;\n    // 添加监听，如果修改了头像，将左上角和个人中心的也对应修改\n    uni.$on('updateHeadImg', function (data) {\n      _this.$refs.mynavBar.upLoadImg();\n    });\n    __f__(\"log\", 'BBBoption:' + JSON.stringify(option), \" at pages/examination/index.vue:32\");\n    this.tabbar = _util.default.getMenu();\n    this.personInfo = _util.default.getPersonal();\n    __f__(\"log\", 'personInfo:' + JSON.stringify(this.personInfo), \" at pages/examination/index.vue:35\");\n    if (_util.default.getTabbarMenu().url) {\n      this.tabBarItem = _util.default.getTabbarMenu();\n      _util.default.setTabbarMenu({});\n    } else {\n      this.tabBarItem = _util.default.getPageData(option);\n    }\n    __f__(\"log\", 'this.tabBarItem:' + JSON.stringify(this.tabBarItem), \" at pages/examination/index.vue:42\");\n  } };exports.default = _default;\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/lib/format-log.js */ 9)[\"default\"]))//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVuaS1hcHA6Ly8vcGFnZXMvZXhhbWluYXRpb24vaW5kZXgudnVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7O0FBUUE7QUFDQSx1Rzs7Ozs7OztBQUNBLFUsZUFDQSxFQUNBLElBREEsa0JBQ0EsQ0FDQSxTQUNBLGNBREEsRUFFQSxVQUZBLEVBR0EsY0FIQTs7QUFLQSxHQVBBO0FBUUE7QUFDQSw4QkFEQSxFQVJBOztBQVdBLGFBWEE7OztBQWNBLFFBZEEsa0JBY0EsTUFkQSxFQWNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxLQUZBO0FBR0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxLQUhBLE1BR0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxHQS9CQSxFIiwiZmlsZSI6IjIyMi5qcyIsInNvdXJjZXNDb250ZW50IjpbIjx0ZW1wbGF0ZT5cclxuXHQ8dmlldz5cclxuXHRcdDxteW5hdkJhciByZWY9XCJteW5hdkJhclwiIDpuYXZJdGVtPSd0YWJCYXJJdGVtJyA6cGVyc29uSW5mbz0ncGVyc29uSW5mbyc+PC9teW5hdkJhcj5cclxuXHRcdDx1LXRhYmJhci1teSA6bGlzdD1cInRhYmJhclwiPjwvdS10YWJiYXItbXk+XHJcblx0PC92aWV3PlxyXG48L3RlbXBsYXRlPlxyXG5cclxuPHNjcmlwdD5cclxuXHRpbXBvcnQgdXRpbCBmcm9tICcuLi8uLi9jb21tb20vdXRpbC5qcyc7XHJcblx0aW1wb3J0IG15bmF2QmFyIGZyb20gJ0AvY29tcG9uZW50cy9teS1uYXZCYXIvbS1uYXZCYXInO1xuXHRsZXQgX3RoaXM7XHJcblx0ZXhwb3J0IGRlZmF1bHQge1xyXG5cdFx0ZGF0YSgpIHtcclxuXHRcdFx0cmV0dXJuIHtcclxuXHRcdFx0XHRwZXJzb25JbmZvOiB7fSxcclxuXHRcdFx0XHR0YWJiYXI6IFtdLFxyXG5cdFx0XHRcdHRhYkJhckl0ZW06IHt9XHJcblx0XHRcdH1cclxuXHRcdH0sXHJcblx0XHRjb21wb25lbnRzOiB7XHJcblx0XHRcdG15bmF2QmFyXHJcblx0XHR9LFxyXG5cdFx0bWV0aG9kczoge1xyXG5cdFx0XHRcclxuXHRcdH0sXHJcblx0XHRvbkxvYWQob3B0aW9uKSB7XG5cdFx0XHRfdGhpcyA9IHRoaXM7XG5cdFx0XHQvLyDmt7vliqDnm5HlkKzvvIzlpoLmnpzkv67mlLnkuoblpLTlg4/vvIzlsIblt6bkuIrop5LlkozkuKrkurrkuK3lv4PnmoTkuZ/lr7nlupTkv67mlLlcblx0XHRcdHVuaS4kb24oJ3VwZGF0ZUhlYWRJbWcnLCBmdW5jdGlvbihkYXRhKSB7XG5cdFx0XHRcdF90aGlzLiRyZWZzLm15bmF2QmFyLnVwTG9hZEltZygpO1xuXHRcdFx0fSlcclxuXHRcdFx0Y29uc29sZS5sb2coJ0JCQm9wdGlvbjonICsgSlNPTi5zdHJpbmdpZnkob3B0aW9uKSk7XHJcblx0XHRcdHRoaXMudGFiYmFyID0gdXRpbC5nZXRNZW51KCk7XHJcblx0XHRcdHRoaXMucGVyc29uSW5mbyA9IHV0aWwuZ2V0UGVyc29uYWwoKTtcclxuXHRcdFx0Y29uc29sZS5sb2coJ3BlcnNvbkluZm86JyArIEpTT04uc3RyaW5naWZ5KHRoaXMucGVyc29uSW5mbykpO1xyXG5cdFx0XHRpZih1dGlsLmdldFRhYmJhck1lbnUoKS51cmwpe1xuXHRcdFx0XHR0aGlzLnRhYkJhckl0ZW0gPSB1dGlsLmdldFRhYmJhck1lbnUoKTtcblx0XHRcdFx0dXRpbC5zZXRUYWJiYXJNZW51KHt9KTtcblx0XHRcdH1lbHNle1xuXHRcdFx0XHR0aGlzLnRhYkJhckl0ZW0gPSB1dGlsLmdldFBhZ2VEYXRhKG9wdGlvbik7XG5cdFx0XHR9XHJcblx0XHRcdGNvbnNvbGUubG9nKCd0aGlzLnRhYkJhckl0ZW06JyArIEpTT04uc3RyaW5naWZ5KHRoaXMudGFiQmFySXRlbSkpO1xyXG5cdFx0fVxyXG5cdH1cclxuPC9zY3JpcHQ+XHJcblxyXG48c3R5bGU+XHJcbjwvc3R5bGU+Il0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///222\n");
 
 /***/ }),
 /* 223 */
