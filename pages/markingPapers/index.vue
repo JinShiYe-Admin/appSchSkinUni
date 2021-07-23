@@ -32,7 +32,10 @@
 			mynavBar
 		},
 		methods: {
-
+			clickItem(model){
+				console.log('clickItem:'+JSON.stringify(model));
+				util.openwithData(model.href,model);
+			}
 		},
 		onLoad() {
 			_this = this;

@@ -89,6 +89,10 @@
 			_this = this;
 			util.setPersonal({});
 			// this.getUserType();
+			uni.setNavigationBarTitle({title: '查询资料'});
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
 		},
 		methods: {
 			clearInput: function() {
