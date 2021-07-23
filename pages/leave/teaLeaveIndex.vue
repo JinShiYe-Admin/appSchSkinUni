@@ -1,6 +1,17 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<view v-if="tabBarItem.childList.length>0" style="padding-top: 10px;">
+			<uni-grid :column="4" :showBorder='false' :square="false" :highlight="false">
+				<uni-grid-item v-for="(chilItem, chiilIndex) in tabBarItem.childList" :index="chiilIndex"
+					:key="chiilIndex">
+					<view class="grid-item-box" @click="clickItem(chilItem)">
+						<image :src="chilItem.icon" class="moreImg" mode="aspectFill" />
+						<text style="margin-top: 10px;font-size: 13px;color: #878787;" class="text">{{ chilItem.text }}</text>
+					</view>
+				</uni-grid-item>
+			</uni-grid>
+		</view>
 		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
@@ -21,7 +32,10 @@
 			mynavBar
 		},
 		methods: {
-			
+			clickItem:function(chilItem){
+				console.log(chilItem);
+				util.openwithData(chilItem.href,chilItem)
+			}
 		},
 		onLoad() {
 			_this = this;
@@ -39,4 +53,19 @@
 </script>
 
 <style>
+	.moreImg {
+		width: 35px;
+		height: 35px;
+	}
+	
+	.grid-item-box {
+		flex: 1;
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 15px 0;
+	}
 </style>

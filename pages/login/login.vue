@@ -109,13 +109,13 @@
 					url: 'wechatapp_teaLeave',
 					childList: [{
 							name: '教师代请假',
-							icon: '../../static/tabbar/tecLeave.png',
+							icon: '../../static/leave/tecLeave.png',
 							href: "/pages/leave/teaLeaveAsk",
 							url: 'wechatapp_teaLeave_askForLeave'
 						},
 						{
-							name: '代请假查询',
-							icon: '../../static/tabbar/leavequery.png',
+							name: '请假查询',
+							icon: '../../static/leave/leavequery.png',
 							href: "/pages/leave/teaLeaveQuery",
 							url: 'wechatapp_teaLeave_leaveSelect'
 						}

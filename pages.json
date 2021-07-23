@@ -112,7 +112,28 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+				"app-plus":{
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue468代学生请假  ",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "15px",
+							"color": "#FFFFFF",
+							"width":"100px"
+						}]
+					}
+				},
+				"h5":{
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue468代学生请假  ",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "15px",
+							"color": "#FFFFFF"
+						}]
+					}
+				}
             }
         }
         ,{
@@ -120,7 +141,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
         }
         ,{
