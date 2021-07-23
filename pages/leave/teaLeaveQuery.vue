@@ -18,6 +18,7 @@
 					</picker>
 				</uni-col>
 			</uni-row>
+			<view class="select-line"></view>
 		</view>
 		<view>
 			<view  style="padding-top: 44px;">
@@ -83,7 +84,7 @@
 	.tabs {
 		position: fixed;
 	    background-color: #FFFFFF;
-		padding: 3px;
+		padding: 3px 3px 0;
 		z-index: 10;
 		/* #ifndef APP-PLUS */
 		top: 44px;
@@ -91,5 +92,11 @@
 		/* #ifdef APP-PLUS */
 		right: 3px;
 		/* #endif */
+	}
+	
+	.select-line{
+		height: 2px;
+		background-color: #00CFBD;
+		margin: 0 -15px;
 	}
 </style>
