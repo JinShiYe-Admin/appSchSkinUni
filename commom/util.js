@@ -157,6 +157,7 @@ function showToast(title){
 
 /**
  * 获取按钮权限
+ * op_codes:'add,delete,approve'
  */
 
 function getPermissionByPosition(op_codes,index_code,callback){
@@ -179,7 +180,7 @@ function getPermissionByPosition(op_codes,index_code,callback){
 		let outs=response.result.split(",");
 		let result=[]
 		ins.map((initem,index)=>{
-			result.push({[initem]:outs[index]=="0"?false:true})
+			result.push(outs[index]=="0"?false:true)
 		})
 		callback(result)
 	},error=>{
@@ -187,7 +188,7 @@ function getPermissionByPosition(op_codes,index_code,callback){
 		let ins=op_codes.split(",");
 		let result=[]
 		ins.map((initem,index)=>{
-			result.push({[initem]:false})
+			result.push(false)
 		})
 		callback(result)
 	})

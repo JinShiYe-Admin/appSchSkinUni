@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs">
 			<uni-row>
 				<uni-col :span="8">
@@ -30,6 +31,7 @@
 
 <script>
 	import util from '../../commom/util.js';
+	import mynavBar from '@/components/my-navBar/m-navBar';
 	export default {
 		data() {
 			return {
@@ -65,13 +67,17 @@
 				}
 			},
 		},
+		components: {
+			mynavBar
+		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
-			uni.setNavigationBarTitle({title: itemData.name})
+			itemData.index=100
+			itemData.title=itemData.name
+			this.tabBarItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
-				 
 			},500)
 			//#ifndef APP-PLUS
 				document.title=""
@@ -82,6 +88,7 @@
 
 <style>
 	.tabs {
+		width: 100vw;
 		position: fixed;
 	    background-color: #FFFFFF;
 		padding: 3px 3px 0;
@@ -99,4 +106,5 @@
 		background-color: #00CFBD;
 		margin: 0 -15px;
 	}
+	
 </style>

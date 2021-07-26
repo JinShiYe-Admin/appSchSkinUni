@@ -111,35 +111,16 @@
             "path" : "pages/leave/teaLeaveAsk",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus":{
-					"titleNView": {
-						"buttons": [{
-							"text": "\ue468代学生请假  ",
-							"fontSrc": "/static/uni.ttf",
-							"fontSize": "15px",
-							"color": "#FFFFFF",
-							"width":"100px"
-						}]
-					}
-				},
-				"h5":{
-					"titleNView": {
-						"buttons": [{
-							"text": "\ue468代学生请假  ",
-							"fontSrc": "/static/uni.ttf",
-							"fontSize": "15px",
-							"color": "#FFFFFF"
-						}]
-					}
-				}
+                "enablePullDownRefresh": true
             }
         }
         ,{
             "path" : "pages/leave/teaLeaveQuery",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": true
             }
