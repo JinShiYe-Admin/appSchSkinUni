@@ -272,8 +272,8 @@ function getPageArray() {
 	}, {
 		text: "教师代请假", //教师代请假
 		pagePath: "/pages/leave/teaLeaveIndex",
-		iconPath: tempAAA + "/static/tabbar/study.png',
-		selectedIconPath: tempAAA + "/static/tabbar/study_select.png',
+		iconPath: tempAAA + "/static/tabbar/study.png",
+		selectedIconPath: tempAAA + "/static/tabbar/study_select.png",
 		count: 0,
 		isDot: false,
 		customIcon: false,
@@ -281,13 +281,13 @@ function getPageArray() {
 		url: 'wechatapp_teaLeave',
 		childList: [{
 				name: '教师代请假',
-				icon: tempAAA + "/static/leave/tecLeave.png',
+				icon: tempAAA + "/static/leave/tecLeave.png",
 				href: "/pages/leave/teaLeaveAsk",
 				url: 'wechatapp_teaLeave_askForLeave'
 			},
 			{
 				name: '请假查询',
-				icon: tempAAA + "/static/leave/leavequery.png',
+				icon: tempAAA + "/static/leave/leavequery.png",
 				href: "/pages/leave/teaLeaveQuery",
 				url: 'wechatapp_teaLeave_leaveSelect'
 			}
