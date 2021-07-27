@@ -55,7 +55,7 @@
 	export default {
 		data() {
 			return {
-				showInput: 0, //正式环境，直接显示注册,1，非正式环境，如果是微信页面，显示输入密码,2，app直接显示注册,1
+				showInput: 0, //正式环境，直接显示注册,1；非正式环境，如果是微信页面，显示输入密码,2，app直接显示注册,1
 				pagePswd: '',
 				loginInfo: {},
 				title: '欢迎登陆',
@@ -63,114 +63,7 @@
 				passw: '',
 				jsonData: [],
 				showArray: [],
-				pageArray: [{
-					// 非凸起按钮未激活的图标，可以是uView内置图标名或自定义扩展图标库的图标
-					// 或者png图标的【绝对路径】，建议尺寸为80px * 80px
-					// 如果是中间凸起的按钮，只能使用图片，且建议为120px * 120px的png图片
-					iconPath: "../../static/tabbar/practive.png",
-					// 激活(选中)的图标，同上
-					selectedIconPath: "../../static/tabbar/practive_select.png",
-					// 显示的提示文字
-					text: '学生请假', //学生请假
-					// 红色角标显示的数字，如果需要移除角标，配置此参数为0即可
-					count: 0,
-					// 如果配置此值为true，那么角标将会以红点的形式显示
-					isDot: false,
-					// 如果使用自定义扩展的图标库字体，需配置此值为true
-					// 自定义字体图标库教程：https://www.uviewui.com/guide/customIcon.html
-					customIcon: false,
-					// 如果是凸起按钮项，需配置此值为true
-					midButton: false,
-					// 点击某一个item时，跳转的路径，此路径必须是pagees.json中tabBar字段中定义的路径
-					pagePath: '/pages/leave/stuLeaveIndex', // 1.5.6新增，路径需要以"/"开头
-					img_href: "../../static/tabbar/stuLeave.png",
-					url: 'wechatapp_stuLeave',
-					childList: []
-				}, {
-					text: "家长代请假", //家长代请假
-					pagePath: "/pages/leave/parLeaveIndex",
-					iconPath: '../../static/tabbar/study.png',
-					selectedIconPath: '../../static/tabbar/study_select.png',
-					count: 0,
-					isDot: false,
-					customIcon: false,
-					img_href: "../../static/tabbar/parLeave.png",
-					url: 'wechatapp_parLeave',
-					childList: []
-				}, {
-					text: "教师代请假", //教师代请假
-					pagePath: "/pages/leave/teaLeaveIndex",
-					iconPath: '../../static/tabbar/study.png',
-					selectedIconPath: '../../static/tabbar/study_select.png',
-					count: 0,
-					isDot: false,
-					customIcon: false,
-					img_href: "../../static/tabbar/tecLeave.png",
-					url: 'wechatapp_teaLeave',
-					childList: [{
-							name: '教师代请假',
-							icon: '../../static/leave/tecLeave.png',
-							href: "/pages/leave/teaLeaveAsk",
-							url: 'wechatapp_teaLeave_askForLeave'
-						},
-						{
-							name: '请假查询',
-							icon: '../../static/leave/leavequery.png',
-							href: "/pages/leave/teaLeaveQuery",
-							url: 'wechatapp_teaLeave_leaveSelect'
-						}
-					]
-				}, {
-					text: "阅卷", //阅卷--老师
-					pagePath: "/pages/markingPapers/index",
-					iconPath: '../../static/tabbar/study.png',
-					selectedIconPath: '../../static/tabbar/study_select.png',
-					count: 0,
-					isDot: false,
-					customIcon: false,
-					img_href: "../../static/tabbar/markingPapers_tab.png",
-					url: 'wechatapp_markingPapers',
-					childList: [{
-							name: '周测',
-							icon: '../../static/tabbar/zhouce.png',
-							href: "/pages/markingPapers/weekTest_index",
-							url: 'wechatapp_markingPapers_weekTest'
-						},
-						{
-							name: '月考',
-							icon: '../../static/tabbar/yuekao.png',
-							href: "/pages/markingPapers/monthTest_index",
-							url: 'wechatapp_markingPapers_monthTest'
-						},
-						{
-							name: '期中期末',
-							icon: '../../static/tabbar/qizhongqimo.png',
-							href: "/pages/markingPapers/termTest_index",
-							url: 'wechatapp_markingPapers_termTest'
-						}
-					]
-				}, {
-					text: "考务", //考务
-					pagePath: "/pages/examination/index",
-					iconPath: '../../static/tabbar/study.png',
-					selectedIconPath: '../../static/tabbar/study_select.png',
-					count: 0,
-					isDot: false,
-					customIcon: false,
-					img_href: "../../static/tabbar/kaowu_tab.png",
-					url: 'wechatapp_Examination',
-					childList: [{
-						name: '考勤报表',
-						icon: '../../static/tabbar/form.png',
-						href: "/pages/examination/form",
-						url: 'wechatapp_Examination_form'
-					}, {
-						name: '班级成绩趋势',
-						icon: '../../static/tabbar/clsScoreDiff.png',
-						href: "/pages/examination/clsScoreDiff",
-						url: 'wechatapp_Examination_clsScoreDiff'
-					}]
-				}],
+				pageArray: util.getPageArray(),
 			}
 		},
 		components: {
@@ -179,12 +72,32 @@
 		methods: {
 			sure: function() {
 				if (this.pagePswd == 'jsy@123654') {
-					this.showInput = 1;
-					var tempInfo = util.getPersonal();
-					if (tempInfo.userName0) {
-						this.uname = tempInfo.userName0;
-						this.passw = tempInfo.passWord0;
-						this.login();
+					if (this.APPORWECHAT == 1) {
+						this.showInput = 1;
+						var tempInfo = util.getPersonal();
+						if (tempInfo.userName0) {
+							this.uname = tempInfo.userName0;
+							this.passw = tempInfo.passWord0;
+							this.login();
+						}
+					} else {
+						console.log('页面url:' + window.location.href);
+						var tempUrl = window.location.href;
+						console.log('tempUrl0:' + tempUrl);
+						// var tempUrl1 = tempUrl.replace('index', 'indexWX');
+						// console.log('tempUrl1:' + tempUrl1);
+						var tempArray = tempUrl.split('/');
+						console.log('tempArray:' + JSON.stringify(tempArray));
+						var appid = '';
+						for (var a = 0; a < tempArray.length; a++) {
+							if (tempArray[a].indexOf("wx") != -1) {
+								appid = tempArray[a];
+							}
+						}
+						let tempGo = 'https://jsypay.jiaobaowang.net/jsypaym/wxpay/ThdGetOpenid.ashx?appid=' + appid +
+							'&returi=' + encodeURIComponent(tempUrl);
+						// 向服务器传递appid、返回URL
+						location.replace(tempGo);
 					}
 				} else {
 					this.showToast('请输入正确的密码');
@@ -375,13 +288,31 @@
 					util.setTabbarMenu(this.showArray[0]);
 				}
 				this.gotoPage();
-			}
+			},
+			getUrlParam(name) {
+				var search = window.location.href;
+				var pattern = new RegExp("[?&]" + name + "\=([^&]+)", "g");
+				var matcher = pattern.exec(search);
+				var items = null;
+				if (null != matcher) {
+					try {
+						items = decodeURIComponent(decodeURIComponent(matcher[1]));
+					} catch (e) {
+						try {
+							items = decodeURIComponent(matcher[1]);
+						} catch (e) {
+							items = matcher[1];
+						}
+					}
+				}
+				return items;
+			},
 		},
 		onLoad: function() {
 			//#ifdef APP-PLUS
 			update();
 			//#endif
-			if (this.globaData.EnvKey == 5) {
+			if (this.APPORWECHAT == 1) {
 				this.showInput = 1;
 				var tempInfo = util.getPersonal();
 				if (tempInfo.userName0) {
@@ -390,16 +321,35 @@
 					this.login();
 				}
 			} else {
-				if (this.APPORWECHAT == 1) {
-					this.showInput = 1;
-					var tempInfo = util.getPersonal();
-					if (tempInfo.userName0) {
-						this.uname = tempInfo.userName0;
-						this.passw = tempInfo.passWord0;
-						this.login();
+				let openid = this.getUrlParam('openid');
+				console.log('openid111111:' + openid);
+				if (openid) {
+					let tempM = {
+						openid: openid
 					}
+					util.openwithData('/pages/login/indexWX', tempM);
 				} else {
-					this.showInput = 2;
+					if (this.globaData.EnvKey == 5) {
+						console.log('页面url:' + window.location.href);
+						var tempUrl = window.location.href;
+						console.log('tempUrl0:' + tempUrl);
+						// var tempUrl1 = tempUrl.replace('index', 'registerIndex');
+						// console.log('tempUrl1:' + tempUrl1);
+						var tempArray = tempUrl.split('/');
+						console.log('tempArray:' + JSON.stringify(tempArray));
+						var appid = '';
+						for (var a = 0; a < tempArray.length; a++) {
+							if (tempArray[a].indexOf("wx") != -1) {
+								appid = tempArray[a];
+							}
+						}
+						tempGo = 'https://jsypay.jiaobaowang.net/jsypaym/wxpay/ThdGetOpenid.ashx?appid=' + appid +
+							'&returi=' + encodeURI(tempUrl);
+						// 向服务器传递appid、返回URL
+						location.replace(tempGo);
+					} else {
+						this.showInput = 2;
+					}
 				}
 			}
 			console.log('this.showInput:' + this.showInput);
