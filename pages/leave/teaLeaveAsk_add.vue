@@ -22,8 +22,8 @@
 			<switch class="form-right" :checked="autoplay" @change="changeAutoplay" color="#00CFBD"/>
 		</view>
 		<view class="double-line"></view>
-		<view class="uni-flex uni-row form-view" style="justify-content: space-between;height: 35px;">
-			<view class="form-left">抄送人</view>
+		<view class="uni-flex uni-row form-view" style="justify-content: space-between;height: 40px;">
+			<view class="form-left" style="height: 26px;">抄送人</view>
 			<uni-icons size="24" type="personadd-filled" color="#00CFBD" @click="addPeople"></uni-icons>
 		</view>
 		<view class="line-green"></view>

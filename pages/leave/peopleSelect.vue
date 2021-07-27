@@ -226,7 +226,7 @@
 				 for (var i = 0; i < 100; i++) {
 				 	this.rightList.push(String(i))
 				 }
-			},500)
+			},10)
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
