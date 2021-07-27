@@ -20,12 +20,9 @@
 				</uni-col>
 			</uni-row>
 			<view class="select-line"></view>
-			<view class="uni-flex">
-				<uni-datetime-picker border="false" start-placeholder="2021-3-20" end-placeholder="2021-5-20" v-model="range" type="daterange" start="2021-3-20" end="2021-5-20" rangeSeparator="至" />
-			</view>
 		</view>
 		<view>
-			<view  style="padding-top: 85px;">
+			<view  style="padding-top: 44px;">
 				<view :key="item" v-for="item in 100" >{{item}}</view>
 			</view>
 		</view>
@@ -40,6 +37,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
+				
 				
 				tremIndex:0,
 				subIndex:0,
@@ -68,12 +66,6 @@
 					 
 				}
 			},
-			startTime:function(){
-				console.log(123);
-			},
-			endTime:function(){
-				console.log(321);
-			}
 		},
 		components: {
 			mynavBar
@@ -115,11 +107,4 @@
 		margin: 0 -15px;
 	}
 	
-	.uni-flex{
-		border-bottom:1px solid rgba(240,240,240,0.4);
-		justify-content: space-evenly;
-		margin: 0 -5px 0 -3px;
-	}
-	
-	 
 </style>

@@ -352,11 +352,11 @@
 	}
 
 	.input-padding {
-		padding-left: 10px;
+		padding-left: 2px;
 	}
 
 	.content-clear-icon {
-		padding: 0 5px;
+		padding: 0 20px 0 0;
 	}
 
 	.label-icon {

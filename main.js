@@ -43,8 +43,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_HR_SKIN = 'http://nwifapp.jiaobaowang.net/testhrunvtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用
 		GLOBALDATA.INTERFACE_UNVEDUSUBAPI = 'http://139.129.252.49:8180/unvedusubapi/api/'; //继续教育接口文档 供展示前台
 		GLOBALDATA.INTERFACE_OA = 'http://develop309.jiaobaowang.net/oasubapi/sub/api/'; //oa接口(孔)
-		GLOBALDATA.INTERFACE_ITEM =
-			'http://develop309.jiaobaowang.net/imsubapi/sub/api/'; //物品管理接口(孔)  http://115.28.11.115:8080/imsubapi/sub/api/
+		GLOBALDATA.INTERFACE_ITEM ='http://develop309.jiaobaowang.net/imsubapi/sub/api/'; //物品管理接口(孔)  http://115.28.11.115:8080/imsubapi/sub/api/
 		GLOBALDATA.INTERFACE_BASESUB = 'http://nwifapp.jiaobaowang.net/baseapi/api/baseapi/'; //统一信息接口:考务、家校用(顾)
 		GLOBALDATA.INTERFACE_EXAMINATION = 'http://139.129.252.49:8180/stuzy/api/paper/'; //考务系统接口(蒙)
 		GLOBALDATA.INTERFACE_WORK = 'http://139.129.252.49:8180/stukqsubapi/attendance/'; //学生考勤系统接口(阮)
@@ -72,18 +71,12 @@ switch (EnvKey) {
 		GLOBALDATA.APPCODE = 'schapp#'; //应用系统代码
 		GLOBALDATA.UNITCODE = '-1'; //单位代码，如应用系统需限制本单位用户才允许登录，则传入单位代码，否则传“-1”
 
-		GLOBALDATA.INTERFACE_SSO_SKIN =
-			'http://nwifapp.jiaobaowang.net/ssotoskin/api/skin/'; //单点登录,供PC外皮及APP用户登录,管理  单点对人事及登录皮肤接口
-		GLOBALDATA.INTERFACE_SSO_HR =
-			'http://nwifapp.jiaobaowang.net/ssotohr/api/hr/'; //单点登录,供人事系统使用                  单点对人事及登录皮肤接口
-		GLOBALDATA.INTERFACE_SUP_HR =
-			'http://nwifapp.jiaobaowang.net/suptohr/api/hr/'; //单点登录,供人事系统使用                  单点对人事及登录皮肤接口
-		GLOBALDATA.INTERFACE_SSO_SUB =
-			'http://nwifapp.jiaobaowang.net/ssotosub/api/sub/'; //单点登录,供各子系统用 			     单点对子系统接口
-		GLOBALDATA.INTERFACE_HR_SUB =
-			'http://nwifapp.jiaobaowang.net/hrunvtosub/api/sub/'; //人事接口,供子系统用 				     人事对子系统接口
-		GLOBALDATA.INTERFACE_HR_SKIN =
-			'http://nwifapp.jiaobaowang.net/hrunvtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用        人事对单点及登录皮肤接口
+		GLOBALDATA.INTERFACE_SSO_SKIN ='http://nwifapp.jiaobaowang.net/ssotoskin/api/skin/'; //单点登录,供PC外皮及APP用户登录,管理  单点对人事及登录皮肤接口
+		GLOBALDATA.INTERFACE_SSO_HR ='http://nwifapp.jiaobaowang.net/ssotohr/api/hr/'; //单点登录,供人事系统使用                  单点对人事及登录皮肤接口
+		GLOBALDATA.INTERFACE_SUP_HR ='http://nwifapp.jiaobaowang.net/suptohr/api/hr/'; //单点登录,供人事系统使用                  单点对人事及登录皮肤接口
+		GLOBALDATA.INTERFACE_SSO_SUB ='http://nwifapp.jiaobaowang.net/ssotosub/api/sub/'; //单点登录,供各子系统用 			     单点对子系统接口
+		GLOBALDATA.INTERFACE_HR_SUB ='http://nwifapp.jiaobaowang.net/hrunvtosub/api/sub/'; //人事接口,供子系统用 				     人事对子系统接口
+		GLOBALDATA.INTERFACE_HR_SKIN ='http://nwifapp.jiaobaowang.net/hrunvtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用        人事对单点及登录皮肤接口
 		GLOBALDATA.INTERFACE_UNVEDUSUBAPI = 'http://nwifapp.jiaobaowang.net/unvedusubapi/api/'; //继续教育接口文档 供展示前台
 		GLOBALDATA.INTERFACE_OA = 'http://nwifapp.jiaobaowang.net/oasubapi/sub/api/'; //oa接口(孔)
 		GLOBALDATA.INTERFACE_ITEM = 'http://nwifapp.jiaobaowang.net/imsubapi/sub/api/'; //物品管理接口(孔)
@@ -102,7 +95,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SCHHOME_STU = 'http://nwifapp.jiaobaowang.net/hsservsubapi/'; //家校互动 学生端（顾)
 		GLOBALDATA.PARENTS_ATTENDANCE = 'http://nwifapp.jiaobaowang.net/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
 		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'http://nwifapp.jiaobaowang.net/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
-		GLOBALDATA.STULEAVE_API = '???'; //学生请假系统(孔)
+		GLOBALDATA.STULEAVE_API='http://nwifapp.jiaobaowang.net/stuleavesubapi/sub/api/';//学生请假系统(孔)
 
 		GLOBALDATA.QN_APPID = 16; //七牛appid
 		GLOBALDATA.QN_APPKEY = 'oatest1010'; //七牛appkey
@@ -118,8 +111,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SUP_HR = 'http://sso.108800.com/suptohr/api/hr/'; //单点对人事及登录皮肤接口  (zeng)
 		GLOBALDATA.INTERFACE_SSO_SUB = 'http://sso.108800.com:8080/ssotosub/api/sub/'; // 单点对子系统接口
 		GLOBALDATA.INTERFACE_HR_SUB = 'http://apps.108800.com/hrunvtosub/api/sub/'; //人事接口,供子系统用 				     人事对子系统接口
-		GLOBALDATA.INTERFACE_HR_SKIN =
-			'http://apps.108800.com/hrunvtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用        人事对单点及登录皮肤接口
+		GLOBALDATA.INTERFACE_HR_SKIN ='http://apps.108800.com/hrunvtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用        人事对单点及登录皮肤接口
 		GLOBALDATA.INTERFACE_UNVEDUSUBAPI = 'http://unvapps.108800.com/unvedusubapi/api/'; //继续教育接口文档 供展示前台
 		GLOBALDATA.INTERFACE_OA = 'http://apps.108800.com/oasubapi/sub/api/'; //oa接口(孔)
 		GLOBALDATA.INTERFACE_ITEM = 'http://apps.108800.com/imsubapi/sub/api/'; //物品管理接口(孔)
@@ -138,7 +130,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SCHHOME_STU = 'http://apps.108800.com:8080/hsservsubapi/'; //家校互动 学生端（顾)
 		GLOBALDATA.PARENTS_ATTENDANCE = 'http://apps.108800.com/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
 		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'http://apps.108800.com/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
-		GLOBALDATA.STULEAVE_API = '???'; //学生请假系统(孔)
+		GLOBALDATA.STULEAVE_API='http://apps.108800.com/stuleavesubapi/sub/api/';//学生请假系统(孔)
 
 		GLOBALDATA.QN_APPID = 17; //七牛appid
 		GLOBALDATA.QN_APPKEY = 'oafor1010'; //七牛appkey

@@ -89,6 +89,15 @@
                 "enablePullDownRefresh": false
             }
         }
+		,{
+		    "path" : "pages/leave/stuLeave_Detail",
+		    "style" :                                                                                    
+		    {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		}
         ,{
             "path" : "pages/leave/parLeaveIndex",
             "style" :                                                                                    
@@ -98,6 +107,15 @@
                 "enablePullDownRefresh": false
             }
         }
+		,{
+		    "path" : "pages/leave/stuLeave_Detail",
+		    "style" :                                                                                    
+		    {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		}
         ,{
             "path" : "pages/leave/teaLeaveIndex",
             "style" :                                                                                    
@@ -116,6 +134,26 @@
                 "enablePullDownRefresh": true
             }
         }
+		,{
+		    "path" : "pages/leave/teaLeaveAsk_add",
+		    "style" :                                                                                    
+		    {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/leave/teaLeaveAsk_Detail",
+		    "style" :                                                                                    
+		    {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
         ,{
             "path" : "pages/leave/teaLeaveQuery",
             "style" :                                                                                    
@@ -124,7 +162,27 @@
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": true
             }
-        }
+        },
+		{
+		    "path" : "pages/leave/teaLeaveQuery_Detail",
+		    "style" :                                                                                    
+		    {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+		,{
+		    "path" : "pages/leave/peopleSelect",
+		    "style" :                                                                                    
+		    {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
         ,{
             "path" : "pages/markingPapers/index",
             "style" :                                                                                    
