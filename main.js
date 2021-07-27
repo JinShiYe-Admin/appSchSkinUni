@@ -17,6 +17,7 @@ switch (EnvKey) {
 		GLOBALDATA.APPCODE = 'schapp#'; //应用系统代码
 		GLOBALDATA.UNITCODE = '100004'; //单位代码，如应用系统需限制本单位用户才允许登录，则传入单位代码，否则传“-1”
 
+		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 15; //七牛appid
 		GLOBALDATA.QN_APPKEY = 'oatest1010'; //七牛appkey
 		break;
@@ -26,6 +27,7 @@ switch (EnvKey) {
 		GLOBALDATA.APPCODE = 'schapp#'; //应用系统代码
 		GLOBALDATA.UNITCODE = '100004'; //单位代码，如应用系统需限制本单位用户才允许登录，则传入单位代码，否则传“-1”
 
+		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 15; //七牛appid
 		GLOBALDATA.QN_APPKEY = 'oatest1010'; //七牛appkey
 		break;
@@ -39,9 +41,9 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SSO_HR = 'http://nwifapp.jiaobaowang.net/ssotohr/api/hr/'; //单点登录,供人事系统使用
 		GLOBALDATA.INTERFACE_SUP_HR = 'http://nwifapp.jiaobaowang.net/suptohr/api/hr/'; //单点对人事及登录皮肤接口
 		GLOBALDATA.INTERFACE_SSO_SUB = 'http://nwifapp.jiaobaowang.net/ssotosub/api/sub/'; //单点登录,供各子系统用
-		GLOBALDATA.INTERFACE_HR_SUB = 'http://nwifapp.jiaobaowang.net/testhrunvtosub/api/sub/'; //人事接口,供子系统用
-		GLOBALDATA.INTERFACE_HR_SKIN = 'http://nwifapp.jiaobaowang.net/testhrunvtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用
-		GLOBALDATA.INTERFACE_UNVEDUSUBAPI = 'http://139.129.252.49:8180/unvedusubapi/api/'; //继续教育接口文档 供展示前台
+		GLOBALDATA.INTERFACE_HR_SUB = 'http://nwifapp.jiaobaowang.net/testhrtosub/api/sub/'; //人事接口,供子系统用
+		GLOBALDATA.INTERFACE_HR_SKIN = 'http://nwifapp.jiaobaowang.net/testhrtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用
+		GLOBALDATA.INTERFACE_EDUSUBAPI = 'http://139.129.252.49:8180/edusubapi/api/'; //继续教育接口文档 供展示前台
 		GLOBALDATA.INTERFACE_OA = 'http://develop309.jiaobaowang.net/oasubapi/sub/api/'; //oa接口(孔)
 		GLOBALDATA.INTERFACE_ITEM =
 			'http://develop309.jiaobaowang.net/imsubapi/sub/api/'; //物品管理接口(孔)  http://115.28.11.115:8080/imsubapi/sub/api/
@@ -63,6 +65,7 @@ switch (EnvKey) {
 		GLOBALDATA.STULEAVE_API = 'http://develop309.jiaobaowang.net/stuleavesubapi/sub/api/'; //学生请假系统(孔)
 
 
+		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
 		GLOBALDATA.QN_APPKEY = 'oatest1010'; //七牛appkey
 		break;
@@ -81,10 +84,10 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SSO_SUB =
 			'http://nwifapp.jiaobaowang.net/ssotosub/api/sub/'; //单点登录,供各子系统用 			     单点对子系统接口
 		GLOBALDATA.INTERFACE_HR_SUB =
-			'http://nwifapp.jiaobaowang.net/hrunvtosub/api/sub/'; //人事接口,供子系统用 				     人事对子系统接口
+			'http://nwifapp.jiaobaowang.net/hrtosub/api/sub/'; //人事接口,供子系统用 				     人事对子系统接口
 		GLOBALDATA.INTERFACE_HR_SKIN =
-			'http://nwifapp.jiaobaowang.net/hrunvtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用        人事对单点及登录皮肤接口
-		GLOBALDATA.INTERFACE_UNVEDUSUBAPI = 'http://nwifapp.jiaobaowang.net/unvedusubapi/api/'; //继续教育接口文档 供展示前台
+			'http://nwifapp.jiaobaowang.net/hrtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用        人事对单点及登录皮肤接口
+		GLOBALDATA.INTERFACE_EDUSUBAPI = 'http://nwifapp.jiaobaowang.net/edusubapi/api/'; //继续教育接口文档 供展示前台
 		GLOBALDATA.INTERFACE_OA = 'http://nwifapp.jiaobaowang.net/oasubapi/sub/api/'; //oa接口(孔)
 		GLOBALDATA.INTERFACE_ITEM = 'http://nwifapp.jiaobaowang.net/imsubapi/sub/api/'; //物品管理接口(孔)
 		GLOBALDATA.INTERFACE_BASESUB = 'http://nwifapp.jiaobaowang.net/baseapi/api/baseapi/'; //统一信息接口:考务、家校用(顾)
@@ -104,6 +107,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'http://nwifapp.jiaobaowang.net/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
 		GLOBALDATA.STULEAVE_API = '???'; //学生请假系统(孔)
 
+		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
 		GLOBALDATA.QN_APPKEY = 'oatest1010'; //七牛appkey
 		break;
@@ -117,10 +121,10 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SSO_HR = 'http://sso.108800.com:8080/ssotohr/api/hr/'; // 单点对人事接口 (gu )
 		GLOBALDATA.INTERFACE_SUP_HR = 'http://sso.108800.com/suptohr/api/hr/'; //单点对人事及登录皮肤接口  (zeng)
 		GLOBALDATA.INTERFACE_SSO_SUB = 'http://sso.108800.com:8080/ssotosub/api/sub/'; // 单点对子系统接口
-		GLOBALDATA.INTERFACE_HR_SUB = 'http://apps.108800.com/hrunvtosub/api/sub/'; //人事接口,供子系统用 				     人事对子系统接口
+		GLOBALDATA.INTERFACE_HR_SUB = 'http://apps.108800.com/hrtosub/api/sub/'; //人事接口,供子系统用 				     人事对子系统接口
 		GLOBALDATA.INTERFACE_HR_SKIN =
-			'http://apps.108800.com/hrunvtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用        人事对单点及登录皮肤接口
-		GLOBALDATA.INTERFACE_UNVEDUSUBAPI = 'http://unvapps.108800.com/unvedusubapi/api/'; //继续教育接口文档 供展示前台
+			'http://apps.108800.com/hrtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用        人事对单点及登录皮肤接口
+		GLOBALDATA.INTERFACE_EDUSUBAPI = 'http://apps.108800.com/edusubapi/api/'; //继续教育接口文档 供展示前台
 		GLOBALDATA.INTERFACE_OA = 'http://apps.108800.com/oasubapi/sub/api/'; //oa接口(孔)
 		GLOBALDATA.INTERFACE_ITEM = 'http://apps.108800.com/imsubapi/sub/api/'; //物品管理接口(孔)
 		GLOBALDATA.INTERFACE_BASESUB = 'http://sso.108800.com:8080/baseapi/api/baseapi/'; //统一信息接口:考务、家校用(顾)
@@ -140,6 +144,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'http://apps.108800.com/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
 		GLOBALDATA.STULEAVE_API = '???'; //学生请假系统(孔)
 
+		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 17; //七牛appid
 		GLOBALDATA.QN_APPKEY = 'oafor1010'; //七牛appkey
 		break;
@@ -149,11 +154,12 @@ switch (EnvKey) {
 		GLOBALDATA.APPCODE = 'schapp#'; //应用系统代码
 		GLOBALDATA.UNITCODE = '100001'; //单位代码，如应用系统需限制本单位用户才允许登录，则传入单位代码，否则传“-1”
 
+		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
 		GLOBALDATA.QN_APPKEY = 'oatest1010'; //七牛appkey
 		break;
 }
-Vue.prototype.APPORWECHAT = 1; //app为1，微信里面是2
+Vue.prototype.APPORWECHAT = 2; //app为1，微信里面是2
 Vue.prototype.PRIVACE = 'http://www.jiaobao.net/dl/jiaobaoxiaoyuan/jbxyPrivacy.htm'; //用户隐私政策地址
 Vue.prototype.QN_PV_NAME = 'jbsch-pv'; //七牛私有空间名
 Vue.prototype.QN_PB_NAME = 'jbsch-pb'; //七牛公有空间名

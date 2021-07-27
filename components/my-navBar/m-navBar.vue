@@ -18,8 +18,11 @@
 					<uni-list-item @click="yinsi()" title="用户隐私政策" link to=''></uni-list-item>
 					<uni-list-item @click="about()" title="关于" link to=''></uni-list-item>
 				</uni-list>
-				<view class="uni-padding-wrap uni-common-mt">
+				<view v-if="personInfo.backFlag == 1" class="uni-padding-wrap uni-common-mt">
 					<button @click="tuichu()" type="warn">退出登录</button>
+				</view>
+				<view v-if="personInfo.backFlag == 2"  class="uni-padding-wrap uni-common-mt">
+					<button @click="unReg()" type="warn">解除绑定</button>
 				</view>
 			</scroll-view>
 		</uni-drawer>
@@ -40,7 +43,8 @@
 				default () {
 					return {
 						img_url: '',
-						user_name: ''
+						user_name: '',
+						backFlag:0,//1退出登录，2解除绑定
 					}
 				}
 			},
@@ -55,6 +59,34 @@
 			}
 		},
 		methods: {
+			unReg:function(){
+				var personal = util.getPersonal();
+				//不需要加密的数据 
+				var comData2 = {
+					platform_code: this.globaData.PLATFORMCODE, //平台代码
+					app_code: this.globaData.APPCODE, //应用系统代码
+					index_code:'index',
+					unit_code: personal.unit_code, //单位代码，如应用系统需限制本单位用户才允许登录，则传入单位代码，否则传“-1”
+					access_token:personal.access_token,
+					op_user_code:personal.user_code,//用户代码
+					thuser_code:personal.openid,//第三方用户代码或账号
+					thuser_fromcode:this.globaData.THIRD_FORMCODE,//第三方平台,微信:WX;支付宝:ZFB
+				};
+				this.showLoading();
+				//2.8.第三方账号解绑
+				this.post(this.globaData.INTERFACE_HR_SKIN + 'unregister/thuserunreg', comData2, (data0,data2) => {
+					if (data2.code == 0) {
+						this.hideLoading();
+						util.setPersonal({});
+						this.$refs.showPersonInfo.close();
+						uni.reLaunch({
+							url: '/pages/login/index'
+						});
+					} else {
+						this.showToast(data2.msg);
+					}
+				});
+			},
 			upLoadImg: function() {
 				this.$set(this.personInfo, 'img_url', util.getPersonal().img_url);
 			},
@@ -117,7 +149,7 @@
 						this.showToast(data.msg);
 						util.setPersonal({});
 						uni.reLaunch({
-							url: '/pages/login/login'
+							url: '/pages/login/index'
 						});
 					} else {
 						this.showToast(data.msg);
@@ -142,7 +174,7 @@
 						util.setPersonal({});
 						this.$refs.showPersonInfo.close();
 						uni.reLaunch({
-							url: '/pages/login/login'
+							url: '/pages/login/index'
 						});
 					});
 				}

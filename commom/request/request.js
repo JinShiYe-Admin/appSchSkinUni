@@ -44,7 +44,7 @@ function post(url, data, callback, ecallback) {
 						showToast(res.data.msg)
 						utils.setPersonal({});
 						uni.reLaunch({
-						    url:'/pages/login/login'
+						    url:'/pages/login/index'
 						});
 					} else if (res.data.code == 6 || res.data.code == 'sup6' || res.data.code == '0006' ||res.data.code == 'sup_0006') { //令牌过期
 						let deviceId = utils.getDeviceId();

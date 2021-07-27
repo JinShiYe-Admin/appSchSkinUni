@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
-		<view v-if="tabBarItem.childList.length>0" style="padding-top: 10px;">
+		<view v-if="tabBarItem.childList&&tabBarItem.childList.length>0" style="padding-top: 10px;">
 			<uni-grid :column="4" :showBorder='false' :square="false" :highlight="false">
 				<uni-grid-item v-for="(chilItem, chiilIndex) in tabBarItem.childList" :index="chiilIndex"
 					:key="chiilIndex">
