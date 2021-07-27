@@ -200,9 +200,7 @@ function getPermissionByPosition(op_codes, index_code, callback) {
 		let outs = response.result.split(",");
 		let result = []
 		ins.map((initem, index) => {
-			result.push({
-				[initem]: outs[index] == "0" ? false : true
-			})
+			result.push(outs[index] == "0" ? false : true)
 		})
 		callback(result)
 	}, error => {
@@ -210,9 +208,7 @@ function getPermissionByPosition(op_codes, index_code, callback) {
 		let ins = op_codes.split(",");
 		let result = []
 		ins.map((initem, index) => {
-			result.push({
-				[initem]: false
-			})
+			result.push(false)
 		})
 		callback(result)
 	})
@@ -221,31 +217,31 @@ function getPermissionByPosition(op_codes, index_code, callback) {
 function getPageArray() {
 	let tempAAA = '';
 	//#ifndef APP-PLUS
-		var tempUrl = window.location.href;
-		console.log('getPageArray.tempUrl:' + tempUrl);
-		var tempArr = tempUrl.split('/');
-		console.log('tempArr:' + JSON.stringify(tempArr));
-		let urlFlag = 0;
-		for (var a = 0; a < tempArr.length; a++) {
-			if (tempArr[a].indexOf("wx") != -1) {
-				urlFlag = a;
-			}
+	var tempUrl = window.location.href;
+	console.log('getPageArray.tempUrl:' + tempUrl);
+	var tempArr = tempUrl.split('/');
+	console.log('tempArr:' + JSON.stringify(tempArr));
+	let urlFlag = 0;
+	for (var a = 0; a < tempArr.length; a++) {
+		if (tempArr[a].indexOf("wx") != -1) {
+			urlFlag = a;
 		}
-		urlFlag = urlFlag+2;
-		let tempUrl1 = [];
-		for (var a = 0; a < urlFlag; a++) {
-			tempUrl1.push(tempArr[a]);
-		}
-		tempAAA = tempUrl1.join('/');
+	}
+	urlFlag = urlFlag + 2;
+	let tempUrl1 = [];
+	for (var a = 0; a < urlFlag; a++) {
+		tempUrl1.push(tempArr[a]);
+	}
+	tempAAA = tempUrl1.join('/');
 	//#endif 
 	console.log('tempAAA:' + tempAAA);
 	let tempArray = [{
 		// 非凸起按钮未激活的图标，可以是uView内置图标名或自定义扩展图标库的图标
 		// 或者png图标的【绝对路径】，建议尺寸为80px * 80px
 		// 如果是中间凸起的按钮，只能使用图片，且建议为120px * 120px的png图片
-		iconPath: tempAAA+"/static/tabbar/practive.png",
+		iconPath: tempAAA + "/static/tabbar/practive.png",
 		// 激活(选中)的图标，同上
-		selectedIconPath: tempAAA+"/static/tabbar/practive_select.png",
+		selectedIconPath: tempAAA + "/static/tabbar/practive_select.png",
 		// 显示的提示文字
 		text: '学生请假', //学生请假
 		// 红色角标显示的数字，如果需要移除角标，配置此参数为0即可
@@ -259,39 +255,39 @@ function getPageArray() {
 		midButton: false,
 		// 点击某一个item时，跳转的路径，此路径必须是pagees.json中tabBar字段中定义的路径
 		pagePath: '/pages/leave/stuLeaveIndex', // 1.5.6新增，路径需要以"/"开头
-		img_href: tempAAA+"/static/tabbar/stuLeave.png",
+		img_href: tempAAA + "/static/tabbar/stuLeave.png",
 		url: 'wechatapp_stuLeave',
 		childList: []
 	}, {
 		text: "家长代请假", //家长代请假
 		pagePath: "/pages/leave/parLeaveIndex",
-		iconPath: tempAAA+'/static/tabbar/study.png',
-		selectedIconPath: tempAAA+'/static/tabbar/study_select.png',
+		iconPath: tempAAA + '/static/tabbar/study.png',
+		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
 		count: 0,
 		isDot: false,
 		customIcon: false,
-		img_href: tempAAA+"/static/tabbar/parLeave.png",
+		img_href: tempAAA + "/static/tabbar/parLeave.png",
 		url: 'wechatapp_parLeave',
 		childList: []
 	}, {
 		text: "教师代请假", //教师代请假
 		pagePath: "/pages/leave/teaLeaveIndex",
-		iconPath: tempAAA+'/static/tabbar/study.png',
-		selectedIconPath: tempAAA+'/static/tabbar/study_select.png',
+		iconPath: tempAAA + "/static/tabbar/study.png',
+		selectedIconPath: tempAAA + "/static/tabbar/study_select.png',
 		count: 0,
 		isDot: false,
 		customIcon: false,
-		img_href: tempAAA+"/static/tabbar/tecLeave.png",
+		img_href: tempAAA + "/static/tabbar/tecLeave.png",
 		url: 'wechatapp_teaLeave',
 		childList: [{
 				name: '教师代请假',
-				icon: tempAAA+'/static/tabbar/tecLeave.png',
+				icon: tempAAA + "/static/leave/tecLeave.png',
 				href: "/pages/leave/teaLeaveAsk",
 				url: 'wechatapp_teaLeave_askForLeave'
 			},
 			{
-				name: '代请假查询',
-				icon: tempAAA+'/static/tabbar/leavequery.png',
+				name: '请假查询',
+				icon: tempAAA + "/static/leave/leavequery.png',
 				href: "/pages/leave/teaLeaveQuery",
 				url: 'wechatapp_teaLeave_leaveSelect'
 			}
@@ -299,28 +295,28 @@ function getPageArray() {
 	}, {
 		text: "阅卷", //阅卷--老师
 		pagePath: "/pages/markingPapers/index",
-		iconPath: tempAAA+'/static/tabbar/study.png',
-		selectedIconPath: tempAAA+'/static/tabbar/study_select.png',
+		iconPath: tempAAA + '/static/tabbar/study.png',
+		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
 		count: 0,
 		isDot: false,
 		customIcon: false,
-		img_href: tempAAA+"/static/tabbar/markingPapers_tab.png",
+		img_href: tempAAA + "/static/tabbar/markingPapers_tab.png",
 		url: 'wechatapp_markingPapers',
 		childList: [{
 				name: '周测',
-				icon: tempAAA+'/static/tabbar/zhouce.png',
+				icon: tempAAA + '/static/tabbar/zhouce.png',
 				href: "/pages/markingPapers/weekTest_index",
 				url: 'wechatapp_markingPapers_weekTest'
 			},
 			{
 				name: '月考',
-				icon: tempAAA+'/static/tabbar/yuekao.png',
+				icon: tempAAA + '/static/tabbar/yuekao.png',
 				href: "/pages/markingPapers/monthTest_index",
 				url: 'wechatapp_markingPapers_monthTest'
 			},
 			{
 				name: '期中期末',
-				icon: tempAAA+'/static/tabbar/qizhongqimo.png',
+				icon: tempAAA + '/static/tabbar/qizhongqimo.png',
 				href: "/pages/markingPapers/termTest_index",
 				url: 'wechatapp_markingPapers_termTest'
 			}
@@ -328,21 +324,21 @@ function getPageArray() {
 	}, {
 		text: "考务", //考务
 		pagePath: "/pages/examination/index",
-		iconPath: tempAAA+'/static/tabbar/study.png',
-		selectedIconPath: tempAAA+'/static/tabbar/study_select.png',
+		iconPath: tempAAA + '/static/tabbar/study.png',
+		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
 		count: 0,
 		isDot: false,
 		customIcon: false,
-		img_href: tempAAA+"/static/tabbar/kaowu_tab.png",
+		img_href: tempAAA + "/static/tabbar/kaowu_tab.png",
 		url: 'wechatapp_Examination',
 		childList: [{
 			name: '考勤报表',
-			icon: tempAAA+'/static/tabbar/form.png',
+			icon: tempAAA + '/static/tabbar/form.png',
 			href: "/pages/examination/form",
 			url: 'wechatapp_Examination_form'
 		}, {
 			name: '班级成绩趋势',
-			icon: tempAAA+'/static/tabbar/clsScoreDiff.png',
+			icon: tempAAA + '/static/tabbar/clsScoreDiff.png',
 			href: "/pages/examination/clsScoreDiff",
 			url: 'wechatapp_Examination_clsScoreDiff'
 		}]

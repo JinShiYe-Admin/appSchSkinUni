@@ -34,7 +34,9 @@
 			console.log('personInfo:' + JSON.stringify(this.personInfo));
 			this.tabBarItem = util.getTabbarMenu();
 			console.log('this.tabBarItem:' + JSON.stringify(this.tabBarItem));
-		}
+			this.tabBarItem.first=true;
+				//...functions
+		},
 	}
 </script>
 

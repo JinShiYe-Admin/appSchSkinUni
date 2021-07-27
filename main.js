@@ -64,7 +64,6 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'http://139.129.252.49:8180/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
 		GLOBALDATA.STULEAVE_API = 'http://develop309.jiaobaowang.net/stuleavesubapi/sub/api/'; //学生请假系统(孔)
 
-
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
 		GLOBALDATA.QN_APPKEY = 'oatest1010'; //七牛appkey
@@ -105,7 +104,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SCHHOME_STU = 'http://nwifapp.jiaobaowang.net/hsservsubapi/'; //家校互动 学生端（顾)
 		GLOBALDATA.PARENTS_ATTENDANCE = 'http://nwifapp.jiaobaowang.net/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
 		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'http://nwifapp.jiaobaowang.net/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
-		GLOBALDATA.STULEAVE_API = '???'; //学生请假系统(孔)
+		GLOBALDATA.STULEAVE_API='http://nwifapp.jiaobaowang.net/stuleavesubapi/sub/api/';//学生请假系统(孔)
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
@@ -142,8 +141,8 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SCHHOME_STU = 'http://apps.108800.com:8080/hsservsubapi/'; //家校互动 学生端（顾)
 		GLOBALDATA.PARENTS_ATTENDANCE = 'http://apps.108800.com/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
 		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'http://apps.108800.com/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
-		GLOBALDATA.STULEAVE_API = '???'; //学生请假系统(孔)
-
+		GLOBALDATA.STULEAVE_API='http://apps.108800.com/stuleavesubapi/sub/api/';//学生请假系统(孔)
+		
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 17; //七牛appid
 		GLOBALDATA.QN_APPKEY = 'oafor1010'; //七牛appkey
@@ -159,7 +158,7 @@ switch (EnvKey) {
 		GLOBALDATA.QN_APPKEY = 'oatest1010'; //七牛appkey
 		break;
 }
-Vue.prototype.APPORWECHAT = 2; //app为1，微信里面是2
+Vue.prototype.APPORWECHAT = 1; //app为1，微信里面是2
 Vue.prototype.PRIVACE = 'http://www.jiaobao.net/dl/jiaobaoxiaoyuan/jbxyPrivacy.htm'; //用户隐私政策地址
 Vue.prototype.QN_PV_NAME = 'jbsch-pv'; //七牛私有空间名
 Vue.prototype.QN_PB_NAME = 'jbsch-pb'; //七牛公有空间名

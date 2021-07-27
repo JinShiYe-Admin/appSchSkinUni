@@ -97,10 +97,21 @@
 			clickLeftImg() {
 				if (this.navItem.index == 0) {
 					this.$refs.showPersonInfo.open();
-				} else if (this.navItem.index > 4) {
-					uni.switchTab({
-						url: '/pages/more/index'
-					});
+				} else if (this.navItem.index > 4 && this.navItem.index < 100) {
+					uni.switchTab({url: '/pages/more/index'});
+				}else if(this.navItem.index === 100){
+					// #ifdef H5
+						const pages = getCurrentPages()
+						if (pages.length > 1) {
+							uni.navigateBack(1)
+							console.log(123);
+							return;
+						}
+						//使用vue-router返回上一级
+						let a = this.$router.go(-1)
+							return;
+					// #endif
+					uni.navigateBack();
 				}
 			},
 			closeDrawer() {

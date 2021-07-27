@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		123
 		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
