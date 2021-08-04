@@ -311,7 +311,10 @@
 							this.hideLoading();
 							if (data2.code == 0) {
 								// utils.mOpenWithData("../../html/login/index.html", {});
-								util.openwithData('/pages/login/index');
+								// util.openwithData('/pages/login/index');
+								uni.redirectTo({
+								    url: '/pages/login/index?openid='+this.openid
+								});
 							} else {
 								this.showToast(data2.msg);
 							}
@@ -589,8 +592,10 @@
 				this.post(this.globaData.INTERFACE_HR_SKIN + 'unregister/thuserunreg', comData2, (data0, data2) => {
 					this.hideLoading();
 					if (data2.code == 0) {
-						util.openwithData('/pages/login/index');
-						// utils.mOpenWithData("../../html/login/index.html", {});
+						// util.openwithData('/pages/login/index');
+						uni.redirectTo({
+						    url: '/pages/login/index?openid='+this.openid
+						});
 					} else {
 						this.showToast(data2.msg);
 					}

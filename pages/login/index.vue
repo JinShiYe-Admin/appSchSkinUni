@@ -145,7 +145,7 @@
 								shaketype: '1', //
 								login_name: rsaPublicKey.encrypt(this.uname), //登录名
 								password: rsaPublicKey.encrypt(this.passw), //
-								device_type: '1', //登录设备类型，0：WEB、1：APP、2：客户端
+								device_type: this.APPORWECHAT == 1?'1':'3', //登录设备类型，0：WEB、1：APP、2：客户端、3：第三方登录
 								platform_code: this.globaData.PLATFORMCODE, //平台代码
 								app_code: this.globaData.APPCODE, //应用系统代码
 								unit_code: this.globaData
@@ -205,6 +205,7 @@
 				tempData.app_code = tempData.user.app_code;
 				tempData.userName0 = this.uname;
 				tempData.passWord0 = this.passw;
+				tempData.backFlag = this.APPORWECHAT;
 				delete tempData['user'];
 				console.log('new tempData:' + JSON.stringify(tempData));
 				util.setPersonal(tempData)
