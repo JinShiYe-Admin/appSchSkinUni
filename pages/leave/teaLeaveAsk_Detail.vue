@@ -36,13 +36,13 @@
 					<view class="form-left-approve">{{item.approve_user_name}}</view>
 					<view class="form-right-approve">
 						<view v-if="item.lstatus==0">
-							<img src="../../static/leave/pass.png" style="width: 15px;height: 15px;">
+							<image src="../../static/leave/pass.png" style="width: 15px;height: 15px;">
 						</view>
 						<view v-else-if="item.lstatus==1"> 
-							<img src="../../static/leave/req.png" style="width: 15px;height: 15px;">
+							<image src="../../static/leave/req.png" style="width: 15px;height: 15px;">
 						</view>
 						<view v-else-if="item.lstatus==2"> 
-							<img src="../../static/leave/ref.png" style="width: 15px;height: 15px;">
+							<image src="../../static/leave/ref.png" style="width: 15px;height: 15px;">
 						</view>
 					</view>
 				</view>
@@ -184,7 +184,9 @@
 					}
 					this.detailData=leave
 				})
-			}
+			},
+			cancel(){},
+			submit(){}
 		}
 	}
 </script>
@@ -278,7 +280,7 @@
 	}
 	
 	.mui-btn1{
-		background-color: #00CFBD;
+		background-color: #00CFBD !important;
 		margin: 5px 0 25px 10px;
 	}
 </style>

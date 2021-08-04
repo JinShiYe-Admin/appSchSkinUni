@@ -14,7 +14,7 @@
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">请假时间</view>
-			<picker start="width:100%" mode="selector" @change="selectPicker" :value="index" :range="array" range-key="name">
+			<picker style="width:100% !important;" mode="selector" @change="selectPicker" :value="index" :range="array" range-key="name">
 				<input class="uni-input form-right" name="nickname" placeholder="请输入姓名" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
