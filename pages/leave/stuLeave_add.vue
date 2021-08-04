@@ -8,15 +8,7 @@
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">请假时间</view>
-			<input class="uni-input form-right" name="nickname" placeholder="请输入姓名" @click="timePicker" disabled/>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">请假时间</view>
-			<picker start="width:100%" mode="selector" @change="selectPicker" :value="index" :range="array" range-key="name">
-				<input class="uni-input form-right" name="nickname" placeholder="请输入姓名" disabled/>
-			</picker>
+			<input class="uni-input form-right" name="nickname" placeholder="请输入姓名" disabled/>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
@@ -55,8 +47,6 @@
 				
 				
 				
-				array: [{name:'中国'},{name: '美国'}, {name:'巴西'}, {name:'日本'}],
-				index: 0,
 				
 				autoplay:false,
 				canSub:true,
@@ -110,12 +100,6 @@
 			addPeople(){
 				console.log(123);
 				util.openwithData('/pages/leave/peopleSelect',{index_code:this.index_code})
-			},
-			timePicker(){
-				console.log(123);
-			},
-			selectPicker(e){
-				console.log('picker发送选择改变，携带值为：' + e.detail.value)
 			}
 		}
 	}

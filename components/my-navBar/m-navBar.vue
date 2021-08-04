@@ -1,7 +1,11 @@
 <template>
 	<view>
-		<u-navbar-my :title='navItem.text' :backFlag='navItem.index' :backImg="personInfo.img_url"
-			:custom-back="clickLeftImg"></u-navbar-my>
+		<u-navbar-my :title='navItem.text' :backFlag='navItem.index' :backImg="personInfo.img_url" :custom-back="clickLeftImg">
+			<view v-if="icon || text" slot="right" style="display: flex;flex-direction: row;">
+				<view v-if="icon" style="margin: 0 8px;"><uni-icons :type="icon.value?icon.value:icon" :size="icon.style?icon.style.fontSize:18" :color="icon.style?icon.style.color:'#FFFFFF'" @click="$props.iconClick"></uni-icons></view>
+				<view v-if="text"  style="margin: 0 8px;" :style="{'color':(text.style?text.style.color:'#FFFFFF'),'font-size':(text.style?text.style.fontSize:'15px')}" @click="$props.textClick">{{text.value?text.value:text}}</view>
+			</view>
+		</u-navbar-my>
 		<uni-drawer ref="showPersonInfo" mode="left">
 			<scroll-view style="height: 100%;" scroll-y="true">
 				<view style="text-align: center;" @click="headImg()">
@@ -45,6 +49,7 @@
 						img_url: '',
 						user_name: '',
 						backFlag:0,//1退出登录，2解除绑定
+						rightObj:'',//右侧对象
 					}
 				}
 			},
@@ -55,6 +60,30 @@
 						text: '',
 						index: 1
 					}
+				}
+			},
+			icon:{
+				type:[Object,String],
+				default(){
+					return ''
+				}
+			},
+			iconClick:{
+				type:Function,
+				default(){
+					return {}
+				}
+			},
+			text:{
+				type:[Object,String],
+				default(){
+					return ''
+				}
+			},
+			textClick:{
+				type:Function,
+				default(){
+					return {}
 				}
 			}
 		},

@@ -1,78 +1,80 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">请假申请人</view>
-			<view class="form-right">{{detailData.grd_name}} {{detailData.cls_name}} {{detailData.stu_name}}</view>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">请假时间</view>
-			<view class="form-right">共计: {{detailData.apply_time}}</view>
-		</view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-right">{{detailData.begin_time}} 至 {{detailData.end_time}}</view>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">请假事由</view>
-			<view class="form-right">{{detailData.comment}}</view>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-right">
-				<span class="leaveType" style="margin:0 0 0 15px;">{{detailData.item_code=='sickLeave'?'病假':detailData.item_code=='absenceLeave'?'事假':''}}</span>
-				<span class="leaveType-cr" style="margin:0 0 0 15px;">{{detailData.in_out_permission_code=='outSchool'?'可以出校':detailData.in_out_permission_code=='backDorm'?'可回宿舍':''}}</span>
+		<view v-if="detailData.grd_name || detailData.cls_name ||  detailData.stu_name">
+			<view class="uni-flex uni-row form-view">
+				<view class="form-left">请假申请人</view>
+				<view class="form-right">{{detailData.grd_name}} {{detailData.cls_name}} {{detailData.stu_name}}</view>
 			</view>
-		</view>
-		<view class="double-line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">审批人</view>
-		</view>
-		<view class="line-green"></view>
-		<view :key="index" v-for="(item,index) in detailData.approve_list">
-			<view class="uni-flex uni-row form-view" >
-				<view class="form-left-approve">{{item.approve_user_name}}</view>
-				<view class="form-right-approve">
-					<view v-if="item.lstatus==0">
-						<img src="../../static/leave/pass.png" style="width: 15px;height: 15px;">
-					</view>
-					<view v-else-if="item.lstatus==1"> 
-						<img src="../../static/leave/req.png" style="width: 15px;height: 15px;">
-					</view>
-					<view v-else-if="item.lstatus==2"> 
-						<img src="../../static/leave/ref.png" style="width: 15px;height: 15px;">
-					</view>
-				</view>
-			</view>
-			<view v-if="item.approve_content" class="uni-flex uni-row form-view">
-				<view class="form-left-approve-content">{{item.approve_content}}</view>
-			</view>
-			<view v-if="index<detailData.approve_list.length-1" class="line"></view>
-		</view>
-		<view class="double-line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">抄送人</view>
-		</view>
-		<view class="line-green"></view>
-		<view class="uni-flex uni-row form-view"> 
-			<view class="form-left-approve">
-				<template v-for="(item,index) in detailData.copy_list"><template v-if="index < detailData.copy_list.length-1">{{item.copy_user_name}},</template><template v-else>{{item.copy_user_name}}</template></template>
-				<template v-if="detailData.copy_list.length===0">无</template>
-			</view>
-		</view>
-		<view v-if="type==0">
-			<view class="double-line"></view>
-			<view class="uni-flex uni-row form-view"> 
-				<textarea value="" maxlength="40" placeholder="批复内容（选填）" />
+			<view class="line"></view>
+			<view class="uni-flex uni-row form-view">
+				<view class="form-left">请假时间</view>
+				<view class="form-right">共计: {{detailData.apply_time}}</view>
 			</view>
 			<view class="uni-flex uni-row form-view">
-				<button @tap="cancel" type="warn" class="mui-btn">
-					拒 绝
-				</button>
-				<button @tap="submit" type="primary" class="mui-btn1">
-					通 过
-				</button>
+				<view class="form-right">{{detailData.begin_time}} 至 {{detailData.end_time}}</view>
+			</view>
+			<view class="line"></view>
+			<view class="uni-flex uni-row form-view">
+				<view class="form-left">请假事由</view>
+				<view class="form-right">{{detailData.comment}}</view>
+			</view>
+			<view class="line"></view>
+			<view class="uni-flex uni-row form-view">
+				<view class="form-right">
+					<span class="leaveType" style="margin:0 0 0 15px;">{{detailData.item_code=='sickLeave'?'病假':detailData.item_code=='absenceLeave'?'事假':''}}</span>
+					<span class="leaveType-cr" style="margin:0 0 0 15px;">{{detailData.in_out_permission_code=='outSchool'?'可以出校':detailData.in_out_permission_code=='backDorm'?'可回宿舍':''}}</span>
+				</view>
+			</view>
+			<view class="double-line"></view>
+			<view class="uni-flex uni-row form-view">
+				<view class="form-left">审批人</view>
+			</view>
+			<view class="line-green"></view>
+			<view :key="index" v-for="(item,index) in detailData.approve_list">
+				<view class="uni-flex uni-row form-view" >
+					<view class="form-left-approve">{{item.approve_user_name}}</view>
+					<view class="form-right-approve">
+						<view v-if="item.lstatus==0">
+							<img src="../../static/leave/pass.png" style="width: 15px;height: 15px;">
+						</view>
+						<view v-else-if="item.lstatus==1"> 
+							<img src="../../static/leave/req.png" style="width: 15px;height: 15px;">
+						</view>
+						<view v-else-if="item.lstatus==2"> 
+							<img src="../../static/leave/ref.png" style="width: 15px;height: 15px;">
+						</view>
+					</view>
+				</view>
+				<view v-if="item.approve_content" class="uni-flex uni-row form-view">
+					<view class="form-left-approve-content">{{item.approve_content}}</view>
+				</view>
+				<view v-if="index<detailData.approve_list.length-1" class="line"></view>
+			</view>
+			<view class="double-line"></view>
+			<view class="uni-flex uni-row form-view">
+				<view class="form-left">抄送人</view>
+			</view>
+			<view class="line-green"></view>
+			<view class="uni-flex uni-row form-view"> 
+				<view class="form-left-approve">
+					<template v-for="(item,index) in detailData.copy_list"><template v-if="index < detailData.copy_list.length-1">{{item.copy_user_name}},</template><template v-else>{{item.copy_user_name}}</template></template>
+					<template v-if="detailData.copy_list.length===0">无</template>
+				</view>
+			</view>
+			<view v-if="type==0">
+				<view class="double-line"></view>
+				<view class="uni-flex uni-row form-view"> 
+					<textarea value="" maxlength="40" placeholder="批复内容（选填）" />
+				</view>
+				<view class="uni-flex uni-row form-view">
+					<button @tap="cancel" type="warn" class="mui-btn">
+						拒 绝
+					</button>
+					<button @tap="submit" type="primary" class="mui-btn1">
+						通 过
+					</button>
+				</view>
 			</view>
 		</view>
 		<view v-else-if="type==1 || type==2 || type==3" style="height: 30px;">
@@ -102,7 +104,8 @@
 					sms_parent_stu_flag:0,
 					create_user_code:"",
 					stu_code:"",
-					copy_list:[{copy_user_name:"",copy_user_code:""}],
+					approve_list:[],
+					copy_list:[],
 					stu_name:"",
 					comment:"",
 					id:0,
@@ -127,7 +130,7 @@
 			setTimeout(()=>{
 				this.showLoading()
 				this.getLeaveDetail()
-			},500)
+			},100)
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif

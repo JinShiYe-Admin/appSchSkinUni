@@ -1,29 +1,73 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
-		<view class="tabs">
-			<uni-row>
-				<uni-col :span="8">
-					<picker class="flex-box" @change="termClick" :value="tremIndex" :range="tremArray" range-key="name">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="tremArray[tremIndex].name" ></uni-easyinput-select>
-					</picker>
-				</uni-col>
-				<uni-col :span="8">
-					<picker class="flex-box" @change="courseClick" :value="subIndex" :range="subArray" range-key="sub_name">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="subArray[subIndex].sub_name" ></uni-easyinput-select>
-					</picker>
-				</uni-col>
-				<uni-col :span="8">
-					<picker class="flex-box" @change="statusClick" :value="statusIndex" :range="statusArray" range-key="name">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="statusArray[statusIndex].name" ></uni-easyinput-select>
-					</picker>
-				</uni-col>
-			</uni-row>
-			<view class="select-line"></view>
-		</view>
-		<view>
-			<view  style="padding-top: 44px;">
-				<view :key="item" v-for="item in 100" >{{item}}</view>
+		<view  v-if="detailData.grd_name || detailData.cls_name ||  detailData.stu_name">
+			<view class="uni-flex uni-row form-view">
+				<view class="form-left">请假申请人</view>
+				<view class="form-right">{{detailData.grd_name}} {{detailData.cls_name}} {{detailData.stu_name}}</view>
+			</view>
+			<view class="line"></view>
+			<view class="uni-flex uni-row form-view">
+				<view class="form-left">请假时间</view>
+				<view class="form-right">共计: {{detailData.apply_time}}</view>
+			</view>
+			<view class="uni-flex uni-row form-view">
+				<view class="form-right">{{detailData.begin_time}} 至 {{detailData.end_time}}</view>
+			</view>
+			<view class="line"></view>
+			<view class="uni-flex uni-row form-view">
+				<view class="form-left">请假事由</view>
+				<view class="form-right">{{detailData.comment}}</view>
+			</view>
+			<view class="line"></view>
+			<view class="uni-flex uni-row form-view">
+				<view class="form-right">
+					<span class="leaveType" style="margin:0 0 0 15px;">{{detailData.item_code=='sickLeave'?'病假':detailData.item_code=='absenceLeave'?'事假':''}}</span>
+					<span class="leaveType-cr" style="margin:0 0 0 15px;">{{detailData.in_out_permission_code=='outSchool'?'可以出校':detailData.in_out_permission_code=='backDorm'?'可回宿舍':''}}</span>
+				</view>
+			</view>
+			
+			<template v-if="detailData.approve_list.length>0">
+				<view class="double-line"></view>
+				<view class="uni-flex uni-row form-view">
+					<view class="form-left">审批人</view>
+				</view>
+				<view class="line-green"></view>
+				<view :key="index" v-for="(item,index) in detailData.approve_list">
+					<view class="uni-flex uni-row form-view" >
+						<view class="form-left-approve">{{item.approve_user_name}}</view>
+						<view class="form-right-approve">
+							<view v-if="item.lstatus==0">
+								<img src="../../static/leave/pass.png" style="width: 15px;height: 15px;">
+							</view>
+							<view v-else-if="item.lstatus==1"> 
+								<img src="../../static/leave/req.png" style="width: 15px;height: 15px;">
+							</view>
+							<view v-else-if="item.lstatus==2"> 
+								<img src="../../static/leave/ref.png" style="width: 15px;height: 15px;">
+							</view>
+						</view>
+					</view>
+					<view v-if="item.approve_content" class="uni-flex uni-row form-view">
+						<view class="form-left-approve-content">{{item.approve_content}}</view>
+					</view>
+					<view v-if="index<detailData.approve_list.length-1" class="line"></view>
+				</view>
+			</template>
+			<template v-if="detailData.copy_list.length>0">
+				<view class="double-line"></view>
+				<view class="uni-flex uni-row form-view">
+					<view class="form-left">抄送人</view>
+				</view>
+				<view class="line-green"></view>
+				<view class="uni-flex uni-row form-view"> 
+					<view class="form-left-approve">
+						<template v-for="(item,index) in detailData.copy_list"><template v-if="index < detailData.copy_list.length-1">{{item.copy_user_name}},</template><template v-else>{{item.copy_user_name}}</template></template>
+						<template v-if="detailData.copy_list.length===0">无</template>
+					</view>
+				</view>
+			</template>
+			<view style="height: 30px;">
 			</view>
 		</view>
 	</view>
@@ -37,35 +81,129 @@
 			return {
 				index_code:'',
 				personInfo: {},
+				tabBarItem: {},
 				
-				
-				tremIndex:0,
-				subIndex:0,
-				statusIndex:0,
-				tremArray: [{name:'全部年级',value:''}],
-				subArray: [{sub_name:'全部班级',sub_code:''}],
-				statusArray: [{name:'全部学生',value:''},{name:'未做',value:1},{name:'已做',value:2},{name:'已评',value:3}],
+				detailData: {
+					cls_name:"",
+					item_code:"",
+					grd_name:"",
+					create_user_name:"",
+					end_time:"",
+					in_out_permission_code:"",
+					begin_time:"",
+					apply_time:"",
+					sms_parent_stu_flag:0,
+					create_user_code:"",
+					stu_code:"",
+					approve_list:[],
+					copy_list:[],
+					stu_name:"",
+					comment:"",
+					id:0,
+					grd_code:"",
+					cls_code:"",
+					status:-1,
+					approve_comment:'',//审核意见
+				}, //详情
 			}
 		},
 		methods: {
-			termClick:function(e){
-				console.log("e.detail.value: ",e.detail.value);
-				if(this.tremIndex!==e.detail.value){
-					 
+			getLeaveDetail(){
+				let url=this.globaData.STULEAVE_API + 'apply/getLeaveByItem'
+				let comData={
+					grd_code:this.tabBarItem.grd_code,
+					grd_name:this.tabBarItem.grd_name,
+					cls_code:this.tabBarItem.cls_code,
+					cls_name:this.tabBarItem.class_name,
+					stu_code:this.tabBarItem.stu_code,
+					stu_name:this.tabBarItem.stu_name,
+					begin_time:this.tabBarItem.begintime,
+					end_time:this.tabBarItem.endtime,
+					apply_time:this.getApply_time(this.tabBarItem.begintime,this.tabBarItem.endtime),
+					in_out_permission_code:this.tabBarItem.in_out_permission_code,
+					item_code:this.tabBarItem.item_code,
+					comment:this.tabBarItem.comment?this.tabBarItem.comment:'',
+					create_user_name:this.tabBarItem.create_user_name,
+					index_code:this.index_code,
 				}
+				this.post(url,comData,leave=>{
+					this.hideLoading()
+					if(JSON.stringify(leave)=='{}'){
+						 console.log("responseaaa: " + JSON.stringify(leave));
+						this.detailData.cls_name=this.tabBarItem.class_name
+						this.detailData.apply_time=this.getApply_time(this.tabBarItem.begintime,this.tabBarItem.endtime)
+						this.detailData.begin_time=this.tabBarItem.begintime
+						this.detailData.end_time=this.tabBarItem.endtime
+						this.detailData.comment=this.tabBarItem.comment
+						this.detailData.item_code=this.tabBarItem.item_code
+						this.detailData.in_out_permission_code=this.tabBarItem.in_out_permission_code
+					}else{
+						let approveList=leave.approve_list
+						if(approveList){
+							approveList.map((item,index)=>{
+								//lstatus 0 通过 1 待定 2 拒绝
+								if(leave.status==1){//请假审核状态为已通过
+									item.lstatus=0
+								}else if(leave.status==0){//请假审核状态为待审批
+									if(item.status==2){//抄送人审核状态为已批
+										item.lstatus=0
+									}else{
+										item.lstatus=1
+									}
+								}else if(leave.status==2){//请假审核状态为已拒绝
+									//找到最后一个已批审核人的下标
+									let num=0;
+									if(leave.status==2){
+										approveList.map((item,index)=>{
+											if(item.status==2){
+												num=index
+											}
+										})
+									}
+									if(item.status==2){//抄送人审核状态为已批
+										item.lstatus=0
+										if(num===index){
+											item.lstatus=2
+										}
+									}else{
+										item.lstatus=1
+									}
+								}
+							})
+						}
+						this.detailData=leave
+					}
+				})
 			},
-			courseClick:function(e){
-				console.log("e.detail.value: ",e.detail.value);
-				if(this.subIndex!==e.detail.value){
-				 
+			getApply_time(begintime,endtime){
+				let diff_times_text=''
+				let difftimesFromMinute=this.moment(endtime).diff(this.moment(begintime),'minutes')
+				let difftimesFromHours=this.moment(endtime).diff(this.moment(begintime),'hours')
+				let difftimesFromDays=this.moment(endtime).diff(this.moment(begintime),'days')
+				let difftimesFromMonths=this.moment(endtime).diff(this.moment(begintime),'months')
+				if(difftimesFromHours){
+					if(difftimesFromDays){
+						if(difftimesFromMonths){
+							let days=this.moment(endtime).subtract(difftimesFromMonths,'months').diff(this.moment(begintime),'days')
+							let hours=this.moment(endtime).subtract(difftimesFromMonths,'months').subtract(days,'days').diff(this.moment(begintime),'hours')
+							let minutes=this.moment(endtime).subtract(difftimesFromMonths,'months').subtract(days,'days').subtract(hours,'hours').diff(this.moment(begintime),'minutes')
+							diff_times_text=difftimesFromMonths+'个月 '+days+'天 '+hours+'小时 '+minutes+'分钟'
+							// diff_times_days=moment(endtime).diff(moment(begintime),'days')
+						}else{ 
+							let hours=this.moment(endtime).subtract(difftimesFromDays,'days').diff(this.moment(begintime),'hours')
+							let minutes=this.moment(endtime).subtract(difftimesFromDays,'days').subtract(hours,'hours').diff(this.moment(begintime),'minutes')
+							diff_times_text=difftimesFromDays+'天 '+hours+'小时 '+minutes+'分钟'
+							// diff_times_days=difftimesFromDays
+						}
+					}else{
+						let minutes=this.moment(endtime).subtract(difftimesFromHours,'hours').diff(this.moment(begintime),'minutes')
+						diff_times_text=difftimesFromHours+'小时 '+minutes+'分钟'
+					}
+				}else{
+					diff_times_text=difftimesFromMinute+'分钟'
 				}
-			},
-			statusClick:function(e){
-				console.log("e.detail.value: ",e.detail.value);
-				if(this.statusIndex!==e.detail.value){
-					 
-				}
-			},
+				return diff_times_text
+			}
 		},
 		components: {
 			mynavBar
@@ -74,11 +212,13 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.title=itemData.name
+			itemData.title='请假详情'
 			this.tabBarItem = itemData;
-			this.index_code=itemData.access.split("#")[1]
+			this.index_code=itemData.index_code
 			setTimeout(()=>{
-			},500)
+				this.showLoading()
+				this.getLeaveDetail()
+			},100)
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
@@ -87,24 +227,95 @@
 </script>
 
 <style>
-	.tabs {
-		width: 100vw;
-		position: fixed;
-	    background-color: #FFFFFF;
-		padding: 3px 3px 0;
-		z-index: 10;
-		/* #ifndef APP-PLUS */
-		top: 44px;
-		/* #endif */
-		/* #ifdef APP-PLUS */
-		right: 3px;
-		/* #endif */
+	.line{
+		height: 0.5px;
+		background-color: #e5e5e5;
+		margin: 5px 0;
+	}
+	.double-line{
+		height: 5px;
+		background-color: #e5e5e5;
+		margin: 5px 0;
+	}
+	.form-view{
+		padding: 8px 15px;
+	}
+	.form-left{
+		font-size: 14px;
+		width: 200rpx;
+	}
+	.form-right{
+		font-size: 13px;
+		-webkit-flex: 1;
+		flex: 1;
+		word-break: break-all;
+		color: #787878;
+		text-align: right;
 	}
 	
-	.select-line{
-		height: 2px;
+	.form-left-approve{
+		font-size: 13px;
+		-webkit-flex: 1;
+		color: #787878;
+		flex: 1;
+	}
+	.form-right-approve{
+		width: 20px;
+		text-align: right;
+	}
+	.form-left-approve-content{
+		font-size: 12px;
+		color: #787878;
+		word-break: break-all;
+		margin-top: -10px;
+	}
+	.leaveType {
+		color: #00CFBD;
+		padding: 3px;
+		font-size: 13px;
+		border-radius: 2px;
+		border: 1px solid #00CFBD;
+	}
+	
+	.leaveType-cr {
+		color: #FF5733;
+		padding: 3px;
+		font-size: 13px;
+		border-radius: 2px;
+		border: 1px solid #FF5733;
+	}
+	
+	.line-green{
 		background-color: #00CFBD;
-		margin: 0 -15px;
+		margin-bottom: 0.3125rem;
+		height: 1px;
 	}
 	
+	.title-text{
+		font-size: 14px;
+	}
+	
+	textarea{
+		-webkit-flex: 1;
+		flex: 1;
+		font-size: 13px;
+		border: 1px solid rgba(0,207,189,0.3);
+		min-height: 80px;
+		padding: 5px;
+	}
+	
+	
+	.mui-btn,.mui-btn1{
+		font-size: 15px;
+		flex: 1;
+		-webkit-flex:1;
+	}
+	.mui-btn{
+		margin: 5px 10px 25px 0;
+	}
+	
+	.mui-btn1{
+		background-color: #00CFBD;
+		margin: 5px 0 25px 10px;
+	}
 </style>

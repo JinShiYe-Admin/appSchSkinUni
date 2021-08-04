@@ -86,7 +86,7 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
         }
 		,{
@@ -98,23 +98,43 @@
 		        "enablePullDownRefresh": false
 		    }
 		}
-        ,{
-            "path" : "pages/leave/parLeaveIndex",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-        }
 		,{
-		    "path" : "pages/leave/stuLeave_Detail",
+		    "path" : "pages/leave/stuLeave_add",
 		    "style" :                                                                                    
 		    {
 				"navigationStyle": "custom", // 隐藏系统导航栏
 		        "navigationBarTitleText": "",
 		        "enablePullDownRefresh": false
 		    }
+		    
+		}
+        ,{
+            "path" : "pages/leave/parLeaveIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true
+            }
+        }
+		,{
+		    "path" : "pages/leave/parLeave_Detail",
+		    "style" :                                                                                    
+		    {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		}
+		,{
+		    "path" : "pages/leave/parLeave_add",
+		    "style" :                                                                                    
+		    {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
 		}
         ,{
             "path" : "pages/leave/teaLeaveIndex",

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
 		
 		<view class="uni-padding-wrap uni-common-mt">
 			<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#00cfbd" @clickItem="onClickItem" />
@@ -139,6 +139,13 @@
 			mynavBar
 		},
 		methods: {
+			iconClick(){
+				util.openwithData('/pages/leave/teaLeaveAsk_add',{index_code:this.index_code},{
+					refresh(data){//子页面调用父页面需要的方法
+						console.log(data)
+					}
+				})
+			},
 			onClickItem(e) {
 				if (this.current !== e.currentIndex) {
 					this.current = e.currentIndex
@@ -282,8 +289,7 @@
 			toDetails(type,item){
 				console.log("type: ",type);
 				item.index_code=this.index_code
-				// util.openwithData('/pages/leave/teaLeaveAsk_Detail',[type,item])
-				util.openwithData('/pages/leave/teaLeaveAsk_add',item)
+				util.openwithData('/pages/leave/teaLeaveAsk_Detail',[type,item])
 			}
 		},
 		onLoad(options) {
@@ -360,7 +366,6 @@
 				}
 			}
 		},
-		
 	}
 </script>
 
