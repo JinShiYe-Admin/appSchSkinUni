@@ -188,6 +188,7 @@
 						} else {
 							comData0.unit_code = this.curPage.unit_code;
 							comData0.login_name = this.uaccount;
+							
 							//不需要加密的数据
 							var comData1 = {
 								uuid: util.getDeviceId(), //设备唯一识别码,防同一应用在不同机器上登录互串,验证码校检用
@@ -196,7 +197,7 @@
 								shaketype: '1', //
 								login_name: '00000000000', //登录名
 								password: '', //
-								device_type: '1', //登录设备类型，0：WEB、1：APP、2：客户端
+								device_type: this.APPORWECHAT == 1?'1':'3', //登录设备类型，0：WEB、1：APP、2：客户端、3：第三方登录
 								platform_code: this.globaData.PLATFORMCODE, //平台代码
 								app_code: this.globaData.APPCODE, //应用系统代码
 								unit_code: this.curPage.unit_code, //单位代码，如应用系统需限制本单位用户才允许登录，则传入单位代码，否则传“-1”

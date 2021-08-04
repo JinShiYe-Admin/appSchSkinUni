@@ -54,7 +54,7 @@ function post(url, data, callback, ecallback) {
 							user_code: personal.user_code, //登录名
 							uuid: deviceId, //设备唯一识别码,防同一应用在不同机器上登录互串,验证码校检用
 							webid: broswerId, //浏览器识别码,防不同浏览器登录同一应用互串,验证码校检用（web用浏览器类型加版本，app用操作系统+版本））
-							device_type: '1' //登录设备类型，0：WEB、1：APP、2：客户端
+							device_type: this.APPORWECHAT == 1?'1':'3', //登录设备类型，0：WEB、1：APP、2：客户端、3：第三方登录
 						}
 						//令牌续订
 						post(this.globaData.INTERFACE_SSO_SKIN + 'token/refresh', tempToken, (tempD,data1) => {
