@@ -2,10 +2,13 @@
 	<view>
 		<view class="compos">
 			<!-- <view class="base-btn" @tap="show = !show" :style="btnStyle"> -->
-			<view class="base-btn" @tap="show = !show" style="background-color: #00CFBD;width: 150px;height: 35px;margin-left: 20px;margin-top: 10px;border-radius: 5px;color: white;text-align: left;">{{viewName}}
-				<!-- <slot></slot> -->
-			</view>
-
+			<!-- <view class="base-btn" @tap="show = !show" style="background-color: #00CFBD;width: 150px;height: 35px;margin-left: 20px;margin-top: 10px;border-radius: 5px;color: white;text-align: left;">{{viewName}}
+			</view> -->
+			<uni-list-item class="base-btn" @tap="show = !show" style="background-color: #00CFBD;width: 150px;height: 35px;margin-left: 20px;margin-top: 10px;border-radius: 5px;color: white;text-align: left;" link>
+				<template slot="header">
+					<span style='color: white;font-size: 13px;'>{{viewName}}</span>
+				</template>
+			</uni-list-item>
 			<view class="modal" 
 				:style="{ 
 					height: show ? btnList.length * 8 + 'vw' : 0, 
@@ -153,5 +156,8 @@ export default {
 	align-items: center;
 	justify-content: center;
 	box-sizing: border-box;
+}
+.uni-icon-wrapper{
+	color: white !important;
 }
 </style>
