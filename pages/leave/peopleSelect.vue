@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<uni-row>
 			<uni-col :span="11" style="border-right: 1px solid rgba(238,238,238,.5);">
 				<scroll-view class="select-scroll" scroll-y="true" >
@@ -247,6 +247,9 @@
 				// 		this.$set(item,'checked',false)
 				// 	}
 				// }
+			},
+			textClick(){
+				console.log(123);
 			}
 		}
 	}

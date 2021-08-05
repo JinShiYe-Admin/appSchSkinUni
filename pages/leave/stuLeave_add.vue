@@ -88,7 +88,7 @@
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				 
-			},500)
+			},100)
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif

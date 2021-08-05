@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
+		<mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
+		<mynavBar v-else ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' ></mynavBar>
 		<view class="uni-padding-wrap uni-common-mt">
 			<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#00cfbd" @clickItem="onClickItem" />
 		</view>
