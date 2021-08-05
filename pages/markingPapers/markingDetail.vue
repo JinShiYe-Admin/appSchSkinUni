@@ -40,7 +40,7 @@
 
 <script>
 	import util from '../../commom/util.js';
-	import ped from '@/commom/ped.js';
+	import {imageInfo} from '@/commom/picture/index.js';
 	import popover from '@/components/dean-popover/dean-popover';
 	export default {
 		data() {
@@ -78,7 +78,7 @@
 		methods: {
 			usePED() {
 				console.log('usePEDusePED');
-				this.ped = new PED.imageInfo(this.imgSrc, saveFn);
+				this.ped = new imageInfo(this.imgSrc, this.saveFn);
 			},
 			saveFn(data) {
 				this.imgSrcFlag = 1;

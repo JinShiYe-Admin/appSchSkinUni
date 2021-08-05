@@ -2,32 +2,72 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">请假时间</view>
-			<input class="uni-input form-right" name="nickname" placeholder="请输入姓名" />
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">请假时间</view>
-			<input class="uni-input form-right" name="nickname" placeholder="请输入姓名" @click="timePicker" disabled/>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">请假时间</view>
-			<picker style="width:100% !important;" mode="selector" @change="selectPicker" :value="index" :range="array" range-key="name">
-				<input class="uni-input form-right" name="nickname" placeholder="请输入姓名" disabled/>
+			<view class="form-left">年级</view>
+			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grd" range-key="name">
+				<input class="uni-input form-right"  placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left form-left-textarea">请假时间</view>
-			<textarea placeholder="请输入请假事由" maxlength="100" ></textarea>
+			<view class="form-left">班级</view>
+			<picker style="width:100% !important;" mode="selector" @change="clsSelect" :value="clsIndex" :range="cls" range-key="name">
+				<input class="uni-input form-right"  placeholder="请选择" disabled/>
+			</picker>
+			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">请假时间</view>
-			<switch class="form-right" :checked="autoplay" @change="changeAutoplay" color="#00CFBD"/>
+			<view class="form-left">学生</view>
+			<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stu" range-key="name">
+				<input class="uni-input form-right"  placeholder="请选择" disabled/>
+			</picker>
+			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+		</view>
+		<view class="line"></view>
+		<view class="uni-flex uni-row form-view">
+			<view class="form-left">开始时间</view>
+			<xp-picker mode="ymdhi" ref="beginPicker" history :animation="false" :year-range='[2020,2030]' @confirm="beginTimeSelect"></xp-picker>
+			<input class="uni-input form-right"  placeholder="请选择" disabled @click="beginPicker"/>
+			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+		</view>
+		<view class="line"></view>
+		<view class="uni-flex uni-row form-view">
+			<view class="form-left">结束时间</view>
+			<xp-picker mode="ymdhi" ref="endPicker" history :animation="false" :year-range='[2020,2030]' @confirm="endTimeSelect"></xp-picker>
+			<input class="uni-input form-right"  placeholder="请选择" disabled @click="endPicker"/>
+			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+		</view>
+		<view class="line"></view>
+		<view class="uni-flex uni-row form-view">
+			<view class="form-left">请假时长</view>
+			<input class="uni-input form-right" v-model="formData.diff_times_text"  disabled/>
+		</view>
+		<view class="line"></view>
+		<view class="uni-flex uni-row form-view">
+			<view class="form-left">请假类别</view>
+			<picker style="width:100% !important;" mode="selector" @change="qjlbSelect" :value="qjlbIndex" :range="qjlb" range-key="name">
+				<input class="uni-input form-right"  placeholder="请选择" disabled/>
+			</picker>
+			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+		</view>
+		<view class="line"></view>
+		<view class="uni-flex uni-row form-view">
+			<view class="form-left">出入权限</view>
+			<picker style="width:100% !important;" mode="selector" @change="crqxSelect" :value="crqxIndex" :range="crqx" range-key="name">
+				<input class="uni-input form-right"  placeholder="请选择" disabled/>
+			</picker>
+			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+		</view>
+		<view class="line"></view>
+		<view class="uni-flex uni-row form-view">
+			<view class="form-left form-left-textarea">请假事由</view>
+			<textarea placeholder="请输入" maxlength="100" ></textarea>
+		</view>
+		<view class="line"></view>
+		<view class="uni-flex uni-row form-view">
+			<view class="form-left" style="width: 300rpx;">是否向家长发送短信</view>
+			<switch class="form-right" :checked="SMS" @change="changeAutoplay" color="#00CFBD"/>
 		</view>
 		<view class="double-line"></view>
 		<view class="uni-flex uni-row form-view" style="justify-content: space-between;height: 40px;">
@@ -52,8 +92,6 @@
 				index_code:'',
 				personInfo: {},
 				tabBarItem: {},
-				
-				
 				
 				array: [{name:'中国'},{name: '美国'}, {name:'巴西'}, {name:'日本'}],
 				index: 0,
@@ -97,26 +135,31 @@
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
-				 
 			},500)
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
 		},
 		methods: {
+			confirm(e){
+				console.log(e);
+			},
 			changeAutoplay(){
-				this.autoplay = !this.autoplay
+				this.SMS = !this.SMS
 			},
 			addPeople(){
-				console.log(123);
 				util.openwithData('/pages/leave/peopleSelect',{index_code:this.index_code})
 			},
-			timePicker(){
-				console.log(123);
+			beginPicker(){
+				this.$refs.beginPicker.show()
 			},
-			selectPicker(e){
-				console.log('picker发送选择改变，携带值为：' + e.detail.value)
-			}
+			endPicker(){
+		
+				new Image()
+				this.$refs.endPicker.show()
+			},
+			beginTimeSelect(e){console.log(e);},
+			endTimeSelect(e){console.log(e);},
 		}
 	}
 </script>

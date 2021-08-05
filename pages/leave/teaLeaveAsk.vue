@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="+代学生请假" :textClick="textClick"></mynavBar>
 		
 		<view class="uni-padding-wrap uni-common-mt">
 			<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#00cfbd" @clickItem="onClickItem" />
@@ -139,7 +139,7 @@
 			mynavBar
 		},
 		methods: {
-			iconClick(){
+			textClick(){
 				util.openwithData('/pages/leave/teaLeaveAsk_add',{index_code:this.index_code},{
 					refresh(data){//子页面调用父页面需要的方法
 						console.log(data)
