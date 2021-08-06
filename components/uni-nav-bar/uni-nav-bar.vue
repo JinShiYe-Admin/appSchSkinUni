@@ -137,6 +137,7 @@
 		/* #ifndef APP-PLUS */
 		font-size: 16px;
 		/* #endif */
+		height: 40px;
 	}
 
 	.uni-nav-bar-right-text {

@@ -14,6 +14,7 @@ function addScaleEvent(dom) {
     let scale = 1
     scaleStyle = (dom.width / parseFloat(dom.style.width)).toFixed(4)
     let context = G.canvasContext
+	context.strokeStyle="red"
     let boxOffsetTop = G.canvasParentDom.offsetTop
     let boxOffsetLeft = G.canvasParentDom.offsetLeft
     dom.addEventListener("touchstart", function (e) {
@@ -109,7 +110,7 @@ function resetOperateOne() {
     let operate = [...document.querySelectorAll('.picture-operate')][0]
     console.log(operate.style.color)
     if (operate.style.color == 'rgb(69, 148, 248)') {
-        operate.firstChild.src = './src/assets/image/painting.png'
+        operate.firstChild.src = 'static/picture/assets/image/painting.png'
         operate.style.color = 'white'
     }
 }
@@ -122,7 +123,7 @@ function addOperateEvent() {
             changeOperate(type)
             if(type == 1){
                 let operate = e.currentTarget
-                operate.firstChild.src = './src/assets/image/painting1.png'
+                operate.firstChild.src = 'static/picture/assets/image/painting1.png'
                 operate.style.color = '#4594f8'
             }else if (type == 4) {
                 resetImg()
@@ -255,7 +256,7 @@ function addSaveEvent(dom, cxt, saveFn) {
                 cxt.fillStyle = "white";
                 cxt.fill();
                 for (let j = 0; j < array[i].length; j++) {
-                    cxt.fillStyle = "black";
+                    cxt.fillStyle = "red";
                     cxt.font = `${frontSize}px helvetica`
                     // +5是为了修复paddingLeft     *1.4是为了修复line-height
                     cxt.fillText(array[i][j], (domLeft + 5) * scaleStyle, domTop + ((j + 1) * (parseFloat(item.style.fontSize) * 1.4)) * scaleStyle)
@@ -273,12 +274,13 @@ function addSaveEvent(dom, cxt, saveFn) {
     },false)
 }
 
-function addCancelEvent(dom) {
+function addCancelEvent(dom,saveFn) {
     dom.addEventListener('click',function () {
         G.pictureEditBox.style.display = 'none'
         clearInputDom()
         G.paintingArray = []
         G.operateType = 0
+		saveFn('')
     },false)
 }
 

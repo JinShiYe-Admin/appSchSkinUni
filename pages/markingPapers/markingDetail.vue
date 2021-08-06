@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<uniNavBar v-if="showNav" :title='itemData.name' left-icon="back" backgroundColor='#00CFBD' fixed='true' statusBar='true' color='white' @clickLeft='clickLeft()'></uniNavBar>
 		<p v-if="currentInfoData.count_info" style="margin-top: 10px;text-align: center;color: black;font-size: 14px;">
 			该题组已阅{{currentInfoData.count_info.view_count}}份，当前第{{currentInfoData.count_info.count}}份，任务量{{currentInfoData.count_info.group_count}}份
 		</p>
@@ -34,14 +35,18 @@
 			提交
 		</view>
 		<p style="color: #d43030;margin-left: 20px;margin-bottom: 0px;">如需添加批阅，请点击图片</p>
-		<img :src=imgSrc style="margin: 0px 20px 0px 20px;width: 85%;" @tap="usePED()">
+		<img :src=imgSrc style="margin: 10px 20px 0px 20px;width: 85%;" @tap="test.usePED">
 	</view>
 </template>
+<script module="test" lang="renderjs">	import {imageInfo} from '@/commom/picture/index.js';	export default {		methods: {			usePED() {
+				this.showNav = false;				console.log('usePEDusePED1');				let ped = new imageInfo('http://jbsch-pb.zhuxue101.net/test/task_result_detail/843-1410483399553974281.jpg', ()=>{});				console.log("this.ped: ",ped);			},		}	}</script>
 
 <script>
-	import util from '../../commom/util.js';
+	import util from '@/commom/util.js';
+	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import {imageInfo} from '@/commom/picture/index.js';
 	import popover from '@/components/dean-popover/dean-popover';
+	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
 	export default {
 		data() {
 			return {
@@ -52,10 +57,11 @@
 				currentInfoData: {},
 				imgPed: null, //
 				imgSrc: '', //试卷图片
-				imgSrcFlag: 1, //判断是否进行涂鸦
+				imgSrcFlag: 0, //判断是否进行涂鸦
 				typeFlag: 0, //0未选择对错标识，1对，2错，3半对
 				typeArray: [], //点的标识数组
 				ped : null,
+				showNav:true,
 			}
 		},
 		onLoad(option) {
@@ -63,26 +69,41 @@
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			this.itemData = util.getPageData(option);
 			console.log('this.itemData:' + JSON.stringify(this.itemData));
-			uni.setNavigationBarTitle({
-				title: this.itemData.name
-			});
+			// uni.setNavigationBarTitle({
+			// 	title: this.itemData.name
+			// });
 			//#ifndef APP-PLUS
 			document.title = ""
 			//#endif
 			//1.4.阅卷任务题组列表
 			this.getGroupNumberData();
+			// 点击微信下方的返回按钮，如果是在图片编辑状态，隐藏
+			window.addEventListener('popstate', function() {
+				this.showNav = true;
+				// 隐藏
+			});
 		},
 		components: {
-			popover
+			popover,
+			uniNavBar
 		},
 		methods: {
+			clickLeft: function() {
+				console.log('clickLeft');
+				uni.navigateBack();
+			},
 			usePED() {
+				this.showNav = false;
 				console.log('usePEDusePED');
 				this.ped = new imageInfo(this.imgSrc, this.saveFn);
 			},
 			saveFn(data) {
-				this.imgSrcFlag = 1;
-				this.imgSrc = data;
+				console.log('saveFnsaveFnsaveFn');
+				this.showNav = true;
+				if(data.length>0){
+					this.imgSrcFlag = 1;
+					this.imgSrc = data;
+				}
 			},
 			clickScore: function(model) {
 				model.stu_score = model.score;
@@ -148,13 +169,14 @@
 						symbols: this.typeArray, //标记坐标信息
 						task_id: this.currentInfoData.evaluation.task_id, //任务id
 					};
-					comData = {
+					let comData = {
 						index_code: this.itemData.access.split('#')[1],
 						task_id: this.itemData.id, //任务id
-						user_code: personal.user_code, //用户代码
+						user_code: this.personInfo.user_code, //用户代码
 						evaluation: tempMMM,
 						eqs: tempA, //题组下题目
 					}
+					console.log('this.imgSrcFlag:'+this.imgSrcFlag);
 					if (this.imgSrcFlag == 0) {
 						this.showLoading();
 						//1.6.保存批改
@@ -172,31 +194,30 @@
 						});
 					} else {
 						// 先将涂鸦后的图片，上传七牛
-						// var wd = events.showWaiting();
-						// var fileName = 'markingPapers' + new Date().getTime();
-						// var tempData = this.imgSrc.replace('data:image/png;base64,','');
-						// UploadHeadImage.uploadIDCardHeadImge(wd, 1, fileName, tempData, function(domain) {
-						// 	console.log("domain: " + JSON.stringify(domain));
-						// 	tempMMM.painting_img = domain;
-						// 	comData.evaluation = tempMMM;
-						// 	console.log('comData:::'+JSON.stringify(comData));
-						// 	//1.6.保存批改
-						// 	postDataEncry(window.storageKeyName.INTERFACE_MARKINGPAPERS + 'evaluation/save', {},
-						// 		comData, 2,
-						// 		function(data) {
-						// 			this.hideLoading();
-						// 			if (data.code == 0) {
-						// 				this.typeFlag = 0;
-						// 				this.typeArray = [];
-						// 				//1.5.阅卷任务题组的批改情况
-						// 				getCurrentInfoData();
-						// 			} else {
-						// 				mui.toast(data.msg);
-						// 			}
-						// 		});
-						// }, function() {
-						// 	this.hideLoading();
-						// })
+						this.showLoading();
+						var fileName = 'markingPapers' + new Date().getTime();
+						var tempData = this.imgSrc.replace('data:image/png;base64,','');
+						console.log('tempDatatempDatatempDatatempData');
+						cloudFileUtil.uploadIDCardHeadImge(1, fileName, tempData, function(domain) {
+							console.log("domain: " + JSON.stringify(domain));
+							tempMMM.painting_img = domain;
+							comData.evaluation = tempMMM;
+							console.log('comData:::'+JSON.stringify(comData));
+							//1.6.保存批改
+							this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'evaluation/save', comData, (data0,data) => {
+									this.hideLoading();
+									if (data.code == 0) {
+										this.typeFlag = 0;
+										this.typeArray = [];
+										//1.5.阅卷任务题组的批改情况
+										this.getCurrentInfoData();
+									} else {
+										this.showToast(data.msg);
+									}
+								});
+						}, function() {
+							this.hideLoading();
+						})
 					}
 				} else {
 					this.showToast('请输入正确的分数');
