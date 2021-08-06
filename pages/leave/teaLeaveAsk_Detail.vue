@@ -65,13 +65,13 @@
 			<view v-if="type==0">
 				<view class="double-line"></view>
 				<view class="uni-flex uni-row form-view"> 
-					<textarea value="" maxlength="40" placeholder="批复内容（选填）" />
+					<textarea value="" maxlength="40" style="height: 60px;" placeholder="批复内容（选填）" />
 				</view>
 				<view class="uni-flex uni-row form-view">
-					<button @tap="cancel" type="warn" class="mui-btn">
+					<button @tap="submit(0)" type="warn" class="mui-btn">
 						拒 绝
 					</button>
-					<button @tap="submit" type="primary" class="mui-btn1">
+					<button @tap="submit(1)" type="primary" class="mui-btn1">
 						通 过
 					</button>
 				</view>
@@ -92,6 +92,7 @@
 				index_code:'',
 				personInfo: {},
 				tabBarItem: {},
+				canSub:true,
 				detailData:{
 					cls_name:"",
 					item_code:"",
@@ -185,15 +186,45 @@
 					this.detailData=leave
 				})
 			},
-			cancel(){},
-			submit(){}
+			submit(status){
+				if(this.canSub){
+					this.canSub=false
+					this.showLoading()
+					let comment=this.detailData.approve_comment?this.detailData.approve_comment.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, ''):''
+					if(!comment){
+						if(status==1){ 
+							comment="同意"
+						}else{
+							comment="不同意"
+						}
+					}
+					let comData = {
+						id:this.detailData.id,
+						approve_content:comment,
+						status:status,
+						index_code:this.index_code
+					}
+					let that=this
+					this.post(this.globaData.STULEAVE_API+'apply/setApprove',comData,response=>{
+						this.canSub=true
+						this.hideLoading()
+						this.showToast('操作成功');
+						const eventChannel = that.getOpenerEventChannel()
+						eventChannel.emit('refreshApprove', {data:123});
+						setTimeout(function(){
+							
+							uni.navigateBack()
+						},1500)
+					});
+				}
+			}
 		}
 	}
 </script>
 
 <style>
 	.line{
-		height: 0.5px;
+		height: 1px;
 		background-color: #e5e5e5;
 		margin: 5px 0;
 	}

@@ -228,7 +228,7 @@
 
 <style>
 	.line{
-		height: 0.5px;
+		height: 1px;
 		background-color: #e5e5e5;
 		margin: 5px 0;
 	}

@@ -140,9 +140,29 @@
 		},
 		methods: {
 			textClick(){
+				let that=this
 				util.openwithData('/pages/leave/teaLeaveAsk_add',{index_code:this.index_code},{
 					refresh(data){//子页面调用父页面需要的方法
-						console.log(data)
+						that.showLoading()
+						that.pageobj0.loadFlag=0
+						that.pageobj0.canload=true
+						that.pageobj0.page_number=1
+						that.getList0()
+						
+						that.pageobj1.loadFlag=0
+						that.pageobj1.canload=true
+						that.pageobj1.page_number=1
+						that.getList1()
+						
+						that.pageobj2.loadFlag=0
+						that.pageobj2.canload=true
+						that.pageobj2.page_number=1
+						that.getList2()
+						
+						that.pageobj3.loadFlag=0
+						that.pageobj3.canload=true
+						that.pageobj3.page_number=1
+						that.getList3()
 					}
 				})
 			},
@@ -287,9 +307,17 @@
 				})
 			},
 			toDetails(type,item){
-				console.log("type: ",type);
 				item.index_code=this.index_code
-				util.openwithData('/pages/leave/teaLeaveAsk_Detail',[type,item])
+				let that=this
+				util.openwithData('/pages/leave/teaLeaveAsk_Detail',[type,item],{
+					refreshApprove(data){
+						that.showLoading()
+						that.pageobj0.loadFlag=0
+						that.pageobj0.canload=true
+						that.pageobj0.page_number=1
+						that.getList0()
+					}
+				})
 			}
 		},
 		onLoad(options) {
@@ -403,7 +431,7 @@
 	}
 	
 	.line{
-		height: 0.5px;
+		height:1px;
 		background-color: #e5e5e5;
 		margin: 5px 0;
 	}

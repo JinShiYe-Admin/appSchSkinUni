@@ -4,22 +4,28 @@
 		<uni-row>
 			<uni-col :span="11" style="border-right: 1px solid rgba(238,238,238,.5);">
 				<scroll-view class="select-scroll" scroll-y="true" >
-					<mix-tree :list="list" @treeItemClick="treeItemClick" :nodeClick="true"></mix-tree>
+					<mix-tree :list="leftList" @treeItemClick="treeItemClick" :nodeClick="true"></mix-tree>
 				</scroll-view>
 			</uni-col>
 			<uni-col :span="13">
-				<scroll-view class="select-scroll" scroll-y="true" >
-					<uni-list class="uni-list" :border="false">
-						<checkbox-group @change="checkboxChange">
-							<label class="uni-list-cell uni-list-cell-pd" v-for="item in rightList" :key="item">
-								<view>
-									<checkbox style="transform:scale(0.7)" color="#00CFBD" :value="item" :checked="false" />
-								</view>
-								<view>{{item}}</view>
-							</label>
-						</checkbox-group>
-					</uni-list>
-				</scroll-view>
+				<template v-if="rightList.length>0">
+					<scroll-view class="select-scroll" scroll-y="true" >
+						<uni-list class="uni-list" :border="false">
+							<checkbox-group >
+								<label class="uni-list-cell uni-list-cell-pd" v-for="(item,index) in rightList" :key="index" @click="userClick(item)">
+									<view>
+										<checkbox style="transform:scale(0.7)" color="#00CFBD" :value="item.user_code"  :checked="item.checked" />
+									</view>
+									<view>{{item.user_name}}</view>
+								</label>
+							</checkbox-group>
+						</uni-list>
+					</scroll-view>
+				</template>
+				<template v-else>
+					<view v-if="dptClick" style="font-size: 13px;margin-top: 10px;">部门暂无人员</view>
+					<view v-else style="font-size: 13px;margin-top: 10px;">请选择部门</view>
+				</template>
 			</uni-col>
 		</uni-row>
 	</view>
@@ -30,176 +36,6 @@
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	import mixTree from '@/components/mix-tree/mix-tree';
 	
-	let testList = [{
-			id: 1,
-			name: '北京市',
-			children: [{
-				id: 11,
-				name: '市辖区',
-				children: [{
-						id: 111,
-						name: '西城区',
-						children: [{
-							id: 1111,
-							name: '南河沿大街',
-							children: [{
-								id: 11111,
-								name: '紫金宫饭店',
-							}, ]
-						}, ]
-					},
-					{
-						id: 112,
-						name: '东城区',
-					},
-					{
-						id: 113,
-						name: '朝阳区',
-					},
-					{
-						id: 113,
-						name: '丰台区',
-					}
-				]
-			}, ]
-		},
-		{
-			id: 2,
-			name: '河北省',
-			children: [{
-					id: 21,
-					name: '石家庄市',
-				},
-				{
-					id: 22,
-					name: '唐山市',
-				},
-				{
-					id: 23,
-					name: '秦皇岛市',
-				},
-			]
-		},
-		{
-			id: 3,
-			name: '山东省',
-			children: [{
-					id: 31,
-					name: '济南市',
-					children: [{
-							id: 311,
-							name: '历下区',
-							children: [{
-								id: 3131,
-								name: '解放路街道办事处',
-							}, ]
-						},
-						{
-							id: 312,
-							name: '槐荫区',
-						},
-						{
-							id: 313,
-							name: '天桥区',
-						},
-						{
-							id: 314,
-							name: '历城区',
-						},
-						{
-							id: 315,
-							name: '长清区',
-						}
-					]
-				},
-				{
-					id: 32,
-					name: '青岛市',
-				},
-				{
-					id: 33,
-					name: '临沂市',
-					children: [{
-							id: 331,
-							name: '兰山区',
-							children: [{
-								id: 3331,
-								name: '金雀山街道',
-							}, ]
-						},
-						{
-							id: 332,
-							name: '河东区',
-						},
-						{
-							id: 333,
-							name: '罗庄区',
-							children: [{
-								id: 3331,
-								name: '盛庄街道',
-							}, ]
-						}
-					]
-				},
-				{
-					id: 34,
-					name: '日照市',
-				},
-				{
-					id: 35,
-					name: '淄博市',
-				},
-				{
-					id: 36,
-					name: '枣庄市',
-				},
-				{
-					id: 37,
-					name: '东营市',
-				},
-				{
-					id: 38,
-					name: '潍坊市',
-				},
-				{
-					id: 39,
-					name: '烟台市',
-				},
-				{
-					id: 40,
-					name: '济宁市',
-				},
-				{
-					id: 41,
-					name: '泰安市',
-				},
-				{
-					id: 42,
-					name: '威海市',
-				},
-				{
-					id: 43,
-					name: '滨州市',
-				},
-				{
-					id: 44,
-					name: '菏泽市',
-				},
-			]
-		},
-		{
-			id: 4,
-			name: '河南省',
-		},
-		{
-			id: 5,
-			name: '湖北省',
-		},
-		{
-			id: 6,
-			name: '湖南省',
-		}
-	]
 	
 	export default {
 		data() {
@@ -207,8 +43,11 @@
 				index_code:'',
 				personInfo: {},
 				tabBarItem: {},
-				list:[],
-				rightList:[]
+				oneDptSelectPeoples:[],//单个部门内选择的人员，用于切换部门时，将选择的人员合并到总的选择人员中
+				selectPeoples:new Map(),
+				leftList:[],
+				rightList:[],
+				dptClick:false,
 			}
 		},
 		components: {
@@ -221,11 +60,17 @@
 			itemData.text='选择抄送人'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
+			itemData.selectPeoples
+			
+			let selectPeoples=itemData.selectPeoples;
+			let copy_map=new Map();
+			selectPeoples.map(item=>{ 
+				copy_map.set(item.value,item)
+			})
+			this.selectPeoples=copy_map
 			setTimeout(()=>{
-				 this.list = testList;
-				 for (var i = 0; i < 100; i++) {
-				 	this.rightList.push(String(i))
-				 }
+				this.showLoading()
+				this.getDpt()
 			},10)
 			//#ifndef APP-PLUS
 				document.title=""
@@ -234,23 +79,87 @@
 		methods: {
 			treeItemClick(item) {
 				let {id,name,parentId} = item;
-				console.log(item)
+				this.getDptUser(id)
+				setTimeout(()=>{
+					this.dptClick=true
+				},1000)
 			},
-			checkboxChange: function (e) {
-				// var items = this.items,
-				let	values = e.detail.value;
-				// for (var i = 0, lenI = items.length; i < lenI; ++i) {
-				// 	const item = items[i]
-				// 	if(values.indexOf(item.value) >= 0){
-				// 		this.$set(item,'checked',true)
-				// 	}else{
-				// 		this.$set(item,'checked',false)
-				// 	}
-				// }
+			userClick(user){
+				user.checked=!user.checked
+				if(user.checked){
+					user.text=user.user_name
+					user.value=user.user_code
+					this.selectPeoples.set(user.user_code,user)
+				}else{
+					this.selectPeoples.delete(user.user_code)
+				}
 			},
 			textClick(){
-				console.log(123);
-			}
+				let checkTec=[]
+				this.selectPeoples.forEach((value,key)=>{
+					checkTec.push({text:value.text,value:value.value})
+				})
+				const eventChannel = this.getOpenerEventChannel()
+				eventChannel.emit('setPeople', {data: checkTec});
+				uni.navigateBack();
+			},
+			getDpt(){
+				let comData={
+					sch_code:this.personInfo.unit_code,
+					index_code:this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_HR_SUB+'dpt',comData,response=>{
+				    console.log("responseaaa: " + JSON.stringify(response));
+					let list=response.list
+					list.map(item=>{
+						item.name=item.dpt_name
+						item.id=item.dpt_code
+					})
+					let treeList=this.getDptTree(list);
+					this.leftList=treeList
+					this.hideLoading()
+				})
+			},
+			getDptTree(dptList){
+			    const map = {};
+			    const val = [];
+			    dptList.forEach((item) => {
+			      map[item.dpt_code] = item;
+			    });
+			    dptList.forEach((item) => {
+			      const parent = map[item.pcode];
+			      if (parent) {
+			        (parent.children || (parent.children = [])).push(item);
+			      } else {
+			        val.push(item);
+			      }
+			    });
+			    return val
+			},
+			getDptUser(dpt_code){
+				let comData = {
+					sch_code:this.personInfo.unit_code,
+					dpt_codes:dpt_code,
+					uid_stat:1,
+					page_size:1,
+					page_number:-1,
+					index_code: this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_HR_SUB+'dptUser',comData,response=>{
+					let list =[]
+					response.list.map(item=>{
+						item.checked=false
+						this.selectPeoples.forEach((value,key)=>{
+							if(key==item.user_code){
+								item.checked=true
+							}
+						})
+						list.push(item)
+					 })
+					 this.rightList=list
+					 
+				});
+			},
 		}
 	}
 </script>

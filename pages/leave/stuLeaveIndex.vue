@@ -87,7 +87,16 @@
 		},
 		methods: {
 			iconClick(){
-				console.log('点击了icon');
+				let that=this
+				util.openwithData('/pages/leave/stuLeave_add',{index_code:this.index_code},{
+					refresh(data){//子页面调用父页面需要的方法
+						that.showLoading()
+						that.pageobj0.loadFlag=0
+						that.pageobj0.canload=true
+						that.pageobj0.page_number=1
+						that.getList0()
+					}
+				})
 			},
 			onClickItem(e) {
 				if (this.current !== e.currentIndex) {
@@ -258,7 +267,7 @@
 	}
 	
 	.line{
-		height: 0.5px;
+		height: 1px;
 		background-color: #e5e5e5;
 		margin: 5px 0;
 	}

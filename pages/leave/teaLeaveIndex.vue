@@ -33,7 +33,6 @@
 		},
 		methods: {
 			clickItem:function(chilItem){
-				console.log(chilItem);
 				util.openwithData(chilItem.href,chilItem)
 			}
 		},
@@ -45,9 +44,7 @@
 			})
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
-			console.log('personInfo:' + JSON.stringify(this.personInfo));
 			this.tabBarItem = util.getTabbarMenu();
-			console.log('this.tabBarItem:' + JSON.stringify(this.tabBarItem));
 		}
 	}
 </script>

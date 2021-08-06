@@ -77,7 +77,6 @@
 		},
 		methods: {
 			grdClick:function(e){
-				console.log("e.detail.value: ",e.detail.value);
 				if(this.grdIndex!==e.detail.value){
 					 this.grdIndex=e.detail.value
 					 this.clsIndex=0
@@ -90,7 +89,6 @@
 				}
 			},
 			clsClick:function(e){
-				console.log("e.detail.value: ",e.detail.value);
 				if(this.clsIndex!==e.detail.value){
 					 this.clsIndex=e.detail.value
 					 this.stusIndex=0
@@ -102,7 +100,6 @@
 				}
 			},
 			stusClick:function(e){
-				console.log("e.detail.value: ",e.detail.value);
 				if(this.stusIndex!==e.detail.value){
 					 this.stusIndex=e.detail.value
 					 this.showLoading()
@@ -324,7 +321,7 @@
 	 }
 	 
 	 .line{
-	 	height: 0.5px;
+	 	height: 1px;
 	 	background-color: #e5e5e5;
 	 	margin: 5px 0;
 	 }

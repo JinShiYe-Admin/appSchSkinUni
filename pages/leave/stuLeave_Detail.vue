@@ -62,20 +62,6 @@
 					<template v-if="detailData.copy_list.length===0">无</template>
 				</view>
 			</view>
-			<view v-if="type==0">
-				<view class="double-line"></view>
-				<view class="uni-flex uni-row form-view"> 
-					<textarea value="" maxlength="40" placeholder="批复内容（选填）" />
-				</view>
-				<view class="uni-flex uni-row form-view">
-					<button @tap="cancel" type="warn" class="mui-btn">
-						拒 绝
-					</button>
-					<button @tap="submit" type="primary" class="mui-btn1">
-						通 过
-					</button>
-				</view>
-			</view>
 		</view>
 		<view style="height: 30px;">
 		</view>
@@ -186,7 +172,7 @@
 
 <style>
 	.line{
-		height: 0.5px;
+		height:1px;
 		background-color: #e5e5e5;
 		margin: 5px 0;
 	}
