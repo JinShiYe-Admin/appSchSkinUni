@@ -198,25 +198,26 @@
 						var fileName = 'markingPapers' + new Date().getTime();
 						var tempData = this.imgSrc.replace('data:image/png;base64,','');
 						console.log('tempDatatempDatatempDatatempData');
+						let that=this
 						cloudFileUtil.uploadIDCardHeadImge(1, fileName, tempData, function(domain) {
 							console.log("domain: " + JSON.stringify(domain));
 							tempMMM.painting_img = domain;
 							comData.evaluation = tempMMM;
 							console.log('comData:::'+JSON.stringify(comData));
 							//1.6.保存批改
-							this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'evaluation/save', comData, (data0,data) => {
-									this.hideLoading();
+							that.post(that.globaData.INTERFACE_MARKINGPAPERS + 'evaluation/save', comData, (data0,data) => {
+									that.hideLoading();
 									if (data.code == 0) {
-										this.typeFlag = 0;
-										this.typeArray = [];
+										that.typeFlag = 0;
+										that.typeArray = [];
 										//1.5.阅卷任务题组的批改情况
-										this.getCurrentInfoData();
+										that.getCurrentInfoData();
 									} else {
-										this.showToast(data.msg);
+										that.showToast(data.msg);
 									}
 								});
 						}, function() {
-							this.hideLoading();
+							that.hideLoading();
 						})
 					}
 				} else {
