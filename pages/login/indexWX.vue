@@ -106,17 +106,18 @@
 		},
 		onLoad(option) {
 			_this = this;
-			history.pushState(null, null, document.URL); //禁止网页返回上一页
-			window.addEventListener('popstate', function() {
-				history.pushState(null, null, document.URL);
-			});
-
-			console.log('页面url:' + window.location.href);
-			// this.openid = this.getUrlParam('openid');
-			let tempM = util.getPageData(option);
-			console.log('tempM:' + JSON.stringify(tempM));
-			this.openid = util.getPageData(option).openid;
+			// history.pushState(null, null, document.URL); //禁止网页返回上一页
+			// window.addEventListener('popstate', function() {
+			// 	history.pushState(null, null, document.URL);
+			// });
+			this.openid = this.getUrlParam('openid');
 			console.log('openid111111:' + this.openid);
+			// console.log('页面url:' + window.location.href);
+			// this.openid = this.getUrlParam('openid');
+			// let tempM = util.getPageData(option);
+			// console.log('tempM:' + JSON.stringify(tempM));
+			// this.openid = util.getPageData(option).openid;
+			// console.log('openid111111:' + this.openid);
 			if (this.openid) {
 				//第三方账号注册状态查询
 				this.getThuserstat();

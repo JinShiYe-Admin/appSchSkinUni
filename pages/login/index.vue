@@ -329,6 +329,9 @@
 						openid: openid
 					}
 					util.openwithData('/pages/login/indexWX', tempM);
+					uni.redirectTo({
+					    url: '/pages/login/indexWX?openid='+openid
+					});
 				} else {
 					if (this.globaData.EnvKey == 5) {
 						console.log('页面url:' + window.location.href);
