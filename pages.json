@@ -275,6 +275,7 @@
             "path" : "pages/markingPapers/stuMarkDetail",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }

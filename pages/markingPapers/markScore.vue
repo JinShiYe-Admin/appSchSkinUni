@@ -1,6 +1,106 @@
 <template>
-	<view>
-
+	<view class="tabs">
+		<scroll-view id="tab-bar" class="scroll-h" :scroll-x="true" :show-scrollbar="false"
+			:scroll-into-view="scrollInto">
+			<view v-for="(tab,index) in classList" :key="tab.id" class="uni-tab-item" :id="tab.id" :data-current="index"
+				@click="ontabtap">
+				<text class="uni-tab-item-title"
+					:class="classIndex==index ? 'uni-tab-item-title-active' : ''">{{tab.cls_name}}</text>
+			</view>
+		</scroll-view>
+		<view class="">
+			<p style="margin: 5px 0px 0px 20px;color: #505050;font-size: 14px;font-weight: bold;">
+				成绩统计</p>
+			<view style="height: 0.5px;background-color: #00cfbd;margin: 5px 28px 0px 15px;"></view>
+			<uni-grid :column="2" :showBorder='false' :square="false" :highlight="false">
+				<uni-grid-item>
+					<view class="grid-item-box">
+						<p class="leaveSum">总人数：{{nowClass.stu_count}}</p>
+					</view>
+				</uni-grid-item>
+				<uni-grid-item>
+					<view class="grid-item-box">
+						<p class="leaveSum">平均分：{{nowClass.avg_score}}</p>
+					</view>
+				</uni-grid-item>
+				<uni-grid-item>
+					<view class="grid-item-box">
+						<p class="leaveSum">有成绩人数：{{nowClass.res_count}}</p>
+					</view>
+				</uni-grid-item>
+				<uni-grid-item>
+					<view class="grid-item-box">
+						<p class="leaveSum">无成绩人数：{{nowClass.miss_stu_count}}</p>
+					</view>
+				</uni-grid-item>
+				<uni-grid-item>
+					<view class="grid-item-box">
+						<p class="leaveSum">最高分：{{nowClass.max_score}}</p>
+					</view>
+				</uni-grid-item>
+				<uni-grid-item>
+					<view class="grid-item-box">
+						<p class="leaveSum">最低分：{{nowClass.min_score}}</p>
+					</view>
+				</uni-grid-item>
+			</uni-grid>
+			<view style="height: 10px;background-color: #e5e5e5;margin: 5px 0px 0px 0px;"></view>
+			<p style="margin: 5px 0px 0px 20px;color: #505050;font-size: 14px;font-weight: bold;">
+				学生得分详情</p>
+			<view style="height: 0.5px;background-color: #00cfbd;margin: 5px 28px 0px 15px;"></view>
+			<uni-list>
+				<uni-list-item showArrow :key="index" v-for="(model,index) in nowScoreList" style="font-size: 14px;">
+					<view slot="body" class="" @click="clickLi(model)">
+						<uni-row>
+							<view style="margin-left: 20px;">
+								<span
+									style="color: #505050;font-size: 14px;font-weight: bold;margin-left: 15px;">{{model.stu_name}}</span>
+								<span style="color: #505050;font-size: 14px;margin-left: 30px;">{{model.sex}}</span>
+								<span style="color: #505050;font-size: 14px;margin-left: 30px;">考号：{{model.sno}}</span>
+							</view>
+							<view style="margin-top: 5px;margin-left: 20px;">
+								<span style="float: left;">
+									<view
+										style="width: 60px;height: 50px;border:1px solid #00aba1;text-align: center;vertical-align: middle;display: table-cell;color: #00aba1;font-size: 14px;">
+										{{model.total_score}}
+									</view>
+									<view
+										style="width: 62px;height: 20px;color: white;background-color: #00aba1;font-size: 12px;text-align: center;">
+										总分</view>
+								</span>
+								<span style="float: left;margin-left: 10px;">
+									<view
+										style="width: 60px;height: 50px;border:1px solid #00aba1;text-align: center;vertical-align: middle;display: table-cell;color: #00aba1;font-size: 14px;">
+										{{model.object_score}}
+									</view>
+									<view
+										style="width: 62px;height: 20px;color: white;background-color: #00aba1;font-size: 12px;text-align: center;">
+										客观题</view>
+								</span>
+								<span style="float: left;margin-left: 10px;">
+									<view
+										style="width: 60px;height: 50px;border:1px solid #00aba1;text-align: center;vertical-align: middle;display: table-cell;color: #00aba1;font-size: 14px;">
+										{{model.subject_score}}
+									</view>
+									<view
+										style="width: 62px;height: 20px;color: white;background-color: #00aba1;font-size: 12px;text-align: center;">
+										主观题</view>
+								</span>
+								<span style="float: left;margin-left: 10px;">
+									<view
+										style="width: 60px;height: 50px;border:1px solid #00aba1;text-align: center;vertical-align: middle;display: table-cell;color: #00aba1;font-size: 14px;">
+										{{model.cls_order}}
+									</view>
+									<view
+										style="width: 62px;height: 20px;color: white;background-color: #00aba1;font-size: 12px;text-align: center;">
+										班级排名</view>
+								</span>
+							</view>
+						</uni-row>
+					</view>
+				</uni-list-item>
+			</uni-list>
+		</view>
 	</view>
 </template>
 
@@ -16,6 +116,7 @@
 				classList: [], //班级列表
 				nowScoreList: {}, //当前选择的班级学生得分列表
 				scoreList: [], //学生得分列表
+				scrollInto: '',
 			}
 		},
 		onLoad(option) {
@@ -33,20 +134,31 @@
 			this.getPageList();
 		},
 		methods: {
-			clickSlider: function(index) {
-				mui('#scroll2').scroll().scrollTo(0, 0);
-				console.log('clickSlider:' + index);
+			ontabtap(e) {
+				let index = e.target.dataset.current || e.currentTarget.dataset.current;
+				// this.switchTab(index);
+				if (this.classIndex === index) {
+					return;
+				}
 				this.classIndex = index;
 				this.nowClass = this.classList[index];
 				// 获取当前班级对应的学生得分列表
-				getNowStuScore();
+				this.getNowStuScore();
+			},
+			clickSlider: function(index) {
+				// mui('#scroll2').scroll().scrollTo(0, 0);
+				// console.log('clickSlider:' + index);
+				this.classIndex = index;
+				this.nowClass = this.classList[index];
+				// 获取当前班级对应的学生得分列表
+				this.getNowStuScore();
 			},
 			clickLi: function(model) {
 				console.log('clickLi.model:' + JSON.stringify(model));
 				model.access = this.itemData.access;
 				model.sub_name = this.itemData.sub_name;
 				model.exam_date = this.itemData.exam_date;
-				utils.mOpenWithData("../../html/markingPapers/stuMarkDetail.html", model);
+				util.openwithData("/pages/markingPapers/stuMarkDetail", model);
 			},
 			getPageList() {
 				let comData = {
@@ -89,12 +201,61 @@
 						this.nowScoreList.push(tempScore);
 					}
 				}
-				console.log('this.nowScoreList:'+JSON.stringify(this.nowScoreList));
+				console.log('this.nowScoreList:' + JSON.stringify(this.nowScoreList));
 			}
 		}
 	}
 </script>
 
 <style>
+	.tabs {
+		flex: 1;
+		flex-direction: column;
+		overflow: hidden;
+		background-color: white;
+	}
 
+	.scroll-h {
+		width: 750rpx;
+		width: 100%;
+		height: 80rpx;
+		background-color: #F0F0F0;
+		flex-direction: row;
+		white-space: nowrap;
+
+	}
+
+	.uni-tab-item {
+		display: inline-block;
+		flex-wrap: nowrap;
+		padding-left: 34rpx;
+		padding-right: 34rpx;
+	}
+
+	.uni-tab-item-title {
+		color: #555;
+		font-size: 30rpx;
+		height: 80rpx;
+		line-height: 80rpx;
+		flex-wrap: nowrap;
+		white-space: nowrap;
+	}
+
+	.uni-tab-item-title-active {
+		color: #00CFBD;
+	}
+
+	.leaveSum {
+		margin-top: 10px;
+		margin-left: 20px;
+		margin-bottom: 0px;
+		font-size: 14px;
+		color: #505050;
+	}
+	.uni-list::before {
+	    height: 0px !important;
+	}
+	.uni-list--border-top {
+	    height: 0px !important;
+	}
 </style>

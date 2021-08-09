@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<uni-list>
-			<uni-list-item v-for="(item,index) in pageArray" :title="`${item.name}${item.custom_name}`" :ellipsis="2" link @click="clickLi(item)">
+			<uni-list-item v-for="(item,index) in pageArray" :title="`${item.name}${item.custom_name}`" :ellipsis="2" link @click="clickLi(item)" :key='index'>
 				<template slot="header">
 					<span v-if="item.status == 1" class="readClass1">未阅</span>
 					<span v-else-if="item.status == 2" class="readClass2">阅卷中</span>

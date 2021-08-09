@@ -35,7 +35,7 @@
 			提交
 		</view>
 		<p style="color: #d43030;margin-left: 20px;margin-bottom: 0px;">如需添加批阅，请点击图片</p>
-		<img :src=imgSrc style="margin: 10px 20px 0px 20px;width: 85%;" @tap="test.usePED">
+		<img v-if='imgSrc.length>0' :src=imgSrc style="margin: 10px 20px 0px 20px;width: 85%;" @tap="test.usePED">
 	</view>
 </template>
 <script module="test" lang="renderjs">	import {imageInfo} from '@/commom/picture/index.js';	export default {		methods: {			usePED() {
@@ -230,6 +230,8 @@
 					this.currentInfoData = {};
 					this.typeFlag = 0;
 					this.typeArray = [];
+					this.imgSrc = '';
+					this.imgSrcFlag = 0;
 					//1.5.阅卷任务题组的批改情况
 					this.getCurrentInfoData();
 				}

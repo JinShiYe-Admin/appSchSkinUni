@@ -4,11 +4,7 @@
 			<!-- <view class="base-btn" @tap="show = !show" :style="btnStyle"> -->
 			<!-- <view class="base-btn" @tap="show = !show" style="background-color: #00CFBD;width: 150px;height: 35px;margin-left: 20px;margin-top: 10px;border-radius: 5px;color: white;text-align: left;">{{viewName}}
 			</view> -->
-			<uni-list-item class="base-btn" @tap="show = !show" style="background-color: #00CFBD;width: 150px;height: 35px;margin-left: 20px;margin-top: 10px;border-radius: 5px;color: white;text-align: left;" link>
-				<template slot="header">
-					<span style='color: white;font-size: 13px;'>{{viewName}}</span>
-				</template>
-			</uni-list-item>
+			<uni-list-item class="base-btn" :clickable="true"  @tap="show = !show" style="background-color: #00CFBD;width: 150px;height: 35px;margin-left: 20px;margin-top: 10px;border-radius: 5px;color: white;text-align: left;" >				<template slot="header">					<span style='color: white;font-size: 13px;'>{{viewName}}</span>				</template>			  <template slot="footer">				 <uni-icons type="arrowright" color="#FFFFFF" size="16" style="margin: 0 -10px 0 0;z-index: 2;"></uni-icons>			 </template>			</uni-list-item>
 			<view class="modal" 
 				:style="{ 
 					height: show ? btnList.length * 8 + 'vw' : 0, 
