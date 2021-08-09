@@ -281,13 +281,13 @@ function getPageArray() {
 		url: 'wechatapp_teaLeave',
 		childList: [{
 				name: '教师代请假',
-				icon: tempAAA + "/static/leave/tecLeave.png",
+				icon: tempAAA + "/static/images/leave/tecLeave.png",
 				href: "/pages/leave/teaLeaveAsk",
 				url: 'wechatapp_teaLeave_askForLeave'
 			},
 			{
 				name: '请假查询',
-				icon: tempAAA + "/static/leave/leavequery.png",
+				icon: tempAAA + "/static/images/leave/leavequery.png",
 				href: "/pages/leave/teaLeaveQuery",
 				url: 'wechatapp_teaLeave_leaveSelect'
 			}
@@ -324,21 +324,21 @@ function getPageArray() {
 	}, {
 		text: "考务", //考务
 		pagePath: "/pages/examination/index",
-		iconPath: tempAAA + '/static/tabbar/study.png',
-		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+		iconPath: tempAAA + '/static/tabbar/exam.png',
+		selectedIconPath: tempAAA + '/static/tabbar/exam_select.png',
 		count: 0,
 		isDot: false,
 		customIcon: false,
 		img_href: tempAAA + "/static/tabbar/kaowu_tab.png",
 		url: 'wechatapp_Examination',
 		childList: [{
-			name: '考勤报表',
-			icon: tempAAA + '/static/tabbar/form.png',
+			name: '成绩分析',
+			icon: tempAAA + '/static/images/schapp_examination/form.png',
 			href: "/pages/examination/form",
 			url: 'wechatapp_Examination_form'
 		}, {
 			name: '班级成绩趋势',
-			icon: tempAAA + '/static/tabbar/clsScoreDiff.png',
+			icon: tempAAA + '/static/images/schapp_examination/clsScoreDiff.png',
 			href: "/pages/examination/clsScoreDiff",
 			url: 'wechatapp_Examination_clsScoreDiff'
 		}]

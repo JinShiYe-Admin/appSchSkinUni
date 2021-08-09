@@ -20,6 +20,7 @@
 						</text>
 					</uni-list-item>
 				</uni-list>
+				<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
 			</view>
 			<view v-if="current === 1">
 				<uni-list :border="false">
@@ -35,6 +36,7 @@
 						</text>
 					</uni-list-item>
 				</uni-list>
+				<uni-load-more :status="pageobj1.status" :icon-size="17" :content-text="pageobj1.contentText" />
 			</view>
 		</view>
 		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>

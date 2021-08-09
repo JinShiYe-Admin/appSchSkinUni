@@ -38,6 +38,7 @@
 						</text>
 					</uni-list-item>
 				</uni-list>
+				<uni-load-more :status="pageobj1.status" :icon-size="17" :content-text="pageobj1.contentText" />
 			</view>
 		</view>
 	</view>

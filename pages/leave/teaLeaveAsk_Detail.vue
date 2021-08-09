@@ -36,13 +36,13 @@
 					<view class="form-left-approve">{{item.approve_user_name}}</view>
 					<view class="form-right-approve">
 						<view v-if="item.lstatus==0">
-							<image src="../../static/leave/pass.png" style="width: 15px;height: 15px;">
+							<image src="../../static/images/leave/pass.png" style="width: 15px;height: 15px;">
 						</view>
 						<view v-else-if="item.lstatus==1"> 
-							<image src="../../static/leave/req.png" style="width: 15px;height: 15px;">
+							<image src="../../static/images/leave/req.png" style="width: 15px;height: 15px;">
 						</view>
 						<view v-else-if="item.lstatus==2"> 
-							<image src="../../static/leave/ref.png" style="width: 15px;height: 15px;">
+							<image src="../../static/images/leave/ref.png" style="width: 15px;height: 15px;">
 						</view>
 					</view>
 				</view>
@@ -68,10 +68,10 @@
 					<textarea value="" maxlength="40" style="height: 60px;" placeholder="批复内容（选填）" />
 				</view>
 				<view class="uni-flex uni-row form-view">
-					<button @tap="submit(0)" type="warn" class="mui-btn">
+					<button @tap="showDialog" type="warn" class="mui-btn">
 						拒 绝
 					</button>
-					<button @tap="submit(1)" type="primary" class="mui-btn1">
+					<button @tap="showDialog1" type="primary" class="mui-btn1">
 						通 过
 					</button>
 				</view>
@@ -79,6 +79,12 @@
 		</view>
 		<view v-else-if="type==1 || type==2 || type==3" style="height: 30px;">
 		</view>
+		<uni-popup ref="alertDialog" type="dialog">
+			<uni-popup-dialog type="warn" title="提醒" content="确定要拒绝此条请假记录吗" @confirm="dialogConfirm"></uni-popup-dialog>
+		</uni-popup>
+		<uni-popup ref="alertDialog1" type="dialog">
+			<uni-popup-dialog type="warn" title="提醒" content="确定要通过此条请假记录吗" @confirm="dialogConfirm1"></uni-popup-dialog>
+		</uni-popup>
 	</view>
 </template>
 
@@ -217,6 +223,18 @@
 						},1500)
 					});
 				}
+			},
+			showDialog(){
+				this.$refs.alertDialog.open()
+			},
+			showDialog1(){
+				this.$refs.alertDialog1.open()
+			},
+			dialogConfirm(){
+				this.submit(0)
+			},
+			dialogConfirm1(){
+				this.submit(1)
 			}
 		}
 	}

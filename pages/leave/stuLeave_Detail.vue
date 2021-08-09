@@ -36,13 +36,13 @@
 					<view class="form-left-approve">{{item.approve_user_name}}</view>
 					<view class="form-right-approve">
 						<view v-if="item.lstatus==0">
-							<image src="../../static/leave/pass.png" style="width: 15px;height: 15px;">
+							<image src="../../static/images/leave/pass.png" style="width: 15px;height: 15px;">
 						</view>
 						<view v-else-if="item.lstatus==1"> 
-							<image src="../../static/leave/req.png" style="width: 15px;height: 15px;">
+							<image src="../../static/images/leave/req.png" style="width: 15px;height: 15px;">
 						</view>
 						<view v-else-if="item.lstatus==2"> 
-							<image src="../../static/leave/ref.png" style="width: 15px;height: 15px;">
+							<image src="../../static/images/leave/ref.png" style="width: 15px;height: 15px;">
 						</view>
 					</view>
 				</view>
