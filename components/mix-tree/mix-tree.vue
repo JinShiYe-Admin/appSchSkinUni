@@ -50,8 +50,8 @@
 			return {
 				treeList: [],
 				treeParams: {
-					defaultIcon: '/static/mix-tree/defaultIcon.png',
-					currentIcon: '/static/mix-tree/currentIcon.png',
+					defaultIcon: '/static/images/mix-tree/defaultIcon.png',
+					currentIcon: '/static/images/mix-tree/currentIcon.png',
 					lastIcon: '',
 					border: false
 				}

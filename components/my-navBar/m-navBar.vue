@@ -129,20 +129,20 @@
 				} else if (this.navItem.index > 4 && this.navItem.index < 100) {
 					uni.switchTab({url: '/pages/more/index'});
 				}else if(this.navItem.index === 100){
-					// // #ifdef H5
-					// 	const pages = getCurrentPages()
-					// 	if (pages.length > 1) {
-					// 		uni.navigateBack({delta:1})
-					// 		return;
-					// 	}
-					// 	//使用vue-router返回上一级
-					// 	let a = this.$router.go(-1)
-					// 	return;
-					// // #endif
-					// // #ifdef APP-PLUS
-					// 	uni.navigateBack({delta:1})
-					// // #endif
-					this.$router.go(-1)
+					// #ifdef H5
+						const pages = getCurrentPages()
+						if (pages.length > 1) {
+							uni.navigateBack({delta:1})
+							return;
+						}
+						//使用vue-router返回上一级
+						let a = this.$router.go(-1)
+						return;
+					// #endif
+					// #ifdef APP-PLUS
+						uni.navigateBack({delta:1})
+					// #endif
+					// this.$router.go(-1)
 				}
 			},
 			closeDrawer() {

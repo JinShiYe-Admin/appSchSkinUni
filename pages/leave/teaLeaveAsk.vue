@@ -20,6 +20,7 @@
 						</text>
 					</uni-list-item>
 				</uni-list>
+				<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
 			</view>
 			<view v-if="current === 1">
 				<uni-list :border="false">
@@ -35,6 +36,7 @@
 						</text>
 					</uni-list-item>
 				</uni-list>
+				<uni-load-more :status="pageobj1.status" :icon-size="17" :content-text="pageobj1.contentText" />
 			</view>
 			<view v-if="current === 2">
 				<uni-list :border="false">
@@ -51,6 +53,7 @@
 						</text>
 					</uni-list-item>
 				</uni-list>
+				<uni-load-more :status="pageobj2.status" :icon-size="17" :content-text="pageobj2.contentText" />
 			</view>
 			<view v-if="current === 3">
 				<uni-list :border="false">
@@ -66,6 +69,7 @@
 						</text>
 					</uni-list-item>
 				</uni-list>
+				<uni-load-more :status="pageobj3.status" :icon-size="17" :content-text="pageobj3.contentText" />
 			</view>
 		</view>
 	</view>
