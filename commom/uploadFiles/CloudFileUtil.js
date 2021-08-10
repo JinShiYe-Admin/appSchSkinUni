@@ -370,6 +370,8 @@ var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64S
 			let pic = base64Str;
 			let url = 'https://upload.qiniu.com/putb64/-1/key/' + encode(QNUptoken.Data.Key);
 			let xhr = new XMLHttpRequest();
+			// let xhr = {};
+			// xhr.XMLHttpRequest = plus.net.XMLHttpRequest;
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4) {
 					console.log(xhr.responseText);

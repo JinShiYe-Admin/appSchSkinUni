@@ -1,18 +1,21 @@
 <template>
 	<view>
-		<uniNavBar v-if="showNav" :title='itemData.name' left-icon="back" backgroundColor='#00CFBD' fixed='true' statusBar='true' color='white' @clickLeft='clickLeft()'></uniNavBar>
+		<uniNavBar v-if="showNav" :title='itemData.name' left-icon="back" backgroundColor='#00CFBD' fixed='true'
+			statusBar='true' color='white' @clickLeft='clickLeft()'></uniNavBar>
 		<p v-if="currentInfoData.count_info" style="margin-top: 10px;text-align: center;color: black;font-size: 14px;">
 			该题组已阅{{currentInfoData.count_info.view_count}}份，当前第{{currentInfoData.count_info.count}}份，任务量{{currentInfoData.count_info.group_count}}份
 		</p>
 		<popover v-if="groupNumberArray.length>0" ref="popover" :viewName="groupNumberArray[nowGroupIndex]"
 			:btnList="groupNumberArray" direction="left" modalLeftPos="20px" modalTopPos="50px" modalWidth='150px'
 			@select="selectPopover"></popover>
-		<view v-if="currentInfoData.eqs" style="margin-left: 20px;margin-top: 10px;" v-for="eqsModel in currentInfoData.eqs" :key="eqsModel.id">
+		<view v-if="currentInfoData.eqs" style="margin-left: 20px;margin-top: 10px;"
+			v-for="eqsModel in currentInfoData.eqs" :key="eqsModel.id">
 			<span
 				style="color: #00CFBD;border: 1px solid #00CFBD;border-radius: 3px;font-size: 13px;">第{{eqsModel.question_number}}题得分</span>
 			<view v-if="eqsModel.step_score_list">
 				<view style="margin-top: 5px;">
-					<view style="margin-top: 5px;" v-for="(stepModel,index) in eqsModel.step_score_list" :key="stepModel.id">
+					<view style="margin-top: 5px;" v-for="(stepModel,index) in eqsModel.step_score_list"
+						:key="stepModel.id">
 						<span style="color: white;">({{index+1}})</span>
 						<uni-easyinput type="number" @blur="inputChange(stepModel)" placeholder="请输入分数"
 							style="width: 150px;font-size: 13px;" v-model="stepModel.stu_score">></uni-easyinput>
@@ -35,16 +38,45 @@
 			提交
 		</view>
 		<p style="color: #d43030;margin-left: 20px;margin-bottom: 0px;">如需添加批阅，请点击图片</p>
-		<img v-if='imgSrc.length>0' :src=imgSrc style="margin: 10px 20px 0px 20px;width: 85%;" @tap="test.usePED">
+		<image v-show='imgSrc.length>0' :src="imgSrc" :imgSrc='imgSrc' :change:imgSrc="renderScript.receiveSrc"
+			style="margin: 10px 20px 0px 20px;width: 85%;" @click="renderScript.usePED" id="renderScript"
+			class="renderScript"></image>
 	</view>
 </template>
-<script module="test" lang="renderjs">	import {imageInfo} from '@/commom/picture/index.js';	export default {		methods: {			usePED() {
-				this.showNav = false;				console.log('usePEDusePED1');				let ped = new imageInfo('http://jbsch-pb.zhuxue101.net/test/task_result_detail/843-1410483399553974281.jpg', ()=>{});				console.log("this.ped: ",ped);			},		}	}</script>
+<script module="renderScript" lang="renderjs">
+	import {
+		imageInfo
+	} from '@/commom/picture/index.js';
+	export default {
+		data() {
+			return {
+				imgSrc: '',
+			}
+		},
+		methods: {
+			receiveSrc(newValue, oldValue, ownerVm, vm) {
+				this.imgSrc = newValue;
+			},
+			usePED(e, ownerVm) {
+				ownerVm.callMethod('showNavFun', '');
+				console.log('usePEDusePED1');
+				// let ped = new imageInfo('http://jbsch-pb.zhuxue101.net/test/task_result_detail/843-1410483399553974281.jpg', ()=>{});
+				let ped = new imageInfo(this.imgSrc,(data)=>{
+					// console.log('saveFnsaveFnsaveFn1111:'+data);
+					ownerVm.callMethod('saveFn', data);
+				});
+				console.log("this.ped: ", ped);
+			}
+		}
+	}
+</script>
 
 <script>
 	import util from '@/commom/util.js';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
-	import {imageInfo} from '@/commom/picture/index.js';
+	import {
+		imageInfo
+	} from '@/commom/picture/index.js';
 	import popover from '@/components/dean-popover/dean-popover';
 	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
 	export default {
@@ -60,8 +92,8 @@
 				imgSrcFlag: 0, //判断是否进行涂鸦
 				typeFlag: 0, //0未选择对错标识，1对，2错，3半对
 				typeArray: [], //点的标识数组
-				ped : null,
-				showNav:true,
+				ped: null,
+				showNav: true,
 			}
 		},
 		onLoad(option) {
@@ -78,10 +110,10 @@
 			//1.4.阅卷任务题组列表
 			this.getGroupNumberData();
 			// 点击微信下方的返回按钮，如果是在图片编辑状态，隐藏
-			window.addEventListener('popstate', function() {
-				this.showNav = true;
-				// 隐藏
-			});
+			// window.addEventListener('popstate', function() {
+			// 	this.showNav = true;
+			// 	// 隐藏
+			// });
 		},
 		components: {
 			popover,
@@ -97,10 +129,14 @@
 				console.log('usePEDusePED');
 				this.ped = new imageInfo(this.imgSrc, this.saveFn);
 			},
+			showNavFun() {
+				console.log('showNavFunshowNavFunshowNavFun');
+				this.showNav = false;
+			},
 			saveFn(data) {
 				console.log('saveFnsaveFnsaveFn');
 				this.showNav = true;
-				if(data.length>0){
+				if (data.length > 0) {
 					this.imgSrcFlag = 1;
 					this.imgSrc = data;
 				}
@@ -176,7 +212,7 @@
 						evaluation: tempMMM,
 						eqs: tempA, //题组下题目
 					}
-					console.log('this.imgSrcFlag:'+this.imgSrcFlag);
+					console.log('this.imgSrcFlag:' + this.imgSrcFlag);
 					if (this.imgSrcFlag == 0) {
 						this.showLoading();
 						//1.6.保存批改
@@ -195,27 +231,28 @@
 					} else {
 						// 先将涂鸦后的图片，上传七牛
 						this.showLoading();
-						var fileName = 'markingPapers' + new Date().getTime();
-						var tempData = this.imgSrc.replace('data:image/png;base64,','');
+						var fileName = 'markingPapers' + new Date().getTime()+'.png';
+						var tempData = this.imgSrc.replace('data:image/png;base64,', '');
 						console.log('tempDatatempDatatempDatatempData');
-						let that=this
+						let that = this
 						cloudFileUtil.uploadIDCardHeadImge(1, fileName, tempData, function(domain) {
 							console.log("domain: " + JSON.stringify(domain));
 							tempMMM.painting_img = domain;
 							comData.evaluation = tempMMM;
-							console.log('comData:::'+JSON.stringify(comData));
+							console.log('comData:::' + JSON.stringify(comData));
 							//1.6.保存批改
-							that.post(that.globaData.INTERFACE_MARKINGPAPERS + 'evaluation/save', comData, (data0,data) => {
-									that.hideLoading();
-									if (data.code == 0) {
-										that.typeFlag = 0;
-										that.typeArray = [];
-										//1.5.阅卷任务题组的批改情况
-										that.getCurrentInfoData();
-									} else {
-										that.showToast(data.msg);
-									}
-								});
+							that.post(that.globaData.INTERFACE_MARKINGPAPERS + 'evaluation/save', comData, (
+								data0, data) => {
+								that.hideLoading();
+								if (data.code == 0) {
+									that.typeFlag = 0;
+									that.typeArray = [];
+									//1.5.阅卷任务题组的批改情况
+									that.getCurrentInfoData();
+								} else {
+									that.showToast(data.msg);
+								}
+							});
 						}, function() {
 							that.hideLoading();
 						})

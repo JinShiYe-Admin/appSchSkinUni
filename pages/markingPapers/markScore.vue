@@ -52,13 +52,13 @@
 				<uni-list-item showArrow :key="index" v-for="(model,index) in nowScoreList" style="font-size: 14px;">
 					<view slot="body" class="" @click="clickLi(model)">
 						<uni-row>
-							<view style="margin-left: 20px;">
+							<view style="margin-left: 0px;">
 								<span
 									style="color: #505050;font-size: 14px;font-weight: bold;margin-left: 15px;">{{model.stu_name}}</span>
 								<span style="color: #505050;font-size: 14px;margin-left: 30px;">{{model.sex}}</span>
 								<span style="color: #505050;font-size: 14px;margin-left: 30px;">考号：{{model.sno}}</span>
 							</view>
-							<view style="margin-top: 5px;margin-left: 20px;">
+							<view style="margin-top: 5px;margin-left: 5px;">
 								<span style="float: left;">
 									<view
 										style="width: 60px;height: 50px;border:1px solid #00aba1;text-align: center;vertical-align: middle;display: table-cell;color: #00aba1;font-size: 14px;">

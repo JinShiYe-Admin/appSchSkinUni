@@ -47,12 +47,6 @@
 					</view>
 				</uni-grid-item>
 			</uni-grid>
-			<!-- <view v-if="result_file_list">
-				<template v-for="tempImg in result_file_list">
-					<img style="display: none;" width="100%" :src="tempImg.merge_file_path"
-						:data-preview-src="tempImg.merge_file_path" data-preview-group="1" />
-				</template>
-			</view> -->
 			<view style="height: 10px;background-color: #e5e5e5;margin: 5px 0px 0px 0px;"></view>
 			<p style="margin: 5px 0px 0px 20px;color: #505050;font-size: 14px;font-weight: bold;">得分详情</p>
 			<view style="height: 0.5px;background-color: #00cfbd;margin: 5px 28px 0px 15px;"></view>
@@ -179,7 +173,6 @@
 					this.hideLoading();
 					if (data.code == 0) {
 						this.stuResultList = [].concat(data.data.list);
-						console.log()
 					} else {
 						this.showToast(data.msg);
 					}
