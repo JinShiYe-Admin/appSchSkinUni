@@ -86,7 +86,7 @@ export default {
 		},
 		modalOpacity: {
 			type: String,
-			default: '0.7'
+			default: '1'
 		},
 		direction: {
 			type: String,

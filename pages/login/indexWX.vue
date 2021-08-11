@@ -314,7 +314,7 @@
 								// utils.mOpenWithData("../../html/login/index.html", {});
 								// util.openwithData('/pages/login/index');
 								uni.redirectTo({
-								    url: '/pages/login/index?openid='+this.openid
+								    url: '/pages/login/index'
 								});
 							} else {
 								this.showToast(data2.msg);
@@ -595,7 +595,7 @@
 					if (data2.code == 0) {
 						// util.openwithData('/pages/login/index');
 						uni.redirectTo({
-						    url: '/pages/login/index?openid='+this.openid
+						    url: '/pages/login/index'
 						});
 					} else {
 						this.showToast(data2.msg);
