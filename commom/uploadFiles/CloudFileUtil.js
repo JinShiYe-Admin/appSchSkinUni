@@ -369,27 +369,25 @@ var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64S
 			// console.log("上传的base64Str:"+base64Str);
 			let pic = base64Str;
 			let url = 'https://upload.qiniu.com/putb64/-1/key/' + encode(QNUptoken.Data.Key);
-			let xhr = new XMLHttpRequest();
-			// let xhr = {};
-			// xhr.XMLHttpRequest = plus.net.XMLHttpRequest;
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4) {
-					console.log(xhr.responseText);
-					let jobj = JSON.parse(xhr.responseText);
-					if (!jobj.error) {
-						let responseUrl = QNUptoken.Data.Domain + JSON.parse(xhr.responseText).key;
-						callback(responseUrl);
-					} else {
-						uni.showToast('七牛信息上传失败！');
-						console.log("xhr.responseText: " + xhr.responseText);
-						ecallback()
-					}
+			uni.request({
+				url: url,
+				method: 'POST',
+				data: pic,
+				header: {
+					ContentType: "application/octet-stream",
+					Authorization: "UpToken " + QNUptoken.Data.Token
+				},
+				success: (uploadFileRes) => {
+					console.log(uploadFileRes.data);
+					let responseUrl = QNUptoken.Data.Domain + uploadFileRes.data.key;
+					callback(responseUrl);
+				},
+				fail: (e) => {
+					console.log(e);
+					uni.showToast('七牛信息上传失败！');
+					ecallback()
 				}
-			}
-			xhr.open("POST", url, true);
-			xhr.setRequestHeader("Content-Type", "application/octet-stream");
-			xhr.setRequestHeader("Authorization", "UpToken " + QNUptoken.Data.Token);
-			xhr.send(pic);
+			});
 		}
 	}, function(xhr, type, errorThrown) {
 		uni.hideLoading();
@@ -398,13 +396,13 @@ var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64S
 	});
 }
 
-	function encode(str){
-		// 对字符串进行编码
-		var encode = encodeURI(str);
-		// 对编码的字符串转化base64
-		var base64 = btoa(encode);
-		return base64;
-	}
+function encode(str) {
+	// 对字符串进行编码
+	var encode = encodeURI(str);
+	// 对编码的字符串转化base64
+	var base64 = btoa(encode);
+	return base64;
+}
 
 /**
  *获取参数

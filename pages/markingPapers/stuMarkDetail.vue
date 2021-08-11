@@ -148,10 +148,10 @@
 					index_code: this.itemData.access.split('#')[1],
 					id: this.itemData.id, //
 				}
-				this.showLoading();
+				// this.showLoading();
 				//1.10.根据id获取学生考试详情
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'taskResult/getById', comData, (data0, data) => {
-					this.hideLoading();
+					// this.hideLoading();
 					if (data.code == 0) {
 						this.result_file_list = data.data.result_file_list;
 						if (data.data.result_file_list && data.data.result_file_list.length > 0) {
@@ -167,10 +167,10 @@
 					index_code: this.itemData.access.split('#')[1],
 					result_id: this.itemData.id, //
 				}
-				this.showLoading();
+				// this.showLoading();
 				//1.11.获取学生每题答题详情
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'taskResultDetail', comData, (data0, data) => {
-					this.hideLoading();
+					// this.hideLoading();
 					if (data.code == 0) {
 						this.stuResultList = [].concat(data.data.list);
 					} else {

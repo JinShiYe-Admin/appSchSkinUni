@@ -435,7 +435,7 @@
 					let tempM = {
 						openid: openid
 					}
-					util.openwithData('/pages/login/indexWX', tempM);
+					// util.openwithData('/pages/login/indexWX', tempM);
 					uni.redirectTo({
 						url: '/pages/login/indexWX?openid=' + openid
 					});
