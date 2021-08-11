@@ -372,6 +372,7 @@
 							index_code:this.index_code,
 						}
 						this.post(this.globaData.STULEAVE_API+'apply/addApply',comData,(response0,response)=>{
+							console.log("response: " + JSON.stringify(response));
 						     if (response.code == 0) {
 								 let that=this
 						     	this.approveLeave(response.data.id,function(){
@@ -388,6 +389,8 @@
 						     	this.hideLoading()
 						     	this.showToast(response.msg);
 						     }
+						},()=>{
+								this.canSub=true
 						})
 					}
 				}

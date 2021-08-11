@@ -238,7 +238,7 @@
 			},
 			toDetails(item){
 				item.index_code=this.index_code
-				util.openwithData('/pages/leave/teaLeaveQuery_Detail',item)
+				util.openwithData('/pages/examination/formDetail',item)
 			}
 		},
 		components: {
@@ -401,7 +401,7 @@
 	 .biaoti {
 	 	color: #444444;
 	 	font-size: 16px;
-		font-weight: bold;
+		font-weight: 400;
 	 	white-space:normal;
 		word-break: break-all;
 	 }

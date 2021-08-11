@@ -11,7 +11,7 @@
 					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata0" :border="true">
 						<text slot="body" class="slot-box slot-text" @click="toDetails(0,item)">
 							<uni-row>
-								<uni-col :span="24"><view>{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
+								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.grd_name}} {{item.cls_name}}&ensp;{{item.stu_name}}</view></uni-col>
 								<uni-col :span="20"><view class="detail-text">{{item.apply_time}}</view></uni-col>
