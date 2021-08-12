@@ -537,7 +537,7 @@ module.exports = {
 			],
 		"padding": [15, 15, 0, 5],
 		"fontSize": 13,
-		"dataLabel":false,
+		"dataLabel":true,
 		"xAxis": {
 			"disableGrid": true,
 		},
@@ -562,8 +562,10 @@ module.exports = {
 		},
 		"extra": {
 			"column": {
-				"type": "stack",
+				"type": "group",//group stack
 				"width": 30,
+				"seriesGap":5,
+				"categoryGap":10,
 				"meterBorde": 1,
 				"meterFillColor": "#FFFFFF",
 				"activeBgColor": "#000000",
