@@ -81,9 +81,9 @@
 				grdIndex:0,
 				clsIndex:0,
 				kmIndex:0,
-				grdArray: [{name:'',value:''}],
-				clsArray: [{sub_name:'',sub_code:''}],
-				kmArray: [{name:'',value:''}],
+				grdArray: [{text:'',value:''}],
+				clsArray: [{text:'',value:''}],
+				kmArray: [{text:'',value:''}],
 			}
 		},
 		methods: {
@@ -237,8 +237,12 @@
 				})
 			},
 			toDetails(item){
+				console.log("item: " + JSON.stringify(item));
 				item.index_code=this.index_code
-				util.openwithData('/pages/leave/teaLeaveQuery_Detail',item)
+				item.selectType=this.selectType
+				item.cls_code=this.clsArray[this.clsIndex].value
+				item.sub_code=this.kmArray[this.kmIndex].value
+				util.openwithData('/pages/examination/formDetail',item)
 			}
 		},
 		components: {
@@ -401,7 +405,7 @@
 	 .biaoti {
 	 	color: #444444;
 	 	font-size: 16px;
-		font-weight: bold;
+		font-weight: 400;
 	 	white-space:normal;
 		word-break: break-all;
 	 }

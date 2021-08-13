@@ -322,6 +322,8 @@
 						     	this.hideLoading()
 						     	this.showToast(response.msg);
 						     }
+						},()=>{
+								this.canSub=true
 						})
 					}
 				}

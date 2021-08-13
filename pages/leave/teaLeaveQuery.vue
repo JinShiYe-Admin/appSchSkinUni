@@ -21,7 +21,7 @@
 			</uni-row>
 			<view class="select-line"></view>
 			<view class="uni-flex">
-				<uni-datetime-picker style="width: 100%;" v-model="datetimerange" :border="false" type="daterange" rangeSeparator="至" />
+				<uni-datetime-picker style="width: 100%;padding: 0 30px;" v-model="datetimerange" :border="false" type="daterange" rangeSeparator="至" />
 			</view>
 		</view>
 		<view>

@@ -292,8 +292,8 @@
 							grd_name:this.personInfo.grd_name,
 							cls_code:this.personInfo.cls_code,
 							cls_name:this.personInfo.cls_name,
-							stu_code:this.personInfo.user_code,
-							stu_name:this.personInfo.user_name,
+							stu_code:this.personInfo.stu_code,
+							stu_name:this.personInfo.stu_name,
 							begin_time:this.formData.begin_time,
 							end_time:this.formData.end_time,
 							apply_time:this.formData.diff_times_text,
@@ -322,6 +322,8 @@
 						     	this.hideLoading()
 						     	this.showToast(response.msg);
 						     }
+						},()=>{
+								this.canSub=true
 						})
 					}
 				}
