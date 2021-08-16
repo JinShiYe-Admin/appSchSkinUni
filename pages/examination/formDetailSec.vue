@@ -20,7 +20,7 @@
 			<view style="margin-top: 40px;">
 				<uni-list :border="false">
 					<uni-list-item  :key="index" v-for="(item,index) in nowSectionArray" :border="true">
-						<text slot="body" class="slot-box slot-text">
+						<view slot="body" class="slot-box slot-text">
 							<uni-row>
 								<uni-col :span="24"><view class="detail-text">{{item.cls_name}} {{item.stu_name}}</view></uni-col>
 								<uni-col :span="14"><view class="detail-text-ms">总分分数：{{item.score}}</view></uni-col>
@@ -28,10 +28,41 @@
 								<uni-col :span="14"><view class="detail-text-ms">总分年级进退步：{{Math.abs(item.grd_order_diff)}} <uni-icons v-if="item.grd_order_diff>0" type="arrowthinup" size="12" color="#FF4444"></uni-icons> <uni-icons v-else-if="item.grd_order_diff<0" type="arrowthindown" size="12" color="#04D0BE"></uni-icons></view></uni-col>
 								<uni-col :span="10"><view class="detail-text-popover" @click="showtoast(item)">各科分数及排名<uni-icons type="arrowdown" size="12" color="#04D0BE"></uni-icons></view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 			</view>
+			<uni-popup ref="popup" type="center" style="background-color: white;">
+				<view style="background-color: white;padding: 10px;border-radius: 5px;">
+					<view style="text-align: right;margin:-23px -28px -20px 0px;"> <button type="primary" style="border: 0;" class="mini-btn" plain="true" size="mini" @click="closePop"><uni-icons type="close" size="19" color="#04D0BE"></uni-icons></button></view>
+					<view  style="border: 1px solid #66c1bb;margin-top: 10px;width: 80vw;max-height: 400px;overflow: auto;">
+						<view style="height: 20px;background-color: #66c1bb;margin: 0px 0 0 0;font-size: 13px;color: white;padding-left: 10px;text-align: center;">
+							<uni-row>
+								<uni-col :span="8">
+									<view>科目</view>
+								</uni-col>
+								<uni-col :span="8">
+									<view>分数</view>
+								</uni-col>
+								<uni-col :span="8">
+									<view>排名</view>
+								</uni-col>
+							</uni-row>
+						</view>
+						<uni-row v-for="(model,index) in scoreDetailArray" :key='index' style="text-align: center;margin:5px 0;">
+							<uni-col :span="8">
+								<view class="scoreDetail">{{model.subName}}</view>
+							</uni-col>
+							<uni-col :span="8">
+								<view class="scoreDetail">{{model.subScore}}</view>
+							</uni-col>
+							<uni-col :span="8">
+								<view class="scoreDetail">{{model.subOrder}}</view>
+							</uni-col>
+						</uni-row>
+					</view>
+				</view>
+			</uni-popup>
 		</view>
 	</view>
 </template>
@@ -62,6 +93,10 @@
 		methods: {
 			clickLeft: function() {
 				uni.navigateBack();
+			},
+			closePop(){
+				console.log(123);
+				this.$refs.popup.close();
 			},
 			showtoast(model){
 				this.scoreDetailArray = [];
@@ -99,6 +134,7 @@
 					}
 					console.log('tempArr:'+JSON.stringify(tempArr));
 					this.scoreDetailArray = [].concat(tempArr);
+					this.$refs.popup.open();
 				}
 			},
 			fdClick:function(e){
@@ -370,5 +406,16 @@
 		text-overflow: ellipsis;
 		overflow: hidden;
 		white-space: nowrap;
+	 }
+	 .scoreDetail{
+	 		 font-size: 13px;
+	 		 color: #000;
+	 		 text-align: center;
+	 		 margin-top: 0px;
+	 		 background-color: #e5e5e5;
+	 }
+	 
+	 .readOnly{
+		 pointer-events: none;
 	 }
 </style>
