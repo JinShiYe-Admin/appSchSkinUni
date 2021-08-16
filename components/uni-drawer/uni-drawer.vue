@@ -4,10 +4,16 @@
 		<view class="uni-drawer__content" :class="{'uni-drawer--right': rightMode,'uni-drawer--left': !rightMode, 'uni-drawer__content--visible': showDrawer}" :style="{width:drawerWidth+'px'}">
 			<slot />
 		</view>
+		<!-- #ifdef H5 -->
+		<keypress @esc="close('mask')" />
+		<!-- #endif -->
 	</view>
 </template>
 
 <script>
+	// #ifdef H5
+	import keypress from './keypress.js'
+	// #endif
 	/**
 	 * Drawer 抽屉
 	 * @description 抽屉侧滑菜单
@@ -22,6 +28,12 @@
 	 */
 	export default {
 		name: 'UniDrawer',
+		components: {
+			// #ifdef H5
+			keypress
+			// #endif
+		},
+		emits: ['change'],
 		props: {
 			/**
 			 * 显示模式（左、右），只在初始化生效
@@ -40,7 +52,7 @@
 			/**
 			 * 遮罩是否可点击关闭
 			 */
-			maskClick:{
+			maskClick: {
 				type: Boolean,
 				default: true
 			},
@@ -68,15 +80,15 @@
 			this.rightMode = this.mode === 'right'
 		},
 		methods: {
-			clear(){},
+			clear() {},
 			close(type) {
 				// fixed by mehaotian 抽屉尚未完全关闭或遮罩禁止点击时不触发以下逻辑
-				if((type === 'mask' && !this.maskClick) || !this.visibleSync) return
+				if ((type === 'mask' && !this.maskClick) || !this.visibleSync) return
 				this._change('showDrawer', 'visibleSync', false)
 			},
 			open() {
 				// fixed by mehaotian 处理重复点击打开的事件
-				if(this.visibleSync) return
+				if (this.visibleSync) return
 				this._change('visibleSync', 'showDrawer', true)
 			},
 			_change(param1, param2, status) {
@@ -86,17 +98,14 @@
 				}
 				this.watchTimer = setTimeout(() => {
 					this[param2] = status
-					this.$emit('change',status)
+					this.$emit('change', status)
 				}, status ? 50 : 300)
 			}
 		}
 	}
 </script>
 
-<style lang="scss" scoped>
-	// 抽屉宽度
-	$drawer-width: 220px;
-
+<style scoped>
 	.uni-drawer {
 		/* #ifndef APP-NVUE */
 		display: block;
@@ -116,16 +125,16 @@
 		/* #endif */
 		position: absolute;
 		top: 0;
-		width: $drawer-width;
+		width: 220px;
 		bottom: 0;
-		background-color: $uni-bg-color;
+		background-color: #ffffff;
 		transition: transform 0.3s ease;
 	}
 
 	.uni-drawer--left {
 		left: 0;
 		/* #ifdef APP-NVUE */
-		transform: translateX(-$drawer-width);
+		transform: translateX(-220px);
 		/* #endif */
 		/* #ifndef APP-NVUE */
 		transform: translateX(-100%);
@@ -135,7 +144,7 @@
 	.uni-drawer--right {
 		right: 0;
 		/* #ifdef APP-NVUE */
-		transform: translateX($drawer-width);
+		transform: translateX(220px);
 		/* #endif */
 		/* #ifndef APP-NVUE */
 		transform: translateX(100%);
@@ -145,7 +154,6 @@
 	.uni-drawer__content--visible {
 		transform: translateX(0px);
 	}
-
 
 	.uni-drawer__mask {
 		/* #ifndef APP-NVUE */
@@ -157,7 +165,7 @@
 		left: 0;
 		bottom: 0;
 		right: 0;
-		background-color: $uni-bg-color-mask;
+		background-color: rgba(0, 0, 0, 0.4);
 		transition: opacity 0.3s;
 	}
 

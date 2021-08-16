@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view ref="uni-rate" class="uni-rate">
-			<view v-if="" class="uni-rate__icon" :class="{'uni-cursor-not-allowed': disabled}" :style="{ 'margin-right': marginNumber + 'px' }" v-for="(star, index) in stars" :key="index" @touchstart.stop="touchstart" @touchmove.stop="touchmove" @mousedown.stop="mousedown" @mousemove.stop="mousemove" @mouseleave="mouseleave">
+			<view class="uni-rate__icon" :class="{'uni-cursor-not-allowed': disabled}" :style="{ 'margin-right': marginNumber + 'px' }" v-for="(star, index) in stars" :key="index" @touchstart.stop="touchstart" @touchmove.stop="touchmove" @mousedown.stop="mousedown" @mousemove.stop="mousemove" @mouseleave="mouseleave">
 				<uni-icons :color="color" :size="size" :type="isFill ? 'star-filled' : 'star'" />
 				<!-- #ifdef APP-NVUE -->
 				<view :style="{ width: star.activeWitch.replace('%','')*size/100+'px'}" class="uni-rate__icon-on">
@@ -74,6 +74,11 @@
 				type: [Number, String],
 				default: 1
 			},
+			modelValue: {
+				// 当前评分
+				type: [Number, String],
+				default: 1
+			},
 			max: {
 				// 最大评分
 				type: [Number, String],
@@ -117,6 +122,9 @@
 			value(newVal) {
 				this.valueSync = Number(newVal);
 			},
+			modelValue(newVal) {
+				this.valueSync = Number(newVal);
+			},
 		},
 		computed: {
 			stars() {
@@ -147,7 +155,7 @@
 			}
 		},
 		created() {
-			this.valueSync = Number(this.value);
+			this.valueSync = Number(this.value || this.modelValue);
 			this._rateBoxLeft = 0
 			this._oldValue = null
 		},
@@ -280,6 +288,7 @@
 			_onChange() {
 
 				this.$emit("input", this.valueSync);
+				this.$emit("update:modelValue", this.valueSync);
 				this.$emit("change", {
 					value: this.valueSync
 				});

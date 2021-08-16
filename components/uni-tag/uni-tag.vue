@@ -29,6 +29,7 @@
 
 	export default {
 		name: "UniTag",
+		emits: ['click'],
 		props: {
 			type: {
 				// 标签类型default、primary、success、warning、error、royal
@@ -81,7 +82,7 @@
 					size,
 					isTrue
 				} = this
-				return [
+				const classArr = [
 					'uni-tag--' + type,
 					isTrue(disabled) ? 'uni-tag--disabled' : '',
 					isTrue(inverted) ? type + '-uni-tag--inverted' : '',
@@ -92,6 +93,7 @@
 					isTrue(inverted) ? 'uni-tag-text--' + type : '',
 					size === 'small' ? 'uni-tag-text--small' : ''
 				]
+				return classArr.join(' ')
 			}
 		},
 		methods: {

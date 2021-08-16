@@ -64,6 +64,7 @@
 		components: {
 			statusBar
 		},
+		emits: ['clickLeft', 'clickRight', 'clickTitle'],
 		props: {
 			title: {
 				type: String,
@@ -137,7 +138,6 @@
 		/* #ifndef APP-PLUS */
 		font-size: 16px;
 		/* #endif */
-		height: 40px;
 	}
 
 	.uni-nav-bar-right-text {
