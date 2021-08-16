@@ -51,7 +51,6 @@
 						<h4 v-if="controlIndex===2" style="text-align: center;color: #6d6d6d;">—— 年级排名 ——</h4>
 						<h4 v-if="controlIndex===3" style="text-align: center;color: #6d6d6d;">—— 上线率统计 ——</h4>
 						<h4 v-if="controlIndex===4" style="text-align: center;color: #6d6d6d;">—— 各班级进退步学生统计 ——</h4>
-						
 						<qiun-data-charts v-if="controlIndex===0" type="column" :chartData="chartData0" @getIndex="getIndexZ"/><!-- 柱状图-->
 						<qiun-data-charts v-if="controlIndex===1" type="ring" :chartData="chartData1" background="none" @getIndex="getIndexB"/><!-- 饼图-->
 						<uni-list v-if="controlIndex===2" :border="false" style="margin-top: 10px;">
@@ -214,7 +213,8 @@
 						categories: nameList,
 						series: [{name: "平均分",data: valueList}]
 					}
-					this.chartData0 = data;
+					let that=this
+					setTimeout(function() {that.chartData0 = data;}, 150);
 					let des =`本次考试共有${response.cls_count?response.cls_count:0}个班，合计${response.stu_count?response.stu_count:0}人次参加考试，平均分${response.avg_score?response.avg_score:0}分`
 					this.description = des
 				})
