@@ -41,7 +41,7 @@
 		<uni-popup ref="popupAvg" type="center" style="background-color: white;" >
 			<view style="background-color: white;padding: 10px;border-radius: 5px;">
 				<!-- <view style="text-align: right;margin:-25px -28px -28px 0px;"> <button type="primary" style="border: 0;" class="mini-btn" plain="true" size="mini" @click="closePop"><uni-icons type="close" size="25" color="#04D0BE"></uni-icons></button></view> -->
-				<view  style="border: 1px solid #66c1bb;margin-top: 10px;width: 80vw;max-height: 400px;overflow: auto;">
+				<view  style="border: 1px solid #66c1bb;margin-top: 10px;width: 80vw;max-height: 400px;overflow-y: scroll;">
 					<view style="height: 20px;background-color: #66c1bb;margin: 0px 0 0 0;font-size: 13px;color: white;padding-left: 10px;text-align: center;">
 						<uni-row>
 							<uni-col :span="8">
@@ -55,17 +55,19 @@
 							</uni-col>
 						</uni-row>
 					</view>
-					<uni-row v-for="(model,index) in scoreDetailArray" :key='index' style="text-align: center;height:30px;display: flex;align-items: center;background-color:#E5E5E5 ;">
-						<uni-col :span="8">
-							<view class="scoreDetail">{{model.subName}}</view>
-						</uni-col>
-						<uni-col :span="8">
-							<view class="scoreDetail">{{model.subScore}}</view>
-						</uni-col>
-						<uni-col :span="8">
-							<view class="scoreDetail">{{model.subOrder}}</view>
-						</uni-col>
-					</uni-row>
+					<scroll-view scroll-y="true" style="max-height: 380px;">
+						<uni-row v-for="(model,index) in scoreDetailArray" :key='index' style="text-align: center;height:30px;display: flex;align-items: center;background-color:#E5E5E5 ;">
+							<uni-col :span="8">
+								<view class="scoreDetail">{{model.subName}}</view>
+							</uni-col>
+							<uni-col :span="8">
+								<view class="scoreDetail">{{model.subScore}}</view>
+							</uni-col>
+							<uni-col :span="8">
+								<view class="scoreDetail">{{model.subOrder}}</view>
+							</uni-col>
+						</uni-row>
+					</scroll-view>
 				</view>
 			</view>
 		</uni-popup>
@@ -106,6 +108,7 @@
 			showtoast(model){
 				console.log("model: " + JSON.stringify(model));
 				this.scoreDetailArray = [];
+				console.log("this.pageModel.tag_list: " + JSON.stringify(this.pageModel.tag_list));
 				if (this.pageModel.tag_list && this.pageModel.tag_list.length > 0) {
 					let tempArr = [];
 					for (let a = 0; a < this.pageModel.tag_list.length; a++) {
@@ -140,6 +143,9 @@
 					}
 					console.log('tempArr:'+JSON.stringify(tempArr));
 					this.scoreDetailArray = [].concat(tempArr);
+					this.$refs.popupAvg.open();
+				}else{
+					this.scoreDetailArray = [].concat([{subName:'',subKey:'',subOrder:'',subScore:'暂无数据'}]);
 					this.$refs.popupAvg.open();
 				}
 			},

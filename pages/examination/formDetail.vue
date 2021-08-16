@@ -214,7 +214,7 @@
 						series: [{name: "平均分",data: valueList}]
 					}
 					let that=this
-					setTimeout(function() {that.chartData0 = data;}, 150);
+					setTimeout(function() {that.chartData0 = data;}, 500);
 					let des =`本次考试共有${response.cls_count?response.cls_count:0}个班，合计${response.stu_count?response.stu_count:0}人次参加考试，平均分${response.avg_score?response.avg_score:0}分`
 					this.description = des
 				})

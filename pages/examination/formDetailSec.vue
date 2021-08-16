@@ -50,17 +50,19 @@
 							</uni-col>
 						</uni-row>
 					</view>
-					<uni-row v-for="(model,index) in scoreDetailArray" :key='index' style="text-align: center;height:30px;display: flex;align-items: center;background-color:#E5E5E5 ;">
-						<uni-col :span="8">
-							<view class="scoreDetail">{{model.subName}}</view>
-						</uni-col>
-						<uni-col :span="8">
-							<view class="scoreDetail">{{model.subScore}}</view>
-						</uni-col>
-						<uni-col :span="8">
-							<view class="scoreDetail">{{model.subOrder}}</view>
-						</uni-col>
-					</uni-row>
+					<scroll-view scroll-y="true" style="max-height: 380px;">
+						<uni-row v-for="(model,index) in scoreDetailArray" :key='index' style="text-align: center;height:30px;display: flex;align-items: center;background-color:#E5E5E5 ;">
+							<uni-col :span="8">
+								<view class="scoreDetail">{{model.subName}}</view>
+							</uni-col>
+							<uni-col :span="8">
+								<view class="scoreDetail">{{model.subScore}}</view>
+							</uni-col>
+							<uni-col :span="8">
+								<view class="scoreDetail">{{model.subOrder}}</view>
+							</uni-col>
+						</uni-row>
+					</scroll-view>
 				</view>
 			</view>
 		</uni-popup>
@@ -135,6 +137,9 @@
 					console.log('tempArr:'+JSON.stringify(tempArr));
 					this.scoreDetailArray = [].concat(tempArr);
 					this.$refs.popupSec.open();
+				}else{
+					this.scoreDetailArray = [].concat([{subName:'',subKey:'',subOrder:'暂无数据',subScore:''}]);
+					this.$refs.popupAvg.open();
 				}
 			},
 			fdClick:function(e){
