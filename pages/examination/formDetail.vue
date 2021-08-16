@@ -175,7 +175,7 @@
 			  let item=this.zfdList[e.currentIndex]
 			  item.id=this.tabBarItem.id
 			  item.fsd_code = item.name;
-			  item.name=this.tabBarItem.name
+			  item.newname=this.tabBarItem.name
 			  item.index_code=this.index_code
 			  item.selectType=this.tabBarItem.selectType
 			  item.cls_code = this.tabBarItem.cls_code;
