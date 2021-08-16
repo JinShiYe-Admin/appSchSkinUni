@@ -31,6 +31,9 @@
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
 		<uni-popup ref="popup" type="center" style="background-color: white;">
+			<view>
+				就开始购房款水电费会计师对话框
+			</view>
 			<view style="background-color: white;padding: 10px;border-radius: 5px;">
 				<view v-for="(showModel,index) in showMoreList" :key='index'
 					style="border: 1px solid #66c1bb;margin-top: 10px;">
@@ -57,7 +60,7 @@
 			</view>
 		</uni-popup>
 		<view class="content">
-			<view v-show="semFlag == 0">
+			<view v-if="semFlag == 0">
 				<view v-for="(model,index) in sem0Data.scoreList" :key='index' style="margin: 10px 15px 0px 15px;">
 					<view style="font-size: 15px;font-weight: bold;margin-top: 5px;">{{model.cls_name}}
 						{{model.stu_name}}
@@ -89,24 +92,28 @@
 					</view>
 					<p v-if="model.childrenMore.length>0" @click='lookMore(model.childrenMore)'
 						style="color: #00cfbd;text-align: center;font-size: 14px;margin-top: 5px;">查看更多</p>
-					<view style="height: 10px;background-color: #e5e5e5;margin: 5px -20px 0px -20px;">
-					</view>
+					<view style="height: 10px;background-color: #e5e5e5;margin: 5px -20px 0px -20px;"></view>
 				</view>
 			</view>
-			<view v-show="semFlag == 1">
-				<view style="text-align: center;margin-top: 10px;font-size: 15px;" class="mui-control-item" @tap="sem1ShowSub()"><span>{{sem1Data.subValue.text}}</span><span
-					 class="mui-icon mui-icon-arrowdown"></span></view>
+			<view v-if="semFlag == 1">
+				<view style="text-align: center;margin-top: 10px;font-size: 15px;" class="mui-control-item"
+					@tap="sem1ShowSub()"><span>{{sem1Data.subValue.text}}</span><span
+						class="mui-icon mui-icon-arrowdown"></span></view>
 				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">平均分变化趋势</view>
 				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 0 15px;width: 105px;"></view>
-				<view class="chart" style="margin-top: -30px;" id="pjfChart"></view>
+				<view class="charts-box">
+					<qiun-data-charts type="column" :chartData="chartData" />
+				</view>
 				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">各指标变化趋势</view>
 				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 10px 15px;width: 105px;"></view>
-				<view class="chart" id="qushiChart"></view>
+				<view class="charts-box">
+					<qiun-data-charts type="demotype" :chartData="chartData3" background="none" />
+				</view>
 			</view>
-			<view v-show="semFlag == 2">
+			<view v-if="semFlag == 2">
 				选项卡3的内容
 			</view>
-			<view v-show="semFlag == 3">
+			<view v-if="semFlag == 3">
 				选项卡4的内容
 			</view>
 		</view>
@@ -151,6 +158,44 @@
 				fullPaperTempList: [], //考试范围列表
 				selectParperIdList: [], //所选择的考试id数组
 				selectParperTempIdList: [], //所选择的考试id数组
+				chartData: {
+					categories: ["", "", "", "", "", ""],
+					series: [{
+						name: "",
+						data: [150, 36, 31, 33, 13, 34]
+					}]
+				},
+				chartData2: {
+					series: [{
+						"name": "一班",
+						"data": 50
+					}, {
+						"name": "二班",
+						"data": 30
+					}, {
+						"name": "三班",
+						"data": 20
+					}, {
+						"name": "四班",
+						"data": 18
+					}, {
+						"name": "五班",
+						"data": 8
+					}]
+				},
+				chartData3: {
+					categories: ["2012", "2013", "2014", "2015", "2016", "2017"],
+					series: [{
+						"name": "成交量A",
+						"data": [35, 8, 25, 37, 4, 20]
+					}, {
+						"name": "成交量B",
+						"data": [70, 40, 65, 100, 44, 68]
+					}, {
+						"name": "成交量C",
+						"data": [100, 80, 95, 150, 112, 132]
+					}]
+				}
 			}
 		},
 		components: {
@@ -292,7 +337,7 @@
 				}
 				if (flag == 0 && this.sem0Data.scoreList.length == 0) {
 					//1.25.考情分析-班级成绩趋势-历次成绩
-					this.getScoreList();
+					// this.getScoreList();
 				} else if (flag == 1) {
 					if (this.sem1Data.subList.length == 0) {
 						// 获取数据范围授权：科目
@@ -606,68 +651,68 @@
 							var tempM = data.data.list[a];
 							tempAvgArray.push(tempM.avg);
 						}
-						var pjfChart = echarts.init($('#pjfChart')[0]);
-						pjfChart.setOption({
-							xAxis: {
-								type: 'category',
-								data: []
-							},
-							yAxis: {
-								type: 'value'
-							},
-							// legend: {
-							// 	data: ['平均分']
-							// },
-							series: [{
-								label: {
-									show: true,
-									position: 'top'
-								},
-								name: '平均分',
-								data: tempAvgArray,
-								type: 'bar',
-							}]
-						});
+						// var pjfChart = echarts.init($('#pjfChart')[0]);
+						// pjfChart.setOption({
+						// 	xAxis: {
+						// 		type: 'category',
+						// 		data: []
+						// 	},
+						// 	yAxis: {
+						// 		type: 'value'
+						// 	},
+						// 	// legend: {
+						// 	// 	data: ['平均分']
+						// 	// },
+						// 	series: [{
+						// 		label: {
+						// 			show: true,
+						// 			position: 'top'
+						// 		},
+						// 		name: '平均分',
+						// 		data: tempAvgArray,
+						// 		type: 'bar',
+						// 	}]
+						// });
 
-						var tempNameArray = [];
-						var tempSecArray = [];
-						for (var a = 0; a < data.data.tag_list.length; a++) {
-							var tempM = data.data.tag_list[a];
-							tempNameArray.push(tempM.name);
-							var tempSecModel = {
-								label: {
-									show: true,
-									position: 'top'
-								},
-								name: tempM.name,
-								data: [],
-								type: 'line',
-							}
-							var childrenNum = [];
-							for (var b = 0; b < data.data.list.length; b++) {
-								var tempList = data.data.list[b];
-								childrenNum.push(tempList['num' + tempM.key]);
-							}
-							tempSecModel.data = [].concat(childrenNum);
-							tempSecArray.push(tempSecModel);
-						}
-						var qushiChart = echarts.init($('#qushiChart')[0]);
-						qushiChart.setOption({
-							xAxis: {
-								type: 'category',
-								data: []
-							},
-							yAxis: {
-								type: 'value'
-							},
-							legend: {
-								data: tempNameArray
-							},
-							series: tempSecArray
-						});
-						if (data.data.list.length == 0) {
-							this.showToast('暂无数据');
-						}
+						// var tempNameArray = [];
+						// var tempSecArray = [];
+						// for (var a = 0; a < data.data.tag_list.length; a++) {
+						// 	var tempM = data.data.tag_list[a];
+						// 	tempNameArray.push(tempM.name);
+						// 	var tempSecModel = {
+						// 		label: {
+						// 			show: true,
+						// 			position: 'top'
+						// 		},
+						// 		name: tempM.name,
+						// 		data: [],
+						// 		type: 'line',
+						// 	}
+						// 	var childrenNum = [];
+						// 	for (var b = 0; b < data.data.list.length; b++) {
+						// 		var tempList = data.data.list[b];
+						// 		childrenNum.push(tempList['num' + tempM.key]);
+						// 	}
+						// 	tempSecModel.data = [].concat(childrenNum);
+						// 	tempSecArray.push(tempSecModel);
+						// }
+						// var qushiChart = echarts.init($('#qushiChart')[0]);
+						// qushiChart.setOption({
+						// 	xAxis: {
+						// 		type: 'category',
+						// 		data: []
+						// 	},
+						// 	yAxis: {
+						// 		type: 'value'
+						// 	},
+						// 	legend: {
+						// 		data: tempNameArray
+						// 	},
+						// 	series: tempSecArray
+						// });
+						// if (data.data.list.length == 0) {
+						// 	this.showToast('暂无数据');
+						// }
 					} else {
 						this.showToast(data.msg);
 					}
@@ -814,5 +859,10 @@
 		text-align: center;
 		margin-top: 0px;
 		background-color: #e5e5e5;
+	}
+
+	.charts-box {
+		width: 100%;
+		height: 300px;
 	}
 </style>

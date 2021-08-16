@@ -12,7 +12,6 @@
 </template>
 
 <script>
-
 	/**
 	 * Section 标题栏
 	 * @description 标题栏
@@ -25,6 +24,7 @@
 
 	export default {
 		name: 'UniSection',
+		emits: ['click'],
 		props: {
 			type: {
 				type: String,
@@ -56,7 +56,7 @@
 		}
 	}
 </script>
-<style lang="scss" scoped>
+<style scoped>
 	.uni-section {
 		position: relative;
 		/* #ifndef APP-NVUE */
@@ -67,28 +67,14 @@
 		align-items: center;
 		padding: 0 10px;
 		height: 50px;
-		background-color: $uni-bg-color-grey;
+		background-color: #f8f8f8;
 		/* #ifdef APP-NVUE */
-		// border-bottom-color: $uni-border-color;
-		// border-bottom-style: solid;
-		// border-bottom-width: 0.5px;
 		/* #endif */
 		font-weight: normal;
 	}
-	/* #ifndef APP-NVUE */
-	// .uni-section:after {
-	// 	position: absolute;
-	// 	bottom: 0;
-	// 	right: 0;
-	// 	left: 0;
-	// 	height: 1px;
-	// 	content: '';
-	// 	-webkit-transform: scaleY(.5);
-	// 	transform: scaleY(.5);
-	// 	background-color: $uni-border-color;
-	// }
-	/* #endif */
 
+	/* #ifndef APP-NVUE */
+	/* #endif */
 	.uni-section__head {
 		flex-direction: row;
 		justify-content: center;
@@ -98,7 +84,7 @@
 
 	.line {
 		height: 15px;
-		background-color: $uni-text-color-disable;
+		background-color: #c0c0c0;
 		border-radius: 5px;
 		width: 3px;
 	}
@@ -110,7 +96,7 @@
 		border-top-left-radius: 50px;
 		border-bottom-left-radius: 50px;
 		border-bottom-right-radius: 50px;
-		background-color: $uni-text-color-disable;
+		background-color: #c0c0c0;
 	}
 
 	.uni-section__content {
@@ -119,12 +105,12 @@
 		/* #endif */
 		flex-direction: column;
 		flex: 1;
-		color: $uni-text-color;
+		color: #333;
 	}
 
 	.uni-section__content-title {
-		font-size: $uni-font-size-base;
-		color: $uni-text-color;
+		font-size: 14px;
+		color: #333;
 	}
 
 	.distraction {
@@ -133,7 +119,7 @@
 	}
 
 	.uni-section__content-sub {
-		font-size: $uni-font-size-sm;
-		color: $uni-text-color-grey;
+		font-size: 12px;
+		color: #999;
 	}
 </style>

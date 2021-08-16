@@ -24,8 +24,13 @@
 
 	export default {
 		name: "UniNumberBox",
+		emits: ['change', 'input', 'update:modelValue', 'blur', 'focus'],
 		props: {
 			value: {
+				type: [Number, String],
+				default: 1
+			},
+			modelValue: {
 				type: [Number, String],
 				default: 1
 			},
@@ -54,10 +59,18 @@
 		watch: {
 			value(val) {
 				this.inputValue = +val;
+			},
+			modelValue(val) {
+				this.inputValue = +val;
 			}
 		},
 		created() {
-			this.inputValue = +this.value;
+			if (this.value === 1) {
+				this.inputValue = +this.modelValue;
+			}
+			if (this.modelValue === 1) {
+				this.inputValue = +this.value;
+			}
 		},
 		methods: {
 			_calcValue(type) {
@@ -89,7 +102,10 @@
 
 				this.inputValue = (value / scale).toFixed(String(scale).length - 1);
 				this.$emit("change", +this.inputValue);
+				// TODO vue2 兼容
 				this.$emit("input", +this.inputValue);
+				// TODO vue3 兼容
+				this.$emit("update:modelValue", +this.inputValue);
 			},
 			_getDecimalScale() {
 

@@ -23,6 +23,7 @@
 	 */
 	export default {
 		name: 'UniIcons',
+		emits: ['click'],
 		props: {
 			type: {
 				type: String,
@@ -58,7 +59,7 @@
 	/* #ifndef APP-NVUE */
 	@font-face {
 		font-family: uniicons;
-		src: url("./uni.ttf") format("truetype");
+		src: url("@/static/uni.ttf") format("truetype");
 	}
 
 	/* #endif */
