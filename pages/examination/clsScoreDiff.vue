@@ -2,21 +2,32 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' icon="settings" :iconClick="icoClick">
 		</mynavBar>
-		<uni-drawer ref="showRight" mode="right" :mask-click="false" :width='280'>
+		<uni-drawer ref="showRight" mode="right" :mask-click="true" :width='280' @change='changeDrawer'>
 			<scroll-view style="height: 100%;" scroll-y="true">
 				<view>
-					<view class="button-sp-area" style="padding-top: 30px;">
-						<button class="mini-btn" type="default" size="mini"
-							@click="showGrd()">{{grdTempValue.text}}</button>
-						<button class="mini-btn" type="default" size="mini"
-							@click="showCls()">{{clsTempValue.text}}</button>
+					<view style="height: 30px;width: 100%;margin-top: 10px;">
+						<view style="width: 50%;height: 30px;float: left;">
+							<picker v-if="grdList.length>0" @change="bindPickerGrd" value="grdTempIndex"
+								:range="grdList" range-key="text">
+								<view class="uni-input" style="text-align: center;">{{grdList[grdTempIndex].text}}
+									<uni-icons type="arrowdown" size="20" style="font-size: 15px;"></uni-icons>
+								</view>
+							</picker>
+						</view>
+						<view style="width: 50%;height: 30px;float: left;">
+							<picker v-if="clsList.length>0" @change="bindPickerCls" value="clsTempIndex"
+								:range="clsList" range-key="text">
+								<view class="uni-input" style="text-align: center;">{{clsList[clsTempIndex].text}}
+									<uni-icons type="arrowdown" size="20" style="font-size: 15px;"></uni-icons>
+								</view>
+							</picker>
+						</view>
 					</view>
 					<view style="color: #333;margin: 15px 0 0 15px;">考试统计范围</view>
 				</view>
 				<view>
 					<uni-data-checkbox style="margin-left: 20px;" mode="list" icon="left" :multiple="true"
-						v-model="selectParperTempIdList" :localdata="fullPaperTempList" selectedColor='#00CFBD'
-						@change="change" min="1" max="10"></uni-data-checkbox>
+						v-model="selectParperTempIdList" :localdata="fullPaperTempList" selectedColor='#00CFBD'  min="1" max="10"></uni-data-checkbox>
 				</view>
 				<view class="button-sp-area" style="padding-top: 10px;padding-bottom: 10px;">
 					<button class="mini-btn" type="default" size="mini" @click="sure(0)">取消</button>
@@ -31,9 +42,6 @@
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
 		<uni-popup ref="popup" type="center" style="background-color: white;">
-			<view>
-				就开始购房款水电费会计师对话框
-			</view>
 			<view style="background-color: white;padding: 10px;border-radius: 5px;">
 				<view v-for="(showModel,index) in showMoreList" :key='index'
 					style="border: 1px solid #66c1bb;margin-top: 10px;">
@@ -61,60 +69,79 @@
 		</uni-popup>
 		<view class="content">
 			<view v-if="semFlag == 0">
-				<view v-for="(model,index) in sem0Data.scoreList" :key='index' style="margin: 10px 15px 0px 15px;">
-					<view style="font-size: 15px;font-weight: bold;margin-top: 5px;">{{model.cls_name}}
-						{{model.stu_name}}
-					</view>
-					<view v-for="(showModel,index) in model.childrenShow" :key='index'
-						style="border: 1px solid #66c1bb;margin-top: 10px;">
-						<view
-							style="height: 20px;background-color: #66c1bb;margin: 0px 0 0 0;font-size: 13px;color: white;padding-left: 10px;">
-							{{showModel.title}}
+				<view v-for="(model,index) in sem0Data.scoreList" :key='index'>
+					<view style="margin: 10px 15px 0px 15px;">
+						<view style="font-size: 15px;font-weight: bold;margin-top: 5px;">{{model.cls_name}}
+							{{model.stu_name}}
 						</view>
-						<uni-row>
-							<uni-col :span="6" style="height: 18px;">
-								<p class="scoreDetail">分数</p>
-							</uni-col>
-							<uni-col :span="6">
-								<p class="scoreDetail" style="background-color: white;">
-									{{showModel.score}}
-								</p>
-							</uni-col>
-							<uni-col :span="6">
-								<p class="scoreDetail">排名</p>
-							</uni-col>
-							<uni-col :span="6">
-								<p class="scoreDetail" style="background-color: white;">
-									{{showModel.order}}
-								</p>
-							</uni-col>
-						</uni-row>
+						<view v-for="(showModel,index) in model.childrenShow" :key='index'
+							style="border: 1px solid #66c1bb;margin-top: 10px;">
+							<view
+								style="height: 20px;background-color: #66c1bb;margin: 0px 0 0 0;font-size: 13px;color: white;padding-left: 10px;">
+								{{showModel.title}}
+							</view>
+							<uni-row>
+								<uni-col :span="6" style="height: 18px;">
+									<p class="scoreDetail">分数</p>
+								</uni-col>
+								<uni-col :span="6">
+									<p class="scoreDetail" style="background-color: white;">
+										{{showModel.score}}
+									</p>
+								</uni-col>
+								<uni-col :span="6">
+									<p class="scoreDetail">排名</p>
+								</uni-col>
+								<uni-col :span="6">
+									<p class="scoreDetail" style="background-color: white;">
+										{{showModel.order}}
+									</p>
+								</uni-col>
+							</uni-row>
+						</view>
 					</view>
 					<p v-if="model.childrenMore.length>0" @click='lookMore(model.childrenMore)'
 						style="color: #00cfbd;text-align: center;font-size: 14px;margin-top: 5px;">查看更多</p>
-					<view style="height: 10px;background-color: #e5e5e5;margin: 5px -20px 0px -20px;"></view>
+					<view style="height: 10px;background-color: #e5e5e5;margin-top: 5px;"></view>
 				</view>
 			</view>
 			<view v-if="semFlag == 1">
-				<view style="text-align: center;margin-top: 10px;font-size: 15px;" class="mui-control-item"
-					@tap="sem1ShowSub()"><span>{{sem1Data.subValue.text}}</span><span
-						class="mui-icon mui-icon-arrowdown"></span></view>
+				<picker v-if="sem1Data.subList.length>0" @change="bindPickerYfll" value="subIndex"
+					:range="sem1Data.subList" range-key="text">
+					<view class="uni-input" style="text-align: center;">{{sem1Data.subList[sem1Data.subIndex].text}}
+						<uni-icons type="arrowdown" size="20" style="font-size: 15px;"></uni-icons>
+					</view>
+				</picker>
 				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">平均分变化趋势</view>
 				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 0 15px;width: 105px;"></view>
 				<view class="charts-box">
-					<qiun-data-charts type="column" :chartData="chartData" />
+					<qiun-data-charts type="column" :chartData="sem1Data.chartPjf" />
 				</view>
 				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">各指标变化趋势</view>
 				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 10px 15px;width: 105px;"></view>
 				<view class="charts-box">
-					<qiun-data-charts type="demotype" :chartData="chartData3" background="none" />
+					<qiun-data-charts type="demotype" :chartData="sem1Data.chartQs" background="none" />
 				</view>
 			</view>
 			<view v-if="semFlag == 2">
-				选项卡3的内容
+				<picker v-if="sem2Data.subList.length>0" @change="bindPickerFsd" value="subIndex"
+					:range="sem2Data.subList" range-key="text">
+					<view class="uni-input" style="text-align: center;">{{sem2Data.subList[sem2Data.subIndex].text}}
+						<uni-icons type="arrowdown" size="20" style="font-size: 15px;"></uni-icons>
+					</view>
+				</picker>
+				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">分数段变化趋势(人数)</view>
+				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 10px 15px;width: 145px;"></view>
+				<view class="charts-box">
+					<qiun-data-charts type="demotype" :chartData="sem2Data.chartFsd" background="none" />
+				</view>
 			</view>
 			<view v-if="semFlag == 3">
-				选项卡4的内容
+				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">上线率变化趋势(人数)</view>
+				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 10px 15px;width: 145px;"></view>
+				<view class="charts-box">
+					<qiun-data-charts type="demotype" :chartData="sem3Data.chartSxl" background="none" />
+				</view>
 			</view>
 		</view>
 	</view>
@@ -136,66 +163,34 @@
 				sem1Data: { //一分两率
 					subList: [],
 					subValue: {},
-					scoreList: []
+					subIndex: 0,
+					scoreList: [],
+					chartPjf: {},
+					chartQs: {}
 				},
 				sem2Data: {
 					subList: [],
 					subValue: {},
-					scoreList: []
+					subIndex:0,
+					scoreList: [],
+					chartFsd: {}
 				},
 				sem3Data: {
-					scoreList: []
+					scoreList: [],
+					chartSxl: {}
 				},
 				showMoreList: [],
 				grdList: [], //年级数组
 				clsList: [], //班级数组
 				clsTempList: [], //班级数组
-				grdValue: {}, //年级选择值
-				clsValue: {}, //班级选择值
-				grdTempValue: {}, //年级选择值，在侧滑弹出选择后，如果取消，则给选择框重新赋值
-				clsTempValue: {}, //班级选择值，在侧滑弹出选择后，如果取消，则给选择框重新赋值
+				grdIndex: 0, //年级选择值
+				clsIndex: 0, //班级选择值
+				grdTempIndex: 0, //年级选择值，在侧滑弹出选择后，如果取消，则给选择框重新赋值
+				clsTempIndex: 0, //班级选择值，在侧滑弹出选择后，如果取消，则给选择框重新赋值
 				fullPaperList: [], //考试范围列表
 				fullPaperTempList: [], //考试范围列表
 				selectParperIdList: [], //所选择的考试id数组
 				selectParperTempIdList: [], //所选择的考试id数组
-				chartData: {
-					categories: ["", "", "", "", "", ""],
-					series: [{
-						name: "",
-						data: [150, 36, 31, 33, 13, 34]
-					}]
-				},
-				chartData2: {
-					series: [{
-						"name": "一班",
-						"data": 50
-					}, {
-						"name": "二班",
-						"data": 30
-					}, {
-						"name": "三班",
-						"data": 20
-					}, {
-						"name": "四班",
-						"data": 18
-					}, {
-						"name": "五班",
-						"data": 8
-					}]
-				},
-				chartData3: {
-					categories: ["2012", "2013", "2014", "2015", "2016", "2017"],
-					series: [{
-						"name": "成交量A",
-						"data": [35, 8, 25, 37, 4, 20]
-					}, {
-						"name": "成交量B",
-						"data": [70, 40, 65, 100, 44, 68]
-					}, {
-						"name": "成交量C",
-						"data": [100, 80, 95, 150, 112, 132]
-					}]
-				}
 			}
 		},
 		components: {
@@ -217,57 +212,24 @@
 			this.getGrdList();
 		},
 		methods: {
-			change(e) {
+			changeDrawer(e) {
+				if(e == false){
+					this.sure(0);
+				}
 				console.log('e:', e);
-				console.log('e111:', e.detail.value);
-				console.log('e222:', JSON.stringify(e.detail.value));
-				console.log('e333:', JSON.stringify(this.selectParperIdList));
-				console.log('e444:', JSON.stringify(this.selectParperTempIdList));
 			},
 			icoClick() {
 				console.log('icoClickicoClickicoClickicoClick');
 				this.$refs.showRight.open();
 			},
-			showGrd: function() {
-				var userPicker = new $M.PopPicker();
-				userPicker.setData(this.grdList);
-				setTimeout(function() {
-					userPicker.pickers[0].setSelectedValue(this.grdTempValue.value);
-				}, 100);
-				userPicker.show(function(items) {
-					console.log(JSON.stringify(items[0]))
-					if (JSON.stringify(items[0]) == '{}') {
-						this.showToast('未选择年级')
-					} else {
-						this.grdTempValue = items[0]
-						// this.showLoading();
-						// pageIndex = 1;
-						// flagRef = 0;
-						// this.pageArray = [];
-						this.getClsList(items[0].value)
-						userPicker.dispose();
-						userPicker = null;
-					}
-				});
+			bindPickerGrd(e){
+				this.grdTempIndex = e.target.value;
+				this.getClsList(this.grdList[this.grdTempIndex].value);
 			},
-			showCls: function() {
-				var userPicker = new $M.PopPicker();
-				userPicker.setData(this.clsTempList);
-				setTimeout(function() {
-					userPicker.pickers[0].setSelectedValue(this.clsTempValue.value);
-				}, 100);
-				userPicker.show(function(items) {
-					// console.log(JSON.stringify(items[0]))
-					if (JSON.stringify(items[0]) == '{}') {
-						this.showToast('未选择班级')
-					} else {
-						this.clsTempValue = items[0]
-						//1.17.考情分析-班级成绩趋势-考试范围
-						this.getFullPaperList(1);
-						userPicker.dispose();
-						userPicker = null;
-					}
-				});
+			bindPickerCls(e){
+				this.clsTempIndex = e.target.value;
+				//1.17.考情分析-班级成绩趋势-考试范围
+				this.getFullPaperList(1);
 			},
 			selectPaper: function(model) {
 				var tempSelectCount = 0;
@@ -286,8 +248,8 @@
 				console.log('suresuresuresuresuresure');
 				this.$refs.showRight.close();
 				if (flag == 0) { //取消
-					this.grdTempValue = this.grdValue;
-					this.clsTempValue = this.clsValue;
+					this.grdTempIndex = this.grdIndex;
+					this.clsTempIndex = this.clsIndex;
 					this.clsTempList = [].concat(this.clsList);
 					this.fullPaperTempList = [].concat(this.fullPaperList);
 					this.selectParperTempIdList = [].concat(this.selectParperIdList);
@@ -298,10 +260,10 @@
 					}
 					// 如果年级、班级、考试范围数组，是否发生变化
 					var tempFlag = 0;
-					if (this.grdValue.value != this.grdTempValue.value) {
+					if (this.grdIndex != this.grdTempIndex) {
 						tempFlag++;
 					}
-					if (this.clsValue.value != this.clsTempValue.value) {
+					if (this.clsIndex != this.clsTempIndex) {
 						tempFlag++;
 					}
 					if (this.selectParperIdList.join(',') != this.selectParperTempIdList.join(',')) {
@@ -310,8 +272,8 @@
 					if (tempFlag == 0) {
 
 					} else {
-						this.grdValue = this.grdTempValue;
-						this.clsValue = this.clsTempValue;
+						this.grdIndex = this.grdTempIndex;
+						this.clsIndex = this.clsTempIndex;
 						this.clsList = [].concat(this.clsTempList);
 						this.fullPaperList = [].concat(this.fullPaperTempList);
 						this.selectParperIdList = [].concat(this.selectParperTempIdList);
@@ -369,43 +331,17 @@
 				this.showMoreList = [].concat(array);
 				this.$refs.popup.open();
 			},
-			sem1ShowSub: function() {
-				var userPicker = new $M.PopPicker();
-				userPicker.setData(this.sem1Data.subList);
-				setTimeout(function() {
-					userPicker.pickers[0].setSelectedValue(this.sem1Data.subValue.value);
-				}, 100);
-				userPicker.show(function(items) {
-					// console.log(JSON.stringify(items[0]))
-					if (JSON.stringify(items[0]) == '{}') {
-						this.showToast('未选择科目')
-					} else {
-						this.sem1Data.subValue = items[0]
-						//1.26.考情分析-班级成绩趋势-一分两率趋势
-						this.getTwoRateList();
-						userPicker.dispose();
-						userPicker = null;
-					}
-				});
+			bindPickerYfll(e) {
+				this.sem1Data.subIndex = e.target.value;
+				this.sem1Data.subValue = this.sem1Data.subList[this.sem1Data.subIndex];
+				//1.26.考情分析-班级成绩趋势-一分两率趋势
+				this.getTwoRateList();
 			},
-			sem2ShowSub: function() {
-				var userPicker = new $M.PopPicker();
-				userPicker.setData(this.sem2Data.subList);
-				setTimeout(function() {
-					userPicker.pickers[0].setSelectedValue(this.sem2Data.subValue.value);
-				}, 100);
-				userPicker.show(function(items) {
-					// console.log(JSON.stringify(items[0]))
-					if (JSON.stringify(items[0]) == '{}') {
-						this.showToast('未选择科目')
-					} else {
-						this.sem2Data.subValue = items[0]
-						//1.27.考情分析-班级成绩趋势-分数段趋势
-						this.getScoreSectionList();
-						userPicker.dispose();
-						userPicker = null;
-					}
-				});
+			bindPickerFsd(e){
+				this.sem2Data.subIndex = e.target.value;
+				this.sem2Data.subValue = this.sem2Data.subList[this.sem2Data.subIndex];
+				//1.27.考情分析-班级成绩趋势-分数段趋势
+				this.getScoreSectionList();
 			},
 			// 获取数据范围授权：年级
 			getGrdList() {
@@ -429,8 +365,8 @@
 						})
 						if (grdList.length > 0) {
 							this.grdList = grdList;
-							this.grdValue = grdList[0];
-							this.grdTempValue = grdList[0];
+							this.grdIndex = 0;
+							this.grdTempIndex = 0;
 							let grd_code = grds[0].value;
 							//获取数据范围授权：班级
 							this.getClsList(grd_code, 0)
@@ -467,10 +403,10 @@
 
 						if (clsList.length > 0) {
 							this.clsTempList = clsList;
-							this.clsTempValue = clsList[0];
+							this.clsTempIndex = 0;
 							if (flag == 0) {
 								this.clsList = clsList;
-								this.clsValue = clsList[0];
+								this.clsIndex = 0;
 								//1.25.考情分析-班级成绩趋势-历次成绩
 								// getScoreList();
 							} else {
@@ -494,8 +430,8 @@
 					op_code: 'index',
 					all_sub: true,
 					get_sub: true,
-					grd_code: this.grdTempValue.value,
-					cls_code: this.clsTempValue.value,
+					grd_code: this.grdList[this.grdTempIndex].value,
+					cls_code: this.clsList[this.clsTempIndex].value,
 					index_code: this.itemData.access.split('#')[1],
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, (data0, data) => {
@@ -534,8 +470,8 @@
 			//1.17.考情分析-班级成绩趋势-考试范围
 			getFullPaperList(flag) {
 				let comData = {
-					grd_code: this.grdTempValue.value,
-					cls_code: this.clsTempValue.value,
+					grd_code: this.grdList[this.grdTempIndex].value,
+					cls_code: this.clsList[this.clsTempIndex].value,
 					index_code: this.itemData.access.split('#')[1],
 				}
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'paper/getFullPaperList', comData, (data0, data) => {
@@ -576,8 +512,8 @@
 			//1.25.考情分析-班级成绩趋势-历次成绩
 			getScoreList() {
 				let comData = {
-					grd_code: this.grdValue.value,
-					cls_codes: this.clsValue.value,
+					grd_code: this.grdList[this.grdIndex].value,
+					cls_codes: this.clsList[this.clsIndex].value,
 					paper_ids: this.selectParperIdList.join(','),
 					sub_code: '',
 					index_code: this.itemData.access.split('#')[1],
@@ -634,8 +570,8 @@
 			//1.26.考情分析-班级成绩趋势-一分两率趋势
 			getTwoRateList() {
 				let comData = {
-					grd_code: this.grdValue.value,
-					cls_codes: this.clsValue.value,
+					grd_code: this.grdList[this.grdIndex].value,
+					cls_codes: this.clsList[this.clsIndex].value,
 					paper_ids: this.selectParperIdList.join(','),
 					sub_code: this.sem1Data.subValue.value,
 					index_code: this.itemData.access.split('#')[1],
@@ -646,73 +582,43 @@
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'clsTrend/twoRateList', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
+						this.sem1Data.scoreList = [].concat(data.data.list);
 						var tempAvgArray = [];
+						var tempNameArray = [];
 						for (var a = 0; a < data.data.list.length; a++) {
 							var tempM = data.data.list[a];
 							tempAvgArray.push(tempM.avg);
+							tempNameArray.push('');
 						}
-						// var pjfChart = echarts.init($('#pjfChart')[0]);
-						// pjfChart.setOption({
-						// 	xAxis: {
-						// 		type: 'category',
-						// 		data: []
-						// 	},
-						// 	yAxis: {
-						// 		type: 'value'
-						// 	},
-						// 	// legend: {
-						// 	// 	data: ['平均分']
-						// 	// },
-						// 	series: [{
-						// 		label: {
-						// 			show: true,
-						// 			position: 'top'
-						// 		},
-						// 		name: '平均分',
-						// 		data: tempAvgArray,
-						// 		type: 'bar',
-						// 	}]
-						// });
+						this.sem1Data.chartPjf = {
+							categories: tempNameArray,
+							series: [{
+								name: "平均分",
+								data: tempAvgArray
+							}]
+						}
 
-						// var tempNameArray = [];
-						// var tempSecArray = [];
-						// for (var a = 0; a < data.data.tag_list.length; a++) {
-						// 	var tempM = data.data.tag_list[a];
-						// 	tempNameArray.push(tempM.name);
-						// 	var tempSecModel = {
-						// 		label: {
-						// 			show: true,
-						// 			position: 'top'
-						// 		},
-						// 		name: tempM.name,
-						// 		data: [],
-						// 		type: 'line',
-						// 	}
-						// 	var childrenNum = [];
-						// 	for (var b = 0; b < data.data.list.length; b++) {
-						// 		var tempList = data.data.list[b];
-						// 		childrenNum.push(tempList['num' + tempM.key]);
-						// 	}
-						// 	tempSecModel.data = [].concat(childrenNum);
-						// 	tempSecArray.push(tempSecModel);
-						// }
-						// var qushiChart = echarts.init($('#qushiChart')[0]);
-						// qushiChart.setOption({
-						// 	xAxis: {
-						// 		type: 'category',
-						// 		data: []
-						// 	},
-						// 	yAxis: {
-						// 		type: 'value'
-						// 	},
-						// 	legend: {
-						// 		data: tempNameArray
-						// 	},
-						// 	series: tempSecArray
-						// });
-						// if (data.data.list.length == 0) {
-						// 	this.showToast('暂无数据');
-						// }
+						var tempNameArray = [];
+						var tempSecArray = [];
+						for (var a = 0; a < data.data.tag_list.length; a++) {
+							var tempM = data.data.tag_list[a];
+							tempNameArray.push('');
+							var tempSecModel = {
+								name: tempM.name,
+								data: [],
+							}
+							var childrenNum = [];
+							for (var b = 0; b < data.data.list.length; b++) {
+								var tempList = data.data.list[b];
+								childrenNum.push(tempList['num' + tempM.key]);
+							}
+							tempSecModel.data = [].concat(childrenNum);
+							tempSecArray.push(tempSecModel);
+						}
+						this.sem1Data.chartQs = {
+							categories: tempNameArray,
+							series: tempSecArray
+						}
 					} else {
 						this.showToast(data.msg);
 					}
@@ -721,8 +627,8 @@
 			//1.27.考情分析-班级成绩趋势-分数段趋势
 			getScoreSectionList() {
 				let comData = {
-					grd_code: this.grdValue.value,
-					cls_codes: this.clsValue.value,
+					grd_code: this.grdList[this.grdIndex].value,
+					cls_codes: this.clsList[this.clsIndex].value,
 					paper_ids: this.selectParperIdList.join(','),
 					sub_code: this.sem2Data.subValue.value,
 					index_code: this.itemData.access.split('#')[1],
@@ -733,46 +639,28 @@
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'clsTrend/scoreSectionList', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
+						this.sem2Data.scoreList = [].concat(data.data.list);
 						var tempNameArray = [];
 						var tempSecArray = [];
 						for (var a = 0; a < data.data.tag_list.length; a++) {
 							var tempM = data.data.tag_list[a];
-							tempNameArray.push(tempM.name);
+							tempNameArray.push('');
 							var tempSecModel = {
-								label: {
-									show: true,
-									position: 'top'
-								},
 								name: tempM.name,
 								data: [],
-								type: 'line',
 							}
 							var childrenNum = [];
-							// var childrenRadio = [];
 							for (var b = 0; b < data.data.list.length; b++) {
 								var tempList = data.data.list[b];
 								childrenNum.push(tempList['num' + tempM.key]);
-								// childrenRadio.push(tempList['radio'+tempM.key]);
 							}
 							tempSecModel.data = [].concat(childrenNum);
 							tempSecArray.push(tempSecModel);
 						}
-						var fenshuduanChart = echarts.init($('#fenshuduanChart')[0]);
-						fenshuduanChart.setOption({
-							xAxis: {
-								type: 'category',
-								data: []
-							},
-							yAxis: {
-								type: 'value'
-							},
-							legend: {
-								data: tempNameArray
-							},
+						this.sem2Data.chartFsd = {
+							categories: tempNameArray,
 							series: tempSecArray
-						});
-						this.sem2Data.scoreList = [].concat(tempSecArray);
-						// console.log('this.sem2Data.scoreList:' + JSON.stringify(this.sem2Data.scoreList));
+						}
 					} else {
 						this.showToast(data.msg);
 					}
@@ -781,8 +669,8 @@
 			//1.28.考情分析-班级成绩趋势-上线率趋势
 			getPassRateList() {
 				let comData = {
-					grd_code: this.grdValue.value,
-					cls_codes: this.clsValue.value,
+					grd_code: this.grdList[this.grdIndex].value,
+					cls_codes: this.clsList[this.clsIndex].value,
 					paper_ids: this.selectParperIdList.join(','),
 					sub_code: '',
 					index_code: this.itemData.access.split('#')[1],
@@ -790,19 +678,15 @@
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'clsTrend/passRateList', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
+						this.sem3Data.scoreList = [].concat(data.data.list);
 						var tempNameArray = [];
 						var tempSecArray = [];
 						for (var a = 0; a < data.data.tag_list.length; a++) {
 							var tempM = data.data.tag_list[a];
-							tempNameArray.push(tempM.name);
+							tempNameArray.push('');
 							var tempSecModel = {
-								label: {
-									show: true,
-									position: 'top'
-								},
 								name: tempM.name,
 								data: [],
-								type: 'line',
 							}
 							var childrenNum = [];
 							for (var b = 0; b < data.data.list.length; b++) {
@@ -812,22 +696,10 @@
 							tempSecModel.data = [].concat(childrenNum);
 							tempSecArray.push(tempSecModel);
 						}
-						var shangxianlvChart = echarts.init($('#shangxianlvChart')[0]);
-						shangxianlvChart.setOption({
-							xAxis: {
-								type: 'category',
-								data: []
-							},
-							yAxis: {
-								type: 'value'
-							},
-							legend: {
-								data: tempNameArray
-							},
+						this.sem3Data.chartSxl = {
+							categories: tempNameArray,
 							series: tempSecArray
-						});
-						this.sem3Data.scoreList = [].concat(tempSecArray);
-						// console.log('this.sem3Data.scoreList:' + JSON.stringify(this.sem3Data.scoreList));
+						}
 					} else {
 						this.showToast(data.msg);
 					}
