@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<uniNavBar :title='tabBarItem.name' style="font-size: 10px;" left-icon="back" backgroundColor='#00CFBD' fixed='true' statusBar='true' color='white' @clickLeft='clickLeft()'></uniNavBar>
-		<view class="tabs">
+		<view class="tabs-fixed">
 			<uni-row>
 				<uni-col :span="tabBarItem.selectType =='qk'?8:12">
 					<picker class="flex-box" @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
