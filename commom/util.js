@@ -256,7 +256,7 @@ function getPageArray() {
 		// 点击某一个item时，跳转的路径，此路径必须是pagees.json中tabBar字段中定义的路径
 		pagePath: '/pages/leave/stuLeaveIndex', // 1.5.6新增，路径需要以"/"开头
 		img_href: tempAAA + "/static/tabbar/stuLeave.png",
-		url: 'wechatapp_stuLeave',
+		url: 'schapp_stuLeave',
 		childList: []
 	}, {
 		text: "家长代请假", //家长代请假
@@ -267,7 +267,7 @@ function getPageArray() {
 		isDot: false,
 		customIcon: false,
 		img_href: tempAAA + "/static/tabbar/parLeave.png",
-		url: 'wechatapp_parLeave',
+		url: 'schapp_parLeave',
 		childList: []
 	}, {
 		text: "教师代请假", //教师代请假
@@ -278,18 +278,18 @@ function getPageArray() {
 		isDot: false,
 		customIcon: false,
 		img_href: tempAAA + "/static/tabbar/tecLeave.png",
-		url: 'wechatapp_teaLeave',
+		url: 'schapp_teaLeave',
 		childList: [{
 				name: '教师代请假',
 				icon: tempAAA + "/static/images/leave/tecLeave.png",
 				href: "/pages/leave/teaLeaveAsk",
-				url: 'wechatapp_teaLeave_askForLeave'
+				url: 'schapp_teaLeave_askForLeave'
 			},
 			{
 				name: '请假查询',
 				icon: tempAAA + "/static/images/leave/leavequery.png",
 				href: "/pages/leave/teaLeaveQuery",
-				url: 'wechatapp_teaLeave_leaveSelect'
+				url: 'schapp_teaLeave_leaveSelect'
 			}
 		]
 	}, {
@@ -301,24 +301,24 @@ function getPageArray() {
 		isDot: false,
 		customIcon: false,
 		img_href: tempAAA + "/static/tabbar/markingPapers_tab.png",
-		url: 'wechatapp_markingPapers',
+		url: 'schapp_markingPapers',
 		childList: [{
 				name: '周测',
 				icon: tempAAA + '/static/tabbar/zhouce.png',
 				href: "/pages/markingPapers/weekTest_index",
-				url: 'wechatapp_markingPapers_weekTest'
+				url: 'schapp_markingPapers_weekTest'
 			},
 			{
 				name: '月考',
 				icon: tempAAA + '/static/tabbar/yuekao.png',
 				href: "/pages/markingPapers/monthTest_index",
-				url: 'wechatapp_markingPapers_monthTest'
+				url: 'schapp_markingPapers_monthTest'
 			},
 			{
 				name: '期中期末',
 				icon: tempAAA + '/static/tabbar/qizhongqimo.png',
 				href: "/pages/markingPapers/termTest_index",
-				url: 'wechatapp_markingPapers_termTest'
+				url: 'schapp_markingPapers_termTest'
 			}
 		]
 	}, {
@@ -330,18 +330,29 @@ function getPageArray() {
 		isDot: false,
 		customIcon: false,
 		img_href: tempAAA + "/static/tabbar/kaowu_tab.png",
-		url: 'wechatapp_Examination',
+		url: 'schapp_Examination',
 		childList: [{
 			name: '成绩分析',
 			icon: tempAAA + '/static/images/schapp_examination/form.png',
 			href: "/pages/examination/form",
-			url: 'wechatapp_Examination_form'
+			url: 'schapp_Examination_form'
 		}, {
 			name: '班级成绩趋势',
 			icon: tempAAA + '/static/images/schapp_examination/clsScoreDiff.png',
 			href: "/pages/examination/clsScoreDiff",
-			url: 'wechatapp_Examination_clsScoreDiff'
+			url: 'schapp_Examination_clsScoreDiff'
 		}]
+	},{
+		text: "学生考勤", //学生考勤
+		pagePath: "/pages/parents_attendance/index",
+		iconPath: tempAAA + '/static/tabbar/study.png',
+		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+		count: 0,
+		isDot: false,
+		customIcon: false,
+		img_href: tempAAA + "/static/tabbar/parLeave.png",
+		url: 'schapp_ParentAttence',
+		childList: []
 	}];
 	return tempArray;
 }

@@ -385,8 +385,9 @@
 					} else {
 						// util.hrefSessionStorage('../../html/login/index.html', {});
 						console.log("跳转页面吧");
-						this.jsonData = tempData;
+						// this.jsonData = tempData;
 						var tempArray = util.getMenu();
+						console.log('tempArray:'+JSON.stringify(tempArray));
 						if (tempArray.length > 0) {
 							uni.switchTab({
 								url: tempArray[0].pagePath
