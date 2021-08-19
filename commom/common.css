@@ -16,3 +16,23 @@
 	content: "・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・";
 	overflow: hidden;
 }
+ .tabs-fixed {
+ 	width: 100vw;
+ 	position: fixed;
+     background-color: #FFFFFF;
+ 	z-index: 10;
+ 	left: 0;
+ 	/* #ifndef APP-PLUS */
+ 	top: 44px;
+ 	/* #endif */
+ 	/* #ifdef APP-PLUS */
+ 	right: 3px;
+ 	/* #endif */
+ }
+ ::v-deep.segmented-control{
+ 	margin:7px 5px 0;
+ }
+ 	
+ .uni-list::before,.uni-list::after{
+ 		 height: 0;
+ }
