@@ -352,5 +352,7 @@
 </script>
 
 <style>
-
+::v-deep .uni-nav-bar-text {
+    height: 40px;
+}
 </style>

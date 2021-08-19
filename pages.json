@@ -332,6 +332,25 @@
             }
             
         }
+        ,{
+            "path" : "pages/stu_actionComment/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/parents_attendance/index",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true
+            }
+            
+        }
     ],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {
@@ -375,6 +394,9 @@
 			},
 			{
 				"pagePath": "pages/examination/index"
+			},
+			{
+				"pagePath": "pages/parents_attendance/index"
 			}
 		]
 	}
