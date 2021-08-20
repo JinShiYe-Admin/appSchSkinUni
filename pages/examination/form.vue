@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
-		<view class="tabs">
+		<view class="tabs-fixed">
 			<uni-row>
 				<uni-col :span="8">
 					<picker class="flex-box" @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
@@ -285,20 +285,7 @@
 </script>
 
 <style>
-	.tabs {
-		width: 100vw;
-		position: fixed;
-	    background-color: #FFFFFF;
-		padding: 3px 3px 0;
-		z-index: 10;
-		/* #ifndef APP-PLUS */
-		top: 44px;
-		/* #endif */
-		/* #ifdef APP-PLUS */
-		right: 3px;
-		/* #endif */
-	}
-	
+	 
 	.select-line{
 		height: 2px;
 		background-color: #00CFBD;
