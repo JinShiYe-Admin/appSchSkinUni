@@ -77,6 +77,7 @@ process.env.NODE_ENV  "development":"production"
 #### 模块说明
 包名|说明|App|Api|流程
 -|-|-|-|-
-course_practice|课程练习|Liu|Meng(广西)|开发
-course_study|课程学习|Liu|Meng(广西)|开发
-course_examination|考试|Liu|Meng(广西)|开发
+examination|考务系统-成绩分析|Liu|Meng(广西)|开发
+examination|考务系统-班级成绩趋势|Zhao|Meng(广西)|开发
+leave|学生请假管理|Liu|Kong|开发
+stu_behavior|学生行为|Liu|Ruan(广西)|开发

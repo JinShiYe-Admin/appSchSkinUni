@@ -35,6 +35,11 @@
         type: Number,
         default: 4
       },
+	  //显示的最大数量
+	  showMaxCount: {
+	    type: Number,
+	    default: 4
+	  },
       //服务返回回调的图片数组--回填
       mode: {
         type: Array,
@@ -55,7 +60,7 @@
         this.init(v)
       },
       showList(){
-        if (this.showList.length >= this.maxCount) {
+        if (this.showList.length >= this.showMaxCount) {
           this.showControl = false
           return
         };
@@ -80,7 +85,7 @@
           count: this.maxCount,
           success: (chooseImageRes) => {
             let tempFilePaths = chooseImageRes.tempFilePaths;
-            tempFilePaths=tempFilePaths.slice(0,this.maxCount-this.showList.length);
+            tempFilePaths=tempFilePaths.slice(0,this.showMaxCount-this.showList.length);
             tempFilePaths.forEach((item) => {
               this.imgList.push(item);
             })

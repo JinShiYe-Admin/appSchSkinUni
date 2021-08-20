@@ -69,8 +69,8 @@
 		</template>
 		<view class="double-line"></view>
 		<view class="uni-flex uni-row form-view choose-file">
-			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${this.maxCount}张照片${this.wxTips?this.wxTips:''})`}}</view></view>
-			<g-upload ref='gUpload' :mode="imgList" @chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum"></g-upload>
+			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}</view></view>
+			<g-upload ref='gUpload' :mode="imgList" @chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount"></g-upload>
 		</view>
 	</view>
 </template> 
@@ -117,6 +117,7 @@
 				columnNum:4,//每行显示的图片数量
 				imgList: [],//选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
 				maxCount:9,//单次上传最大数量
+				showMaxCount:9,//单次上传最大数量
 				// #ifdef H5
 					wxTips:',微信端不支持多选',//如果是H5，需要提示该内容
 				// #endif
@@ -475,11 +476,13 @@
 			  console.log("上传图片_list：", list)
 			  console.log("上传图片_v：", v);
 			  this.imgList=list
+			  this.maxCount=this.showMaxCount-list.length
 			},
 			imgDelete(list, eq) {
 			  console.log("删除图片_list：", list)
 			  console.log("删除图片_eq：", eq)
 			  this.imgList=list
+			  this.maxCount=this.showMaxCount-list.length
 			},
 		},
 	}
