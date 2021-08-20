@@ -76,7 +76,6 @@
 				},
 				selectType:'qk',//查询类型 qk 全科考情 dk 单科考情 第一次进入页面默认为qk
 				pagedata1:[],
-				page_number:1,//页码
 				//顶部筛选框相关内容
 				grdIndex:0,
 				clsIndex:0,
@@ -213,7 +212,7 @@
 					grd_code: this.grdArray[this.grdIndex].value, //科目代码
 					cls_code: this.clsArray[this.clsIndex].value, //科目代码
 					sub_code: this.kmArray[this.kmIndex].value, //科目代码
-					page_number: this.page_number, //当前页数
+					page_number: this.pageobj1.page_number, //当前页数
 					page_size: 10, //每页记录数
 					index_code: this.index_code,
 				}

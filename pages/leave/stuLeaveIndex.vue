@@ -124,7 +124,7 @@
 			},
 			getList0(){
 				let comData={
-					page_size: 15,
+					page_size: this.pageSize,
 					page_number:this.pageobj0.page_number,
 					status:'',
 					index_code:this.index_code,
@@ -150,7 +150,7 @@
 			},
 			getList1(){
 				let comData={
-					page_size: 15,
+					page_size: this.pageSize,
 					page_number:this.pageobj1.page_number,
 					status:1,
 					index_code:this.index_code,

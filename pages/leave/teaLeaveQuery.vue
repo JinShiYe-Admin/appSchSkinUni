@@ -66,13 +66,12 @@
 				},
 				pagedata1:[],
 				datetimerange: [this.moment().subtract(7,'days').format('YYYY-MM-DD'), this.moment().format('YYYY-MM-DD')],
-				page_number:1,//页码
 				//顶部筛选框相关内容
 				grdIndex:0,
 				clsIndex:0,
 				stusIndex:0,
 				grdArray: [{name:'',value:''}],
-				clsArray: [{sub_name:'',sub_code:''}],
+				clsArray: [{name:'',value:''}],
 				stusArray: [{name:'',value:''}],
 			}
 		},
@@ -205,7 +204,7 @@
 					item_code:'',
 					begintime:this.datetimerange[0]+' 00:00:00',
 					endtime:this.datetimerange[1]+' 23:59:59',
-					pageNumber: this.page_number, //当前页数
+					pageNumber: this.pageobj1.page_number, //当前页数
 					pageSize: 10, //每页记录数
 					index_code: this.index_code,
 				}

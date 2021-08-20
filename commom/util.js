@@ -293,6 +293,35 @@ function getPageArray() {
 			}
 		]
 	}, {
+		text: "学生行为", //学生行为，教师
+		pagePath: "/pages/stu_behavior/index",
+		iconPath: tempAAA + "/static/tabbar/study.png",
+		selectedIconPath: tempAAA + "/static/tabbar/study_select.png",
+		count: 0,
+		isDot: false,
+		customIcon: false,
+		img_href: tempAAA + "/static/tabbar/behavior_tab.png",
+		url: 'schapp_Behavior',
+		childList: [{
+				name: '课堂行为',
+				icon: tempAAA + "/static/images/stu_behavior/class_behavior.png",
+				href: "/pages/stu_behavior/class_behavior_index",
+				url: 'schapp_Behavior_classroom'
+			},
+			{
+				name: '课外行为',
+				icon: tempAAA + "/static/images/stu_behavior/extra_behavior.png",
+				href: "/pages/stu_behavior/extra_behavior_index",
+				url: 'schapp_Behavior_extracurricula'
+			},
+			{
+				name: '学生谈话',
+				icon: tempAAA + "/static/images/stu_behavior/stu_talk.png",
+				href: "/pages/stu_behavior/stu_talk_index",
+				url: 'schapp_Behaviorn_conversation'
+			}
+		]
+	},{
 		text: "阅卷", //阅卷--老师
 		pagePath: "/pages/markingPapers/index",
 		iconPath: tempAAA + '/static/tabbar/study.png',
