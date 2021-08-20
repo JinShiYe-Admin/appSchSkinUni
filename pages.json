@@ -352,132 +352,29 @@
             
         }
         ,{
-            "path" : "pages/stu_behavior/index",
+            "path" : "pages/parents_attendance/leaveDetail",
             "style" :                                                                                    
             {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_behavior/class_behavior_index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_behavior/extra_behavior_index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_behavior/stu_talk_index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_behavior/class_behavior_detail",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_behavior/class_behavior_detail",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
             
         }
         ,{
-            "path" : "pages/stu_behavior/class_behavior_add",
+            "path" : "pages/parents_attendance/attenceDetail",
             "style" :                                                                                    
             {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_behavior/extra_behavior_add",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
         ,{
-            "path" : "pages/stu_behavior/extra_behavior_detail",
+            "path" : "pages/parents_attendance/churuxiao",
             "style" :                                                                                    
             {
-                "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_behavior/stu_talk_detail",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_behavior/stu_talk_detail",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_behavior/stu_talk_action_add",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_behavior/stu_talk_action_detail",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -527,9 +424,6 @@
 			},
 			{
 				"pagePath": "pages/parents_attendance/index"
-			},
-			{
-				"pagePath": "pages/stu_behavior/index"
 			}
 		]
 	}

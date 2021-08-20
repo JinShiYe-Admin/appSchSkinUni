@@ -37,7 +37,7 @@
 				</view>
 			</scroll-view>
 		</uni-drawer>
-		<view class="uni-padding-wrap uni-common-mt">
+		<view class="tabs-fixed">
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
@@ -67,7 +67,7 @@
 				<view style="text-align: center;font-size: 13px;color: gray;">以上排名均为年级排名</view>
 			</view>
 		</uni-popup>
-		<view class="content">
+		<view class="content" style="margin-top: 60px;">
 			<view v-if="semFlag == 0">
 				<view v-for="(model,index) in sem0Data.scoreList" :key='index'>
 					<view style="margin: 10px 15px 0px 15px;">

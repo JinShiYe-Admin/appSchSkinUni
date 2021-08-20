@@ -22,7 +22,8 @@
  .tabs-fixed {
  	width: 100vw;
  	position: fixed;
-     background-color: #FFFFFF;
+    /* background-color: #FFFFFF; */
+	background: #F0F0F0;
  	z-index: 10;
  	left: 0;
  	/* #ifndef APP-PLUS */
