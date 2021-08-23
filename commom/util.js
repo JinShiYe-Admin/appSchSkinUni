@@ -321,7 +321,7 @@ function getPageArray() {
 				url: 'schapp_Behaviorn_conversation'
 			}
 		]
-	},{
+	}, {
 		text: "阅卷", //阅卷--老师
 		pagePath: "/pages/markingPapers/index",
 		iconPath: tempAAA + '/static/tabbar/study.png',
@@ -371,7 +371,7 @@ function getPageArray() {
 			href: "/pages/examination/clsScoreDiff",
 			url: 'schapp_Examination_clsScoreDiff'
 		}]
-	},{
+	}, {
 		text: "学生考勤", //学生考勤
 		pagePath: "/pages/parents_attendance/index",
 		iconPath: tempAAA + '/static/tabbar/study.png',
@@ -382,6 +382,58 @@ function getPageArray() {
 		img_href: tempAAA + "/static/tabbar/parLeave.png",
 		url: 'schapp_ParentAttence',
 		childList: []
+	}, {
+		text: "oa", //oa
+		pagePath: "/pages/oa/index",
+		iconPath: tempAAA + '/static/tabbar/study.png',
+		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+		count: 0,
+		isDot: false,
+		customIcon: false,
+		img_href: tempAAA + "/static/tabbar/parLeave.png",
+		url: 'schapp_OA',
+		childList: [{
+			name: '公告',
+			icon: tempAAA + '/static/images/oa/gonggao.png',
+			href: "/pages/oa/gonggaoIndex",
+			url: 'schapp_OA_Notify'
+		}, {
+			name: '通知',
+			icon: tempAAA + '/static/images/oa/tongzhi.png',
+			href: "/pages/oa/noticeIndex",
+			url: 'schapp_OA_Notice'
+		}, {
+			name: '事务',
+			icon: tempAAA + '/static/images/oa/shiwu.png',
+			href: "/pages/oa/shiwuIndex",
+			url: 'schapp_OA_CooperateNotice'
+		}, {
+			name: '工作流',
+			icon: tempAAA + '/static/images/oa/gongzuoliu.png',
+			href: "/pages/oa/workflowIndex",
+			url: 'schapp_OA_Approve'
+		}, {
+			name: '资料收集',
+			icon: tempAAA + '/static/images/oa/ziliaoshouji.png',
+			href: "/pages/oa/collectionDataIndex",
+			url: 'schapp_OA_DataCollection'
+		}, {
+			name: '校历',
+			icon: tempAAA + '/static/images/oa/xiaoli.png',
+			href: "/pages/oa/gonggaoIndex",
+			url: 'schapp_OA_Xiaoli'
+		}, {
+			name: '周程',
+			icon: tempAAA + '/static/images/oa/zhoucheng.png',
+			href: "/pages/oa/gonggaoIndex",
+			url: 'schapp_OA_Zhoucheng'
+		}, {
+			name: '工资条',
+			icon: tempAAA + '/static/images/oa/gongzitiao.png',
+			href: "/pages/oa/gongziIndex",
+			url: 'schapp_OA_Payment'
+		}, ]
+
 	}];
 	return tempArray;
 }

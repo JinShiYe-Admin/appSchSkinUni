@@ -243,9 +243,10 @@
 	}
 	.u-tabbar__content__item__text{
 		bottom: 15px !important;
-		width: 90%;
+		width: 98%;
 		margin: 0 auto;
 		text-align: center;
+		font-size: 12px !important;
 	}
 	.u-tabbar {
 		&__content {

@@ -1,6 +1,6 @@
 <template>
 	<view class="tabs">
-		<scroll-view id="tab-bar" class="scroll-h" :scroll-x="true" :show-scrollbar="false"
+		<scroll-view id="tab-bar" class="scroll-h tabs-fixed" :scroll-x="true" :show-scrollbar="false"
 			:scroll-into-view="scrollInto">
 			<view v-for="(tab,index) in classList" :key="tab.id" class="uni-tab-item" :id="tab.id" :data-current="index"
 				@click="ontabtap">
@@ -9,7 +9,7 @@
 			</view>
 		</scroll-view>
 		<view class="">
-			<p style="margin: 5px 0px 0px 20px;color: #505050;font-size: 14px;font-weight: bold;">
+			<p style="margin: 50px 0px 0px 20px;color: #505050;font-size: 14px;font-weight: bold;">
 				成绩统计</p>
 			<view style="height: 0.5px;background-color: #00cfbd;margin: 5px 28px 0px 15px;"></view>
 			<uni-grid :column="2" :showBorder='false' :square="false" :highlight="false">
