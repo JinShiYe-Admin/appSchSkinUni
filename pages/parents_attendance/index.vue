@@ -29,10 +29,10 @@
 						</template>
 						<template
 							v-if="item.attendance_type=='inOutSchoolAttendance' || item.attendance_type=='inOutDormAttendance'">
-							<view slot="status" class="viewFlag">{{item.item_txt}}</view>
-							<view slot="content" class="viewNode">{{item.card_dir_txt}}</view>
-							<image v-if="item.card_url" style="width: 100px;height: 100px;margin-top: 20px;"
-								:src="item.card_url"></image>
+							<view slot="content" class="viewNode">{{item.attendance_location}}</view>
+							<view slot="status" class="viewFlag" style="width: 40px;">{{item.card_dir_txt}}</view>
+							<view slot="content" class="viewNode"><image v-if="item.card_url" style="width: 100px;height: 100px;margin-top: 20px;" @click="clickImg(item.card_url)"
+								:src="item.card_url"></image></view>
 						</template>
 					</m-steps>
 				</view>
@@ -218,6 +218,13 @@
 			}
 		},
 		methods: {
+			clickImg(img){
+				let tempArray = [];
+				tempArray.push(img);
+				uni.previewImage({
+					urls: tempArray,
+				});
+			},
 			getSem1Date(sureDtae) {
 				if (sureDtae != this.semFlag1Data.startTime) {
 					let end_month = this.moment(sureDtae).add(5, 'M').format('YYYY-MM');

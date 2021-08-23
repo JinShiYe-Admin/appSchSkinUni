@@ -116,7 +116,7 @@
 					stu_code: user_code,
 					begintime: this.startTime,
 					endtime: this.endTime,
-					page_size: '10', //每页记录数,
+					page_size: '20', //每页记录数,
 					page_number: this.pageIndex, //当前页数
 					index_code: this.itemData.access.split('#')[1],
 				}
