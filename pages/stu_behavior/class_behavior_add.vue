@@ -19,9 +19,7 @@
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">姓名</view>
-			<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stuList" range-key="text">
-				<input class="uni-input form-right"  v-model="stuList[stuIndex].text" placeholder="请选择" disabled/>
-			</picker>
+			<input class="uni-input form-right"  v-model="stuNameList.join(',')" placeholder="请选择" disabled @click="selectStu"/>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
@@ -88,13 +86,7 @@
 				
 				canSub:true,
 				formData: {
-					grd:{text:'请选择',value:''},//年级选择值
-					cls:{text:'请选择',value:''},//班级选择值
-					stu:{text:'请选择',value:''},//学生选择值
-					xwxx:{text:'请选择',value:''},//行为细项选择值
 					time:'',//发生日期
-					jc:{text:'请选择',value:''},//节次选择值
-					km:{text:'请选择',value:''},//科目选择值
 					comment:'',//说明
 				}, //表单内容
 				grdIndex:0,
@@ -105,7 +97,9 @@
 				kmIndex:0,
 				grdList: [{text:'请选择',value:''}], //年级数组
 				clsList: [{text:'请选择',value:''}], //班级数组
-				stuList: [{text:'请选择',value:''}], //学生数组
+				stuList:[],
+				stuNameList: [], //学生数组
+				stuIdList: [], //学生数组
 				xwxxList: [{text:'请选择',value:''}], //请假类别数组
 				jcList: [{text:'请选择',value:''}], //出入权限数组
 				kmList: [{text:'请选择',value:''}], //出入权限数组
@@ -114,9 +108,9 @@
 				WORDS:[],//拒绝关键字 对象
 				SHOW:false,//是否显示发送短信
 				// 附件上传相关
-				columnNum:4,//每行显示的图片数量
+				columnNum:3,//每行显示的图片数量
 				imgList: [],//选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
-				maxCount:9,//单次上传最大数量
+				maxCount:9,//单次选择最大数量 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 maxCount=showMaxCount-imgList.length
 				showMaxCount:9,//单次上传最大数量
 				// #ifdef H5
 					wxTips:',微信端不支持多选',//如果是H5，需要提示该内容
@@ -141,6 +135,7 @@
 				this.showLoading();
 				this.getSmsConfig();
 				this.getGrd();
+				this.getJcXwxx();
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""
@@ -267,69 +262,65 @@
 			},
 			getKm(grd_id,cls_id){//获取科目
 				let comData={
-					grd_code:grd_id,
-					cls_code:cls_id,
-					page_number:1,
-					page_size:9999,
+					op_code:'index',
+					grd_code: this.grdList[this.grdIndex].value,
+					cls_code: this.clsList[this.clsIndex].value,
+					get_sub: true,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.STULEAVE_API+'workflow/qryFlows',comData,response=>{
+				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					this.approve_rules=response.list
 					this.hideLoading()
+					let sub = response.sub_list;
+					let subList = [];
+					sub.map(function(currentValue) {
+						let name = currentValue.name.indexOf('全部') == -1 ? currentValue.name : '全部科目';
+						let obj = {};
+						obj.value = currentValue.value;
+						obj.text = name;
+						subList.push(obj)
+					})
+					if (subList.length > 0) {
+						this.kmList = [{text:'请选择',value:''}].concat(subList);
+					} else {
+						this.kmList=[];
+						mui.toast('无数据授权 无法获取班级');
+					}
 				})
 			},
-			getJcXwxx(grd_id,cls_id){//获取常量 节次和行为细项
+			getJcXwxx(){//获取常量 节次和行为细项
 				let comData={
-					grd_code:grd_id,
-					cls_code:cls_id,
-					page_number:1,
-					page_size:9999,
+					op_code:'index',
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.STULEAVE_API+'workflow/qryFlows',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					this.approve_rules=response.list
+				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/getDict',comData,response=>{
+				    console.log("responsesabaa: " + JSON.stringify(response));
 					this.hideLoading()
+					this.jcList=[{text:'请选择',value:''}].concat(response.timeArray)
+					this.xwxxList =  [{text:'请选择',value:''}].concat(response.qbArray);
 				})
 			},
 			textClick(){//发送请假信息
-				if(this.formData.grd.value==''){
+				if(this.grdList[this.grdIndex].value==''){
 					this.showToast('请选择年级')
-				}else if(this.formData.cls.value==''){
+				}else if(this.clsList[this.clsIndex].value==''){
 					this.showToast('请选择班级')
-				}else if(this.formData.stu.value==''){
+				}else if(this.stuList[this.stuIndex].value==''){
 					this.showToast('请选择请假学生')
-				}else if(this.formData.begin_time==''){
-					this.showToast('请选择请假开始时间')
-				}else if(this.formData.end_time==''){
-					this.showToast('请选择请假结束时间')
-				}else if(this.formData.qjlb.value==''){
-					this.showToast('请选择请假类别')
-				}else if(this.formData.crqx.value==''){
-					this.showToast('请选择出入权限')
+				}else if(this.xwxxList[this.xwxxIndex].value==''){
+					this.showToast('请选择行为细项')
+				}else if(this.formData.time==''){
+					this.showToast('请选择发生日期')
+				}else if(this.jcList[this.jcIndex].value==''){
+					this.showToast('请选择节次')
+				}else if(this.kmList[this.kmIndex].value==''){
+					this.showToast('请选择科目')
 				}else if(this.formData.comment==''){
 					this.showToast('请输入请假事由')
 				}else{
 					if(this.canSub){
 						this.canSub=false
 						this.showLoading()
-						let _approve_list=[{
-							approve_user_code:this.personInfo.user_code,
-							approve_user_name:this.personInfo.user_name,
-							approve_user_dept_code:this.personInfo.dpt_code,
-							approve_user_dept:this.personInfo.dpt_name,
-						}].concat(this.approve_list)
-						//抄送人
-						let _copy_list=[]
-						this.formData.copy_list.map(item=>{
-							let copy_obj={
-								copy_user_code:item.value,
-								copy_user_name:item.text,
-							}
-							_copy_list.push(copy_obj)
-						})
-						
 						let smsFlag=0;
 						let comm=this.formData.comment
 						let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
@@ -353,23 +344,16 @@
 						}
 						
 						let comData={
-							grd_code:this.formData.grd.value,
-							grd_name:this.formData.grd.text,
-							cls_code:this.formData.cls.value,
-							cls_name:this.formData.cls.text,
-							stu_code:this.formData.stu.value,
-							stu_name:this.formData.stu.text,
-							begin_time:this.formData.begin_time,
-							end_time:this.formData.end_time,
-							apply_time:this.formData.diff_times_text,
-							in_out_permission_code:this.formData.crqx.value,
-							item_code:this.formData.qjlb.value,
-							sms_parent_stu_flag:smsFlag,
-							comment:comment,
-							create_user_code:this.personInfo.user_code,
-							create_user_name:this.personInfo.user_name,
-							approve_list:_approve_list,
-							copy_list:_copy_list,
+							grd_code: this.grdList[this.grdIndex].value,
+							cls_code: this.grdList[this.grdIndex].value,
+							stu_ids: this.grdList[this.grdIndex].value,
+							item_code: data.xw.value,
+							comment: comment,
+							behavior_time: data.time,
+							class_node: data.jc.value,
+							sub_code:data.sub.value,
+							asset_ids:asset_ids,
+							sms_parent_stu_flag:flag,
 							index_code:this.index_code,
 						}
 						this.post(this.globaData.STULEAVE_API+'apply/addApply',comData,(response0,response)=>{
@@ -396,21 +380,15 @@
 					}
 				}
 			},
-			 
 			grdSelect(e){
 				if(this.grdIndex!==e.detail.value){
 					 this.grdIndex=e.detail.value
 					 this.clsIndex=0
 					 this.stuIndex=0
+					 this.kmIndex=0
 					 this.clsList=[{text:'请选择',value:''}]
 					 this.stuList=[{text:'请选择',value:''}]
-					 this.formData.grd=this.grdList[e.detail.value]
-					 this.formData.cls={text:'请选择',value:''}
-					 this.formData.stu={text:'请选择',value:''}
-					 this.formData.begin_time=''
-					 this.formData.end_time=''
-					 this.formData.diff_times_text=''
-					 this.formData.diff_times_days=0
+					 this.kmList=[{text:'请选择',value:''}]
 					 if(e.detail.value!==0){
 						this.getCls(this.grdList[e.detail.value].value)
 					 }
@@ -420,44 +398,58 @@
 				if(this.clsIndex!==e.detail.value){
 					 this.clsIndex=e.detail.value
 					 this.stuIndex=0
-					 this.formData.cls=this.clsList[e.detail.value]
+					 this.kmIndex=0
 					 this.stuList=[{text:'请选择',value:''}]
-					 this.formData.stu={text:'请选择',value:''}
-					 this.formData.begin_time=''
-					 this.formData.end_time=''
-					 this.formData.diff_times_text=''
-					 this.formData.diff_times_days=0
-					 this.approve_rules=[]
-					 this.approve_list=[]
+					 this.kmList=[{text:'请选择',value:''}]
 					 if(e.detail.value!==0){
 					 	this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
-						this.getLeaveFlows(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value);
+						this.getKm(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value);
 					 }
 				}
 			},
-			stuSelect(e){
-				if(this.stuIndex!==e.detail.value){
-					this.stuIndex=e.detail.value
-					this.formData.stu =this.stuList[e.detail.value]
-					this.formData.copy_list=[]
+			selectStu(e){
+				if(this.stuList.length==0){
+					this.showToast('当前班级暂无学生')
+				}else{
+					this.stuList.map(item=>{
+						item.checked=false
+						this.stuIdList.map(items=>{
+							if(items==item.value){
+								item.checked=true
+							}
+						})
+					})
+					let that =this 
+					util.openwithData('/pages/stu_behavior/studentSelect',{stuList:this.stuList},{
+						refreshSetPeople(data){//子页面调用父页面需要的方法
+							 console.log("data: " + JSON.stringify(data));
+							 let stuNameList= []
+							 let stuIdList= []
+							 data.data.map(item=>{
+								 if(item.checked){
+									 stuNameList.push(item.text)
+									 stuIdList.push(item.value)
+								 }
+							 })
+							 that.stuNameList=stuNameList
+							 that.stuIdList=stuIdList
+						}
+					})
 				}
 			},
 			xwxxSelect(e){
-				if(this.qjlbIndex!==e.detail.value){
-					this.qjlbIndex=e.detail.value
-					this.formData.qjlb=this.qjlbList[e.detail.value]
+				if(this.xwxxIndex!==e.detail.value){
+					this.xwxxIndex=e.detail.value
 				}
 			},
 			jcSelect(e){
-				if(this.crqxIndex!==e.detail.value){
-					this.crqxIndex=e.detail.value
-					this.formData.crqx=this.crqxList[e.detail.value]
+				if(this.jcIndex!==e.detail.value){
+					this.jcIndex=e.detail.value
 				}
 			},
 			kmSelect(e){
-				if(this.crqxIndex!==e.detail.value){
-					this.crqxIndex=e.detail.value
-					this.formData.crqx=this.crqxList[e.detail.value]
+				if(this.kmIndex!==e.detail.value){
+					this.kmIndex=e.detail.value
 				}
 			},
 			changeAutoplay(){
@@ -467,10 +459,7 @@
 				this.$refs.timePicker.show()
 			},
 			timeSelect(e){
-				this.formData.begin_time=e.value
-				this.formData.end_time=''
-				this.formData.diff_times_text=''
-				this.formData.diff_times_days=0
+				this.formData.time=e.value
 			},
 			chooseFile(list, v) {
 			  console.log("上传图片_list：", list)

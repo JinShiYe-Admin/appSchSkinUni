@@ -60,8 +60,6 @@
 			itemData.text='选择抄送人'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
-			itemData.selectPeoples
-			
 			let selectPeoples=itemData.selectPeoples;
 			let copy_map=new Map();
 			selectPeoples.map(item=>{ 

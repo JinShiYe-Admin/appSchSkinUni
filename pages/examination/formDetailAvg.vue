@@ -31,7 +31,7 @@
 								<uni-col :span="14"><view class="detail-text-ms"><text v-if="kmArray[kmIndex].value==-1">总分</text>分数：{{item.score}}</view></uni-col>
 								<uni-col :span="10"><view class="detail-text-ms"><text v-if="kmArray[kmIndex].value==-1">总分</text>排名：{{item.grd_order}}</view></uni-col>
 								<uni-col :span="14"><view class="detail-text-ms"><text v-if="kmArray[kmIndex].value==-1">总分</text>年级进退步：{{Math.abs(item.grd_order_diff)}} <uni-icons v-if="item.grd_order_diff>0" type="arrowthinup" size="12" color="#FF4444"></uni-icons> <uni-icons v-else-if="item.grd_order_diff<0" type="arrowthindown" size="12" color="#04D0BE"></uni-icons></view></uni-col>
-								<uni-col :span="10"><view class="detail-text-popover">各科分数及排名<uni-icons type="arrowdown" size="12" color="#04D0BE"></uni-icons></view></uni-col>
+								<uni-col :span="10"><view v-if="pageModel.tag_list && pageModel.tag_list.length > 0" class="detail-text-popover">各科分数及排名<uni-icons type="arrowdown" size="12" color="#04D0BE"></uni-icons></view></uni-col>
 							</uni-row>
 						</view>
 					</uni-list-item>
@@ -145,8 +145,8 @@
 					this.scoreDetailArray = [].concat(tempArr);
 					this.$refs.popupAvg.open();
 				}else{
-					this.scoreDetailArray = [].concat([{subName:'',subKey:'',subOrder:'',subScore:'暂无数据'}]);
-					this.$refs.popupAvg.open();
+					// this.scoreDetailArray = [].concat([{subName:'',subKey:'',subOrder:'',subScore:'暂无数据'}]);
+					// this.$refs.popupAvg.open();
 				}
 			},
 			clsClick:function(e){

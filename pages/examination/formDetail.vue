@@ -114,6 +114,7 @@
 			controlClick(type){//tab按钮点击事件
 				if(this.controlIndex!==type){
 					this.controlIndex=type
+					this.description = ''
 					switch (type){
 						case 0:
 							let obj = this.pjfDetail
