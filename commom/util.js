@@ -396,6 +396,7 @@ function getPageArray() {
 			name: '公告',
 			icon: tempAAA + '/static/images/oa/gonggao.png',
 			href: "/pages/oa/gonggaoIndex",
+			type: 1,
 			url: 'schapp_OA_Notify'
 		}, {
 			name: '通知',
@@ -421,11 +422,13 @@ function getPageArray() {
 			name: '校历',
 			icon: tempAAA + '/static/images/oa/xiaoli.png',
 			href: "/pages/oa/gonggaoIndex",
+			type: 3,
 			url: 'schapp_OA_Xiaoli'
 		}, {
 			name: '周程',
 			icon: tempAAA + '/static/images/oa/zhoucheng.png',
 			href: "/pages/oa/gonggaoIndex",
+			type: 2,
 			url: 'schapp_OA_Zhoucheng'
 		}, {
 			name: '工资条',
