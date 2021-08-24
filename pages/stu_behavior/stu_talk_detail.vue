@@ -18,33 +18,13 @@
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
-				<view class="form-left">行为细项</view>
-				<view class="form-right">{{detailData.item_txt}}</view>
-			</view>
-			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left">发生日期</view>
+				<view class="form-left">谈话日期</view>
 				<view class="form-right">{{detailData.create_time}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
-				<view class="form-left">节次</view>
-				<view class="form-right">{{detailData.class_node}}</view>
-			</view>
-			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left">科目</view>
-				<view class="form-right">{{detailData.sub_name}}</view>
-			</view>
-			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left">记录人</view>
-				<view class="form-right">{{detailData.create_user_name}}</view>
-			</view>
-			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left">行为说明</view>
-				<view class="form-right">{{detailData.comment}}</view>
+				<view class="form-left">谈话记录</view>
+				<view class="form-right">{{detailData.chat_detail}}</view>
 			</view>
 			<template v-if="imgList.length>0">
 				<view class="double-line"></view>
@@ -105,13 +85,15 @@
 			}
 		},
 		components: {
-			mynavBar
+			mynavBar,
+			 gUpload
 		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
+			console.log(itemData);
 			itemData.index=100
-			itemData.text='课堂行为详情'
+			itemData.text=itemData.title
 			this.tabBarItem = itemData;
 			this.detailData = itemData;
 			this.index_code=itemData.index_code
@@ -120,7 +102,7 @@
 			itemData.asset_ids.map(item=>{
 				imgList.push(item.url)
 			})
-			if(itemData.del==1){
+			if(itemData.canDelete){
 				this.icon='trash'
 			}
 			this.imgList=imgList
@@ -134,7 +116,7 @@
 			},
 			dialogConfirm(){
 				this.showLoading()
-				let url=this.globaData.INTERFACE_STUXWSUB + 'StudentBehavior/delete'
+				let url=this.globaData.INTERFACE_STUXWSUB + 'Talk/delete'
 				let comData={
 					id: this.detailData.id,
 					index_code:this.index_code,
@@ -143,7 +125,7 @@
 				    console.log("responseaaa: " + JSON.stringify(response));
 					const eventChannel = this.getOpenerEventChannel()
 					this.showToast('操作成功')
-					eventChannel.emit('refreshClsBehaviorDetail', {data: 1});
+					eventChannel.emit('refreshTalkBehaviorDetailXw', {data: 1});
 					uni.navigateBack();
 					this.hideLoading()
 				})

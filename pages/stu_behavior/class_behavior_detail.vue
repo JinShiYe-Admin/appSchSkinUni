@@ -105,7 +105,8 @@
 			}
 		},
 		components: {
-			mynavBar
+			mynavBar,
+			 gUpload
 		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();

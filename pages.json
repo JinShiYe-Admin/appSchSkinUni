@@ -490,6 +490,16 @@
 		    }
 		    
 		}
+		,{
+		    "path" : "pages/stu_behavior/stu_talk_add",
+		    "style" :                                                                                    
+		    {
+		        "navigationStyle": "custom", // 隐藏系统导航栏
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
         ,{
             "path" : "pages/parents_attendance/leaveDetail",
             "style" :                                                                                    

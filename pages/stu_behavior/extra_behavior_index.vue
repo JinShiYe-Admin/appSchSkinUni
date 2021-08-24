@@ -85,7 +85,7 @@
 					this.showToast('无法获取行为细项数据，不能进行添加操作')
 				}else {
 					util.openwithData('/pages/stu_behavior/extra_behavior_add',{index_code:this.index_code},{
-						refreshClsBehavior(data){//子页面调用父页面需要的方法
+						refreshExtBehavior(data){//子页面调用父页面需要的方法
 							that.showLoading()
 							that.pageobj0.loadFlag=0
 							that.pageobj0.canload=true
@@ -230,7 +230,7 @@
 				item.index_code=this.index_code
 				let that=this
 				util.openwithData('/pages/stu_behavior/extra_behavior_detail',item,{
-					refreshClsBehaviorDetail(data){//子页面调用父页面需要的方法
+					refreshExtBehaviorDetail(data){//子页面调用父页面需要的方法
 						that.showLoading()
 						that.pageobj0.loadFlag=0
 						that.pageobj0.canload=true

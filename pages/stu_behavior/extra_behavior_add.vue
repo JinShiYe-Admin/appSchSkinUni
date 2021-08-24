@@ -383,7 +383,7 @@
 						 this.hideLoading()
 						 this.showToast(response.msg);
 				     	 const eventChannel = this.getOpenerEventChannel()
-				     	 eventChannel.emit('refreshClsBehavior', {data: 1});
+				     	 eventChannel.emit('refreshExtBehavior', {data: 1});
 				     	 uni.navigateBack();
 				     } else {
 				     	this.canSub=true
@@ -398,10 +398,11 @@
 				if(this.grdIndex!==e.detail.value){
 					 this.grdIndex=e.detail.value
 					 this.clsIndex=0
-					 this.stuIndex=0
+					 this.stuList=[]
+					 this.stuNameList= [] 
+					 this.stuIdList= [] 
 					 this.kmIndex=0
 					 this.clsList=[{text:'请选择',value:''}]
-					 this.stuList=[{text:'请选择',value:''}]
 					 this.kmList=[{text:'请选择',value:''}]
 					 if(e.detail.value!==0){
 						this.getCls(this.grdList[e.detail.value].value)
@@ -411,9 +412,10 @@
 			clsSelect(e){
 				if(this.clsIndex!==e.detail.value){
 					 this.clsIndex=e.detail.value
-					 this.stuIndex=0
+					 this.stuList=[]
+					 this.stuNameList= [] 
+					 this.stuIdList= [] 
 					 this.kmIndex=0
-					 this.stuList=[{text:'请选择',value:''}]
 					 this.kmList=[{text:'请选择',value:''}]
 					 if(e.detail.value!==0){
 					 	this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)

@@ -15,13 +15,13 @@
 					</picker>
 				</uni-col>
 				<uni-col :span="6">
-					<picker class="flex-box" @change="xwClick" :value="xwIndex" :range="xwArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="xwArray[xwIndex].text" ></uni-easyinput-select>
+					<picker class="flex-box" @change="thClick" :value="thIndex" :range="thArray" range-key="text">
+						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="thArray[thIndex].text" ></uni-easyinput-select>
 					</picker>
 				</uni-col>
 				<uni-col :span="6">
-					<picker class="flex-box" @change="kmClick" :value="kmIndex" :range="kmArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="kmArray[kmIndex].text" ></uni-easyinput-select>
+					<picker class="flex-box" @change="ztClick" :value="ztIndex" :range="ztArray" range-key="text">
+						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="ztArray[ztIndex].text" ></uni-easyinput-select>
 					</picker>
 				</uni-col>
 			</uni-row>
@@ -32,10 +32,26 @@
 				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
 					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text"><view class='leaveType'>{{item.item_txt}}</view>{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
-							<uni-col :span="24"><view class="detail-text">{{item.class_node}} / {{item.sub_name}}</view></uni-col>
-							<uni-col :span="19"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
-							<uni-col :span="5"><view class="detail-text">{{item.create_time}}</view></uni-col>
+							<uni-col :span="24"><view class="title-text"><view v-if="item.status!=null" class='leaveType'>{{item.item_txt}}</view>{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}<view v-if="item.status!=null" :class="item.status=='unTalk'?'leaveType1':item.status=='talk'?'leaveType2':item.status=='read'?'leaveType3':''">{{item.status_txt}}</view></view></uni-col>
+							
+							<template v-if="item.status==null"><!-- 主动谈话 -->
+								<uni-col :span="24"><view class="detail-text">谈话记录:{{item.chat_detail}}</view></uni-col>
+								<uni-col :span="19"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
+								<uni-col :span="5"><view class="detail-text">{{item.chat_time}}</view></uni-col>
+							</template>
+							<template v-if="item.status=='unTalk'"><!-- 未谈 -->
+								<uni-col :span="24"><view class="detail-text">行为发生日期:{{item.behavior_time}}</view></uni-col>
+							</template>
+							<template v-if="item.status=='talk'"> <!-- 已谈 -->
+								<uni-col :span="24"><view class="detail-text">行为发生日期:{{item.behavior_time}}</view></uni-col>
+								<uni-col :span="24"><view class="detail-text">谈话记录:{{item.chat_detail}}</view></uni-col>
+								<uni-col :span="19"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
+								<uni-col :span="5"><view class="detail-text">{{item.chat_time}}</view></uni-col>
+							</template>
+							<template v-if="item.status=='read'"> <!-- 已阅 -->
+								<uni-col :span="24"><view class="detail-text">行为发生日期:{{item.behavior_time}}</view></uni-col>
+								<uni-col :span="24"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
+							</template>
 						</uni-row>
 					</text>
 				</uni-list-item>
@@ -68,16 +84,16 @@
 					canload:true,//是否加载更多
 				},
 				pagedata:[],
+				xwlx:'',//行为类型  ''代表全部(主动谈话+行为谈话)  'behavior'代表行为谈话
 				//顶部筛选框相关内容
 				grdIndex:0,
 				clsIndex:0,
-				kmIndex:0,
-				xwIndex:0,
+				thIndex:0,
+				ztIndex:0,
 				grdArray: [{text:'',value:''}],
 				clsArray: [{text:'',value:''}],
-				kmArray: [{text:'',value:''}],
-				xwArray: [{text:'',value:''}],
-				jcArray: [{text:'',value:''}],
+				thArray: [{text:'',value:''}],
+				ztArray: [{text:'',value:''}],
 			}
 		},
 		components: {
@@ -90,15 +106,9 @@
 					this.showToast('无法获取年级数据，不能进行添加操作')
 				}else if(this.clsArray.length==0){
 					this.showToast('无法获取班级数据，不能进行添加操作')
-				}else if(this.xwArray.length==0){
-					this.showToast('无法获取行为细项数据，不能进行添加操作')
-				}else if(this.kmArray.length==0){
-					this.showToast('无法获取科目数据，不能进行添加操作')
-				}else if(this.jcArray.length==0){
-					this.showToast('无法获取节次数据，不能进行添加操作')
 				}else {
-					util.openwithData('/pages/stu_behavior/class_behavior_add',{index_code:this.index_code},{
-						refreshClsBehavior(data){//子页面调用父页面需要的方法
+					util.openwithData('/pages/stu_behavior/stu_talk_add',{index_code:this.index_code},{//新建主动谈话
+						refreshTalkBehaviorZd(data){//子页面调用父页面需要的方法
 							that.showLoading()
 							that.pageobj0.loadFlag=0
 							that.pageobj0.canload=true
@@ -128,11 +138,16 @@
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
 					 this.pageobj0.page_number=1
-					 this.getKm();
+					 this.getList0();
 				}
 			},
-			xwClick:function(e){
+			thClick:function(e){
 				if(this.xwIndex!==e.detail.value){
+					if(e.detail.value!=''){
+						this.xwlx='behavior'
+					}else{
+						this.xwlx=''
+					}
 					 this.xwIndex=e.detail.value
 					 this.showLoading()
 					 this.pageobj0.loadFlag=0
@@ -141,7 +156,7 @@
 					 this.getList0();
 				}
 			},
-			kmClick:function(e){
+			ztClick:function(e){
 				if(this.kmIndex!==e.detail.value){
 					 this.kmIndex=e.detail.value
 					 this.showLoading()
@@ -201,73 +216,39 @@
 					})
 					if(clsArray.length>0 ){
 						this.clsArray=clsArray;
-						this.getKm();
+						this.getList0();
 					}else{
 						this.clsArray=[];
 						this.showToast('无数据授权 无法获取班级');
 					}
 				})
 			},
-			getKm(){//获取科目
-				let comData={
-					op_code:'index',
-					grd_code: this.grdArray[this.grdIndex].value,
-					cls_code: this.clsArray[this.clsIndex].value,
-					get_sub: true,
-					all_sub: true,
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					this.hideLoading()
-					let sub = response.sub_list;
-					let subList = [];
-					sub.map(function(currentValue) {
-						let name = currentValue.name.indexOf('全部') == -1 ? currentValue.name : '全部科目';
-						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = name;
-						subList.push(obj)
-					})
-					if (subList.length > 0) {
-						this.kmArray = subList;
-						this.getList0();
-					} else {
-						this.kmArray=[];
-						mui.toast('无数据授权 无法获取班级');
-					}
-				})
-			},
-			getXw(){//获取行为细项
+			getCl(){//获取常量
 				let comData={
 					op_code:'index',
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/getDict',comData,response=>{
+				this.post(this.globaData.INTERFACE_STUXWSUB+'Talk/getDict',comData,response=>{
 				    console.log("responseabaa: " + JSON.stringify(response));
 					this.hideLoading()
-					let jcList = response.timeArray;
-					if (jcList.length > 0) {
-						this.jcArray=jcList
-					}
-					let xwList = [{
-						value: '',
-						text: '全部行为'
-					}].concat(response.qbArray);
-					this.xwArray = xwList;
+					let lxList = [{value: '',text: '全部谈话'}].concat(response.qbArray);
+					let ztList = [{value: '',text: '全部状态'}].concat(response.statusArray);
+					this.thArray = lxList;
+					this.ztArray = ztList;
 				})
 			},
 			getList0(){//获取页面数据
 				let comData={
 					grd_code: this.grdArray[this.grdIndex].value,
 					cls_code: this.clsArray[this.clsIndex].value,
-					sub_code: this.kmArray[this.kmIndex].value,
-					item_code: this.xwArray[this.xwIndex].value,
+					item_code: this.thArray[this.thIndex].value,
+					status: this.ztArray[this.ztIndex].value,
+					type:this.xwlx,
 					page_number: this.pageobj0.page_number, //当前页数
 					page_size: this.pageSize, //每页记录数
 					index_code: this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/list',comData,response=>{
+				this.post(this.globaData.INTERFACE_STUXWSUB+'Talk/list',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
@@ -289,15 +270,58 @@
 			toDetails(item){
 				item.index_code=this.index_code
 				let that=this
-				util.openwithData('/pages/stu_behavior/class_behavior_detail',item,{
-					refreshClsBehaviorDetail(data){//子页面调用父页面需要的方法
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getList0()
+				
+				//如果自己写的，有没有权限都能删除，如果别人写的，需要验证add权限
+				//学生管理这边有点特殊，它又一个规则：创建人默认有编辑和删除权限，就是即使创建人根据按钮权限接口没有编辑和删除权限，但如果它是创建人，那就默认有编辑和删除权限，所以后端返回的这两个字段已经把创建人和按钮权限这两种情况考虑在里面了
+				if(item.del==1){
+					item.canDelete = true
+				}else{
+					item.canDelete = false;
+				}
+				if(item.status==null){
+					item.title ='主动谈话详情';
+					util.openwithData("/pages/stu_behavior/stu_talk_detail", item);//主动谈话详情
+				}else if(item.status=='unTalk' || item.status=='read'){//未谈话、已阅 ，跳转到新增页
+					if(item.add==1){
+						util.openwithData("/pages/stu_behavior/stu_talk_action_add", item,{
+							refreshTalkBehaviorDetail(data){//子页面调用父页面需要的方法
+								that.showLoading()
+								that.pageobj0.loadFlag=0
+								that.pageobj0.canload=true
+								that.pageobj0.page_number=1
+								that.getList0()
+							},
+							refreshTalkDetailZt(data){
+								let id=data.detail.id;
+								let bid=data.detail.bid;
+								let edit=data.detail.edit;
+								let pageArray=datasource.pageArray
+								pageArray.map(function(item){
+									let student_behavior_id=item.student_behavior_id
+									if(bid==student_behavior_id){
+										item.id=id
+										item.edit=edit
+										item.status='read'
+										item.status_txt='已阅'
+									}
+								})
+							}
+						});//新增行为谈话
+					}else{
+						this.showToast('无操作权限！')
 					}
-				})
+				}else if(item.status=='talk'){
+					item.title ='行为谈话详情';
+					util.openwithData("/pages/stu_behavior/stu_talk_action_detail", item,{
+						refreshTalkBehaviorDetailXw(data){//子页面调用父页面需要的方法
+							that.showLoading()
+							that.pageobj0.loadFlag=0
+							that.pageobj0.canload=true
+							that.pageobj0.page_number=1
+							that.getList0()
+						},
+					});//行为谈话详情
+				}
 			}
 		},
 		onLoad(options) {
@@ -313,7 +337,7 @@
 					 this.hideLoading();
 				 })
 				 this.getGrd()
-				 this.getXw()
+				 this.getCl()
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""
@@ -378,9 +402,13 @@
 	 }
 	 
 	 .detail-text{
+		 width: 80vw;
 	 	color: #939393;
 	 	font-size: 12px;
 	 	margin: 3px 0;
+		overflow: hidden !important;
+		text-overflow: ellipsis !important;;
+		white-space: nowrap !important;;
 	 }
 	 
 	 .leaveType {
@@ -392,7 +420,33 @@
 		margin-right: 3px;
 	 	border: 1px solid #EFAD44;
 	 }
-	 
+	 .leaveType1 {
+	 		 font-size:12px ;
+	 	width: 26px;
+	 	color: #D78F8F;
+	 	padding:0px 3px;
+	 	border-radius: 4px;
+	 		margin-left: 3px;
+	 	border: 1px solid #D78F8F;
+	 }
+	 .leaveType2 {
+	 		 font-size:12px ;
+	 	width: 26px;
+	 	color: #98C0A8;
+	 	padding:0px 3px;
+	 	border-radius: 4px;
+	 		margin-left: 3px;
+	 	border: 1px solid #98C0A8;
+	 }
+	 .leaveType3 {
+	 		 font-size:12px ;
+	 	width: 26px;
+	 	color: #51AFCA;
+	 	padding:0px 3px;
+	 	border-radius: 4px;
+	 		margin-left: 3px;
+	 	border: 1px solid #51AFCA;
+	 }
 	 .uni-input-input{
 		 font-size: 13px;
 	 }
