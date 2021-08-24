@@ -90,15 +90,15 @@
 					this.showToast('无法获取年级数据，不能进行添加操作')
 				}else if(this.clsArray.length==0){
 					this.showToast('无法获取班级数据，不能进行添加操作')
-				}else if(this.kmArray.length==0){
-					this.showToast('无法获取行为细项数据，不能进行添加操作')
 				}else if(this.xwArray.length==0){
+					this.showToast('无法获取行为细项数据，不能进行添加操作')
+				}else if(this.kmArray.length==0){
 					this.showToast('无法获取科目数据，不能进行添加操作')
 				}else if(this.jcArray.length==0){
 					this.showToast('无法获取节次数据，不能进行添加操作')
 				}else {
 					util.openwithData('/pages/stu_behavior/class_behavior_add',{index_code:this.index_code},{
-						refresh(data){//子页面调用父页面需要的方法
+						refreshClsBehavior(data){//子页面调用父页面需要的方法
 							that.showLoading()
 							that.pageobj0.loadFlag=0
 							that.pageobj0.canload=true
@@ -288,7 +288,16 @@
 			},
 			toDetails(item){
 				item.index_code=this.index_code
-				// util.openwithData('/pages/leave/teaLeaveQuery_Detail',item)
+				let that=this
+				util.openwithData('/pages/stu_behavior/class_behavior_detail',item,{
+					refreshClsBehaviorDetail(data){//子页面调用父页面需要的方法
+						that.showLoading()
+						that.pageobj0.loadFlag=0
+						that.pageobj0.canload=true
+						that.pageobj0.page_number=1
+						that.getList0()
+					}
+				})
 			}
 		},
 		onLoad(options) {

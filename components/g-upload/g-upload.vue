@@ -5,7 +5,7 @@
       <icon size="18" type="cancel" class="cancelBtn" @click="deleteImg(index)" v-if="deleteBtn"></icon>
     </view>
     <!-- 上传控件 -->
-    <view :class="['imglistItem',columnNum==3?'column3':'column4']" @click="uploadImg" v-if="control&&showControl">
+    <view :class="['imglistItem',columnNum==3?'column3':'column4']" @click="chooseImg" v-if="control&&showControl">
       <view class="itemImg uploadControl">+</view>
     </view>
     <view class="clear"></view>
@@ -50,9 +50,10 @@
     },
     data() {
       return {
-        imgList: [],
         showList: [],
-        showControl: true
+		modeLength:0,
+        showControl: true,
+		firstInit:true
       }
     },
     watch: {
@@ -72,49 +73,47 @@
     },
     methods: {
       init(v) {
+		if(this.firstInit){
+			this.modeLength=v.length
+			this.firstInit=!this.firstInit
+		}
         if (this.mode.length != 0) {
           this.showList = v;
           return
         };
-        this.showList = this.imgList;
+        this.showList = [];
       },
-      // 上传图片
-      uploadImg() {
+      // 选择图片
+      chooseImg() {
         uni.chooseImage({
           sizeType: ['compressed '],
           count: this.maxCount,
           success: (chooseImageRes) => {
             let tempFilePaths = chooseImageRes.tempFilePaths;
+			let tempFiles = chooseImageRes.tempFiles;
             tempFilePaths=tempFilePaths.slice(0,this.showMaxCount-this.showList.length);
             tempFilePaths.forEach((item) => {
-              this.imgList.push(item);
+              this.showList.push(item);
             })
-            this.$emit("chooseFile", this.imgList, tempFilePaths)
+			console.log("tempFiles: ",tempFiles);
+            this.$emit("chooseFile", this.showList, tempFilePaths,tempFiles)
           }
         });
       },
       //删除图片
       deleteImg(eq) {
-        let deleteImg = this.imgList;
+        let deleteImg = this.showList;
         deleteImg.splice(eq, 1); //删除临时路径
-        if (this.mode.length > 0) {
-          let deleteImg = this.showList;
-          deleteImg.splice(eq, 1); //删除服务那边的路径
-        }
-        this.$emit("imgDelete", this.handleImg(), eq)
+        let fileeq=eq-this.modeLength
+        this.$emit("imgDelete", deleteImg, eq,fileeq)
       },
       // 预览图片
       previewImage(eq) {
-        let getUrl = this.handleImg();
+        let getUrl = this.showList;
         uni.previewImage({
           current: getUrl[eq],
           urls: getUrl
         })
-      },
-      //返回需要操作的图片数组
-      //如果是回调了则操作回填后的数组 否则操作临时路径的图片数组
-      handleImg() {
-        return this.mode.length > 0 ? this.showList : this.imgList
       },
     }
   }

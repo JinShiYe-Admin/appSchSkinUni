@@ -55,7 +55,7 @@
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left form-left-textarea">请假事由</view>
+			<view class="form-left form-left-textarea">行为说明</view>
 			<textarea placeholder="请输入" v-model="formData.comment" maxlength="100" ></textarea>
 		</view>
 		<template v-if="SHOW">
@@ -68,7 +68,7 @@
 		<view class="double-line"></view>
 		<view class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}</view></view>
-			<g-upload ref='gUpload' :mode="imgList" @chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount"></g-upload>
+			<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount"></g-upload>
 		</view>
 	</view>
 </template> 
@@ -76,7 +76,11 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	// 七牛上传相关
 	 import gUpload from "@/components/g-upload/g-upload.vue"
+	 import cloudFileUtil from '../../commom/uploadFiles/CloudFileUtil.js';
+	 
+	 
 	export default {
 		data() {
 			return {
@@ -107,11 +111,17 @@
 				CONFIG:{},//短信配置 对象
 				WORDS:[],//拒绝关键字 对象
 				SHOW:false,//是否显示发送短信
-				// 附件上传相关
-				columnNum:3,//每行显示的图片数量
-				imgList: [],//选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
-				maxCount:9,//单次选择最大数量 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 maxCount=showMaxCount-imgList.length
+				// 附件上传相关👇
+				control:true,//是否显示上传 + 按钮 一般用于显示
+				deleteBtn:true,//是否显示删除 按钮 一般用于显示
+				
+				maxCount:9,//单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 
 				showMaxCount:9,//单次上传最大数量
+				
+				columnNum:3,//每行显示的图片数量
+				imgNames: [],//服务器回传的图片名称
+				imgList: [],//选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
+				imgFiles:[],//选择的文件对象，用于上传时获取文件名  不需要改动
 				// #ifdef H5
 					wxTips:',微信端不支持多选',//如果是H5，需要提示该内容
 				// #endif
@@ -305,8 +315,8 @@
 					this.showToast('请选择年级')
 				}else if(this.clsList[this.clsIndex].value==''){
 					this.showToast('请选择班级')
-				}else if(this.stuList[this.stuIndex].value==''){
-					this.showToast('请选择请假学生')
+				}else if(this.stuIdList.length==0){
+					this.showToast('请选择学生')
 				}else if(this.xwxxList[this.xwxxIndex].value==''){
 					this.showToast('请选择行为细项')
 				}else if(this.formData.time==''){
@@ -316,69 +326,128 @@
 				}else if(this.kmList[this.kmIndex].value==''){
 					this.showToast('请选择科目')
 				}else if(this.formData.comment==''){
-					this.showToast('请输入请假事由')
+					this.showToast('请输入行为说明')
 				}else{
 					if(this.canSub){
 						this.canSub=false
 						this.showLoading()
-						let smsFlag=0;
-						let comm=this.formData.comment
-						let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
-						if(this.SMS){
-							smsFlag=1;
-							let showToast=false
-							 let words=[]
-							 for (var i = 0; i < this.WORDS.length; i++) {
-							 	let word=this.WORDS[i].word
-							 	if(comment.indexOf(word)!==-1){
-							 		showToast=true
-							 		words.push(word)
-							 	}
-							 }
-							 if(showToast){
-							 	this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
-							 	this.hideLoading()
-								this.canSub=true
-							 	return 0
-							 }
+						if(this.imgList.length>0){
+							this.upLoadImg();
+						}else{
+							this.submitData()
 						}
-						
-						let comData={
-							grd_code: this.grdList[this.grdIndex].value,
-							cls_code: this.grdList[this.grdIndex].value,
-							stu_ids: this.grdList[this.grdIndex].value,
-							item_code: data.xw.value,
-							comment: comment,
-							behavior_time: data.time,
-							class_node: data.jc.value,
-							sub_code:data.sub.value,
-							asset_ids:asset_ids,
-							sms_parent_stu_flag:flag,
-							index_code:this.index_code,
-						}
-						this.post(this.globaData.STULEAVE_API+'apply/addApply',comData,(response0,response)=>{
-							console.log("response: " + JSON.stringify(response));
-						     if (response.code == 0) {
-								 let that=this
-						     	this.approveLeave(response.data.id,function(){
-						     		that.canSub=true
-						     		that.showToast(response.msg);
-						     		setTimeout(function(){
-										const eventChannel = that.getOpenerEventChannel()
-										eventChannel.emit('refresh', {data:123});
-						     			uni.navigateBack()
-						     		},1500)
-						     	})
-						     } else {
-						     	this.canSub=true
-						     	this.hideLoading()
-						     	this.showToast(response.msg);
-						     }
-						},()=>{
-								this.canSub=true
-						})
 					}
 				}
+			},
+			//附件上传相关👇
+			chooseFile(list, v,f) {
+			  // console.log("上传图片_list：", list)
+			  // console.log("上传图片_v：", v);
+			  //  console.log("上传图片_f：", f);
+			  this.imgList=list
+			  this.imgFiles=this.imgFiles.concat(f)
+			  this.maxCount=this.showMaxCount-list.length
+			},
+			imgDelete(list, eq,fileeq) {
+			  // console.log("删除图片_list：", list)
+			  // console.log("删除图片_eq：", eq)
+			  // console.log("删除图片_fileeq：", fileeq)
+			  this.imgList=list
+			  this.imgFiles.splice(fileeq, 1); //删除临时路径
+			  this.maxCount=this.showMaxCount-list.length
+			  // console.log("删除图片_fileeq：", this.imgFiles)
+			},
+			upLoadImg(){
+				let _this=this
+				let names=[]
+				this.showLoading('正在上传文件...')
+				// console.log(this.imgFiles);
+				// console.log("this.imgList: " + JSON.stringify(this.imgList));
+				let newImgList=this.imgList.filter(item=>{
+					return item.indexOf('blob:')!==-1
+				})//过滤服务器已经上传过的文件
+				let imgUrls=this.imgList.filter(item=>{
+					return item.indexOf('blob:')===-1
+				})//过滤服务器已经上传过的文件
+				if(newImgList.length>0){
+					this.imgFiles.map((item,index)=>{
+						names.push(this.moment().format('YYYYMMDDHHmmsss')+'_'+index+'_'+item.name)
+					})
+					cloudFileUtil.uploadFiles(this,'1',names,newImgList,encAddrStr=>{
+						// console.log("encAddrStr: " + JSON.stringify(imgUrls.concat(encAddrStr)));
+						// console.log("names: " + JSON.stringify(this.imgNames.concat(names)));
+						this.submitData(this.imgNames.concat(names),imgUrls.concat(encAddrStr))
+					})
+				}else{
+					this.submitData(this.imgNames,imgUrls)
+				}
+				
+			},
+			//附件上传相关👆
+			submitData(encNameStr,encAddrStr){
+				this.showLoading()
+				let smsFlag=0;
+				let comm=this.formData.comment
+				let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
+				if(this.SMS){
+					smsFlag=1;
+					let showToast=false
+					 let words=[]
+					 for (let i = 0; i < this.WORDS.length; i++) {
+					 	let word=this.WORDS[i].word
+					 	if(comment.indexOf(word)!==-1){
+					 		showToast=true
+					 		words.push(word)
+					 	}
+					 }
+					 if(showToast){
+					 	this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
+					 	this.hideLoading()
+						this.canSub=true
+					 	return 0
+					 }
+				}
+				
+				let asset_ids=[]
+				if(encNameStr){
+					encNameStr.map(function(item,index){
+						let obj={}
+						obj.id=''
+						obj.url=encAddrStr[index]
+						obj.ext=item.split(".")[1]
+						obj.name='附件'+(index+1)
+						asset_ids.push(obj)
+					})
+				}
+				let comData={
+					grd_code: this.grdList[this.grdIndex].value,
+					cls_code: this.clsList[this.clsIndex].value,
+					stu_ids: this.stuIdList.join(','),
+					item_code: this.xwxxList[this.xwxxIndex].value,
+					comment: comment,
+					behavior_time: this.formData.time,
+					class_node: this.jcList[this.jcIndex].value,
+					sub_code:this.kmList[this.kmIndex].value,
+					asset_ids:asset_ids,
+					sms_parent_stu_flag:smsFlag,
+					index_code:this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/save',comData,(response0,response)=>{
+					console.log("response: " + JSON.stringify(response));
+				     if (response.code == 0) {
+						 this.hideLoading()
+						 this.showToast(response.msg);
+				     	 const eventChannel = this.getOpenerEventChannel()
+				     	 eventChannel.emit('refreshClsBehavior', {data: 1});
+				     	 uni.navigateBack();
+				     } else {
+				     	this.canSub=true
+				     	this.hideLoading()
+				     	this.showToast(response.msg);
+				     }
+				},()=>{
+						this.canSub=true
+				})
 			},
 			grdSelect(e){
 				if(this.grdIndex!==e.detail.value){
@@ -422,7 +491,6 @@
 					let that =this 
 					util.openwithData('/pages/stu_behavior/studentSelect',{stuList:this.stuList},{
 						refreshSetPeople(data){//子页面调用父页面需要的方法
-							 console.log("data: " + JSON.stringify(data));
 							 let stuNameList= []
 							 let stuIdList= []
 							 data.data.map(item=>{
@@ -460,18 +528,6 @@
 			},
 			timeSelect(e){
 				this.formData.time=e.value
-			},
-			chooseFile(list, v) {
-			  console.log("上传图片_list：", list)
-			  console.log("上传图片_v：", v);
-			  this.imgList=list
-			  this.maxCount=this.showMaxCount-list.length
-			},
-			imgDelete(list, eq) {
-			  console.log("删除图片_list：", list)
-			  console.log("删除图片_eq：", eq)
-			  this.imgList=list
-			  this.maxCount=this.showMaxCount-list.length
 			},
 		},
 	}

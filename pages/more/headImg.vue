@@ -74,7 +74,7 @@
 							uploadSpace: _this.QN_HEADIMG, //str 必填  上传的空间
 						}
 						// console.log('getToken:'+JSON.stringify(getToken));
-						cloudFileUtil.getQNUpToken(_this.QNGETUPLOADTOKEN, getToken, data=> {
+						cloudFileUtil.getQNUpToken(_this,_this.QNGETUPLOADTOKEN, getToken, data=> {
 							var QNUptoken = data.data; //token数据
 							var configure = data.configure; //获取token的配置信息
 							// console.log('七牛上传token:' + JSON.stringify(QNUptoken));

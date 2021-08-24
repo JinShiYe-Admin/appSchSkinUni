@@ -1,11 +1,13 @@
 import cryption from '../../commom/uploadFiles/cryption.js';
 import Vue from 'vue'
+
+
 /**
  * 获取多个上传token
  * @param {Object} data
  * @param {Object} callBack
  */
-var getUpLoadTokens = function(data, callBack) {
+var getUpLoadTokens = function(that,data, callBack) {
 	//		console.log("getUpLoadTokens " + JSON.stringify(data));
 	var appId = data.appId; //项目id
 	var desKey = data.appKey; //项目名称
@@ -58,7 +60,7 @@ var getUpLoadTokens = function(data, callBack) {
 
 	// console.log("参数数据：" + JSON.stringify(configure.options))
 	//获取token
-	getQNUpTokenWithManage(Vue.prototype.globaData.QNGETUPLOADTOKEN, configure.options, function(data) {
+	getQNUpTokenWithManage(that,that.QNGETUPLOADTOKEN, configure.options, function(data) {
 		callBack({
 			code: data.Status, //1成功
 			configure: configure, //配置信息
@@ -116,7 +118,7 @@ var getQNDownToken = function(url, data, successCB, errorCB) {
 			fail: (e) => { //接口调用失败的回调函数  比如跨域了，断网
 				// console.log("e: " + JSON.stringify(e));
 				uni.hideLoading();
-				this.showToast('网络请求失败')
+				that.showToast('网络请求失败')
 			},
 			complete: () => {}
 		});
@@ -148,7 +150,7 @@ var getQNDownToken = function(url, data, successCB, errorCB) {
  *  }
  * }
  */
-var getQNUpToken = function(url, data, successCB, errorCB) {
+var getQNUpToken = function(that,url, data, successCB, errorCB) {
 	// console.log('getQNUpToken ' + url + ' ' + JSON.stringify(data));
 	var type = ''; //获取上传token的类型。0上传需要生成缩略图的文件；1上传文件
 	var QNFileName = ''; //存放到七牛的文件名
@@ -332,7 +334,7 @@ var getQNUpToken = function(url, data, successCB, errorCB) {
 
 	console.log("参数数据：" + JSON.stringify(configure.options))
 	//获取token
-	getQNUpTokenWithManage(url, configure.options, function(data) {
+	getQNUpTokenWithManage(that,url, configure.options, function(data) {
 		successCB({
 			configure: configure,
 			data: data
@@ -468,7 +470,7 @@ var getIfExist = function(option) {
  * @param {Object} successCB
  * @param {Object} errorCB
  */
-var getQNUpTokenWithManage = function(url, data, successCB, errorCB) {
+var getQNUpTokenWithManage = function(that,url, data, successCB, errorCB) {
 	// console.log('url:'+url);
 	// console.log('data:'+JSON.stringify(data));
 	let reuqestTask = uni.request({
@@ -495,9 +497,9 @@ var getQNUpTokenWithManage = function(url, data, successCB, errorCB) {
 			}
 		},
 		fail: (e) => { //接口调用失败的回调函数  比如跨域了，断网
-			// console.log("e: " + JSON.stringify(e));
+			console.log("e: " + JSON.stringify(e));
 			uni.hideLoading();
-			this.showToast('网络请求失败')
+			that.showToast('网络请求失败')
 		},
 		complete: () => {
 			// Vue.prototype.requestTask.delete(reuqestTask)
@@ -581,6 +583,76 @@ var upload = function(fPath, token, key, uploadCompletedCallBack, onStateChanged
 }
 
 /**
+ * 创建多文件上传任务
+ * @author 莫尚霖
+ * @param {Object} fPath 文件路径
+ * @param {Object} token 七牛上传token
+ * @param {Object} key 七牛上传key
+ * @param {Object} uploadCompletedCallBack 上传完成时的回调
+ */
+var uploadFiles = function(that,type, fileNames,files,callback) {
+	 let getToken = {
+	 	type: type, //str 必填 获取上传token的类型。0上传需要生成缩略图的文件；1上传文件
+	 	QNFileName: fileNames, //str 必填 存放到七牛的文件名
+		fileArray:files,
+	 	appId: that.globaData.QN_APPID, //int 必填 项目id
+	 	appKey: that.globaData.QN_APPKEY,
+	 	mainSpace: that.QN_PB_NAME, //str 必填 私有空间或公有空间
+	 	uploadSpace: that.QN_HEADIMG, //str 必填  上传的空间
+	 }
+	 getUpLoadTokens(that,getToken, data=> {
+	 	let QNUptoken = data.data; //token数据
+	 	let configure = data.configure; //获取token的配置信息
+	 	console.log('七牛上传token:' + JSON.stringify(QNUptoken));
+	 	if(QNUptoken.Status == 0) { //失败
+	 		that.showToast('获取上传凭证失败 ' + QNUptoken.Message);
+	 		// console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
+	 		that.hideLoading();
+	 	} else {
+			let domains=[]
+			files.map((file,index)=>{
+				_uploadFiles(file, QNUptoken.Data[index].Token, QNUptoken.Data[index].Key, function(upload, status) {
+					// console.log("status: " + JSON.stringify(status));
+					if(status == 200) { //上传任务成功
+						// let thumb = QNUptoken.Data.OtherKey[configure.thumbKey]; //缩略图地址
+						let domain =QNUptoken.Data[index].Domain +QNUptoken.Data[index].Key
+						domains.push(domain)
+						if(domains.length===files.length){
+							callback(domains)
+							that.hideLoading();
+						}
+					} else { //上传失败
+						that.showToast('文件上传失败，请稍后再试 ');
+						that.hideLoading();
+					}
+				},that);
+			})
+	 	}
+	 });
+}
+var _uploadFiles = function(fPath, token, key, uploadCompletedCallBack,that) {
+	// console.log('upload fPath: ' + fPath);
+	// console.log('upload token: ' + token);
+	// console.log('upload key: ' + key);
+	uni.uploadFile({
+		url: 'https://upload.qiniu.com/',
+		filePath: fPath,
+		formData: {
+			'key': key,
+			'token': token
+		},
+		success: (uploadFileRes) => {
+			console.log('uploadFileRes:' + JSON.stringify(uploadFileRes));
+			uploadCompletedCallBack(uploadFileRes.data, uploadFileRes.statusCode);
+		},
+		fail:(e)=>{
+			console.log(e);
+			that.showToast('文件上传失败，请稍后再试 ');
+		}
+	});
+}
+
+/**
  * 单个文件上传
  * @anthor an
  * @param {Object} tokenInfo
@@ -614,22 +686,22 @@ var uploadFile = function(tokenInfo, fileName, callback) {
 	task.start();
 }
 
-/**
- * 多张图片上传
- * @author an
- * @param {Array} fileNames 本地路径
- * @param {Object} QNUptokens 上传token
- * @param {Function} callback 回调函数
- */
-var uploadFiles = function(fileNames, tokenInfos, callback) {
-	plus.uploader.clear();
+// /**
+//  * 多张图片上传
+//  * @author an
+//  * @param {Array} fileNames 本地路径
+//  * @param {Object} QNUptokens 上传token
+//  * @param {Function} callback 回调函数
+//  */
+// var uploadFiles = function(fileNames, tokenInfos, callback) {
+// 	plus.uploader.clear();
 
-	for (var i in tokenInfos) {
-		////console.log('upload:' + fPath);
-		createTask(tokenInfos[i], fileNames[i], i, callback);
-	}
-	plus.uploader.startAll();
-}
+// 	for (var i in tokenInfos) {
+// 		////console.log('upload:' + fPath);
+// 		createTask(tokenInfos[i], fileNames[i], i, callback);
+// 	}
+// 	plus.uploader.startAll();
+// }
 
 function createTask(tokenInfo, fileName, index, callback) {
 	var task = plus.uploader.createUpload("https://upload.qiniu.com/", {
@@ -765,6 +837,7 @@ var URLSafeBase64Encode = function(v) {
 module.exports = {
 	getQNUpToken: getQNUpToken,
 	upload: upload,
+	uploadFiles: uploadFiles,
 	getQNDownToken: getQNDownToken,
 	uploadIDCardHeadImge: uploadIDCardHeadImge,
 }
