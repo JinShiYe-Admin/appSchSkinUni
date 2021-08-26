@@ -68,3 +68,15 @@
 	 font-size: 12px;
 	 color: #808080;
  }
+/* 顶部选项卡 下拉样式 */
+::v-deep input{
+	padding-left: 2px !important;
+}
+::v-deep .mini input{
+	font-size: 12px !important;
+	padding-left: 0 !important;
+}
+::v-deep  .content-clear-icon{
+	padding: 0px 3px 0 0 !important;
+	font-size: 13px !important;
+}
