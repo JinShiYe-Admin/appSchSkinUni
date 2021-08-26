@@ -145,7 +145,7 @@ module.exports = {
 		"canvasId": "",
 		"canvas2d": false,
 		"background": "none",
-		"animation": true,
+		"animation": false,
 		"timing": "easeOut",
 		"duration": 1000,
 		"color": [
@@ -524,6 +524,7 @@ module.exports = {
 	},
 	"column": {
 		"type": "column",
+		"animation": false,
 		"color": [
 			"#C33531",
 			"#2F4553",

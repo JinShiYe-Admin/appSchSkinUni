@@ -124,6 +124,7 @@ function getBroswerId() {
  * @param {Object} _events 页面监听，用于子页面向父页面传值
  */
 function openwithData(url, data = {}, _events = {}) {
+	console.log(encodeURIComponent(JSON.stringify(data)),);
 	uni.navigateTo({
 		url: url + '?pagedata=' + encodeURIComponent(JSON.stringify(data)),
 		animationType: 'pop-in',
@@ -143,7 +144,7 @@ function openwithData(url, data = {}, _events = {}) {
  */
 function getPageData(option) {
 	try {
-		return JSON.parse(decodeURIComponent(option.pagedata))
+		return JSON.parse(option.pagedata)
 	} catch (e) {
 		console.log(e);
 		return {}
