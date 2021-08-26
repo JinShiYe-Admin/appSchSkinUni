@@ -14,7 +14,7 @@
 					</picker>
 				</uni-col>
 			</uni-row>
-			<view v-if="nowSectionArray.length>0" class="line" style="margin-left: -3px;"></view>
+			<view v-if="nowSectionArray.length>0" class="line" style="margin: 0 0 0 -3px;"></view>
 		</view>
 		<view>
 			<view style="margin-top: 40px;">

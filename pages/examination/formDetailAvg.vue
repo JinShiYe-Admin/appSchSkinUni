@@ -19,7 +19,7 @@
 					</picker>
 				</uni-col>
 			</uni-row>
-			<view class="line" style="margin-left: -3px;"></view>
+			<view class="line" style="margin: 0 0 0 -3px;"></view>
 		</view>
 		<view>
 			<view style="margin-top: 40px;">
@@ -188,6 +188,7 @@
 							// datasource.clsModel = currentValue;
 							this.clsIndex=index
 						}
+						this.getKc()
 					})
 					this.clsArray = [].concat(response.list);
 				})
@@ -209,8 +210,7 @@
 						}
 					});
 					this.kmArray = [].concat(response.list);
-					//1.16.考情分析-考情报表-学生成绩列表
-					this.getList1();
+					this.getList1()
 				})
 			},
 			getKc(){//获取考次
@@ -229,8 +229,10 @@
 						}
 					})
 					this.kcArray = [].concat(response.list);
-					if(this.tabBarItem.selectType!='qk'){
+					if(this.tabBarItem.selectType=='qk'){
 						//1.16.考情分析-考情报表-学生成绩列表
+						this.getKm()
+					}else{
 						this.getList1()
 					}
 				})
@@ -291,10 +293,6 @@
 			setTimeout(()=>{
 				this.showLoading()
 				this.getCls()
-				this.getKc()
-				if(itemData.selectType=='qk'){
-					this.getKm()
-				}
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""
@@ -310,19 +308,7 @@
 </script>
 
 <style>
-	.tabs {
-		width: 100vw;
-		position: fixed;
-	    background-color: #FFFFFF;
-		padding: 3px 3px 0;
-		z-index: 10;
-		/* #ifndef APP-PLUS */
-		top: 44px;
-		/* #endif */
-		/* #ifdef APP-PLUS */
-		right: 3px;
-		/* #endif */
-	}
+	 
 	
 	.select-line{
 		height: 2px;

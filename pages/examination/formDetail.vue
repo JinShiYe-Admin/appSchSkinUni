@@ -51,8 +51,8 @@
 						<h4 v-if="controlIndex===2" style="text-align: center;color: #6d6d6d;">—— 年级排名 ——</h4>
 						<h4 v-if="controlIndex===3" style="text-align: center;color: #6d6d6d;">—— 上线率统计 ——</h4>
 						<h4 v-if="controlIndex===4" style="text-align: center;color: #6d6d6d;">—— 各班级进退步学生统计 ——</h4>
-						<qiun-data-charts v-if="controlIndex===0" type="column" :chartData="chartData0" @getIndex="getIndexZ"/><!-- 柱状图-->
-						<qiun-data-charts v-if="controlIndex===1" type="ring" :chartData="chartData1" background="none" @getIndex="getIndexB"/><!-- 饼图-->
+						<qiun-data-charts v-if="controlIndex===0" type="column" :animation="false" :chartData="chartData0" @getIndex="getIndexZ"/><!-- 柱状图-->
+						<qiun-data-charts v-if="controlIndex===1" type="ring" :animation="false" :chartData="chartData1" background="none" @getIndex="getIndexB"/><!-- 饼图-->
 						<uni-list v-if="controlIndex===2" :border="false" style="margin-top: 10px;">
 							<uni-list-item :key="index" v-for="(model,index) in zgfDetail.list" :border="true">
 								<text slot="body" class="slot-box slot-text">
@@ -71,8 +71,8 @@
 								</text>
 							</uni-list-item>
 						</uni-list>
-						<qiun-data-charts v-if="controlIndex===3" type="ring" :chartData="chartData3" background="none"/><!-- 饼图-->
-						<qiun-data-charts v-if="controlIndex===4" type="column" :chartData="chartData4" background="none"/><!-- 柱状图-->
+						<qiun-data-charts v-if="controlIndex===3" type="ring" :animation="false" :chartData="chartData3" background="none"/><!-- 饼图-->
+						<qiun-data-charts v-if="controlIndex===4" type="column" :animation="false" :chartData="chartData4" background="none"/><!-- 柱状图-->
 						
 						<view v-if="controlIndex===0" class="tl-bottom">点击圆柱查看对应班级学生成绩详情</view>
 						<view v-if="controlIndex===1" class="tl-bottom">点击饼图查看对应分段学生成绩详情</view>
