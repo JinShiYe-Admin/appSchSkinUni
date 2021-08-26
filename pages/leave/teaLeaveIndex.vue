@@ -33,7 +33,7 @@
 		},
 		methods: {
 			clickItem:function(chilItem){
-				util.openwithData(chilItem.href,chilItem)
+				util.openwithData(chilItem.pagePath,chilItem)
 			}
 		},
 		onLoad() {

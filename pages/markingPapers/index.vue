@@ -34,7 +34,7 @@
 		methods: {
 			clickItem(model){
 				console.log('clickItem:'+JSON.stringify(model));
-				util.openwithData(model.href,model);
+				util.openwithData(model.pagePath,model);
 			}
 		},
 		onLoad() {
