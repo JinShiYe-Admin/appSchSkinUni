@@ -303,13 +303,13 @@ function getPageArray() {
 		childList: [{
 				name: '教师代请假',
 				icon: tempAAA + "/static/images/leave/tecLeave.png",
-				href: "/pages/leave/teaLeaveAsk",
+				pagePath: "/pages/leave/teaLeaveAsk",
 				url: 'schapp_teaLeave_askForLeave'
 			},
 			{
 				name: '请假查询',
 				icon: tempAAA + "/static/images/leave/leavequery.png",
-				href: "/pages/leave/teaLeaveQuery",
+				pagePath: "/pages/leave/teaLeaveQuery",
 				url: 'schapp_teaLeave_leaveSelect'
 			}
 		]
@@ -326,19 +326,19 @@ function getPageArray() {
 		childList: [{
 				name: '课堂行为',
 				icon: tempAAA + "/static/images/stu_behavior/class_behavior.png",
-				href: "/pages/stu_behavior/class_behavior_index",
+				pagePath: "/pages/stu_behavior/class_behavior_index",
 				url: 'schapp_Behavior_classroom'
 			},
 			{
 				name: '课外行为',
 				icon: tempAAA + "/static/images/stu_behavior/extra_behavior.png",
-				href: "/pages/stu_behavior/extra_behavior_index",
+				pagePath: "/pages/stu_behavior/extra_behavior_index",
 				url: 'schapp_Behavior_extracurricula'
 			},
 			{
 				name: '学生谈话',
 				icon: tempAAA + "/static/images/stu_behavior/stu_talk.png",
-				href: "/pages/stu_behavior/stu_talk_index",
+				pagePath: "/pages/stu_behavior/stu_talk_index",
 				url: 'schapp_Behaviorn_conversation'
 			}
 		]
@@ -355,19 +355,19 @@ function getPageArray() {
 		childList: [{
 				name: '周测',
 				icon: tempAAA + '/static/tabbar/zhouce.png',
-				href: "/pages/markingPapers/weekTest_index",
+				pagePath: "/pages/markingPapers/weekTest_index",
 				url: 'schapp_markingPapers_weekTest'
 			},
 			{
 				name: '月考',
 				icon: tempAAA + '/static/tabbar/yuekao.png',
-				href: "/pages/markingPapers/monthTest_index",
+				pagePath: "/pages/markingPapers/monthTest_index",
 				url: 'schapp_markingPapers_monthTest'
 			},
 			{
 				name: '期中期末',
 				icon: tempAAA + '/static/tabbar/qizhongqimo.png',
-				href: "/pages/markingPapers/termTest_index",
+				pagePath: "/pages/markingPapers/termTest_index",
 				url: 'schapp_markingPapers_termTest'
 			}
 		]
@@ -384,12 +384,12 @@ function getPageArray() {
 		childList: [{
 			name: '成绩分析',
 			icon: tempAAA + '/static/images/schapp_examination/form.png',
-			href: "/pages/examination/form",
+			pagePath: "/pages/examination/form",
 			url: 'schapp_Examination_form'
 		}, {
 			name: '班级成绩趋势',
 			icon: tempAAA + '/static/images/schapp_examination/clsScoreDiff.png',
-			href: "/pages/examination/clsScoreDiff",
+			pagePath: "/pages/examination/clsScoreDiff",
 			url: 'schapp_Examination_clsScoreDiff'
 		}]
 	}, {
@@ -416,45 +416,45 @@ function getPageArray() {
 		childList: [{
 			name: '公告',
 			icon: tempAAA + '/static/images/oa/gonggao.png',
-			href: "/pages/oa/gonggaoIndex",
+			pagePath: "/pages/oa/gonggaoIndex",
 			type: 1,
 			url: 'schapp_OA_Notify'
 		}, {
 			name: '通知',
 			icon: tempAAA + '/static/images/oa/tongzhi.png',
-			href: "/pages/oa/noticeIndex",
+			pagePath: "/pages/oa/noticeIndex",
 			url: 'schapp_OA_Notice'
 		}, {
 			name: '事务',
 			icon: tempAAA + '/static/images/oa/shiwu.png',
-			href: "/pages/oa/shiwuIndex",
+			pagePath: "/pages/oa/shiwuIndex",
 			url: 'schapp_OA_CooperateNotice'
 		}, {
 			name: '工作流',
 			icon: tempAAA + '/static/images/oa/gongzuoliu.png',
-			href: "/pages/oa/workflowIndex",
+			pagePath: "/pages/oa/workflowIndex",
 			url: 'schapp_OA_Approve'
 		}, {
 			name: '资料收集',
 			icon: tempAAA + '/static/images/oa/ziliaoshouji.png',
-			href: "/pages/oa/collectionDataIndex",
+			pagePath: "/pages/oa/collectionDataIndex",
 			url: 'schapp_OA_DataCollection'
 		}, {
 			name: '校历',
 			icon: tempAAA + '/static/images/oa/xiaoli.png',
-			href: "/pages/oa/gonggaoIndex",
+			pagePath: "/pages/oa/gonggaoIndex",
 			type: 3,
 			url: 'schapp_OA_Xiaoli'
 		}, {
 			name: '周程',
 			icon: tempAAA + '/static/images/oa/zhoucheng.png',
-			href: "/pages/oa/gonggaoIndex",
+			pagePath: "/pages/oa/gonggaoIndex",
 			type: 2,
 			url: 'schapp_OA_Zhoucheng'
 		}, {
 			name: '工资条',
 			icon: tempAAA + '/static/images/oa/gongzitiao.png',
-			href: "/pages/oa/gongziIndex",
+			pagePath: "/pages/oa/gongziIndex",
 			url: 'schapp_OA_Payment'
 		}, ]
 
@@ -472,42 +472,42 @@ function getPageArray() {
 		childList: [{
 			name: '请假记录',
 			icon: tempAAA + '/static/images/schapp_work/qingjiajilu.png',
-			href: "/pages/schapp_work/qingjiaIndex",
+			pagePath: "/pages/schapp_work/qingjiaIndex",
 			url: 'schapp_Work_leave'
 		}, {
 			name: '课堂考勤',
 			icon: tempAAA + '/static/images/schapp_work/ketangkaoqin.png',
-			href: "/pages/schapp_work/ketangIndex",
+			pagePath: "/pages/schapp_work/ketangIndex",
 			url: 'schapp_Work_classroom'
 		}, {
 			name: '课外考勤',
 			icon: tempAAA + '/static/images/schapp_work/kewaikaoqin.png',
-			href: "/pages/schapp_work/kewaiIndex",
+			pagePath: "/pages/schapp_work/kewaiIndex",
 			url: 'schapp_Work_extracurricular'
 		}, {
 			name: '出入校报表',
 			icon: tempAAA + '/static/images/schapp_work/churuxiaokaoqin.png',
-			href: "/pages/schapp_work/jinchuxiaoForm",
+			pagePath: "/pages/schapp_work/jinchuxiaoForm",
 			url: 'schapp_Work_inoutschool_form'
 		}, {
 			name: '课堂报表',
 			icon: tempAAA + '/static/images/schapp_work/ketangbaobiao.png',
-			href: "/pages/schapp_work/ketangForm",
+			pagePath: "/pages/schapp_work/ketangForm",
 			url: 'schapp_Work_classroom_form'
 		}, {
 			name: '课外报表',
 			icon: tempAAA + '/static/images/schapp_work/kewaibaobiao.png',
-			href: "/pages/schapp_work/kewaiForm",
+			pagePath: "/pages/schapp_work/kewaiForm",
 			url: 'schapp_Work_extracurricular_form'
 		}, {
 			name: '班级报表',
 			icon: tempAAA + '/static/images/schapp_work/banjibaobiao.png',
-			href: "/pages/schapp_work/banjiForm",
+			pagePath: "/pages/schapp_work/banjiForm",
 			url: 'schapp_Work_class_form'
 		}, {
 			name: '学生报表',
 			icon: tempAAA + '/static/images/schapp_work/xueshengbaobiao.png',
-			href: "/pages/schapp_work/xueshengForm",
+			pagePath: "/pages/schapp_work/xueshengForm",
 			url: 'schapp_Work_students_form'
 		}, ]
 	

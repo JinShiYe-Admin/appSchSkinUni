@@ -3,12 +3,14 @@
 		<uniNavBar title='更多' backgroundColor='#00CFBD' fixed='true' statusBar='true' color='white'></uniNavBar>
 		<uni-card style="font-weight: 900;" v-for="(item, index) in tabarMore" :index="index" :key="index">
 			<view>{{item.text}}</view>
-			<view v-if="item.childList.length>0">
+			<view v-if="item.childList.length>0" style="padding-top: 10px;">
 				<uni-grid :column="4" :showBorder='false' :square="false" :highlight="false">
-					<uni-grid-item v-for="(chilItem, chiilIndex) in tabarMore" :index="chiilIndex" :key="chiilIndex">
+					<uni-grid-item v-for="(chilItem, chiilIndex) in item.childList" :index="chiilIndex"
+						:key="chiilIndex">
 						<view class="grid-item-box" @click="clickItem(chilItem)">
-							<image :src="chilItem.img_href" class="moreImg" mode="aspectFill" />
-							<text style="margin-top: 10px;" class="text">{{ chilItem.text }}</text>
+							<image :src="chilItem.icon" class="moreImg" mode="aspectFill" />
+							<text style="margin-top: 10px;font-size: 13px;color: #878787;"
+								class="text">{{ chilItem.text }}</text>
 						</view>
 					</uni-grid-item>
 				</uni-grid>
@@ -16,7 +18,7 @@
 			<view v-if="item.childList.length==0">
 				<uni-grid :column="4" :showBorder='false' :square="false" :highlight="false">
 					<uni-grid-item>
-						<view class="grid-item-box" @click="clickItem(item)">
+						<view class="grid-item-box" @click="clickItemTab(item)">
 							<image :src="item.img_href" class="moreImg" mode="aspectFill" />
 							<text style="margin-top: 10px;font-size: 12px;font-weight: 400;"
 								class="text">{{ item.text }}</text>
@@ -42,6 +44,11 @@
 		},
 		methods: {
 			clickItem: function(item) {
+				console.log('item:' + JSON.stringify(item));
+				item.index = 100;
+				util.openwithData(item.pagePath, item);
+			},
+			clickItemTab: function(item) {
 				console.log('item:' + JSON.stringify(item));
 				item.index = 99;
 				util.setTabbarMenu(item);
