@@ -125,7 +125,7 @@
 			},
 			dialogConfirm(){
 				this.showLoading()
-				let url=this.globaData.INTERFACE_STUXWSUB + 'StudentBehavior/delete'
+				let url=this.globaData.INTERFACE_STUXWSUB + 'Talk/delete'
 				let comData={
 					id: this.detailData.id,
 					index_code:this.index_code,
@@ -134,7 +134,7 @@
 				    console.log("responseaaa: " + JSON.stringify(response));
 					const eventChannel = this.getOpenerEventChannel()
 					this.showToast('操作成功')
-					eventChannel.emit('refreshClsBehaviorDetail', {data: 1});
+					eventChannel.emit('refreshTalkBehaviorDetailXw', {data: 1});
 					uni.navigateBack();
 					this.hideLoading()
 				})

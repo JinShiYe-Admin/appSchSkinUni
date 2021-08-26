@@ -2,26 +2,19 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">年级3</view>
-			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :range="grdList" range-key="text">
-				<input class="uni-input form-right"  v-model="grdList[grdIndex].text"  placeholder="请选择" disabled/>
-			</picker>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+			<view class="form-left">行为详情</view>
+			<view class="form-right">
+				<view style="margin: 5px 0;">{{tabBarItem.grd_name}}&ensp;{{tabBarItem.class_name}}&ensp;{{tabBarItem.stu_name}}</view>
+				<view style="margin: 5px 0;">{{tabBarItem.behavior_time}}&ensp;&ensp;{{tabBarItem.item_txt}}</view>
+				<view style="margin: 5px 0;">{{tabBarItem.comment}}</view>
+			</view>
 		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">班级</view>
-			<picker style="width:100% !important;" mode="selector" @change="clsSelect" :value="clsIndex" :range="clsList" range-key="text">
-				<input class="uni-input form-right"  v-model="clsList[clsIndex].text" placeholder="请选择" disabled/>
-			</picker>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">姓名</view>
-			<input class="uni-input form-right"  v-model="stuNameList.join(',')" placeholder="请选择" disabled @click="selectStu"/>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
+		<template v-if="imgListf.length>0">
+			<view class="uni-flex uni-row form-view">
+				<view class="form-left">附件</view>
+				<g-upload ref='gUpload' :mode="imgListf" :deleteBtn='false' :control='false' :columnNum="columnNum"></g-upload>
+			</view>
+		</template>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">谈话日期</view>
@@ -32,13 +25,15 @@
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left form-left-textarea">谈话记录</view>
-			<textarea placeholder="请输入" v-model="formData.comment" maxlength="100" ></textarea>
+			<textarea placeholder="请输入" v-model="formData.comment" maxlength="100" :disabled="!edit"></textarea>
 		</view>
-		<view class="double-line"></view>
-		<view class="uni-flex uni-row form-view choose-file">
-			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}</view></view>
-			<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount"></g-upload>
-		</view>
+		<template v-if="edit">
+			<view class="double-line"></view>
+			<view class="uni-flex uni-row form-view choose-file">
+				<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}</view></view>
+				<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount"></g-upload>
+			</view>
+		</template>
 	</view>
 </template> 
 
@@ -57,23 +52,15 @@
 				personInfo: {},
 				tabBarItem: {},
 				
+				
 				canSub:true,
+				edit:false,
 				formData: {
+					id:'',
 					time:'',//发生日期
 					comment:'',//说明
 				}, //表单内容
-				grdIndex:0,
-				clsIndex:0,
-				stuIndex:0,
-				grdList: [{text:'请选择',value:''}], //年级数组
-				clsList: [{text:'请选择',value:''}], //班级数组
-				stuList:[],
-				stuNameList: [], //学生数组
-				stuIdList: [], //学生数组
-				SMS:false,//是否向家长发送短信
-				CONFIG:{},//短信配置 对象
-				WORDS:[],//拒绝关键字 对象
-				SHOW:false,//是否显示发送短信
+				imgListf:[],
 				// 附件上传相关👇
 				control:true,//是否显示上传 + 按钮 一般用于显示
 				deleteBtn:true,//是否显示删除 按钮 一般用于显示
@@ -101,102 +88,34 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='新建课堂行为'
+			itemData.text='新建行为谈话'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
+			 this.formData.id=itemData.id
+			 this.edit=itemData.edit==1
+			let imgListf=[]
+			itemData.behavior_asset_ids.map(item=>{
+				imgListf.push(item.url)
+			})
+			this.imgListf=imgListf
+			if(itemData.canDelete){
+				this.icon='trash'
+			}
+			let that=this
 			setTimeout(()=>{
-				this.showLoading();
-				this.getGrd();
+				if(itemData.status=='unTalk'){
+					that.showLoading();
+					that.setRead();//已阅操作是根据item的add==1判断的，在列表页已经判断过
+				}
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
 		},
 		methods: {
-			getGrd(){
-				let comData={
-					op_code:'add',
-					get_grd:true,
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					let grds = response.grd_list;
-					let grdList=[{text:'请选择',value:''}];
-					grds.map(function(currentValue) {
-						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = currentValue.name;
-						grdList.push(obj)
-					})
-					if(grdList.length>0 ){
-						this.grdList=grdList;
-					}else{
-						this.showToast('获取年级为空');
-					}
-					this.hideLoading()
-				})
-			},
-			getCls(grd_id){
-				let comData={
-					op_code:'add',
-					grd_code:grd_id,
-					get_cls:true,
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					let clss = response.cls_list;
-					let clssList=[{text:'请选择',value:''}];
-					clss.map(function(currentValue) {
-						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = currentValue.name;
-						clssList.push(obj)
-					})
-					if(clssList.length>0 ){
-						this.clsList=clssList;
-					}else{
-						this.showToast('获取班级为空');
-					}
-					this.hideLoading()
-				})
-			},
-			getStu(grd_id,cls_id){
-				let comData={
-					op_code:'add',
-					grd_code: grd_id,
-					cls_code: cls_id,
-					get_stu:true,
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					let stu = response.stu_list;
-					let stuList=[{text:'请选择',value:''}];
-					stu.map(function(currentValue) {
-						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = currentValue.name;
-						stuList.push(obj)
-					})
-					if(stuList.length>0 ){
-						this.stuList=stuList;
-					}else{
-						this.showToast('获取学生为空');
-					}
-					this.hideLoading()
-				})
-			},
 			textClick(){//发送请假信息
-				if(this.grdList[this.grdIndex].value==''){
-					this.showToast('请选择年级')
-				}else if(this.clsList[this.clsIndex].value==''){
-					this.showToast('请选择班级')
-				}else if(this.stuIdList.length==0){
-					this.showToast('请选择学生')
-				}else if(this.formData.time==''){
-					this.showToast('请选择发生日期')
+				if(this.formData.time==''){
+					this.showToast('请选择谈话日期')
 				}else if(this.formData.comment==''){
 					this.showToast('请输入谈话记录')
 				}else{
@@ -270,21 +189,22 @@
 					})
 				}
 				let comData={
-					grd_code: this.grdList[this.grdIndex].value,
-					cls_code: this.clsList[this.clsIndex].value,
-					stu_ids: this.stuIdList.join(','),
+					grd_code: this.tabBarItem.grd_code,
+					cls_code: this.tabBarItem.cls_code,
+					student_behavior_id: this.tabBarItem.student_behavior_id,
+					id:''+this.formData.id,
 					chat_detail: this.formData.comment,
 					chat_time: this.formData.time,
 					asset_ids:asset_ids,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'Talk/save',comData,(response0,response)=>{
+				this.post(this.globaData.INTERFACE_STUXWSUB+'Talk/editSave',comData,(response0,response)=>{
 					console.log("response: " + JSON.stringify(response));
 				     if (response.code == 0) {
 						 this.hideLoading()
 						 this.showToast(response.msg);
 				     	 const eventChannel = this.getOpenerEventChannel()
-				     	 eventChannel.emit('refreshTalkBehaviorZd', {data: 1});
+				     	 eventChannel.emit('refreshTalkBehaviorDetail', {data: 1});
 				     	 uni.navigateBack();
 				     } else {
 				     	this.canSub=true
@@ -295,65 +215,33 @@
 						this.canSub=true
 				})
 			},
-			grdSelect(e){
-				if(this.grdIndex!==e.detail.value){
-					 this.grdIndex=e.detail.value
-					 this.clsIndex=0
-					 this.stuList=[] 
-					 this.stuNameList= [] 
-					 this.stuIdList= [] 
-					 this.clsList=[{text:'请选择',value:''}]
-					 if(e.detail.value!==0){
-						this.getCls(this.grdList[e.detail.value].value)
-					 }
-				}
-			},
-			clsSelect(e){
-				if(this.clsIndex!==e.detail.value){
-					 this.clsIndex=e.detail.value
-					 this.stuList=[]
-					 this.stuNameList= [] 
-					 this.stuIdList= [] 
-					 if(e.detail.value!==0){
-					 	this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
-					 }
-				}
-			},
-			selectStu(e){
-				if(this.stuList.length==0){
-					this.showToast('当前班级暂无学生')
-				}else{
-					this.stuList.map(item=>{
-						item.checked=false
-						this.stuIdList.map(items=>{
-							if(items==item.value){
-								item.checked=true
-							}
-						})
-					})
-					let that =this 
-					util.openwithData('/pages/stu_behavior/studentSelect',{stuList:this.stuList},{
-						refreshSetPeople(data){//子页面调用父页面需要的方法
-							 let stuNameList= []
-							 let stuIdList= []
-							 data.data.map(item=>{
-								 if(item.checked){
-									 stuNameList.push(item.text)
-									 stuIdList.push(item.value)
-								 }
-							 })
-							 that.stuNameList=stuNameList
-							 that.stuIdList=stuIdList
-						}
-					})
-				}
-			},
 			timePicker(){
 				this.$refs.timePicker.show()
 			},
 			timeSelect(e){
 				this.formData.time=e.value
 			},
+			setRead(){
+				let comData={
+					grd_code: this.tabBarItem.grd_code,
+					cls_code: this.tabBarItem.cls_code,
+					student_behavior_id: this.tabBarItem.student_behavior_id,
+					index_code:this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_STUXWSUB+'Talk/read',comData,response=>{
+				    console.log("responseaaa: " + JSON.stringify(response));
+					 this.edit=response.edit==1
+					 this.formData.id=response.id
+					 let model={
+						 id:response.id,
+						 edit:response.edit,
+						 bid:this.tabBarItem.student_behavior_id,
+					 }
+					 const eventChannel = this.getOpenerEventChannel()
+					 eventChannel.emit('refreshTalkDetailZt', model);
+					 this.hideLoading()
+				})
+			}
 		},
 	}
 </script>

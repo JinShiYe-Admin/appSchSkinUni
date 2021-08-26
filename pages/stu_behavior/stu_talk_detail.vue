@@ -123,9 +123,9 @@
 				}
 				this.post(url,comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					const eventChannel = this.getOpenerEventChannel()
 					this.showToast('操作成功')
-					eventChannel.emit('refreshTalkBehaviorDetailXw', {data: 1});
+					const eventChannel = this.getOpenerEventChannel()
+					eventChannel.emit('refreshTalkBehaviorDetailZd', {data: 1});
 					uni.navigateBack();
 					this.hideLoading()
 				})

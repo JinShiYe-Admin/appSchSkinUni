@@ -109,6 +109,7 @@
 				}else {
 					util.openwithData('/pages/stu_behavior/stu_talk_add',{index_code:this.index_code},{//新建主动谈话
 						refreshTalkBehaviorZd(data){//子页面调用父页面需要的方法
+							console.log(123);
 							that.showLoading()
 							that.pageobj0.loadFlag=0
 							that.pageobj0.canload=true
@@ -142,13 +143,13 @@
 				}
 			},
 			thClick:function(e){
-				if(this.xwIndex!==e.detail.value){
+				if(this.thIndex!==e.detail.value){
 					if(e.detail.value!=''){
 						this.xwlx='behavior'
 					}else{
 						this.xwlx=''
 					}
-					 this.xwIndex=e.detail.value
+					 this.thIndex=e.detail.value
 					 this.showLoading()
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
@@ -157,8 +158,8 @@
 				}
 			},
 			ztClick:function(e){
-				if(this.kmIndex!==e.detail.value){
-					 this.kmIndex=e.detail.value
+				if(this.ztIndex!==e.detail.value){
+					 this.ztIndex=e.detail.value
 					 this.showLoading()
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
@@ -280,7 +281,15 @@
 				}
 				if(item.status==null){
 					item.title ='主动谈话详情';
-					util.openwithData("/pages/stu_behavior/stu_talk_detail", item);//主动谈话详情
+					util.openwithData("/pages/stu_behavior/stu_talk_detail", item,{
+						refreshTalkBehaviorDetailZd(data){//子页面调用父页面需要的方法
+							that.showLoading()
+							that.pageobj0.loadFlag=0
+							that.pageobj0.canload=true
+							that.pageobj0.page_number=1
+							that.getList0()
+						},
+					});//主动谈话详情
 				}else if(item.status=='unTalk' || item.status=='read'){//未谈话、已阅 ，跳转到新增页
 					if(item.add==1){
 						util.openwithData("/pages/stu_behavior/stu_talk_action_add", item,{
@@ -292,10 +301,11 @@
 								that.getList0()
 							},
 							refreshTalkDetailZt(data){
-								let id=data.detail.id;
-								let bid=data.detail.bid;
-								let edit=data.detail.edit;
-								let pageArray=datasource.pageArray
+								console.log("data: " + JSON.stringify(data));
+								let id=data.id;
+								let bid=data.bid;
+								let edit=data.edit;
+								let pageArray=that.pagedata
 								pageArray.map(function(item){
 									let student_behavior_id=item.student_behavior_id
 									if(bid==student_behavior_id){

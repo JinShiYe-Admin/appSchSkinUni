@@ -101,7 +101,7 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='新建课堂行为'
+			itemData.text='新建主动谈话'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{

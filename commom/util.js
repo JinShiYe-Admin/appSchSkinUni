@@ -437,6 +437,59 @@ function getPageArray() {
 			url: 'schapp_OA_Payment'
 		}, ]
 
+	},
+	{
+		text: "学生考勤", //学生考勤
+		pagePath: "/pages/schapp_work/index",
+		iconPath: tempAAA + '/static/tabbar/study.png',
+		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+		count: 0,
+		isDot: false,
+		customIcon: false,
+		img_href: tempAAA + "/static/tabbar/kaoqin_tab.png",
+		url: 'schapp_Work',
+		childList: [{
+			name: '请假记录',
+			icon: tempAAA + '/static/images/schapp_work/qingjiajilu.png',
+			href: "/pages/schapp_work/qingjiaIndex",
+			url: 'schapp_Work_leave'
+		}, {
+			name: '课堂考勤',
+			icon: tempAAA + '/static/images/schapp_work/ketangkaoqin.png',
+			href: "/pages/schapp_work/ketangIndex",
+			url: 'schapp_Work_classroom'
+		}, {
+			name: '课外考勤',
+			icon: tempAAA + '/static/images/schapp_work/kewaikaoqin.png',
+			href: "/pages/schapp_work/kewaiIndex",
+			url: 'schapp_Work_extracurricular'
+		}, {
+			name: '出入校报表',
+			icon: tempAAA + '/static/images/schapp_work/churuxiaokaoqin.png',
+			href: "/pages/schapp_work/jinchuxiaoForm",
+			url: 'schapp_Work_inoutschool_form'
+		}, {
+			name: '课堂报表',
+			icon: tempAAA + '/static/images/schapp_work/ketangbaobiao.png',
+			href: "/pages/schapp_work/ketangForm",
+			url: 'schapp_Work_classroom_form'
+		}, {
+			name: '课外报表',
+			icon: tempAAA + '/static/images/schapp_work/kewaibaobiao.png',
+			href: "/pages/schapp_work/kewaiForm",
+			url: 'schapp_Work_extracurricular_form'
+		}, {
+			name: '班级报表',
+			icon: tempAAA + '/static/images/schapp_work/banjibaobiao.png',
+			href: "/pages/schapp_work/banjiForm",
+			url: 'schapp_Work_class_form'
+		}, {
+			name: '学生报表',
+			icon: tempAAA + '/static/images/schapp_work/xueshengbaobiao.png',
+			href: "/pages/schapp_work/xueshengForm",
+			url: 'schapp_Work_students_form'
+		}, ]
+	
 	}];
 	return tempArray;
 }
