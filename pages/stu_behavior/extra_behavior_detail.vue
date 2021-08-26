@@ -95,7 +95,8 @@
 			}
 		},
 		components: {
-			mynavBar
+			mynavBar,
+			 gUpload
 		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();
@@ -133,7 +134,7 @@
 				    console.log("responseaaa: " + JSON.stringify(response));
 					const eventChannel = this.getOpenerEventChannel()
 					this.showToast('操作成功')
-					eventChannel.emit('refreshClsBehaviorDetail', {data: 1});
+					eventChannel.emit('refreshExtBehaviorDetail', {data: 1});
 					uni.navigateBack();
 					this.hideLoading()
 				})

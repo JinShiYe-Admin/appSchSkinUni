@@ -3,54 +3,35 @@
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
 		<view v-if="detailData.grd_name || detailData.cls_name ||  detailData.stu_name">
 			<view class="uni-flex uni-row form-view">
-				<view class="form-left">年级</view>
-				<view class="form-right">{{detailData.grd_name}}</view>
+				<view class="form-left">行为详情</view>
+				<view class="form-right">
+					<view style="margin: 5px 0;">{{detailData.grd_name}}&ensp;{{detailData.class_name}}&ensp;{{detailData.stu_name}}</view>
+					<view style="margin: 5px 0;">{{detailData.behavior_time}}&ensp;&ensp;{{detailData.item_txt}}</view>
+					<view style="margin: 5px 0;">{{detailData.comment}}</view>
+				</view>
 			</view>
 			<view class="line"></view>
+			<template v-if="imgList.length>0">
+				<view class="uni-flex uni-row form-view">
+					<view class="form-left">行为记录</view>
+					<g-upload ref='gUpload' :mode="imgList" :deleteBtn='deleteBtn' :control='control' :columnNum="columnNum"></g-upload>
+				</view>
+				<view class="line"></view>
+			</template>
 			<view class="uni-flex uni-row form-view">
-				<view class="form-left">班级</view>
-				<view class="form-right">{{detailData.class_name}}</view>
-			</view>
-			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left">姓名</view>
-				<view class="form-right">{{detailData.stu_name}}</view>
-			</view>
-			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left">行为细项</view>
-				<view class="form-right">{{detailData.item_txt}}</view>
-			</view>
-			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left">发生日期</view>
+				<view class="form-left">谈话日期</view>
 				<view class="form-right">{{detailData.create_time}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
-				<view class="form-left">节次</view>
-				<view class="form-right">{{detailData.class_node}}</view>
+				<view class="form-left">谈话记录</view>
+				<view class="form-right">{{detailData.chat_detail}}</view>
 			</view>
-			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left">科目</view>
-				<view class="form-right">{{detailData.sub_name}}</view>
-			</view>
-			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left">记录人</view>
-				<view class="form-right">{{detailData.create_user_name}}</view>
-			</view>
-			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left">行为说明</view>
-				<view class="form-right">{{detailData.comment}}</view>
-			</view>
-			<template v-if="imgList.length>0">
+			<template v-if="imgList2.length>0">
 				<view class="double-line"></view>
 				<view class="uni-flex uni-row form-view choose-file">
 					<view class="choose-file-text">附件</view>
-					<g-upload ref='gUpload' :mode="imgList" :deleteBtn='deleteBtn' :control='control' :columnNum="columnNum"></g-upload>
+					<g-upload ref='gUpload' :mode="imgList2" :deleteBtn='deleteBtn' :control='control' :columnNum="columnNum"></g-upload>
 				</view>
 			</template>
 		</view> 
@@ -102,28 +83,38 @@
 				deleteBtn:false,//是否显示删除 按钮 一般用于显示
 				columnNum:3,//每行显示的图片数量
 				imgList: [],//选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
+				imgList2: [],//选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
 			}
 		},
 		components: {
-			mynavBar
+			mynavBar,
+			 gUpload
 		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
+			console.log(itemData);
 			itemData.index=100
-			itemData.text='课堂行为详情'
+			itemData.text=itemData.title
 			this.tabBarItem = itemData;
 			this.detailData = itemData;
 			this.index_code=itemData.index_code
 			console.log("itemData: " + JSON.stringify(itemData));
 			let imgList=[]
-			itemData.asset_ids.map(item=>{
+			itemData.behavior_asset_ids.map(item=>{
 				imgList.push(item.url)
 			})
-			if(itemData.del==1){
+			this.imgList=imgList
+			
+			let imgList2=[]
+			itemData.asset_ids.map(item=>{
+				imgList2.push(item.url)
+			})
+			this.imgList2=imgList2
+			
+			if(itemData.canDelete){
 				this.icon='trash'
 			}
-			this.imgList=imgList
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
