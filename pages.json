@@ -550,8 +550,9 @@
             "path" : "pages/oa/collectionDataIndex",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -559,6 +560,7 @@
             "path" : "pages/oa/collectionDataNew",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -578,7 +580,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -596,7 +598,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -613,8 +615,9 @@
             "path" : "pages/oa/noticeIndex",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -622,6 +625,7 @@
             "path" : "pages/oa/noticeNew",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -631,6 +635,7 @@
             "path" : "pages/oa/selectPeople",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -649,6 +654,7 @@
             "path" : "pages/oa/shiwuNew",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -667,8 +673,9 @@
             "path" : "pages/oa/workflowIndex",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -676,6 +683,7 @@
             "path" : "pages/oa/workflowNew",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -703,8 +711,9 @@
             "path" : "pages/oa/shiwuIndex",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }

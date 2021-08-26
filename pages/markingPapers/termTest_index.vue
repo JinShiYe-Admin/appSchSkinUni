@@ -96,6 +96,9 @@
 					this.pageIndex++;
 					this.total_page = data.total_page;
 					if (this.flagRef == 0) {
+						if(data.list.length==0){
+							this.showToast('暂无数据');
+						}
 						this.pageArray = [].concat(data.list);
 						uni.stopPullDownRefresh();
 					} else {
