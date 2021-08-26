@@ -214,6 +214,26 @@ function getPermissionByPosition(op_codes, index_code, callback) {
 	})
 }
 
+// 获取未读数
+function getUnReadCut(index_code, url, callback) {
+	let personal = getPersonal();
+	var comData = {
+		platform_code: personal.platform_code, //平台代码
+		app_code: personal.app_code, //应用系统代码
+		index_code: index_code.split("#")[1], //页面码,页面对应的权限码:index结尾的页面码,必传,由前端从皮得到
+		unit_code: personal.unit_code, //单位代码
+		user_code: personal.user_code, //用户代码
+		access_token: personal.access_token,
+		numtp: 0,
+	};
+	Vue.prototype.post(url, comData, response => {
+		callback(response.list);
+	}, error => {
+		console.log("error: ", error);
+		callback([]);
+	})
+}
+
 function getPageArray() {
 	let tempAAA = '';
 	//#ifndef APP-PLUS
@@ -461,5 +481,6 @@ module.exports = {
 	getPageData: getPageData,
 	showToast: showToast,
 	getPermissionByPosition: getPermissionByPosition,
-	getPageArray: getPageArray
+	getPageArray: getPageArray,
+	getUnReadCut: getUnReadCut
 }

@@ -309,6 +309,9 @@
 						this.semFlag0Data.pageIndex++;
 						this.semFlag0Data.total_page = data.data.total_page;
 						if (this.semFlag0Data.flagRef == 0) {
+							if(data.data.list.length==0){
+								this.showToast('暂无数据');
+							}
 							this.semFlag0Data.attenceList = [].concat(data.data.list);
 							uni.stopPullDownRefresh();
 						} else {
@@ -376,6 +379,9 @@
 						this.semFlag1Data.pageIndex++;
 						this.semFlag1Data.total_page = data.data.total_page;
 						if (this.semFlag1Data.flagRef == 0) {
+							if(data.data.list.length==0){
+								this.showToast('暂无数据');
+							}
 							this.semFlag1Data.leaveList = [].concat(data.data.list);
 							uni.stopPullDownRefresh();
 						} else {
@@ -466,6 +472,9 @@
 						this.semFlag2Data.pageIndex++;
 						this.semFlag2Data.total_page = data.data.total_page;
 						if (this.semFlag2Data.flagRef == 0) {
+							if(data.data.list.length==0){
+								this.showToast('暂无数据');
+							}
 							this.semFlag2Data.leaveList = [].concat(data.data.list);
 							uni.stopPullDownRefresh();
 						} else {

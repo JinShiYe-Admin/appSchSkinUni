@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<uni-list>
-			<uni-list-item v-for="(model,index) in pageArray" :key='index' direction='column' clickable @click="clickItem(model)">
+			<uni-list-item showArrow v-for="(model,index) in pageArray" :key='index' direction='column' clickable @click="clickItem(model)">
 				<view slot="body">
 					<view style="float: left;">
 						<image class="peopleImg" :src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
@@ -130,6 +130,9 @@
 					this.pageIndex++;
 					this.total_page = data.total_page;
 					if (this.flagRef == 0) {
+						if(data.list.length==0){
+							this.showToast('暂无数据');
+						}
 						this.pageArray = [].concat(data.list);
 						uni.stopPullDownRefresh();
 					} else {
