@@ -524,7 +524,6 @@ module.exports = {
 	},
 	"column": {
 		"type": "column",
-		"animation": false,
 		"color": [
 			"#C33531",
 			"#2F4553",
