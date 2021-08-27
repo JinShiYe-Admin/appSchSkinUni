@@ -359,18 +359,20 @@
 			upLoadImg(){
 				let _this=this
 				let names=[]
-				this.showLoading('正在上传文件...')
+				// this.showLoading('正在上传文件...')
 				// console.log(this.imgFiles);
 				// console.log("this.imgList: " + JSON.stringify(this.imgList));
 				let newImgList=this.imgList.filter(item=>{
-					return item.indexOf('blob:')!==-1
+					return item.indexOf('blob:')!==-1 || item.indexOf('file:')!==-1
 				})//过滤服务器已经上传过的文件
 				let imgUrls=this.imgList.filter(item=>{
-					return item.indexOf('blob:')===-1
+					return !(item.indexOf('blob:')===0 || item.indexOf('file:')===0)
 				})//过滤服务器已经上传过的文件
+				// console.log("imgUrls: " + JSON.stringify(imgUrls));
 				if(newImgList.length>0){
-					this.imgFiles.map((item,index)=>{
-						names.push(this.moment().format('YYYYMMDDHHmmsss')+'_'+index+'_'+item.name)
+					newImgList.map((item,index)=>{
+						//如果是H5 文件是blob ，可以用item.name 获取文件名  如果是app-plus 需要截取字符串，这里不写了
+						names.push(this.moment().format('YYYYMMDDHHmmsss')+'_'+index+'.png')
 					})
 					cloudFileUtil.uploadFiles(this,'1',names,newImgList,this.QN_PB_NAME,this.QN_XSXW_KTXW,encAddrStr=>{
 						// console.log("encAddrStr: " + JSON.stringify(imgUrls.concat(encAddrStr)));

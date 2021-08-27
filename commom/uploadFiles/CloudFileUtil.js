@@ -18,12 +18,12 @@ var getUpLoadTokens = function(that,data, callBack) {
 		configure.thumbKey = [];
 	}
 	//		for(var i in data.fileArray) {
-	for (var i = 0; i < data.fileArray.length; i++) {
-		var filePaths = data.fileArray[i].split("/");
-		var QNFileName = filePaths[filePaths.length - 1];
+	for (var i = 0; i < data.QNFileName.length; i++) {
+		// var filePaths = data.fileArray[i].split("/");
+		// var QNFileName = filePaths[filePaths.length - 1];
 		var param = {
 			Bucket: data.mainSpace,
-			Key: data.uploadSpace + QNFileName,
+			Key: data.uploadSpace + data.QNFileName[i],
 			Pops: "",
 			NotifyUrl: ""
 		}
@@ -594,7 +594,7 @@ var uploadFiles = function(that,type, fileNames,files,mainSpace,uploadSpace,call
 	 let getToken = {
 	 	type: type, //str 必填 获取上传token的类型。0上传需要生成缩略图的文件；1上传文件
 	 	QNFileName: fileNames, //str 必填 存放到七牛的文件名
-		fileArray:files,
+		// fileArray:files,
 	 	appId: that.globaData.QN_APPID, //int 必填 项目id
 	 	appKey: that.globaData.QN_APPKEY,
 	 	mainSpace: mainSpace, //str 必填 私有空间或公有空间
@@ -603,13 +603,13 @@ var uploadFiles = function(that,type, fileNames,files,mainSpace,uploadSpace,call
 	 getUpLoadTokens(that,getToken, data=> {
 	 	let QNUptoken = data.data; //token数据
 	 	let configure = data.configure; //获取token的配置信息
-	 	console.log('七牛上传token:' + JSON.stringify(QNUptoken));
+	 	// console.log('七牛上传token:' + JSON.stringify(QNUptoken));
 	 	if(QNUptoken.Status == 0) { //失败
 	 		that.showToast('获取上传凭证失败 ' + QNUptoken.Message);
 	 		// console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
 	 		that.hideLoading();
 	 	} else {
-			let domains=[]
+			let domains=[] 
 			files.map((file,index)=>{
 				_uploadFiles(file, QNUptoken.Data[index].Token, QNUptoken.Data[index].Key, function(upload, status) {
 					// console.log("status: " + JSON.stringify(status));
@@ -641,8 +641,9 @@ var _uploadFiles = function(fPath, token, key, uploadCompletedCallBack,that) {
 			'key': key,
 			'token': token
 		},
+		name: 'file',
 		success: (uploadFileRes) => {
-			console.log('uploadFileRes:' + JSON.stringify(uploadFileRes));
+			// console.log('uploadFileRes:' + JSON.stringify(uploadFileRes));
 			uploadCompletedCallBack(uploadFileRes.data, uploadFileRes.statusCode);
 		},
 		fail:(e)=>{

@@ -24,7 +24,7 @@
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">行为细项</view>
+			<view class="form-left">考勤项目</view>
 			<picker style="width:100% !important;" mode="selector" @change="xwxxSelect" :value="xwxxIndex" :range="xwxxList" range-key="text">
 				<input class="uni-input form-right"  v-model="xwxxList[xwxxIndex].text" placeholder="请选择" disabled/>
 			</picker>
@@ -32,7 +32,7 @@
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">发生日期</view>
+			<view class="form-left">考勤日期</view>
 			<xp-picker mode="ymd" ref="timePicker" history :animation="false" :year-range='[2020,2030]' @confirm="timeSelect"></xp-picker>
 			<input class="uni-input form-right"  v-model="formData.time" placeholder="请选择" disabled @click="timePicker"/>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
@@ -55,7 +55,7 @@
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left form-left-textarea">行为说明</view>
+			<view class="form-left form-left-textarea">说明</view>
 			<textarea placeholder="请输入" v-model="formData.comment" maxlength="100" ></textarea>
 		</view>
 		<template v-if="SHOW">
@@ -128,7 +128,7 @@
 		methods: {
 			getSmsConfig(){//获取短信配置
 				let comData={
-					msg_type: this.ACTION_MSG_SMS.CLSBEHAVIOR.MSG_TYPE,
+					msg_type: this.STUKQ_MSG_SMS.INCLS.MSG_TYPE,
 					sch_code: this.personInfo.unit_code,
 					index_code:this.index_code,
 				}
@@ -136,7 +136,7 @@
 				    console.log("responseaaa: " + JSON.stringify(response));
 					if (response.user_types) {
 						let config_types=response.user_types.split(",");
-						let local_types=this.ACTION_MSG_SMS.CLSBEHAVIOR.USER_TYPE.split(",");
+						let local_types=this.STUKQ_MSG_SMS.INCLS.USER_TYPE.split(",");
 						let send=false;
 						config_types.map(citem=>{
 							local_types.map(litem=>{
@@ -274,14 +274,13 @@
 			},
 			getJcXwxx(){//获取常量 节次和行为细项
 				let comData={
-					op_code:'index',
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/getDict',comData,response=>{
+				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
 				    console.log("responsesabaa: " + JSON.stringify(response));
 					this.hideLoading()
 					this.jcList=[{text:'请选择',value:''}].concat(response.timeArray)
-					this.xwxxList =  [{text:'请选择',value:''}].concat(response.qbArray);
+					this.xwxxList =  [{text:'请选择',value:''}].concat(response.qaArray);
 				})
 			},
 			textClick(){//发送请假信息
@@ -292,7 +291,7 @@
 				}else if(this.stuIdList.length==0){
 					this.showToast('请选择学生')
 				}else if(this.xwxxList[this.xwxxIndex].value==''){
-					this.showToast('请选择行为细项')
+					this.showToast('请选择考勤项目')
 				}else if(this.formData.time==''){
 					this.showToast('请选择发生日期')
 				}else if(this.jcList[this.jcIndex].value==''){
@@ -300,64 +299,15 @@
 				}else if(this.kmList[this.kmIndex].value==''){
 					this.showToast('请选择科目')
 				}else if(this.formData.comment==''){
-					this.showToast('请输入行为说明')
+					this.showToast('请输入说明')
 				}else{
 					if(this.canSub){
 						this.canSub=false
 						this.showLoading()
-						if(this.imgList.length>0){
-							this.upLoadImg();
-						}else{
-							this.submitData()
-						}
+						this.submitData()
 					}
 				}
 			},
-			//附件上传相关👇
-			chooseFile(list, v,f) {
-			  // console.log("上传图片_list：", list)
-			  // console.log("上传图片_v：", v);
-			  //  console.log("上传图片_f：", f);
-			  this.imgList=list
-			  this.imgFiles=this.imgFiles.concat(f)
-			  this.maxCount=this.showMaxCount-list.length
-			},
-			imgDelete(list, eq,fileeq) {
-			  // console.log("删除图片_list：", list)
-			  // console.log("删除图片_eq：", eq)
-			  // console.log("删除图片_fileeq：", fileeq)
-			  this.imgList=list
-			  this.imgFiles.splice(fileeq, 1); //删除临时路径
-			  this.maxCount=this.showMaxCount-list.length
-			  // console.log("删除图片_fileeq：", this.imgFiles)
-			},
-			upLoadImg(){
-				let _this=this
-				let names=[]
-				this.showLoading('正在上传文件...')
-				// console.log(this.imgFiles);
-				// console.log("this.imgList: " + JSON.stringify(this.imgList));
-				let newImgList=this.imgList.filter(item=>{
-					return item.indexOf('blob:')!==-1
-				})//过滤服务器已经上传过的文件
-				let imgUrls=this.imgList.filter(item=>{
-					return item.indexOf('blob:')===-1
-				})//过滤服务器已经上传过的文件
-				if(newImgList.length>0){
-					this.imgFiles.map((item,index)=>{
-						names.push(this.moment().format('YYYYMMDDHHmmsss')+'_'+index+'_'+item.name)
-					})
-					cloudFileUtil.uploadFiles(this,'1',names,newImgList,this.QN_PB_NAME,this.QN_XSXW_KTXW,encAddrStr=>{
-						// console.log("encAddrStr: " + JSON.stringify(imgUrls.concat(encAddrStr)));
-						// console.log("names: " + JSON.stringify(this.imgNames.concat(names)));
-						this.submitData(this.imgNames.concat(names),imgUrls.concat(encAddrStr))
-					})
-				}else{
-					this.submitData(this.imgNames,imgUrls)
-				}
-				
-			},
-			//附件上传相关👆
 			submitData(encNameStr,encAddrStr){
 				this.showLoading()
 				let smsFlag=0;
@@ -381,38 +331,25 @@
 					 	return 0
 					 }
 				}
-				
-				let asset_ids=[]
-				if(encNameStr){
-					encNameStr.map(function(item,index){
-						let obj={}
-						obj.id=''
-						obj.url=encAddrStr[index]
-						obj.ext=item.split(".")[1]
-						obj.name='附件'+(index+1)
-						asset_ids.push(obj)
-					})
-				}
 				let comData={
 					grd_code: this.grdList[this.grdIndex].value,
 					cls_code: this.clsList[this.clsIndex].value,
 					stu_ids: this.stuIdList.join(','),
 					item_code: this.xwxxList[this.xwxxIndex].value,
 					comment: comment,
-					behavior_time: this.formData.time,
+					attendance_time: this.formData.time,
 					class_node: this.jcList[this.jcIndex].value,
 					sub_code:this.kmList[this.kmIndex].value,
-					asset_ids:asset_ids,
 					sms_parent_stu_flag:smsFlag,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/save',comData,(response0,response)=>{
+				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/saveData',comData,(response0,response)=>{
 					console.log("response: " + JSON.stringify(response));
 				     if (response.code == 0) {
 						 this.hideLoading()
 						 this.showToast(response.msg);
 				     	 const eventChannel = this.getOpenerEventChannel()
-				     	 eventChannel.emit('refreshClsBehavior', {data: 1});
+				     	 eventChannel.emit('refreshKetang', {data: 1});
 				     	 uni.navigateBack();
 				     } else {
 				     	this.canSub=true

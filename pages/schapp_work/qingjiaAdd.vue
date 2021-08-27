@@ -50,7 +50,7 @@
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">结束时间</view>
-			<xp-picker mode="ymd" ref="endTimePicker" history :animation="false" :year-range='[2020,2030]' @confirm="endTimeSelect"></xp-picker>
+			<xp-picker mode="ymdhm" ref="endTimePicker" history :animation="false" :year-range='[2020,2030]' @confirm="endTimeSelect"></xp-picker>
 			<input class="uni-input form-right"  v-model="endtime" placeholder="请选择" disabled @click="endTimePicker"/>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>

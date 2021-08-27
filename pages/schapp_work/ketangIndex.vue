@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
-		<view class="tabs-fixed" >
+		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
 					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="grdArray[grdIndex].text" ></uni-easyinput-select>
@@ -9,11 +9,10 @@
 				<picker style="flex: 1;"  @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
 					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="clsArray[clsIndex].text" ></uni-easyinput-select>
 				</picker>
-				<picker mode="date" style="flex: 1.1;" :start="startData" :end="endData" @change="timeSelect">
-					<view class="mini" >
-						<uni-easyinput-select :inputBorder="false" suffixIcon="arrowdown" disabled :value="time"></uni-easyinput-select>
-					</view>
-				</picker>
+				<view class="mini-date" style="flex: 1;">
+					<dy-Date :childValue='endDate' timeType="day" v-on:getData='timeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>
+					<uni-icons style="padding-right: 3px;" size="13" type="arrowdown" color="#C2C7D6"></uni-icons>
+				</view>
 				<picker style="flex: 1;" @change="kmClick" :value="kmIndex" :range="kmArray" range-key="text">
 					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="kmArray[kmIndex].text" ></uni-easyinput-select>
 				</picker>
@@ -70,8 +69,8 @@
 				grdArray: [{text:'',value:'-1'}],
 				clsArray: [{text:'',value:'-1'}],
 				kmArray: [{text:'',value:'-1'}],
-				startData:'2010-01-01',
-				endData:'2030-12-31'
+				startDate:'2010-01-01',
+				endDate:this.moment().format('YYYY-MM-DD')
 			}
 		},
 		components: {
@@ -134,7 +133,7 @@
 			},
 			timeSelect(e){
 				console.log(e);
-				this.time=e.detail.value
+				this.time=e
 				this.showLoading()
 				this.pageobj0.loadFlag=0
 				this.pageobj0.canload=true
@@ -270,7 +269,6 @@
 					 if(result[0]){
 						 this.icon='plusempty'
 					 }
-					 this.hideLoading();
 				 })
 				 this.getGrd()
 			},100)
