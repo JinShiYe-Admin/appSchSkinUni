@@ -1,7 +1,6 @@
 <template>
 	<view>
-		<mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
-		<mynavBar v-else ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' ></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
 		<view class="tabs-fixed" >
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
@@ -10,27 +9,26 @@
 				<picker style="flex: 1;"  @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
 					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="clsArray[clsIndex].text" ></uni-easyinput-select>
 				</picker>
-				<view style="flex: 1.1;">
-					<xp-picker mode="ymd" ref="timePicker" history :animation="false" :year-range='[2020,2030]' @confirm="timeSelect"></xp-picker>
-					<view class="mini" @click="timePicker" >
+				<picker mode="date" style="flex: 1.1;" :start="startData" :end="endData" @change="timeSelect">
+					<view class="mini" >
 						<uni-easyinput-select :inputBorder="false" suffixIcon="arrowdown" disabled :value="time"></uni-easyinput-select>
 					</view>
-				</view>
-				<picker style="flex: 1;" @change="kmClick" :value="kmIndex" :range="kmArray" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="kmArray[kmIndex].text" ></uni-easyinput-select>
+				</picker>
+				<picker style="flex: 1;" @change="qjlxClick" :value="qjlxIndex" :range="qjlxArray" range-key="text">
+					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="qjlxArray[qjlxIndex].text" ></uni-easyinput-select>
 				</picker>
 			</view>
 			<view class="select-line"></view>
 		</view>
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
-				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
+				<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
+					<text slot="body" class="slot-box slot-text">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text"><view class='leaveType'>{{item.item_txt}}</view>{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
-							<uni-col :span="24"><view class="detail-text">{{item.class_node}} / {{item.sub_name}}</view></uni-col>
-							<uni-col :span="16"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
-							<uni-col :span="8"><view class="detail-text" style="text-align: right;">{{item.create_time}}</view></uni-col>
+							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
+							<uni-col :span="24"><view class="detail-text">请假类型:{{item.item_txt}}</view></uni-col>
+							<uni-col :span="24"><view class="detail-text">{{item.begintime}}~{{item.endtime}}</view></uni-col>
+							<uni-col :span="24"><view class="detail-text" style="word-break: break-all;word-wrap:break-word;white-space:initial" v-if="item.comment">说明:{{item.comment}}</view></uni-col>
 						</uni-row>
 					</text>
 				</uni-list-item>
@@ -48,6 +46,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
+				icon:'',
 				add:false,//add按钮权限
 				tabBarItem: {},
 				pageSize:15,
@@ -66,14 +65,13 @@
 				//顶部筛选框相关内容
 				grdIndex:0,
 				clsIndex:0,
-				kmIndex:0,
-				xwIndex:0,
+				qjlxIndex:0,
 				time:this.moment().format('YYYY-MM-DD'),
 				grdArray: [{text:'',value:''}],
 				clsArray: [{text:'',value:''}],
-				kmArray: [{text:'',value:''}],
-				xwArray: [{text:'',value:''}],
-				jcArray: [{text:'',value:''}],
+				qjlxArray: [{text:'',value:''}],
+				startData:'2010-01-01',
+				endData:'2030-12-31'
 			}
 		},
 		components: {
@@ -86,15 +84,11 @@
 					this.showToast('无法获取年级数据，不能进行添加操作')
 				}else if(this.clsArray.length==0){
 					this.showToast('无法获取班级数据，不能进行添加操作')
-				}else if(this.xwArray.length==0){
-					this.showToast('无法获取行为细项数据，不能进行添加操作')
-				}else if(this.kmArray.length==0){
-					this.showToast('无法获取科目数据，不能进行添加操作')
-				}else if(this.jcArray.length==0){
-					this.showToast('无法获取节次数据，不能进行添加操作')
+				}else if(this.qjlxArray.length==0){
+					this.showToast('无法获取考勤类型，不能进行添加操作')
 				}else {
-					util.openwithData('/pages/stu_behavior/class_behavior_add',{index_code:this.index_code},{
-						refreshClsBehavior(data){//子页面调用父页面需要的方法
+					util.openwithData('/pages/schapp_work/qingjiaAdd',{index_code:this.index_code},{
+						refreshQingjia(data){//子页面调用父页面需要的方法
 							that.showLoading()
 							that.pageobj0.loadFlag=0
 							that.pageobj0.canload=true
@@ -108,7 +102,6 @@
 				if(this.grdIndex!==e.detail.value){
 					 this.grdIndex=e.detail.value
 					 this.clsIndex=0
-					 this.kmIndex=0
 					 this.showLoading()
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
@@ -119,17 +112,6 @@
 			clsClick:function(e){
 				if(this.clsIndex!==e.detail.value){
 					 this.clsIndex=e.detail.value
-					 this.kmIndex=0
-					 this.showLoading()
-					 this.pageobj0.loadFlag=0
-					 this.pageobj0.canload=true
-					 this.pageobj0.page_number=1
-					 this.getKm();
-				}
-			},
-			xwClick:function(e){
-				if(this.xwIndex!==e.detail.value){
-					 this.xwIndex=e.detail.value
 					 this.showLoading()
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
@@ -137,22 +119,24 @@
 					 this.getList0();
 				}
 			},
-			kmClick:function(e){
-				if(this.kmIndex!==e.detail.value){
-					 this.kmIndex=e.detail.value
+			qjlxClick:function(e){
+				if(this.qjlxIndex!==e.detail.value){
+					 this.qjlxIndex=e.detail.value
 					 this.showLoading()
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
 					 this.pageobj0.page_number=1
 					 this.getList0();
 				}
-			},
-			timePicker(){
-				console.log(123);
-				this.$refs.timePicker.show()
 			},
 			timeSelect(e){
-				this.time=e.value
+				console.log(e);
+				this.time=e.detail.value
+				this.showLoading()
+				this.pageobj0.loadFlag=0
+				this.pageobj0.canload=true
+				this.pageobj0.page_number=1
+				this.getList0();
 			},
 			getGrd(){//获取年级
 				let comData={
@@ -204,73 +188,47 @@
 					})
 					if(clsArray.length>0 ){
 						this.clsArray=clsArray;
-						this.getKm();
+						this.getList0();
 					}else{
 						this.clsArray=[];
 						this.showToast('无数据授权 无法获取班级');
 					}
 				})
 			},
-			getKm(){//获取科目
+			getQjlx(){//获取考勤类型
 				let comData={
-					op_code:'index',
-					grd_code: this.grdArray[this.grdIndex].value,
-					cls_code: this.clsArray[this.clsIndex].value,
-					get_sub: true,
-					all_sub: true,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+				this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/getDict',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
-					let sub = response.sub_list;
-					let subList = [];
-					sub.map(function(currentValue) {
-						let name = currentValue.name.indexOf('全部') == -1 ? currentValue.name : '全部科目';
-						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = name;
-						subList.push(obj)
+					let list = [].concat(response.qaArray);
+					let qjList = []
+					let obj = {};
+					obj.value = '';
+					obj.text = '全部考勤';
+					qjList.push(obj)
+					list.map(function(curValue){
+						qjList.push(curValue)
 					})
-					if (subList.length > 0) {
-						this.kmArray = subList;
-						this.getList0();
-					} else {
-						this.kmArray=[];
-						mui.toast('无数据授权 无法获取班级');
+					if(qjList.length>0){
+						this.qjlxArray = qjList
+					}else{
+						this.showToast('无法获取考勤项目');
 					}
-				})
-			},
-			getXw(){//获取行为细项
-				let comData={
-					op_code:'index',
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/getDict',comData,response=>{
-				    console.log("responseabaa: " + JSON.stringify(response));
-					this.hideLoading()
-					let jcList = response.timeArray;
-					if (jcList.length > 0) {
-						this.jcArray=jcList
-					}
-					let xwList = [{
-						value: '',
-						text: '全部行为'
-					}].concat(response.qbArray);
-					this.xwArray = xwList;
 				})
 			},
 			getList0(){//获取页面数据
 				let comData={
 					grd_code: this.grdArray[this.grdIndex].value,
 					cls_code: this.clsArray[this.clsIndex].value,
-					sub_code: this.kmArray[this.kmIndex].value,
-					item_code: this.xwArray[this.xwIndex].value,
+					item_code: this.qjlxArray[this.qjlxIndex].value,
+					query_time: this.time,
 					page_number: this.pageobj0.page_number, //当前页数
 					page_size: this.pageSize, //每页记录数
 					index_code: this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/list',comData,response=>{
+				this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/list',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
@@ -289,19 +247,6 @@
 					}
 				})
 			},
-			toDetails(item){
-				item.index_code=this.index_code
-				let that=this
-				util.openwithData('/pages/stu_behavior/class_behavior_detail',item,{
-					refreshClsBehaviorDetail(data){//子页面调用父页面需要的方法
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getList0()
-					}
-				})
-			}
 		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();
@@ -313,10 +258,13 @@
 				 this.showLoading()
 				 this.getPermissionByPosition('add',this.index_code,result=>{
 					 this.add=result[0]
+					 if(result[0]){
+						 this.icon='plusempty'
+					 }
 					 this.hideLoading();
 				 })
 				 this.getGrd()
-				 this.getXw()
+				 this.getQjlx()
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""

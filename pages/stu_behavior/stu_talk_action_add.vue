@@ -164,7 +164,7 @@
 					this.imgFiles.map((item,index)=>{
 						names.push(this.moment().format('YYYYMMDDHHmmsss')+'_'+index+'_'+item.name)
 					})
-					cloudFileUtil.uploadFiles(this,'1',names,newImgList,encAddrStr=>{
+					cloudFileUtil.uploadFiles(this,'1',names,newImgList,this.QN_PB_NAME,this.QN_XSXW_XSTH,encAddrStr=>{
 						// console.log("encAddrStr: " + JSON.stringify(imgUrls.concat(encAddrStr)));
 						// console.log("names: " + JSON.stringify(this.imgNames.concat(names)));
 						this.submitData(this.imgNames.concat(names),imgUrls.concat(encAddrStr))
