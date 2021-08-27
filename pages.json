@@ -541,6 +541,7 @@
             "path" : "pages/oa/collectionDataDetail",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -836,6 +837,15 @@
         }
         ,{
             "path" : "pages/schapp_work/xueshengForm",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/oa/shiwuDetailAddUser",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
