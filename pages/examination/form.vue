@@ -82,11 +82,11 @@
 				kmIndex:0,
 				grdArray: [{text:'',value:''}],
 				clsArray: [{text:'',value:''}],
-				kmArray: [{text:'',value:''}],
+				kmArray: [{text:'',value:'-1'}],
 			}
 		},
 		methods: {
-			grdClick:function(e){
+			grdClick:function(e){//切换年级班级，仅仅是为了获取科目，与页面数据无关
 				if(this.grdIndex!==e.detail.value){
 					 this.grdIndex=e.detail.value
 					 this.clsIndex=0
@@ -98,7 +98,7 @@
 					 this.getCls();
 				}
 			},
-			clsClick:function(e){
+			clsClick:function(e){//切换年级班级，仅仅是为了获取科目，与页面数据无关
 				if(this.clsIndex!==e.detail.value){
 					 this.clsIndex=e.detail.value
 					 this.kmIndex=0
@@ -187,13 +187,22 @@
 					grd_code: this.grdArray[this.grdIndex].value,
 					cls_code: this.clsArray[this.clsIndex].value,
 					get_sub:true,
-					all_sub:false,
+					all_sub:true,
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
-					let list=[{"value":"","name":"全科考情","stat":1}].concat(response.sub_list);
+					let list=[];
+					if (response.sub_list&&response.sub_list.length>0) {
+						if (response.sub_list[0].value=='-1') {
+							this.selectType='qk';
+							list=[{"value":"","name":"全科考情","stat":1}].concat(response.sub_list);
+						} else{
+							this.selectType='dk';
+							list=[].concat(response.sub_list);
+						}
+					}
 					let kmList=[]
 					list.map(function(currentValue){
 						 let obj={};

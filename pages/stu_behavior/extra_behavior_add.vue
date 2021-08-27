@@ -45,7 +45,7 @@
 		<template v-if="SHOW">
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
-				<view class="form-left" style="width: 300rpx;">是否向家长发送短信</view>
+				<view class="form-left" style="width: 300rpx;">是否发送短信</view>
 				<switch class="form-right" :checked="SMS" @change="changeAutoplay" color="#00CFBD"/>
 			</view>
 		</template>
@@ -320,7 +320,7 @@
 					this.imgFiles.map((item,index)=>{
 						names.push(this.moment().format('YYYYMMDDHHmmsss')+'_'+index+'_'+item.name)
 					})
-					cloudFileUtil.uploadFiles(this,'1',names,newImgList,encAddrStr=>{
+					cloudFileUtil.uploadFiles(this,'1',names,newImgList,this.QN_PB_NAME,this.QN_XSXW_KWXW,encAddrStr=>{
 						// console.log("encAddrStr: " + JSON.stringify(imgUrls.concat(encAddrStr)));
 						// console.log("names: " + JSON.stringify(this.imgNames.concat(names)));
 						this.submitData(this.imgNames.concat(names),imgUrls.concat(encAddrStr))

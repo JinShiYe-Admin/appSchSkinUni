@@ -770,8 +770,9 @@
             "path" : "pages/schapp_work/ketangIndex",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": true
             }
             
         }
@@ -798,8 +799,9 @@
             "path" : "pages/schapp_work/kewaiIndex",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": true
             }
             
         }
@@ -817,8 +819,9 @@
             "path" : "pages/schapp_work/qingjiaIndex",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": true
             }
             
         }

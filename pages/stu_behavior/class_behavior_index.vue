@@ -34,8 +34,8 @@
 						<uni-row>
 							<uni-col :span="24"><view class="title-text"><view class='leaveType'>{{item.item_txt}}</view>{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">{{item.class_node}} / {{item.sub_name}}</view></uni-col>
-							<uni-col :span="19"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
-							<uni-col :span="5"><view class="detail-text">{{item.create_time}}</view></uni-col>
+							<uni-col :span="16"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
+							<uni-col :span="8"><view class="detail-text" style="text-align: right;">{{item.create_time}}</view></uni-col>
 						</uni-row>
 					</text>
 				</uni-list-item>
@@ -396,7 +396,5 @@
 	 .uni-input-input{
 		 font-size: 13px;
 	 }
-	 ::v-deep .content-clear-icon{
-		 padding:0 10px 0 0 !important;
-	 }
+	  
 </style>

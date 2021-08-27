@@ -36,8 +36,8 @@
 							
 							<template v-if="item.status==null"><!-- 主动谈话 -->
 								<uni-col :span="24"><view class="detail-text">谈话记录:{{item.chat_detail}}</view></uni-col>
-								<uni-col :span="19"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
-								<uni-col :span="5"><view class="detail-text">{{item.chat_time}}</view></uni-col>
+								<uni-col :span="16"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
+								<uni-col :span="8"><view class="detail-text" style="text-align: right;">{{item.chat_time}}</view></uni-col>
 							</template>
 							<template v-if="item.status=='unTalk'"><!-- 未谈 -->
 								<uni-col :span="24"><view class="detail-text">行为发生日期:{{item.behavior_time}}</view></uni-col>
@@ -45,8 +45,8 @@
 							<template v-if="item.status=='talk'"> <!-- 已谈 -->
 								<uni-col :span="24"><view class="detail-text">行为发生日期:{{item.behavior_time}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">谈话记录:{{item.chat_detail}}</view></uni-col>
-								<uni-col :span="19"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
-								<uni-col :span="5"><view class="detail-text">{{item.chat_time}}</view></uni-col>
+								<uni-col :span="16"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
+								<uni-col :span="8"><view class="detail-text" style="text-align: right;">{{item.chat_time}}</view></uni-col>
 							</template>
 							<template v-if="item.status=='read'"> <!-- 已阅 -->
 								<uni-col :span="24"><view class="detail-text">行为发生日期:{{item.behavior_time}}</view></uni-col>
@@ -459,8 +459,5 @@
 	 }
 	 .uni-input-input{
 		 font-size: 13px;
-	 }
-	 ::v-deep .content-clear-icon{
-		 padding:0 10px 0 0 !important;
 	 }
 </style>

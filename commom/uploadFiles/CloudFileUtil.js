@@ -590,15 +590,15 @@ var upload = function(fPath, token, key, uploadCompletedCallBack, onStateChanged
  * @param {Object} key 七牛上传key
  * @param {Object} uploadCompletedCallBack 上传完成时的回调
  */
-var uploadFiles = function(that,type, fileNames,files,callback) {
+var uploadFiles = function(that,type, fileNames,files,mainSpace,uploadSpace,callback) {
 	 let getToken = {
 	 	type: type, //str 必填 获取上传token的类型。0上传需要生成缩略图的文件；1上传文件
 	 	QNFileName: fileNames, //str 必填 存放到七牛的文件名
 		fileArray:files,
 	 	appId: that.globaData.QN_APPID, //int 必填 项目id
 	 	appKey: that.globaData.QN_APPKEY,
-	 	mainSpace: that.QN_PB_NAME, //str 必填 私有空间或公有空间
-	 	uploadSpace: that.QN_HEADIMG, //str 必填  上传的空间
+	 	mainSpace: mainSpace, //str 必填 私有空间或公有空间
+	 	uploadSpace: uploadSpace, //str 必填  上传的空间
 	 }
 	 getUpLoadTokens(that,getToken, data=> {
 	 	let QNUptoken = data.data; //token数据
