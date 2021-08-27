@@ -129,6 +129,7 @@
 				} else if (this.navItem.index > 4 && this.navItem.index < 100) {
 					uni.switchTab({url: '/pages/more/index'});
 				}else if(this.navItem.index === 100){
+					uni.$emit("clickLeft");
 					// #ifdef H5
 						const pages = getCurrentPages()
 						if (pages.length > 1) {

@@ -33,7 +33,11 @@
 		},
 		methods: {
 			clickItem:function(chilItem){
-				util.openwithData(chilItem.pagePath,chilItem)
+				util.openwithData(chilItem.pagePath,chilItem,{
+					oaRefreshUnread(){
+						console.log('refreshrefreshrefreshrefreshrefreshrefreshrefreshrefreshrefreshrefresh');
+					}
+				});
 			}
 		},
 		onLoad() {

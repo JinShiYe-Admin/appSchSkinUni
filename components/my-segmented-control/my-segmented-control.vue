@@ -5,7 +5,7 @@
 			:class="[ styleType === 'text'?'segmented-control__item--text': 'segmented-control__item--button' , index === currentIndex&&styleType === 'button'?'segmented-control__item--button--active': '' , index === 0&&styleType === 'button'?'segmented-control__item--button--first': '',index === values.length - 1&&styleType === 'button'?'segmented-control__item--button--last': '' ]"
 			:key="index" :style="{
         backgroundColor: index === currentIndex && styleType === 'button' ? activeColor : '',borderColor: index === currentIndex&&styleType === 'text'||styleType === 'button'?activeColor:'transparent'
-      }" class="segmented-control__item" @click="_onClick(index)">{{item.noReadCut}}
+      }" class="segmented-control__item" @click="_onClick(index)">
 			<text :style="{color:
           index === currentIndex
             ? styleType === 'text'
@@ -72,12 +72,8 @@
 			this.currentIndex = this.current
 		},
 		methods: {
-			upLoadUnReadCut(index,num){
-				console.log('this.values1:'+JSON.stringify(this.values));
-				console.log('index:'+index);
-				console.log('num:'+num);
-				this.$set(this.values[index],'noReadCut',num);
-				console.log('this.values2:'+JSON.stringify(this.values));
+			upLoadUnReadCut(index,tempM){
+				this.$set(this.values,index,tempM);
 			},
 			_onClick(index) {
 				if (this.currentIndex !== index) {
@@ -141,8 +137,8 @@
 	}
 
 	.segmented-control__text {
-		font-size: 16px;
-		line-height: 20px;
+		font-size: 14px;
+		line-height: 16px;
 		text-align: center;
 	}
 
@@ -151,7 +147,7 @@
 	}
 
 	::v-deep .uni-badge--x {
-		margin-top: -20px;
-		margin-left: -20px;
+		margin-top: -15px;
+		margin-left: -15px;
 	}
 </style>

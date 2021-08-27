@@ -168,7 +168,7 @@
 			this.itemData.index = 100;
 			for (var i = 0; i < this.itemData.childList.length; i++) {
 				var tempM = this.itemData.childList[i];
-				tempM.noReadCut = 10;
+				tempM.noReadCut = 0;
 			}
 			console.log('this.itemData:' + JSON.stringify(this.itemData));
 			uni.setNavigationBarTitle({
@@ -180,16 +180,18 @@
 			//获取考勤记录
 			this.getPageList();
 			// 获取未读数
-			setTimeout(() => {
-				this.getUnReadCntFun();
-			}, 3000);
-			
+			this.getUnReadCntFun();
 			// 获取权限
 			this.getPermissionByPosition('add', this.itemData.access.split('#')[1], result => {
 				console.log('result:' + JSON.stringify(result));
 				if (result[0]) {
 					this.rightIcon = 'plusempty';
 				}
+			})
+			
+			uni.$on('clickLeft',(data) =>{
+				let eventChannel = this.getOpenerEventChannel();
+				eventChannel.emit('oaRefreshUnread', {});
 			})
 		},
 		onReachBottom() {
@@ -269,11 +271,10 @@
 							for (var b = 0; b < this.itemData.childList.length; b++) {
 								var tempM1 = this.itemData.childList[b];
 								if (tempM1.access == data[0].access) {
-									// tempM1.noReadCut = data[0].dotnum;
-									this.$refs.segmCon.upLoadUnReadCut(b,data[0].dotnum);
+									tempM1.noReadCut = data[0].dotnum;
+									this.$refs.segmCon.upLoadUnReadCut(b,tempM1);
 								}
 							}
-							console.log('this.itemData:' + JSON.stringify(this.itemData));
 						});
 					}
 				}
