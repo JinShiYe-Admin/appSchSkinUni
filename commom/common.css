@@ -69,7 +69,7 @@
 	 color: #808080;
  }
 /* 顶部选项卡 下拉样式 */
-::v-deep input{
+::v-deep .uni-easyinput input{
 	font-size: 13px !important;
 	padding-left: 2px !important;
 }

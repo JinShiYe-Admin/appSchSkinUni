@@ -3,7 +3,7 @@
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
-			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :range="grdList" range-key="text">
+			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
 				<input class="uni-input form-right"  v-model="grdList[grdIndex].text"  placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
@@ -19,44 +19,45 @@
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">姓名</view>
-			<input class="uni-input form-right"  v-model="stuNameList.join(',')" placeholder="请选择" disabled @click="selectStu"/>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">行为细项</view>
-			<picker style="width:100% !important;" mode="selector" @change="xwxxSelect" :value="xwxxIndex" :range="xwxxList" range-key="text">
-				<input class="uni-input form-right"  v-model="xwxxList[xwxxIndex].text" placeholder="请选择" disabled/>
+			<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stuList" range-key="text">
+				<input class="uni-input form-right"  v-model="stuList[stuIndex].text" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">发生日期</view>
-			<xp-picker mode="ymd" ref="timePicker" history :animation="false" :year-range='[2020,2030]' @confirm="timeSelect"></xp-picker>
-			<input class="uni-input form-right"  v-model="formData.time" placeholder="请选择" disabled @click="timePicker"/>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">节次</view>
-			<picker style="width:100% !important;" mode="selector" @change="jcSelect" :value="jcIndex" :range="jcList" range-key="text">
-				<input class="uni-input form-right"  v-model="jcList[jcIndex].text" placeholder="请选择" disabled/>
+			<view class="form-left">考勤项目</view>
+			<picker style="width:100% !important;" mode="selector" @change="kqlxSelect" :value="kqlxIndex" :range="kqlxList" range-key="text">
+				<input class="uni-input form-right"  v-model="kqlxList[kqlxIndex].text" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">科目</view>
-			<picker style="width:100% !important;" mode="selector" @change="kmSelect" :value="kmIndex" :range="kmList" range-key="text">
-				<input class="uni-input form-right"  v-model="kmList[kmIndex].text" placeholder="请选择" disabled/>
+			<view class="form-left">出入权限</view>
+			<picker style="width:100% !important;" mode="selector" @change="crqxSelect" :value="crqxIndex" :range="crqxList" range-key="text">
+				<input class="uni-input form-right"  v-model="crqxList[crqxIndex].text" placeholder="请选择" disabled/>
 			</picker>
+			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+		</view>
+		<view class="line"></view>
+		<view class="uni-flex uni-row form-view">
+			<view class="form-left">开始时间</view>
+			<xp-picker mode="ymd" ref="beginTimePicker" history :animation="false" :year-range='[2020,2030]' @confirm="beginTimeSelect"></xp-picker>
+			<input class="uni-input form-right"  v-model="begintime" placeholder="请选择" disabled @click="beginTimePicker"/>
+			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+		</view>
+		<view class="line"></view>
+		<view class="uni-flex uni-row form-view">
+			<view class="form-left">结束时间</view>
+			<xp-picker mode="ymd" ref="endTimePicker" history :animation="false" :year-range='[2020,2030]' @confirm="endTimeSelect"></xp-picker>
+			<input class="uni-input form-right"  v-model="endtime" placeholder="请选择" disabled @click="endTimePicker"/>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left form-left-textarea">行为说明</view>
-			<textarea placeholder="请输入" v-model="formData.comment" maxlength="100" ></textarea>
+			<textarea placeholder="请输入" v-model="comment" maxlength="100" ></textarea>
 		</view>
 		<template v-if="SHOW">
 			<view class="line"></view>
@@ -79,24 +80,19 @@
 				tabBarItem: {},
 				
 				canSub:true,
-				formData: {
-					time:'',//发生日期
-					comment:'',//说明
-				}, //表单内容
+				begintime:'',
+				endtime:'',
+				comment:'',//说明
 				grdIndex:0,
 				clsIndex:0,
 				stuIndex:0,
-				xwxxIndex:0,
-				jcIndex:0,
-				kmIndex:0,
+				kqlxIndex:0,
+				crqxIndex:0,
 				grdList: [{text:'请选择',value:''}], //年级数组
 				clsList: [{text:'请选择',value:''}], //班级数组
-				stuList:[],
-				stuNameList: [], //学生数组
-				stuIdList: [], //学生数组
-				xwxxList: [{text:'请选择',value:''}], //请假类别数组
-				jcList: [{text:'请选择',value:''}], //出入权限数组
-				kmList: [{text:'请选择',value:''}], //出入权限数组
+				stuList:[{text:'请选择',value:''}],
+				kqlxList: [{text:'请选择',value:''}], //考勤类型数组
+				crqxList: [{text:'请选择',value:''}], //出入权限数组
 				SMS:false,//是否向家长发送短信
 				CONFIG:{},//短信配置 对象
 				WORDS:[],//拒绝关键字 对象
@@ -105,7 +101,6 @@
 		},
 		components: {
 			mynavBar,
-			 gUpload
 		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();
@@ -118,7 +113,7 @@
 				this.showLoading();
 				this.getSmsConfig();
 				this.getGrd();
-				this.getJcXwxx();
+				this.getCl();
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""
@@ -127,7 +122,7 @@
 		methods: {
 			getSmsConfig(){//获取短信配置
 				let comData={
-					msg_type: this.ACTION_MSG_SMS.CLSBEHAVIOR.MSG_TYPE,
+					msg_type: this.STUKQ_MSG_SMS.ASKLEAVE.MSG_TYPE,
 					sch_code: this.personInfo.unit_code,
 					index_code:this.index_code,
 				}
@@ -135,7 +130,7 @@
 				    console.log("responseaaa: " + JSON.stringify(response));
 					if (response.user_types) {
 						let config_types=response.user_types.split(",");
-						let local_types=this.ACTION_MSG_SMS.CLSBEHAVIOR.USER_TYPE.split(",");
+						let local_types=this.STUKQ_MSG_SMS.ASKLEAVE.USER_TYPE.split(",");
 						let send=false;
 						config_types.map(citem=>{
 							local_types.map(litem=>{
@@ -247,48 +242,40 @@
 				let comData={
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/getDict',comData,response=>{
+				    console.log("responseaaaa: " + JSON.stringify(response));
 					this.hideLoading()
-					let sub = response.sub_list;
-					let subList = [];
-					sub.map(function(currentValue) {
-						let name = currentValue.name.indexOf('全部') == -1 ? currentValue.name : '全部科目';
-						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = name;
-						subList.push(obj)
-					})
-					if (subList.length > 0) {
-						this.kmList = [{text:'请选择',value:''}].concat(subList);
-					} else {
-						this.kmList=[];
-						mui.toast('无数据授权 无法获取班级');
+					let kqlxList = [{text:'请选择',value:''}].concat(response.qaArray);
+					let crqxList=[{text:'请选择',value:''}].concat(response.inOutPermissionArray)
+					
+					if(kqlxList.length==0 || crqxList.length==0){
+						this.showToast('无法获取考勤项目');
+					}else{
+						this.kqlxList = kqlxList
+						this.crqxList = crqxList
 					}
 				})
 			},
-			 
 			textClick(){//发送请假信息
 				if(this.grdList[this.grdIndex].value==''){
 					this.showToast('请选择年级')
 				}else if(this.clsList[this.clsIndex].value==''){
 					this.showToast('请选择班级')
-				}else if(this.stuIdList.length==0){
+				}else if(this.stuList[this.stuIndex].value==''){
 					this.showToast('请选择学生')
-				}else if(this.xwxxList[this.xwxxIndex].value==''){
-					this.showToast('请选择行为细项')
-				}else if(this.formData.time==''){
-					this.showToast('请选择发生日期')
-				}else if(this.jcList[this.jcIndex].value==''){
-					this.showToast('请选择节次')
-				}else if(this.kmList[this.kmIndex].value==''){
-					this.showToast('请选择科目')
-				}else if(this.formData.comment==''){
+				}else if(this.kqlxList[this.kqlxIndex].value==''){
+					this.showToast('请选择考勤类型')
+				}else if(this.crqxList[this.crqxIndex].value==''){
+					this.showToast('请选择出入权限')
+				}else if(this.begintime==''){
+					this.showToast('请选择开始时间')
+				}else if(this.endtime==''){
+					this.showToast('请选择结束时间')
+				}else if(this.comment==''){
 					this.showToast('请输入行为说明')
 				}else{
 					if(this.canSub){
 						this.canSub=false
-						this.showLoading()
 						this.submitData()
 					}
 				}
@@ -296,7 +283,7 @@
 			submitData(){
 				this.showLoading()
 				let smsFlag=0;
-				let comm=this.formData.comment
+				let comm=this.comment
 				let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
 				if(this.SMS){
 					smsFlag=1;
@@ -319,22 +306,22 @@
 				let comData={
 					grd_code: this.grdList[this.grdIndex].value,
 					cls_code: this.clsList[this.clsIndex].value,
-					stu_ids: this.stuIdList.join(','),
-					item_code: this.xwxxList[this.xwxxIndex].value,
+					stu_code: this.stuList[this.stuIndex].value,
+					item_code: this.kqlxList[this.kqlxIndex].value,
+					in_out_permission_code: this.crqxList[this.crqxIndex].value,
 					comment: comment,
-					behavior_time: this.formData.time,
-					class_node: this.jcList[this.jcIndex].value,
-					sub_code:this.kmList[this.kmIndex].value,
+					begintime: this.begintime,
+					endtime: this.endtime,
 					sms_parent_stu_flag:smsFlag,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/save',comData,(response0,response)=>{
+				this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/save',comData,(response0,response)=>{
 					console.log("response: " + JSON.stringify(response));
 				     if (response.code == 0) {
 						 this.hideLoading()
 						 this.showToast(response.msg);
 				     	 const eventChannel = this.getOpenerEventChannel()
-				     	 eventChannel.emit('refreshClsBehavior', {data: 1});
+				     	 eventChannel.emit('refreshQingjia', {data: 1});
 				     	 uni.navigateBack();
 				     } else {
 				     	this.canSub=true
@@ -349,12 +336,9 @@
 				if(this.grdIndex!==e.detail.value){
 					 this.grdIndex=e.detail.value
 					 this.clsIndex=0
-					 this.stuList=[]
-					 this.stuNameList= [] 
-					 this.stuIdList= [] 
-					 this.kmIndex=0
+					 this.stuIndex=0
 					 this.clsList=[{text:'请选择',value:''}]
-					 this.kmList=[{text:'请选择',value:''}]
+					 this.stuList=[{text:'请选择',value:''}]
 					 if(e.detail.value!==0){
 						this.getCls(this.grdList[e.detail.value].value)
 					 }
@@ -364,43 +348,15 @@
 				if(this.clsIndex!==e.detail.value){
 					 this.clsIndex=e.detail.value
 					 this.stuList=[]
-					 this.stuNameList= [] 
-					 this.stuIdList= [] 
-					 this.kmIndex=0
-					 this.kmList=[{text:'请选择',value:''}]
+					 this.stuIndex=0
 					 if(e.detail.value!==0){
 					 	this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
-						this.getKm(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value);
 					 }
 				}
 			},
-			selectStu(e){
-				if(this.stuList.length==0){
-					this.showToast('当前班级暂无学生')
-				}else{
-					this.stuList.map(item=>{
-						item.checked=false
-						this.stuIdList.map(items=>{
-							if(items==item.value){
-								item.checked=true
-							}
-						})
-					})
-					let that =this 
-					util.openwithData('/pages/stu_behavior/studentSelect',{stuList:this.stuList},{
-						refreshSetPeople(data){//子页面调用父页面需要的方法
-							 let stuNameList= []
-							 let stuIdList= []
-							 data.data.map(item=>{
-								 if(item.checked){
-									 stuNameList.push(item.text)
-									 stuIdList.push(item.value)
-								 }
-							 })
-							 that.stuNameList=stuNameList
-							 that.stuIdList=stuIdList
-						}
-					})
+			stuSelect(e){
+				if(this.stuIndex!==e.detail.value){
+					 this.stuIndex=e.detail.value
 				}
 			},
 			kqlxSelect(e){
@@ -413,19 +369,39 @@
 					this.crqxIndex=e.detail.value
 				}
 			},
-			kmSelect(e){
-				if(this.kmIndex!==e.detail.value){
-					this.kmIndex=e.detail.value
-				}
-			},
 			changeAutoplay(){
 				this.SMS = !this.SMS
 			},
-			timePicker(){
-				this.$refs.timePicker.show()
+			beginTimePicker(){
+				this.$refs.beginTimePicker.show()
 			},
-			timeSelect(e){
-				this.formData.time=e.value
+			beginTimeSelect(e){
+				if(this.endtime){
+					console.log(this.moment(this.endtime).diff(e.value,'days'));
+					if(this.moment(this.endtime).diff(e.value,'days')>=0){
+						this.begintime=e.value
+					}else{
+						this.showToast('开始时间不能晚于结束时间')
+						this.begintime=''
+					}
+				}else{
+					this.begintime=e.value
+				}
+			},
+			endTimePicker(){
+				this.$refs.endTimePicker.show()
+			},
+			endTimeSelect(e){
+				if(this.begintime){
+					if(this.moment(e.value).diff(this.begintime,'days')>=0){
+						this.endtime=e.value
+					}else{
+						this.showToast('结束时间不能早于开始时间')
+						this.endtime=''
+					}
+				}else{
+					this.endtime=e.value
+				}
 			},
 		},
 	}

@@ -95,7 +95,6 @@
 				}, //表单内容
 				grdIndex:0,
 				clsIndex:0,
-				stuIndex:0,
 				xwxxIndex:0,
 				jcIndex:0,
 				kmIndex:0,

@@ -67,9 +67,9 @@
 				clsIndex:0,
 				qjlxIndex:0,
 				time:this.moment().format('YYYY-MM-DD'),
-				grdArray: [{text:'',value:''}],
-				clsArray: [{text:'',value:''}],
-				qjlxArray: [{text:'',value:''}],
+				grdArray: [{text:'',value:'-1'}],
+				clsArray: [{text:'',value:'-1'}],
+				qjlxArray: [{text:'',value:''}],//此处不能填-1
 				startData:'2010-01-01',
 				endData:'2030-12-31'
 			}
@@ -84,8 +84,6 @@
 					this.showToast('无法获取年级数据，不能进行添加操作')
 				}else if(this.clsArray.length==0){
 					this.showToast('无法获取班级数据，不能进行添加操作')
-				}else if(this.qjlxArray.length==0){
-					this.showToast('无法获取考勤类型，不能进行添加操作')
 				}else {
 					util.openwithData('/pages/schapp_work/qingjiaAdd',{index_code:this.index_code},{
 						refreshQingjia(data){//子页面调用父页面需要的方法
@@ -102,6 +100,7 @@
 				if(this.grdIndex!==e.detail.value){
 					 this.grdIndex=e.detail.value
 					 this.clsIndex=0
+					 this.clsArray=[]
 					 this.showLoading()
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
@@ -214,6 +213,7 @@
 					if(qjList.length>0){
 						this.qjlxArray = qjList
 					}else{
+						this.qjlxArray = []
 						this.showToast('无法获取考勤项目');
 					}
 				})

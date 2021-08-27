@@ -751,7 +751,7 @@
             {
                "navigationStyle": "custom", // 隐藏系统导航栏
                "navigationBarTitleText": "",
-               "enablePullDownRefresh": true
+               "enablePullDownRefresh": false
             }
             
         }
@@ -781,7 +781,7 @@
             {
                 "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": false
             }
             
         }
@@ -810,7 +810,7 @@
             {
                "navigationStyle": "custom", // 隐藏系统导航栏
                "navigationBarTitleText": "",
-               "enablePullDownRefresh": true
+               "enablePullDownRefresh": false
             }
             
         }
