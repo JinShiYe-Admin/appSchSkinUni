@@ -49,20 +49,20 @@
  .choose-file{
 	 margin-top: 15px;
 	 justify-content: space-between;
-	 height: 40px;
 	 display: flex;
 	 padding: 15px;
+	 padding-bottom: 20px !important;
 	 flex-direction: column;
 	 align-items: flex-start !important; 
  }
  .choose-file-text{
 	 display: flex;
 	 font-size: 14px;
-	 width: 100vw;
+	 width: 88vw;
 	 color: #3F3F3F;
 	 height: 26px;
 	 align-items: center;
-	 margin-bottom: 10px;
+	 margin-bottom:20px;
  }
  .file-des{
 	 font-size: 12px;
