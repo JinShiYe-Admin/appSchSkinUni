@@ -17,7 +17,8 @@
 		<view style="font-size: 14px;color: #666;float: right;margin-top: 15px;">我的标签：</view>
 		<br /><br />
 		<view align="center" class="titleCSS" style="font-size: 18px;color: #000;margin-top: 10px;">
-			{{detailModel.InfoCollectTitle}}</view>
+			{{detailModel.InfoCollectTitle}}
+		</view>
 		<view align="center" class="name-timeCSS" style="font-size: 13px;color: #999;">{{detailModel.SendManName}} |
 			截止时间：{{detailModel.SendTime}}</view>
 		<view v-html="detailModel.InfoCollectContent" class="contentCSS" style="font-size: 14px;color: #666;"></view>
@@ -36,8 +37,11 @@
 					style="color: black;font-size: 15px;margin:10px 0 0 15px;">提交</view>
 				<!-- <view style="padding-top: 5px;height: 170px;"> -->
 				<textarea maxlength="50" v-model="content"
-					style="border: 1px solid gainsboro;margin: 5px 10px 0 10px;padding: 5px;font-size: 15px;" placeholder="请输入要提交的备注" rows="4"></textarea>
-				<button @click="replyContent()" class="mini-btn" type="default" style="float: right;margin-right: 15px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;" size="mini">确定</button>
+					style="border: 1px solid gainsboro;margin: 5px 10px 0 10px;padding: 5px;font-size: 15px;"
+					placeholder="请输入要提交的备注" rows="3"></textarea>
+				<button @click="replyContent()" class="mini-btn" type="default"
+					style="float: right;margin-right: 15px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;"
+					size="mini">确定</button>
 				<!-- </view> -->
 			</view>
 			<view v-else-if="detailModel.InfoUploadCloseStatus == 2">
@@ -54,6 +58,15 @@
 		</view>
 		<!-- <view id="MultiMedia" v-show="detailModel.InfoUploadCloseStatus == 1" :class="itemData.flag==0?classA:classB">
 		</view> -->
+		<view class="uni-flex uni-row form-view choose-file">
+			<view class="choose-file-text">附件<view class="file-des">
+					{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
+				</view>
+			</view>
+			<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile'
+				@imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount">
+			</g-upload>
+		</view>
 		<view v-if="detailModel.noUploadList&&detailModel.noUploadList.length>0">
 			<view class="" style="height: 10px;background-color: #f2f2f2;"></view>
 			<view class="titleCSS" style="font-size: 14px;color: #333;margin-top: 10px;margin-left: 10px;">未提交列表</view>
@@ -83,7 +96,8 @@
 							<a style="font-size: 14px;color: #666;float: right;">{{replyModel.UploadTime}}</a>
 							<view class="chat_content_left">
 								<p style="color: #666;font-size: 13px; white-space:pre-wrap;">
-									{{replyModel.UploadContent}}</p>
+									{{replyModel.UploadContent}}
+								</p>
 							</view>
 							<view v-for="(extraFile,indexEnc) in replyModel.UploadEncName" :key='indexEnc'>
 								<view style="font-size: 13px;color: #333;margin-top: 7px;" v-show="extraFile">附件:
@@ -109,6 +123,9 @@
 <script>
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	// 七牛上传相关
+	import gUpload from "@/components/g-upload/g-upload.vue"
+	import cloudFileUtil from '../../commom/uploadFiles/CloudFileUtil.js';
 	export default {
 		data() {
 			return {
@@ -122,11 +139,23 @@
 					noUploadList: [],
 					InfoUploadContent: ''
 				},
-				content: ''
+				canSub:true,//
+				content: '',
+				// 附件上传相关👇
+				control: true, //是否显示上传 + 按钮 一般用于显示
+				deleteBtn: true, //是否显示删除 按钮 一般用于显示
+				maxCount: 9, //单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 
+				showMaxCount: 9, //单次上传最大数量
+				columnNum: 3, //每行显示的图片数量
+				imgNames: [], //服务器回传的图片名称
+				imgList: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
+				imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
+				wxTips: ''
 			}
 		},
 		components: {
-			mynavBar
+			mynavBar,
+			gUpload
 		},
 		onLoad(option) {
 			this.personInfo = util.getPersonal();
@@ -139,12 +168,108 @@
 				title: '资料收集详情'
 			});
 			//#ifndef APP-PLUS
-			document.title = ""
+			document.title = "";
+			this.wxTips= ',微信端不支持多选', //如果是H5，需要提示该内容
 			//#endif
 			//获取详情
 			this.getNoticeByReceiveId_sendId_Detail();
 		},
 		methods: {
+			//附件上传相关👇
+			chooseFile(list, v, f) {
+				// console.log("上传图片_list：", list)
+				// console.log("上传图片_v：", v);
+				//  console.log("上传图片_f：", f);
+				this.imgList = list
+				this.imgFiles = this.imgFiles.concat(f)
+				this.maxCount = this.showMaxCount - list.length
+			},
+			imgDelete(list, eq, fileeq) {
+				// console.log("删除图片_list：", list)
+				// console.log("删除图片_eq：", eq)
+				// console.log("删除图片_fileeq：", fileeq)
+				this.imgList = list
+				this.imgFiles.splice(fileeq, 1); //删除临时路径
+				this.maxCount = this.showMaxCount - list.length
+				// console.log("删除图片_fileeq：", this.imgFiles)
+			},
+			upLoadImg(){
+				let _this=this
+				let names=[]
+				this.showLoading('正在上传文件...')
+				// console.log(this.imgFiles);
+				// console.log("this.imgList: " + JSON.stringify(this.imgList));
+				// let newImgList=this.imgList.filter(item=>{
+				// 	return item.indexOf('blob:')!==-1
+				// })//过滤服务器已经上传过的文件
+				// let imgUrls=this.imgList.filter(item=>{
+				// 	return item.indexOf('blob:')===-1
+				// })//过滤服务器已经上传过的文件
+				let newImgList=this.imgList.filter(item=>{					return item.indexOf('blob:')!==-1 || item.indexOf('file:')!==-1				})//过滤服务器已经上传过的文件				let imgUrls=this.imgList.filter(item=>{					return item.indexOf('blob:')===-1 || item.indexOf('file:')===-1				})//过滤服务器已经上传过的文件
+				if(newImgList.length>0){
+					this.imgFiles.map((item,index)=>{
+						names.push(this.moment().format('YYYYMMDDHHmmsss')+'_'+index+'_img.png')
+					})
+					cloudFileUtil.uploadFiles(this,'1',names,newImgList,this.QN_PB_NAME,this.QN_XSXW_XSTH,encAddrStr=>{
+						// console.log("encAddrStr: " + JSON.stringify(imgUrls.concat(encAddrStr)));
+						// console.log("names: " + JSON.stringify(this.imgNames.concat(names)));
+						this.submitData(this.imgNames.concat(names),imgUrls.concat(encAddrStr))
+					})
+				}else{
+					this.submitData(this.imgNames,imgUrls)
+				}
+				
+			},
+			//附件上传相关👆
+			submitData(encNameStr,encAddrStr){
+				console.log('encNameStr:'+JSON.stringify(encNameStr));
+				console.log('encAddrStr:'+JSON.stringify(encAddrStr));
+				this.showLoading()
+				let asset_ids=[]
+				if(encNameStr){
+					encNameStr.map(function(item,index){
+						let obj={}
+						obj.id=''
+						obj.url=encAddrStr[index]
+						obj.ext=item.split(".")[1]
+						obj.name='附件'+(index+1)
+						asset_ids.push(obj)
+					})
+				}
+				// let comData={
+				// 	grd_code: this.grdList[this.grdIndex].value,
+				// 	cls_code: this.clsList[this.clsIndex].value,
+				// 	stu_ids: this.stuIdList.join(','),
+				// 	chat_detail: this.formData.comment,
+				// 	chat_time: this.formData.time,
+				// 	asset_ids:asset_ids,
+				// 	index_code:this.index_code,
+					
+				// 	infoCollectId: this.itemData.InfoCollectId, //信息收集ID
+				// 	receiveManId: this.personInfo.user_code, //上交人ID
+				// 	content: this.content, //备注
+				// 	encName: encName, //附件名称
+				// 	encAddr: encAddr, //附件地址
+				// 	index_code: this.itemData.access.split('#')[1],
+				// 	op_code: 'index'
+				// }
+				// this.post(this.globaData.INTERFACE_STUXWSUB+'Talk/save',comData,(response0,response)=>{
+				// 	console.log("response: " + JSON.stringify(response));
+				//      if (response.code == 0) {
+				// 		 this.hideLoading()
+				// 		 this.showToast(response.msg);
+				//      	 const eventChannel = this.getOpenerEventChannel()
+				//      	 eventChannel.emit('refreshTalkBehaviorZd', {data: 1});
+				//      	 uni.navigateBack();
+				//      } else {
+				//      	this.canSub=true
+				//      	this.hideLoading()
+				//      	this.showToast(response.msg);
+				//      }
+				// },()=>{
+				// 		this.canSub=true
+				// })
+			},
 			textClick() {
 				console.log('textClicktextClick');
 			},
@@ -206,44 +331,52 @@
 					//68.修改接收的信息收集标签
 					this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetReceiveInfoCollectTag', comData, (data0,
 						data) => {
-						console.log('68.修改接收的信息收集标签:' + JSON.stringify(data));
 						if (data.code == 0 && data.data.Result == 1) {
 							this.detailModel.Tag = this.tag;
 						}
 					});
 				}
 				if (this.content.trim().length == 0) {
-					this.showToast("请输入备注", "cancel");
+					this.showToast("请输入备注");
 					return;
 				}
 				if (this.content.length > 50) {
-					this.showToast("备注不能超过50字", "cancel");
+					this.showToast("备注不能超过50字");
 					return;
 				}
-				if (multiMedia.data.PictureArray.length == 0) {
-					this.showToast("请先选择附件", "cancel");
+				if (this.imgList.length == 0) {
+					this.showToast("请先选择附件");
 					return;
 				}
-				var fj = [];
-				for (var i = 0; i < multiMedia.data.PictureArray.length; i++) {
-					if (multiMedia.data.PictureArray[i].path.indexOf('http://') != -1 || multiMedia.data.PictureArray[
-							i].path.indexOf('https://') != -1) {
-						continue
+				if(this.canSub){
+					this.canSub=false;
+					this.showLoading();
+					if(this.imgList.length>0){
+						this.upLoadImg();
+					}else{
+						this.submitData();
 					}
-					fj.push('1');
 				}
-				if (fj.length == 0) {
-					var tempUrl = multiMedia.data.PictureArray[0].path.split("?")[0];
-					var oriName = tempUrl.substring(tempUrl.lastIndexOf("/") + 1);
-					console.log('tempUrl:' + tempUrl);
-					console.log('oriName:' + oriName);
-					addNotice('3', tempUrl, '', 0, oriName);
-				} else {
-					//上传文件
-					// qn_upload.uploadFile(wd, function(wd, type, encAddrStr, encImgrStr, encLen, encNameStr) {
-					// 	addNotice(type, encAddrStr, encImgrStr, encLen, encNameStr);
-					// });
-				}
+				// var fj = [];
+				// for (var i = 0; i < multiMedia.data.PictureArray.length; i++) {
+				// 	if (multiMedia.data.PictureArray[i].path.indexOf('http://') != -1 || multiMedia.data.PictureArray[
+				// 			i].path.indexOf('https://') != -1) {
+				// 		continue
+				// 	}
+				// 	fj.push('1');
+				// }
+				// if (fj.length == 0) {
+				// 	var tempUrl = multiMedia.data.PictureArray[0].path.split("?")[0];
+				// 	var oriName = tempUrl.substring(tempUrl.lastIndexOf("/") + 1);
+				// 	console.log('tempUrl:' + tempUrl);
+				// 	console.log('oriName:' + oriName);
+				// 	addNotice('3', tempUrl, '', 0, oriName);
+				// } else {
+				// 	//上传文件
+				// 	qn_upload.uploadFile(wd, function(wd, type, encAddrStr, encImgrStr, encLen, encNameStr) {
+				// 		addNotice(type, encAddrStr, encImgrStr, encLen, encNameStr);
+				// 	});
+				// }
 			},
 			openCloseUpload: function(model) {
 				var tempStr = '确认要打开上交吗？';
@@ -448,25 +581,25 @@
 		font-size: 14px;
 		color: #666;
 	}
-	
+
 	.titleCSS {
 		font-size: 18px;
 		color: #000;
 	}
-	
+
 	.name-timeCSS {
 		margin-top: 5px;
 		font-size: 12px;
 		color: #999;
 	}
-	
+
 	.encName {
 		margin-left: 15px;
 		margin-right: 15px;
 		font-size: 14px;
 		color: #333;
 	}
-	
+
 	.prev-btn,
 	.down-btn {
 		margin-left: 20px;
@@ -474,5 +607,6 @@
 
 	uni-textarea {
 		width: auto;
+		height: 80px;
 	}
 </style>
