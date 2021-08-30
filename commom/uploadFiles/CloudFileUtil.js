@@ -590,47 +590,63 @@ var upload = function(fPath, token, key, uploadCompletedCallBack, onStateChanged
  * @param {Object} key 七牛上传key
  * @param {Object} uploadCompletedCallBack 上传完成时的回调
  */
-var uploadFiles = function(that,type, fileNames,files,mainSpace,uploadSpace,callback) {
-	 let getToken = {
-	 	type: type, //str 必填 获取上传token的类型。0上传需要生成缩略图的文件；1上传文件
-	 	QNFileName: fileNames, //str 必填 存放到七牛的文件名
-		// fileArray:files,
-	 	appId: that.globaData.QN_APPID, //int 必填 项目id
-	 	appKey: that.globaData.QN_APPKEY,
-	 	mainSpace: mainSpace, //str 必填 私有空间或公有空间
-	 	uploadSpace: uploadSpace, //str 必填  上传的空间
-	 }
-	 getUpLoadTokens(that,getToken, data=> {
-	 	let QNUptoken = data.data; //token数据
-	 	let configure = data.configure; //获取token的配置信息
-	 	// console.log('七牛上传token:' + JSON.stringify(QNUptoken));
-	 	if(QNUptoken.Status == 0) { //失败
-	 		that.showToast('获取上传凭证失败 ' + QNUptoken.Message);
-	 		// console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
-	 		that.hideLoading();
-	 	} else {
-			let domains=[] 
-			files.map((file,index)=>{
-				_uploadFiles(file, QNUptoken.Data[index].Token, QNUptoken.Data[index].Key, function(upload, status) {
-					// console.log("status: " + JSON.stringify(status));
-					if(status == 200) { //上传任务成功
-						// let thumb = QNUptoken.Data.OtherKey[configure.thumbKey]; //缩略图地址
-						let domain =QNUptoken.Data[index].Domain +QNUptoken.Data[index].Key
-						domains.push(domain)
-						if(domains.length===files.length){
-							callback(domains)
-							that.hideLoading();
-						}
-					} else { //上传失败
-						that.showToast('文件上传失败，请稍后再试 ');
-						that.hideLoading();
-					}
-				},that);
-			})
-	 	}
-	 });
+var uploadFiles = function(that,type,files,mainSpace,uploadSpace,callback) {
+		let names=[]
+		let newImgList=files.filter(item=>{
+			return item.indexOf('blob:')!==-1 || item.indexOf('file:')!==-1
+		})//过滤服务器已经上传过的文件
+		let imgUrls=files.filter(item=>{
+			return !(item.indexOf('blob:')===0 || item.indexOf('file:')===0)
+		})//过滤服务器已经上传过的文件
+		newImgList.map((item,index)=>{
+			//如果是H5 文件是blob ，可以用item.name 获取文件名  如果是app-plus ,item是一个String，需要截取字符串，这里不写了
+			names.push(that.moment().format('YYYYMMDDHHmmsss')+'_'+index+'.png')
+		})
+		if(newImgList.length>0){
+			let getToken = {
+				type: type, //str 必填 获取上传token的类型。0上传需要生成缩略图的文件；1上传文件
+				QNFileName: names, //str 必填 存放到七牛的文件名
+				appId: that.globaData.QN_APPID, //int 必填 项目id
+				appKey: that.globaData.QN_APPKEY,
+				mainSpace: mainSpace, //str 必填 私有空间或公有空间
+				uploadSpace: uploadSpace, //str 必填  上传的空间
+			}
+			getUpLoadTokens(that,getToken, data=> {
+				let QNUptoken = data.data; //token数据
+				let configure = data.configure; //获取token的配置信息
+				// console.log('七牛上传token:' + JSON.stringify(QNUptoken));
+				if(QNUptoken.Status == 0) { //失败
+					that.showToast('获取上传凭证失败 ' + QNUptoken.Message);
+					// console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
+					that.hideLoading();
+				} else {
+						let domains=[]
+						newImgList.map((file,index)=>{
+							_uploadFiles(that,file, QNUptoken.Data[index].Token, QNUptoken.Data[index].Key, function(upload, status) {
+								// console.log("status: " + JSON.stringify(status));
+								if(status == 200) { //上传任务成功
+									// let thumb = QNUptoken.Data.OtherKey[configure.thumbKey]; //缩略图地址
+									let domain =QNUptoken.Data[index].Domain +QNUptoken.Data[index].Key
+									domains.push(domain)
+									if(domains.length===newImgList.length){
+										let endNames=that.imgNames.concat(names)
+										let endUrls=imgUrls.concat(domains)
+										callback(endNames,endUrls)
+										that.hideLoading();
+									}
+								} else { //上传失败
+									that.showToast('文件上传失败，请稍后再试 ');
+									that.hideLoading();
+								}
+							});
+						})
+				}
+			});
+		}else{
+			callback(that.imgNames,imgUrls)
+		}
 }
-var _uploadFiles = function(fPath, token, key, uploadCompletedCallBack,that) {
+var _uploadFiles = function(that,fPath, token, key, uploadCompletedCallBack) {
 	// console.log('upload fPath: ' + fPath);
 	// console.log('upload token: ' + token);
 	// console.log('upload key: ' + key);
