@@ -329,12 +329,7 @@
 				}else{
 					if(this.canSub){
 						this.canSub=false
-						this.showLoading()
-						if(this.imgList.length>0){
-							this.upLoadImg();
-						}else{
-							this.submitData()
-						}
+						this.upLoadImg();
 					}
 				}
 			},
@@ -353,34 +348,18 @@
 			  // console.log("删除图片_fileeq：", fileeq)
 			  this.imgList=list
 			  this.imgFiles.splice(fileeq, 1); //删除临时路径
+			  this.imgNames.splice(eq, 1); //删除文件名
 			  this.maxCount=this.showMaxCount-list.length
-			  // console.log("删除图片_fileeq：", this.imgFiles)
+			  // console.log("删除图片_fileeq：", JSON.stringify(this.imgNames))
 			},
 			upLoadImg(){
-				let _this=this
 				let names=[]
 				this.showLoading('正在上传文件...')
-				// console.log(this.imgFiles);
-				// console.log("this.imgList: " + JSON.stringify(this.imgList));
-				let newImgList=this.imgList.filter(item=>{
-					return item.indexOf('blob:')!==-1
-				})//过滤服务器已经上传过的文件
-				let imgUrls=this.imgList.filter(item=>{
-					return item.indexOf('blob:')===-1
-				})//过滤服务器已经上传过的文件
-				if(newImgList.length>0){
-					this.imgFiles.map((item,index)=>{
-						names.push(this.moment().format('YYYYMMDDHHmmsss')+'_'+index+'_'+item.name)
-					})
-					cloudFileUtil.uploadFiles(this,'1',names,newImgList,this.QN_PB_NAME,this.QN_XSXW_KTXW,encAddrStr=>{
-						// console.log("encAddrStr: " + JSON.stringify(imgUrls.concat(encAddrStr)));
-						// console.log("names: " + JSON.stringify(this.imgNames.concat(names)));
-						this.submitData(this.imgNames.concat(names),imgUrls.concat(encAddrStr))
-					})
-				}else{
-					this.submitData(this.imgNames,imgUrls)
-				}
-				
+				cloudFileUtil.uploadFiles(this,'1',this.imgList,this.QN_PB_NAME,this.QN_XSXW_KTXW,(encName,encAddrStr)=>{
+					// console.log("encAddrStr: " + JSON.stringify(encAddrStr));
+					// console.log("names: " + JSON.stringify(encName));
+					this.submitData(encName,encAddrStr)
+				})
 			},
 			//附件上传相关👆
 			submitData(encNameStr,encAddrStr){

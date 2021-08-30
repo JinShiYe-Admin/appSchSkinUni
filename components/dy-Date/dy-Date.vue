@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="dy-date">
 		<picker :title="index" @change="bindTimeChange" @columnchange="columnchange" mode="multiSelector" :disabled="disabled" :class="{disabled:disabled}"
 		 :value="index" :range="array">
 			<view class="uni-input" v-if="showTime">{{showTime}}

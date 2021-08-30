@@ -32,29 +32,15 @@
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">出入权限</view>
-			<picker style="width:100% !important;" mode="selector" @change="xwxxSelect" :value="xwxxIndex" :range="xwxxList" range-key="text">
-				<input class="uni-input form-right"  v-model="xwxxList[xwxxIndex].text" placeholder="请选择" disabled/>
-			</picker>
+			<view class="form-left">考勤日期</view>
+			<!-- <xp-picker mode="ymd" ref="timePicker" history :animation="false" :year-range='[2020,2030]' @confirm="timeSelect"></xp-picker>
+			<input class="uni-input form-right"  v-model="formData.time" placeholder="请选择" disabled @click="timePicker"/> -->
+			<dy-Date :childValue='endDate' timeType="day" v-on:getData='timeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">开始时间</view>
-			<xp-picker mode="ymd" ref="timePicker" history :animation="false" :year-range='[2020,2030]' @confirm="timeSelect"></xp-picker>
-			<input class="uni-input form-right"  v-model="formData.time" placeholder="请选择" disabled @click="timePicker"/>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">结束时间</view>
-			<xp-picker mode="ymd" ref="timePicker" history :animation="false" :year-range='[2020,2030]' @confirm="timeSelect"></xp-picker>
-			<input class="uni-input form-right"  v-model="formData.time" placeholder="请选择" disabled @click="timePicker"/>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left form-left-textarea">行为说明</view>
+			<view class="form-left form-left-textarea">说明</view>
 			<textarea placeholder="请输入" v-model="formData.comment" maxlength="100" ></textarea>
 		</view>
 		<template v-if="SHOW">
@@ -70,6 +56,8 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	 
+	 
 	export default {
 		data() {
 			return {
@@ -84,18 +72,18 @@
 				}, //表单内容
 				grdIndex:0,
 				clsIndex:0,
-				stuIndex:0,
-				kqlxIndex:0,
-				crqxIndex:0,
-				grdList: [], //年级数组
-				clsList: [], //班级数组
+				xwxxIndex:0,
+				grdList: [{text:'请选择',value:''}], //年级数组
+				clsList: [{text:'请选择',value:''}], //班级数组
 				stuList:[],
-				kqlxList: [], //考勤类型数组
-				crqxList: [], //出入权限数组
+				stuNameList: [], //学生数组
+				stuIdList: [], //学生数组
+				xwxxList: [{text:'请选择',value:''}], //请假类别数组
 				SMS:false,//是否向家长发送短信
 				CONFIG:{},//短信配置 对象
 				WORDS:[],//拒绝关键字 对象
 				SHOW:false,//是否显示发送短信
+				 
 			}
 		},
 		components: {
@@ -105,7 +93,7 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='添加请假记录'
+			itemData.text='新建课外考勤'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
@@ -237,31 +225,16 @@
 					this.hideLoading()
 				})
 			},
-			getCl(){//获取常量
+			getJcXwxx(){//获取常量 节次和行为细项
 				let comData={
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				this.post(this.globaData.INTERFACE_WORK+'ExtraAttendance/getDict',comData,response=>{
+				    console.log("responsesabaa: " + JSON.stringify(response));
 					this.hideLoading()
-					let sub = response.sub_list;
-					let subList = [];
-					sub.map(function(currentValue) {
-						let name = currentValue.name.indexOf('全部') == -1 ? currentValue.name : '全部科目';
-						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = name;
-						subList.push(obj)
-					})
-					if (subList.length > 0) {
-						this.kmList = [{text:'请选择',value:''}].concat(subList);
-					} else {
-						this.kmList=[];
-						mui.toast('无数据授权 无法获取班级');
-					}
+					this.xwxxList =  [{text:'请选择',value:''}].concat(response.qaArray);
 				})
 			},
-			 
 			textClick(){//发送请假信息
 				if(this.grdList[this.grdIndex].value==''){
 					this.showToast('请选择年级')
@@ -270,15 +243,11 @@
 				}else if(this.stuIdList.length==0){
 					this.showToast('请选择学生')
 				}else if(this.xwxxList[this.xwxxIndex].value==''){
-					this.showToast('请选择行为细项')
+					this.showToast('请选择考勤项目')
 				}else if(this.formData.time==''){
 					this.showToast('请选择发生日期')
-				}else if(this.jcList[this.jcIndex].value==''){
-					this.showToast('请选择节次')
-				}else if(this.kmList[this.kmIndex].value==''){
-					this.showToast('请选择科目')
 				}else if(this.formData.comment==''){
-					this.showToast('请输入行为说明')
+					this.showToast('请输入说明')
 				}else{
 					if(this.canSub){
 						this.canSub=false
@@ -287,7 +256,7 @@
 					}
 				}
 			},
-			submitData(){
+			submitData(encNameStr,encAddrStr){
 				this.showLoading()
 				let smsFlag=0;
 				let comm=this.formData.comment
@@ -316,19 +285,17 @@
 					stu_ids: this.stuIdList.join(','),
 					item_code: this.xwxxList[this.xwxxIndex].value,
 					comment: comment,
-					behavior_time: this.formData.time,
-					class_node: this.jcList[this.jcIndex].value,
-					sub_code:this.kmList[this.kmIndex].value,
+					attendance_time: this.formData.time,
 					sms_parent_stu_flag:smsFlag,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/save',comData,(response0,response)=>{
+				this.post(this.globaData.INTERFACE_WORK+'ExtraAttendance/saveData',comData,(response0,response)=>{
 					console.log("response: " + JSON.stringify(response));
 				     if (response.code == 0) {
 						 this.hideLoading()
 						 this.showToast(response.msg);
 				     	 const eventChannel = this.getOpenerEventChannel()
-				     	 eventChannel.emit('refreshClsBehavior', {data: 1});
+				     	 eventChannel.emit('refreshKewai', {data: 1});
 				     	 uni.navigateBack();
 				     } else {
 				     	this.canSub=true
@@ -346,9 +313,7 @@
 					 this.stuList=[]
 					 this.stuNameList= [] 
 					 this.stuIdList= [] 
-					 this.kmIndex=0
 					 this.clsList=[{text:'请选择',value:''}]
-					 this.kmList=[{text:'请选择',value:''}]
 					 if(e.detail.value!==0){
 						this.getCls(this.grdList[e.detail.value].value)
 					 }
@@ -360,8 +325,6 @@
 					 this.stuList=[]
 					 this.stuNameList= [] 
 					 this.stuIdList= [] 
-					 this.kmIndex=0
-					 this.kmList=[{text:'请选择',value:''}]
 					 if(e.detail.value!==0){
 					 	this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
 						this.getKm(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value);
@@ -397,19 +360,9 @@
 					})
 				}
 			},
-			kqlxSelect(e){
-				if(this.kqlxIndex!==e.detail.value){
-					this.kqlxIndex=e.detail.value
-				}
-			},
-			crqxSelect(e){
-				if(this.crqxIndex!==e.detail.value){
-					this.crqxIndex=e.detail.value
-				}
-			},
-			kmSelect(e){
-				if(this.kmIndex!==e.detail.value){
-					this.kmIndex=e.detail.value
+			xwxxSelect(e){
+				if(this.xwxxIndex!==e.detail.value){
+					this.xwxxIndex=e.detail.value
 				}
 			},
 			changeAutoplay(){
