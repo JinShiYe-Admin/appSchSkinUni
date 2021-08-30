@@ -82,3 +82,4 @@ examination|考务系统-班级成绩趋势|Zhao|Meng(广西)|开发
 leave|学生请假管理|Liu|Kong|开发
 stu_behavior|学生行为|Liu|Ruan(广西)|开发
 schapp_work|学生考勤|Liu|Ruan(广西)|开发
+stu_comment|学生评语|Liu|Ruan(广西)|开发

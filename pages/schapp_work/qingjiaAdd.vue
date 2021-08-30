@@ -43,14 +43,14 @@
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">开始时间</view>
-			<xp-picker mode="ymd" ref="beginTimePicker" history :animation="false" :year-range='[2020,2030]' @confirm="beginTimeSelect"></xp-picker>
+			<xp-picker mode="ymdhi" ref="beginTimePicker" history :animation="false" :year-range='[2020,2030]' @confirm="beginTimeSelect"></xp-picker>
 			<input class="uni-input form-right"  v-model="begintime" placeholder="请选择" disabled @click="beginTimePicker"/>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">结束时间</view>
-			<xp-picker mode="ymdhm" ref="endTimePicker" history :animation="false" :year-range='[2020,2030]' @confirm="endTimeSelect"></xp-picker>
+			<xp-picker mode="ymdhi" ref="endTimePicker" history :animation="false" :year-range='[2020,2030]' @confirm="endTimeSelect"></xp-picker>
 			<input class="uni-input form-right"  v-model="endtime" placeholder="请选择" disabled @click="endTimePicker"/>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -377,8 +377,8 @@
 			},
 			beginTimeSelect(e){
 				if(this.endtime){
-					console.log(this.moment(this.endtime).diff(e.value,'days'));
-					if(this.moment(this.endtime).diff(e.value,'days')>=0){
+					console.log(this.moment(this.endtime).diff(e.value,'minutes'));
+					if(this.moment(this.endtime).diff(e.value,'minutes')>=0){
 						this.begintime=e.value
 					}else{
 						this.showToast('开始时间不能晚于结束时间')
@@ -393,7 +393,7 @@
 			},
 			endTimeSelect(e){
 				if(this.begintime){
-					if(this.moment(e.value).diff(this.begintime,'days')>=0){
+					if(this.moment(e.value).diff(this.begintime,'minutes')>=0){
 						this.endtime=e.value
 					}else{
 						this.showToast('结束时间不能早于开始时间')
@@ -443,7 +443,6 @@
 		color: #787878;
 		text-align: right;
 	}
-	
 	.uni-flex{
 		align-items: center;
 	}
