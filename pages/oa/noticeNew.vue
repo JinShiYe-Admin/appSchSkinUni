@@ -9,14 +9,8 @@
 		<view class="titleTemp">内容</view>
 		<textarea maxlength="300" v-model="content" class="rightView"
 			style="height: 80px;margin-top: 10px;padding-top: 5px;margin-bottom: 10px;" placeholder="请输入内容"></textarea>
-		<!-- <br> -->
-		<!-- <view id="MultiMedia">
-			<view class="mui-input-row mui-checkbox mui-left" id="senMSN" style="float: right;margin-top: 3px;display: none;">
-				<label style="font-size: 14px;color: #333333;">发送短信</label>
-				<input v-model="smsSend" name="checkbox1" type="checkbox">
-			</view>
-		</view> -->
-		<view class="uni-flex uni-row form-view choose-file" style="margin-top: -10px;">
+
+		<view class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">附件<view class="file-des">
 					{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
 				</view>
@@ -25,6 +19,9 @@
 				@imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount">
 			</g-upload>
 		</view>
+		<label @click="selectSms()" style="float: right;margin-right: 10px;font-size: 14px;margin-bottom: 10px;">
+			<checkbox color="#00CFBD" :checked="smsSend" />发送短信
+		</label>
 		<uni-list>
 			<uni-list-item showArrow direction='column' clickable @click="selectPeopleFun()">
 				<view slot="body">
@@ -93,8 +90,8 @@
 			document.title = "";
 			this.wxTips = ',微信端不支持多选'; //如果是H5，需要提示该内容
 			//#endif
-			//获取详情
-			// this.getNoticeByReceiveId_sendId_Detail();
+			//
+			this.getSmsConfig();
 
 			// SMSUtils.INDEX_CODE=this.itemData.access.split('#')[1];
 			// SMSUtils.MSG_TYPE=window.storageKeyName.OA_MSG_SMS.NOTICE.MSG_TYPE;
@@ -114,6 +111,55 @@
 			// });
 		},
 		methods: {
+			selectSms() {
+				this.smsSend = !this.smsSend;
+			},
+			getSmsConfig() { //获取短信配置
+				let comData = {
+					msg_type: this.OA_MSG_SMS.NOTICE.MSG_TYPE,
+					sch_code: this.personInfo.unit_code,
+					index_code: this.itemData.access.split('#')[1],
+				}
+				this.showLoading();
+				this.post(this.globaData.INTERFACE_HR_SUB + 'smsConf/getConf', comData, response => {
+					this.hideLoading();
+					console.log("responseaaa: " + JSON.stringify(response));
+					if (response) {
+						let config_types = response.user_types.split(",");
+						let local_types = this.ACTION_MSG_SMS.CLSBEHAVIOR.USER_TYPE.split(",");
+						let send = false;
+						config_types.map(citem => {
+							local_types.map(litem => {
+								if (citem == litem) {
+									send = true
+								}
+							})
+						})
+						this.smsSend = send
+						this.smsConfig = response
+						this.getSmsWords();
+					} else {
+						this.smsSend = false
+					}
+					this.hideLoading()
+				})
+			},
+			getSmsWords() { //获取拒绝词
+				this.showLoading();
+				let comData = {
+					page_size: 100000,
+					page_number: 1,
+					status: 1,
+					keyword: '',
+					type: 2, //1敏感词 2拒绝词
+					index_code: this.itemData.access.split('#')[1],
+				}
+				this.post(this.globaData.INTERFACE_HR_SUB + 'smsWords/page', comData, response => {
+					console.log("responseaaa: " + JSON.stringify(response));
+					this.smsWords = response.list;
+					this.hideLoading();
+				})
+			},
 			//附件上传相关👇
 			chooseFile(list, v, f) {
 				this.imgList = list
@@ -130,11 +176,11 @@
 				this.showLoading('正在上传文件...');
 				cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PB_NAME, thisQN_OA_TONGZ, (encName,
 					encAddrStr) => {
-						this.hideLoading();
-						console.log("encAddrStr: " + JSON.stringify(encAddrStr));
-						console.log("names: " + JSON.stringify(encName));
-						this.submitData(encName, encAddrStr);
-					});
+					this.hideLoading();
+					console.log("encAddrStr: " + JSON.stringify(encAddrStr));
+					console.log("names: " + JSON.stringify(encName));
+					this.submitData(encName, encAddrStr);
+				});
 			},
 			//附件上传相关👆
 			submitData(encNameStr, encAddrStr) {
@@ -143,16 +189,16 @@
 				this.showLoading()
 				let encNameTemp = encNameStr.join(',');
 				let encAddrTemp = encAddrTemp.join(',');
-				var ids = [];//接收人ID
-				var codes = [];//接收人账号
-				var names = [];//接收人姓名
-				var pics = [];//接收人头像
+				var ids = []; //接收人ID
+				var codes = []; //接收人账号
+				var names = []; //接收人姓名
+				var pics = []; //接收人头像
 				for (var i = 0; i < this.selectPeople.length; i++) {
 					var model = this.selectPeople[i];
 					ids.push(model.user_code)
 					codes.push('');
 					names.push(model.user_name);
-					if (model.user_img == ''||model.user_img == null) {
+					if (model.user_img == '' || model.user_img == null) {
 						pics.push('');
 					} else {
 						var tempUrl = model.user_img;
@@ -165,20 +211,20 @@
 					sendFlag = 0;
 					return;
 				}
-				if(this.smsSend) {
+				if (this.smsSend) {
 					this.smsSend = 1;
 				} else {
 					this.smsSend = 0;
 				}
-				console.log('this.content:'+this.content);
+				console.log('this.content:' + this.content);
 				this.showLoading();
 				var tempData = {
 					schoolId: this.personInfo.unit_code, //学校ID
 					noticeTitle: this.title, //标题
-					noticeContent: this.content.replace(/\n/g,'<br>'), //内容
+					noticeContent: this.content.replace(/\n/g, '<br>'), //内容
 					noticeEncName: encNameTemp, //附件名称
 					noticeEncAddr: encAddrTemp, //附件地址
-					smsSync:this.smsSend,//是否短信同步
+					smsSync: this.smsSend, //是否短信同步
 					sendManId: this.personInfo.user_code, //发布人ID
 					sendManCode: this.personInfo.login_name, //发布人账号
 					sendManName: this.personInfo.user_name, //发布人姓名
@@ -187,70 +233,73 @@
 					receiveManCodes: codes, //接收人账号
 					receiveManPics: pics, //接收人头像
 					receiveManNames: names, //接收人姓名
-					index_code:this.itemData.access.split('#')[1],
-					op_code:'add'
+					index_code: this.itemData.access.split('#')[1],
+					op_code: 'add'
 				}
-				console.log('tempData:'+JSON.stringify(tempData));
+				console.log('tempData:' + JSON.stringify(tempData));
 				//28.回复通知公告
 				this.post(this.globaData.INTERFACE_OA + 'notice/addNotice', tempData, (data0, data) => {
 					// this.canSub = true;
 					this.hideLoading();
 					if (data.code == 0) {
-						if(this.smsSend == 1) {
-							let selectData=this.selectPeople;
-							let touser=[];
+						if (this.smsSend == 1) {
+							let selectData = this.selectPeople;
+							let touser = [];
 							for (var i = 0; i < selectData.length; i++) {
-								let obj={
-									gen_type:SMSUtils.USER_TYPE,
-									dpt_code:selectData[i].dpt_code,
-									dpt_name:selectData[i].dpt_name,
-									grd_code:'',
-									grd_name:'',
-									cls_code:'',
-									cls_name:'',
-									stu_code:'',
-									stu_name:'',
-									gen_code:selectData[i].user_code,
-									gen_name:selectData[i].user_name,
+								let obj = {
+									gen_type: SMSUtils.USER_TYPE,
+									dpt_code: selectData[i].dpt_code,
+									dpt_name: selectData[i].dpt_name,
+									grd_code: '',
+									grd_name: '',
+									cls_code: '',
+									cls_name: '',
+									stu_code: '',
+									stu_name: '',
+									gen_code: selectData[i].user_code,
+									gen_name: selectData[i].user_name,
 								}
 								touser.push(obj);
 							}
 							var tempContent = '';
-							if(this.smsConfig.content_type == 't'){
+							if (this.smsConfig.content_type == 't') {
 								tempContent = this.title;
-							}else if(this.smsConfig.content_type == 'c'){
+							} else if (this.smsConfig.content_type == 'c') {
 								tempContent = this.content;
-							}else if(this.smsConfig.content_type == 'tc'){
-								tempContent = '【'+this.title+'】'+this.content;
+							} else if (this.smsConfig.content_type == 'tc') {
+								tempContent = '【' + this.title + '】' + this.content;
 							}
-							tempContent = tempContent.replace(/\n/g,'');
-							tempContent = tempContent.replace(' ','');
-							SMSUtils.sendSMS((msg)=>{
-								// 82.设置通知的短信返回值
-								this.showLoading();
-								var dosetData = {
-									noticeId: data.data.Result, //通知ID
-									msgType: SMSUtils.MSG_TYPE, //信息类型
-									smsMsgtypeCode: SMSUtils.SMS_TYPE, //信息类型代码
-									servied: this.smsConfig.serviced, //订购状态
-									hrSmsid: msg.hr_id, //人事短信接口码
-									isCheck:'1',//是否已审核
-									checkTime: '', //审核时间
-									checkUser: '', //审核人代码
-									checkUserTname: '', //审核人姓名
-									checkUserUnit: '', //审核人单位
-									index_code:curPage.access.split('#')[1],
-								}
-								console.log('dosetData:'+JSON.stringify(dosetData));
-								postDataEncry(window.storageKeyName.INTERFACE_OA + 'notice/doSetSms4Notice', {}, dosetData, 2,function(doData) {
-									this.hideLoading();
-									// setTimeout(function() {
-									// 	mui.back();
-									// }, 1000);
-									// mui.fire(plus.webview.currentWebview().opener(), 'refreshMinePage', {});
-								});
-							},0,moment().format('YYYY-MM-DD HH:mm:ss'),tempContent,this.smsConfig.serviced,0,touser);
-						}else{
+							tempContent = tempContent.replace(/\n/g, '');
+							tempContent = tempContent.replace(' ', '');
+							SMSUtils.sendSMS((msg) => {
+									// 82.设置通知的短信返回值
+									this.showLoading();
+									var dosetData = {
+										noticeId: data.data.Result, //通知ID
+										msgType: SMSUtils.MSG_TYPE, //信息类型
+										smsMsgtypeCode: SMSUtils.SMS_TYPE, //信息类型代码
+										servied: this.smsConfig.serviced, //订购状态
+										hrSmsid: msg.hr_id, //人事短信接口码
+										isCheck: '1', //是否已审核
+										checkTime: '', //审核时间
+										checkUser: '', //审核人代码
+										checkUserTname: '', //审核人姓名
+										checkUserUnit: '', //审核人单位
+										index_code: curPage.access.split('#')[1],
+									}
+									console.log('dosetData:' + JSON.stringify(dosetData));
+									postDataEncry(window.storageKeyName.INTERFACE_OA +
+										'notice/doSetSms4Notice', {}, dosetData, 2,
+										function(doData) {
+											this.hideLoading();
+											// setTimeout(function() {
+											// 	mui.back();
+											// }, 1000);
+											// mui.fire(plus.webview.currentWebview().opener(), 'refreshMinePage', {});
+										});
+								}, 0, moment().format('YYYY-MM-DD HH:mm:ss'), tempContent, this.smsConfig
+								.serviced, 0, touser);
+						} else {
 							// setTimeout(function() {
 							// 	mui.back();
 							// }, 1000);
@@ -278,29 +327,29 @@
 					return;
 				}
 				//先判断有没有勾选短信按钮，如果勾选，判断内容是否有敏感词
-				if(this.smsSend){
-					let showToast=false;
-					let words=[];
-					let tempTitle = this.title.replace(/\n/g,'');
-					tempTitle = tempTitle.replace(' ','');
+				if (this.smsSend) {
+					let showToast = false;
+					let words = [];
+					let tempTitle = this.title.replace(/\n/g, '');
+					tempTitle = tempTitle.replace(' ', '');
 					for (var i = 0; i < this.smsWords.length; i++) {
-						let word=this.smsWords[i].word;
-						if(tempTitle.indexOf(word)!==-1){
-							showToast=true;
+						let word = this.smsWords[i].word;
+						if (tempTitle.indexOf(word) !== -1) {
+							showToast = true;
 							words.push(word);
 						}
 					}
-					let comment = this.content.replace(/\n/g,'');
-					comment = comment.replace(' ','');
+					let comment = this.content.replace(/\n/g, '');
+					comment = comment.replace(' ', '');
 					for (var i = 0; i < this.smsWords.length; i++) {
-						let word=this.smsWords[i].word;
-						if(comment.indexOf(word)!==-1){
-							showToast=true;
+						let word = this.smsWords[i].word;
+						if (comment.indexOf(word) !== -1) {
+							showToast = true;
 							words.push(word);
 						}
 					}
-					if(showToast){
-						this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
+					if (showToast) {
+						this.showToast('含有禁止使用的关键词	‘' + words.join("/") + '’	请编辑后再尝试发送')
 						this.hideLoading();
 						sendFlag = 0;
 						return 0
@@ -308,8 +357,8 @@
 				}
 
 				//判断输入是否符合要求
-				if (checkInput(this.title)) {
-					if (checkInput(this.content)) {
+				if (this.checkInput(this.title)) {
+					if (this.checkInput(this.content)) {
 						if (this.selectPeople.length == 0) {
 							this.showToast("请选择接收人");
 							// sendFlag = 0;
@@ -340,7 +389,7 @@
 					// sendFlag = 0;
 					return false;
 				}
-				if (isNull(text)) {
+				if (this.isNull(text)) {
 					this.showToast('请输入标题或内容');
 					// sendFlag = 0;
 					return false;
@@ -382,15 +431,14 @@
 		height: 35px;
 		padding-left: 5px;
 	}
-	
+
 	.gotoPeopleView {
 		margin-left: 10px;
 		float: left;
 		width: calc(100% - 50px);
 	}
 
-	/* uni-textarea {
-		width: auto;
-		height: 80px;
-	} */
+	.uni-checkbox-input:hover {
+		border-color: #00CFBD !important;
+	}
 </style>
