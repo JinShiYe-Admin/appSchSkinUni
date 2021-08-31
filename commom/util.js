@@ -510,6 +510,28 @@ function getPageArray() {
 			url: 'schapp_Work_students_form'
 		}, ]
 	
+	},{//学生评语
+		name: "学生评语", //评语
+		pagePath: "/pages/stu_comment/index",
+		iconPath: tempAAA + '/static/tabbar/study.png',
+		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+		count: 0,
+		isDot: false,
+		customIcon: false,
+		img_href: tempAAA + "/static/tabbar/kaoqin_tab.png",
+		url: 'schapp_Comment',
+		childList: []
+	},{
+		name: "行为与评语", //行为与评语，学生/家长端
+		pagePath: "/pages/stu_actionComment/index",
+		iconPath: tempAAA + '/static/tabbar/study.png',
+		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+		count: 0,
+		isDot: false,
+		customIcon: false,
+		img_href: tempAAA + "/static/tabbar/xingweiyupingyu_tab.png",
+		url: 'schapp_actionComment',
+		childList: []
 	}];
 	return tempArray;
 }

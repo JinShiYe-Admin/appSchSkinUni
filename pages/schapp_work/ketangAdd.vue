@@ -33,8 +33,9 @@
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">考勤日期</view>
-			<xp-picker mode="ymd" ref="timePicker" history :animation="false" :year-range='[2020,2030]' @confirm="timeSelect"></xp-picker>
-			<input class="uni-input form-right"  v-model="formData.time" placeholder="请选择" disabled @click="timePicker"/>
+			<dy-Date class="uni-input form-right" style="display: flex;align-items: center;padding-right: 0;" :childValue='formData.time'  timeType="day" v-on:getData='timeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>
+			<!-- <xp-picker mode="ymd" ref="timePicker" history :animation="false" :year-range='[2020,2030]' @confirm="timeSelect"></xp-picker>
+			<input class="uni-input form-right"  v-model="formData.time" placeholder="请选择" disabled @click="timePicker"/> -->
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
@@ -102,7 +103,8 @@
 				CONFIG:{},//短信配置 对象
 				WORDS:[],//拒绝关键字 对象
 				SHOW:false,//是否显示发送短信
-				 
+				 startDate:'2010-01-01',
+				 endDate:this.moment().format('YYYY-MM-DD'),
 			}
 		},
 		components: {
@@ -482,7 +484,11 @@
 		color: #787878;
 		text-align: right;
 	}
-	
+	::v-deep .form-right .placeholder{
+		color: grey;
+		font-size: 14px;
+		padding-right: 10px;
+	}
 	.uni-flex{
 		align-items: center;
 	}

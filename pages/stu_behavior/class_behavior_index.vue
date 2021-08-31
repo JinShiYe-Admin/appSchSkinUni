@@ -35,7 +35,7 @@
 							<uni-col :span="24"><view class="title-text"><view class='leaveType'>{{item.item_txt}}</view>{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">{{item.class_node}} / {{item.sub_name}}</view></uni-col>
 							<uni-col :span="16"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
-							<uni-col :span="8"><view class="detail-text" style="text-align: right;">{{item.create_time}}</view></uni-col>
+							<uni-col :span="8"><view class="detail-text" style="text-align: right;">{{item.behavior_time}}</view></uni-col>
 						</uni-row>
 					</text>
 				</uni-list-item>

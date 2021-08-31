@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon='icon' :iconClick="iconClick"></mynavBar>
 		123
 		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
@@ -15,7 +15,8 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {}
+				tabBarItem: {},
+				icon:'plusempty'
 			}
 		},
 		components: {
@@ -24,7 +25,11 @@
 		methods: {
 			clickItem:function(chilItem){
 				util.openwithData(chilItem.pagePath,chilItem)
-			}
+			},
+			iconClick(){
+				console.log(2);
+			},
+			
 		},
 		onLoad() {
 			_this = this;
@@ -35,7 +40,24 @@
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			this.tabBarItem = util.getTabbarMenu();
-		}
+		},
+		onPullDownRefresh() {
+			// this.pageobj0.loadFlag=0
+			// this.pageobj0.canload=true
+			// this.pageobj0.page_number=1
+			// this.getList0()
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
+		onReachBottom() {
+			// if(this.pageobj0.canload){
+			// 	this.pageobj0.loadFlag=1
+			// 	this.pageobj0.status = 'loading';
+			// 	this.pageobj0.page_number=this.pageobj0.page_number+1
+			// 	this.getList0()
+			// }
+		},
 	}
 </script>
 
