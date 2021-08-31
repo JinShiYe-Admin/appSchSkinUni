@@ -8,8 +8,9 @@
 				placeholder="请输入我的标签" />
 		</view>
 		<view v-if="itemData.flag==1||detailModel.InfoUploadCloseStatus == 2||detailModel.InfoUploadStatus==2">
-			<button v-on:click.stop="saveTag()" type="button" class="down-btn"
-				style="float: right;margin-right: 10px;margin-top: 7px;background: #00CFBD;border-color: #00CFBD;color: white;">保存</button>
+			<button @click="saveTag()" type="default" class="down-btn mini-btn"
+				style="float: right;margin-right: 10px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;"
+				size="mini">保存</button>
 			<input maxlength="10" type="text" v-model="tag"
 				style="float: right;border: 1px solid gainsboro;margin-bottom: 0px;margin-top: 5px;margin-right: -10px;font-size: 14px;width: 150px;height: 35px;"
 				placeholder="请输入我的标签" />
@@ -22,10 +23,16 @@
 		<view align="center" class="name-timeCSS" style="font-size: 13px;color: #999;">{{detailModel.SendManName}} |
 			截止时间：{{detailModel.SendTime}}</view>
 		<view v-html="detailModel.InfoCollectContent" class="contentCSS" style="font-size: 14px;color: #666;"></view>
-		<view v-for="(extraFile,index) in detailModel.InfoCollectEncName" :key='index'>
-			<view class="encName" v-show="extraFile">附件:
-				<a class="" style="font-size: 13px;color: #3c9bfe;"
-					v-on:click="checkEnc(detailModel.InfoCollectEncAddr[index])">附件{{index+1}}</a>
+		<view v-for="(extraFile,index) in detailModel.InfoCollectEncAddrShow" :key='index'>
+			<view class="encName">附件:
+				<!-- #ifdef APP-PLUS -->
+				<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
+					@click="checkEnc(extraFile)">附件{{index+1}}</a>
+				<!-- #endif -->
+				<!-- #ifdef H5 -->
+				<uni-link :href="extraFile" style="margin-left: 10px;"
+					:text="'附件'+(index+1)"></uni-link>
+				<!-- #endif -->
 			</view>
 		</view>
 		<view v-if="itemData.flag == 0||detailModel.InfoCollectStatus !=4">
@@ -35,30 +42,43 @@
 					style="color: black;font-size: 15px;margin:10px 0 0 15px;">重新提交</view>
 				<view v-else-if="detailModel.InfoUploadContent == 0"
 					style="color: black;font-size: 15px;margin:10px 0 0 15px;">提交</view>
-				<!-- <view style="padding-top: 5px;height: 170px;"> -->
 				<textarea maxlength="50" v-model="content"
 					style="border: 1px solid gainsboro;margin: 5px 10px 0 10px;padding: 5px;font-size: 15px;"
 					placeholder="请输入要提交的备注" rows="3"></textarea>
 				<button @click="replyContent()" class="mini-btn" type="default"
 					style="float: right;margin-right: 15px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;"
 					size="mini">确定</button>
-				<!-- </view> -->
 			</view>
 			<view v-else-if="detailModel.InfoUploadCloseStatus == 2">
 				<view class="" style="height: 10px;background-color: #f2f2f2;"></view>
 				<view class="contentCSS" style="font-size: 14px;color: #666;">提交备注：{{detailModel.InfoUploadContent}}
 				</view>
-				<view v-for="(extraFile,index) in detailModel.UploadEncName" :key='index'>
+				<view v-for="(extraFile,index) in detailModel.UploadEncAddrShow" :key='index'>
 					<view class="encName" v-show="extraFile">附件:
 						<a class="" style="font-size: 13px;color: #3c9bfe;"
-							v-on:click="checkEnc(detailModel.UploadEncAddr[index])">附件{{index+1}}</a>
+							v-on:click="checkEnc(extraFile)">附件{{index+1}}</a>
 					</view>
 				</view>
 			</view>
 		</view>
-		<!-- <view id="MultiMedia" v-show="detailModel.InfoUploadCloseStatus == 1" :class="itemData.flag==0?classA:classB">
-		</view> -->
-		<view class="uni-flex uni-row form-view choose-file">
+		<view v-if="detailModel.UploadEncAddrShow&&detailModel.UploadEncAddrShow.length>0" style="margin-top: 15px;">
+			<view v-for="(extraFile,index) in detailModel.UploadEncAddrShow" :key='index'>
+				<view class="encName" v-show="extraFile">附件:
+					<!-- #ifdef APP-PLUS -->
+					<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
+						@click="checkEnc(extraFile)">附件{{index+1}}</a>
+					<!-- #endif -->
+					<!-- #ifdef H5 -->
+					<uni-link :href="extraFile" style="margin-left: 10px;"
+						:text="'附件'+(index+1)"></uni-link>
+					<!-- #endif -->
+					<a @click="deleteUploadEnc()"
+						style="color: white;background: red;padding: 5px 10px;border-radius: 5px;margin-left: 10px;"
+						size="mini">删除</a>
+				</view>
+			</view>
+		</view>
+		<view v-else class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">附件<view class="file-des">
 					{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
 				</view>
@@ -99,10 +119,10 @@
 									{{replyModel.UploadContent}}
 								</p>
 							</view>
-							<view v-for="(extraFile,indexEnc) in replyModel.UploadEncName" :key='indexEnc'>
+							<view v-for="(extraFile,indexEnc) in replyModel.UploadEncAddrShow" :key='indexEnc'>
 								<view style="font-size: 13px;color: #333;margin-top: 7px;" v-show="extraFile">附件:
 									<a class="" style="font-size: 13px;color: #3c9bfe;"
-										v-on:click="checkEnc(replyModel.UploadEncAddr[indexEnc])">附件{{index+1}}</a>
+										v-on:click="checkEnc(extraFile)">附件{{index+1}}</a>
 								</view>
 							</view>
 							<button v-if="detailModel.InfoCollectStatus !=4" @click="openCloseUpload(replyModel)"
@@ -125,7 +145,7 @@
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	// 七牛上传相关
 	import gUpload from "@/components/g-upload/g-upload.vue"
-	import cloudFileUtil from '../../commom/uploadFiles/CloudFileUtil.js';
+	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
 	export default {
 		data() {
 			return {
@@ -139,13 +159,13 @@
 					noUploadList: [],
 					InfoUploadContent: ''
 				},
-				canSub:true,//
+				canSub: true, //
 				content: '',
 				// 附件上传相关👇
 				control: true, //是否显示上传 + 按钮 一般用于显示
 				deleteBtn: true, //是否显示删除 按钮 一般用于显示
-				maxCount: 9, //单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 
-				showMaxCount: 9, //单次上传最大数量
+				maxCount: 1, //单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 
+				showMaxCount: 1, //单次上传最大数量
 				columnNum: 3, //每行显示的图片数量
 				imgNames: [], //服务器回传的图片名称
 				imgList: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
@@ -169,12 +189,24 @@
 			});
 			//#ifndef APP-PLUS
 			document.title = "";
-			this.wxTips= ',微信端不支持多选', //如果是H5，需要提示该内容
+			this.wxTips = ',微信端不支持多选'; //如果是H5，需要提示该内容
+			var isPageHide = false;
+			window.addEventListener('pageshow', function() {
+				if (isPageHide) {
+					window.location.reload();
+				}
+			});
+			window.addEventListener('pagehide', function() {
+				isPageHide = true;
+			});
 			//#endif
 			//获取详情
 			this.getNoticeByReceiveId_sendId_Detail();
 		},
 		methods: {
+			deleteUploadEnc() {
+				this.detailModel.UploadEncAddrShow = [];
+			},
 			//附件上传相关👇
 			chooseFile(list, v, f) {
 				// console.log("上传图片_list：", list)
@@ -190,103 +222,85 @@
 				// console.log("删除图片_fileeq：", fileeq)
 				this.imgList = list
 				this.imgFiles.splice(fileeq, 1); //删除临时路径
+				this.imgNames.splice(eq, 1); //删除文件名
 				this.maxCount = this.showMaxCount - list.length
 				// console.log("删除图片_fileeq：", this.imgFiles)
 			},
-			upLoadImg(){
-				let _this=this
-				let names=[]
-				this.showLoading('正在上传文件...')
-				// console.log(this.imgFiles);
-				// console.log("this.imgList: " + JSON.stringify(this.imgList));
-				// let newImgList=this.imgList.filter(item=>{
-				// 	return item.indexOf('blob:')!==-1
-				// })//过滤服务器已经上传过的文件
-				// let imgUrls=this.imgList.filter(item=>{
-				// 	return item.indexOf('blob:')===-1
-				// })//过滤服务器已经上传过的文件
-				let newImgList=this.imgList.filter(item=>{					return item.indexOf('blob:')!==-1 || item.indexOf('file:')!==-1				})//过滤服务器已经上传过的文件				let imgUrls=this.imgList.filter(item=>{					return item.indexOf('blob:')===-1 || item.indexOf('file:')===-1				})//过滤服务器已经上传过的文件
-				if(newImgList.length>0){
-					this.imgFiles.map((item,index)=>{
-						names.push(this.moment().format('YYYYMMDDHHmmsss')+'_'+index+'_img.png')
-					})
-					cloudFileUtil.uploadFiles(this,'1',names,newImgList,this.QN_PB_NAME,this.QN_XSXW_XSTH,encAddrStr=>{
-						// console.log("encAddrStr: " + JSON.stringify(imgUrls.concat(encAddrStr)));
-						// console.log("names: " + JSON.stringify(this.imgNames.concat(names)));
-						this.submitData(this.imgNames.concat(names),imgUrls.concat(encAddrStr))
-					})
-				}else{
-					this.submitData(this.imgNames,imgUrls)
-				}
-				
+			upLoadImg() {
+				this.showLoading('正在上传文件...');
+				cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PV_NAME, this.QN_OA_ZLSJ, (encName,
+					encAddrStr) => {
+						this.hideLoading();
+						console.log("encAddrStr: " + JSON.stringify(encAddrStr));
+						console.log("names: " + JSON.stringify(encName));
+						this.submitData(encName, encAddrStr);
+					});
 			},
 			//附件上传相关👆
-			submitData(encNameStr,encAddrStr){
-				console.log('encNameStr:'+JSON.stringify(encNameStr));
-				console.log('encAddrStr:'+JSON.stringify(encAddrStr));
+			submitData(encNameStr, encAddrStr) {
+				console.log('encNameStr:' + JSON.stringify(encNameStr));
+				console.log('encAddrStr:' + JSON.stringify(encAddrStr));
 				this.showLoading()
-				let asset_ids=[]
-				if(encNameStr){
-					encNameStr.map(function(item,index){
-						let obj={}
-						obj.id=''
-						obj.url=encAddrStr[index]
-						obj.ext=item.split(".")[1]
-						obj.name='附件'+(index+1)
-						asset_ids.push(obj)
-					})
+				let encNameTemp,encAddrTemp;
+				if (encNameStr.length>0) {
+					encNameTemp = encNameStr.join(',');
+					encAddrTemp = encAddrStr.join(',');
+				}else{
+					encNameTemp = this.detailModel.UploadEncName.join(',');
+					encAddrTemp = this.detailModel.UploadEncAddr.join(',');
 				}
-				// let comData={
-				// 	grd_code: this.grdList[this.grdIndex].value,
-				// 	cls_code: this.clsList[this.clsIndex].value,
-				// 	stu_ids: this.stuIdList.join(','),
-				// 	chat_detail: this.formData.comment,
-				// 	chat_time: this.formData.time,
-				// 	asset_ids:asset_ids,
-				// 	index_code:this.index_code,
-					
-				// 	infoCollectId: this.itemData.InfoCollectId, //信息收集ID
-				// 	receiveManId: this.personInfo.user_code, //上交人ID
-				// 	content: this.content, //备注
-				// 	encName: encName, //附件名称
-				// 	encAddr: encAddr, //附件地址
-				// 	index_code: this.itemData.access.split('#')[1],
-				// 	op_code: 'index'
-				// }
-				// this.post(this.globaData.INTERFACE_STUXWSUB+'Talk/save',comData,(response0,response)=>{
-				// 	console.log("response: " + JSON.stringify(response));
-				//      if (response.code == 0) {
-				// 		 this.hideLoading()
-				// 		 this.showToast(response.msg);
-				//      	 const eventChannel = this.getOpenerEventChannel()
-				//      	 eventChannel.emit('refreshTalkBehaviorZd', {data: 1});
-				//      	 uni.navigateBack();
-				//      } else {
-				//      	this.canSub=true
-				//      	this.hideLoading()
-				//      	this.showToast(response.msg);
-				//      }
-				// },()=>{
-				// 		this.canSub=true
-				// })
+				var tempData1 = {
+					infoCollectId: this.itemData.InfoCollectId, //信息收集ID
+					receiveManId: this.personInfo.user_code, //上交人ID
+					content: this.content, //备注
+					encName: encNameTemp, //附件名称
+					encAddr: encAddrTemp, //附件地址
+					index_code: this.itemData.access.split('#')[1],
+					op_code: 'index'
+				}
+				console.log('tempData1:'+JSON.stringify(tempData1));
+				//28.回复通知公告
+				this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectUpload', tempData1, (data0, data) => {
+					this.canSub = true;
+					this.hideLoading();
+					if (data.code == 0) {
+						this.content = '';
+						this.imgNames= [];
+						this.imgList= [];
+						this.imgFiles= [];
+						this.showToast('成功');
+						this.getNoticeByReceiveId_sendId_Detail();
+					} else {
+						this.showToast(data.msg);
+					}
+				});
 			},
 			textClick() {
 				console.log('textClicktextClick');
 			},
 			checkEnc: function(tempUrl) {
-				var getDownToken = {
-					appId: this.globaData.QN_APPID, //int 必填 项目id
-					appKey: this.globaData.QN_APPKEY,
-					urls: [tempUrl] //array 必填 需要获取下载token文件的路径
-				}
-				var getDownTokenUrl = this.globaData.QNGETDOWNTOKENFILE;
-				// CloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, function(data) {
-				// 	console.log('七牛下载token ' + JSON.stringify(data));
-				// 	var urlStr = encodeURI(data.Data[0].Value)
-				// 	plus.runtime.openURL(urlStr);
-				// }, function(xhr, type, errorThrown) {
-				// 	this.showToast('获取文件失败 ' + type);
-				// });
+				console.log('tempUrl:' + tempUrl);
+				var urlStr = encodeURI(tempUrl);
+				this.showLoading();
+				uni.downloadFile({
+					url: urlStr,
+					success: function(res) {
+						var filePath = res.tempFilePath;
+						uni.openDocument({
+							filePath: filePath,
+							success: function(res) {
+								uni.hideLoading();
+								console.log('打开文档成功');
+							},
+							fail() {
+								uni.hideLoading();
+								uni.showToast({
+									title: '当前附件打开失败'
+								})
+							}
+						});
+					}
+				});
 			},
 			saveTag: function() {
 				console.log('saveTag');
@@ -344,39 +358,15 @@
 					this.showToast("备注不能超过50字");
 					return;
 				}
-				if (this.imgList.length == 0) {
+				if (this.imgList.length == 0&&this.detailModel.UploadEncAddrShow.length==0) {
 					this.showToast("请先选择附件");
 					return;
 				}
-				if(this.canSub){
-					this.canSub=false;
+				if (this.canSub) {
+					this.canSub = false;
 					this.showLoading();
-					if(this.imgList.length>0){
-						this.upLoadImg();
-					}else{
-						this.submitData();
-					}
+					this.upLoadImg();
 				}
-				// var fj = [];
-				// for (var i = 0; i < multiMedia.data.PictureArray.length; i++) {
-				// 	if (multiMedia.data.PictureArray[i].path.indexOf('http://') != -1 || multiMedia.data.PictureArray[
-				// 			i].path.indexOf('https://') != -1) {
-				// 		continue
-				// 	}
-				// 	fj.push('1');
-				// }
-				// if (fj.length == 0) {
-				// 	var tempUrl = multiMedia.data.PictureArray[0].path.split("?")[0];
-				// 	var oriName = tempUrl.substring(tempUrl.lastIndexOf("/") + 1);
-				// 	console.log('tempUrl:' + tempUrl);
-				// 	console.log('oriName:' + oriName);
-				// 	addNotice('3', tempUrl, '', 0, oriName);
-				// } else {
-				// 	//上传文件
-				// 	qn_upload.uploadFile(wd, function(wd, type, encAddrStr, encImgrStr, encLen, encNameStr) {
-				// 		addNotice(type, encAddrStr, encImgrStr, encLen, encNameStr);
-				// 	});
-				// }
 			},
 			openCloseUpload: function(model) {
 				var tempStr = '确认要打开上交吗？';
@@ -439,39 +429,6 @@
 					}
 				})
 			},
-			addNotice(encType, encAddr, encImg, encLen, encName) {
-				if (this.content.trim().length == 0) {
-					this.showToast("请输入备注", "cancel");
-					return;
-				}
-				if (this.content.length > 50) {
-					this.showToast("备注不能超过50字", "cancel");
-					return;
-				}
-				// //28.回复通知公告
-				var tempData1 = {
-					infoCollectId: this.itemData.InfoCollectId, //信息收集ID
-					receiveManId: this.personInfo.user_code, //上交人ID
-					content: this.content, //备注
-					encName: encName, //附件名称
-					encAddr: encAddr, //附件地址
-					index_code: this.itemData.access.split('#')[1],
-					op_code: 'index'
-				}
-				//28.回复通知公告
-				this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectUpload', tempData1, (data0, data) => {
-					encNameList = [];
-					this.hideLoading();
-					if (data.code == 0) {
-						this.content = '';
-						// multiMedia.imageRefresh();
-						this.showToast('成功');
-						this.getNoticeByReceiveId_sendId_Detail();
-					} else {
-						this.showToast(data.msg);
-					}
-				});
-			},
 			//获取详情
 			getNoticeByReceiveId_sendId_Detail() {
 				this.showLoading();
@@ -500,31 +457,12 @@
 						if (data.data.InfoCollectEncName) {
 							data.data.InfoCollectEncName = data.data.InfoCollectEncName.split("|");
 							data.data.InfoCollectEncAddr = data.data.InfoCollectEncAddr.split("|");
+							data.data.InfoCollectEncAddrShow = data.data.InfoCollectEncAddr;
 						}
 						if (data.data.UploadEncName) {
 							data.data.UploadEncName = data.data.UploadEncName.split("|");
 							data.data.UploadEncAddr = data.data.UploadEncAddr.split("|");
-							if (data.data.UploadEncAddr.length > 0) {
-								// multiMedia.addImages(data.data.UploadEncAddr);
-								// multiMedia.options.imageId = data.data.UploadEncAddr.length + 1;
-								var getDownToken = {
-									appId: this.globaData.QN_APPID, //int 必填 项目id
-									appKey: this.globaData.QN_APPKEY,
-									urls: data.data.UploadEncAddr //array 必填 需要获取下载token文件的路径
-								}
-								// var getDownTokenUrl = this.globaData.QNGETDOWNTOKENFILE;
-								// CloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, function(data) {
-								// 	console.log('七牛下载token ' + JSON.stringify(data));
-								// 	// var urlStr = encodeURI(data.Data[0].Value)
-								// 	// plus.runtime.openURL(urlStr);
-								// 	var tepArr = [];
-								// 	tepArr.push(data.Data[0].Value);
-								// 	multiMedia.addImages(tepArr);
-								// 	multiMedia.options.imageId = data.Data.length + 1;
-								// }, function(xhr, type, errorThrown) {
-								// 	this.showToast('获取文件失败 ' + type);
-								// });
-							}
+							data.data.UploadEncAddrShow = data.data.UploadEncAddr;
 						}
 						//如果是接收的，判断是否右上角有功能
 						if (this.itemData.flag == 1) {
@@ -563,6 +501,46 @@
 						}
 						this.tag = data.data.Tag;
 						this.detailModel = data.data;
+						if (this.detailModel.InfoCollectEncAddrShow) {
+							var getDownToken = {
+								appId: this.globaData.QN_APPID, //int 必填 项目id
+								appKey: this.globaData.QN_APPKEY,
+								urls: this.detailModel.InfoCollectEncAddrShow //array 必填 需要获取下载token文件的路径
+							}
+							var getDownTokenUrl = this.QNGETDOWNTOKENFILE;
+							this.showLoading();
+							cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data) => {
+								this.hideLoading();
+								console.log('七牛下载token ' + JSON.stringify(data));
+								var tempArr = [];
+								for (var i = 0; i < data.Data.length; i++) {
+									var tempM = data.Data[i];
+									tempArr.push(tempM.Value);
+								}
+								this.detailModel.InfoCollectEncAddrShow = [].concat(tempArr);
+								console.log('this.detailModel00:' + JSON.stringify(this.detailModel));
+							});
+						}
+						if (this.detailModel.UploadEncAddrShow) {
+							var getDownToken = {
+								appId: this.globaData.QN_APPID, //int 必填 项目id
+								appKey: this.globaData.QN_APPKEY,
+								urls: this.detailModel.UploadEncAddrShow //array 必填 需要获取下载token文件的路径
+							}
+							var getDownTokenUrl = this.QNGETDOWNTOKENFILE;
+							this.showLoading();
+							cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data) => {
+								this.hideLoading();
+								console.log('七牛下载token ' + JSON.stringify(data));
+								var tempArr = [];
+								for (var i = 0; i < data.Data.length; i++) {
+									var tempM = data.Data[i];
+									tempArr.push(tempM.Value);
+								}
+								this.detailModel.UploadEncAddrShow = [].concat(tempArr);
+								console.log('this.detailModel11:' + JSON.stringify(this.detailModel));
+							});
+						}
 						console.log('this.detailModel:' + JSON.stringify(this.detailModel));
 						//将之前提交的资料，塞入默认数据
 						this.content = data.data.InfoUploadContent;
@@ -596,6 +574,7 @@
 	.encName {
 		margin-left: 15px;
 		margin-right: 15px;
+		margin-bottom: 10px;
 		font-size: 14px;
 		color: #333;
 	}
@@ -608,5 +587,12 @@
 	uni-textarea {
 		width: auto;
 		height: 80px;
+	}
+
+	.uni-input-placeholder {
+		padding-left: 5px;
+	}
+	.uni-input-input {
+	    padding-left: 5px;
 	}
 </style>
