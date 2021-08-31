@@ -145,7 +145,7 @@
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'smsConf/getConf',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					if (response.user_types) {
+					if (response && response.user_types) {
 						let config_types=response.user_types.split(",");
 						let local_types=this.ACTION_MSG_SMS.OUTCLSBEHAVIOR.USER_TYPE.split(",");
 						let send=false;
@@ -282,6 +282,26 @@
 				}else{
 					if(this.canSub){
 						this.canSub=false
+						let comm=this.formData.comment
+						let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
+						if(this.SMS){
+							smsFlag=1;
+							let showToast=false
+							 let words=[]
+							 for (let i = 0; i < this.WORDS.length; i++) {
+							 	let word=this.WORDS[i].word
+							 	if(comment.indexOf(word)!==-1){
+							 		showToast=true
+							 		words.push(word)
+							 	}
+							 }
+							 if(showToast){
+							 	this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
+							 	this.hideLoading()
+								this.canSub=true
+							 	return 0
+							 }
+						}
 						this.upLoadImg();
 					}
 				}
@@ -319,25 +339,6 @@
 				let smsFlag=0;
 				let comm=this.formData.comment
 				let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
-				if(this.SMS){
-					smsFlag=1;
-					let showToast=false
-					 let words=[]
-					 for (let i = 0; i < this.WORDS.length; i++) {
-					 	let word=this.WORDS[i].word
-					 	if(comment.indexOf(word)!==-1){
-					 		showToast=true
-					 		words.push(word)
-					 	}
-					 }
-					 if(showToast){
-					 	this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
-					 	this.hideLoading()
-						this.canSub=true
-					 	return 0
-					 }
-				}
-				
 				let asset_ids=[]
 				if(encNameStr){
 					encNameStr.map(function(item,index){

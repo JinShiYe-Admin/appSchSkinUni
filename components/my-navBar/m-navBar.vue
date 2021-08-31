@@ -3,7 +3,12 @@
 		<u-navbar-my :title='navItem.text' :backFlag='navItem.index' :backImg="personInfo.img_url" :custom-back="clickLeftImg">
 			<view v-if="icon || text" slot="right" style="display: flex;flex-direction: row;">
 				<view v-if="icon" style="margin: 0 8px;"><uni-icons :type="icon.value?icon.value:icon" :size="icon.style?icon.style.fontSize:18" :color="icon.style?icon.style.color:'#FFFFFF'" @click="$props.iconClick"></uni-icons></view>
-				<view v-if="text"  style="margin: 0 8px;" :style="{'color':(text.style?text.style.color:'#FFFFFF'),'font-size':(text.style?text.style.fontSize:'15px')}" @click="$props.textClick">{{text.value?text.value:text}}</view>
+				<template v-if="typeof text ==='string'">
+					<view style="margin: 0 8px;" :style="{'color':(text.style?text.style.color:'#FFFFFF'),'font-size':(text.style?text.style.fontSize:'15px')}" @click="$props.textClick">{{text.value?text.value:text}}</view>
+				</template>
+				<template v-else-if="typeof text === 'object'">
+					<view v-for="(item,index) in text" style="margin: 0 8px;" :style="{'color':(item.style?item.style.color:'#FFFFFF'),'font-size':(item.style?item.style.fontSize:'15px')}" @click="$props.textClick[index]">{{item.value?item.value:item}}</view>
+				</template>
 			</view>
 		</u-navbar-my>
 		<uni-drawer ref="showPersonInfo" mode="left">
@@ -81,7 +86,7 @@
 				}
 			},
 			textClick:{
-				type:Function,
+				type:[Object,Function],
 				default(){
 					return {}
 				}
