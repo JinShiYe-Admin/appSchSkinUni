@@ -83,3 +83,4 @@ leave|学生请假管理|Liu|Kong|开发
 stu_behavior|学生行为|Liu|Ruan(广西)|开发
 schapp_work|学生考勤|Liu|Ruan(广西)|开发
 stu_comment|学生评语|Liu|Ruan(广西)|开发
+stu_actionComment|行为与评语(学生/家长端)|Liu|Ruan(广西)|开发

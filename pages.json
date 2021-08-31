@@ -86,7 +86,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
         }
 		,{
@@ -114,7 +126,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
         }
 		,{
@@ -151,7 +175,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
         }
 		,{
@@ -180,7 +216,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
         },
 		{
@@ -217,7 +265,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
         }
         ,{
@@ -225,7 +285,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
         }
         ,{
@@ -233,7 +305,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
         }
         ,{
@@ -251,7 +335,19 @@
             {
                "navigationStyle": "custom", // 隐藏系统导航栏
                "navigationBarTitleText": "",
-               "enablePullDownRefresh": true
+               "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
         }
         ,{
@@ -308,7 +404,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -318,7 +426,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -347,7 +467,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -367,7 +499,19 @@
 		    {
 		       "navigationStyle": "custom", // 隐藏系统导航栏
 		       "navigationBarTitleText": "",
-		       "enablePullDownRefresh": true
+		       "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
 		    }
 		    
 		}
@@ -377,7 +521,19 @@
 		    {
 		       "navigationStyle": "custom", // 隐藏系统导航栏
 		       "navigationBarTitleText": "",
-		       "enablePullDownRefresh": true
+		       "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
 		    }
 		    
 		}
@@ -387,7 +543,19 @@
 		    {
 		       "navigationStyle": "custom", // 隐藏系统导航栏
 		       "navigationBarTitleText": "",
-		       "enablePullDownRefresh": true
+		       "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
 		    }
 		    
 		}
@@ -514,7 +682,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -523,7 +703,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -553,7 +745,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -581,7 +785,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -599,7 +815,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -618,7 +846,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -676,7 +916,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -714,7 +966,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -724,7 +988,19 @@
             {
                "navigationStyle": "custom", // 隐藏系统导航栏
                "navigationBarTitleText": "",
-               "enablePullDownRefresh": true
+               "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -772,7 +1048,19 @@
             {
                "navigationStyle": "custom", // 隐藏系统导航栏
                "navigationBarTitleText": "",
-               "enablePullDownRefresh": true
+               "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -801,7 +1089,19 @@
             {
                "navigationStyle": "custom", // 隐藏系统导航栏
                "navigationBarTitleText": "",
-               "enablePullDownRefresh": true
+               "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -821,7 +1121,19 @@
             {
                "navigationStyle": "custom", // 隐藏系统导航栏
                "navigationBarTitleText": "",
-               "enablePullDownRefresh": true
+               "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -831,7 +1143,19 @@
             {
                "navigationStyle": "custom", // 隐藏系统导航栏
                "navigationBarTitleText": "",
-               "enablePullDownRefresh": true
+               "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -855,6 +1179,38 @@
         }
         ,{
             "path" : "pages/stu_comment/index",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_comment/stu_comment_detail",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_comment/stu_comment_add",
             "style" :                                                                                    
             {
                 "navigationStyle": "custom", // 隐藏系统导航栏
@@ -921,6 +1277,9 @@
 			},
 			{
 				"pagePath": "pages/stu_comment/index"
+			},
+			{
+				"pagePath": "pages/stu_actionComment/index"
 			}
 		]
 	}
