@@ -76,6 +76,8 @@ var getUpLoadTokens = function(that,data, callBack) {
 }
 
 var getQNDownToken = function(url, data, successCB, errorCB) {
+	console.log('data:'+JSON.stringify(data));
+	console.log('url:'+url);
 	// console.log('getQNDownToken:url ' + JSON.stringify(data));
 	// console.log('getQNDownToken:data ' + JSON.stringify(data));
 	var desKey = ''; //项目名称
@@ -90,13 +92,13 @@ var getQNDownToken = function(url, data, successCB, errorCB) {
 		if (data.urls) {
 			urls = data.urls;
 		}
-
 	}
 	if (desKey != '' && urls.length != 0) {
 		configure.options = {
 			AppID: appId,
 			Param: cryption.encryptByDES(desKey, JSON.stringify(urls))
 		}
+		console.log('configure.options:'+JSON.stringify(configure.options));
 		uni.request({
 			url: url,
 			timeout: 60000,
@@ -118,12 +120,12 @@ var getQNDownToken = function(url, data, successCB, errorCB) {
 			fail: (e) => { //接口调用失败的回调函数  比如跨域了，断网
 				// console.log("e: " + JSON.stringify(e));
 				uni.hideLoading();
-				that.showToast('网络请求失败')
+				uni.showToast('网络请求失败')
 			},
 			complete: () => {}
 		});
-
 	} else {
+		uni.hideLoading();
 		errorCB('### ERROR ### 配置获取七牛下载token参数错误');
 	}
 }
@@ -630,6 +632,7 @@ var uploadFiles = function(that,type,files,mainSpace,uploadSpace,callback) {
 									domains.push(domain)
 									if(domains.length===newImgList.length){
 										let endNames=that.imgNames.concat(names)
+										domains.sort();
 										let endUrls=imgUrls.concat(domains)
 										callback(endNames,endUrls)
 										that.hideLoading();

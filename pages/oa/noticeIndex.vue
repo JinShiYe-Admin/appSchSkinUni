@@ -281,6 +281,7 @@
 			},
 			iconClick() {
 				console.log('iconClick');
+				util.openwithData("/pages/oa/noticeNew", this.itemData);
 			},
 			clickItem: function(model) {
 				console.log('clickItem.model:' + JSON.stringify(model));
