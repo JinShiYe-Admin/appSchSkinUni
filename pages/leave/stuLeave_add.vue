@@ -140,7 +140,7 @@
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'smsConf/getConf',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					if (response.user_types) {
+					if (response && response.user_types) {
 						let config_types=response.user_types.split(",");
 						let local_types=this.STUKQ_MSG_SMS.ASKLEAVE.USER_TYPE.split(",");
 						let send=false;
