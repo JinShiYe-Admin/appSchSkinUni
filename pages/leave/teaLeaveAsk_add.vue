@@ -4,7 +4,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
 			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :range="grdList" range-key="text">
-				<input class="uni-input form-right"  v-model="grdList[grdIndex].text"  placeholder="请选择" disabled/>
+				<input class="uni-input form-right" :value="grdIndex>=0?grdList[grdIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -12,7 +12,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">班级</view>
 			<picker style="width:100% !important;" mode="selector" @change="clsSelect" :value="clsIndex" :range="clsList" range-key="text">
-				<input class="uni-input form-right"  v-model="clsList[clsIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="clsIndex>=0?clsList[clsIndex].text:''"   placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -20,7 +20,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">学生</view>
 			<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stuList" range-key="text">
-				<input class="uni-input form-right"  v-model="stuList[stuIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="stuIndex>=0?stuList[stuIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -47,7 +47,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">请假类别</view>
 			<picker style="width:100% !important;" mode="selector" @change="qjlbSelect" :value="qjlbIndex" :range="qjlbList" range-key="text">
-				<input class="uni-input form-right"  v-model="qjlbList[qjlbIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="qjlbIndex>=0?qjlbList[qjlbIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -55,7 +55,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">出入权限</view>
 			<picker style="width:100% !important;" mode="selector" @change="crqxSelect" :value="crqxIndex" :range="crqxList" range-key="text">
-				<input class="uni-input form-right" v-model="crqxList[crqxIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right" :value="crqxIndex>=0?crqxList[crqxIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -122,16 +122,16 @@
 					comment:'',//说明
 					copy_list:[],//抄送人选择对象
 				}, //表单内容
-				grdIndex:0,
-				clsIndex:0,
-				stuIndex:0,
-				qjlbIndex:0,
-				crqxIndex:0,
-				grdList: [{text:'请选择',value:''}], //年级数组
-				clsList: [{text:'请选择',value:''}], //班级数组
-				stuList: [{text:'请选择',value:''}], //学生数组
-				qjlbList: [{text:'请选择',value:''},{text:'病假',value:'sickLeave'},{text:'事假',value:'absenceLeave'}], //请假类别数组
-				crqxList: [{text:'请选择',value:''},{text:'可回宿舍',value:'backDorm'},{text:'可出入校园',value:'outSchool'}], //出入权限数组
+				grdIndex:-1,
+				clsIndex:-1,
+				stuIndex:-1,
+				qjlbIndex:-1,
+				crqxIndex:-1,
+				grdList: [], //年级数组
+				clsList: [], //班级数组
+				stuList: [], //学生数组
+				qjlbList: [{text:'病假',value:'sickLeave'},{text:'事假',value:'absenceLeave'}], //请假类别数组
+				crqxList: [{text:'可回宿舍',value:'backDorm'},{text:'可出入校园',value:'outSchool'}], //出入权限数组
 				approve_rules:[],//额外的审批人规则列表
 				approve_list:[],//额外的审批人列表 
 				SMS:false,//是否向家长发送短信
@@ -212,7 +212,7 @@
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					let grds = response.grd_list;
-					let grdList=[{text:'请选择',value:''}];
+					let grdList=[];
 					grds.map(function(currentValue) {
 						let obj = {};
 						obj.value = currentValue.value;
@@ -237,7 +237,7 @@
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					let clss = response.cls_list;
-					let clssList=[{text:'请选择',value:''}];
+					let clssList=[];
 					clss.map(function(currentValue) {
 						let obj = {};
 						obj.value = currentValue.value;
@@ -263,7 +263,7 @@
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					let stu = response.stu_list;
-					let stuList=[{text:'请选择',value:''}];
+					let stuList=[];
 					stu.map(function(currentValue) {
 						let obj = {};
 						obj.value = currentValue.value;
@@ -413,60 +413,66 @@
 				})
 			},
 			grdSelect(e){
-				if(this.grdIndex!==e.detail.value){
-					 this.grdIndex=e.detail.value
-					 this.clsIndex=0
-					 this.stuIndex=0
-					 this.clsList=[{text:'请选择',value:''}]
-					 this.stuList=[{text:'请选择',value:''}]
-					 this.formData.grd=this.grdList[e.detail.value]
-					 this.formData.cls={text:'请选择',value:''}
-					 this.formData.stu={text:'请选择',value:''}
-					 this.formData.begin_time=''
-					 this.formData.end_time=''
-					 this.formData.diff_times_text=''
-					 this.formData.diff_times_days=0
-					 if(e.detail.value!==0){
-						this.getCls(this.grdList[e.detail.value].value)
-					 }
+				if(this.grdList.length>0){
+					if(this.grdIndex!==e.detail.value){
+						 this.grdIndex=e.detail.value
+						 this.clsIndex=-1
+						 this.stuIndex=-1
+						 this.clsList=[]
+						 this.stuList=[]
+						 this.formData.grd=this.grdList[e.detail.value]
+						 this.formData.cls={text:'请选择',value:''}
+						 this.formData.stu={text:'请选择',value:''}
+						 this.formData.begin_time=''
+						 this.formData.end_time=''
+						 this.formData.diff_times_text=''
+						 this.formData.diff_times_days=0
+							this.getCls(this.grdList[e.detail.value].value)
+					}
 				}
 			},
 			clsSelect(e){
-				if(this.clsIndex!==e.detail.value){
-					 this.clsIndex=e.detail.value
-					 this.stuIndex=0
-					 this.formData.cls=this.clsList[e.detail.value]
-					 this.stuList=[{text:'请选择',value:''}]
-					 this.formData.stu={text:'请选择',value:''}
-					 this.formData.begin_time=''
-					 this.formData.end_time=''
-					 this.formData.diff_times_text=''
-					 this.formData.diff_times_days=0
-					 this.approve_rules=[]
-					 this.approve_list=[]
-					 if(e.detail.value!==0){
-					 	this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
+				if(this.clsList.length>0){
+					if(this.clsIndex!==e.detail.value){
+						 this.clsIndex=e.detail.value
+						 this.stuIndex=-1
+						 this.formData.cls=this.clsList[e.detail.value]
+						 this.stuList=[]
+						 this.formData.stu={text:'请选择',value:''}
+						 this.formData.begin_time=''
+						 this.formData.end_time=''
+						 this.formData.diff_times_text=''
+						 this.formData.diff_times_days=0
+						 this.approve_rules=[]
+						 this.approve_list=[]
+						this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
 						this.getLeaveFlows(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value);
-					 }
+					}
 				}
 			},
 			stuSelect(e){
-				if(this.stuIndex!==e.detail.value){
-					this.stuIndex=e.detail.value
-					this.formData.stu =this.stuList[e.detail.value]
-					this.formData.copy_list=[]
+				if(this.stuList.length>0){
+					if(this.stuIndex!==e.detail.value){
+						this.stuIndex=e.detail.value
+						this.formData.stu =this.stuList[e.detail.value]
+						this.formData.copy_list=[]
+					}
 				}
 			},
 			qjlbSelect(e){
-				if(this.qjlbIndex!==e.detail.value){
-					this.qjlbIndex=e.detail.value
-					this.formData.qjlb=this.qjlbList[e.detail.value]
+				if(this.qjlbList.length>0){
+					if(this.qjlbIndex!==e.detail.value){
+						this.qjlbIndex=e.detail.value
+						this.formData.qjlb=this.qjlbList[e.detail.value]
+					}
 				}
 			},
 			crqxSelect(e){
-				if(this.crqxIndex!==e.detail.value){
-					this.crqxIndex=e.detail.value
-					this.formData.crqx=this.crqxList[e.detail.value]
+				if(this.crqxList.length>0){
+					if(this.crqxIndex!==e.detail.value){
+						this.crqxIndex=e.detail.value
+						this.formData.crqx=this.crqxList[e.detail.value]
+					}
 				}
 			},
 			changeAutoplay(){

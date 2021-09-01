@@ -3,8 +3,8 @@
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
-			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :range="grdList" range-key="text">
-				<input class="uni-input form-right"  v-model="grdList[grdIndex].text"  placeholder="请选择" disabled/>
+			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
+				<input class="uni-input form-right"  :value="grdIndex>=0?grdList[grdIndex].text:''"  placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -12,7 +12,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">班级</view>
 			<picker style="width:100% !important;" mode="selector" @change="clsSelect" :value="clsIndex" :range="clsList" range-key="text">
-				<input class="uni-input form-right"  v-model="clsList[clsIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="clsIndex>=0?clsList[clsIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -26,7 +26,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">行为细项</view>
 			<picker style="width:100% !important;" mode="selector" @change="xwxxSelect" :value="xwxxIndex" :range="xwxxList" range-key="text">
-				<input class="uni-input form-right"  v-model="xwxxList[xwxxIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="xwxxIndex>=0?xwxxList[xwxxIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -42,7 +42,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">节次</view>
 			<picker style="width:100% !important;" mode="selector" @change="jcSelect" :value="jcIndex" :range="jcList" range-key="text">
-				<input class="uni-input form-right"  v-model="jcList[jcIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="jcIndex>=0?jcList[jcIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -50,7 +50,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">科目</view>
 			<picker style="width:100% !important;" mode="selector" @change="kmSelect" :value="kmIndex" :range="kmList" range-key="text">
-				<input class="uni-input form-right"  v-model="kmList[kmIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="kmIndex>=0?kmList[kmIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -94,19 +94,19 @@
 					time:'',//发生日期
 					comment:'',//说明
 				}, //表单内容
-				grdIndex:0,
-				clsIndex:0,
-				xwxxIndex:0,
-				jcIndex:0,
-				kmIndex:0,
-				grdList: [{text:'请选择',value:''}], //年级数组
-				clsList: [{text:'请选择',value:''}], //班级数组
+				grdIndex:-1,
+				clsIndex:-1,
+				xwxxIndex:-1,
+				jcIndex:-1,
+				kmIndex:-1,
+				grdList: [], //年级数组
+				clsList: [], //班级数组
 				stuList:[],
 				stuNameList: [], //学生数组
 				stuIdList: [], //学生数组
-				xwxxList: [{text:'请选择',value:''}], //请假类别数组
-				jcList: [{text:'请选择',value:''}], //出入权限数组
-				kmList: [{text:'请选择',value:''}], //出入权限数组
+				xwxxList: [], //请假类别数组
+				jcList: [], //出入权限数组
+				kmList: [], //出入权限数组
 				SMS:false,//是否向家长发送短信
 				CONFIG:{},//短信配置 对象
 				WORDS:[],//拒绝关键字 对象
@@ -208,7 +208,7 @@
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					let grds = response.grd_list;
-					let grdList=[{text:'请选择',value:''}];
+					let grdList=[];
 					grds.map(function(currentValue) {
 						let obj = {};
 						obj.value = currentValue.value;
@@ -233,7 +233,7 @@
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					let clss = response.cls_list;
-					let clssList=[{text:'请选择',value:''}];
+					let clssList=[];
 					clss.map(function(currentValue) {
 						let obj = {};
 						obj.value = currentValue.value;
@@ -259,7 +259,7 @@
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					let stu = response.stu_list;
-					let stuList=[{text:'请选择',value:''}];
+					let stuList=[];
 					stu.map(function(currentValue) {
 						let obj = {};
 						obj.value = currentValue.value;
@@ -295,7 +295,7 @@
 						subList.push(obj)
 					})
 					if (subList.length > 0) {
-						this.kmList = [{text:'请选择',value:''}].concat(subList);
+						this.kmList = [].concat(subList);
 					} else {
 						this.kmList=[];
 						mui.toast('无数据授权 无法获取班级');
@@ -310,24 +310,24 @@
 				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/getDict',comData,response=>{
 				    console.log("responsesabaa: " + JSON.stringify(response));
 					this.hideLoading()
-					this.jcList=[{text:'请选择',value:''}].concat(response.timeArray)
-					this.xwxxList =  [{text:'请选择',value:''}].concat(response.qbArray);
+					this.jcList=[].concat(response.timeArray)
+					this.xwxxList =  [].concat(response.qbArray);
 				})
 			},
 			textClick(){//发送请假信息
-				if(this.grdList[this.grdIndex].value==''){
+				if(this.grdIndex==-1){
 					this.showToast('请选择年级')
-				}else if(this.clsList[this.clsIndex].value==''){
+				}else if(this.clsIndex==-1){
 					this.showToast('请选择班级')
 				}else if(this.stuIdList.length==0){
 					this.showToast('请选择学生')
-				}else if(this.xwxxList[this.xwxxIndex].value==''){
+				}else if(this.xwxxIndex==-1){
 					this.showToast('请选择行为细项')
 				}else if(this.formData.time==''){
 					this.showToast('请选择发生日期')
-				}else if(this.jcList[this.jcIndex].value==''){
+				}else if(this.jcIndex==-1){
 					this.showToast('请选择节次')
-				}else if(this.kmList[this.kmIndex].value==''){
+				}else if(this.kmIndex==-1){
 					this.showToast('请选择科目')
 				}else if(this.formData.comment==''){
 					this.showToast('请输入行为说明')
@@ -433,32 +433,32 @@
 				})
 			},
 			grdSelect(e){
-				if(this.grdIndex!==e.detail.value){
-					 this.grdIndex=e.detail.value
-					 this.clsIndex=0
-					 this.stuList=[]
-					 this.stuNameList= [] 
-					 this.stuIdList= [] 
-					 this.kmIndex=0
-					 this.clsList=[{text:'请选择',value:''}]
-					 this.kmList=[{text:'请选择',value:''}]
-					 if(e.detail.value!==0){
-						this.getCls(this.grdList[e.detail.value].value)
-					 }
+				if(this.grdList.length>0){
+					if(this.grdIndex!==e.detail.value){
+						 this.grdIndex=e.detail.value
+						 this.clsIndex=-1
+						 this.stuList=[]
+						 this.stuNameList= [] 
+						 this.stuIdList= [] 
+						 this.kmIndex=-1
+						 this.clsList=[]
+						 this.kmList=[]
+							this.getCls(this.grdList[e.detail.value].value)
+					}
 				}
 			},
 			clsSelect(e){
-				if(this.clsIndex!==e.detail.value){
-					 this.clsIndex=e.detail.value
-					 this.stuList=[]
-					 this.stuNameList= [] 
-					 this.stuIdList= [] 
-					 this.kmIndex=0
-					 this.kmList=[{text:'请选择',value:''}]
-					 if(e.detail.value!==0){
-					 	this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
+				if(this.clsList.length>0){
+					if(this.clsIndex!==e.detail.value){
+						 this.clsIndex=e.detail.value
+						 this.stuList=[]
+						 this.stuNameList= [] 
+						 this.stuIdList= [] 
+						 this.kmIndex=-1
+						 this.kmList=[]
+						this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
 						this.getKm(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value);
-					 }
+					}
 				}
 			},
 			selectStu(e){
@@ -491,18 +491,24 @@
 				}
 			},
 			xwxxSelect(e){
-				if(this.xwxxIndex!==e.detail.value){
-					this.xwxxIndex=e.detail.value
+				if(this.xwxxList.length>0){
+					if(this.xwxxIndex!==e.detail.value){
+						this.xwxxIndex=e.detail.value
+					}
 				}
 			},
 			jcSelect(e){
-				if(this.jcIndex!==e.detail.value){
-					this.jcIndex=e.detail.value
+				if(this.jcList.length>0){
+					if(this.jcIndex!==e.detail.value){
+						this.jcIndex=e.detail.value
+					}
 				}
 			},
 			kmSelect(e){
-				if(this.kmIndex!==e.detail.value){
-					this.kmIndex=e.detail.value
+				if(this.kmList.length>0){
+					if(this.kmIndex!==e.detail.value){
+						this.kmIndex=e.detail.value
+					}
 				}
 			},
 			changeAutoplay(){

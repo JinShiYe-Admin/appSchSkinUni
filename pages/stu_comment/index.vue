@@ -20,8 +20,8 @@
 		</view>
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
-				<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text">
+				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
+					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text tow-line">内容: {{item.remark}}</view></uni-col>
@@ -77,10 +77,10 @@
 			mynavBar
 		},
 		methods: {
-			clickItem:function(item){
+			toDetails:function(item){
 				item.index_code=this.index_code
 				let that=this
-				util.openwithData('/pages/stu_comment/stu_comment_add',item,{
+				util.openwithData('/pages/stu_comment/stu_comment_detail',item,{
 					refreshDetail(data){//子页面调用父页面需要的方法
 						that.showLoading()
 						that.pageobj0.loadFlag=0
@@ -398,7 +398,7 @@
 	 
 	 .tow-line{
 		 overflow: hidden;
-		 width: 90vw;
+		 width: 85vw;
 		 text-overflow: ellipsis;
 		 white-space: nowrap;
 /* 		 text-overflow: -o-ellipsis-lastline;

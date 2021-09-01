@@ -23,7 +23,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">请假类别</view>
 			<picker style="width:100% !important;" mode="selector" @change="qjlbSelect" :value="qjlbIndex" :range="qjlbList" range-key="text">
-				<input class="uni-input form-right"  v-model="qjlbList[qjlbIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="qjlbIndex>=0?qjlbList[qjlbIndex].text:''"  placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -31,7 +31,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">出入权限</view>
 			<picker style="width:100% !important;" mode="selector" @change="crqxSelect" :value="crqxIndex" :range="crqxList" range-key="text">
-				<input class="uni-input form-right" v-model="crqxList[crqxIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right" :value="crqxIndex>=0?crqxList[crqxIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -44,7 +44,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">审核人</view>
 			<picker style="width:100% !important;" mode="selector" @change="clsTecSelect" :value="clsTecIndex" :range="clsTecList" range-key="text">
-				<input class="uni-input form-right" v-model="clsTecList[clsTecIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right" :value="clsTecIndex>=0?clsTecList[clsTecIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -97,12 +97,12 @@
 					comment:'',//说明
 					copy_list:[],//抄送人选择对象
 				}, //表单内容
-				qjlbIndex:0,
-				crqxIndex:0,
-				clsTecIndex:0,
-				qjlbList: [{text:'请选择',value:''},{text:'病假',value:'sickLeave'},{text:'事假',value:'absenceLeave'}], //请假类别数组
-				crqxList: [{text:'请选择',value:''},{text:'可回宿舍',value:'backDorm'},{text:'可出入校园',value:'outSchool'}], //出入权限数组
-				clsTecList:[{text:'请选择',value:''}],//班级任教列表
+				qjlbIndex:-1,
+				crqxIndex:-1,
+				clsTecIndex:-1,
+				qjlbList: [{text:'病假',value:'sickLeave'},{text:'事假',value:'absenceLeave'}], //请假类别数组
+				crqxList: [{text:'可回宿舍',value:'backDorm'},{text:'可出入校园',value:'outSchool'}], //出入权限数组
+				clsTecList:[],//班级任教列表
 				approve_rules:[],//额外的审批人规则列表
 				approve_list:[],//额外的审批人列表 
 				SMS:false,//是否向家长发送短信
@@ -201,7 +201,7 @@
 					let list =response.list
 					if(list.length>0){
 						//合并重复人员
-						let newList=[{text:'请选择',value:''}]
+						let newList=[]
 						list.map(item=>{
 							item.value=item.user_code
 							item.text=item.user_name
@@ -329,21 +329,27 @@
 				}
 			},
 			qjlbSelect(e){
-				if(this.qjlbIndex!==e.detail.value){
-					this.qjlbIndex=e.detail.value
-					this.formData.qjlb=this.qjlbList[e.detail.value]
+				if(this.qjlbList.length>0){
+					if(this.qjlbIndex!==e.detail.value){
+						this.qjlbIndex=e.detail.value
+						this.formData.qjlb=this.qjlbList[e.detail.value]
+					}
 				}
 			},
 			crqxSelect(e){
-				if(this.crqxIndex!==e.detail.value){
-					this.crqxIndex=e.detail.value
-					this.formData.crqx=this.crqxList[e.detail.value]
+				if(this.crqxList.length>0){
+					if(this.crqxIndex!==e.detail.value){
+						this.crqxIndex=e.detail.value
+						this.formData.crqx=this.crqxList[e.detail.value]
+					}
 				}
 			},
 			clsTecSelect(e){
-				if(this.clsTecIndex!==e.detail.value){
-					this.clsTecIndex=e.detail.value
-					this.formData.clsTec=this.clsTecList[e.detail.value]
+				if(this.clsTecList.length>0){
+					if(this.clsTecIndex!==e.detail.value){
+						this.clsTecIndex=e.detail.value
+						this.formData.clsTec=this.clsTecList[e.detail.value]
+					}
 				}
 			},
 			beginPicker(){
