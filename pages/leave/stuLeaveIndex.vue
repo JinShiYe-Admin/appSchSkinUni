@@ -2,7 +2,7 @@
 	<view>
 		<mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
 		<mynavBar v-else ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' ></mynavBar>
-		<view class="uni-padding-wrap uni-common-mt">
+		<view class="tabs-fixed">
 			<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#00cfbd" @clickItem="onClickItem" />
 		</view>
 		<view class="content">
@@ -260,7 +260,7 @@
 		height: 30px;
 	}
 	.content{
-		margin: 2px 0;
+		margin: 44px 0 2px;
 	}
 	.slot-text {
 		flex: 1;
