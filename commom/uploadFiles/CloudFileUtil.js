@@ -258,7 +258,7 @@ var getQNUpToken = function(that,url, data, successCB, errorCB) {
 			var filePaths = fileList[i].split("/");
 			QNFileName = filePaths[filePaths.length - 1];
 			param.Key = saveSpace + QNFileName;
-			//console.log('key:' + param.Key);
+			// console.log('key:' + param.Key);
 			//获取处理参数
 			var opsData = getOptions(uploadOptions, saveSpace, mainSpace, QNFileName);
 			param.Pops = opsData.ops;
@@ -272,6 +272,7 @@ var getQNUpToken = function(that,url, data, successCB, errorCB) {
 			AppID: appId,
 			Param: cryption.encryptByDES(desKey, JSON.stringify(params))
 		}
+		// console.log("configure.options: " + JSON.stringify(configure.options));
 	} else if (type == '3') { //多个视频文件
 		var params = [];
 		configure.thumbKey = [];
@@ -334,7 +335,7 @@ var getQNUpToken = function(that,url, data, successCB, errorCB) {
 		}
 	}
 
-	console.log("参数数据：" + JSON.stringify(configure.options))
+	// console.log("参数数据：" + JSON.stringify(configure.options))
 	//获取token
 	getQNUpTokenWithManage(that,url, configure.options, function(data) {
 		successCB({
@@ -606,6 +607,7 @@ var uploadFiles = function(that,type,files,mainSpace,uploadSpace,callback) {
 		})
 		if(newImgList.length>0){
 			let getToken = {
+				// fileArray:files,//---2
 				type: type, //str 必填 获取上传token的类型。0上传需要生成缩略图的文件；1上传文件
 				QNFileName: names, //str 必填 存放到七牛的文件名
 				appId: that.globaData.QN_APPID, //int 必填 项目id
@@ -614,6 +616,7 @@ var uploadFiles = function(that,type,files,mainSpace,uploadSpace,callback) {
 				uploadSpace: uploadSpace, //str 必填  上传的空间
 			}
 			getUpLoadTokens(that,getToken, data=> {
+			// getQNUpToken(that,that.QNGETUPLOADTOKEN,getToken, data=> {//---2
 				let QNUptoken = data.data; //token数据
 				let configure = data.configure; //获取token的配置信息
 				// console.log('七牛上传token:' + JSON.stringify(QNUptoken));
@@ -644,7 +647,13 @@ var uploadFiles = function(that,type,files,mainSpace,uploadSpace,callback) {
 							});
 						})
 				}
-			});
+			}
+			// , function(xhr, type, errorThrown) {//---2
+			// 	uni.hideLoading();//---2
+			// 	uni.showToast('请求上传凭证失败 ' + type);//---2
+			// 	//console.log('### ERROR ### 请求上传凭证失败' + type);//---2
+			// }//---2
+			);
 		}else{
 			callback(that.imgNames,imgUrls)
 		}

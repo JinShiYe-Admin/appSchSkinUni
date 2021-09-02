@@ -24,6 +24,40 @@ function getDptTree(dptList) {
 	return val
 }
 
+/**
+ * 数组排序
+ * @param {Object} propertyName key 字段名
+ * @param {Object} order  0从小到大  正序  1从大到小 倒序
+ */
+function compare(propertyName,order) {
+	return function (object1, object2) { 
+		var value1 = object1[propertyName]; 
+		var value2 = object2[propertyName]; 
+		if(order==0){
+			if (value2 < value1) { 
+				return -1; 
+			} 
+			else if (value2 > value1) { 
+				return 1; 
+			} 
+			else { 
+				return 0; 
+			} 
+		}if(order==1){
+			if (value2 > value1) { 
+				return -1; 
+			} 
+			else if (value2 < value1) { 
+				return 1; 
+			} 
+			else { 
+				return 0; 
+			} 
+		}
+		
+	} 
+} 
+
 //设置登录用户的信息
 function setPersonal(data) {
 	uni.setStorageSync(Vue.prototype.personal + Vue.prototype.globaData.APPCODE + Vue.prototype.globaData.EnvKey, JSON
@@ -538,6 +572,7 @@ function getPageArray() {
 
 //获取设备
 module.exports = {
+	compare:compare,
 	getDptTree: getDptTree,
 	setPersonal: setPersonal,
 	getPersonal: getPersonal,

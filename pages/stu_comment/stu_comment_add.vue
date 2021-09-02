@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="text" :textClick="[textClick,textClick2]"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
 			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
-				<input class="uni-input form-right"  v-model="grdList[grdIndex].text"  placeholder="请选择" disabled/>
+				<input class="uni-input form-right" :value="grdIndex>=0?grdList[grdIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -12,7 +12,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">班级</view>
 			<picker style="width:100% !important;" mode="selector" @change="clsSelect" :value="clsIndex" :range="clsList" range-key="text">
-				<input class="uni-input form-right"  v-model="clsList[clsIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="clsIndex>=0?clsList[clsIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -20,7 +20,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">姓名</view>
 			<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stuList" range-key="text">
-				<input class="uni-input form-right"  v-model="stuList[stuIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="stuIndex>=0?stuList[stuIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -28,7 +28,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年份</view>
 			<picker style="width:100% !important;" mode="selector" @change="yearSelect" :value="yearIndex" :range="yearList" range-key="text">
-				<input class="uni-input form-right"  v-model="yearList[yearIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="yearIndex>=0?yearList[yearIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -36,7 +36,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">学期</view>
 			<picker style="width:100% !important;" mode="selector" @change="termSelect" :value="termIndex" :range="termList" range-key="text">
-				<input class="uni-input form-right"  v-model="termList[termIndex].text" placeholder="请选择" disabled/>
+				<input class="uni-input form-right"  :value="termIndex>=0?termList[termIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -72,23 +72,23 @@
 				index_code:'',
 				personInfo: {},
 				tabBarItem: {},
-				// text:[{value:'确定'},{value:'确定1',style:{fontSize:12,fontColor:'#000'}}],
-				text:['确定','确定1'],
+				text:[],
+				textClickS:[],
 				canSub:true,
 				begintime:'',
 				endtime:'',
 				comment:'',//说明
-				grdIndex:0,
-				clsIndex:0,
-				stuIndex:0,
-				yearIndex:0,
-				termIndex:0,
+				grdIndex:-1,
+				clsIndex:-1,
+				stuIndex:-1,
+				yearIndex:-1,
+				termIndex:-1,
 				remarkIndex:-1,
-				grdList: [{text:'请选择',value:''}], //年级数组
-				clsList: [{text:'请选择',value:''}], //班级数组
-				stuList:[{text:'请选择',value:''}],// 学生数组
-				yearList: [{text:'请选择',value:''}], //年份数组
-				termList: [{text:'请选择',value:''}], //学期数组
+				grdList: [], //年级数组
+				clsList: [], //班级数组
+				stuList:[],// 学生数组
+				yearList: [], //年份数组
+				termList: [], //学期数组
 				remarkList: [], //评语类型数组
 				SMS:false,//是否向家长发送短信
 				CONFIG:{},//短信配置 对象
@@ -112,6 +112,7 @@
 				this.getGrd();
 				this.getDictList();
 			},100)
+			let that=this
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
@@ -169,7 +170,7 @@
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					let grds = response.grd_list;
-					let grdList=[{text:'请选择',value:''}];
+					let grdList=[];
 					grds.map(function(currentValue) {
 						let obj = {};
 						obj.value = currentValue.value;
@@ -194,7 +195,7 @@
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					let clss = response.cls_list;
-					let clssList=[{text:'请选择',value:''}];
+					let clssList=[];
 					clss.map(function(currentValue) {
 						let obj = {};
 						obj.value = currentValue.value;
@@ -220,7 +221,7 @@
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					let stu = response.stu_list;
-					let stuList=[{text:'请选择',value:''}];
+					let stuList=[];
 					stu.map(function(currentValue) {
 						let obj = {};
 						obj.value = currentValue.value;
@@ -250,31 +251,26 @@
 					} else if(response.remarkTypeArray&& response.remarkTypeArray.length == 0){
 						this.showToast('无法获取评语类型');
 					}else{
-						let newList=response.yearArray.sort(this.compare("value",0));
+						let newList=response.yearArray.sort(util.compare("value",0));
 						this.yearList = newList;
 						this.termList =  response.termArray;
 						this.remarkList = response.remarkTypeArray;
 					}
 				})
 			},
-			textClick2(){
-				console.log(123);
-			},
 			textClick(){//发送请假信息
-				if(this.grdList[this.grdIndex].value==''){
+				if(this.grdIndex==-1){
 					this.showToast('请选择年级')
-				}else if(this.clsList[this.clsIndex].value==''){
+				}else if(this.clsIndex==-1){
 					this.showToast('请选择班级')
-				}else if(this.stuList[this.stuIndex].value==''){
+				}else if(this.stuIndex==-1){
 					this.showToast('请选择学生')
-				}else if(this.kqlxList[this.kqlxIndex].value==''){
-					this.showToast('请选择考勤类型')
-				}else if(this.crqxList[this.crqxIndex].value==''){
-					this.showToast('请选择出入权限')
-				}else if(this.begintime==''){
-					this.showToast('请选择开始时间')
-				}else if(this.endtime==''){
-					this.showToast('请选择结束时间')
+				}else if(this.yearIndex==-1){
+					this.showToast('请选择年份')
+				}else if(this.termIndex==-1){
+					this.showToast('请选择学期')
+				}else if(this.remarkIndex==-1){
+					this.showToast('请选择评语类型')
 				}else if(this.comment==''){
 					this.showToast('请输入行为说明')
 				}else{
@@ -311,21 +307,19 @@
 					grd_code: this.grdList[this.grdIndex].value,
 					cls_code: this.clsList[this.clsIndex].value,
 					stu_code: this.stuList[this.stuIndex].value,
-					item_code: this.kqlxList[this.kqlxIndex].value,
-					in_out_permission_code: this.crqxList[this.crqxIndex].value,
-					comment: comment,
-					begintime: this.begintime,
-					endtime: this.endtime,
-					sms_parent_stu_flag:smsFlag,
+					year: this.yearList[this.yearIndex].value,
+					term_name: this.termList[this.termIndex].value,
+					remark_type: this.remarkList[this.remarkIndex].value,
+					remark: comment,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/save',comData,(response0,response)=>{
+				this.post(this.globaData.INTERFACE_STUPYSUB+'Comment/save',comData,(response0,response)=>{
 					console.log("response: " + JSON.stringify(response));
 				     if (response.code == 0) {
 						 this.hideLoading()
 						 this.showToast(response.msg);
 				     	 const eventChannel = this.getOpenerEventChannel()
-				     	 eventChannel.emit('refreshQingjia', {data: 1});
+				     	 eventChannel.emit('refreshList', {data: 1});
 				     	 uni.navigateBack();
 				     } else {
 				     	this.canSub=true
@@ -337,80 +331,58 @@
 				})
 			},
 			grdSelect(e){
-				if(this.grdIndex!==e.detail.value){
-					 this.grdIndex=e.detail.value
-					 this.clsIndex=0
-					 this.stuIndex=0
-					 this.clsList=[{text:'请选择',value:''}]
-					 this.stuList=[{text:'请选择',value:''}]
-					 if(e.detail.value!==0){
-						this.getCls(this.grdList[e.detail.value].value)
-					 }
+				if(this.grdList.length>0){
+					if(this.grdIndex!==e.detail.value){
+						 this.grdIndex=e.detail.value
+						 this.clsIndex=-1
+						 this.stuIndex=-1
+						 this.clsList=[]
+						 this.stuList=[]
+						 this.getCls(this.grdList[e.detail.value].value)
+					}
 				}
 			},
 			clsSelect(e){
-				if(this.clsIndex!==e.detail.value){
-					 this.clsIndex=e.detail.value
-					 this.stuList=[]
-					 this.stuIndex=0
-					 if(e.detail.value!==0){
-					 	this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
-					 }
+				if(this.clsList.length>0){
+					if(this.clsIndex!==e.detail.value){
+						 this.clsIndex=e.detail.value
+						 this.stuList=[]
+						 this.stuIndex=-1
+						 this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
+					}
 				}
 			},
 			stuSelect(e){
-				if(this.stuIndex!==e.detail.value){
-					 this.stuIndex=e.detail.value
+				if(this.stuList.length>0){
+					if(this.stuIndex!==e.detail.value){
+						 this.stuIndex=e.detail.value
+					}
 				}
 			},
 			yearSelect(e){
-				if(this.yearIndex!==e.detail.value){
-					this.yearIndex=e.detail.value
+				if(this.yearList.length>0){
+					if(this.yearIndex!==e.detail.value){
+						this.yearIndex=e.detail.value
+					}
 				}
 			},
 			termSelect(e){
-				if(this.termIndex!==e.detail.value){
-					this.termIndex=e.detail.value
+				if(this.termList.length>0){
+					if(this.termIndex!==e.detail.value){
+						this.termIndex=e.detail.value
+					}
 				}
 			},
 			remarkSelect(e){
-				if(this.remarkIndex!==e.detail.value){
-					this.remarkIndex=e.detail.value
-					console.log(e.detail.value);
-					console.log(this.remarkIndex);
+				if(this.remarkList.length>0){
+					if(this.remarkIndex!==e.detail.value){
+						this.remarkIndex=e.detail.value
+					}
 				}
 			},
 			changeAutoplay(){
 				this.SMS = !this.SMS
 			},
-			compare(propertyName,order) {
-			    return function (object1, object2) { 
-			        var value1 = object1[propertyName]; 
-			        var value2 = object2[propertyName]; 
-			        if(order==0){
-			            if (value2 < value1) { 
-			                return -1; 
-			            } 
-			            else if (value2 > value1) { 
-			                return 1; 
-			            } 
-			            else { 
-			                return 0; 
-			            } 
-			        }if(order==1){
-			            if (value2 > value1) { 
-			                return -1; 
-			            } 
-			            else if (value2 < value1) { 
-			                return 1; 
-			            } 
-			            else { 
-			                return 0; 
-			            } 
-			        }
-			        
-			    } 
-			} 
 		},
 	}
 </script>

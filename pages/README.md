@@ -32,6 +32,10 @@ if (util.getMenuMore().length==0) {
 	tempMenu = util.getPageData(option);
 }
 
+//对象数组排序
+let yearArray=[{text:"2019-2020",value:"2019-2020"},{text:"2020-2021",value:"2020-2021"}]
+yearArray.sort(util.compare('value',0));
+
 //页面跳转
 util.openwithData(pageUrl,data,{
 	refresh(data){//子页面调用父页面需要的方法

@@ -178,6 +178,7 @@ Vue.prototype.SECRETKEY = 'jsy309'; //sign签名时需要的盐
 
 //以下内容不需要修改
 Vue.prototype.globaData = GLOBALDATA; //参数对象 用于存全局公共参数
+Vue.prototype.previewImg = '?imageView2/3/w/150/h/150/q/75/format/png'; //参数对象 用于存全局公共参数
 Vue.prototype.requestTask = new Map(); //用于储存页面请求栈
 Vue.prototype.showLoading = (requestTitle = '加载中...') => uni.showLoading({
 	title: String(requestTitle),
