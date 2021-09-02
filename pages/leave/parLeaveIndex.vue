@@ -15,7 +15,7 @@
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.grd_name}} {{item.cls_name}}&ensp;{{item.stu_name}}</view></uni-col>
 								<uni-col :span="20"><view class="detail-text">{{item.apply_time}}</view></uni-col>
-								<uni-col :span="4"><view class="detail-text leaveType">{{item.item_code=='sickLeave'?'病假':item.item_code=='absenceLeave'?'事假':''}}</view></uni-col>
+								<uni-col :span="4" style="display: flex;align-items: center;justify-content:flex-end;"><view class="detail-text leaveType">{{item.item_code=='sickLeave'?'病假':item.item_code=='absenceLeave'?'事假':''}}</view></uni-col>
 							</uni-row>
 						</text>
 					</uni-list-item>
@@ -31,7 +31,7 @@
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.grd_name}} {{item.cls_name}}&ensp;{{item.stu_name}}</view></uni-col>
 								<uni-col :span="20"><view class="detail-text">{{item.apply_time}}</view></uni-col>
-								<uni-col :span="4"><view class="detail-text leaveType">{{item.item_code=='sickLeave'?'病假':item.item_code=='absenceLeave'?'事假':''}}</view></uni-col>
+								<uni-col :span="4" style="display: flex;align-items: center;justify-content:flex-end;"><view class="detail-text leaveType">{{item.item_code=='sickLeave'?'病假':item.item_code=='absenceLeave'?'事假':''}}</view></uni-col>
 							</uni-row>
 						</text>
 					</uni-list-item>

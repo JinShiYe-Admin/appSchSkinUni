@@ -109,7 +109,6 @@
 				}else {
 					util.openwithData('/pages/stu_behavior/stu_talk_add',{index_code:this.index_code},{//新建主动谈话
 						refreshTalkBehaviorZd(data){//子页面调用父页面需要的方法
-							console.log(123);
 							that.showLoading()
 							that.pageobj0.loadFlag=0
 							that.pageobj0.canload=true
@@ -292,6 +291,7 @@
 					});//主动谈话详情
 				}else if(item.status=='unTalk' || item.status=='read'){//未谈话、已阅 ，跳转到新增页
 					if(item.add==1){
+						let that=this
 						util.openwithData("/pages/stu_behavior/stu_talk_action_add", item,{
 							refreshTalkBehaviorDetail(data){//子页面调用父页面需要的方法
 								that.showLoading()
@@ -308,11 +308,13 @@
 								let pageArray=that.pagedata
 								pageArray.map(function(item){
 									let student_behavior_id=item.student_behavior_id
+									console.log("item: " + JSON.stringify(item));
 									if(bid==student_behavior_id){
 										item.id=id
 										item.edit=edit
 										item.status='read'
 										item.status_txt='已阅'
+										item.create_user_name=data.create_user_name
 									}
 								})
 							}

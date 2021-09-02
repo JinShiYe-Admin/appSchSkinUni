@@ -221,6 +221,7 @@
 						 id:response.id,
 						 edit:response.edit,
 						 bid:this.tabBarItem.student_behavior_id,
+						 create_user_name:response.create_user_name,
 					 }
 					 const eventChannel = this.getOpenerEventChannel()
 					 eventChannel.emit('refreshTalkDetailZt', model);
