@@ -329,6 +329,15 @@
 			},
 			iconClick() {
 				console.log('iconClick');
+				util.openwithData("/pages/oa/workflowNew", this.itemData,{
+					refreshWorkflowIndex() { //子页面调用父页面需要的方法
+						if (_this.semFlag == 4) {
+							_this.semFlag4Data.flagRef = 0;
+							_this.semFlag4Data.pageIndex = 1;
+							_this.getPageList();
+						}
+					}
+				});
 			},
 			clickItem: function(model) {
 				console.log('clickItem.model:' + JSON.stringify(model));

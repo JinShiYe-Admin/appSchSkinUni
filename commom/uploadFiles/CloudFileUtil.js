@@ -75,7 +75,7 @@ var getUpLoadTokens = function(that,data, callBack) {
 	});
 }
 
-var getQNDownToken = function(url, data, successCB, errorCB) {
+var getQNDownToken = function(url, data, successCB, index) {
 	console.log('data:'+JSON.stringify(data));
 	console.log('url:'+url);
 	// console.log('getQNDownToken:url ' + JSON.stringify(data));
@@ -113,7 +113,7 @@ var getQNDownToken = function(url, data, successCB, errorCB) {
 				if (res.statusCode === 200) {
 					if (res.data.Status === '1') {
 						//服务器返回响应
-						successCB(res.data);
+						successCB(res.data,index);
 					}
 				}
 			},

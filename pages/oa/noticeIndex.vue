@@ -116,6 +116,7 @@
 <script>
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
@@ -162,6 +163,7 @@
 			mynavBar
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			this.itemData = util.getPageData(option);
@@ -281,7 +283,16 @@
 			},
 			iconClick() {
 				console.log('iconClick');
-				util.openwithData("/pages/oa/noticeNew", this.itemData);
+				util.openwithData("/pages/oa/noticeNew", this.itemData,{
+					refreshOaIndex() { //子页面调用父页面需要的方法
+					console.log('refreshOaIndexrefreshOaIndex:'+_this.semFlag);
+						if (_this.semFlag == 3) {
+							_this.semFlag3Data.flagRef = 0;
+							_this.semFlag3Data.pageIndex = 1;
+							_this.getPageList();
+						}
+					}
+				});
 			},
 			clickItem: function(model) {
 				console.log('clickItem.model:' + JSON.stringify(model));

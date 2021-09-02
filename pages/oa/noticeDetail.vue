@@ -17,17 +17,23 @@
 			{{detailModel.SendTime}}
 		</p>
 		<p class="contentCSS" style="font-size: 14px;color: #666;" v-html="detailModel.NoticeContent"></p>
-		<template v-for="(extraFile,index) in detailModel.NoticeEncName" v-show="detailModel.NoticeEncName.length==0">
-			<p class="encName" v-show="extraFile">附件:
-				<a style="font-size: 13px;color: #3c9bfe;"
-					v-on:click="checkEnc(detailModel.NoticeEncAddr[index])">附件{{index+1}}</a>
-			</p>
-		</template>
+		<view v-for="(extraFile,index) in detailModel.NoticeEncAddr" :key='index'>
+			<view class="encName">附件:
+				<!-- #ifdef APP-PLUS -->
+				<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
+					@click="checkEnc(extraFile)">附件{{index+1}}</a>
+				<!-- #endif -->
+				<!-- #ifdef H5 -->
+				<uni-link :href="extraFile" style="margin-left: 10px;"
+					:text="'附件'+(index+1)"></uni-link>
+				<!-- #endif -->
+			</view>
+		</view>
 		<p style="height: 10px;background-color: #f2f2f2;"></p>
 		<p class="titleCSS" style="font-size: 14px;color: #333;margin: 10px 0 10px 10px;">接收列表</p>
 		<uni-list>
 			<uni-list-item v-for="(replyModel,index) in detailModel.list" :key='index'
-				direction='column' clickable @click="clickItem(model)">
+				direction='column'>
 				<view slot="body">
 					<view style="float: left;height: 40px;">
 						<image class="peopleImg"
@@ -80,7 +86,16 @@
 				title: '通知详情'
 			});
 			//#ifndef APP-PLUS
-			document.title = ""
+			document.title = "";
+			var isPageHide = false;
+			window.addEventListener('pageshow', function() {
+				if (isPageHide) {
+					window.location.reload();
+				}
+			});
+			window.addEventListener('pagehide', function() {
+				isPageHide = true;
+			});
 			//#endif
 			//获取详情
 			this.getNoticeByReceiveId_sendId_Detail();
@@ -203,6 +218,27 @@
 			},
 			checkEnc: function(tempUrl) {
 				console.log('tempUrl:' + tempUrl);
+				var urlStr = encodeURI(tempUrl);
+				this.showLoading();
+				uni.downloadFile({
+					url: urlStr,
+					success: function(res) {
+						var filePath = res.tempFilePath;
+						uni.openDocument({
+							filePath: filePath,
+							success: function(res) {
+								uni.hideLoading();
+								console.log('打开文档成功');
+							},
+							fail() {
+								uni.hideLoading();
+								uni.showToast({
+									title: '当前附件打开失败'
+								})
+							}
+						});
+					}
+				});
 			}
 		}
 	}

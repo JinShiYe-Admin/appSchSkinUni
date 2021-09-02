@@ -80,13 +80,13 @@
 				}
 			},
 			text:{
-				type:[Object,String],
+				type:[Array,Object,String],
 				default(){
 					return ''
 				}
 			},
 			textClick:{
-				type:[Object,Function],
+				type:[Array,Object,Function],
 				default(){
 					return {}
 				}

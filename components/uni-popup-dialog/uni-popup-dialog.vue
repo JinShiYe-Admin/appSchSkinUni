@@ -1,7 +1,8 @@
 <template>
 	<view class="uni-popup-dialog">
 		<view class="uni-dialog-title">
-			<text class="uni-dialog-title-text" :class="['uni-popup__'+dialogType]">{{title}}</text>
+			<!-- <text class="uni-dialog-title-text" :class="['uni-popup__'+dialogType]">{{title}}</text> -->
+			<p class="uni-dialog-title-text" :class="['uni-popup__'+dialogType]" v-html="title"></p>
 		</view>
 		<view v-if="mode === 'base'" class="uni-dialog-content">
 			<slot>
@@ -163,6 +164,7 @@
 	.uni-dialog-title-text {
 		font-size: 16px;
 		font-weight: 500;
+		margin: 10px;
 	}
 
 	.uni-dialog-content {

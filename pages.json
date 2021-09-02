@@ -887,6 +887,7 @@
             "path" : "pages/oa/shiwuDetail",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -1173,6 +1174,7 @@
             "path" : "pages/oa/shiwuDetailAddUser",
             "style" :                                                                                    
             {
+				 "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }

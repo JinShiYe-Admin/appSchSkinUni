@@ -243,11 +243,11 @@
 				this.showLoading()
 				let encNameTemp,encAddrTemp;
 				if (encNameStr.length>0) {
-					encNameTemp = encNameStr.join(',');
-					encAddrTemp = encAddrStr.join(',');
+					encNameTemp = encNameStr.join('|');
+					encAddrTemp = encAddrStr.join('|');
 				}else{
-					encNameTemp = this.detailModel.UploadEncName.join(',');
-					encAddrTemp = this.detailModel.UploadEncAddr.join(',');
+					encNameTemp = this.detailModel.UploadEncName.join('|');
+					encAddrTemp = this.detailModel.UploadEncAddr.join('|');
 				}
 				var tempData1 = {
 					infoCollectId: this.itemData.InfoCollectId, //信息收集ID

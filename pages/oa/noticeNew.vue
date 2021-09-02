@@ -19,7 +19,8 @@
 				@imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount">
 			</g-upload>
 		</view>
-		<label @click="selectSms()" style="float: right;margin-right: 10px;font-size: 14px;margin-bottom: 10px;">
+		<label v-if="smsShow" @click="selectSms()"
+			style="float: right;margin-right: 10px;font-size: 14px;margin-bottom: 10px;">
 			<checkbox color="#00CFBD" :checked="smsSend" />发送短信
 		</label>
 		<uni-list>
@@ -48,6 +49,7 @@
 	// 七牛上传相关
 	import gUpload from "@/components/g-upload/g-upload.vue"
 	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
+	let _this;
 	export default {
 		data() {
 			return {
@@ -59,6 +61,7 @@
 				selectPeople: [],
 				smsConfig: {}, //短信配置
 				smsWords: [], //拒绝关键字
+				smsShow: false, //是否显示发送短信按钮
 				smsSend: false, //是否发送短信
 				// 附件上传相关👇
 				control: true, //是否显示上传 + 按钮 一般用于显示
@@ -77,6 +80,7 @@
 			gUpload
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			this.itemData = util.getPageData(option);
@@ -92,23 +96,6 @@
 			//#endif
 			//
 			this.getSmsConfig();
-
-			// SMSUtils.INDEX_CODE=this.itemData.access.split('#')[1];
-			// SMSUtils.MSG_TYPE=window.storageKeyName.OA_MSG_SMS.NOTICE.MSG_TYPE;
-			// SMSUtils.USER_TYPE=window.storageKeyName.OA_MSG_SMS.NOTICE.USER_TYPE;
-			// SMSUtils.SMS_TYPE=window.storageKeyName.OA_MSG_SMS.SMS_TYPE;
-			// SMSUtils.PERSONAL=store.get(window.storageKeyName.PERSONALINFO);
-			// // 获取短信权限
-			// SMSUtils.getConfig((msg)=>{
-			// 	if(msg.SMS){
-			// 		this.smsConfig=msg.CONFIG;
-			// 		SMSUtils.getSmsWords((msg2)=>{
-			// 			this.smsWords=msg2.WORDS;
-			// 		},2);
-			// 		//显示发送短信按钮
-			// 		document.getElementById('senMSN').style.display = 'inherit';
-			// 	}
-			// });
 		},
 		methods: {
 			selectSms() {
@@ -126,20 +113,20 @@
 					console.log("responseaaa: " + JSON.stringify(response));
 					if (response) {
 						let config_types = response.user_types.split(",");
-						let local_types = this.ACTION_MSG_SMS.CLSBEHAVIOR.USER_TYPE.split(",");
+						let local_types = this.OA_MSG_SMS.NOTICE.USER_TYPE.split(",");
 						let send = false;
 						config_types.map(citem => {
 							local_types.map(litem => {
 								if (citem == litem) {
-									send = true
+									send = true;
 								}
 							})
 						})
-						this.smsSend = send
-						this.smsConfig = response
+						this.smsShow = send;
+						this.smsConfig = response;
 						this.getSmsWords();
 					} else {
-						this.smsSend = false
+						this.smsShow = false
 					}
 					this.hideLoading()
 				})
@@ -173,8 +160,8 @@
 				this.maxCount = this.showMaxCount - list.length
 			},
 			upLoadImg() {
-				this.showLoading('正在上传文件...');
-				cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PB_NAME, thisQN_OA_TONGZ, (encName,
+				this.showLoading();
+				cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PB_NAME, this.QN_OA_TONGZ, (encName,
 					encAddrStr) => {
 					this.hideLoading();
 					console.log("encAddrStr: " + JSON.stringify(encAddrStr));
@@ -187,8 +174,12 @@
 				console.log('encNameStr:' + JSON.stringify(encNameStr));
 				console.log('encAddrStr:' + JSON.stringify(encAddrStr));
 				this.showLoading()
-				let encNameTemp = encNameStr.join(',');
-				let encAddrTemp = encAddrTemp.join(',');
+				let encNameTemp = '';
+				let encAddrTemp = '';
+				if (encNameStr.length > 0) {
+					encNameTemp = encNameStr.join('|');
+					encAddrTemp = encAddrStr.join('|');
+				}
 				var ids = []; //接收人ID
 				var codes = []; //接收人账号
 				var names = []; //接收人姓名
@@ -211,10 +202,11 @@
 					sendFlag = 0;
 					return;
 				}
+				var tempSms = 0;
 				if (this.smsSend) {
-					this.smsSend = 1;
+					tempSms = 1;
 				} else {
-					this.smsSend = 0;
+					tempSms = 0;
 				}
 				console.log('this.content:' + this.content);
 				this.showLoading();
@@ -224,7 +216,7 @@
 					noticeContent: this.content.replace(/\n/g, '<br>'), //内容
 					noticeEncName: encNameTemp, //附件名称
 					noticeEncAddr: encAddrTemp, //附件地址
-					smsSync: this.smsSend, //是否短信同步
+					smsSync: tempSms, //是否短信同步
 					sendManId: this.personInfo.user_code, //发布人ID
 					sendManCode: this.personInfo.login_name, //发布人账号
 					sendManName: this.personInfo.user_name, //发布人姓名
@@ -242,12 +234,12 @@
 					// this.canSub = true;
 					this.hideLoading();
 					if (data.code == 0) {
-						if (this.smsSend == 1) {
+						if (this.smsSend) {
 							let selectData = this.selectPeople;
 							let touser = [];
 							for (var i = 0; i < selectData.length; i++) {
 								let obj = {
-									gen_type: SMSUtils.USER_TYPE,
+									gen_type: this.OA_MSG_SMS.NOTICE.USER_TYPE,
 									dpt_code: selectData[i].dpt_code,
 									dpt_name: selectData[i].dpt_name,
 									grd_code: '',
@@ -271,39 +263,57 @@
 							}
 							tempContent = tempContent.replace(/\n/g, '');
 							tempContent = tempContent.replace(' ', '');
-							SMSUtils.sendSMS((msg) => {
-									// 82.设置通知的短信返回值
-									this.showLoading();
-									var dosetData = {
-										noticeId: data.data.Result, //通知ID
-										msgType: SMSUtils.MSG_TYPE, //信息类型
-										smsMsgtypeCode: SMSUtils.SMS_TYPE, //信息类型代码
-										servied: this.smsConfig.serviced, //订购状态
-										hrSmsid: msg.hr_id, //人事短信接口码
-										isCheck: '1', //是否已审核
-										checkTime: '', //审核时间
-										checkUser: '', //审核人代码
-										checkUserTname: '', //审核人姓名
-										checkUserUnit: '', //审核人单位
-										index_code: curPage.access.split('#')[1],
+							var comData = {
+								send_unit_code: this.personInfo.unit_code,
+								send_user: this.personInfo.user_code,
+								send_user_tname: this.personInfo.user_name,
+								send_soure: 'schapp#[APP]',
+								send_time: this.moment().format('YYYY-MM-DD HH:mm:ss'),
+								is_delay: 0,
+								delay_time: this.moment().format('YYYY-MM-DD HH:mm:ss'),
+								msg_content: tempContent,
+								msg_type: this.OA_MSG_SMS.NOTICE.MSG_TYPE,
+								serviced: this.smsConfig.serviced,
+								is_short: 0,
+								sms_msgtype_code: this.OA_MSG_SMS.SMS_TYPE,
+								sch_code: this.personInfo.unit_code,
+								sch_name: this.personInfo.unit_name,
+								list: touser,
+								index_code: this.itemData.access.split('#')[1],
+							}
+							this.post(this.globaData.INTERFACE_HR_SUB + 'smsRecord/save', comData, (data0,
+								datas) => {
+									if (datas.code == 0) {
+										// callback({hr_id:datas.data.id})
+										var dosetData = {
+											noticeId: data.data.Result, //通知ID
+											msgType: this.OA_MSG_SMS.NOTICE.MSG_TYPE, //信息类型
+											smsMsgtypeCode: this.OA_MSG_SMS.SMS_TYPE, //信息类型代码
+											servied: this.smsConfig.serviced, //订购状态
+											hrSmsid: datas.data.id, //人事短信接口码
+											isCheck: '1', //是否已审核
+											checkTime: '', //审核时间
+											checkUser: '', //审核人代码
+											checkUserTname: '', //审核人姓名
+											checkUserUnit: '', //审核人单位
+											index_code: this.itemData.access.split('#')[1],
+										}
+										this.post(this.globaData.INTERFACE_OA + 'notice/doSetSms4Notice',
+											dosetData, (data0, doData) => {
+												this.hideLoading();
+												const eventChannel = this.getOpenerEventChannel()
+												eventChannel.emit('refreshOaIndex');
+												uni.navigateBack();
+											});
+									} else {
+										this.hideLoading();
+										this.showToast(datas.msg);
 									}
-									console.log('dosetData:' + JSON.stringify(dosetData));
-									postDataEncry(window.storageKeyName.INTERFACE_OA +
-										'notice/doSetSms4Notice', {}, dosetData, 2,
-										function(doData) {
-											this.hideLoading();
-											// setTimeout(function() {
-											// 	mui.back();
-											// }, 1000);
-											// mui.fire(plus.webview.currentWebview().opener(), 'refreshMinePage', {});
-										});
-								}, 0, moment().format('YYYY-MM-DD HH:mm:ss'), tempContent, this.smsConfig
-								.serviced, 0, touser);
+								});
 						} else {
-							// setTimeout(function() {
-							// 	mui.back();
-							// }, 1000);
-							// mui.fire(plus.webview.currentWebview().opener(), 'refreshMinePage', {});
+							const eventChannel = this.getOpenerEventChannel()
+							eventChannel.emit('refreshOaIndex');
+							uni.navigateBack();
 						}
 					} else {
 						this.showToast(data.msg);
@@ -380,7 +390,18 @@
 				} else {
 					data.serviced = 99;
 				}
-				utils.mOpenWithData("../../html/oa/selectPeople.html", data);
+				util.openwithData("/pages/oa/selectPeople", data, {
+					refreshSetPeople(data) { //子页面调用父页面需要的方法
+						_this.selectPeople = data.data;
+						var tempPeople = [];
+						for (var i = 0; i < _this.selectPeople.length; i++) {
+							var tempModel = _this.selectPeople[i];
+							tempPeople.push(tempModel.user_name);
+						}
+						_this.showSelectPeople = tempPeople.join(',');
+						console.log('this.showSelectPeople:' + _this.showSelectPeople);
+					}
+				});
 			},
 			//判断是否输入了值
 			checkInput(text) {
