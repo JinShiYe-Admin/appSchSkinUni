@@ -23,8 +23,8 @@
 					</scroll-view>
 				</template>
 				<template v-else>
-					<view v-if="dptClick" style="font-size: 13px;margin-top: 10px;">部门暂无人员</view>
-					<view v-else style="font-size: 13px;margin-top: 10px;">请选择部门</view>
+					<view v-if="dptClick" style="font-size: 13px;margin: 10px 0 0 10px;">部门暂无人员</view>
+					<view v-else style="font-size: 13px;margin: 10px 0 0 10px;">请选择部门</view>
 				</template>
 			</uni-col>
 		</uni-row>
@@ -175,10 +175,10 @@
 	}
 	.select-scroll{
 		/* #ifdef APP-PLUS */
-		height: calc(100vh - 80px);
+		height: calc(100vh - 80px) !important;
 		/* #endif */
 		/* #ifdef H5 */
-		height: calc(100vh - 45px);
+		height: calc(100vh - 45px) !important;
 		/* #endif */
 	}
 	.uni-list-cell {

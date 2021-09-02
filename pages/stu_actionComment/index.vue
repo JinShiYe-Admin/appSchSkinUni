@@ -147,7 +147,7 @@
 			getList0(){
 				let user_code=this.personInfo.user_code;
 				if(this.personInfo.type_code=='YHLX0004'){
-					user_code=personal.stu_code;
+					user_code=this.personInfo.stu_code;
 				}
 				let comData={
 					stu_code:user_code,
@@ -193,7 +193,7 @@
 			getList1(){
 				let user_code=this.personInfo.user_code;
 				if(this.personInfo.type_code=='YHLX0004'){
-					user_code=personal.stu_code;
+					user_code=this.personInfo.stu_code;
 				}
 				let comData={
 					stu_code:user_code,

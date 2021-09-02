@@ -131,6 +131,7 @@
 				}
 				this.post(this.globaData.STULEAVE_API+'apply/qryApply',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
+					this.hideLoading()
 					if(this.pageobj0.loadFlag===0){
 						this.pagedata0=[].concat(response.list)
 					}else{
@@ -145,7 +146,6 @@
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
 					}, 1000);
-					this.hideLoading()
 				})
 			},
 			getList1(){
@@ -156,6 +156,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.STULEAVE_API+'apply/qryApply',comData,response=>{
+					this.hideLoading()
 					if(this.pageobj1.loadFlag===0){
 						this.pagedata1=[].concat(response.list)
 					}else{
@@ -170,7 +171,6 @@
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
 					}, 1000);
-					this.hideLoading()
 				})
 			},
 			toDetails(type,item){
