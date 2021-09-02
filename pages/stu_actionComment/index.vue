@@ -10,30 +10,32 @@
 					<u-time-line>
 						<u-time-line-item :key="index" nodeTop="10" v-for="(item,index) in pagedata0">
 							<template v-slot:content>
-								<view v-if="item.student_behavior_id!=null"><!-- 行为项目文本不为空说明有行为记录 -->
-									<view class="u-order-time">{{item.order_time}}</view>
-									<view class="u-order-title">{{item.item_txt}}</view>
-									<view class="u-order-time">{{item.behavior_time}}</view>
-									<view class="u-order-time">{{item.day}} {{item.class_node}} {{item.sub_name}}</view>
-									<view class="u-order-detail">{{item.comment}}</view>
-									<template v-if="item.bimgs.length>0">
-										<view class="choose-file" style="padding: 0 0 6px 0 !important;margin-top: 10px;">
-											<g-upload  ref="upload2" :mode="item.bimgs" :deleteBtn='deleteBtn' :control='control' :columnNum="columnNum"></g-upload>
+									<uni-card >
+										<view v-if="item.student_behavior_id!=null"><!-- 行为项目文本不为空说明有行为记录 -->
+											<view class="u-order-time">{{item.order_time}}</view>
+											<view class="u-order-title">{{item.item_txt}}</view>
+											<view class="u-order-time">{{item.behavior_time}}</view>
+											<view class="u-order-time">{{item.day}} {{item.class_node}} {{item.sub_name}}</view>
+											<view class="u-order-detail">{{item.comment}}</view>
+											<template v-if="item.bimgs.length>0">
+												<view class="choose-file" style="padding: 0 0 6px 0 !important;margin-top: 10px;">
+													<g-upload  ref="upload2" :mode="item.bimgs" :deleteBtn='deleteBtn' :control='control' :columnNum="columnNum"></g-upload>
+												</view>
+											</template>
+											<view class="u-order-right-txt"><view class="u-order-right">记</view>{{item.behavior_recorder}}</view>
 										</view>
-									</template>
-									<view class="u-order-right-txt"><view class="u-order-right">记</view>{{item.behavior_recorder}}</view>
-								</view>
-								<view v-if="item.id!=null"><!-- 谈话文本不为空说明有谈话记录 -->
-									<view class="u-order-title2">谈话</view>
-									<view class="u-order-time">{{item.chat_time&&item.chat_time.split(' ')[0]}}</view>
-									<view class="u-order-detail">{{item.chat_detail}}</view>
-									<template v-if="item.aimgs.length>0">
-										<view class="choose-file" style="padding: 0 0 6px 0 !important;margin-top: 10px;">
-											<g-upload ref="upload1" :mode="item.aimgs" :deleteBtn='deleteBtn' :control='control' :columnNum="columnNum"></g-upload>
+										<view v-if="item.id!=null"><!-- 谈话文本不为空说明有谈话记录 -->
+											<view class="u-order-title2">谈话</view>
+											<view class="u-order-time">{{item.chat_time&&item.chat_time.split(' ')[0]}}</view>
+											<view class="u-order-detail">{{item.chat_detail}}</view>
+											<template v-if="item.aimgs.length>0">
+												<view class="choose-file" style="padding: 0 0 6px 0 !important;margin-top: 10px;">
+													<g-upload ref="upload1" :mode="item.aimgs" :deleteBtn='deleteBtn' :control='control' :columnNum="columnNum"></g-upload>
+												</view>
+											</template>
+											<view class="u-order-right-txt"><view class="u-order-right">谈</view>{{item.create_user_name}}</view>
 										</view>
-									</template>
-									<view class="u-order-right-txt"><view class="u-order-right">谈</view>{{item.create_user_name}}</view>
-								</view>
+									</uni-card>
 							</template>
 						</u-time-line-item>
 					</u-time-line>
@@ -80,7 +82,7 @@
 				tabBarItem: {},
 				items: ['行为与谈话', '教师评语'],
 				current: 0,
-				pageSize0:5,
+				pageSize0:15,
 				pageSize1:15,
 				pageobj0:{
 					loadFlag:0,//0 刷新 1加载更多
@@ -164,13 +166,13 @@
 						let aimgs=[],bimgs=[];
 						item.asset_ids.map(aitem=>{
 							if(aitem.ext=='png' ||aitem.ext=='jpg'||aitem.ext=='jpeg'||aitem.ext=='gif'||aitem.ext=='bmp'){
-								aimgs.push(aitem.url)
+								aimgs.push(aitem.url+ this.previewImg)
 							}
 						})
 						item.aimgs=aimgs;
 						item.behavior_asset_ids.map(bitem=>{
 							if(bitem.ext=='png' ||bitem.ext=='jpg'||bitem.ext=='jpeg'||bitem.ext=='gif'||bitem.ext=='bmp'){
-								bimgs.push(bitem.url)
+								bimgs.push(bitem.url+ this.previewImg)
 							}
 						})
 						item.bimgs=bimgs;
@@ -301,11 +303,6 @@
 		font-size: 28rpx;
 		margin-bottom: 6rpx;
 	}
-	
-	.tel {
-		color: $u-type-primary;
-	}
-	
 	.slot-box {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -313,26 +310,11 @@
 		flex-direction: row;
 		align-items: center;
 	}
-	
-	.slot-image {
-		/* #ifndef APP-NVUE */
-		display: block;
-		/* #endif */
-		margin-right: 10px;
-		width: 30px;
-		height: 30px;
-	}
-	
 	.slot-text {
 		flex: 1;
 		font-size: 14px;
 		margin-right: 10px;
 	}
-	
-	
-	
-	
-	
 	.u-order-time {
 		color: rgba(144,144,144);
 		font-size: 26rpx;
@@ -401,40 +383,15 @@
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-	
+	.u-time-axis-item{
+		margin-bottom: 17px;
+	}
 	.detail-text{
 		color: #939393;
 		font-size: 12px;
 		margin: 3px 0;
 	}
-	
-	.leaveType {
-		width: 26px;
-		color: #2A82E4;
-		padding:0px 3px;
-		border-radius: 4px;
-		border: 1px solid #2A82E4;
+	::v-deep .uni-card{
+		margin:-10px 0 0 -10px ;
 	}
-	.leaveType0 {
-		width: 26px;
-		color: #FF8D1A;
-		padding:0px 3px;
-		border-radius: 4px;
-		border: 1px solid #FF8D1A;
-	}
-	.leaveType1 {
-		width: 26px;
-		color: #00CFBD;
-		padding:0px 3px;
-		border-radius: 4px;
-		border: 1px solid #00CFBD;
-	}
-	.leaveType2 {
-		width: 26px;
-		color: #D4308D;
-		padding:0px 3px;
-		border-radius: 4px;
-		border: 1px solid #D4308D;
-	}
-	 
 </style>

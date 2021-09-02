@@ -110,9 +110,13 @@
       // 预览图片
       previewImage(eq) {
         let getUrl = this.showList;
+		let newList=[]
+		getUrl.map(item=>{
+			newList.push(item.split('?')[0])
+		})
         uni.previewImage({
-          current: getUrl[eq],
-          urls: getUrl
+          current: newList[eq],
+          urls: newList
         })
       },
     }

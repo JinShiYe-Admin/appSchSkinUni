@@ -458,7 +458,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
