@@ -247,9 +247,9 @@
 				var pics = []; //接收人头像
 				var dptNames = []; //
 				var dptIds = []; //
-				// console.log('message.selectPeople:'+JSON.stringify(message.selectPeople));
-				for (var i = 0; i < message.selectPeople.length; i++) {
-					var model = message.selectPeople[i];
+				// console.log('this.selectPeople:'+JSON.stringify(this.selectPeople));
+				for (var i = 0; i < this.selectPeople.length; i++) {
+					var model = this.selectPeople[i];
 					if (model.flowFlag == 0) {
 						ids.push(model.user_code)
 						codes.push('');
