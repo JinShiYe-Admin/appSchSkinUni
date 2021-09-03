@@ -67,8 +67,8 @@
 									:src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
 							</view>
 							<view class="rightView">
-								<a class="tempCss">[{{model.NoticeStatusName}}]</a><a
-									class="biaoti title">{{model.InfoCollectTitle}}</a>
+								<a class="tempCss">[{{model.NoticeStatusName}}]<span style='color: #000000;'>{{model.InfoCollectTitle}}</span></a>
+								<br>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
 										{{model.SendManName}}

@@ -78,7 +78,7 @@
 				</view>
 			</view>
 		</view>
-		<view v-if="itemData.flag == 0" class="uni-flex uni-row form-view choose-file">
+		<view v-if="itemData.flag == 0&&detailModel.InfoUploadCloseStatus == 1&&detailModel.UploadEncAddrShow.length==0" class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">附件<view class="file-des">
 					{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
 				</view>
@@ -130,7 +130,7 @@
 								</uni-col>
 							</uni-row>
 							<a class="biaoti0 title">{{replyModel.UploadContent}}</a>
-							<view v-if="replyModel.UploadEncAddrShow&&replyModel.UploadEncAddrShow.length>0" style="margin-top: 15px;">
+							<view v-if="replyModel.UploadEncAddrShow&&replyModel.UploadEncAddrShow.length>0" style="margin-top: 15px;margin-left: -15px;">
 								<view v-for="(extraFile,indexEnc) in replyModel.UploadEncAddrShow" :key='indexEnc'>
 									<view class="encName" v-show="extraFile">附件:
 										<!-- #ifdef APP-PLUS -->
@@ -510,6 +510,7 @@
 								if (tempM.UploadEncName) {
 									tempM.UploadEncName = tempM.UploadEncName.split("|");
 									tempM.UploadEncAddr = tempM.UploadEncAddr.split("|");
+									tempM.UploadEncAddrShow = tempM.UploadEncAddr;
 								}
 								if (tempM.InfoUploadCloseStatus == 1) {
 									tempM.InfoUploadCloseStatusName = '关闭上交';
@@ -571,6 +572,28 @@
 								this.detailModel.UploadEncAddrShow = [].concat(tempArr);
 								console.log('this.detailModel11:' + JSON.stringify(this.detailModel));
 							});
+						}
+						for (var i = 0; i < this.detailModel.uploadedList.length; i++) {
+							var tempM = this.detailModel.uploadedList[i];
+							if (tempM.UploadEncAddrShow) {
+								var getDownToken = {
+									appId: this.globaData.QN_APPID, //int 必填 项目id
+									appKey: this.globaData.QN_APPKEY,
+									urls: tempM.UploadEncAddrShow //array 必填 需要获取下载token文件的路径
+								}
+								var getDownTokenUrl = this.QNGETDOWNTOKENFILE;
+								this.showLoading();
+								cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data,index) => {
+									this.hideLoading();
+									console.log('七牛下载token ' + JSON.stringify(data));
+									var tempArr = [];
+									for (var a = 0; a < data.Data.length; a++) {
+										var tempM = data.Data[a];
+										tempArr.push(tempM.Value);
+									}
+									this.$set(this.detailModel.uploadedList[index],'UploadEncAddrShow',tempArr);
+								},i);
+							}
 						}
 						console.log('this.detailModel:' + JSON.stringify(this.detailModel));
 						//将之前提交的资料，塞入默认数据

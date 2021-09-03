@@ -368,17 +368,12 @@
 					}
 				}
 
-				//判断输入是否符合要求
-				if (this.checkInput(this.title)) {
-					if (this.checkInput(this.content)) {
-						if (this.selectPeople.length == 0) {
-							this.showToast("请选择接收人");
-							// sendFlag = 0;
-							return;
-						}
-						this.upLoadImg();
-					}
+				if (this.selectPeople.length == 0) {
+					this.showToast("请选择接收人");
+					// sendFlag = 0;
+					return;
 				}
+				this.upLoadImg();
 			},
 			selectPeopleFun() {
 				var data = {
@@ -417,27 +412,6 @@
 						_this.showSelectPeople = tempPeople.join(',');
 					}
 				});
-			},
-			//判断是否输入了值
-			checkInput(text) {
-				if (text.trim().length == 0) {
-					this.showToast('请输入标题或内容');
-					// sendFlag = 0;
-					return false;
-				}
-				if (this.isNull(text)) {
-					this.showToast('请输入标题或内容');
-					// sendFlag = 0;
-					return false;
-				}
-				return true;
-			},
-			//判断输入字符串是否为空或者全部都是空格
-			isNull(str) {
-				if (str == "") return true;
-				var regu = "^[ ]+$";
-				var re = new RegExp(regu);
-				return re.test(str);
 			}
 		}
 	}
