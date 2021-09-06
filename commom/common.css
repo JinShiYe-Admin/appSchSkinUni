@@ -89,3 +89,4 @@
 	padding: 0px 3px 0 0 !important;
 	font-size: 13px !important;
 }
+::v-deep .uni-list-item--hover {background-color: white !important;}

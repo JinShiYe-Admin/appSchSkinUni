@@ -146,7 +146,7 @@
 							</view>
 							<view>
 								<button v-if="detailModel.InfoCollectStatus !=4" @click="openCloseUpload(replyModel)" type="default" class="down-btn mini-btn"
-									style="float: right;margin-right: 10px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;"
+									style="float: right;margin-right: 10px;margin-top: 10px;color: white;"  :style="replyModel.InfoUploadCloseStatus==1?'background: orangered;border-color: orangered;':'background: #00CFBD;border-color: #00CFBD;'"
 									size="mini">{{replyModel.InfoUploadCloseStatusName}}</button>
 								<button v-if="detailModel.InfoCollectStatus !=4&&replyModel.InfoUploadCloseStatus!=2" @click="backUpload(replyModel)" type="default" class="down-btn mini-btn"
 									style="float: right;margin-top: 10px;background: orangered;border-color: orangered;color: white;margin-right: 10px;"
@@ -494,6 +494,10 @@
 							data.data.UploadEncName = data.data.UploadEncName.split("|");
 							data.data.UploadEncAddr = data.data.UploadEncAddr.split("|");
 							data.data.UploadEncAddrShow = data.data.UploadEncAddr;
+						}else{
+							data.data.UploadEncName = [];
+							data.data.UploadEncAddr = [];
+							data.data.UploadEncAddrShow = [];
 						}
 						//如果是接收的，判断是否右上角有功能
 						if (this.itemData.flag == 1) {
@@ -553,7 +557,7 @@
 								console.log('this.detailModel00:' + JSON.stringify(this.detailModel));
 							});
 						}
-						if (this.detailModel.UploadEncAddrShow) {
+						if (this.detailModel.UploadEncAddrShow&&this.detailModel.UploadEncAddrShow.length>0) {
 							var getDownToken = {
 								appId: this.globaData.QN_APPID, //int 必填 项目id
 								appKey: this.globaData.QN_APPKEY,
@@ -573,26 +577,28 @@
 								console.log('this.detailModel11:' + JSON.stringify(this.detailModel));
 							});
 						}
-						for (var i = 0; i < this.detailModel.uploadedList.length; i++) {
-							var tempM = this.detailModel.uploadedList[i];
-							if (tempM.UploadEncAddrShow) {
-								var getDownToken = {
-									appId: this.globaData.QN_APPID, //int 必填 项目id
-									appKey: this.globaData.QN_APPKEY,
-									urls: tempM.UploadEncAddrShow //array 必填 需要获取下载token文件的路径
-								}
-								var getDownTokenUrl = this.QNGETDOWNTOKENFILE;
-								this.showLoading();
-								cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data,index) => {
-									this.hideLoading();
-									console.log('七牛下载token ' + JSON.stringify(data));
-									var tempArr = [];
-									for (var a = 0; a < data.Data.length; a++) {
-										var tempM = data.Data[a];
-										tempArr.push(tempM.Value);
+						if(this.itemData.flag == 1){
+							for (var i = 0; i < this.detailModel.uploadedList.length; i++) {
+								var tempM = this.detailModel.uploadedList[i];
+								if (tempM.UploadEncAddrShow) {
+									var getDownToken = {
+										appId: this.globaData.QN_APPID, //int 必填 项目id
+										appKey: this.globaData.QN_APPKEY,
+										urls: tempM.UploadEncAddrShow //array 必填 需要获取下载token文件的路径
 									}
-									this.$set(this.detailModel.uploadedList[index],'UploadEncAddrShow',tempArr);
-								},i);
+									var getDownTokenUrl = this.QNGETDOWNTOKENFILE;
+									this.showLoading();
+									cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data,index) => {
+										this.hideLoading();
+										console.log('七牛下载token ' + JSON.stringify(data));
+										var tempArr = [];
+										for (var a = 0; a < data.Data.length; a++) {
+											var tempM = data.Data[a];
+											tempArr.push(tempM.Value);
+										}
+										this.$set(this.detailModel.uploadedList[index],'UploadEncAddrShow',tempArr);
+									},i);
+								}
 							}
 						}
 						console.log('this.detailModel:' + JSON.stringify(this.detailModel));
