@@ -141,6 +141,7 @@
 <script>
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
@@ -195,6 +196,7 @@
 			mynavBar
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			this.itemData = util.getPageData(option);

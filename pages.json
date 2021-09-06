@@ -270,12 +270,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -290,12 +290,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -310,12 +310,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -700,12 +700,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -721,12 +721,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -803,12 +803,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -833,12 +833,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -920,6 +920,7 @@
             "path" : "pages/oa/workflowDetail",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -1029,12 +1030,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1050,12 +1051,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1082,12 +1083,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1135,12 +1136,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1232,12 +1233,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }

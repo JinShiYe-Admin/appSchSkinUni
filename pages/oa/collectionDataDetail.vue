@@ -78,7 +78,7 @@
 				</view>
 			</view>
 		</view>
-		<view v-else class="uni-flex uni-row form-view choose-file">
+		<view v-if="itemData.flag == 0&&detailModel.InfoUploadCloseStatus == 1&&detailModel.UploadEncAddrShow.length==0" class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">附件<view class="file-des">
 					{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
 				</view>
@@ -89,54 +89,82 @@
 		</view>
 		<view v-if="detailModel.noUploadList&&detailModel.noUploadList.length>0">
 			<view class="" style="height: 10px;background-color: #f2f2f2;"></view>
-			<view class="titleCSS" style="font-size: 14px;color: #333;margin-top: 10px;margin-left: 10px;">未提交列表</view>
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell" v-for="(replyModel,index) in detailModel.noUploadList" :key='index'>
-					<view>
-						<img class="mui-media-object mui-pull-left peopleImg" :src=replyModel.ReceiveManPic>
-						<a class="" style="font-size: 14px;color: #666;">
-							{{replyModel.ReceiveManName}}
-						</a>
-						<button v-if="detailModel.InfoCollectStatus !=4" @click="openCloseUpload(replyModel)"
-							type="button" :class="replyModel.InfoUploadCloseStatus==1?closeBtn:openBtn"
-							class="mui-btn">{{replyModel.InfoUploadCloseStatusName}}</button>
+			<view class="titleCSS" style="font-size: 14px;color: #333;margin: 10px 0 10px 10px;">未提交列表</view>
+			<uni-list>
+				<uni-list-item v-for="(replyModel,index) in detailModel.noUploadList" :key='index' direction='column'>
+					<view slot="body">
+						<view style="float: left;height: 40px;">
+							<image class="peopleImg"
+								:src="replyModel.ReceiveManPic?replyModel.ReceiveManPic:'http://www.108800.com/user.jpg'">
+							</image>
+						</view>
+						<view class="rightView">
+							<a class="biaoti0 title">{{replyModel.ReceiveManName}}</a>
+							<!-- :class="replyModel.InfoUploadCloseStatus==1?closeBtn:openBtn" -->
+							<button v-if="detailModel.InfoCollectStatus !=4" @click="openCloseUpload(replyModel)" type="default" class="down-btn mini-btn"
+								style="float: right;margin-right: 10px;margin-top: 10px;color: white;" :style="replyModel.InfoUploadCloseStatus==1?'background: orangered;border-color: orangered;':'background: #00CFBD;border-color: #00CFBD;'"
+								size="mini">{{replyModel.InfoUploadCloseStatusName}}</button>
+						</view>
 					</view>
-				</li>
-			</ul>
+				</uni-list-item>
+			</uni-list>
 		</view>
 		<view v-if="detailModel.uploadedList&&detailModel.uploadedList.length>0">
 			<view class="" style="height: 10px;background-color: #f2f2f2;"></view>
 			<view class="titleCSS" style="font-size: 14px;color: #333;margin-top: 10px;margin-left: 10px;">已提交列表</view>
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell" v-for="(replyModel,index) in detailModel.uploadedList" :key='index'>
-					<view>
-						<img class="mui-media-object mui-pull-left peopleImg" :src=replyModel.ReceiveManPic>
-						<a class="" style="font-size: 14px;color: #666;">
-							{{replyModel.ReceiveManName}}
-							<a style="font-size: 14px;color: #666;float: right;">{{replyModel.UploadTime}}</a>
-							<view class="chat_content_left">
-								<p style="color: #666;font-size: 13px; white-space:pre-wrap;">
-									{{replyModel.UploadContent}}
-								</p>
-							</view>
-							<view v-for="(extraFile,indexEnc) in replyModel.UploadEncAddrShow" :key='indexEnc'>
-								<view style="font-size: 13px;color: #333;margin-top: 7px;" v-show="extraFile">附件:
-									<a class="" style="font-size: 13px;color: #3c9bfe;"
-										v-on:click="checkEnc(extraFile)">附件{{index+1}}</a>
+			<uni-list>
+				<uni-list-item v-for="(replyModel,index) in detailModel.uploadedList" :key='index' direction='column'>
+					<view slot="body">
+						<view style="float: left;height: 40px;">
+							<image class="peopleImg"
+								:src="replyModel.ReceiveManPic?replyModel.ReceiveManPic:'http://www.108800.com/user.jpg'">
+							</image>
+						</view>
+						<view class="rightView">
+							<uni-row class="nameTime">
+								<uni-col :span="10">
+									{{replyModel.ReceiveManName}}
+								</uni-col>
+								<uni-col :span="14">
+									{{replyModel.UploadTime}}
+								</uni-col>
+							</uni-row>
+							<a class="biaoti0 title">{{replyModel.UploadContent}}</a>
+							<view v-if="replyModel.UploadEncAddrShow&&replyModel.UploadEncAddrShow.length>0" style="margin-top: 15px;margin-left: -15px;">
+								<view v-for="(extraFile,indexEnc) in replyModel.UploadEncAddrShow" :key='indexEnc'>
+									<view class="encName" v-show="extraFile">附件:
+										<!-- #ifdef APP-PLUS -->
+										<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
+											@click="checkEnc(extraFile)">附件{{index+1}}</a>
+										<!-- #endif -->
+										<!-- #ifdef H5 -->
+										<uni-link :href="extraFile" style="margin-left: 10px;"
+											:text="'附件'+(index+1)"></uni-link>
+										<!-- #endif -->
+									</view>
 								</view>
 							</view>
-							<button v-if="detailModel.InfoCollectStatus !=4" @click="openCloseUpload(replyModel)"
-								type="button" :class="replyModel.InfoUploadCloseStatus==1?closeBtn:openBtn"
-								class="mui-btn">{{replyModel.InfoUploadCloseStatusName}}</button>
-							<button v-if="detailModel.InfoCollectStatus !=4&&replyModel.InfoUploadCloseStatus!=2"
-								@click="backUpload(replyModel)" type="button"
-								style="float: right;margin-top: 3px;background: orangered;border-color: orangered;color: white;margin-right: 10px;"
-								class="mui-btn">退回</button>
-						</a>
+							<view>
+								<button v-if="detailModel.InfoCollectStatus !=4" @click="openCloseUpload(replyModel)" type="default" class="down-btn mini-btn"
+									style="float: right;margin-right: 10px;margin-top: 10px;color: white;"  :style="replyModel.InfoUploadCloseStatus==1?'background: orangered;border-color: orangered;':'background: #00CFBD;border-color: #00CFBD;'"
+									size="mini">{{replyModel.InfoUploadCloseStatusName}}</button>
+								<button v-if="detailModel.InfoCollectStatus !=4&&replyModel.InfoUploadCloseStatus!=2" @click="backUpload(replyModel)" type="default" class="down-btn mini-btn"
+									style="float: right;margin-top: 10px;background: orangered;border-color: orangered;color: white;margin-right: 10px;"
+									size="mini">退回</button>
+							</view>
+						</view>
 					</view>
-				</li>
-			</ul>
+				</uni-list-item>
+			</uni-list>
 		</view>
+		<uni-popup ref="openClosePopup" type="dialog">
+			<uni-popup-dialog :title="openCloseModel.tempStr" :duration="2000" :before-close="true" @close="close"
+				@confirm="confirm"></uni-popup-dialog>
+		</uni-popup>
+		<uni-popup ref="backupPopup" type="dialog">
+			<uni-popup-dialog title="确认要退回吗" :duration="2000" :before-close="true" @close="closeBackup"
+				@confirm="confirmBackup"></uni-popup-dialog>
+		</uni-popup>
 	</view>
 </template>
 
@@ -161,6 +189,8 @@
 				},
 				canSub: true, //
 				content: '',
+				openCloseModel:{},
+				backupModel:{},
 				// 附件上传相关👇
 				control: true, //是否显示上传 + 按钮 一般用于显示
 				deleteBtn: true, //是否显示删除 按钮 一般用于显示
@@ -373,61 +403,62 @@
 				if (model.InfoUploadCloseStatus == 1) {
 					tempStr = '确认要关闭上交吗？';
 				}
-				var btnArray = ['否', '是'];
-				mui.confirm(tempStr, '确认', btnArray, function(e) {
-					if (e.index == 1) {
-						this.showLoading();
-						var tempFlag = 1;
-						if (model.InfoUploadCloseStatus == 1) {
-							tempFlag = 2;
-						}
-						//66.打开/关闭某人信息收集
-						var tempData1 = {
-							infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
-							receiveManId: model.ReceiveManId, //上交人ID
-							operType: tempFlag, //操作，1 打开2 被关闭
-							index_code: this.itemData.access.split('#')[1],
-							op_code: 'index'
-						}
-						//66.打开/关闭某人信息收集
-						this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectUploadOper',
-							tempData1, (data0, data) => {
-								this.hideLoading();
-								if (data.code == 0) {
-									this.showToast('成功');
-									this.getNoticeByReceiveId_sendId_Detail();
-								} else {
-									this.showToast(data.msg);
-								}
-							});
+				model.tempStr = tempStr;
+				this.openCloseModel = model;
+				this.$refs.openClosePopup.open();
+			},
+			close() {
+				this.$refs.openClosePopup.close();
+			},
+			confirm(value) {
+				this.$refs.openClosePopup.close();
+				var tempFlag = 1;
+				if (this.openCloseModel.InfoUploadCloseStatus == 1) {
+					tempFlag = 2;
+				}
+				var comData0 = {
+					infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
+					receiveManId: this.openCloseModel.ReceiveManId, //上交人ID
+					operType: tempFlag, //操作，1 打开2 被关闭
+					index_code: this.itemData.access.split('#')[1],
+					op_code: 'index'
+				};
+				this.showLoading();
+				//66.打开/关闭某人信息收集
+				this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectUploadOper', comData0, (data0, data) => {
+					this.hideLoading();
+					if (data.code == 0) {
+						this.showToast("成功");
+						this.getNoticeByReceiveId_sendId_Detail();
 					}
-				})
+				});
+			},
+			// @close="closeBackup"
+			// 	@confirm="confirmBackup"
+			closeBackup() {
+				this.$refs.backupPopup.close();
+			},
+			confirmBackup(value) {
+				this.$refs.backupPopup.close();
+				var comData0 = {
+					infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
+					receiveManId: this.backupModel.ReceiveManId, //上交人ID
+					index_code: this.itemData.access.split('#')[1],
+					op_code: 'index'
+				};
+				this.showLoading();
+				//65.退回信息上交
+				this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoUploadBack', comData0, (data0, data) => {
+					this.hideLoading();
+					if (data.code == 0) {
+						this.showToast("成功");
+						this.getNoticeByReceiveId_sendId_Detail();
+					}
+				});
 			},
 			backUpload: function(model) {
-				var btnArray = ['否', '是'];
-				mui.confirm('确认要退回吗？', '确认', btnArray, function(e) {
-					if (e.index == 1) {
-						this.showLoading();
-						//65.退回信息上交
-						var tempData1 = {
-							infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
-							receiveManId: model.ReceiveManId, //上交人ID
-							index_code: this.itemData.access.split('#')[1],
-							op_code: 'index'
-						}
-						//65.退回信息上交
-						this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoUploadBack', tempData1, (
-							data0, data) => {
-							this.hideLoading();
-							if (data.code == 0) {
-								this.showToast('成功');
-								this.getNoticeByReceiveId_sendId_Detail();
-							} else {
-								this.showToast(data.msg);
-							}
-						});
-					}
-				})
+				this.$refs.backupPopup.open();
+				this.backupModel = model;
 			},
 			//获取详情
 			getNoticeByReceiveId_sendId_Detail() {
@@ -463,6 +494,10 @@
 							data.data.UploadEncName = data.data.UploadEncName.split("|");
 							data.data.UploadEncAddr = data.data.UploadEncAddr.split("|");
 							data.data.UploadEncAddrShow = data.data.UploadEncAddr;
+						}else{
+							data.data.UploadEncName = [];
+							data.data.UploadEncAddr = [];
+							data.data.UploadEncAddrShow = [];
 						}
 						//如果是接收的，判断是否右上角有功能
 						if (this.itemData.flag == 1) {
@@ -479,6 +514,7 @@
 								if (tempM.UploadEncName) {
 									tempM.UploadEncName = tempM.UploadEncName.split("|");
 									tempM.UploadEncAddr = tempM.UploadEncAddr.split("|");
+									tempM.UploadEncAddrShow = tempM.UploadEncAddr;
 								}
 								if (tempM.InfoUploadCloseStatus == 1) {
 									tempM.InfoUploadCloseStatusName = '关闭上交';
@@ -521,7 +557,7 @@
 								console.log('this.detailModel00:' + JSON.stringify(this.detailModel));
 							});
 						}
-						if (this.detailModel.UploadEncAddrShow) {
+						if (this.detailModel.UploadEncAddrShow&&this.detailModel.UploadEncAddrShow.length>0) {
 							var getDownToken = {
 								appId: this.globaData.QN_APPID, //int 必填 项目id
 								appKey: this.globaData.QN_APPKEY,
@@ -541,6 +577,30 @@
 								console.log('this.detailModel11:' + JSON.stringify(this.detailModel));
 							});
 						}
+						if(this.itemData.flag == 1){
+							for (var i = 0; i < this.detailModel.uploadedList.length; i++) {
+								var tempM = this.detailModel.uploadedList[i];
+								if (tempM.UploadEncAddrShow) {
+									var getDownToken = {
+										appId: this.globaData.QN_APPID, //int 必填 项目id
+										appKey: this.globaData.QN_APPKEY,
+										urls: tempM.UploadEncAddrShow //array 必填 需要获取下载token文件的路径
+									}
+									var getDownTokenUrl = this.QNGETDOWNTOKENFILE;
+									this.showLoading();
+									cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data,index) => {
+										this.hideLoading();
+										console.log('七牛下载token ' + JSON.stringify(data));
+										var tempArr = [];
+										for (var a = 0; a < data.Data.length; a++) {
+											var tempM = data.Data[a];
+											tempArr.push(tempM.Value);
+										}
+										this.$set(this.detailModel.uploadedList[index],'UploadEncAddrShow',tempArr);
+									},i);
+								}
+							}
+						}
 						console.log('this.detailModel:' + JSON.stringify(this.detailModel));
 						//将之前提交的资料，塞入默认数据
 						this.content = data.data.InfoUploadContent;
@@ -558,11 +618,20 @@
 		margin: 5px 15px 5px 15px;
 		font-size: 14px;
 		color: #666;
+		word-break: break-all;
 	}
 
 	.titleCSS {
 		font-size: 18px;
 		color: #000;
+	}
+	
+	.title {
+		height: 100%;
+		float: left;
+		font-size: 13px;
+		word-break: break-all;
+		color: #000000;
 	}
 
 	.name-timeCSS {
@@ -594,5 +663,21 @@
 	}
 	.uni-input-input {
 	    padding-left: 5px;
+	}
+	
+	.peopleImg {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+	}
+	
+	.rightView {
+		margin-left: 10px;
+		float: left;
+		width: calc(100% - 50px);
+	}
+	.nameTime {
+		font-size: 13px;
+		color: gray;
 	}
 </style>

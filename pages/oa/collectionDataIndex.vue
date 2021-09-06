@@ -67,8 +67,8 @@
 									:src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
 							</view>
 							<view class="rightView">
-								<a class="tempCss">[{{model.NoticeStatusName}}]</a><a
-									class="biaoti title">{{model.InfoCollectTitle}}</a>
+								<a class="tempCss">[{{model.NoticeStatusName}}]<span style='color: #000000;'>{{model.InfoCollectTitle}}</span></a>
+								<br>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
 										{{model.SendManName}}
@@ -90,6 +90,7 @@
 <script>
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
@@ -128,6 +129,7 @@
 			mynavBar
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			this.itemData = util.getPageData(option);
@@ -232,6 +234,15 @@
 			},
 			iconClick() {
 				console.log('iconClick');
+				util.openwithData("/pages/oa/collectionDataNew", this.itemData,{
+					refreshCollectionIndex() { //子页面调用父页面需要的方法
+						if (_this.semFlag == 2) {
+							_this.semFlag2Data.flagRef = 0;
+							_this.semFlag2Data.pageIndex = 1;
+							_this.getPageList();
+						}
+					}
+				});
 			},
 			clickItem: function(model) {
 				console.log('clickItem.model:' + JSON.stringify(model));

@@ -257,6 +257,7 @@
 		margin: 5px 15px 5px 15px;
 		font-size: 14px;
 		color: #666;
+		word-break: break-all;
 	}
 
 	.titleCSS {

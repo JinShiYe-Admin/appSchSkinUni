@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<uni-list>
-			<uni-list-item showArrow v-for="(model,index) in pageArray" :key='index' direction='column' clickable @click="clickItem(model)">
-				<view slot="body">
+		<uni-list :border="false">
+			<uni-list-item showArrow v-for="(model,index) in pageArray" :key='index' direction='column' clickable @click="clickItem(model)" :border="true">
+				<view slot="body" class="slot-box slot-text">
 					<view style="float: left;">
 						<image class="peopleImg" :src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
 					</view>
@@ -168,5 +168,9 @@
 		margin-top: 5px;
 		font-size: 13px;
 		color: gray;
+	}
+	
+	::v-deep .uni-list-item--hover {
+		background-color: white;
 	}
 </style>

@@ -58,6 +58,7 @@ function post(url, data, callback, ecallback) {
 						}
 						//令牌续订
 						post(this.globaData.INTERFACE_SSO_SKIN + 'token/refresh', tempToken, (tempD,data1) => {
+							uni.hideLoading()
 								// console.log('refreshToken:'+JSON.stringify(data1));
 								if (data1.code == 0) {
 									var tempInfo00 = utils.getPersonal();
