@@ -542,9 +542,64 @@ function getPageArray() {
 			icon: tempAAA + '/static/images/schapp_work/xueshengbaobiao.png',
 			pagePath: "/pages/schapp_work/xueshengForm",
 			url: 'schapp_Work_students_form'
-		}, ]
-	
-	},{//学生评语
+		},
+		]
+	},
+	{
+		text: "家校互动", //学生考勤
+		pagePath: "/pages/schhome/index",
+		iconPath: tempAAA + '/static/tabbar/study.png',
+		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+		count: 0,
+		isDot: false,
+		customIcon: false,
+		img_href: tempAAA + "/static/tabbar/interaction_tab.png",
+		url: 'schapp_SchHome',
+		childList: [{
+				name: '学校通知',
+				icon: tempAAA + '/static/images/schhome/school_notice.png',
+				pagePath: "/pages/schhome/school_notice_index",
+				url: 'schapp_SchHome_SchSms'
+			},
+			{
+				name: '年级通知',
+				icon: tempAAA + '/static/images/schhome/grade_notice.png',
+				pagePath: "/pages/schhome/grade_notice_index",
+				url: 'schapp_SchHome_Grade'
+			},
+			{
+				name: '班级通知',
+				icon: tempAAA + '/static/images/schhome/class_notice.png',
+				pagePath: "/pages/schhome/classes_notice_index",
+				url: 'schapp_SchHome_ClsSms'
+			},
+			{
+				name: '班级作业',
+				icon: tempAAA + '/static/images/schhome/class_homework.png',
+				pagePath: "/pages/schhome/classes_homework_index",
+				url: 'schapp_SchHome_ClsWorkSms'
+			},
+			{
+				name: '在校表现',
+				icon: tempAAA + '/static/images/schhome/school_programme.png',
+				pagePath: "/pages/schhome/performance_index",
+				url: 'schapp_SchHome_StuPerson'
+			},
+		]
+	},
+	{
+		text: "家校互动", //学生考勤
+		pagePath: "/pages/schhome_stu/index",
+		iconPath: tempAAA + '/static/tabbar/study.png',
+		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+		count: 0,
+		isDot: false,
+		customIcon: false,
+		img_href: tempAAA + "/static/tabbar/interaction_tab.png",
+		url: 'schapp_SchHomeStu', //
+		childList: []
+	},
+	{//学生评语
 		name: "学生评语", //评语
 		pagePath: "/pages/stu_comment/index",
 		iconPath: tempAAA + '/static/tabbar/study.png',

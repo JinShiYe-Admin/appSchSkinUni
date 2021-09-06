@@ -57,14 +57,15 @@
 				}
 			}
 		},
-		watch: {
-			list(list){
+		// watch: {
+		// 	list(list){
 				
-				this.treeParams = Object.assign(this.treeParams, this.params);
-				console.log(this.treeParams, this.params);
-				this.renderTreeList(list);
-			}
-		},
+		// 		this.treeParams = Object.assign(this.treeParams, this.params);
+		// 		console.log(this.treeParams, this.params);
+		// 		this.renderTreeList(list);
+		// 	}
+		// },
+		watch: { list: { handler(newVal) { this.treeParams = Object.assign(this.treeParams, this.params); this.renderTreeList(newVal); }, deep: true, immediate: true } },
 		methods: {
 			//扁平化树结构
 			renderTreeList(list=[], rank=0, parentId=[]){

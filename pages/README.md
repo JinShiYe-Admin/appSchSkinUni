@@ -76,6 +76,45 @@ this.getPermissionByPosition("add,delete",tempMenu.access.split("#")[1],response
 
 //获取Vue 环境变量
 process.env.NODE_ENV  "development":"production"
+
+//使用原生navbar 新建页面style 下拉刷新配置参数
+ "style" :                                                                                    
+{
+	"navigationBarTitleText": "",
+	"enablePullDownRefresh": true,
+	"app-plus": {
+		"pullToRefresh": {
+			"support": true,
+			"style": "circle",
+			"offset":"0px"
+		}
+	},
+	"h5":{
+		"pullToRefresh":{
+			"offset":"0px"
+		}
+	}
+}
+//使用自定义navbar时  新建页面style 下拉刷新配置参数
+ "style" :                                                                                    
+{
+	"navigationStyle": "custom", // 隐藏系统导航栏
+	"navigationBarTitleText": "",
+	"enablePullDownRefresh": true,
+	"app-plus": {
+		"pullToRefresh": {
+			"support": true,
+			"style": "circle",
+			"offset":"76px"
+		}
+	},
+	"h5":{
+		"pullToRefresh":{
+			"offset":"44px"
+		}
+	}
+}
+
 ```
 
 #### 模块说明
@@ -88,3 +127,5 @@ stu_behavior|学生行为|Liu|Ruan(广西)|开发
 schapp_work|学生考勤|Liu|Ruan(广西)|开发
 stu_comment|学生评语|Liu|Ruan(广西)|开发
 stu_actionComment|行为与评语(学生/家长端)|Liu|Ruan(广西)|开发
+schhome|家校互动 教师端|Liu|meng(广西)|开发 
+schhome_stu|家校互动 学生端|Liu|Gu|开发

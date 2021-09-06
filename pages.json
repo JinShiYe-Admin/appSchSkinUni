@@ -1295,6 +1295,272 @@
             }
             
         }
+        ,{
+            "path" : "pages/schhome_stu/index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"pullToRefresh": {
+               		"support": true,
+               		"style": "circle",
+               		"offset":"76px"
+               	}
+               },
+               "h5":{
+               	"pullToRefresh":{
+               		"offset":"44px"
+               	}
+               }
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome_stu/detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/classes_homework_add",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/classes_homework_detail",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/classes_homework_index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"pullToRefresh": {
+               		"support": true,
+               		"style": "circle",
+               		"offset":"76px"
+               	}
+               },
+               "h5":{
+               	"pullToRefresh":{
+               		"offset":"44px"
+               	}
+               }
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/classes_notice_add",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/classes_notice_detail",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/classes_notice_index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"pullToRefresh": {
+               		"support": true,
+               		"style": "circle",
+               		"offset":"76px"
+               	}
+               },
+               "h5":{
+               	"pullToRefresh":{
+               		"offset":"44px"
+               	}
+               }
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/grade_notice_add",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/grade_notice_detail",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/grade_notice_index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"pullToRefresh": {
+               		"support": true,
+               		"style": "circle",
+               		"offset":"76px"
+               	}
+               },
+               "h5":{
+               	"pullToRefresh":{
+               		"offset":"44px"
+               	}
+               }
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/performance_add",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/performance_detail",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/performance_index",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"76px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/school_notice_add",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/school_notice_detail",
+            "style" :                                                                                    
+            {
+              "navigationStyle": "custom", // 隐藏系统导航栏
+              "navigationBarTitleText": "",
+              "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/school_notice_index",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"76px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/selectGrdCls",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schhome/selectGrdClsStu",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {
@@ -1356,6 +1622,12 @@
 			},
 			{
 				"pagePath": "pages/stu_actionComment/index"
+			},
+			{
+				"pagePath": "pages/schhome/index"
+			},
+			{
+				"pagePath": "pages/schhome_stu/index"
 			}
 		]
 	}

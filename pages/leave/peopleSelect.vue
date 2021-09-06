@@ -4,7 +4,8 @@
 		<uni-row>
 			<uni-col :span="11" style="border-right: 1px solid rgba(238,238,238,.5);">
 				<scroll-view class="select-scroll" scroll-y="true" >
-					<mix-tree :list="leftList" @treeItemClick="treeItemClick" :nodeClick="true"></mix-tree>
+					<!-- <mix-tree :list="leftList" @treeItemClick="treeItemClick" :nodeClick="true"></mix-tree> -->
+					<ly-tree :tree-data="leftList" node-key="id" @node-click="treeItemClick" />
 				</scroll-view>
 			</uni-col>
 			<uni-col :span="13">
@@ -76,7 +77,8 @@
 		},
 		methods: {
 			treeItemClick(item) {
-				let {id,name,parentId} = item;
+				console.log("item: " + JSON.stringify(item));
+				let {id,name,parentId} = item.data;
 				this.getDptUser(id)
 				setTimeout(()=>{
 					this.dptClick=true
@@ -111,9 +113,11 @@
 					let list=response.list
 					list.map(item=>{
 						item.name=item.dpt_name
+						item.label=item.dpt_name
 						item.id=item.dpt_code
 					})
 					let treeList=this.getDptTree(list);
+					console.log("treeList: " + JSON.stringify(treeList));
 					this.leftList=treeList
 					this.hideLoading()
 				})
