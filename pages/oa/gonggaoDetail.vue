@@ -61,7 +61,7 @@
 				uni.showLoading();
 				console.log('tempUrl:' + tempUrl);
 				var urlStr = encodeURI(tempUrl);
-				this.downloadFile({
+				uni.downloadFile({
 					url: urlStr,
 					success: function(res) {
 						var filePath = res.tempFilePath;
