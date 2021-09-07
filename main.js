@@ -189,6 +189,11 @@ Vue.prototype.hideLoading = () => {
 		if (Vue.prototype.requestTask.size === 0) {
 			uni.hideLoading()
 		}
+		if (Vue.prototype.requestTask.size > 0) {
+			setTimeout(() => {
+				uni.hideLoading()
+			}, 15000)
+		}
 	}, 100)
 } //关闭加载框
 

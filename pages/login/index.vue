@@ -168,7 +168,6 @@
 									};
 									this.post(this.globaData.INTERFACE_SSO_SKIN + 'acl/menu',
 										comData4, (data0, data4) => {
-											this.hideLoading();
 											console.log("data4: " + JSON.stringify(data4));
 											if (data4.code == 0) {
 												if (data4.data.list.length > 0) {
@@ -288,7 +287,6 @@
 												if (tempFlag == 3) {
 													//跳转界面
 													this.gotoPage();
-													this.hideLoading();
 												}
 											} else {
 												this.showToast(data3.msg);
@@ -335,7 +333,6 @@
 													if (tempFlag == 3) {
 														//跳转界面
 														this.gotoPage();
-														this.hideLoading();
 													}
 												} else {
 													this.showToast('应用系统无权限，请联系管理员');
@@ -353,6 +350,7 @@
 				}
 			},
 			gotoPage: function() {
+				this.hideLoading();
 				var tempData = util.getPersonal();
 				//将personal 中的key更改为指定的值
 				tempData.user_name = tempData.user.user_name;
