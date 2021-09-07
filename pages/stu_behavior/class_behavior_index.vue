@@ -234,7 +234,7 @@
 						this.getList0();
 					} else {
 						this.kmArray=[];
-						mui.toast('无数据授权 无法获取班级');
+						this.showToast('无数据授权 无法获取班级');
 					}
 				})
 			},

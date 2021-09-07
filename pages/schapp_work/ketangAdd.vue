@@ -270,7 +270,7 @@
 						this.kmList = [].concat(subList);
 					} else {
 						this.kmList=[];
-						mui.toast('无数据授权 无法获取班级');
+						this.showToast('无数据授权 无法获取班级');
 					}
 				})
 			},
@@ -448,7 +448,7 @@
 				this.$refs.timePicker.show()
 			},
 			timeSelect(e){
-				this.formData.time=e.value
+				this.formData.time=e
 			},
 		},
 	}

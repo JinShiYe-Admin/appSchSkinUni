@@ -7,7 +7,7 @@
 					<view style="margin: 0 8px;" :style="{'color':(text.style?text.style.color:'#FFFFFF'),'font-size':(text.style?text.style.fontSize:'15px')}" @click="$props.textClick">{{text.value?text.value:text}}</view>
 				</template>
 				<template v-else-if="typeof text === 'object'">
-					<view v-for="(item,index) in text" style="margin: 0 8px;" :style="{'color':(item.style?item.style.color:'#FFFFFF'),'font-size':(item.style?item.style.fontSize:'15px')}" @click="$props.textClick[index]">{{item.value?item.value:item}}</view>
+					<view v-for="(item,index) in text" :key='item' style="margin: 0 8px;" :style="{'color':(item.style?item.style.color:'#FFFFFF'),'font-size':(item.style?item.style.fontSize:'15px')}" @click="$props.textClick[index]">{{item.value?item.value:item}}</view>
 				</template>
 			</view>
 		</u-navbar-my>
@@ -82,7 +82,7 @@
 			text:{
 				type:[Array,Object,String],
 				default(){
-					return ''
+					return null
 				}
 			},
 			textClick:{
