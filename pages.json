@@ -1350,7 +1350,6 @@
             "path" : "pages/schhome/classes_homework_detail",
             "style" :                                                                                    
             {
-                "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -1391,7 +1390,6 @@
             "path" : "pages/schhome/classes_notice_detail",
             "style" :                                                                                    
             {
-                "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -1432,7 +1430,6 @@
             "path" : "pages/schhome/grade_notice_detail",
             "style" :                                                                                    
             {
-                "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -1473,7 +1470,6 @@
             "path" : "pages/schhome/performance_detail",
             "style" :                                                                                    
             {
-                "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -1514,7 +1510,6 @@
             "path" : "pages/schhome/school_notice_detail",
             "style" :                                                                                    
             {
-              "navigationStyle": "custom", // 隐藏系统导航栏
               "navigationBarTitleText": "",
               "enablePullDownRefresh": false
             }
