@@ -399,10 +399,7 @@
 						 this.stuList=[]
 						 this.stuNameList= [] 
 						 this.stuIdList= [] 
-						 this.kmIndex=-1
-						 this.kmList=[]
 						this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
-						this.getKm(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value);
 					}
 				}
 			},
@@ -449,7 +446,7 @@
 				this.$refs.timePicker.show()
 			},
 			timeSelect(e){
-				this.formData.time=e.value
+				this.formData.time=e
 			},
 		},
 	}

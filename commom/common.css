@@ -89,4 +89,23 @@
 	padding: 0px 3px 0 0 !important;
 	font-size: 13px !important;
 }
+/* 点击list列表不变色 */
 ::v-deep .uni-list-item--hover {background-color: white !important;}
+/* 顶部搜索输入框样式 */
+.search-box{
+	 display: flex;
+	 padding: 3px;
+ }
+ .search-button{
+	 width: 60px;
+	 margin-left: 5px;
+	 height: 35px;
+	 background-color: #00CFBD;
+	 border-color: #00CFBD;
+	 display: flex;
+	 align-items: center;
+	 justify-content: space-around
+ }
+ .uni-input.search-input{
+	 border-radius: 5px;
+ }

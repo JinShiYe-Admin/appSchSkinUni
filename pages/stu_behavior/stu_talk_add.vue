@@ -336,7 +336,7 @@
 				this.$refs.timePicker.show()
 			},
 			timeSelect(e){
-				this.formData.time=e.value
+				this.formData.time=e
 			},
 		},
 	}
