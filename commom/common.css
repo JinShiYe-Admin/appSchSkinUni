@@ -122,4 +122,19 @@
  uni-switch .uni-switch-input.uni-switch-input-checked:after {
      transform: translateX(28px);
  }
- 
+ /* 分割线 */
+ .line{
+ 	height: 1px;
+ 	background-color: #e5e5e5;
+ 	margin: 5px 0;
+ }
+ .line-green{
+ 	background-color: #00CFBD;
+ 	margin-bottom: 0.3125rem;
+ 	height: 1px;
+ }
+ .double-line{
+ 	height: 5px;
+ 	background-color: #e5e5e5;
+ 	margin: 5px 0;
+ }
