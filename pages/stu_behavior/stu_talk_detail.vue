@@ -28,9 +28,15 @@
 			</view>
 			<template v-if="imgList.length>0">
 				<view class="double-line"></view>
-				<view class="uni-flex uni-row form-view choose-file">
-					<view class="choose-file-text">附件</view>
-					<g-upload ref='gUpload' :mode="imgList" :deleteBtn='deleteBtn' :control='control' :columnNum="columnNum"></g-upload>
+				<view v-for="(extraFile,index) in imgList" :key='index'>
+					<view class="encName">附件:
+						<!-- #ifdef APP-PLUS -->
+							<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;" @click="checkEnc(extraFile)">附件{{index+1}}</a>
+						<!-- #endif -->
+						<!-- #ifdef H5 -->
+							<uni-link :href="extraFile" style="margin-left: 10px;" :text="'附件'+(index+1)"></uni-link>
+						<!-- #endif -->
+					</view>
 				</view>
 			</template>
 		</view> 
@@ -130,6 +136,30 @@
 					this.hideLoading()
 				})
 			},
+			checkEnc: function(tempUrl) {
+				console.log('tempUrl:' + tempUrl);
+				var urlStr = encodeURI(tempUrl);
+				this.showLoading();
+				uni.downloadFile({
+					url: urlStr,
+					success: function(res) {
+						var filePath = res.tempFilePath;
+						uni.openDocument({
+							filePath: filePath,
+							success: function(res) {
+								uni.hideLoading();
+								console.log('打开文档成功');
+							},
+							fail() {
+								uni.hideLoading();
+								uni.showToast({
+									title: '当前附件打开失败'
+								})
+							}
+						});
+					}
+				});
+			},
 		}
 	}
 </script>
@@ -225,5 +255,13 @@
 	.mui-btn1{
 		background-color: #00CFBD;
 		margin: 5px 0 25px 10px;
+	}
+	
+	.encName {
+		margin-left: 15px;
+		margin-right: 15px;
+		margin-bottom: 10px;
+		font-size: 14px;
+		color: #333;
 	}
 </style>

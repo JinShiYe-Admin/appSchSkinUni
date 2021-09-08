@@ -1,48 +1,39 @@
 <template>
 	<view>
-		<view class="tabs-fixed" style="background-color: #FFFFFF;">
-			<view style="display: flex;">
-				<picker style="flex: 1;"  @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="grdArray[grdIndex].text" ></uni-easyinput-select>
-				</picker>
-				<view class="mini-date" style="flex: 1;">
-					<dy-Date :childValue='endDate' timeType="day" v-on:getData='timeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>
-					<uni-icons style="padding-right: 3px;" size="13" type="arrowdown" color="#C2C7D6"></uni-icons>
-				</view>
-				<picker style="flex: 1;"  @change="kqlxClick" :value="kqlxIndex" :range="kqlxArray" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="kqlxArray[kqlxIndex].text" ></uni-easyinput-select>
-				</picker>
-			</view>
-			<view class="select-line"></view>
+		<view style="padding:5px 15px 0px;">
+			<uni-row>
+				<uni-col :span="24"><view class="title-text">{{formData.msg_content}}</view></uni-col>
+				<uni-col :span="8"><view class="detail-text" style="margin-top: 5px;">发布人:{{formData.send_user_tname}}</view></uni-col>
+				<uni-col :span="16"><view class="detail-text" style="text-align: right;margin-top: 5px;">{{formData.send_time}}</view></uni-col>
+			</uni-row>
 		</view>
-		<view style="padding-top: 44px;">
-			<uni-list :border="false">
-				<uni-list-item :border="true">
-					<text slot="body" class="slot-box slot-text">
-						<uni-row>
-							<uni-col :span="24"><view class="title-text-total">{{listTotal.row_name}}:{{listTotal.people_num}} 人</view></uni-col>
-							<template v-for="(item,index) in listTotal.kqxxList">
-								<uni-col :key="index+Math.random()" :span="8"><view class="detail-text">{{item.name}}:{{item.value}} 人</view></uni-col>
-							</template>
-						</uni-row>
-					</text>
-				</uni-list-item>
-			</uni-list>
-			<view class="double-line"></view>
-			<uni-list :border="false">
-				<uni-list-item  :key="index" v-for="(model,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text">
-						<uni-row>
-							<uni-col :span="24"><view class="title-text">{{model.grd_name}}&ensp;{{model.class_name}}({{model.people_num}}人)</view></uni-col>
-							<template v-for="(item,index2) in model.kqxxList">
-								<uni-col :key="index2+Math.random()"  :span="8"><view class="detail-text">{{item.name}}:{{item.value}} 人</view></uni-col>
-							</template>
-						</uni-row>
-					</text>
-				</uni-list-item>
-			</uni-list>
-			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
+		<view class="double-line"></view>
+		<view class="uni-flex uni-row form-view">
+			<view class="form-left">接收人</view>
 		</view>
+		 <view class="line-green" style="margin-top: 5px;"></view>
+		 <view style="padding:5px 15px;">
+		 	<template v-for="grd_child in student">
+				 <template v-for="(cls_child,index) in grd_child.children" v-if="cls_child.children.length>0">
+					 <uni-row :key="index">
+						<uni-col :span="24"><view class="detail-text-18">{{cls_child.grd_name}} {{cls_child.cls_name}}</view></uni-col>
+						<uni-col :span="24">
+							<view class="detail-text">
+								<template style="font-size: 14px;" v-for="(stu_child,index) in cls_child.children" v-if="stu_child.stu_name">
+									<template v-if="index==cls_child.children.length-1">
+										<text :key="index" class="text">{{stu_child.stu_name}}</text>
+									</template>
+									<template v-else>
+										<text :key="index" class="text">{{stu_child.stu_name}},</text>
+									</template>
+								</template>
+							</view>
+							 <view class="line" style="margin:5px -15px 5px;"></view>
+						</uni-col>
+					 </uni-row>
+				 </template>
+		 	</template>
+		 </view>
 	</view>
 </template>
 
@@ -52,200 +43,111 @@
 		data() {
 			return {
 				index_code:'',
-				pageSize:15,
-				pageobj0:{
-					loadFlag:0,//0 刷新 1加载更多
-					page_number:1,//页码
-					status:'more',//加载更多的状态
-					contentText: {
-						contentdown: '',//上滑加载更多
-						contentrefresh: '加载中',
-						contentnomore: ''//没有更多
-					},
-					canload:true,//是否加载更多
-				},
-				pagedata:[],
-				listTotal:{},//统计数据
-				//顶部筛选框相关内容
-				grdIndex:0,
-				kqlxIndex:0,
-				time:this.moment().format('YYYY-MM-DD'),
-				grdArray: [{text:'',value:'-1'}],
-				kqlxArray: [{text:'',value:''}],
-				startDate:'2010-01-01',
-				endDate:this.moment().format('YYYY-MM-DD')
+				formData: {}, //表单内容
+				student:[]//年级 班级 学生 数组
 			}
 		},
 		methods: {
-			grdClick:function(e){
-				if(this.grdIndex!==e.detail.value){
-					 this.grdIndex=e.detail.value
-					 this.showLoading()
-					 this.pageobj0.loadFlag=0
-					 this.pageobj0.canload=true
-					 this.pageobj0.page_number=1
-					 this.getList0();
-				}
-			},
-			kqlxClick:function(e){
-				if(this.kqlxIndex!==e.detail.value){
-					 this.kqlxIndex=e.detail.value
-					 this.showLoading()
-					 this.pageobj0.loadFlag=0
-					 this.pageobj0.canload=true
-					 this.pageobj0.page_number=1
-					 this.getList0();
-				}
-			},
-			timeSelect(e){
-				console.log(e);
-				this.time=e
-				this.showLoading()
-				this.pageobj0.loadFlag=0
-				this.pageobj0.canload=true
-				this.pageobj0.page_number=1
-				this.getList0();
-			},
-			getGrd(){//获取年级
+			getStudentFromHR(){//获取年级
 				let comData={
 					op_code:'index',
-					get_grd:true,
-					all_grd: true,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+				this.post(this.globaData.INTERFACE_HR_SUB+'grd',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					this.hideLoading()
-					let grds = response.grd_list;
-					let grdArray=[];
-					grds.map(function(currentValue) {
-						let name=currentValue.name.indexOf('全部')==-1?currentValue.name:'全部年级';
-						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = name;
-						grdArray.push(obj)
-					})
-					if(grdArray.length>0 ){
-						this.grdArray=grdArray;
-						this.getKqlx();
-					}else{ 
-						this.grdArray=[];
-						this.showToast('无数据授权 无法获取年级');
-					}
-				})
-			},
-			getKqlx(){//获取常量
-				let comData={
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_WORK+'AttendanceReport/getExtraReportDict',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					this.hideLoading()
-					let list = [{value:'',text:'全部考勤'}].concat(response.qaArray);
-					if(list.length>1){
-						this.kqlxArray = list
-						this.getList0();
-					}else{
-						this.showToast('无法获取考勤项目');
-					}
-				})
-			},
-			getList0(){//获取页面数据
-				let comData={
-					grd_code: this.grdArray[this.grdIndex].value,
-					cls_code: '0',
-					item_code: this.kqlxArray[this.kqlxIndex].value,
-					query_time:this.time,
-					page_number: this.pageobj0.page_number, //当前页数
-					page_size: this.pageSize, //每页记录数
-					index_code: this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_WORK+'AttendanceReport/statisticsExtraAttendance',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					setTimeout(function () {
-						uni.stopPullDownRefresh();
-					}, 1000);
-					this.hideLoading()
-					if(this.pageobj0.loadFlag===0){
-						this.addKqName(response.qaArray,response.staticArray,list=>{
-							this.pagedata=[].concat(list);
+					if(response.list && response.list.length>0){
+						let grd_list =response.list
+						let grd_codes=[]
+						grd_list.map(function(item){
+							grd_codes.push(item.grd_code)
 						})
-						this.addKqName(response.qaArray,[response.total],list=>{
-							if(list.length>0){
-								this.listTotal=list[0];
-							}
-						})
-					}else{
-						//合并数组
-						this.addKqName(response.qaArray,response.staticArray,list=>{
-							this.pagedata= this.pagedata.concat(list);
-						})
-						this.addKqName(response.qaArray,[response.total],list=>{
-							if(list.length>0){
-								this.listTotal=list[0];
-							}
-						})
-					}
-					if(this.pageobj0.page_number>=response.total_page){
-						this.pageobj0.status = 'noMore';
-						this.pageobj0.canload=false
-					}else{
-						this.pageobj0.status = 'more';
-					}
-				})
-			},
-			addKqName(qaList,list,callback){
-				console.log("list11111111111111: " + JSON.stringify(list));
-				list.map(function(currValue){
-					let list=[]
-					qaList.map(function(currValue2){
-						let kqValue=currValue2.value;
-						if(""+currValue[kqValue]){
-							let obj={}
-							obj.name=currValue2.text;
-							obj.value=currValue[kqValue];
-							list.push(obj)
+						const params = {
+							grd_codes:grd_codes.join(","),
+							is_finish:0,
+							op_code:'index',
+							index_code: this.index_code,
 						}
-					})
-					currValue.kqxxList=list;
+						this.post(this.globaData.INTERFACE_HR_SUB+'cls',comData,response1=>{
+						    console.log("responseaaa: " + JSON.stringify(response1));
+							if(response1.list && response1.list.length>0){
+								let cls_list =response1.list
+								let cls_codes=[]
+								grd_list.map(function(grd_item){ 
+									let children=[]
+									cls_list.map(function(cls_item){
+										if(grd_item.grd_code==cls_item.grd_code){
+											children.push(cls_item)
+										}
+									})
+									grd_item.children=children
+								})
+								cls_list.map(function(item){
+									cls_codes.push(item.cls_code)
+								})
+								const params = {
+									grd_codes:grd_codes.join(","),
+									cls_codes:cls_codes.join(","),
+									op_code:'index',
+									index_code: this.index_code,
+								}
+								this.post(this.globaData.INTERFACE_HR_SUB+'stu',comData,response2=>{
+								    console.log("responseaaa: " + JSON.stringify(response2));
+									this.hideLoading()
+									if(response2.list && response2.list.length>0){
+										let stu_list =response2.list
+										grd_list.map(function(grd_item){ 
+											let cls_list=grd_item.children
+											let grd_code=grd_item.grd_code
+											cls_list.map(function(cls_item){
+												let cls_code=cls_item.cls_code
+												let children=[]
+												stu_list.map(function(stu_item){
+												 	 if(grd_code== stu_item.grd_code && cls_code==stu_item.cls_code){
+														 children.push(stu_item)
+													 }
+												})
+												cls_item.children=children
+											})
+										})
+										this.student=grd_list
+										console.log("student: " + JSON.stringify(grd_list));
+									}else{
+										this.hideLoading()
+									}
+								})
+							}else{
+								this.hideLoading()
+							}
+						})
+					}else{
+						this.hideLoading()
+					}
 				})
-				console.log("list: " + JSON.stringify(list));
-				callback(list)
-			}
+			},
 		},
 		onLoad(options) {
 			const itemData = util.getPageData(options);
-			this.index_code=itemData.access.split("#")[1]
+			this.index_code=itemData.index_code
+			this.formData=itemData
 			setTimeout(()=>{
 				 this.showLoading()
-				 this.getGrd()
+				 this.getStudentFromHR()
 			},100)
-			uni.setNavigationBarTitle({title:itemData.text});
+			uni.setNavigationBarTitle({title:'通知详情'});
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
-		},
-		onPullDownRefresh() {
-			this.pageobj0.loadFlag=0
-			this.pageobj0.canload=true
-			this.pageobj0.page_number=1
-			this.getList0()
-			setTimeout(function () {
-				uni.stopPullDownRefresh();
-			}, 5000);
-		},
-		onReachBottom() {
-			if(this.pageobj0.canload){
-				this.pageobj0.loadFlag=1
-				this.pageobj0.status = 'loading';
-				this.pageobj0.page_number=this.pageobj0.page_number+1
-				this.getList0()
-			}
 		},
 	}
 </script>
 
 <style>
+	.text{
+		margin: 0 3px 0 0 ;
+	}
+	.form-view{
+		padding: 7px 15px;
+	}
 	.select-line{
 		height: 2px;
 		background-color: #00CFBD;
@@ -274,29 +176,24 @@
 	 	margin: 5px 0;
 	 }
 	 
-	 .title-text-total{
-		 display: flex;
-		 align-items: center;
-	 	width: 80vw;
-		font-size: 16px;
-	 	overflow: hidden;
-	 	text-overflow: ellipsis;
-	 	white-space: nowrap;
-	 }
+	  
 	 .title-text{
 		 display: flex;
 		 align-items: center;
-	 	width: 80vw;
 		color: #5C5C5C;
-	 	overflow: hidden;
-	 	text-overflow: ellipsis;
-	 	white-space: nowrap;
+	 	 word-break: break-all;
 	 }
 	 
+	 .detail-text-18{
+	 	color: #939393;
+	 	font-size: 14px;
+	 	margin: 3px 0;
+	 }
 	 .detail-text{
 	 	color: #939393;
 	 	font-size: 12px;
 	 	margin: 3px 0;
+		line-height: 2;
 	 }
 	 
 	 .leaveType {
@@ -312,9 +209,24 @@
 	 .uni-input-input{
 		 font-size: 13px;
 	 }
+	 .line{
+	 	height: 1px;
+	 	background-color: #e5e5e5;
+	 	margin: 5px 0;
+	 }
+	 .line-green{
+	 	background-color: #00CFBD;
+	 	margin-bottom: 0.3125rem;
+	 	height: 1px;
+	 }
 	 .double-line{
 	 	height: 5px;
 	 	background-color: #e5e5e5;
 	 	margin: 5px 0;
-	 }
+		}
+		.form-left{
+			font-size: 14px;
+			width: 200rpx;
+			color: #3F3F3F;
+		}
 </style>

@@ -10,9 +10,15 @@
 			</view>
 		</view>
 		<template v-if="imgListf.length>0">
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left">附件</view>
-				<g-upload ref='gUpload' :mode="imgListf" :deleteBtn='false' :control='false' :columnNum="columnNum"></g-upload>
+			<view v-for="(extraFile,index) in imgListf" :key='index'>
+				<view class="encName">附件:
+					<!-- #ifdef APP-PLUS -->
+						<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;" @click="checkEnc(extraFile)">附件{{index+1}}</a>
+					<!-- #endif -->
+					<!-- #ifdef H5 -->
+						<uni-link :href="extraFile" style="margin-left: 10px;" :text="'附件'+(index+1)"></uni-link>
+					<!-- #endif -->
+				</view>
 			</view>
 		</template>
 		<view class="line"></view>
@@ -290,5 +296,12 @@
 		flex: 1;
 		word-break: break-all;
 		color: #787878;
+	}
+	.encName {
+		margin-left: 15px;
+		margin-right: 15px;
+		margin-bottom: 10px;
+		font-size: 14px;
+		color: #333;
 	}
 </style>

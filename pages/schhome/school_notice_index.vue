@@ -4,7 +4,7 @@
 		<view class="tabs-fixed">
 			 <view class="search-box">
 				 <view class="uni-input-wrapper">
-				    <input class="uni-input search-input" placeholder="输入内容关键字" v-model="searchValue"/>
+				    <input class="uni-input search-input" placeholder="输入内容关键字" v-model="searchValue" @input="inputChange"/>
 				 </view>
 				 <button class="search-button" @click="search"><uni-icons type="search" color="#FFFFFF" size="17" /></button> 
 			 </view>
@@ -15,10 +15,8 @@
 				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
 					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text"><view class='leaveType'>{{item.item_txt}}</view>{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
-							<uni-col :span="24"><view class="detail-text">{{item.class_node}} / {{item.sub_name}}</view></uni-col>
-							<uni-col :span="16"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
-							<uni-col :span="8"><view class="detail-text" style="text-align: right;">{{item.behavior_time}}</view></uni-col>
+							<uni-col :span="24"><view class="title-text">{{item.send_time}}</view></uni-col>
+							<uni-col :span="24"><view class="detail-text">{{item.msg_content}}</view></uni-col>
 						</uni-row>
 					</text>
 				</uni-list-item>
@@ -60,42 +58,48 @@
 			mynavBar
 		},
 		methods: {
+			inputChange(e){
+				if(e.target.value==''){
+					this.searchValue=''
+					this.showLoading()
+					this.pageobj0.loadFlag=0
+					this.pageobj0.canload=true
+					this.pageobj0.page_number=1
+					this.getList0();
+				}
+			},
 			search(){
-				console.log(this.searchValue);
+				if(this.searchValue==''){
+					this.showToast('请先输入搜索内容')
+				}else{
+					this.showLoading()
+					this.pageobj0.loadFlag=0
+					this.pageobj0.canload=true
+					this.pageobj0.page_number=1
+					this.getList0();
+				}
 			},
 			iconClick(){
 				let that=this
-				if(this.grdArray.length==0){
-					this.showToast('无法获取年级数据，不能进行添加操作')
-				}else if(this.clsArray.length==0){
-					this.showToast('无法获取班级数据，不能进行添加操作')
-				}else if(this.xwArray.length==0){
-					this.showToast('无法获取行为细项数据，不能进行添加操作')
-				}else if(this.kmArray.length==0){
-					this.showToast('无法获取科目数据，不能进行添加操作')
-				}else if(this.jcArray.length==0){
-					this.showToast('无法获取节次数据，不能进行添加操作')
-				}else {
-					util.openwithData('/pages/stu_behavior/class_behavior_add',{index_code:this.index_code},{
-						refreshClsBehavior(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj0.loadFlag=0
-							that.pageobj0.canload=true
-							that.pageobj0.page_number=1
-							that.getList0()
-						}
-					})
-				}
+				util.openwithData('/pages/schhome/school_notice_add',{index_code:this.index_code},{
+					refreshList(data){//子页面调用父页面需要的方法
+						that.showLoading()
+						that.pageobj0.loadFlag=0
+						that.pageobj0.canload=true
+						that.pageobj0.page_number=1
+						that.getList0()
+					}
+				})
 			},
 			getList0(){//获取页面数据
 				let comData={
-					get_unit_code:personal.unit_code,
-					msg_type:window.storageKeyName.MSG_SMS.SCHOOL.MSG_TYPE,
-					msg_content:datasource.inputText,
+					get_unit_code:this.personInfo.unit_code,
+					msg_type:this.MSG_SMS.SCHOOL.MSG_TYPE,
+					msg_content:this.searchValue,
 					dest_user:'',
 					send_time_begin:'1970-01-01',
 					send_time_end:'2051-01-01',
-					send_user:personal.user_code,
+					send_user:this.personInfo.user_code,
 					grd_code:'',
 					cls_code:'',
 					serviced:'0,1,99,100',
@@ -103,7 +107,7 @@
 					page_size: this.pageSize, //每页记录数
 					index_code: this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/list',comData,response=>{
+				this.post(this.globaData.INTERFACE_SCHHOME+'api/appsms/appsmsp',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
@@ -124,16 +128,7 @@
 			},
 			toDetails(item){
 				item.index_code=this.index_code
-				let that=this
-				util.openwithData('/pages/stu_behavior/class_behavior_detail',item,{
-					refreshClsBehaviorDetail(data){//子页面调用父页面需要的方法
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getList0()
-					}
-				})
+				util.openwithData('/pages/schhome/school_notice_detail',item,{})
 			}
 		},
 		onLoad(options) {
@@ -150,6 +145,7 @@
 					 }
 					 this.hideLoading();
 				 })
+				 this.getList0();
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""
