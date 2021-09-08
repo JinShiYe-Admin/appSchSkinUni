@@ -27,13 +27,8 @@
 		<view v-html="detailModel.ApplyContent" class="contentCSS" style="font-size: 14px;color: #666;"></view>
 		<view v-for="(extraFile,index) in detailModel.ApplyEncAddrShow" :key='index'>
 			<view class="encName">附件:
-				<!-- #ifdef APP-PLUS -->
 				<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
 					@click="checkEnc(extraFile)">附件{{index+1}}</a>
-				<!-- #endif -->
-				<!-- #ifdef H5 -->
-				<uni-link :href="extraFile" style="margin-left: 10px;" :text="'附件'+(index+1)"></uni-link>
-				<!-- #endif -->
 			</view>
 		</view>
 		<view v-if="detailModel.ApproveStatus == 2">
@@ -209,28 +204,8 @@
 				this.$refs.popup.open();
 			},
 			checkEnc: function(tempUrl) {
-				console.log('tempUrl:' + tempUrl);
-				var urlStr = encodeURI(tempUrl);
-				this.showLoading();
-				uni.downloadFile({
-					url: urlStr,
-					success: function(res) {
-						var filePath = res.tempFilePath;
-						uni.openDocument({
-							filePath: filePath,
-							success: function(res) {
-								uni.hideLoading();
-								console.log('打开文档成功');
-							},
-							fail() {
-								uni.hideLoading();
-								uni.showToast({
-									title: '当前附件打开失败'
-								})
-							}
-						});
-					}
-				});
+				console.log('tempUrl:'+tempUrl);
+				util.openFile(tempUrl);
 			},
 			saveTag: function() {
 				console.log('saveTag');
