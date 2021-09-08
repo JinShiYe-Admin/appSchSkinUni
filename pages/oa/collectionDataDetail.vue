@@ -25,14 +25,8 @@
 		<view v-html="detailModel.InfoCollectContent" class="contentCSS" style="font-size: 14px;color: #666;"></view>
 		<view v-for="(extraFile,index) in detailModel.InfoCollectEncAddrShow" :key='index'>
 			<view class="encName">附件:
-				<!-- #ifdef APP-PLUS -->
 				<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
 					@click="checkEnc(extraFile)">附件{{index+1}}</a>
-				<!-- #endif -->
-				<!-- #ifdef H5 -->
-				<uni-link :href="extraFile" style="margin-left: 10px;"
-					:text="'附件'+(index+1)"></uni-link>
-				<!-- #endif -->
 			</view>
 		</view>
 		<view v-if="itemData.flag == 0||detailModel.InfoCollectStatus !=4">
@@ -64,14 +58,8 @@
 		<view v-if="detailModel.UploadEncAddrShow&&detailModel.UploadEncAddrShow.length>0" style="margin-top: 15px;">
 			<view v-for="(extraFile,index) in detailModel.UploadEncAddrShow" :key='index'>
 				<view class="encName" v-show="extraFile">附件:
-					<!-- #ifdef APP-PLUS -->
 					<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
 						@click="checkEnc(extraFile)">附件{{index+1}}</a>
-					<!-- #endif -->
-					<!-- #ifdef H5 -->
-					<uni-link :href="extraFile" style="margin-left: 10px;"
-						:text="'附件'+(index+1)"></uni-link>
-					<!-- #endif -->
 					<a @click="deleteUploadEnc()"
 						style="color: white;background: red;padding: 5px 10px;border-radius: 5px;margin-left: 10px;"
 						size="mini">删除</a>
@@ -133,14 +121,8 @@
 							<view v-if="replyModel.UploadEncAddrShow&&replyModel.UploadEncAddrShow.length>0" style="margin-top: 15px;margin-left: -15px;">
 								<view v-for="(extraFile,indexEnc) in replyModel.UploadEncAddrShow" :key='indexEnc'>
 									<view class="encName" v-show="extraFile">附件:
-										<!-- #ifdef APP-PLUS -->
 										<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
 											@click="checkEnc(extraFile)">附件{{index+1}}</a>
-										<!-- #endif -->
-										<!-- #ifdef H5 -->
-										<uni-link :href="extraFile" style="margin-left: 10px;"
-											:text="'附件'+(index+1)"></uni-link>
-										<!-- #endif -->
 									</view>
 								</view>
 							</view>
@@ -309,28 +291,8 @@
 				console.log('textClicktextClick');
 			},
 			checkEnc: function(tempUrl) {
-				console.log('tempUrl:' + tempUrl);
-				var urlStr = encodeURI(tempUrl);
-				this.showLoading();
-				uni.downloadFile({
-					url: urlStr,
-					success: function(res) {
-						var filePath = res.tempFilePath;
-						uni.openDocument({
-							filePath: filePath,
-							success: function(res) {
-								uni.hideLoading();
-								console.log('打开文档成功');
-							},
-							fail() {
-								uni.hideLoading();
-								uni.showToast({
-									title: '当前附件打开失败'
-								})
-							}
-						});
-					}
-				});
+				console.log('tempUrl:'+tempUrl);
+				util.openFile(tempUrl);
 			},
 			saveTag: function() {
 				console.log('saveTag');

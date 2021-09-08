@@ -12,12 +12,7 @@
 		<template v-if="imgListf.length>0">
 			<view v-for="(extraFile,index) in imgListf" :key='index'>
 				<view class="encName">附件:
-					<!-- #ifdef APP-PLUS -->
 						<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;" @click="checkEnc(extraFile)">附件{{index+1}}</a>
-					<!-- #endif -->
-					<!-- #ifdef H5 -->
-						<uni-link :href="extraFile" style="margin-left: 10px;" :text="'附件'+(index+1)"></uni-link>
-					<!-- #endif -->
 				</view>
 			</view>
 		</template>
@@ -124,6 +119,10 @@
 			//#endif
 		},
 		methods: {
+			checkEnc: function(tempUrl) {
+				console.log('tempUrl:'+tempUrl);
+				util.openFile(tempUrl);
+			},
 			textClick(){//发送请假信息
 				if(this.formData.time==''){
 					this.showToast('请选择谈话日期')

@@ -11,14 +11,8 @@
 		<template v-for="(extraFile,index) in pageModel.AnnouncementEncName"
 			v-show="pageModel.AnnouncementEncName.length==0" style="margin-bottom: 15px !important;">
 			<view class="encName" v-show="extraFile">附件:
-				<!-- #ifdef APP-PLUS -->
 				<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
 					@click="checkEnc(pageModel.AnnouncementEncAddr[index])">附件{{index+1}}</a>
-				<!-- #endif -->
-				<!-- #ifdef H5 -->
-				<uni-link :href="pageModel.AnnouncementEncAddr[index]" style="margin-left: 10px;"
-					:text="'附件'+(index+1)"></uni-link>
-				<!-- #endif -->
 			</view>
 		</template>
 	</view>
@@ -58,28 +52,8 @@
 		},
 		methods: {
 			checkEnc: function(tempUrl) {
-				uni.showLoading();
-				console.log('tempUrl:' + tempUrl);
-				var urlStr = encodeURI(tempUrl);
-				uni.downloadFile({
-					url: urlStr,
-					success: function(res) {
-						var filePath = res.tempFilePath;
-						uni.openDocument({
-							filePath: filePath,
-							success: function(res) {
-								uni.hideLoading();
-								console.log('打开文档成功');
-							},
-							fail() {
-								uni.hideLoading();
-								uni.showToast({
-									title: '当前附件打开失败'
-								})
-							}
-						});
-					}
-				});
+				console.log('tempUrl:'+tempUrl);
+				util.openFile(tempUrl);
 			},
 			getPageDetail() {
 				var comData = {

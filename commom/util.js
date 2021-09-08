@@ -2,6 +2,7 @@
  * APP 工具类
  */
 import Vue from 'vue'
+import uniCopy from '@/js_sdk/xb-copy/uni-copy.js'
 /**
  * 获取有层级关系的部门数组  
  * （应用场景：人事接口返回的部门数组为一维数组，需要根据dpt_code自行分层）
@@ -29,34 +30,31 @@ function getDptTree(dptList) {
  * @param {Object} propertyName key 字段名
  * @param {Object} order  0从小到大  正序  1从大到小 倒序
  */
-function compare(propertyName,order) {
-	return function (object1, object2) { 
-		var value1 = object1[propertyName]; 
-		var value2 = object2[propertyName]; 
-		if(order==0){
-			if (value2 < value1) { 
-				return -1; 
-			} 
-			else if (value2 > value1) { 
-				return 1; 
-			} 
-			else { 
-				return 0; 
-			} 
-		}if(order==1){
-			if (value2 > value1) { 
-				return -1; 
-			} 
-			else if (value2 < value1) { 
-				return 1; 
-			} 
-			else { 
-				return 0; 
-			} 
+function compare(propertyName, order) {
+	return function(object1, object2) {
+		var value1 = object1[propertyName];
+		var value2 = object2[propertyName];
+		if (order == 0) {
+			if (value2 < value1) {
+				return -1;
+			} else if (value2 > value1) {
+				return 1;
+			} else {
+				return 0;
+			}
 		}
-		
-	} 
-} 
+		if (order == 1) {
+			if (value2 > value1) {
+				return -1;
+			} else if (value2 < value1) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+
+	}
+}
 
 //设置登录用户的信息
 function setPersonal(data) {
@@ -185,6 +183,59 @@ function getPageData(option) {
 
 }
 
+// 打开附件
+function openFile(fileUrl) {
+	var urlStr = encodeURI(fileUrl);
+	// #ifdef APP-PLUS
+	this.showLoading();
+	uni.downloadFile({
+		url: urlStr,
+		success: function(res) {
+			var filePath = res.tempFilePath;
+			uni.openDocument({
+				filePath: filePath,
+				success: function(res) {
+					uni.hideLoading();
+					console.log('打开文档成功');
+				},
+				fail() {
+					uni.hideLoading();
+					uni.showToast({
+						title: '当前附件打开失败'
+					})
+				}
+			});
+		}
+	});
+	// #endif
+	// #ifndef APP-PLUS
+	console.log('urlStr:' + urlStr)
+	var tempArr = urlStr.split('.');
+	var tempStr = tempArr[tempArr.length - 1];
+	if (tempStr == 'png' || tempStr == 'jpg' || tempStr == 'jpeg' || tempStr == 'gif' || tempStr == 'bmp' ) {
+		var tempArray = [];
+		tempArray.push(urlStr);
+		uni.previewImage({
+			urls: tempArray,
+		});
+	} else {
+		uniCopy({
+			content: urlStr,
+			success: (res) => {
+				uni.showToast({
+					title: '已复制该附件链接，请在系统浏览器中粘贴并打开',
+					duration: 3000,
+				})
+				console.log('uniCopy-success');
+			},
+			error: (e) => {
+				console.log('uniCopy-error');
+			}
+		})
+	}
+	// #endif
+}
+
 /**
  * Toast弹窗
  * @param {Object} title
@@ -290,344 +341,344 @@ function getPageArray() {
 	//#endif 
 	console.log('tempAAA:' + tempAAA);
 	let tempArray = [{
-		// 非凸起按钮未激活的图标，可以是uView内置图标名或自定义扩展图标库的图标
-		// 或者png图标的【绝对路径】，建议尺寸为80px * 80px
-		// 如果是中间凸起的按钮，只能使用图片，且建议为120px * 120px的png图片
-		iconPath: tempAAA + "/static/tabbar/practive.png",
-		// 激活(选中)的图标，同上
-		selectedIconPath: tempAAA + "/static/tabbar/practive_select.png",
-		// 显示的提示文字
-		text: '学生请假', //学生请假
-		// 红色角标显示的数字，如果需要移除角标，配置此参数为0即可
-		count: 0,
-		// 如果配置此值为true，那么角标将会以红点的形式显示
-		isDot: false,
-		// 如果使用自定义扩展的图标库字体，需配置此值为true
-		// 自定义字体图标库教程：https://www.uviewui.com/guide/customIcon.html
-		customIcon: false,
-		// 如果是凸起按钮项，需配置此值为true
-		midButton: false,
-		// 点击某一个item时，跳转的路径，此路径必须是pagees.json中tabBar字段中定义的路径
-		pagePath: '/pages/leave/stuLeaveIndex', // 1.5.6新增，路径需要以"/"开头
-		img_href: tempAAA + "/static/tabbar/stuLeave.png",
-		url: 'schapp_stuLeave',
-		childList: []
-	}, {
-		text: "家长代请假", //家长代请假
-		pagePath: "/pages/leave/parLeaveIndex",
-		iconPath: tempAAA + '/static/tabbar/study.png',
-		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/parLeave.png",
-		url: 'schapp_parLeave',
-		childList: []
-	}, {
-		text: "教师代请假", //教师代请假
-		pagePath: "/pages/leave/teaLeaveIndex",
-		iconPath: tempAAA + "/static/tabbar/study.png",
-		selectedIconPath: tempAAA + "/static/tabbar/study_select.png",
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/tecLeave.png",
-		url: 'schapp_teaLeave',
-		childList: [{
-				name: '教师代请假',
-				icon: tempAAA + "/static/images/leave/tecLeave.png",
-				pagePath: "/pages/leave/teaLeaveAsk",
-				url: 'schapp_teaLeave_askForLeave'
-			},
-			{
-				name: '请假查询',
-				icon: tempAAA + "/static/images/leave/leavequery.png",
-				pagePath: "/pages/leave/teaLeaveQuery",
-				url: 'schapp_teaLeave_leaveSelect'
-			}
-		]
-	}, {
-		text: "学生行为", //学生行为，教师
-		pagePath: "/pages/stu_behavior/index",
-		iconPath: tempAAA + "/static/tabbar/study.png",
-		selectedIconPath: tempAAA + "/static/tabbar/study_select.png",
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/behavior_tab.png",
-		url: 'schapp_Behavior',
-		childList: [{
-				name: '课堂行为',
-				icon: tempAAA + "/static/images/stu_behavior/class_behavior.png",
-				pagePath: "/pages/stu_behavior/class_behavior_index",
-				url: 'schapp_Behavior_classroom'
-			},
-			{
-				name: '课外行为',
-				icon: tempAAA + "/static/images/stu_behavior/extra_behavior.png",
-				pagePath: "/pages/stu_behavior/extra_behavior_index",
-				url: 'schapp_Behavior_extracurricula'
-			},
-			{
-				name: '学生谈话',
-				icon: tempAAA + "/static/images/stu_behavior/stu_talk.png",
-				pagePath: "/pages/stu_behavior/stu_talk_index",
-				url: 'schapp_Behaviorn_conversation'
-			}
-		]
-	}, {
-		text: "阅卷", //阅卷--老师
-		pagePath: "/pages/markingPapers/index",
-		iconPath: tempAAA + '/static/tabbar/study.png',
-		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/markingPapers_tab.png",
-		url: 'schapp_markingPapers',
-		childList: [{
-				name: '周测',
-				icon: tempAAA + '/static/tabbar/zhouce.png',
-				pagePath: "/pages/markingPapers/weekTest_index",
-				url: 'schapp_markingPapers_weekTest'
-			},
-			{
-				name: '月考',
-				icon: tempAAA + '/static/tabbar/yuekao.png',
-				pagePath: "/pages/markingPapers/monthTest_index",
-				url: 'schapp_markingPapers_monthTest'
-			},
-			{
-				name: '期中期末',
-				icon: tempAAA + '/static/tabbar/qizhongqimo.png',
-				pagePath: "/pages/markingPapers/termTest_index",
-				url: 'schapp_markingPapers_termTest'
-			}
-		]
-	}, {
-		text: "考务", //考务
-		pagePath: "/pages/examination/index",
-		iconPath: tempAAA + '/static/tabbar/exam.png',
-		selectedIconPath: tempAAA + '/static/tabbar/exam_select.png',
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/kaowu_tab.png",
-		url: 'schapp_Examination',
-		childList: [{
-			name: '成绩分析',
-			icon: tempAAA + '/static/images/schapp_examination/form.png',
-			pagePath: "/pages/examination/form",
-			url: 'schapp_Examination_form'
+			// 非凸起按钮未激活的图标，可以是uView内置图标名或自定义扩展图标库的图标
+			// 或者png图标的【绝对路径】，建议尺寸为80px * 80px
+			// 如果是中间凸起的按钮，只能使用图片，且建议为120px * 120px的png图片
+			iconPath: tempAAA + "/static/tabbar/practive.png",
+			// 激活(选中)的图标，同上
+			selectedIconPath: tempAAA + "/static/tabbar/practive_select.png",
+			// 显示的提示文字
+			text: '学生请假', //学生请假
+			// 红色角标显示的数字，如果需要移除角标，配置此参数为0即可
+			count: 0,
+			// 如果配置此值为true，那么角标将会以红点的形式显示
+			isDot: false,
+			// 如果使用自定义扩展的图标库字体，需配置此值为true
+			// 自定义字体图标库教程：https://www.uviewui.com/guide/customIcon.html
+			customIcon: false,
+			// 如果是凸起按钮项，需配置此值为true
+			midButton: false,
+			// 点击某一个item时，跳转的路径，此路径必须是pagees.json中tabBar字段中定义的路径
+			pagePath: '/pages/leave/stuLeaveIndex', // 1.5.6新增，路径需要以"/"开头
+			img_href: tempAAA + "/static/tabbar/stuLeave.png",
+			url: 'schapp_stuLeave',
+			childList: []
 		}, {
-			name: '班级成绩趋势',
-			icon: tempAAA + '/static/images/schapp_examination/clsScoreDiff.png',
-			pagePath: "/pages/examination/clsScoreDiff",
-			url: 'schapp_Examination_clsScoreDiff'
-		}]
-	}, {
-		text: "学生考勤", //学生考勤
-		pagePath: "/pages/parents_attendance/index",
-		iconPath: tempAAA + '/static/tabbar/study.png',
-		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/parLeave.png",
-		url: 'schapp_ParentAttence',
-		childList: []
-	}, {
-		text: "oa", //oa
-		pagePath: "/pages/oa/index",
-		iconPath: tempAAA + '/static/tabbar/study.png',
-		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/parLeave.png",
-		url: 'schapp_OA',
-		childList: [{
-			name: '公告',
-			icon: tempAAA + '/static/images/oa/gonggao.png',
-			pagePath: "/pages/oa/gonggaoIndex",
-			type: 1,
-			url: 'schapp_OA_Notify'
+			text: "家长代请假", //家长代请假
+			pagePath: "/pages/leave/parLeaveIndex",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/parLeave.png",
+			url: 'schapp_parLeave',
+			childList: []
 		}, {
-			name: '通知',
-			icon: tempAAA + '/static/images/oa/tongzhi.png',
-			pagePath: "/pages/oa/noticeIndex",
-			url: 'schapp_OA_Notice'
+			text: "教师代请假", //教师代请假
+			pagePath: "/pages/leave/teaLeaveIndex",
+			iconPath: tempAAA + "/static/tabbar/study.png",
+			selectedIconPath: tempAAA + "/static/tabbar/study_select.png",
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/tecLeave.png",
+			url: 'schapp_teaLeave',
+			childList: [{
+					name: '教师代请假',
+					icon: tempAAA + "/static/images/leave/tecLeave.png",
+					pagePath: "/pages/leave/teaLeaveAsk",
+					url: 'schapp_teaLeave_askForLeave'
+				},
+				{
+					name: '请假查询',
+					icon: tempAAA + "/static/images/leave/leavequery.png",
+					pagePath: "/pages/leave/teaLeaveQuery",
+					url: 'schapp_teaLeave_leaveSelect'
+				}
+			]
 		}, {
-			name: '事务',
-			icon: tempAAA + '/static/images/oa/shiwu.png',
-			pagePath: "/pages/oa/shiwuIndex",
-			url: 'schapp_OA_CooperateNotice'
+			text: "学生行为", //学生行为，教师
+			pagePath: "/pages/stu_behavior/index",
+			iconPath: tempAAA + "/static/tabbar/study.png",
+			selectedIconPath: tempAAA + "/static/tabbar/study_select.png",
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/behavior_tab.png",
+			url: 'schapp_Behavior',
+			childList: [{
+					name: '课堂行为',
+					icon: tempAAA + "/static/images/stu_behavior/class_behavior.png",
+					pagePath: "/pages/stu_behavior/class_behavior_index",
+					url: 'schapp_Behavior_classroom'
+				},
+				{
+					name: '课外行为',
+					icon: tempAAA + "/static/images/stu_behavior/extra_behavior.png",
+					pagePath: "/pages/stu_behavior/extra_behavior_index",
+					url: 'schapp_Behavior_extracurricula'
+				},
+				{
+					name: '学生谈话',
+					icon: tempAAA + "/static/images/stu_behavior/stu_talk.png",
+					pagePath: "/pages/stu_behavior/stu_talk_index",
+					url: 'schapp_Behaviorn_conversation'
+				}
+			]
 		}, {
-			name: '工作流',
-			icon: tempAAA + '/static/images/oa/gongzuoliu.png',
-			pagePath: "/pages/oa/workflowIndex",
-			url: 'schapp_OA_Approve'
+			text: "阅卷", //阅卷--老师
+			pagePath: "/pages/markingPapers/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/markingPapers_tab.png",
+			url: 'schapp_markingPapers',
+			childList: [{
+					name: '周测',
+					icon: tempAAA + '/static/tabbar/zhouce.png',
+					pagePath: "/pages/markingPapers/weekTest_index",
+					url: 'schapp_markingPapers_weekTest'
+				},
+				{
+					name: '月考',
+					icon: tempAAA + '/static/tabbar/yuekao.png',
+					pagePath: "/pages/markingPapers/monthTest_index",
+					url: 'schapp_markingPapers_monthTest'
+				},
+				{
+					name: '期中期末',
+					icon: tempAAA + '/static/tabbar/qizhongqimo.png',
+					pagePath: "/pages/markingPapers/termTest_index",
+					url: 'schapp_markingPapers_termTest'
+				}
+			]
 		}, {
-			name: '资料收集',
-			icon: tempAAA + '/static/images/oa/ziliaoshouji.png',
-			pagePath: "/pages/oa/collectionDataIndex",
-			url: 'schapp_OA_DataCollection'
+			text: "考务", //考务
+			pagePath: "/pages/examination/index",
+			iconPath: tempAAA + '/static/tabbar/exam.png',
+			selectedIconPath: tempAAA + '/static/tabbar/exam_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/kaowu_tab.png",
+			url: 'schapp_Examination',
+			childList: [{
+				name: '成绩分析',
+				icon: tempAAA + '/static/images/schapp_examination/form.png',
+				pagePath: "/pages/examination/form",
+				url: 'schapp_Examination_form'
+			}, {
+				name: '班级成绩趋势',
+				icon: tempAAA + '/static/images/schapp_examination/clsScoreDiff.png',
+				pagePath: "/pages/examination/clsScoreDiff",
+				url: 'schapp_Examination_clsScoreDiff'
+			}]
 		}, {
-			name: '校历',
-			icon: tempAAA + '/static/images/oa/xiaoli.png',
-			pagePath: "/pages/oa/gonggaoIndex",
-			type: 3,
-			url: 'schapp_OA_Xiaoli'
+			text: "学生考勤", //学生考勤
+			pagePath: "/pages/parents_attendance/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/parLeave.png",
+			url: 'schapp_ParentAttence',
+			childList: []
 		}, {
-			name: '周程',
-			icon: tempAAA + '/static/images/oa/zhoucheng.png',
-			pagePath: "/pages/oa/gonggaoIndex",
-			type: 2,
-			url: 'schapp_OA_Zhoucheng'
-		}, {
-			name: '工资条',
-			icon: tempAAA + '/static/images/oa/gongzitiao.png',
-			pagePath: "/pages/oa/gongziIndex",
-			url: 'schapp_OA_Payment'
-		}, ]
+			text: "oa", //oa
+			pagePath: "/pages/oa/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/parLeave.png",
+			url: 'schapp_OA',
+			childList: [{
+				name: '公告',
+				icon: tempAAA + '/static/images/oa/gonggao.png',
+				pagePath: "/pages/oa/gonggaoIndex",
+				type: 1,
+				url: 'schapp_OA_Notify'
+			}, {
+				name: '通知',
+				icon: tempAAA + '/static/images/oa/tongzhi.png',
+				pagePath: "/pages/oa/noticeIndex",
+				url: 'schapp_OA_Notice'
+			}, {
+				name: '事务',
+				icon: tempAAA + '/static/images/oa/shiwu.png',
+				pagePath: "/pages/oa/shiwuIndex",
+				url: 'schapp_OA_CooperateNotice'
+			}, {
+				name: '工作流',
+				icon: tempAAA + '/static/images/oa/gongzuoliu.png',
+				pagePath: "/pages/oa/workflowIndex",
+				url: 'schapp_OA_Approve'
+			}, {
+				name: '资料收集',
+				icon: tempAAA + '/static/images/oa/ziliaoshouji.png',
+				pagePath: "/pages/oa/collectionDataIndex",
+				url: 'schapp_OA_DataCollection'
+			}, {
+				name: '校历',
+				icon: tempAAA + '/static/images/oa/xiaoli.png',
+				pagePath: "/pages/oa/gonggaoIndex",
+				type: 3,
+				url: 'schapp_OA_Xiaoli'
+			}, {
+				name: '周程',
+				icon: tempAAA + '/static/images/oa/zhoucheng.png',
+				pagePath: "/pages/oa/gonggaoIndex",
+				type: 2,
+				url: 'schapp_OA_Zhoucheng'
+			}, {
+				name: '工资条',
+				icon: tempAAA + '/static/images/oa/gongzitiao.png',
+				pagePath: "/pages/oa/gongziIndex",
+				url: 'schapp_OA_Payment'
+			}, ]
 
-	},
-	{
-		text: "学生考勤", //学生考勤
-		pagePath: "/pages/schapp_work/index",
-		iconPath: tempAAA + '/static/tabbar/study.png',
-		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/kaoqin_tab.png",
-		url: 'schapp_Work',
-		childList: [{
-			name: '请假记录',
-			icon: tempAAA + '/static/images/schapp_work/qingjiajilu.png',
-			pagePath: "/pages/schapp_work/qingjiaIndex",
-			url: 'schapp_Work_leave'
-		}, {
-			name: '课堂考勤',
-			icon: tempAAA + '/static/images/schapp_work/ketangkaoqin.png',
-			pagePath: "/pages/schapp_work/ketangIndex",
-			url: 'schapp_Work_classroom'
-		}, {
-			name: '课外考勤',
-			icon: tempAAA + '/static/images/schapp_work/kewaikaoqin.png',
-			pagePath: "/pages/schapp_work/kewaiIndex",
-			url: 'schapp_Work_extracurricular'
-		}, {
-			name: '出入校报表',
-			icon: tempAAA + '/static/images/schapp_work/churuxiaokaoqin.png',
-			pagePath: "/pages/schapp_work/jinchuxiaoForm",
-			url: 'schapp_Work_inoutschool_form'
-		}, {
-			name: '课堂报表',
-			icon: tempAAA + '/static/images/schapp_work/ketangbaobiao.png',
-			pagePath: "/pages/schapp_work/ketangForm",
-			url: 'schapp_Work_classroom_form'
-		}, {
-			name: '课外报表',
-			icon: tempAAA + '/static/images/schapp_work/kewaibaobiao.png',
-			pagePath: "/pages/schapp_work/kewaiForm",
-			url: 'schapp_Work_extracurricular_form'
-		}, {
-			name: '班级报表',
-			icon: tempAAA + '/static/images/schapp_work/banjibaobiao.png',
-			pagePath: "/pages/schapp_work/banjiForm",
-			url: 'schapp_Work_class_form'
-		}, {
-			name: '学生报表',
-			icon: tempAAA + '/static/images/schapp_work/xueshengbaobiao.png',
-			pagePath: "/pages/schapp_work/xueshengForm",
-			url: 'schapp_Work_students_form'
 		},
-		]
-	},
-	{
-		text: "家校互动", //学生考勤
-		pagePath: "/pages/schhome/index",
-		iconPath: tempAAA + '/static/tabbar/study.png',
-		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/interaction_tab.png",
-		url: 'schapp_SchHome',
-		childList: [{
-				name: '学校通知',
-				icon: tempAAA + '/static/images/schhome/school_notice.png',
-				pagePath: "/pages/schhome/school_notice_index",
-				url: 'schapp_SchHome_SchSms'
-			},
-			{
-				name: '年级通知',
-				icon: tempAAA + '/static/images/schhome/grade_notice.png',
-				pagePath: "/pages/schhome/grade_notice_index",
-				url: 'schapp_SchHome_Grade'
-			},
-			{
-				name: '班级通知',
-				icon: tempAAA + '/static/images/schhome/class_notice.png',
-				pagePath: "/pages/schhome/classes_notice_index",
-				url: 'schapp_SchHome_ClsSms'
-			},
-			{
-				name: '班级作业',
-				icon: tempAAA + '/static/images/schhome/class_homework.png',
-				pagePath: "/pages/schhome/classes_homework_index",
-				url: 'schapp_SchHome_ClsWorkSms'
-			},
-			{
-				name: '在校表现',
-				icon: tempAAA + '/static/images/schhome/school_programme.png',
-				pagePath: "/pages/schhome/performance_index",
-				url: 'schapp_SchHome_StuPerson'
-			},
-		]
-	},
-	{
-		text: "家校互动", //学生考勤
-		pagePath: "/pages/schhome_stu/index",
-		iconPath: tempAAA + '/static/tabbar/study.png',
-		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/interaction_tab.png",
-		url: 'schapp_SchHomeStu', //
-		childList: []
-	},
-	{//学生评语
-		name: "学生评语", //评语
-		pagePath: "/pages/stu_comment/index",
-		iconPath: tempAAA + '/static/tabbar/study.png',
-		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/kaoqin_tab.png",
-		url: 'schapp_Comment',
-		childList: []
-	},{
-		name: "行为与评语", //行为与评语，学生/家长端
-		pagePath: "/pages/stu_actionComment/index",
-		iconPath: tempAAA + '/static/tabbar/study.png',
-		selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
-		count: 0,
-		isDot: false,
-		customIcon: false,
-		img_href: tempAAA + "/static/tabbar/xingweiyupingyu_tab.png",
-		url: 'schapp_actionComment',
-		childList: []
-	}];
+		{
+			text: "学生考勤", //学生考勤
+			pagePath: "/pages/schapp_work/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/kaoqin_tab.png",
+			url: 'schapp_Work',
+			childList: [{
+				name: '请假记录',
+				icon: tempAAA + '/static/images/schapp_work/qingjiajilu.png',
+				pagePath: "/pages/schapp_work/qingjiaIndex",
+				url: 'schapp_Work_leave'
+			}, {
+				name: '课堂考勤',
+				icon: tempAAA + '/static/images/schapp_work/ketangkaoqin.png',
+				pagePath: "/pages/schapp_work/ketangIndex",
+				url: 'schapp_Work_classroom'
+			}, {
+				name: '课外考勤',
+				icon: tempAAA + '/static/images/schapp_work/kewaikaoqin.png',
+				pagePath: "/pages/schapp_work/kewaiIndex",
+				url: 'schapp_Work_extracurricular'
+			}, {
+				name: '出入校报表',
+				icon: tempAAA + '/static/images/schapp_work/churuxiaokaoqin.png',
+				pagePath: "/pages/schapp_work/jinchuxiaoForm",
+				url: 'schapp_Work_inoutschool_form'
+			}, {
+				name: '课堂报表',
+				icon: tempAAA + '/static/images/schapp_work/ketangbaobiao.png',
+				pagePath: "/pages/schapp_work/ketangForm",
+				url: 'schapp_Work_classroom_form'
+			}, {
+				name: '课外报表',
+				icon: tempAAA + '/static/images/schapp_work/kewaibaobiao.png',
+				pagePath: "/pages/schapp_work/kewaiForm",
+				url: 'schapp_Work_extracurricular_form'
+			}, {
+				name: '班级报表',
+				icon: tempAAA + '/static/images/schapp_work/banjibaobiao.png',
+				pagePath: "/pages/schapp_work/banjiForm",
+				url: 'schapp_Work_class_form'
+			}, {
+				name: '学生报表',
+				icon: tempAAA + '/static/images/schapp_work/xueshengbaobiao.png',
+				pagePath: "/pages/schapp_work/xueshengForm",
+				url: 'schapp_Work_students_form'
+			}, ]
+		},
+		{
+			text: "家校互动", //学生考勤
+			pagePath: "/pages/schhome/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/interaction_tab.png",
+			url: 'schapp_SchHome',
+			childList: [{
+					name: '学校通知',
+					icon: tempAAA + '/static/images/schhome/school_notice.png',
+					pagePath: "/pages/schhome/school_notice_index",
+					url: 'schapp_SchHome_SchSms'
+				},
+				{
+					name: '年级通知',
+					icon: tempAAA + '/static/images/schhome/grade_notice.png',
+					pagePath: "/pages/schhome/grade_notice_index",
+					url: 'schapp_SchHome_Grade'
+				},
+				{
+					name: '班级通知',
+					icon: tempAAA + '/static/images/schhome/class_notice.png',
+					pagePath: "/pages/schhome/classes_notice_index",
+					url: 'schapp_SchHome_ClsSms'
+				},
+				{
+					name: '班级作业',
+					icon: tempAAA + '/static/images/schhome/class_homework.png',
+					pagePath: "/pages/schhome/classes_homework_index",
+					url: 'schapp_SchHome_ClsWorkSms'
+				},
+				{
+					name: '在校表现',
+					icon: tempAAA + '/static/images/schhome/school_programme.png',
+					pagePath: "/pages/schhome/performance_index",
+					url: 'schapp_SchHome_StuPerson'
+				},
+			]
+		},
+		{
+			text: "家校互动", //学生考勤
+			pagePath: "/pages/schhome_stu/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/interaction_tab.png",
+			url: 'schapp_SchHomeStu', //
+			childList: []
+		},
+		{ //学生评语
+			name: "学生评语", //评语
+			pagePath: "/pages/stu_comment/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/kaoqin_tab.png",
+			url: 'schapp_Comment',
+			childList: []
+		}, {
+			name: "行为与评语", //行为与评语，学生/家长端
+			pagePath: "/pages/stu_actionComment/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/xingweiyupingyu_tab.png",
+			url: 'schapp_actionComment',
+			childList: []
+		}
+	];
 	return tempArray;
 }
 
 //获取设备
 module.exports = {
-	compare:compare,
+	compare: compare,
 	getDptTree: getDptTree,
 	setPersonal: setPersonal,
 	getPersonal: getPersonal,
@@ -647,5 +698,6 @@ module.exports = {
 	showToast: showToast,
 	getPermissionByPosition: getPermissionByPosition,
 	getPageArray: getPageArray,
-	getUnReadCut: getUnReadCut
+	getUnReadCut: getUnReadCut,
+	openFile: openFile
 }
