@@ -109,3 +109,17 @@
  .uni-input.search-input{
 	 border-radius: 5px;
  }
+ /* switch 样式 */
+ uni-switch .uni-switch-input {
+     height: 25px;
+ }
+ uni-switch .uni-switch-input:after, uni-switch .uni-switch-input:before {
+     height: 23px;
+ }
+ uni-switch .uni-switch-input:after {
+     width: 23px;
+ }
+ uni-switch .uni-switch-input.uni-switch-input-checked:after {
+     transform: translateX(28px);
+ }
+ 

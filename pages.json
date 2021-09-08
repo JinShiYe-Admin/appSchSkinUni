@@ -1341,6 +1341,7 @@
             "path" : "pages/schhome/classes_homework_add",
             "style" :                                                                                    
             {
+				 "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -1381,6 +1382,7 @@
             "path" : "pages/schhome/classes_notice_add",
             "style" :                                                                                    
             {
+				 "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -1421,6 +1423,7 @@
             "path" : "pages/schhome/grade_notice_add",
             "style" :                                                                                    
             {
+				 "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -1461,6 +1464,7 @@
             "path" : "pages/schhome/performance_add",
             "style" :                                                                                    
             {
+				 "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -1501,6 +1505,7 @@
             "path" : "pages/schhome/school_notice_add",
             "style" :                                                                                    
             {
+				 "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }

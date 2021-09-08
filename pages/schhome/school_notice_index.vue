@@ -81,27 +81,15 @@
 			},
 			iconClick(){
 				let that=this
-				if(this.grdArray.length==0){
-					this.showToast('无法获取年级数据，不能进行添加操作')
-				}else if(this.clsArray.length==0){
-					this.showToast('无法获取班级数据，不能进行添加操作')
-				}else if(this.xwArray.length==0){
-					this.showToast('无法获取行为细项数据，不能进行添加操作')
-				}else if(this.kmArray.length==0){
-					this.showToast('无法获取科目数据，不能进行添加操作')
-				}else if(this.jcArray.length==0){
-					this.showToast('无法获取节次数据，不能进行添加操作')
-				}else {
-					util.openwithData('/pages/stu_behavior/class_behavior_add',{index_code:this.index_code},{
-						refreshClsBehavior(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj0.loadFlag=0
-							that.pageobj0.canload=true
-							that.pageobj0.page_number=1
-							that.getList0()
-						}
-					})
-				}
+				util.openwithData('/pages/schhome/school_notice_add',{index_code:this.index_code},{
+					refreshList(data){//子页面调用父页面需要的方法
+						that.showLoading()
+						that.pageobj0.loadFlag=0
+						that.pageobj0.canload=true
+						that.pageobj0.page_number=1
+						that.getList0()
+					}
+				})
 			},
 			getList0(){//获取页面数据
 				let comData={

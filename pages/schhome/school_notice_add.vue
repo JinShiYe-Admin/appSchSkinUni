@@ -1,95 +1,86 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick" :icon="icon" :iconClick="iconClick"></mynavBar>
+		<uni-notice-bar :single="true" text="点击上方图标可设置短信发送时间"/>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">年级</view>
-			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
-				<input class="uni-input form-right"  :value="grdIndex>=0?grdList[grdIndex].text:''"  placeholder="请选择" disabled/>
-			</picker>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">班级</view>
-			<picker style="width:100% !important;" mode="selector" @change="clsSelect" :value="clsIndex" :range="clsList" range-key="text">
-				<input class="uni-input form-right"  :value="clsIndex>=0?clsList[clsIndex].text:''" placeholder="请选择" disabled/>
-			</picker>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">姓名</view>
-			<input class="uni-input form-right"  v-model="stuNameList.join(',')" placeholder="请选择" disabled @click="selectStu"/>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">行为细项</view>
-			<picker style="width:100% !important;" mode="selector" @change="xwxxSelect" :value="xwxxIndex" :range="xwxxList" range-key="text">
-				<input class="uni-input form-right"  :value="xwxxIndex>=0?xwxxList[xwxxIndex].text:''" placeholder="请选择" disabled/>
-			</picker>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">发生日期</view>
-			<dy-Date class="uni-input form-right" style="display: flex;align-items: center;padding-right: 0;" :childValue='formData.time'  timeType="day" v-on:getData='timeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>
-			<!-- <xp-picker mode="ymd" ref="timePicker" history :animation="false" :year-range='[2020,2030]' @confirm="timeSelect"></xp-picker>
-			<input class="uni-input form-right"  v-model="formData.time" placeholder="请选择" disabled @click="timePicker"/> -->
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">节次</view>
-			<picker style="width:100% !important;" mode="selector" @change="jcSelect" :value="jcIndex" :range="jcList" range-key="text">
-				<input class="uni-input form-right"  :value="jcIndex>=0?jcList[jcIndex].text:''" placeholder="请选择" disabled/>
-			</picker>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">科目</view>
-			<picker style="width:100% !important;" mode="selector" @change="kmSelect" :value="kmIndex" :range="kmList" range-key="text">
-				<input class="uni-input form-right"  :value="kmIndex>=0?kmList[kmIndex].text:''" placeholder="请选择" disabled/>
-			</picker>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left form-left-textarea">行为说明</view>
-			<textarea placeholder="请输入" v-model="formData.comment" maxlength="100" ></textarea>
+			<textarea placeholder="请输入通知内容,最多300字" v-model="formData.comment" maxlength="300" style="flex: 1;"></textarea>
 		</view>
 		<template v-if="SHOW">
 			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left" style="width: 300rpx;">是否发送短信</view>
+			<view class="uni-flex uni-row form-view" style="padding:0 10px;">
+				<view class="form-left" style="width: 300rpx;">同步发送短信</view>
 				<switch class="form-right" :checked="SMS" @change="changeAutoplay" color="#00CFBD"/>
 			</view>
+			<view class="uni-flex uni-row form-view" style="padding:0 10px;margin-top: 10px;">
+				<view class="form-left" style="width: 300rpx;">添加签名</view>
+				<switch class="form-right" :checked="SMS" @change="changeAutoplay" color="#00CFBD"/>
+			</view>
+			<view class="form-right" style="padding-right:15px;margin-top: 10px;">{{delay_time_str}}</view>
 		</template>
-		<view class="double-line"></view>
-		<view class="uni-flex uni-row form-view choose-file">
-			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}</view></view>
-			<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount"></g-upload>
+		<view class="uni-flex uni-row form-view" style="padding:0 10px;">
+			<view class="form-left" style="font-size: 14px;height: 30px;">接收人</view>
 		</view>
+		<view class="line-green"></view>
+		<view class="uni-flex uni-row form-view"  style="padding:5px 10px 0;">
+			<view class="form-left" style="font-size: 13px;color: #787878;">全体学生</view>
+		</view>
+		<!-- #ifdef H5 -->
+			<uni-popup ref="popup" background-color="#fff" style="margin-top: 44px;">
+		<!-- #endif -->
+		<!-- #ifdef APP-PLUS -->
+			<uni-popup ref="popup" background-color="#fff" style="margin-top: 70px !important;">
+		<!-- #endif -->
+			<view class="popup-content">
+				<view class="text" @click="checkNow">
+				 <text>即时发送</text>
+				 <uni-icons v-show="nowIcon" type="checkmarkempty" color="#00CFBD" size="17"></uni-icons>
+				</view>
+				<view class="line2"></view>
+				<view class="text"  @click="checkDelay">
+					<text>延时发送</text>
+					<picker v-show="delayIcon" mode="multiSelector" ref="picker" @columnchange="bindMultiPickerColumnChange" :value="multiIndex" :range="multiArray">
+						<view class="uni-input">{{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}<uni-icons style="margin-left: 5px;" type="compose" color="#00CFBD" size="16"></uni-icons></view>
+					</picker>
+					<uni-icons v-show="delayIcon" type="checkmarkempty" color="#00CFBD" size="17"></uni-icons>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template> 
 
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
-	// 七牛上传相关
-	 import gUpload from "@/components/g-upload/g-upload.vue"
-	 import cloudFileUtil from '../../commom/uploadFiles/CloudFileUtil.js';
 	 
-	 
+	const leftArray=[],centerArray=[],rightArray=[];
+	for (var i = 0; i < 32; i++) {
+		leftArray.push(i+'天')
+	}
+	for (var i = 0; i < 24; i++) {
+		centerArray.push(i+'小时')
+	}
+	for (var i = 1; i < 60; i++) {
+		rightArray.push(i+'分钟')
+	}
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
 				tabBarItem: {},
-				
+				icon:'',
 				canSub:true,
+				nowIcon:true,
+				delayIcon:false,
+				is_delay:0,
+				delay_time_str:'立即发送',
+				multiArray: [
+					leftArray,
+					centerArray,
+					rightArray
+				],
+				multiIndex: [0, 0, 4],
+				
 				formData: {
 					time:'',//发生日期
 					comment:'',//说明
@@ -114,29 +105,10 @@
 				
 				startDate:'2010-01-01',
 				endDate:this.moment().format('YYYY-MM-DD'),
-				
-				// 附件上传相关👇
-				control:true,//是否显示上传 + 按钮 一般用于显示
-				deleteBtn:true,//是否显示删除 按钮 一般用于显示
-				
-				maxCount:9,//单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 
-				showMaxCount:9,//单次上传最大数量
-				
-				columnNum:3,//每行显示的图片数量
-				imgNames: [],//服务器回传的图片名称
-				imgList: [],//选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
-				imgFiles:[],//选择的文件对象，用于上传时获取文件名  不需要改动
-				// #ifdef H5
-					wxTips:',微信端不支持多选',//如果是H5，需要提示该内容
-				// #endif
-				// #ifndef H5
-					wxTips:'',
-				// #endif
 			}
 		},
 		components: {
-			mynavBar,
-			 gUpload
+			mynavBar
 		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();
@@ -154,8 +126,35 @@
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
+			
+			
+			this.icon='settings'
 		},
 		methods: {
+			bindMultiPickerColumnChange(e){
+				console.log('修改的列为：' + e.detail.column + '，值为：' + e.detail.value)
+				this.multiIndex[e.detail.column] = e.detail.value
+				let day=parseInt(this.multiArray[0][this.multiIndex[0]])?this.multiArray[0][this.multiIndex[0]]+'，':''
+				let hour=parseInt(this.multiArray[1][this.multiIndex[1]])?this.multiArray[1][this.multiIndex[1]]+'，':''
+				let minute=this.multiArray[2][this.multiIndex[2]]
+				this.delay_time_str=day+hour+minute+' 后发送'
+				this.$forceUpdate()
+			},
+			iconClick(){
+				this.$refs.popup.open('top')
+			},
+			checkNow(){
+				this.nowIcon=true
+				this.delayIcon=false
+				this.is_delay=0
+				this.delay_time_str='立即发送'
+			},
+			checkDelay(){
+				this.nowIcon=false
+				this.delayIcon=true
+				this.is_delay=1
+				this.delay_time_str='5分钟 后发送'
+			},
 			getSmsConfig(){//获取短信配置
 				let comData={
 					msg_type: this.ACTION_MSG_SMS.CLSBEHAVIOR.MSG_TYPE,
@@ -315,6 +314,13 @@
 				})
 			},
 			textClick(){//发送请假信息
+				let delayTime=this.moment().format('YYYY-MM-DD HH:mm:ss')
+				let day=parseInt(this.multiArray[0][this.multiIndex[0]])
+				let hour=parseInt(this.multiArray[1][this.multiIndex[1]])
+				let minute=parseInt(this.multiArray[2][this.multiIndex[2]])
+				if(this.is_delay){
+					delayTime=this.moment().add(day, 'days').add(hour, 'hours').add(minute, 'minutes').format('YYYY-MM-DD HH:mm:ss');
+				}
 				if(this.grdIndex==-1){
 					this.showToast('请选择年级')
 				}else if(this.clsIndex==-1){
@@ -530,6 +536,10 @@
 		background-color: #e5e5e5;
 		margin: 5px 0;
 	}
+	.line2{
+		height: 1px;
+		background-color: #e5e5e5;
+	}
 	.line-green{
 		background-color: #00CFBD;
 		margin-bottom: 0.3125rem;
@@ -541,10 +551,10 @@
 		margin: 5px 0;
 	}
 	.form-view{
-		padding: 0px 15px;
+		padding: 5px 5px 0;
 	}
 	.form-left{
-		font-size: 14px;
+		font-size: 13px;
 		width: 200rpx;
 		color: #3F3F3F;
 	}
@@ -559,11 +569,6 @@
 		word-break: break-all;
 		color: #787878;
 		text-align: right;
-	}
-	::v-deep .form-right .placeholder{
-		color: grey;
-		font-size: 14px;
-		padding-right: 10px;
 	}
 	.uni-flex{
 		align-items: center;
@@ -582,5 +587,16 @@
 		flex: 1;
 		word-break: break-all;
 		color: #787878;
+	}
+	::v-deep .uni-noticebar__content-text--single{
+		font-size: 12px !important;
+	}
+	.text{
+		font-size: 13px;
+		height: 35px;
+		padding:5px 10px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 	}
 </style>
