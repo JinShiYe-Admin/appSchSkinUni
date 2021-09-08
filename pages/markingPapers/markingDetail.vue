@@ -38,8 +38,7 @@
 			提交
 		</view>
 		<p style="color: #d43030;margin-left: 20px;margin-bottom: 0px;">如需添加批阅，请点击图片</p>
-		<image v-show='imgSrc.length>0' :src="imgSrc" :imgSrc='imgSrc' :change:imgSrc="renderScript.receiveSrc"
-			style="margin: 10px 20px 0px 20px;width: 85%;" @click="renderScript.usePED" id="renderScript"
+		<image v-show='imgSrc.length>0' mode="aspectFit" :src="imgSrc" :imgSrc='imgSrc' :change:imgSrc="renderScript.receiveSrc" style="margin: 10px 20px 0px 20px;width: 85%;" @click="renderScript.usePED" id="renderScript"
 			class="renderScript"></image>
 	</view>
 </template>
@@ -125,6 +124,10 @@
 				uni.navigateBack();
 			},
 			usePED() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				});
 				this.showNav = false;
 				console.log('usePEDusePED');
 				this.ped = new imageInfo(this.imgSrc, this.saveFn);

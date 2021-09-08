@@ -34,7 +34,7 @@ class ImageInfo {
             G.pictureEditBox.remove()
         }
         let operatingStyle = `style="flex: 1;padding-top: 1rem" class='picture-operate'`
-        let imgBox = `<div style="position: fixed;top: 10px;left: 0;right: 0;bottom: 0;overflow: hidden;z-index: 997;background-color: white">`+
+        let imgBox = `<div style="position: fixed;top: 0px;left: 0;right: 0;bottom: 0;overflow: hidden;z-index: 997;background-color: white">`+
                           `<div id="picture_edit_cancel" style="position: absolute;left: 15px;top: 15px;padding: 5px 13px;background-color: #00CFBD;color: white;z-index: 2;border-radius: 3px">取消`+
                           `</div>`+
                           `<div id="picture_edit_save" style="position: absolute;right: 15px;top: 15px;padding: 5px 13px;background-color: #00CFBD;color: white;z-index: 2;border-radius: 3px">保存`+
