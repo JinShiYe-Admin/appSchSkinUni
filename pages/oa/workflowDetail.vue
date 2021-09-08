@@ -386,16 +386,16 @@
 													});
 											}
 										} else {
-											mui.toast(data.msg);
+											this.showToast(data.msg);
 										}
 									});
 							} else {
 								this.content = '';
-								mui.toast('成功');
+								this.showToast('成功');
 								getNoticeByReceiveId_sendId_Detail(curPage.flag);
 							}
 						} else {
-							mui.toast(data.msg);
+							this.showToast(data.msg);
 						}
 					});
 				}

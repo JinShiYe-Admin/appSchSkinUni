@@ -73,7 +73,7 @@
 				//需要加密的数据
 				var comData = {
 					page_number: this.pageIndex, //当前页数
-					page_size: '10', //每页记录数
+					page_size: '20', //每页记录数
 					index_code: this.itemData.access.split('#')[1],
 					grd_code: '', //年级代码
 					status: '1,2,3', //状态,0未启动 1未阅 2阅卷中 3已阅

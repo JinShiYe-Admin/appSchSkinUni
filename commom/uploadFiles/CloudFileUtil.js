@@ -76,8 +76,8 @@ var getUpLoadTokens = function(that,data, callBack) {
 }
 
 var getQNDownToken = function(url, data, successCB, index) {
-	console.log('data:'+JSON.stringify(data));
-	console.log('url:'+url);
+	// console.log('data:'+JSON.stringify(data));
+	// console.log('url:'+url);
 	// console.log('getQNDownToken:url ' + JSON.stringify(data));
 	// console.log('getQNDownToken:data ' + JSON.stringify(data));
 	var desKey = ''; //项目名称
@@ -98,7 +98,7 @@ var getQNDownToken = function(url, data, successCB, index) {
 			AppID: appId,
 			Param: cryption.encryptByDES(desKey, JSON.stringify(urls))
 		}
-		console.log('configure.options:'+JSON.stringify(configure.options));
+		// console.log('configure.options:'+JSON.stringify(configure.options));
 		uni.request({
 			url: url,
 			timeout: 60000,
@@ -234,7 +234,7 @@ var getQNUpToken = function(that,url, data, successCB, errorCB) {
 			Pops: ops,
 			NotifyUrl: ''
 		}
-		//console.log("参数数据：" + JSON.stringify(param));
+		// console.log("参数数据：" + JSON.stringify(param));
 
 		configure.options = {
 			AppID: appId,
@@ -350,7 +350,7 @@ var getQNUpToken = function(that,url, data, successCB, errorCB) {
 
 // 上传base64图片
 var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64Str, callback, ecallback) {
-	console.log('uploadIDCardHeadImge');
+	// console.log('uploadIDCardHeadImge');
 	var getToken = {
 		type: type, //str 必填 获取上传token的类型。0上传需要生成缩略图的文件；1上传文件
 		QNFileName: fileName, //str 必填 存放到七牛的文件名
@@ -359,8 +359,8 @@ var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64S
 		mainSpace: Vue.prototype.QN_PB_NAME, //str 必填 私有空间或公有空间
 		uploadSpace: Vue.prototype.QN_MARKINGPAPERS, //str 必填  上传的空间
 	}
-	console.log('getToken:' + JSON.stringify(getToken));
-	getQNUpToken(Vue.prototype.QNGETUPTOKENHEADIMGE, getToken, function(data) {
+	// console.log('getToken:' + JSON.stringify(getToken));
+	getQNUpToken(null,Vue.prototype.QNGETUPTOKENHEADIMGE, getToken, function(data) {
 		console.log('getQNUpToken111:' + JSON.stringify(data));
 		let QNUptoken = data.data; //token数据
 		// console.log('七牛上传token:' + JSON.stringify(QNUptoken));
@@ -369,8 +369,8 @@ var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64S
 			//console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
 			uni.hideLoading();
 		} else {
-			console.log("上传的Token:" + QNUptoken.Data.Token);
-			console.log("上传的Domain:" + QNUptoken.Data.Domain);
+			// console.log("上传的Token:" + QNUptoken.Data.Token);
+			// console.log("上传的Domain:" + QNUptoken.Data.Domain);
 			// console.log("上传的base64Str:"+base64Str);
 			let pic = base64Str;
 			let url = 'https://upload.qiniu.com/putb64/-1/key/' + encode(QNUptoken.Data.Key);
@@ -383,12 +383,12 @@ var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64S
 					Authorization: "UpToken " + QNUptoken.Data.Token
 				},
 				success: (uploadFileRes) => {
-					console.log(uploadFileRes.data);
+					// console.log(uploadFileRes.data);
 					let responseUrl = QNUptoken.Data.Domain + uploadFileRes.data.key;
 					callback(responseUrl);
 				},
 				fail: (e) => {
-					console.log(e);
+					// console.log(e);
 					uni.showToast('七牛信息上传失败！');
 					ecallback()
 				}
@@ -500,9 +500,9 @@ var getQNUpTokenWithManage = function(that,url, data, successCB, errorCB) {
 			}
 		},
 		fail: (e) => { //接口调用失败的回调函数  比如跨域了，断网
-			console.log("e: " + JSON.stringify(e));
+			// console.log("e: " + JSON.stringify(e));
 			uni.hideLoading();
-			that.showToast('网络请求失败')
+			uni.showToast('网络请求失败')
 		},
 		complete: () => {
 			// Vue.prototype.requestTask.delete(reuqestTask)
@@ -521,9 +521,9 @@ var getQNUpTokenWithManage = function(that,url, data, successCB, errorCB) {
  * @param {Object} successCallBack 上传任务创建成功监听的回调
  */
 var upload = function(fPath, token, key, uploadCompletedCallBack, onStateChangedCallBack, successCallBack) {
-	console.log('upload fPath: ' + fPath);
-	console.log('upload token: ' + token);
-	console.log('upload key: ' + key);
+	// console.log('upload fPath: ' + fPath);
+	// console.log('upload token: ' + token);
+	// console.log('upload key: ' + key);
 
 	uni.uploadFile({
 		url: 'https://upload.qiniu.com/',
@@ -534,7 +534,7 @@ var upload = function(fPath, token, key, uploadCompletedCallBack, onStateChanged
 			'token': token
 		},
 		success: (uploadFileRes) => {
-			console.log('uploadFileRes:' + JSON.stringify(uploadFileRes));
+			// console.log('uploadFileRes:' + JSON.stringify(uploadFileRes));
 			uploadCompletedCallBack(uploadFileRes.data, uploadFileRes.statusCode);
 		},
 	});
@@ -675,7 +675,7 @@ var _uploadFiles = function(that,fPath, token, key, uploadCompletedCallBack) {
 			uploadCompletedCallBack(uploadFileRes.data, uploadFileRes.statusCode);
 		},
 		fail:(e)=>{
-			console.log(e);
+			// console.log(e);
 			that.showToast('文件上传失败，请稍后再试 ');
 		}
 	});

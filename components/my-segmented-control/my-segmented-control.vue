@@ -14,7 +14,7 @@
             : styleType === 'text'
               ? '#000'
               : activeColor}" class="segmented-control__text">{{ item.name }}</text>
-			<uni-badge :text=item.noReadCut type='error' size="small"></uni-badge>
+			<uni-badge :text='item.noReadCut' type='error' style="opacity: 0.85;" size="small"></uni-badge>
 		</view>
 	</view>
 </template>
