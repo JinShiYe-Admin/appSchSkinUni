@@ -153,7 +153,7 @@
 				if(this.clsIndex!==e.detail.value){
 					 this.clsIndex=e.detail.value
 					 this.showLoading()
-					 this.getList1();
+					 this.getKc();
 				}
 			},
 			kmClick:function(e){
