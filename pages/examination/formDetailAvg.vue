@@ -233,7 +233,6 @@
 						//1.16.考情分析-考情报表-学生成绩列表
 						this.getKm()
 					}else{
-						console.log("this.kcArray: " + JSON.stringify(this.kcArray));
 						if(this.kcArray.length>0){
 							this.getList1()
 						}else{
