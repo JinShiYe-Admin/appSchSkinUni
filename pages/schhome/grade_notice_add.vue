@@ -116,10 +116,14 @@
 				let data={
 					index_code:this.index_code,
 					selectDatas:this.selectDatas,
-					dataFlag:1,
+					dataFlag:3,
+					serviced:JSON.stringify(this.CONFIG)==='{}'?'1':this.CONFIG.serviced,
 				}
+				let that =this
 				util.openwithData('/pages/schhome/selectGrdClsStu',data,{
 					refreshSetPeople(data){//子页面调用父页面需要的方法
+					console.log("data: " + JSON.stringify(data));
+						that.selectDatas=data.data
 					}
 				})
 			},
