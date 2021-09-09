@@ -113,16 +113,23 @@
 						uni.stopPullDownRefresh();
 					}, 1000);
 					this.hideLoading()
-					if(this.pageobj0.loadFlag===0){
-						this.pagedata=[].concat(response.list)
+					if(response!=null){
+						if(this.pageobj0.loadFlag===0){
+							this.pagedata=[].concat(response.list)
+						}else{
+							this.pagedata=this.pagedata.concat(response.list)
+						}
+						if(this.pageobj0.page_number>=response.total_page){
+							this.pageobj0.status = 'noMore';
+							this.pageobj0.canload=false
+						}else{
+							this.pageobj0.status = 'more';
+						}
 					}else{
-						this.pagedata=this.pagedata.concat(response.list)
-					}
-					if(this.pageobj0.page_number>=response.total_page){
+						this.pagedata=[]
+						this.showToast('暂无数据')
 						this.pageobj0.status = 'noMore';
 						this.pageobj0.canload=false
-					}else{
-						this.pageobj0.status = 'more';
 					}
 				})
 			},
@@ -213,6 +220,7 @@
 	 	color: #939393;
 	 	font-size: 12px;
 	 	margin: 3px 0;
+		word-break: break-all;
 	 }
 	 
 	 .leaveType {

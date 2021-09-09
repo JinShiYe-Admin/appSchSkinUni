@@ -19,9 +19,6 @@
 		</template>
 		<view class="uni-flex uni-row form-view" style="padding:0 10px;margin-top: 10px;">
 			<view class="form-left" style="font-size: 14px;height: 30px;">接收人</view>
-			<view class="form-right" style="margin-right: 10px;" @click="selectPeople">
-				<uni-icons type="personadd-filled" color="#00CFBD" size="20"></uni-icons>
-			</view>
 		</view>
 		<view class="line-green"></view>
 		<view class="uni-flex uni-row form-view"  style="padding:5px 10px 0;">
@@ -98,7 +95,7 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='新建课堂行为'
+			itemData.text='新建学校通知'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
@@ -110,9 +107,6 @@
 			//#endif
 		},
 		methods: {
-			selectPeople(){//选择接收人
-				console.log(123);
-			},
 			bindMultiPickerColumnChange(e){//多列选择器选择事件
 				this.multiIndex[e.detail.column] = e.detail.value
 				let day=parseInt(this.multiArray[0][this.multiIndex[0]])?this.multiArray[0][this.multiIndex[0]]+'，':''

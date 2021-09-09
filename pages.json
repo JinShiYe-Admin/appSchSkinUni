@@ -1543,16 +1543,6 @@
             
         }
         ,{
-            "path" : "pages/schhome/selectGrdCls",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
             "path" : "pages/schhome/selectGrdClsStu",
             "style" :                                                                                    
             {

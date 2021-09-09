@@ -4,7 +4,7 @@
 		<scroll-view class="select-scroll" scroll-y="true" >
 			<uni-list class="uni-list" :border="false">
 				<checkbox-group >
-					<label  v-if="index!==0" class="uni-list-cell uni-list-cell-pd" v-for="(item,index) in stuList" :key="index" @click="userClick(item)">
+					<label class="uni-list-cell uni-list-cell-pd" v-for="(item,index) in stuList" :key="index" @click="userClick(item)">
 						<view>
 							<checkbox style="transform:scale(0.7)" color="#00CFBD" :value="item.value"  :checked="item.checked" />
 						</view>

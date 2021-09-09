@@ -67,7 +67,7 @@
 							op_code:'index',
 							index_code: this.index_code,
 						}
-						this.post(this.globaData.INTERFACE_HR_SUB+'cls',comData,response1=>{
+						this.post(this.globaData.INTERFACE_HR_SUB+'cls',params,response1=>{
 						    console.log("responseaaa: " + JSON.stringify(response1));
 							if(response1.list && response1.list.length>0){
 								let cls_list =response1.list
@@ -90,7 +90,7 @@
 									op_code:'index',
 									index_code: this.index_code,
 								}
-								this.post(this.globaData.INTERFACE_HR_SUB+'stu',comData,response2=>{
+								this.post(this.globaData.INTERFACE_HR_SUB+'stu',params,response2=>{
 								    console.log("responseaaa: " + JSON.stringify(response2));
 									this.hideLoading()
 									if(response2.list && response2.list.length>0){

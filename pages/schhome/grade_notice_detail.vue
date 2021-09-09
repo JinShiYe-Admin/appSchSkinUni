@@ -48,73 +48,66 @@
 			}
 		},
 		methods: {
-			getStudentFromHR(){//获取年级
-				let comData={
-					op_code:'index',
-					index_code:this.index_code,
+			getStudentFromHR(tousers){//获取年级
+				let grd_list = []
+				let grd_codes=[]
+				for (var i = 0; i < tousers.length; i++) {
+					grd_codes.push(tousers[i].grd_code)
+					grd_list.push({
+						grd_code:tousers[i].grd_code,
+						grd_name:tousers[i].grd_name,
+					})
 				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'grd',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					if(response.list && response.list.length>0){
-						let grd_list =response.list
-						let grd_codes=[]
-						grd_list.map(function(item){
-							grd_codes.push(item.grd_code)
+				const params = {
+					grd_codes:grd_codes.join(","),
+					is_finish:0,
+					op_code:'index',
+					index_code: this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_HR_SUB+'cls',params,response1=>{
+					console.log("responseaaa: " + JSON.stringify(response1));
+					if(response1.list && response1.list.length>0){
+						let cls_list =response1.list
+						let cls_codes=[]
+						grd_list.map(function(grd_item){ 
+							let children=[]
+							cls_list.map(function(cls_item){
+								if(grd_item.grd_code==cls_item.grd_code){
+									children.push(cls_item)
+								}
+							})
+							grd_item.children=children
+						})
+						cls_list.map(function(item){
+							cls_codes.push(item.cls_code)
 						})
 						const params = {
 							grd_codes:grd_codes.join(","),
-							is_finish:0,
+							cls_codes:cls_codes.join(","),
 							op_code:'index',
 							index_code: this.index_code,
 						}
-						this.post(this.globaData.INTERFACE_HR_SUB+'cls',comData,response1=>{
-						    console.log("responseaaa: " + JSON.stringify(response1));
-							if(response1.list && response1.list.length>0){
-								let cls_list =response1.list
-								let cls_codes=[]
+						this.post(this.globaData.INTERFACE_HR_SUB+'stu',params,response2=>{
+							console.log("responseaaa: " + JSON.stringify(response2));
+							this.hideLoading()
+							if(response2.list && response2.list.length>0){
+								let stu_list =response2.list
 								grd_list.map(function(grd_item){ 
-									let children=[]
+									let cls_list=grd_item.children
+									let grd_code=grd_item.grd_code
 									cls_list.map(function(cls_item){
-										if(grd_item.grd_code==cls_item.grd_code){
-											children.push(cls_item)
-										}
-									})
-									grd_item.children=children
-								})
-								cls_list.map(function(item){
-									cls_codes.push(item.cls_code)
-								})
-								const params = {
-									grd_codes:grd_codes.join(","),
-									cls_codes:cls_codes.join(","),
-									op_code:'index',
-									index_code: this.index_code,
-								}
-								this.post(this.globaData.INTERFACE_HR_SUB+'stu',comData,response2=>{
-								    console.log("responseaaa: " + JSON.stringify(response2));
-									this.hideLoading()
-									if(response2.list && response2.list.length>0){
-										let stu_list =response2.list
-										grd_list.map(function(grd_item){ 
-											let cls_list=grd_item.children
-											let grd_code=grd_item.grd_code
-											cls_list.map(function(cls_item){
-												let cls_code=cls_item.cls_code
-												let children=[]
-												stu_list.map(function(stu_item){
-												 	 if(grd_code== stu_item.grd_code && cls_code==stu_item.cls_code){
-														 children.push(stu_item)
-													 }
-												})
-												cls_item.children=children
-											})
+										let cls_code=cls_item.cls_code
+										let children=[]
+										stu_list.map(function(stu_item){
+											 if(grd_code== stu_item.grd_code && cls_code==stu_item.cls_code){
+												 children.push(stu_item)
+											 }
 										})
-										this.student=grd_list
-										console.log("student: " + JSON.stringify(grd_list));
-									}else{
-										this.hideLoading()
-									}
+										cls_item.children=children
+									})
 								})
+								this.student=grd_list
+								console.log("student: " + JSON.stringify(grd_list));
 							}else{
 								this.hideLoading()
 							}
@@ -129,9 +122,10 @@
 			const itemData = util.getPageData(options);
 			this.index_code=itemData.index_code
 			this.formData=itemData
+			console.log("itemData: " + JSON.stringify(itemData));
 			setTimeout(()=>{
 				 this.showLoading()
-				 this.getStudentFromHR()
+				 this.getStudentFromHR(itemData.tousers)
 			},100)
 			uni.setNavigationBarTitle({title:'通知详情'});
 			//#ifndef APP-PLUS

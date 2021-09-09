@@ -20,7 +20,7 @@
 		<view class="uni-flex uni-row form-view" style="padding:0 10px;margin-top: 10px;">
 			<view class="form-left" style="font-size: 14px;height: 30px;">接收人</view>
 			<view class="form-right" style="margin-right: 10px;" @click="selectPeople">
-				<uni-icons type="personadd-filled" color="#00CFBD" size="20"></uni-icons>
+				<uni-icons type="personadd-filled" color="#00CFBD" size="21"></uni-icons>
 			</view>
 		</view>
 		<view class="line-green"></view>
@@ -89,6 +89,8 @@
 				SIGN:false,//是否签名
 				CONFIG:{},//短信配置 对象
 				WORDS:[],//拒绝关键字 对象
+				
+				selectDatas:[],
 			}
 		},
 		components: {
@@ -98,7 +100,7 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='新建课堂行为'
+			itemData.text='新建年级通知'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
@@ -111,7 +113,15 @@
 		},
 		methods: {
 			selectPeople(){//选择接收人
-				console.log(123);
+				let data={
+					index_code:this.index_code,
+					selectDatas:this.selectDatas,
+					dataFlag:1,
+				}
+				util.openwithData('/pages/schhome/selectGrdClsStu',data,{
+					refreshSetPeople(data){//子页面调用父页面需要的方法
+					}
+				})
 			},
 			bindMultiPickerColumnChange(e){//多列选择器选择事件
 				this.multiIndex[e.detail.column] = e.detail.value

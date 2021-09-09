@@ -3,7 +3,7 @@
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			 <uni-row>
-				<uni-col :span="8" :offset="8">
+				<uni-col :span="8" >
 					<picker @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
 						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="grdArray[grdIndex].text" ></uni-easyinput-select>
 					</picker>
@@ -11,16 +11,23 @@
 			 </uni-row>
 			 <view class="select-line"></view>
 		</view>
-		<view style="padding-top: 44px;">
+		<view style="padding-top: 44px;" >
 			<uni-list :border="false">
 				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
 					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">{{item.send_time}}</view></uni-col>
+							<uni-col :span="24"><view class="detail-text">接收年级:
+								<template v-for="(item1,index) in item.tousers">
+									<template v-if="index < item.tousers.length-1">{{item1.grd_name}},</template>
+									<template v-else>{{item1.grd_name}}</template>
+								</template>
+							</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">{{item.msg_content}}</view></uni-col>
 						</uni-row>
 					</text>
 				</uni-list-item>
+				
 			</uni-list>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
 		</view>
@@ -40,7 +47,7 @@
 				
 				//顶部筛选框相关内容
 				grdIndex:0,
-				grdArray: [{text:'',value:'-1'}],
+				grdArray: [{text:'',value:''}],
 				
 				pageSize:15,
 				pageobj0:{
@@ -95,6 +102,7 @@
 			 		})
 			 		if(grdArray.length>0 ){
 			 			this.grdArray=grdArray;
+						this.getList0()
 			 		}else{ 
 			 			this.grdArray=[];
 			 			this.showToast('无数据授权 无法获取年级');
@@ -103,7 +111,7 @@
 			 },
 			iconClick(){
 				let that=this
-				util.openwithData('/pages/schhome/school_notice_add',{index_code:this.index_code},{
+				util.openwithData('/pages/schhome/grade_notice_add',{index_code:this.index_code},{
 					refreshList(data){//子页面调用父页面需要的方法
 						that.showLoading()
 						that.pageobj0.loadFlag=0
@@ -116,13 +124,13 @@
 			getList0(){//获取页面数据
 				let comData={
 					get_unit_code:this.personInfo.unit_code,
-					msg_type:this.MSG_SMS.SCHOOL.MSG_TYPE,
-					msg_content:this.searchValue,
+					msg_type:this.MSG_SMS.GRADE.MSG_TYPE,
+					msg_content:'',
 					dest_user:'',
 					send_time_begin:'1970-01-01',
 					send_time_end:'2051-01-01',
 					send_user:this.personInfo.user_code,
-					grd_code:'',
+					grd_code:this.grdArray[this.grdIndex].value=="-1"?'':this.grdArray[this.grdIndex].value,
 					cls_code:'',
 					serviced:'0,1,99,100',
 					page_number: this.pageobj0.page_number, //当前页数
@@ -130,27 +138,33 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_SCHHOME+'api/appsms/appsmsp',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
 					}, 1000);
 					this.hideLoading()
-					if(this.pageobj0.loadFlag===0){
-						this.pagedata=[].concat(response.list)
+					if(response!=null){
+						if(this.pageobj0.loadFlag===0){
+							this.pagedata=[].concat(response.list)
+						}else{
+							this.pagedata=this.pagedata.concat(response.list)
+						}
+						if(this.pageobj0.page_number>=response.total_page){
+							this.pageobj0.status = 'noMore';
+							this.pageobj0.canload=false
+						}else{
+							this.pageobj0.status = 'more';
+						}
 					}else{
-						this.pagedata=this.pagedata.concat(response.list)
-					}
-					if(this.pageobj0.page_number>=response.total_page){
+						this.pagedata=[]
+						this.showToast('暂无数据')
 						this.pageobj0.status = 'noMore';
 						this.pageobj0.canload=false
-					}else{
-						this.pageobj0.status = 'more';
 					}
 				})
 			},
 			toDetails(item){
 				item.index_code=this.index_code
-				util.openwithData('/pages/schhome/school_notice_detail',item,{})
+				util.openwithData('/pages/schhome/grade_notice_detail',item,{})
 			}
 		},
 		onLoad(options) {
@@ -235,6 +249,7 @@
 	 	color: #939393;
 	 	font-size: 12px;
 	 	margin: 3px 0;
+		word-break: break-all;
 	 }
 	 
 	 .leaveType {

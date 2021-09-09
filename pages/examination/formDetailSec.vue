@@ -194,7 +194,12 @@
 						}
 					})
 					this.kcArray = [].concat(response.list);
-					this.getList1()
+					if(this.kcArray.length>0){
+						this.getList1()
+					}else{
+						this.kcArray=[{text:'暂无',value:''}]
+						this.fdArray=[{text:'暂无',value:''}]
+					}
 				})
 				 
 			},
