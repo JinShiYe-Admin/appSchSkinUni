@@ -99,7 +99,7 @@
 				if(this.grdIndex!==e.detail.value){
 					 this.grdIndex=e.detail.value
 					 this.clsIndex=0
-					 this.clsArray=[]
+					 this.clsArray=[{text:'',value:'-1'}]
 					 this.showLoading()
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
@@ -128,7 +128,6 @@
 				}
 			},
 			timeSelect(e){
-				console.log(e);
 				this.time=e
 				this.showLoading()
 				this.pageobj0.loadFlag=0

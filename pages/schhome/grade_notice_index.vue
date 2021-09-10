@@ -72,13 +72,11 @@
 			 grdClick:function(e){
 			 	if(this.grdIndex!==e.detail.value){
 			 		 this.grdIndex=e.detail.value
-			 		 this.clsIndex=0
-			 		 this.clsArray=[]
 			 		 this.showLoading()
 			 		 this.pageobj0.loadFlag=0
 			 		 this.pageobj0.canload=true
 			 		 this.pageobj0.page_number=1
-			 		 this.getCls();
+			 		 this.getList0();
 			 	}
 			 },
 			 getGrd(){//获取年级

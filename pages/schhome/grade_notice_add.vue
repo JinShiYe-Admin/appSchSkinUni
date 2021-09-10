@@ -25,7 +25,7 @@
 		</view>
 		<view class="line-green"></view>
 		<view class="uni-flex uni-row form-view"  style="padding:5px 10px 0;">
-			<view class="form-left" style="font-size: 13px;color: #787878;">全体学生</view>
+			<view style="font-size: 13px;color: #787878;">{{(selectDatas.map(item=>item.name)).join('，')}}</view>
 		</view>
 		<!-- #ifdef H5 -->
 			<uni-popup ref="popup" background-color="#fff" style="margin-top: 44px;">
@@ -116,7 +116,7 @@
 				let data={
 					index_code:this.index_code,
 					selectDatas:this.selectDatas,
-					dataFlag:3,
+					dataFlag:1,
 					serviced:JSON.stringify(this.CONFIG)==='{}'?'1':this.CONFIG.serviced,
 				}
 				let that =this
@@ -152,7 +152,7 @@
 			},
 			getSmsConfig(){//获取短信配置
 				let comData={
-					msg_type: this.MSG_SMS.SCHOOL.MSG_TYPE,
+					msg_type: this.MSG_SMS.GRADE.MSG_TYPE,
 					sch_code: this.personInfo.unit_code,
 					index_code:this.index_code,
 				}
@@ -160,7 +160,7 @@
 				    console.log("responseaaa: " + JSON.stringify(response));
 					if (response && response.user_types) {
 						let config_types=response.user_types.split(",");
-						let local_types=this.MSG_SMS.SCHOOL.USER_TYPE.split(",");
+						let local_types=this.MSG_SMS.GRADE.USER_TYPE.split(",");
 						let send=false;
 						config_types.map(citem=>{
 							local_types.map(litem=>{
@@ -200,6 +200,8 @@
 			textClick(){//发送请假信息
 				if(this.comment==''){
 					this.showToast('请输入通知内容')
+				}else if(this.selectDatas.length===0){
+					this.showToast('请选择接收人')
 				}else{
 					if(this.canSub){
 						this.canSub=false
@@ -241,18 +243,34 @@
 				if(this.is_delay){
 					delayTime=this.moment().add(day, 'days').add(hour, 'hours').add(minute, 'minutes').format('YYYY-MM-DD HH:mm:ss');
 				}
-				
+				let selectData=this.selectDatas
+				let touser=[]
+				for (var i = 0; i < selectData.length; i++) {
+					let obj={
+						col_code:"",
+						col_name:"",
+						maj_code:"",
+						maj_name:"",
+						grd_code:selectData[i].value,
+						grd_name:selectData[i].name,
+						cls_code:"",
+						cls_name:"",
+						user_codes:"",
+						user_names:"",
+					}
+					touser.push(obj)
+				}
 				let comData={
 					unit_name:this.personInfo.unit_name,
 					send_unit_code:this.personInfo.unit_code,
 					send_user:this.personInfo.user_code,
 					send_user_tname:this.personInfo.user_name,
 					msg_content:comment,
-					msg_type:this.MSG_SMS.SCHOOL.MSG_TYPE,
+					msg_type:this.MSG_SMS.GRADE.MSG_TYPE,
 					send_soure:"schapp#[APP]",
-					tousers:[],
+					tousers:touser,
 					hr_smsid:0,//固定值
-					sms_msgtype_code:this.MSG_SMS.SCHOOL.SMS_TYPE,
+					sms_msgtype_code:this.MSG_SMS.GRADE.SMS_TYPE,
 					is_delay:this.is_delay,
 					delay_time:delayTime,
 					servied:JSON.stringify(this.CONFIG)==='{}'?'100':this.CONFIG.serviced,
@@ -280,19 +298,24 @@
 				})
 			},
 			sendSMS(id,delayTime,comment){//发送短信
-				let list=[{
-					gen_type:this.MSG_SMS.SCHOOL.USER_TYPE,
-					dpt_code:'',
-					dpt_name:'',
-					grd_code:'',
-					grd_name:'',
-					cls_code:'',
-					cls_name:'',
-					stu_code:'',
-					stu_name:'',
-					gen_code:'',
-					gen_name:'',
-				}]
+				let selectData=this.selectDatas
+				let touser=[]
+				for (var i = 0; i < selectData.length; i++) {
+					let obj={
+						gen_type:this.MSG_SMS.GRADE.USER_TYPE,
+						dpt_code:'',
+						dpt_name:'',
+						grd_code:selectData[i].value,
+						grd_name:selectData[i].name,
+						cls_code:'',
+						cls_name:'',
+						stu_code:'',
+						stu_name:'',
+						gen_code:'',
+						gen_name:'',
+					}
+					touser.push(obj)
+				}
 				let comData = {
 					send_unit_code:this.personInfo.unit_code,
 					send_user:this.personInfo.user_code,
@@ -302,13 +325,13 @@
 					is_delay:this.is_delay,
 					delay_time:delayTime,
 					msg_content:comment,
-					msg_type:this.MSG_SMS.SCHOOL.MSG_TYPE,
+					msg_type:this.MSG_SMS.GRADE.MSG_TYPE,
 					serviced:this.CONFIG.serviced,
 					is_short:2,
-					sms_msgtype_code:this.MSG_SMS.SCHOOL.SMS_TYPE,
+					sms_msgtype_code:this.MSG_SMS.GRADE.SMS_TYPE,
 					sch_code:this.personInfo.unit_code,
 					sch_name:this.personInfo.unit_name,
-					list:list,
+					list:touser,
 					index_code:this.index_code
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'smsRecord/save',comData,response=>{

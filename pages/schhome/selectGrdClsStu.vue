@@ -7,9 +7,9 @@
 					<checkbox-group >
 						<label  class="uni-list-cell uni-list-cell-pd" v-for="(item,index) in grdList" :key="index" @click="grdClick(item)">
 							<view>
-								<checkbox style="transform:scale(0.7)" color="#00CFBD" :value="item.value"  :checked="item.checked" />
+								<checkbox style="transform:scale(0.7)" color="#00CFBD" :value="item.value"  :checked="item.checked" :disabled="item.disabled?item.disabled:false"/>
 							</view>
-							<view>{{item.name}}</view>
+							<view>{{item.name}}<text v-if="item.disabled" style="font-size: 12px;color: #5d5d5d;margin-left: 10px;">暂无学生</text></view>
 						</label>
 					</checkbox-group>
 				</uni-list>
@@ -23,9 +23,9 @@
 							<checkbox-group >
 								<label  class="uni-list-cell uni-list-cell-pd collapse" v-for="(item,index) in grd.clsList" :key="index" @click="clsClick(key,item)">
 									<view>
-										<checkbox style="transform:scale(0.7)" color="#00CFBD" :value="item.value"  :checked="item.checked" />
+										<checkbox style="transform:scale(0.7)" color="#00CFBD" :value="item.value"  :checked="item.checked" :disabled="item.disabled?item.disabled:false"/>
 									</view>
-									<view>{{item.name}}</view>
+									<view>{{item.name}}<text v-if="item.disabled" style="font-size: 12px;color: #5d5d5d;margin-left: 10px;">暂无学生</text></view>
 								</label>
 							</checkbox-group>
 						</uni-list>
@@ -62,7 +62,7 @@
 								</checkbox-group>
 							</uni-list>
 						</template>
-						<template v-else><view style="margin: 10px 10px;"><text style="font-size: 13px;">暂无学生</text></view></template>
+						<template v-else><view style="margin: 10px 10px;"><text style="font-size: 13px;">{{noStuStr}}</text></view></template>
 					</scroll-view>
 				</uni-col>
 			</uni-row>
@@ -86,6 +86,7 @@
 				grdList:[],
 				stuList:[],
 				hasStuList:false,
+				noStuStr:''
 			}
 		},
 		components: {
@@ -93,14 +94,28 @@
 		},
 		methods: {
 			grdClick(grdItem){
-				grdItem.checked=!grdItem.checked
-				this.$forceUpdate();
+				this.getStuArray(grdItem,0,stuList=>{
+					if(stuList.length>0){
+						grdItem.checked=!grdItem.checked
+					}else{
+						grdItem.checked=false
+						grdItem.disabled=true
+					}
+					this.$forceUpdate();
+				})
 			},
 			clsClick(currentGrd,clsItem){
 				this.currentGrd=currentGrd
 				if(this.dataFlag===2){
-					clsItem.checked=!clsItem.checked
-					this.$forceUpdate();
+					this.getStuArray(currentGrd,clsItem,stuList=>{
+						if(stuList.length>0){
+							clsItem.checked=!clsItem.checked
+						}else{
+							clsItem.checked=false
+							clsItem.disabled=true
+						}
+						this.$forceUpdate();
+					})
 				}else{
 					let grdList=this.grdList.filter(clsItem=>clsItem.clsList)
 					grdList.map(grdItem=>{
@@ -120,9 +135,9 @@
 						if(this.serviced=='99' || this.serviced==undefined){
 							this.getStuArray(this.grdList[this.currentGrd],clsItem)	
 						}else if(this.serviced=='0'){
-							this.getStuUnDGArray()
+							this.getStuUnDGArray(this.grdList[this.currentGrd],clsItem)
 						}else if(this.serviced=='1'){
-							this.getStuDGArray();
+							this.getStuDGArray(this.grdList[this.currentGrd],clsItem);
 						}
 					}
 				}
@@ -190,7 +205,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading();
 					let grdList=response.grd_list
 					if(grdList.length===0){
@@ -219,7 +234,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading();
 					let clsList=response.cls_list
 					if(clsList.length===0){
@@ -245,24 +260,25 @@
 					this.$forceUpdate()
 				})
 			},
-			getStuArray(grd,cls){//根据年级班级获取学生
-				let grdCode=grd.value
-				let clsCode=cls.value
-				let grdName=grd.name
-				let clsName=cls.name
+			getStuArray(grd,cls,callback){//根据年级班级获取学生
 				let comData={
-					grd_codes:grdCode,
-					cls_codes:clsCode,
+					grd_codes:grd.value,
+					cls_codes:cls?cls.value:'',
 					page_size: 100000,
 					page_number: -1,
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'stu',comData,response=>{
-				    console.log("responseaaab: " + JSON.stringify(response));
+				    // console.log("responseaaab: " + JSON.stringify(response));
 					this.hideLoading();
 					let stuList=response.list
+					if(callback){
+						callback(stuList)
+						return 0
+					}
 					if(stuList.length===0){
-						this.showToast("暂无学生")
+						// this.showToast("暂无学生")
+						this.noStuStr="暂无学生"
 						this.hasStuList=false
 						cls.stuList=[]
 						this.stuList=[]
@@ -293,11 +309,138 @@
 					}
 				})
 			},
-			getStuDGArray(){//根据年级班级获取已订购的学生
-				
+			getStuDGArray(grd,cls,callback){//根据年级班级获取已订购的学生
+				let comData={
+					grd_code:grd.value,//接口只能传单个
+					cls_code:cls.value,//接口只能传单个
+					op_code:"index",
+					index_code:this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_HR_SUB+'stu/servStuList',comData,response=>{
+				    // console.log("responseaaab: " + JSON.stringify(response));
+					this.hideLoading();
+					let stuList=response.list
+					if(callback){
+						callback(stuList)
+						return 0
+					}
+					if(stuList.length===0){
+						// this.showToast("暂无已订购学生")
+						this.noStuStr="暂无订购学生"
+						this.hasStuList=false
+						cls.stuList=[]
+						this.stuList=[]
+					}else{
+						this.hasStuList=true
+						stuList.map(item=>{
+							item.checked=false
+							if(this.dataFlag===3){
+								this.selectDatas.map(grdItem=>{
+									if(grdItem.value==grd.value){
+										grdItem.clsList.map(clsItem=>{
+											if(clsItem.value==cls.value){
+												clsItem.stuList.map(stuItem=>{
+													if(stuItem.stu_code==item.stu_code){
+														item.checked=true
+													}
+												})
+												
+											}
+										})
+									} 
+								})
+							}
+						})
+						cls.stuList=stuList
+						this.stuList=stuList
+						this.$forceUpdate()
+					}
+				})
 			},
-			getStuUnDGArray(){//根据年级学生和已订购学生的差额，得到未订购的学生
-				
+			getStuUnDGArray(grd,cls){//根据年级学生和已订购学生的差额，得到未订购的学生
+				let that =this
+				this.getStuArray(grd,cls,allStuList=>{
+					this.getStuDGArray(grd,cls,dgStuList=>{
+						if(allStuList.length===0){
+							that.noStuStr="暂无学生"
+							that.hasStuList=false
+							cls.stuList=[]
+							that.stuList=[]
+							that.$forceUpdate()
+						}else{
+							if(dgStuList.length===0){
+								that.hasStuList=true
+								allStuList.map(item=>{
+									item.checked=false
+									if(that.dataFlag===3){
+										that.selectDatas.map(grdItem=>{
+											if(grdItem.value==grd.value){
+												grdItem.clsList.map(clsItem=>{
+													if(clsItem.value==cls.value){
+														clsItem.stuList.map(stuItem=>{
+															if(stuItem.stu_code==item.stu_code){
+																item.checked=true
+															}
+														})
+														
+													}
+												})
+											} 
+										})
+									}
+								})
+								cls.stuList=allStuList
+								that.stuList=allStuList
+								that.$forceUpdate()
+							}else{
+								that.hasStuList=true
+								let unDGStu=[];
+								allStuList.map(aitem=>{
+									let push=true
+									dgStuList.map(dgitem=>{
+										if(aitem.stu_code==dgitem.stu_code){
+											push=false
+										}
+									})
+									if(push){
+										unDGStu.push(aitem)
+									}
+								})
+								if(unDGStu.length>0){
+									that.hasStuList=true
+									unDGStu.map(item=>{
+										item.checked=false
+										if(that.dataFlag===3){
+											that.selectDatas.map(grdItem=>{
+												if(grdItem.value==grd.value){
+													grdItem.clsList.map(clsItem=>{
+														if(clsItem.value==cls.value){
+															clsItem.stuList.map(stuItem=>{
+																if(stuItem.stu_code==item.stu_code){
+																	item.checked=true
+																}
+															})
+															
+														}
+													})
+												} 
+											})
+										}
+									})
+									cls.stuList=unDGStu
+									that.stuList=unDGStu
+									that.$forceUpdate()
+								}else{
+									that.noStuStr="暂无学生"
+									that.hasStuList=false
+									cls.stuList=[]
+									that.stuList=[]
+									that.$forceUpdate()
+								}
+							}
+						}
+					})
+				})
 			},
 		},
 		onLoad(options) {
@@ -305,7 +448,6 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			this.tabBarItem = itemData;
-			console.log("itemData: " + JSON.stringify(itemData));
 			this.dataFlag=itemData.dataFlag
 			if(itemData.dataFlag===1){
 				itemData.text='选择年级'

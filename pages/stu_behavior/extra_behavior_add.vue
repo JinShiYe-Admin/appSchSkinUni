@@ -99,8 +99,8 @@
 				control:true,//是否显示上传 + 按钮 一般用于显示
 				deleteBtn:true,//是否显示删除 按钮 一般用于显示
 				
-				maxCount:9,//单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 
-				showMaxCount:9,//单次上传最大数量
+				maxCount:5,//单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 
+				showMaxCount:5,//单次上传最大数量
 				
 				columnNum:3,//每行显示的图片数量
 				imgNames: [],//服务器回传的图片名称

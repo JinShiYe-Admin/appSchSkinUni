@@ -187,7 +187,7 @@ function getPageData(option) {
 function openFile(fileUrl) {
 	var urlStr = encodeURI(fileUrl);
 	// #ifdef APP-PLUS
-	this.showLoading();
+	uni.showLoading('加载中...');
 	uni.downloadFile({
 		url: urlStr,
 		success: function(res) {

@@ -100,8 +100,8 @@
 					 this.grdIndex=e.detail.value
 					 this.clsIndex=0
 					 this.kmIndex=0
-					 this.clsArray=[]
-					 this.kmArray=[]
+					 this.clsArray=[{text:'',value:'-1'}]
+					 this.kmArray=[{text:'',value:'-1'}]
 					 this.showLoading()
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
@@ -113,12 +113,12 @@
 				if(this.clsIndex!==e.detail.value){
 					 this.clsIndex=e.detail.value
 					 this.kmIndex=0
-					 this.kmArray=[]
+					 this.kmArray=[{text:'',value:'-1'}]
 					 this.showLoading()
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
 					 this.pageobj0.page_number=1
-					 this.getList0();
+					 this.getKm()
 				}
 			},
 			kmClick:function(e){
