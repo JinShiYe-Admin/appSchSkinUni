@@ -5,9 +5,10 @@
 		<p v-if="currentInfoData.count_info" style="margin-top: 10px;text-align: center;color: black;font-size: 14px;">
 			该题组已阅{{currentInfoData.count_info.view_count}}份，当前第{{currentInfoData.count_info.count}}份，任务量{{currentInfoData.count_info.group_count}}份
 		</p>
-		<popover v-if="groupNumberArray.length>0" ref="popover" :viewName="groupNumberArray[nowGroupIndex]"
-			:btnList="groupNumberArray" direction="left" modalLeftPos="20px" modalTopPos="50px" modalWidth='150px'
-			@select="selectPopover"></popover>
+			<picker @change="bindPickerChange" :range="groupNumberArray" style="margin: 10px 0 0 20px;">
+				<view class="uni-input">{{groupNumberArray[nowGroupIndex]}}
+				<uni-icons type="forward" size="15" class="uniIcon"></uni-icons></view>
+			</picker>
 		<view v-if="currentInfoData.eqs" style="margin-left: 20px;margin-top: 10px;"
 			v-for="eqsModel in currentInfoData.eqs" :key="eqsModel.id">
 			<span
@@ -38,8 +39,9 @@
 			提交
 		</view>
 		<p style="color: #d43030;margin-left: 20px;margin-bottom: 0px;">如需添加批阅，请点击图片</p>
-		<image v-show='imgSrc.length>0' mode="aspectFit" :src="imgSrc" :imgSrc='imgSrc' :change:imgSrc="renderScript.receiveSrc" style="margin: 10px 20px 0px 20px;width: 85%;" @click="renderScript.usePED" id="renderScript"
-			class="renderScript"></image>
+		<image v-show='imgSrc.length>0' mode="aspectFit" :src="imgSrc" :imgSrc='imgSrc'
+			:change:imgSrc="renderScript.receiveSrc" style="margin: 10px 20px 0px 20px;width: 85%;"
+			@click="renderScript.usePED" id="renderScript" class="renderScript"></image>
 	</view>
 </template>
 <script module="renderScript" lang="renderjs">
@@ -60,7 +62,7 @@
 				ownerVm.callMethod('showNavFun', '');
 				console.log('usePEDusePED1');
 				// let ped = new imageInfo('http://jbsch-pb.zhuxue101.net/test/task_result_detail/843-1410483399553974281.jpg', ()=>{});
-				let ped = new imageInfo(this.imgSrc,(data)=>{
+				let ped = new imageInfo(this.imgSrc, (data) => {
 					// console.log('saveFnsaveFnsaveFn1111:'+data);
 					ownerVm.callMethod('saveFn', data);
 				});
@@ -76,7 +78,6 @@
 	import {
 		imageInfo
 	} from '@/commom/picture/index.js';
-	import popover from '@/components/dean-popover/dean-popover';
 	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
 	export default {
 		data() {
@@ -89,8 +90,6 @@
 				imgPed: null, //
 				imgSrc: '', //试卷图片
 				imgSrcFlag: 0, //判断是否进行涂鸦
-				typeFlag: 0, //0未选择对错标识，1对，2错，3半对
-				typeArray: [], //点的标识数组
 				ped: null,
 				showNav: true,
 			}
@@ -115,10 +114,20 @@
 			// });
 		},
 		components: {
-			popover,
 			uniNavBar
 		},
 		methods: {
+			bindPickerChange: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				if (this.nowGroupIndex != e.target.value) {
+					this.nowGroupIndex = e.target.value;
+					this.currentInfoData = {};
+					this.imgSrc = '';
+					this.imgSrcFlag = 0;
+					//1.5.阅卷任务题组的批改情况
+					this.getCurrentInfoData();
+				}
+			},
 			clickLeft: function() {
 				console.log('clickLeft');
 				uni.navigateBack();
@@ -205,7 +214,7 @@
 				if (tempFlag == 0) {
 					var tempMMM = {
 						id: this.currentInfoData.evaluation.id, //题组id
-						symbols: this.typeArray, //标记坐标信息
+						symbols: null, //标记坐标信息
 						task_id: this.currentInfoData.evaluation.task_id, //任务id
 					};
 					let comData = {
@@ -223,8 +232,6 @@
 							data) => {
 							this.hideLoading();
 							if (data.code == 0) {
-								this.typeFlag = 0;
-								this.typeArray = [];
 								//1.5.阅卷任务题组的批改情况
 								this.getCurrentInfoData();
 							} else {
@@ -234,7 +241,7 @@
 					} else {
 						// 先将涂鸦后的图片，上传七牛
 						this.showLoading();
-						var fileName = 'markingPapers' + new Date().getTime()+'.png';
+						var fileName = 'markingPapers' + new Date().getTime() + '.png';
 						var tempData = this.imgSrc.replace('data:image/png;base64,', '');
 						console.log('tempDatatempDatatempDatatempData');
 						let that = this
@@ -248,8 +255,6 @@
 								data0, data) => {
 								that.hideLoading();
 								if (data.code == 0) {
-									that.typeFlag = 0;
-									that.typeArray = [];
 									//1.5.阅卷任务题组的批改情况
 									that.getCurrentInfoData();
 								} else {
@@ -262,18 +267,6 @@
 					}
 				} else {
 					this.showToast('请输入正确的分数');
-				}
-			},
-			selectPopover(index) {
-				if (this.nowGroupIndex != index) {
-					this.nowGroupIndex = index;
-					this.currentInfoData = {};
-					this.typeFlag = 0;
-					this.typeArray = [];
-					this.imgSrc = '';
-					this.imgSrcFlag = 0;
-					//1.5.阅卷任务题组的批改情况
-					this.getCurrentInfoData();
 				}
 			},
 			getGroupNumberData() { //1.4.阅卷任务题组列表
@@ -355,7 +348,19 @@
 </script>
 
 <style>
-::v-deep .uni-nav-bar-text {
-    height: 40px;
-}
+	::v-deep .uni-nav-bar-text {
+		height: 40px;
+	}
+	
+	.uni-input {
+	    background: #00CFBD;
+		width: 150px !important;
+		border-radius: 4px;
+		color: white;
+	}
+	
+	::v-deep .uniIcon{
+		color: white !important;
+		padding-left: 90px;
+	}
 </style>

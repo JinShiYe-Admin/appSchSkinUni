@@ -299,7 +299,7 @@
 				}
 				if (flag == 0 && this.sem0Data.scoreList.length == 0) {
 					//1.25.考情分析-班级成绩趋势-历次成绩
-					// this.getScoreList();
+					this.getScoreList();
 				} else if (flag == 1) {
 					if (this.sem1Data.subList.length == 0) {
 						// 获取数据范围授权：科目
@@ -619,6 +619,7 @@
 							categories: tempNameArray,
 							series: tempSecArray
 						}
+						console.log('this.sem1Data.chartQs:'+JSON.stringify(this.sem1Data.chartQs));
 					} else {
 						this.showToast(data.msg);
 					}
