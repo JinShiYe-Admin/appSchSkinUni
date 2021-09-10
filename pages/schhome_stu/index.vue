@@ -5,63 +5,7 @@
 			<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#00cfbd" @clickItem="onClickItem" />
 		</view>
 		<view class="content">
-			<view v-if="current === 0">
-				<view class="wrap"> 
-					<u-time-line>
-						<u-time-line-item :key="index" nodeTop="10" v-for="(item,index) in pagedata0">
-							<template v-slot:content>
-									<uni-card >
-										<view v-if="item.student_behavior_id!=null"><!-- 行为项目文本不为空说明有行为记录 -->
-											<view class="u-order-time">{{item.order_time}}</view>
-											<view class="u-order-title">{{item.item_txt}}</view>
-											<view class="u-order-time">{{item.behavior_time}}</view>
-											<view class="u-order-time">{{item.day}} {{item.class_node}} {{item.sub_name}}</view>
-											<view class="u-order-detail">{{item.comment}}</view>
-											<template v-if="item.bimgs.length>0">
-												<view class="choose-file" style="padding: 0 0 6px 0 !important;margin-top: 10px;">
-													<g-upload  ref="upload2" :mode="item.bimgs" :deleteBtn='deleteBtn' :control='control' :columnNum="columnNum"></g-upload>
-												</view>
-											</template>
-											<view class="u-order-right-txt"><view class="u-order-right">记</view>{{item.behavior_recorder}}</view>
-										</view>
-										<view v-if="item.id!=null"><!-- 谈话文本不为空说明有谈话记录 -->
-											<view class="u-order-title2">谈话</view>
-											<view class="u-order-time">{{item.chat_time&&item.chat_time.split(' ')[0]}}</view>
-											<view class="u-order-detail">{{item.chat_detail}}</view>
-											<template v-if="item.aimgs.length>0">
-												<view class="choose-file" style="padding: 0 0 6px 0 !important;margin-top: 10px;">
-													<g-upload ref="upload1" :mode="item.aimgs" :deleteBtn='deleteBtn' :control='control' :columnNum="columnNum"></g-upload>
-												</view>
-											</template>
-											<view class="u-order-right-txt"><view class="u-order-right">谈</view>{{item.create_user_name}}</view>
-										</view>
-									</uni-card>
-							</template>
-						</u-time-line-item>
-					</u-time-line>
-				</view>
-				<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
-			</view>
-			<view v-if="current === 1">
-				<uni-list :border="false">
-					<uni-list-item :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text">
-							<uni-row>
-								<uni-col style="display: flex;align-items: center;">
-									<uni-col v-if="item.remark_type=='termRemark'" :span="5"><view class="u-order-title1" style="background: #FF6666;margin-left: 0px;">{{item.remark_type_txt}}</view></uni-col><!-- 期评 -->
-									<uni-col v-if="item.remark_type=='monthRemark'" :span="5"><view class="u-order-title1" style="background: #5BBA5B;margin-left: 0px;">{{item.remark_type_txt}}</view></uni-col><!-- 月评 -->
-									<uni-col v-if="item.remark_type=='weekRemark'" :span="5"><view class="u-order-title1" style="background: #00CFBD;margin-left: 0px;">{{item.remark_type_txt}}</view></uni-col><!-- 周评 -->
-									<uni-col :span="19"><view class="u-order-time">{{item.year}} 学年 {{item.term_name}}</view></uni-col>
-								</uni-col>
-								<uni-col :span="19" :offset="5"><view class="u-order-detail">{{item.remark}}</view></uni-col>
-								<uni-col :span="24" style="text-align: right;"><view class="u-order-time">{{item.create_user_name}}</view></uni-col>
-								<uni-col :span="24" style="text-align: right;"><view class="u-order-time">{{item.create_time}}</view></uni-col>
-							</uni-row>
-						</text>
-					</uni-list-item>
-				</uni-list>
-				<uni-load-more :status="pageobj1.status" :icon-size="17" :content-text="pageobj1.contentText" />
-			</view>
+			123
 		</view>
 		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
@@ -70,9 +14,6 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
-	// 七牛上传相关
-	 import gUpload from "@/components/g-upload/g-upload.vue"
-	 import cloudFileUtil from '../../commom/uploadFiles/CloudFileUtil.js';
 	let _this;
 	export default {
 		data() {
@@ -119,7 +60,6 @@
 		},
 		components: {
 			mynavBar,
-			 gUpload
 		},
 		methods: {
 			onClickItem(e) {
@@ -333,23 +273,6 @@
 	}
 	::v-deep .u-dot {
 		background: #00CFBD !important;
-	}
-	.u-order-right{
-		color: red;
-		border: 1px solid red;
-		border-radius: 50%;
-		padding:2px ;
-		font-size: 12px;
-		text-align: center;
-		width: 15px;
-		margin-right: 5px;
-	}
-	.u-order-right-txt{
-		color: rgba(144,144,144);
-		font-size: 26rpx;
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
 	}
 	.u-order-title,.u-order-title1,.u-order-title2 {
 		margin: 5px 0;

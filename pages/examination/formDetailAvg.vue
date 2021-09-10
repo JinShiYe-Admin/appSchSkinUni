@@ -153,7 +153,7 @@
 				if(this.clsIndex!==e.detail.value){
 					 this.clsIndex=e.detail.value
 					 this.showLoading()
-					 this.getList1();
+					 this.getKc();
 				}
 			},
 			kmClick:function(e){
@@ -188,8 +188,8 @@
 							// datasource.clsModel = currentValue;
 							this.clsIndex=index
 						}
-						this.getKc()
 					})
+					this.getKc()
 					this.clsArray = [].concat(response.list);
 				})
 			},
@@ -233,7 +233,11 @@
 						//1.16.考情分析-考情报表-学生成绩列表
 						this.getKm()
 					}else{
-						this.getList1()
+						if(this.kcArray.length>0){
+							this.getList1()
+						}else{
+							this.kcArray=[{text:'暂无',value:''}]
+						}
 					}
 				})
 				 

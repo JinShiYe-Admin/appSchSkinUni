@@ -86,6 +86,7 @@
 				}else {
 					util.openwithData('/pages/stu_behavior/extra_behavior_add',{index_code:this.index_code},{
 						refreshExtBehavior(data){//子页面调用父页面需要的方法
+						console.log('啊啊啊啊啊啊啊啊啊啊啊啊');
 							that.showLoading()
 							that.pageobj0.loadFlag=0
 							that.pageobj0.canload=true

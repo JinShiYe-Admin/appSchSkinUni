@@ -90,23 +90,21 @@
 				if(this.grdIndex!==e.detail.value){
 					 this.grdIndex=e.detail.value
 					 this.clsIndex=0
-					 this.kmIndex=0
 					 this.showLoading()
 					 this.pageobj1.loadFlag=0
 					 this.pageobj1.canload=true
 					 this.pageobj1.page_number=1
-					 this.getCls();
+					 this.getCls(1);
 				}
 			},
 			clsClick:function(e){//切换年级班级，仅仅是为了获取科目，与页面数据无关
 				if(this.clsIndex!==e.detail.value){
 					 this.clsIndex=e.detail.value
-					 this.kmIndex=0
 					 this.showLoading()
 					 this.pageobj1.loadFlag=0
 					 this.pageobj1.canload=true
 					 this.pageobj1.page_number=1
-					 this.getKm();
+					 this.getList1();
 				}
 			},
 			kmClick:function(e){
@@ -152,7 +150,7 @@
 					}
 				})
 			},
-			getCls(){//获取班级
+			getCls(type){//获取班级
 				let comData={
 					op_code:'index',
 					grd_code:this.grdArray[this.grdIndex].value,
@@ -174,7 +172,12 @@
 					})
 					if(clsArray.length>0 ){
 						this.clsArray=clsArray;
-						this.getKm();
+						if(type){
+							this.getList1()
+						}else{
+							this.getKm();
+						}
+						
 					}else{
 						this.clsArray=[];
 						this.showToast('无数据授权 无法获取班级');

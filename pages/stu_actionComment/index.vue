@@ -338,10 +338,18 @@
 		color: red;
 		border: 1px solid red;
 		border-radius: 50%;
-		padding:2px ;
 		font-size: 12px;
 		text-align: center;
-		width: 15px;
+		/* #ifdef H5 */
+		width: 16px;
+		height: 16px;
+		padding:2px 2px 3px;
+		/* #endif */
+		/* #ifdef APP-PLUS */
+		width: 17px;
+		height: 16px;
+		padding:2px 2px 4px;
+		/* #endif */
 		margin-right: 5px;
 	}
 	.u-order-right-txt{
@@ -392,6 +400,11 @@
 		margin: 3px 0;
 	}
 	::v-deep .uni-card{
+		/* #ifdef H5 */
 		margin:-10px 0 0 -10px ;
+		/* #endif */
+		/* #ifdef APP-PLUS */
+		margin:-10px 0 0 -10px !important;
+		/* #endif */
 	}
 </style>

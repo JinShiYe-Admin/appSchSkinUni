@@ -15,16 +15,16 @@
 		 <view style="padding:5px 15px;">
 		 	<template v-for="grd_child in student">
 				 <template v-for="(cls_child,index) in grd_child.children" v-if="cls_child.children.length>0">
-					 <uni-row :key="index">
+					 <uni-row :key="cls_child.cls_code">
 						<uni-col :span="24"><view class="detail-text-18">{{cls_child.grd_name}} {{cls_child.cls_name}}</view></uni-col>
 						<uni-col :span="24">
 							<view class="detail-text">
 								<template style="font-size: 14px;" v-for="(stu_child,index) in cls_child.children" v-if="stu_child.stu_name">
 									<template v-if="index==cls_child.children.length-1">
-										<text :key="index" class="text">{{stu_child.stu_name}}</text>
+										<text :key="stu_child.stu_code" class="text">{{stu_child.stu_name}}</text>
 									</template>
 									<template v-else>
-										<text :key="index" class="text">{{stu_child.stu_name}},</text>
+										<text :key="stu_child.stu_code" class="text">{{stu_child.stu_name}},</text>
 									</template>
 								</template>
 							</view>
@@ -67,7 +67,7 @@
 							op_code:'index',
 							index_code: this.index_code,
 						}
-						this.post(this.globaData.INTERFACE_HR_SUB+'cls',comData,response1=>{
+						this.post(this.globaData.INTERFACE_HR_SUB+'cls',params,response1=>{
 						    console.log("responseaaa: " + JSON.stringify(response1));
 							if(response1.list && response1.list.length>0){
 								let cls_list =response1.list
@@ -90,7 +90,7 @@
 									op_code:'index',
 									index_code: this.index_code,
 								}
-								this.post(this.globaData.INTERFACE_HR_SUB+'stu',comData,response2=>{
+								this.post(this.globaData.INTERFACE_HR_SUB+'stu',params,response2=>{
 								    console.log("responseaaa: " + JSON.stringify(response2));
 									this.hideLoading()
 									if(response2.list && response2.list.length>0){

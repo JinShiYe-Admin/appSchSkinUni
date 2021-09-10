@@ -115,51 +115,54 @@
 				if(this.controlIndex!==type){
 					this.controlIndex=type
 					this.description = ''
-					switch (type){
-						case 0:
-							let obj = this.pjfDetail
-							if (obj != '') {
-								let des = `本次考试共有${obj.cls_count}个班，合计${obj.stu_count}人次参加考试，平均分${obj.avg_score}分`
-								this.description = des
-							}
-						break;
-						case 1:
-							var obj2 = this.zfdDetail
-							if (obj2 != '') {
-								let des =`${obj2.max_name}分段占比最大，达${obj2.max_radio}%，合计${obj2.max_num}人；${obj2.min_name}分段占比最低，为${obj2.min_radio}%，合计${obj2.min_num}人，需要重点关注`
-								this.description = des
-							}
-						break;
-						case 2:
-							var obj3 = this.zgfDetail
-							if (obj3 != '') {
-								let des =`年级最高分${obj3.max_score},最低分${obj3.min_score}，年级排名前10的学生有${obj3.stu_count}人在${obj3.cls_name}班`
-								this.description = des
-							}
-						break;
-						case 3:
-							var obj4 = this.sxlDetail
-							if (obj4 != '') {
-								let des =`本次考试${obj4.max_name}上线率最高，为${obj4.max_radio}%，合计${obj4.max_num}人，${obj4.min_name}最低，为${obj4.min_radio}%，合计${obj4.min_num}人`
-								this.description = des
-							}
-						break;
-						case 4:
-							var obj5 = this.jtbDetail
-							if (obj5 != '') {
-								let des = `${obj5.max_up_cls_name==null?0:obj5.max_up_cls_name}班进步人数最多，合计${obj5.max_up_num==null?0:obj5.max_up_num}人；${obj5.max_down_cls_name==null?0:obj5.max_down_cls_name}退步人数最多，合计${obj5.max_down_num==null?0:obj5.max_down_num}人；`
-								if (obj5.max_up_cls_name == null && obj5.max_down_cls_name == null) {
-									des = `本次考试没有进步和退步的学生；`
-								} else if (obj5.max_up_cls_name != null && obj5.max_down_cls_name == null) {
-									des = `${obj5.max_up_cls_name}班进步人数最多，合计${obj5.max_up_num}人；本次考试没有退步的学生；`
-								} else if (obj5.max_up_cls_name == null && obj5.max_down_cls_name != null) {
-									des = `本次考试没有进步的学生；${obj5.max_down_cls_name}班退步人数最多，合计${obj5.max_down_num}人；`
+					this.$forceUpdate();
+					setTimeout(function() {
+						switch (type){
+							case 0:
+								let obj = this.pjfDetail
+								if (obj != '') {
+									let des = `本次考试共有${obj.cls_count}个班，合计${obj.stu_count}人次参加考试，平均分${obj.avg_score}分`
+									this.description = des
 								}
-								this.description = des
-							}
-						break;
-					}
-					 
+							break;
+							case 1:
+								var obj2 = this.zfdDetail
+								if (obj2 != '') {
+									let des =`${obj2.max_name}分段占比最大，达${obj2.max_radio}%，合计${obj2.max_num}人；${obj2.min_name}分段占比最低，为${obj2.min_radio}%，合计${obj2.min_num}人，需要重点关注`
+									this.description = des
+								}
+							break;
+							case 2:
+								var obj3 = this.zgfDetail
+								if (obj3 != '') {
+									let des =`年级最高分${obj3.max_score},最低分${obj3.min_score}，年级排名前10的学生有${obj3.stu_count}人在${obj3.cls_name}班`
+									this.description = des
+								}
+							break;
+							case 3:
+								var obj4 = this.sxlDetail
+								if (obj4 != '') {
+									let des =`本次考试${obj4.max_name}上线率最高，为${obj4.max_radio}%，合计${obj4.max_num}人，${obj4.min_name}最低，为${obj4.min_radio}%，合计${obj4.min_num}人`
+									this.description = des
+								}
+							break;
+							case 4:
+								var obj5 = this.jtbDetail
+								if (obj5 != '') {
+									let des = `${obj5.max_up_cls_name==null?0:obj5.max_up_cls_name}班进步人数最多，合计${obj5.max_up_num==null?0:obj5.max_up_num}人；${obj5.max_down_cls_name==null?0:obj5.max_down_cls_name}退步人数最多，合计${obj5.max_down_num==null?0:obj5.max_down_num}人；`
+									if (obj5.max_up_cls_name == null && obj5.max_down_cls_name == null) {
+										des = `本次考试没有进步和退步的学生；`
+									} else if (obj5.max_up_cls_name != null && obj5.max_down_cls_name == null) {
+										des = `${obj5.max_up_cls_name}班进步人数最多，合计${obj5.max_up_num}人；本次考试没有退步的学生；`
+									} else if (obj5.max_up_cls_name == null && obj5.max_down_cls_name != null) {
+										des = `本次考试没有进步的学生；${obj5.max_down_cls_name}班退步人数最多，合计${obj5.max_down_num}人；`
+									}
+									this.description = des
+								}
+							break;
+						}
+					}, 300);
+					this.$forceUpdate();
 				}
 			},
 			getIndexZ(e){//柱状图点击事件

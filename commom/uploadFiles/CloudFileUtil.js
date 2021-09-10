@@ -343,6 +343,9 @@ var getQNUpToken = function(that,url, data, successCB, errorCB) {
 			data: data
 		});
 	}, function(xhr, type, errorThrown) {
+		if(that.canSub){
+			that.canSub=true
+		}
 		errorCB(xhr, type, errorThrown);
 	});
 
@@ -501,6 +504,9 @@ var getQNUpTokenWithManage = function(that,url, data, successCB, errorCB) {
 		},
 		fail: (e) => { //接口调用失败的回调函数  比如跨域了，断网
 			// console.log("e: " + JSON.stringify(e));
+			if(that.canSub){
+				that.canSub=true
+			}
 			uni.hideLoading();
 			uni.showToast('网络请求失败')
 		},
@@ -623,6 +629,9 @@ var uploadFiles = function(that,type,files,mainSpace,uploadSpace,callback) {
 				if(QNUptoken.Status == 0) { //失败
 					that.showToast('获取上传凭证失败 ' + QNUptoken.Message);
 					// console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
+					if(that.canSub){
+						that.canSub=true
+					}
 					that.hideLoading();
 				} else {
 						let domains=[]
@@ -641,6 +650,9 @@ var uploadFiles = function(that,type,files,mainSpace,uploadSpace,callback) {
 										that.hideLoading();
 									}
 								} else { //上传失败
+									if(that.canSub){
+										that.canSub=true
+									}
 									that.showToast('文件上传失败，请稍后再试 ');
 									that.hideLoading();
 								}
@@ -676,6 +688,9 @@ var _uploadFiles = function(that,fPath, token, key, uploadCompletedCallBack) {
 		},
 		fail:(e)=>{
 			// console.log(e);
+			if(that.canSub){
+				that.canSub=true
+			}
 			that.showToast('文件上传失败，请稍后再试 ');
 		}
 	});
