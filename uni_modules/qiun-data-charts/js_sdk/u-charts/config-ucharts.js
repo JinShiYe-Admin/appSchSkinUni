@@ -18,14 +18,15 @@
 
 // 主题颜色配置：如每个图表类型需要不同主题，请在对应图表类型上更改color属性
 const color = ["#C33531",
-			"#2F4553",
-			"#61A0A9",
-			"#D38265",
-			"#91C7AF",
-			"#749F83",
-			"#CA8623",
-			"#9A60B4",
-			"#ea7ccc"];
+	"#2F4553",
+	"#61A0A9",
+	"#D38265",
+	"#91C7AF",
+	"#749F83",
+	"#CA8623",
+	"#9A60B4",
+	"#ea7ccc"
+];
 
 //事件转换函数，主要用作格式化x轴为时间轴，根据需求自行修改
 const formatDateTime = (timeStamp, returnType) => {
@@ -114,6 +115,9 @@ module.exports = {
 		"yAxis": {
 			"gridType": "dash",
 			"dashLength": 2,
+			"data": [{
+				"tofix": 1,
+			}]
 		},
 		"legend": {},
 		"extra": {
@@ -333,26 +337,28 @@ module.exports = {
 			}
 		}
 	},
-	"demotype":{
-	  //我这里把曲线图当做了自定义图表类型，您可以根据需要随意指定类型或配置
-	  "type": "line",
-	  "color": color,
-	  "padding": [15,10,0,15],
-	  "xAxis": {
-	    "disableGrid": true,
-	  },
-	  "yAxis": {
-	    "gridType": "dash",
-	    "dashLength": 2,
-	  },
-	  "legend": {
-	  },
-	  "extra": {
-	  	"line": {
-	  		"type": "curve",
-	  		"width": 2
-	  	},
-	  }
+	"demotype": {
+		//我这里把曲线图当做了自定义图表类型，您可以根据需要随意指定类型或配置
+		"type": "line",
+		"color": color,
+		"padding": [15, 10, 0, 15],
+		"xAxis": {
+			"disableGrid": true,
+		},
+		"yAxis": {
+			"gridType": "dash",
+			"dashLength": 2,
+			"data": [{
+				"tofix": 1,
+			}]
+		},
+		"legend": {},
+		"extra": {
+			"line": {
+				"type": "curve",
+				"width": 2
+			},
+		}
 	},
 	"line": {
 		"type": "line",
@@ -420,7 +426,27 @@ module.exports = {
 			"gridColor": "#CCCCCC",
 			"padding": 10,
 			"showTitle": false,
-			"data": []
+			"data": [{
+				"type": "value",
+				"position": "left",
+				"disabled": false,
+				"axisLine": true,
+				"axisLineColor": "#CCCCCC",
+				"calibration": false,
+				"fontColor": "#666666",
+				"fontSize": 13,
+				"textAlign": "right",
+				"title": "",
+				"titleFontSize": 13,
+				"titleOffsetY": 0,
+				"titleOffsetX": 0,
+				"titleFontColor": "#666666",
+				"min": null,
+				"max": null,
+				"tofix": 1,
+				"unit": "",
+				"format": ""
+			}]
 		},
 		"legend": {
 			"show": true,
@@ -534,10 +560,10 @@ module.exports = {
 			"#CA8623",
 			"#9A60B4",
 			"#ea7ccc"
-			],
+		],
 		"padding": [15, 15, 0, 5],
 		"fontSize": 13,
-		"dataLabel":true,
+		"dataLabel": true,
 		"xAxis": {
 			"disableGrid": true,
 		},
@@ -562,10 +588,10 @@ module.exports = {
 		},
 		"extra": {
 			"column": {
-				"type": "group",//group stack
+				"type": "group", //group stack
 				"width": 30,
-				"seriesGap":5,
-				"categoryGap":10,
+				"seriesGap": 5,
+				"categoryGap": 10,
 				"meterBorde": 1,
 				"meterFillColor": "#FFFFFF",
 				"activeBgColor": "#000000",

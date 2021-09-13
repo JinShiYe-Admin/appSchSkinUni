@@ -671,6 +671,17 @@ function getPageArray() {
 			img_href: tempAAA + "/static/tabbar/xingweiyupingyu_tab.png",
 			url: 'schapp_actionComment',
 			childList: []
+		},{
+			name: "学生成绩", //学生成绩
+			pagePath: "/pages/student_performance/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/student_performance_tab.png",
+			url: 'schapp_StuScore',
+			childList: []
 		},
 	];
 	return tempArray;
