@@ -671,7 +671,7 @@ function getPageArray() {
 			img_href: tempAAA + "/static/tabbar/xingweiyupingyu_tab.png",
 			url: 'schapp_actionComment',
 			childList: []
-		}
+		},
 	];
 	return tempArray;
 }

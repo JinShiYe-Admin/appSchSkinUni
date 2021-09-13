@@ -253,6 +253,11 @@ Vue.prototype.MSG_SMS = {
 		SMS_TYPE: 'jxhd_tz_ps_stugen', //短信类型 - 表现
 		USER_TYPE: 'YHLX0004', //目标用户类型 - 家长
 	},
+	SCORE: {
+		MSG_TYPE: '1-6', //信息类型 - 成绩通知
+		SMS_TYPE: 'jxhd_cj_ps_stugen', //短信类型 - 成绩
+		USER_TYPE: 'YHLX0004', //目标用户类型 - 家长
+	},
 }
 //----------家校互动短信配置---------end
 
