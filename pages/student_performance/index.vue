@@ -6,131 +6,203 @@
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
 		<view class="content" style="margin-top: 60px;">
-			<view v-show="semFlag == 0">
-				<my-swiperPage :allValue="semFlag0Data.subList" @swiperPagechange='changeSwiper' ></my-swiperPage>
-				<view>
-					<m-steps v-for="(item, index) in semFlag0Data.sem0List" :item='item' :key="index" :index='index'>
-						<view slot="dateTop" style="width: 100px;text-align: center;font-size: 14px;color: #808080;">
-							{{item.create_time}}
+			<view v-if="semFlag == 0">
+				<my-swiperPage :allValue="semFlag0Data.subList" @swiperPagechange='changeSwiper'></my-swiperPage>
+				<m-steps v-for="(item, index) in semFlag0Data.sem0List" :item='item' :key="index" :index='index'>
+					<view slot="dateTop" style="width: 100px;text-align: center;font-size: 12px;color: #808080;">
+						{{item.exam_date.split(' ')[0]}}
+					</view>
+					<view slot="content" class="viewNode" style="min-height: 50px;">
+						<view v-if="item.type == 1" class="">
+							<template v-if="item.exam_type == 1">
+								<view class="examType" style="background: #f88c54;">期中</view>
+							</template>
+							<template v-else-if="item.exam_type == 2">
+								<view class="examType" style="background: orange;">月考</view>
+							</template>
+							<template v-else-if="item.exam_type == 3">
+								<view class="examType" style="background: #f56c6c;">期末</view>
+							</template>
+							<template v-else-if="item.exam_type == 4">
+								<view class="examType" style="background: #80b9ec;">周测</view>
+							</template>
+							<p class='contentName'>{{item.name}}</p>
 						</view>
-						<template v-if="item.attendance_type=='inOutCls'">
-							<view slot="status" class="viewFlag" style="background-color: #ff9900;">{{item.item_txt}}
-							</view>
-							<view slot="content" class="viewNode">{{item.attendance_time}} {{item.day}}
-								{{item.class_node}}
-								{{item.sub_name}}
-							</view>
-							<view slot="content" class="viewNode">{{item.comment}}</view>
-						</template>
-						<template v-if="item.attendance_type=='leave'">
-							<view slot="status" class="viewFlag" style="background-color: #ff9900;">{{item.item_txt}}
-							</view>
-							<view slot="content" class="viewNode">{{item.time_range}}</view>
-							<view slot="content" class="viewNode">{{item.comment}}</view>
-						</template>
-						<template
-							v-if="item.attendance_type=='inOutSchoolAttendance' || item.attendance_type=='inOutDormAttendance'">
-							<view slot="content" class="viewNode">{{item.attendance_location}}</view>
-							<view slot="status" class="viewFlag" style="width: 40px;">{{item.card_dir_txt}}</view>
-							<view slot="content" class="viewNode">
-								<image v-if="item.card_url" style="width: 100px;height: 100px;margin-top: 20px;"
-									@click="clickImg(item.card_url)" :src="item.card_url"></image>
-							</view>
-						</template>
-					</m-steps>
-				</view>
+						<view v-else-if="item.type == 2" class="">
+							<view class="examType" style="background: #67d293;">作业</view>
+							<p class='contentName'>{{item.name}}</p>
+						</view>
+					</view>
+				</m-steps>
+				<view class="uni-loadmore" v-if="semFlag0Data.showLoadMore">{{semFlag0Data.loadMoreText}}</view>
 			</view>
-			<view v-show="semFlag == 1">
-				<view>
-					<m-steps v-for="(item, index) in semFlag0Data.sem0List" :item='item' :key="index" :index='index'>
-						<view slot="dateTop" style="width: 100px;text-align: center;font-size: 14px;color: #808080;">
-							{{item.create_time}}
+			<view v-if="semFlag == 1">
+				<m-steps v-for="(item, index) in semFlag1Data.sem1List" :item='item' :key="index" :index='index'>
+					<view slot="dateTop" style="width: 100px;text-align: center;font-size: 12px;color: #808080;">
+						{{item.exam_date.split(' ')[0]}}
+					</view>
+					<view slot="content" class="viewNode" style="min-height: 50px;">
+						<view v-if="item.type == 1" class="">
+							<template v-if="item.exam_type == 1">
+								<view class="examType" style="background: #f88c54;">期中</view>
+							</template>
+							<template v-else-if="item.exam_type == 2">
+								<view class="examType" style="background: orange;">月考</view>
+							</template>
+							<template v-else-if="item.exam_type == 3">
+								<view class="examType" style="background: #f56c6c;">期末</view>
+							</template>
+							<template v-else-if="item.exam_type == 4">
+								<view class="examType" style="background: #80b9ec;">周测</view>
+							</template>
+							<p class='contentName'>{{item.name}}</p>
 						</view>
-						<template v-if="item.attendance_type=='inOutCls'">
-							<view slot="status" class="viewFlag" style="background-color: #ff9900;">{{item.item_txt}}
-							</view>
-							<view slot="content" class="viewNode">{{item.attendance_time}} {{item.day}}
-								{{item.class_node}}
-								{{item.sub_name}}
-							</view>
-							<view slot="content" class="viewNode">{{item.comment}}</view>
-						</template>
-						<template v-if="item.attendance_type=='leave'">
-							<view slot="status" class="viewFlag" style="background-color: #ff9900;">{{item.item_txt}}
-							</view>
-							<view slot="content" class="viewNode">{{item.time_range}}</view>
-							<view slot="content" class="viewNode">{{item.comment}}</view>
-						</template>
-						<template
-							v-if="item.attendance_type=='inOutSchoolAttendance' || item.attendance_type=='inOutDormAttendance'">
-							<view slot="content" class="viewNode">{{item.attendance_location}}</view>
-							<view slot="status" class="viewFlag" style="width: 40px;">{{item.card_dir_txt}}</view>
-							<view slot="content" class="viewNode">
-								<image v-if="item.card_url" style="width: 100px;height: 100px;margin-top: 20px;"
-									@click="clickImg(item.card_url)" :src="item.card_url"></image>
-							</view>
-						</template>
-					</m-steps>
-				</view>
-			</view>
-			<view v-show="semFlag == 2">
-				<view style="margin: -10px 0 0 20px;color: #00CFBD;">
-					<dy-Date :childValue='semFlag1Data.startTime' timeType="month"
-						:dateMore="' ~ '+semFlag1Data.endTime" v-on:getData='getSem1Date' minSelect='2020-01'
-						:maxSelect='dateEndTime'></dy-Date>
-				</view>
-				<view style="text-align: center;margin-top: 10px;">请假总次数：<span
-						style="color: red;font-size: 20px;">{{semFlag1Data.total_count}}</span></view>
-				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">各月对比</view>
-				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 0 15px;width: 60px;"></view>
-				<view class="charts-box" style="margin-left: 10px;">
-					<qiun-data-charts type="column" :chartData="semFlag1Data.monthCountArray" />
-				</view>
-				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 15px;">请假记录</view>
-				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 0 15px;width: 60px;"></view>
-				<uni-list>
-					<uni-list-item showArrow clickable @click="clickLeaveDetail(item)"
-						v-for="(item,index) in semFlag1Data.leaveList" :key='index'>
-						<view slot="body">
-							<span class='leaveDetail' style="margin-left: 15px;">{{index+1}}</span>
-							<span class='leaveDetail' style="margin-left: 15px;">{{item.item_txt}}</span>
-							<span class='leaveDetail'
-								style="margin-left: 15px;">{{item.begintime.split(':')[0]}}:{{item.begintime.split(':')[1]}}~{{item.endtime.split(':')[0]}}:{{item.endtime.split(':')[1]}}</span>
+						<view v-else-if="item.type == 2" class="">
+							<view class="examType" style="background: #67d293;">作业</view>
+							<p class='contentName'>{{item.name}}</p>
 						</view>
-					</uni-list-item>
-				</uni-list>
+					</view>
+				</m-steps>
 				<view class="uni-loadmore" v-if="semFlag1Data.showLoadMore">{{semFlag1Data.loadMoreText}}</view>
 			</view>
-			<view v-show="semFlag == 3">
-				<view style="margin: -10px 0 0 20px;color: #00CFBD;">
-					<dy-Date :childValue='semFlag2Data.startTime' timeType="month"
-						:dateMore="' ~ '+semFlag2Data.endTime" v-on:getData='getSem2Date' minSelect='2020-01'
-						:maxSelect='dateEndTime'></dy-Date>
+			<view v-if="semFlag == 2">
+				<my-swiperPage :allValue="semFlag2Data.subList" @swiperPagechange='changeSwiper'></my-swiperPage>
+				<h4 class="spaceLine">本科知识点概况</h4>
+				<view class="charts-box">
+				  <qiun-data-charts type="arcbar" :opts="semFlag2Data.zhishidianShow" :chartData="semFlag2Data.zhishidianDFL"/>
 				</view>
-				<h4 class="spaceLine">一、出入校</h4>
+				<view style="text-align: center;">
+					<view class="leaveSum">各知识点平均得分率</view>
+				</view>
+				<uni-grid :column="2" :showBorder='false' :square="false" :highlight="false">
+					<uni-grid-item>
+						<view class="grid-item-box">
+							<p class="leaveSum">本科目知识点总数：{{semFlag2Data.knowData.total_point}}个</p>
+						</view>
+					</uni-grid-item>
+					<uni-grid-item>
+						<view class="grid-item-box">
+							<p class="leaveSum">已考察知识点数量：{{semFlag2Data.knowData.survey_point}}个</p>
+						</view>
+					</uni-grid-item>
+				</uni-grid>
+				<view style="text-align: center;margin-top: 10px;">
+					<span @click="clickKnowPointDetail"
+						style="background: #00CFBD;padding: 5px 25px;font-size: 14px;color:#fff;border-radius: 30px;">查看知识点详情</span>
+				</view>
+				<h4 class="spaceLine" style="background-color: #F86A6A;color: #fff;margin-top: 20px;">得分率最低的十个知识点</h4>
 				<uni-list>
-					<uni-list-item showArrow clickable @click="churuxiao()">
+					<uni-list-item :border="false" v-for="(model,index) in semFlag2Data.knowData.low_score_list"
+						:key='index' direction='column' clickable @click="toDetailPageKnowPointLow(model,index)">
 						<view slot="body">
-							<span style="margin-left: 40px;">出入校记录</span>
-							<span style="margin-left: 40px;">{{semFlag2Data.total_count}}条</span>
+							<uni-row style="">
+								<uni-col style="" :span="2">
+									<view
+										style="text-align: center;padding: 1px;margin-top: 0px;background-color:#F86A6A;border-radius: 50%;width: 20px;height: 20px;color: #fff;font-size: 14px;">
+										{{index+1}}</view>
+								</uni-col>
+								<uni-col style="" :span="20">
+									<view style="font-size: 13px;margin-top: 3px;">{{model.book_catalog_name}}</view>
+								</uni-col>
+								<uni-col style="" :span="2">
+									<image style="width: 15px;height: 15px;margin-top: 5px; "
+										src="/static/images/student_performance//search.png"></image>
+								</uni-col>
+							</uni-row>
 						</view>
 					</uni-list-item>
 				</uni-list>
-				<h4 class="spaceLine">二、考勤统计</h4>
-				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 15px;">各月对比</view>
-				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 0 15px;width: 60px;"></view>
-				<view class="charts-box" style="margin-left: 10px;">
-					<qiun-data-charts type="column" :chartData="semFlag2Data.monthCountArray" />
-				</view>
-				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 15px;">考勤项目统计</view>
-				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 0 15px;width: 80px;"></view>
+				<h4 class="spaceLine" style="background-color: #499DF8;color: #fff;">得分率最高的十个知识点</h4>
 				<uni-list>
-					<uni-list-item showArrow clickable @click="clickAttenceDetail(item)"
-						v-for="(item,index) in semFlag2Data.leaveList" :key='index'>
+					<uni-list-item :border="false" v-for="(model,index) in semFlag2Data.knowData.high_score_list"
+						:key='index' direction='column' clickable @click="toDetailPageKnowPointHeight(model,index)">
 						<view slot="body">
-							<span class='leaveDetail' style="margin-left: 15px;">{{index+1}}</span>
-							<span class='leaveDetail' style="margin-left: 15px;">{{item.item_txt}}</span>
-							<span class='leaveDetail' style="margin-left: 15px;">{{item.num}}次</span>
+							<uni-row style="">
+								<uni-col style="" :span="2">
+									<view
+										style="text-align: center;padding: 1px;margin-top: 0px;background-color:#499DF8;border-radius: 50%;width: 20px;height: 20px;color: #fff;font-size: 14px;">
+										{{index+1}}</view>
+								</uni-col>
+								<uni-col style="" :span="20">
+									<view style="font-size: 13px;margin-top: 3px;">{{model.book_catalog_name}}</view>
+								</uni-col>
+								<uni-col style="" :span="2">
+									<image style="width: 15px;height: 15px;margin-top: 5px; "
+										src="/static/images/student_performance//search.png"></image>
+								</uni-col>
+							</uni-row>
+						</view>
+					</uni-list-item>
+				</uni-list>
+			</view>
+			<view v-if="semFlag == 3">
+				<my-swiperPage :allValue="semFlag3Data.subList" @swiperPagechange='changeSwiper'></my-swiperPage>
+				<view class="mui-row">
+					<h4 class="spaceLine">错题数量及趋势</h4>
+					<view style="text-align: right;font-size: 13px;margin-top: 10px;margin-right: 15px;">
+						错题总数：465道
+					</view>
+					<view class="charts-box" style="margin-top: -20px;">
+					  <qiun-data-charts type="pie" :chartData="semFlag3Data.sumCountQs"/>
+					</view>
+					<view style="text-align: center;margin-top: 20px;">
+						<span @click="clickWrongBookDetail"
+							style="background: #00CFBD;padding: 10px 50px;font-size: 14px;color:#fff;border-radius: 30px;margin-bottom: 15px !important;">查看错题</span>
+					</view>
+				</view>
+				<view class="line"></view>
+				<h4 style="margin-top: 15px;font-size: 14px;font-weight: normal;margin-left: 10px;">历次考试错题数量趋势如下：</h4>
+				<view class="charts-box" style="margin-top: 10px;">
+					<qiun-data-charts type="demotype" :chartData="semFlag3Data.kaoshiQs" background="none" />
+				</view>
+				<view class="line" style="margin-top: 10px;"></view>
+				<h4 style="margin-top: 20px;font-size: 14px;font-weight: normal;margin-left: 10px;">历次作业错题数量趋势如下：</h4>
+				<view class="charts-box" style="margin-top: 10px;">
+					<qiun-data-charts type="demotype" :chartData="semFlag3Data.zuoyeQs" background="none" />
+				</view>
+				<h4 class="spaceLine" style="background-color: #F86A6A;color: #fff;margin-top: 5px;">知识点错题榜</h4>
+				<h4 style="margin-top: 20px;font-size: 14px;font-weight: normal;margin-left: 15px;">错题数量最多的十个知识点如下：</h4>
+				<uni-list :border="false">
+					<uni-list-item :border="false" v-for="(model,index) in semFlag3Data.wrongData.error_point_list"
+						:key='index' direction='column' clickable @click="toDetailPageKnowPointWrong(model,index)">
+						<view slot="body">
+							<uni-row style="">
+								<uni-col style="" :span="2">
+									<view
+										style="text-align: center;padding: 1px;margin-top: 0px;background-color:#F86A6A;border-radius: 50%;width: 20px;height: 20px;color: #fff;font-size: 14px;">
+										{{index+1}}</view>
+								</uni-col>
+								<uni-col style="" :span="20">
+									<view style="font-size: 13px;margin-top: 3px;">{{model.name}}</view>
+								</uni-col>
+								<uni-col style="" :span="2">
+									<image style="width: 15px;height: 15px;margin-top: 5px; "
+										src="/static/images/student_performance//search.png"></image>
+								</uni-col>
+							</uni-row>
+						</view>
+					</uni-list-item>
+				</uni-list>
+				<h4 class="spaceLine" style="background-color: #F5A35A;color: #fff;">考试/作业错题榜</h4>
+				<h4 style="margin-top: 20px;font-size: 14px;font-weight: normal;margin-left: 15px;">错题数量最多的十次考试/作业：</h4>
+				<uni-list :border="false">
+					<uni-list-item :border="false" v-for="(model,index) in semFlag3Data.wrongData.error_task_list"
+						:key='index' direction='column' clickable @click="toDetailPageHomeWorkWrong(model,index)">
+						<view slot="body">
+							<uni-row style="">
+								<uni-col style="" :span="2">
+									<view
+										style="text-align: center;padding: 1px;margin-top: 3px;background-color:#F86A6A;border-radius: 50%;width: 20px;height: 20px;color: #fff;font-size: 14px;">
+										{{index+1}}</view>
+								</uni-col>
+								<uni-col style="" :span="20">
+									<view style="font-size: 13px;margin-top: 3px;">{{model.paper_name}}</view>
+								</uni-col>
+								<uni-col style="" :span="2">
+									<image style="width: 15px;height: 15px;margin-top: 5px; "
+										src="/static/images/student_performance//search.png"></image>
+								</uni-col>
+							</uni-row>
 						</view>
 					</uni-list-item>
 				</uni-list>
@@ -171,30 +243,31 @@
 					flagRef: 0, //是刷新0，还是加载更多1
 					loadMoreText: "加载中...",
 					showLoadMore: false,
-					sem0List: [] //单科成绩列表
+					sem1List: [] //单科成绩列表
 				},
 				semFlag2Data: { //知识点分析
-					flagRef: 0, //0刷新1加载更多
-					pageIndex: 1,
-					startTime: '',
-					endTime: '',
-					total_page: 0, //总页数
-					total_count: '', //请假总次数
-					monthCountArray: {},
-					loadMoreText: "加载中...",
-					showLoadMore: false,
-					leaveList: []
+					subList: [], //科目列表
+					nowSubject: {}, //当前科目信息
+					zhishidianShow:{},
+					zhishidianDFL:{},
+					knowData: {
+						total_point: '', //本科目知识点总数
+						// kc:'',//已考察知识点数量
+						// low_score_list:[],//得分率最低的十个知识点
+						// heightList:[]//得分率最高的十个知识点
+					}
 				},
 				semFlag3Data: { //错题本
-					// refrushFlag: 0, //0刷新1加载更多
-					// pageNumber: 1,
-					startTime: '',
-					endTime: '',
-					// total_page: 0, //总页数
-					total_count: '', //出入量总次数
-					monthCountArray: {},
-					knowData: {},
-					leaveList: []
+					subList: [], //科目列表
+					nowSubject: {}, //当前科目信息
+					sumCountQs:{},
+					kaoshiQs:{},
+					zuoyeQs:{},
+					wrongData: {
+						zs: '',
+						knowWrongList: [], //知识点错题榜
+						homeWorkWrongList: [], //考试/作业错题榜
+					}
 				}
 			}
 		},
@@ -213,14 +286,7 @@
 			console.log('personInfo:' + JSON.stringify(this.personInfo));
 			this.tabBarItem = util.getTabbarMenu();
 			console.log('this.tabBarItem:' + JSON.stringify(this.tabBarItem));
-			let end_month = this.moment().format('YYYY-MM')
-			let start_month = this.moment().subtract(5, 'M').format('YYYY-MM');
-			this.semFlag1Data.startTime = start_month;
-			this.semFlag1Data.endTime = end_month;
-			this.semFlag2Data.startTime = start_month;
-			this.semFlag2Data.endTime = end_month;
-			this.dateEndTime = end_month;
-			
+
 			// 获取科目列表
 			this.getSubList(0, subArray => {
 				for (var i = 0; i < subArray.length; i++) {
@@ -254,8 +320,7 @@
 				}
 				this.semFlag1Data.showLoadMore = true;
 				setTimeout(() => {
-					this.getLeaveStatistics();
-					this.getLeavePage();
+					this.getSumSubScore();
 				}, 300);
 			}
 		},
@@ -269,15 +334,32 @@
 				this.semFlag1Data.loadMoreText = "加载中..."
 				this.semFlag1Data.flagRef = 0;
 				this.semFlag1Data.pageIndex = 1;
-				this.getLeaveStatistics();
-				this.getLeavePage();
+				this.getSumSubScore();
 			} else {
 				uni.stopPullDownRefresh();
 			}
 		},
 		methods: {
-			changeSwiper(e){
-				console.log('changeSwiperchangeSwiper:'+e.index);
+			changeSwiper(e) {
+				console.log('changeSwiperchangeSwiper:' + e.index);
+				if (this.semFlag == 0) {
+					var tempSub = this.semFlag0Data.subList[e.index];
+					this.semFlag0Data.nowSubject = tempSub;
+					this.semFlag0Data.flagRef = 0; //0刷新1加载更多
+					this.semFlag0Data.pageIndex = 1; //
+					// 获取单科成绩列表
+					this.getSingleSubScore();
+				} else if (this.semFlag == 2) {
+					var tempSub = this.semFlag2Data.subList[e.index];
+					this.semFlag2Data.nowSubject = tempSub;
+					// 获取知识点
+					this.getKnowPoint();
+				} else if (this.semFlag == 3) {
+					var tempSub = this.semFlag3Data.subList[e.index];
+					this.semFlag3Data.nowSubject = tempSub;
+					// 获取错题本
+					this.getWrongBook();
+				}
 			},
 			// 获取科目列表
 			getSubList(flag, callback) {
@@ -292,7 +374,7 @@
 					tempUrl = 'errorBook/errorSub';
 				}
 				this.showLoading();
-				this.post(this.globaData.INTERFACE_STUSCORE + tempUrl, comData, (data0,data)=> {
+				this.post(this.globaData.INTERFACE_STUSCORE + tempUrl, comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
 						callback(data.data.list);
@@ -301,92 +383,155 @@
 					}
 				});
 			},
-			clickImg(img) {
-				let tempArray = [];
-				tempArray.push(img);
-				uni.previewImage({
-					urls: tempArray,
-				});
+			clickSingleScore: function(model) {
+				model.access = curPage.access.split('#')[1];
+				util.openwithData("/pages/student_performance/singleScore", model);
 			},
-			getSem1Date(sureDtae) {
-				if (sureDtae != this.semFlag1Data.startTime) {
-					let end_month = this.moment(sureDtae).add(5, 'M').format('YYYY-MM');
-					this.semFlag1Data.startTime = sureDtae;
-					this.semFlag1Data.endTime = end_month;
-					this.semFlag1Data.loadMoreText = "加载中..."
-					this.semFlag1Data.flagRef = 0;
-					this.semFlag1Data.pageIndex = 1;
-					this.getLeaveStatistics();
-					this.getLeavePage();
-				}
+			clickSumScore: function(model) {
+				model.access = curPage.access.split('#')[1];
+				util.openwithData("/pages/student_performance/sumScore", model);
 			},
-			getSem2Date(sureDtae) {
-				if (sureDtae != this.semFlag2Data.startTime) {
-					let end_month = this.moment(sureDtae).add(5, 'M').format('YYYY-MM');
-					this.semFlag2Data.startTime = sureDtae;
-					this.semFlag2Data.endTime = end_month;
-					this.getInOutCount();
-					this.getAttendanceCountByMonth();
-					this.getPageAttendanceStatistics();
-				}
+			clickKnowPointDetail: function(model) { //查看各知识点详情
+				model.access = curPage.access.split('#')[1];
+				model.per_name = contentData.knowPoints.knowData.per_name;
+				model.per_code = contentData.knowPoints.knowData.per_code;
+				model.nowSubject = contentData.knowPoints.nowSubject;
+				console.log('查看各知识点详情', JSON.stringify(model))
+				util.openwithData("/pages/student_performance/zhishidianfenxi_xiangqing", model);
+			},
+			toDetailPageKnowPointLow: function(tempM, index) { //得分率最低的十个知识点
+				var model = {};
+				// model.name = tempM.book_catalog_name;
+				// model.score_rate = tempM.score_rate;
+				// model.id = tempM.book_catalog_id;
+				model.flag = 1;
+				model.access = curPage.access.split('#')[1];
+				model.type = 'low';
+				model.headTitle = '得分率最低的十个知识点';
+				model.bookList = contentData.knowPoints.knowData.low_score_list;
+				model.bookIndex = index;
+				console.log('得分率最低的十个知识点')
+				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
+			},
+			toDetailPageKnowPointHeight: function(tempM, index) { //得分率最高的十个知识点
+				var model = {};
+				// model.name = tempM.book_catalog_name;
+				// model.score_rate = tempM.score_rate;
+				// model.id = tempM.book_catalog_id;
+				model.flag = 1;
+				model.access = curPage.access.split('#')[1];
+				model.type = 'height';
+				model.headTitle = '得分率最高的十个知识点';
+				model.bookList = contentData.knowPoints.knowData.high_score_list;
+				model.bookIndex = index;
+				console.log('得分率最高的十个知识点')
+				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
+			},
+			clickWrongBookDetail: function(model) { //查看错题详情
+				model.access = curPage.access.split('#')[1];
+				model.per_name = contentData.wrongBook.wrongData.per_name;
+				model.per_code = contentData.wrongBook.wrongData.per_code;
+				model.nowSubject = contentData.wrongBook.nowSubject;
+				console.log('查看查看错题详情', JSON.stringify(model))
+				util.openwithData("/pages/student_performance/cuoti_xiangqing", model);
+			},
+			toDetailPageKnowPointWrong: function(tempM, index) { //知识点错题榜
+				console.log('tempM:' + JSON.stringify(tempM));
+				var model = {};
+				// model.name = tempM.name;
+				// model.id = tempM.book_catalog_id;
+				model.flag = 2;
+				model.access = curPage.access.split('#')[1];
+				model.headTitle = '知识点错题榜';
+				model.bookList = contentData.wrongBook.wrongData.error_point_list;
+				model.bookIndex = index;
+				console.log('知识点错题榜')
+				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
+			},
+			toDetailPageHomeWorkWrong: function(tempM, index) { //考试/作业错题榜
+				console.log('tempM:' + JSON.stringify(tempM));
+				var model = {};
+				// model.name = tempM.paper_name;
+				// model.id = tempM.paper_id;
+				model.flag = 3;
+				model.access = curPage.access.split('#')[1];
+				model.headTitle = '考试/作业错题榜';
+				model.bookList = contentData.wrongBook.wrongData.error_task_list;
+				model.bookIndex = index;
+				console.log('考试/作业错题榜')
+				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
 			},
 			clickSeg: function(e) {
 				if (this.semFlag != e.currentIndex) {
 					this.semFlag = e.currentIndex;
 					console.log('this.semFlag:' + e.currentIndex);
 					if (this.semFlag == 0) {
-						if (this.semFlag0Data.sem0List.length == 0) {
-							this.getSingleSubScore();
+						if (this.semFlag0Data.subList.length == 0) {
+							// 获取科目列表
+							this.getSubList(0, subArray => {
+								for (var i = 0; i < subArray.length; i++) {
+									var tempM = subArray[i];
+									tempM.text = tempM.sub_name;
+								}
+								this.semFlag0Data.subList = [].concat(subArray);
+								if (subArray.length > 0) {
+									this.semFlag0Data.nowSubject = subArray[0];
+								}
+								// 获取单科成绩列表
+								this.getSingleSubScore();
+							});
 						}
 					} else if (this.semFlag == 1) {
-						if (this.semFlag1Data.total_count == 0) {
-							this.getLeaveStatistics();
-						}
-						if (this.semFlag1Data.leaveList.length == 0) {
-							this.getLeavePage();
+						if (this.semFlag1Data.sem1List.length == 0) {
+							// 获取全科成绩列表
+							this.getSumSubScore();
 						}
 					} else if (this.semFlag == 2) {
-						if (this.semFlag2Data.total_count == 0) {
-							this.getInOutCount();
+						if (this.semFlag2Data.knowData.total_point == '') {
+							// 获取科目列表
+							this.getSubList(this.semFlag, subArray => {
+								for (var i = 0; i < subArray.length; i++) {
+									var tempM = subArray[i];
+									tempM.text = tempM.sub_name;
+								}
+								this.semFlag2Data.subList = [].concat(subArray);
+								if (subArray.length > 0) {
+									this.semFlag2Data.nowSubject = subArray[0];
+								}
+								// 获取知识点分析
+								this.getKnowPoint();
+							});
 						}
-						if (!this.semFlag2Data.monthCountArray.categories) {
-							this.getAttendanceCountByMonth();
-						}
-						if (this.semFlag2Data.leaveList.length == 0) {
-							this.getPageAttendanceStatistics();
+					} else if (this.semFlag == 3) {
+						if (this.semFlag3Data.wrongData.zs == '') {
+							// 获取科目列表
+							this.getSubList(this.semFlag, subArray => {
+								for (var i = 0; i < subArray.length; i++) {
+									var tempM = subArray[i];
+									tempM.text = tempM.sub_name;
+								}
+								this.semFlag3Data.subList = [].concat(subArray);
+								if (subArray.length > 0) {
+									this.semFlag3Data.nowSubject = subArray[0];
+								}
+								// 获取知识点分析
+								this.getWrongBook();
+							});
 						}
 					}
 				}
 			},
-			clickLeaveDetail: function(model) {
-				util.openwithData("/pages/parents_attendance/leaveDetail", model);
-			},
-			clickAttenceDetail: function(model) {
-				console.log('clickAttenceDetail');
-				model.access = this.tabBarItem.access
-				util.openwithData("/pages/parents_attendance/attenceDetail", model);
-			},
-			churuxiao: function() {
-				this.tabBarItem.count = this.semFlag2Data.total_count;
-				if (this.tabBarItem.count == 0) {
-					return;
-				}
-				util.openwithData("/pages/parents_attendance/churuxiao", this.tabBarItem);
-			},
 			//获取单科成绩
 			getSingleSubScore() {
-				let user_code = this.personInfo.user_code;
-				if (this.personInfo.type_code == 'YHLX0004') {
-					user_code = this.personInfo.stu_code;
-				}
 				let comData = {
-					stu_code: user_code,
-					page_size: this.pageSize,
+					user_code: this.personInfo.user_code,
+					sub_code: this.semFlag0Data.nowSubject.sub_code,
 					page_number: this.semFlag0Data.pageIndex,
+					page_size: this.pageSize,
 					index_code: this.tabBarItem.access.split('#')[1],
 				}
 				this.showLoading();
-				this.post(this.globaData.PARENTS_ATTENDANCE + 'attendance/page', comData, (data0, data) => {
+				this.post(this.globaData.INTERFACE_STUSCORE + 'singleSub/page', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
 						this.semFlag0Data.pageIndex++;
@@ -405,58 +550,16 @@
 					}
 				});
 			},
-			//获取请假统计
-			getLeaveStatistics() {
-				let user_code = this.personInfo.user_code;
-				if (this.personInfo.type_code == 'YHLX0004') {
-					user_code = this.personInfo.stu_code;
-				}
+			//获取全科成绩
+			getSumSubScore() {
 				let comData = {
-					stu_code: user_code,
-					begintime: this.semFlag1Data.startTime,
-					endtime: this.semFlag1Data.endTime,
-					index_code: this.tabBarItem.access.split('#')[1],
-				}
-				this.showLoading();
-				this.post(this.globaData.PARENTS_ATTENDANCE + 'leave/statistics', comData, (data0, data) => {
-					this.hideLoading();
-					if (data.code == 0) {
-						this.semFlag1Data.total_count = data.data.total_count
-						let month_data_array = data.data.month_data_array;
-						let months = [];
-						let counts = [];
-						month_data_array.map(item => {
-							months.push(item.month)
-							counts.push(item.count)
-						})
-						this.semFlag1Data.monthCountArray = {
-							categories: months,
-							series: [{
-								name: "各月请假次数",
-								data: counts
-							}]
-						}
-					} else {
-						this.showToast(data.msg);
-					}
-				});
-			},
-			//获取请假记录
-			getLeavePage() {
-				let user_code = this.personInfo.user_code;
-				if (this.personInfo.type_code == 'YHLX0004') {
-					user_code = this.personInfo.stu_code;
-				}
-				let comData = {
-					stu_code: user_code,
-					begintime: this.semFlag1Data.startTime,
-					endtime: this.semFlag1Data.endTime,
+					user_code: this.personInfo.user_code,
+					page_number: this.semFlag1Data.pageIndex,
 					page_size: this.pageSize,
-					page_number: this.semFlag1Data.pageNumber,
 					index_code: this.tabBarItem.access.split('#')[1],
 				}
 				this.showLoading();
-				this.post(this.globaData.PARENTS_ATTENDANCE + 'leave/page', comData, (data0, data) => {
+				this.post(this.globaData.INTERFACE_STUSCORE + 'fullSub/page', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
 						this.semFlag1Data.pageIndex++;
@@ -465,103 +568,85 @@
 							if (data.data.list.length == 0) {
 								this.showToast('暂无数据');
 							}
-							this.semFlag1Data.leaveList = [].concat(data.data.list);
+							this.semFlag1Data.sem1List = [].concat(data.data.list);
 							uni.stopPullDownRefresh();
 						} else {
-							this.semFlag1Data.leaveList = this.semFlag1Data.leaveList.concat(data.data.list);
+							this.semFlag1Data.sem1List = this.semFlag1Data.sem1List.concat(data.data.list);
 						}
 					} else {
 						this.showToast(data.msg);
 					}
 				});
 			},
-			//获取统计出入数量
-			getInOutCount() {
-				let user_code = this.personInfo.user_code;
-				if (this.personInfo.type_code == 'YHLX0004') {
-					user_code = this.personInfo.stu_code;
-				}
+			//获取知识点
+			getKnowPoint() {
 				let comData = {
-					stu_code: user_code,
-					begintime: this.semFlag2Data.startTime,
-					endtime: this.semFlag2Data.endTime,
+					user_code: this.personInfo.user_code,
+					sub_code: this.semFlag2Data.nowSubject.sub_code,
 					index_code: this.tabBarItem.access.split('#')[1],
 				}
 				this.showLoading();
-				this.post(this.globaData.PARENTS_ATTENDANCE + 'attendance/inOutCount', comData, (data0, data) => {
+				this.post(this.globaData.INTERFACE_STUSCORE + 'point/subOverview', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
-						this.semFlag2Data.total_count = data.data.count;
+						this.semFlag2Data.knowData = data.data;
+						this.semFlag2Data.zhishidianDFL = {"series":[{"name":"得分率","data":this.semFlag2Data.knowData.average_score_rate,"color":"#00CFBD"}]};
+						this.semFlag2Data.zhishidianShow = {title:{name:this.semFlag2Data.knowData.average_score_rate*100+'%',fontSize:35,color:'#00CFBD'},subtitle:{name:'得分率',color:'#666666',fontSize:15}}
 					} else {
 						this.showToast(data.msg);
 					}
 				});
 			},
-			//按月统计考勤项目
-			getAttendanceCountByMonth() {
-				let user_code = this.personInfo.user_code;
-				if (this.personInfo.type_code == 'YHLX0004') {
-					user_code = this.personInfo.stu_code;
-				}
+			// 获取错题本
+			getWrongBook() {
 				let comData = {
-					stu_code: user_code,
-					begintime: this.semFlag2Data.startTime,
-					endtime: this.semFlag2Data.endTime,
+					user_code: this.personInfo.user_code,
+					sub_code: this.semFlag3Data.nowSubject.sub_code,
 					index_code: this.tabBarItem.access.split('#')[1],
 				}
 				this.showLoading();
-				this.post(this.globaData.PARENTS_ATTENDANCE + 'attendance/attendanceCountByMonth', comData, (data0,
-					data) => {
+				this.post(this.globaData.INTERFACE_STUSCORE + 'errorBook/queryTrends', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
-						let month_data_array = data.data.list
-						let months = [];
-						let counts = [];
-						month_data_array.map(item => {
-							months.push(item.month)
-							counts.push(item.count)
-						})
-						this.semFlag2Data.monthCountArray = {
-							categories: months,
+						this.semFlag3Data.wrongData = data.data;
+						// 
+						let datas = [{
+							name: "作业错题",
+							value: data.data.homework_num
+						}, {
+							name: "考试错题",
+							value: data.data.task_num
+						}]
+						this.semFlag3Data.sumCountQs = {"series":[{"data":datas}]}
+						// 考试趋势
+						var kaosArr0 = [];
+						var kaosArr1 = [];
+						for (var i = 0; i < data.data.task_trends.length; i++) {
+							var tempM = data.data.task_trends[i];
+							kaosArr0.push('');
+							kaosArr1.push(tempM.wrong_num);
+						}
+						this.semFlag3Data.kaoshiQs = {
+							categories: kaosArr0,
 							series: [{
-								name: "各月考勤次数",
-								data: counts
+								name: "考试错题数量趋势",
+								data: kaosArr1
 							}]
 						}
-					} else {
-						this.showToast(data.msg);
-					}
-				});
-			},
-			//分页查询考勤项目统计
-			getPageAttendanceStatistics() {
-				let user_code = this.personInfo.user_code;
-				if (this.personInfo.type_code == 'YHLX0004') {
-					user_code = this.personInfo.stu_code;
-				}
-				let comData = {
-					begintime: this.semFlag2Data.startTime,
-					endtime: this.semFlag2Data.endTime,
-					page_size: this.pageSize,
-					stu_code: user_code,
-					page_number: this.semFlag2Data.pageNumber,
-					index_code: this.tabBarItem.access.split('#')[1],
-				}
-				this.showLoading();
-				this.post(this.globaData.PARENTS_ATTENDANCE + 'attendance/pageAttendanceStatistics', comData, (data0,
-					data) => {
-					this.hideLoading();
-					if (data.code == 0) {
-						this.semFlag2Data.pageIndex++;
-						this.semFlag2Data.total_page = data.data.total_page;
-						if (this.semFlag2Data.flagRef == 0) {
-							if (data.data.list.length == 0) {
-								this.showToast('暂无数据');
-							}
-							this.semFlag2Data.leaveList = [].concat(data.data.list);
-							uni.stopPullDownRefresh();
-						} else {
-							this.semFlag2Data.leaveList = this.semFlag2Data.leaveList.concat(data.data.list);
+						// 作业趋势
+						var zuoyArr0 = [];
+						var zuoyArr1 = [];
+						for (var i = 0; i < data.data.homework_trends.length; i++) {
+							var tempM = data.data.homework_trends[i];
+							zuoyArr0.push('');
+							zuoyArr1.push(tempM.wrong_num);
+						}
+						this.semFlag3Data.zuoyeQs = {
+							categories: zuoyArr0,
+							series: [{
+								name: "作业错题数量趋势",
+								data: zuoyArr1
+							}]
 						}
 					} else {
 						this.showToast(data.msg);
@@ -596,13 +681,62 @@
 
 	/* 间隔 */
 	.spaceLine {
-		padding-left: 15px;
-		text-align: left;
-		padding-top: 15px;
-		padding-bottom: 15px;
-		background: #f8efef;
+		text-align: center;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		background: #d7f3ef;
 		font-size: 14px;
 		color: #505050;
 	}
+
+	.spaceLineName {
+		padding-top: 5px;
+		padding-left: 20px;
+		font-size: 16px;
+		color: #000000;
+	}
+
+	/* 考试类型对应的图片 */
+	.examType {
+		color: white;
+		float: left;
+		width: 40px;
+		height: 40px;
+		font-size: 14px;
+		text-align: center;
+		line-height: 40px;
+		vertical-align: middle;
+		border-radius: 5px;
+		margin-top: 0px !important;
+		margin-right: 10px !important;
+	}
+
+	.contentName {
+		font-size: 12px;
+	}
+
+	.leaveSum {
+		margin-top: 10px;
+		margin-left: 20px;
+		margin-bottom: 0px;
+		font-size: 12px;
+		color: #505050;
+	}
 	
+	.charts-box {
+		width: 100%;
+		height: 330px;
+	}
+	
+	.line {
+		right: 0;
+		bottom: 0;
+		left: 0;
+		height: 1px;
+		content: '';
+		-webkit-transform: scaleY(.5);
+		transform: scaleY(.5);
+		background-color: #77DDA0;
+		margin-top: 30px;
+	}
 </style>

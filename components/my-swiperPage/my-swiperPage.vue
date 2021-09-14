@@ -91,7 +91,7 @@
  					return
  				}
  				this.currentIndex -= 1;
- 				this.change();
+ 				// this.change();
  			},
  			clickRight() {
 				console.log('clickRight1111100');
@@ -100,7 +100,7 @@
  				}
 				console.log('clickRight1111111');
  				this.currentIndex += 1;
- 				this.change();
+ 				// this.change();
  			},
  			change(e) {
  				this.$emit('swiperPagechange', {

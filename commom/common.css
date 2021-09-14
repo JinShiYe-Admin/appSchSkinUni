@@ -138,3 +138,7 @@
  	background-color: #e5e5e5;
  	margin: 5px 0;
  }
+ 
+ ::v-deep .segmented-control__text {
+     font-size: 14px !important;
+ }
