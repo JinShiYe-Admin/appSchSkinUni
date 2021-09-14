@@ -5,9 +5,9 @@
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">行为详情</view>
 				<view class="form-right">
-					<view style="margin: 5px 0;">{{detailData.grd_name}}&ensp;{{detailData.class_name}}&ensp;{{detailData.stu_name}}</view>
-					<view style="margin: 5px 0;">{{detailData.behavior_time}}&ensp;&ensp;{{detailData.item_txt}}</view>
-					<view style="margin: 5px 0;">{{detailData.comment}}</view>
+					<view style="margin: 5px 0;text-align: left;">{{detailData.grd_name}}&ensp;{{detailData.class_name}}&ensp;{{detailData.stu_name}}</view>
+					<view style="margin: 5px 0;text-align: left;">{{detailData.behavior_time}}&ensp;&ensp;{{detailData.item_txt}}</view>
+					<view style="margin: 5px 0;text-align: left;">{{detailData.comment}}</view>
 				</view>
 			</view>
 			<view class="line"></view>
@@ -26,7 +26,7 @@
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">谈话记录</view>
-				<view class="form-right">{{detailData.chat_detail}}</view>
+				<view class="form-right"  style="text-align: left;">{{detailData.chat_detail}}</view>
 			</view>
 			<template v-if="imgList2.length>0">
 				<view class="double-line"></view>

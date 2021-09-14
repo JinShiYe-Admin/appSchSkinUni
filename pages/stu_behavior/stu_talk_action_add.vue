@@ -4,9 +4,9 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">行为详情</view>
 			<view class="form-right">
-				<view style="margin: 5px 0;">{{tabBarItem.grd_name}}&ensp;{{tabBarItem.class_name}}&ensp;{{tabBarItem.stu_name}}</view>
-				<view style="margin: 5px 0;">{{tabBarItem.behavior_time}}&ensp;&ensp;{{tabBarItem.item_txt}}</view>
-				<view style="margin: 5px 0;">{{tabBarItem.comment}}</view>
+				<view style="margin: 5px 0;text-align: left;">{{tabBarItem.grd_name}}&ensp;{{tabBarItem.class_name}}&ensp;{{tabBarItem.stu_name}}</view>
+				<view style="margin: 5px 0;text-align: left;">{{tabBarItem.behavior_time}}&ensp;&ensp;{{tabBarItem.item_txt}}</view>
+				<view style="margin: 5px 0;text-align: left;">{{tabBarItem.comment}}</view>
 			</view>
 		</view>
 		<template v-if="imgListf.length>0">
@@ -174,7 +174,7 @@
 						obj.id=''
 						obj.url=encAddrStr[index]
 						obj.ext=item.split(".")[1]
-						obj.name='附件'+(index+1)
+						obj.name='附件'+(index+1)+'.'+item.split(".")[1]
 						asset_ids.push(obj)
 					})
 				}

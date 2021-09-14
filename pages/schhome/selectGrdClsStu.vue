@@ -17,7 +17,7 @@
 		</template>
 		<template v-else-if="dataFlag===2">
 			<scroll-view class="select-scroll" scroll-y="true">
-				<uni-collapse class="warp" @change="collapseChange">
+				<uni-collapse class="warp" @change="grdChange">
 					<uni-collapse-item v-for="(grd, key) in grdList" :key="key" :disabled="grd.disabled" :title="grd.name">
 						<uni-list class="uni-list" :border="false">
 							<checkbox-group >
@@ -37,7 +37,7 @@
 			<uni-row>
 				<uni-col :span="9" style="border-right: 1px solid rgba(238,238,238,.5);">
 					<scroll-view class="select-scroll" scroll-y="true" style="background:#FFFFFF ;">
-						<uni-collapse class="warp" @change="collapseChange">
+						<uni-collapse class="warp" @change="grdChange">
 							<uni-collapse-item v-for="(grd, key) in grdList" :key="key" :disabled="grd.disabled" :title="grd.name">
 								<uni-list class="uni-list" :border="false"  style="background:#F0F00 ;">
 									<label  class="uni-list-cell uni-list-cell-pd collapse" :style="{background:item.current?'#E4E4E4':''}" v-for="(item,index) in grd.clsList" :key="index" @click="clsClick(key,item)">
@@ -82,7 +82,7 @@
 				index_code:'',
 				selectDatas:[],
 				collapse:[],//展开的窗口
-				currentGrd:-1,//展开的窗口索引
+				currentGrdIndex:-1,//展开的窗口索引
 				grdList:[],
 				stuList:[],
 				hasStuList:false,
@@ -104,10 +104,19 @@
 					this.$forceUpdate();
 				})
 			},
-			clsClick(currentGrd,clsItem){
-				this.currentGrd=currentGrd
+			clsClick(currentGrdIndex,clsItem){
+				this.currentGrdIndex=currentGrdIndex
+				this.selectDatas.map(grditem=>{
+					if(grditem.value==this.grdList[this.currentGrdIndex].value){
+						grditem.clsList.map(clsitem=>{
+							if(clsitem.value==clsItem.value){
+								clsitem.clicked=true
+							}
+						})
+					}
+				})
 				if(this.dataFlag===2){
-					this.getStuArray(currentGrd,clsItem,stuList=>{
+					this.getStuArray(currentGrdIndex,clsItem,stuList=>{
 						if(stuList.length>0){
 							clsItem.checked=!clsItem.checked
 						}else{
@@ -133,11 +142,11 @@
 					}else{
 						this.showLoading()
 						if(this.serviced=='99' || this.serviced==undefined){
-							this.getStuArray(this.grdList[this.currentGrd],clsItem)	
+							this.getStuArray(this.grdList[this.currentGrdIndex],clsItem)	
 						}else if(this.serviced=='0'){
-							this.getStuUnDGArray(this.grdList[this.currentGrd],clsItem)
+							this.getStuUnDGArray(this.grdList[this.currentGrdIndex],clsItem)
 						}else if(this.serviced=='1'){
-							this.getStuDGArray(this.grdList[this.currentGrd],clsItem);
+							this.getStuDGArray(this.grdList[this.currentGrdIndex],clsItem);
 						}
 					}
 				}
@@ -156,7 +165,13 @@
 					let grdList=this.grdList.filter(clsItem=>clsItem.clsList)
 					let newList=this.deepClone(grdList)
 					let list=newList.filter(grdItem=>(grdItem.clsList=grdItem.clsList.filter(clsItem=>clsItem.checked)).length>0)
-					eventChannel.emit('refreshSetPeople', {data: list});
+					this.selectDatas.map(grditem=>{
+						if(!grditem.clicked){
+							list.push(grditem)
+						}
+					})
+					let newLists=list.sort(this.compare("value",1));
+					eventChannel.emit('refreshSetPeople', {data: newLists});
 					uni.navigateBack();
 				}else if(this.dataFlag===3){
 					let grdList=this.grdList.filter(clsItem=>clsItem.clsList)
@@ -167,11 +182,34 @@
 							return clsItem.stuList 
 						}
 					})).length>0)
-					eventChannel.emit('refreshSetPeople', {data: list});
+					if(list.length===0){
+						this.selectDatas.map(grditem=>{
+							list.push(grditem)
+						})
+					}else{
+						list.map(listItem=>{
+							this.selectDatas.map(grditem=>{
+								if(!grditem.clicked){
+									list.push(grditem)
+								}else{
+									if(listItem.value==grditem.value){
+										grditem.clsList.map(clsItem=>{
+											if(!clsItem.clicked){
+												listItem.clsList.push(clsItem)
+											}
+										})
+									}
+								}
+							})
+						})
+					}
+					let newLists=list.sort(this.compare("value",1));
+					console.log("newLists: " + JSON.stringify(newLists));
+					eventChannel.emit('refreshSetPeople', {data: newLists});
 					uni.navigateBack();
 				}
 			},
-			collapseChange(e){
+			grdChange(e){
 				let current='';
 				if(e.length>this.collapse.length){
 					current=e.filter(el => !this.collapse.includes(el))[0]
@@ -182,7 +220,12 @@
 					this.showLoading()
 					this.getClsDataArray(this.grdList[current].value)
 				}
-				this.currentGrd=current
+				this.selectDatas.map(grditem=>{
+					if(grditem.value==this.grdList[current].value){
+						grditem.clicked=true
+					}
+				})
+				this.currentGrdIndex=current
 				this.collapse=e
 			},
 			deepClone(obj, newObj) {//对象深copy
@@ -197,6 +240,32 @@
 					}
 				}
 				return newObj ;
+			},
+			compare(propertyName, order) {//对象数组排序
+				return function(object1, object2) {
+					var value1 = parseInt(object1[propertyName]);
+					var value2 = parseInt(object2[propertyName]);
+					if (order == 0) {
+						debugger
+						if (value2 < value1) {
+							return -1;
+						} else if (value2 > value1) {
+							return 1;
+						} else {
+							return 0;
+						}
+					}
+					if (order == 1) {
+						if (value2 > value1) {
+							return -1;
+						} else if (value2 < value1) {
+							return 1;
+						} else {
+							return 0;
+						}
+					}
+			
+				}
 			},
 			getGrdDataArray(){//获取年级
 				let comData={
@@ -238,7 +307,7 @@
 					this.hideLoading();
 					let clsList=response.cls_list
 					if(clsList.length===0){
-						this.grdList[this.currentGrd].disabled=true;
+						this.grdList[this.currentGrdIndex].disabled=true;
 						this.showToast("暂无班级")
 					}else{
 						clsList.map(item=>{
@@ -255,7 +324,7 @@
 								})
 							}
 						})
-						this.grdList[this.currentGrd].clsList=clsList
+						this.grdList[this.currentGrdIndex].clsList=clsList
 					}
 					this.$forceUpdate()
 				})
@@ -448,6 +517,7 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			this.tabBarItem = itemData;
+			console.log("itemData: " + JSON.stringify(itemData));
 			this.dataFlag=itemData.dataFlag
 			if(itemData.dataFlag===1){
 				itemData.text='选择年级'

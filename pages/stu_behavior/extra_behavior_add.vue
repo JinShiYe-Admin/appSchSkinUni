@@ -259,7 +259,7 @@
 					op_code:'index',
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/getDict',comData,response=>{
+				this.post(this.globaData.INTERFACE_STUXWSUB+'ExtraBehavior/getDict',comData,response=>{
 				    console.log("responsesabaa: " + JSON.stringify(response));
 					this.hideLoading()
 					this.xwxxList =  [].concat(response.qbArray);
@@ -284,7 +284,6 @@
 						let comm=this.formData.comment
 						let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
 						if(this.SMS){
-							smsFlag=1;
 							let showToast=false
 							 let words=[]
 							 for (let i = 0; i < this.WORDS.length; i++) {
@@ -336,6 +335,9 @@
 			submitData(encNameStr,encAddrStr){
 				this.showLoading()
 				let smsFlag=0;
+				if(this.SMS){
+					smsFlag=1
+				}
 				let comm=this.formData.comment
 				let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
 				let asset_ids=[]
@@ -345,7 +347,7 @@
 						obj.id=''
 						obj.url=encAddrStr[index]
 						obj.ext=item.split(".")[1]
-						obj.name='附件'+(index+1)
+						obj.name='附件'+(index+1)+'.'+item.split(".")[1]
 						asset_ids.push(obj)
 					})
 				}

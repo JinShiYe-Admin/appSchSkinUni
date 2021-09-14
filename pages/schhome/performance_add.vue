@@ -341,7 +341,7 @@
 					let grdName=selectData[i].name
 					for (var z = 0; z < cls.length; z++) {
 						let stus=cls[i].stuList
-						for (var x = 0; x < Things.length; x++) {
+						for (var x = 0; x < stus.length; x++) {
 							let obj={
 								gen_type:this.MSG_SMS.PERFORMANCE.USER_TYPE,
 								dpt_code:'',

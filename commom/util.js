@@ -683,6 +683,79 @@ function getPageArray() {
 			url: 'schapp_StuScore',
 			childList: []
 		},
+		{
+			name: "学生宿舍", //
+			pagePath: "/pages/stu_dorm/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/stu_dorm_tab.png",
+			url: 'schapp_Dorm',
+			childList: [{
+					name: '基本信息',
+					icon:  tempAAA + '/static/images/stu_dorm/info_dorm.png',
+					pagePath: "/pages/stu_dorm/base_info_index",
+					url: 'schapp_Dorm_Info',
+					
+				},
+				{
+					name: '班级宿舍',
+					icon: tempAAA + '/static/images/stu_dorm/classes_dorm.png',
+					pagePath: "../../html/stu_dorm/classes_dorm_index.html",
+					url: 'schapp_Dorm_Classes'
+				},
+				{
+					name: '宿舍查询',
+					icon: tempAAA + '/static/images/stu_dorm/select_dorm.png',
+					pagePath: "../../html/stu_dorm/select_dorm_index.html",
+					url: 'schapp_Dorm_Select'
+				},
+				{
+					name: '空床查询',
+					icon: tempAAA + '/static/images/stu_dorm/emptybed_dorm.png',
+					pagePath: "../../html/stu_dorm/emptybed_dorm_index.html",
+					url: 'schapp_Dorm_EmptyBed'
+				},
+				{
+					name: '空房查询',
+					icon: tempAAA + '/static/images/stu_dorm/vacantroom_dorm.png',
+					pagePath: "../../html/stu_dorm/vacantroom_dorm_index.html",
+					url: 'schapp_Dorm_EmptyRoom'
+				},
+				{
+					name: '访客登记',
+					icon: tempAAA + '/static/images/stu_dorm/calle_dorm.png',
+					pagePath: "../../html/stu_dorm/calle_dorm_index.html",
+					url: 'schapp_Dorm_Calle'
+				},
+				{
+					name: '宿舍考勤',
+					icon: tempAAA + '/static/images/stu_dorm/attendance_dorm.png',
+					pagePath: "../../html/stu_dorm/attendance_dorm_index.html",
+					url: 'schapp_Dorm_Attendance'
+				},
+				{
+					name: '宿舍行为',
+					icon: tempAAA + '/static/images/stu_dorm/action_dorm.png',
+					pagePath: "../../html/stu_dorm/action_dorm_index.html",
+					url: 'schapp_Dorm_Action'
+				},
+				{
+					name: '宿舍卫生',
+					icon: tempAAA + '/static/images/stu_dorm/health_dorm.png',
+					pagePath: "../../html/stu_dorm/health_dorm_index.html",
+					url: 'schapp_Dorm_Health'
+				},
+				{
+					name: '宿舍考评',
+					icon: tempAAA + '/static/images/stu_dorm/evaluation_dorm.png',
+					pagePath: "../../html/stu_dorm/evaluation_dorm_index.html",
+					url: 'schapp_Dorm_Evaluation'
+				},
+			]
+		}
 	];
 	return tempArray;
 }
