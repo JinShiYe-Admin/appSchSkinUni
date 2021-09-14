@@ -703,7 +703,7 @@ function getPageArray() {
 				{
 					name: '班级宿舍',
 					icon: tempAAA + '/static/images/stu_dorm/classes_dorm.png',
-					pagePath: "../../html/stu_dorm/classes_dorm_index.html",
+					pagePath: "/pages/stu_dorm/classes_dorm_index",
 					url: 'schapp_Dorm_Classes'
 				},
 				{

@@ -11,8 +11,19 @@
 			 <view class="select-line"></view>
 		</view>
 		 <view class="line-green" style="margin-top: 5px;"></view>
-		 <view style="padding:5px 15px;">
-		 	 {{pageArray}}
+		 <view style="padding:28px 0 0;">
+			 <uni-list :border="false">
+			 	<uni-list-item showArrow :key="index" v-for="(item,index) in pageArray" :border="true">
+			 		<text slot="body" style="padding: 0 30px;flex: 1;" @click="toDetails(item)">
+			 			<uni-row>
+							<uni-col :span="12"><view class="detail-text" style="margin-top: 5px;">楼层名:{{item.floor_num}}</view></uni-col>
+							<uni-col :span="12"><view class="detail-text" style="margin-top: 5px;">居住性别:{{item.stu_sex_text}}</view></uni-col>
+							<uni-col :span="12"><view class="detail-text" style="margin-top: 5px;">房间数:{{item.room_nums}}</view></uni-col>
+							<uni-col :span="12"><view class="detail-text" style="margin-top: 5px;">床位数:{{item.bed_nums}}</view></uni-col>
+			 			</uni-row>
+			 		</text>
+			 	</uni-list-item>
+			 </uni-list>
 		 </view>
 	</view>
 </template>
@@ -57,7 +68,7 @@
 					floor_num: this.floorArray[this.floorIndex].value,
 					index_code: this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_DORM+'dorm/dormDetai',params,response2=>{
+				this.post(this.globaData.INTERFACE_DORM+'dorm/dormDetail',params,response2=>{
 					console.log("responseaaa: " + JSON.stringify(response2));
 					this.hideLoading()
 					this.pageArray = [].concat(response2.list);
@@ -66,6 +77,11 @@
 					}
 				})
 			},
+			toDetails(item){
+				console.log("item: " + JSON.stringify(item));
+				item.index_code=this.index_code
+				util.openwithData('/pages/stu_dorm/base_info_detail',item,{})
+			}
 		},
 		onLoad(options) {
 			const itemData = util.getPageData(options);
@@ -86,7 +102,7 @@
 
 <style>
 	::v-deep .uni-list-item__container{
-		padding-left: 0 !important;
+		padding: 0 !important;
 	}
 	.select-line{
 		height: 2px;
