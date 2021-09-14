@@ -44,7 +44,7 @@
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">行为说明</view>
-				<view class="form-right">{{detailData.comment}}</view>
+				<view class="form-right"  style="text-align: left;">{{detailData.comment}}</view>
 			</view>
 			<template v-if="imgList.length>0">
 				<view class="double-line"></view>

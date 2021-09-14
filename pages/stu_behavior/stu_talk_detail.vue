@@ -24,7 +24,7 @@
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">谈话记录</view>
-				<view class="form-right">{{detailData.chat_detail}}</view>
+				<view class="form-right" style="text-align: left;">{{detailData.chat_detail}}</view>
 			</view>
 			<template v-if="imgList.length>0">
 				<view class="double-line"></view>

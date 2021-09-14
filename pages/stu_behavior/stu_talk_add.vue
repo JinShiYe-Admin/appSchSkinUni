@@ -249,7 +249,7 @@
 						obj.id=''
 						obj.url=encAddrStr[index]
 						obj.ext=item.split(".")[1]
-						obj.name='附件'+(index+1)
+						obj.name='附件'+(index+1)+'.'+item.split(".")[1]
 						asset_ids.push(obj)
 					})
 				}
