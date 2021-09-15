@@ -1650,6 +1650,96 @@
             }
             
         }
+        ,{
+            "path" : "pages/stu_dorm/select_dorm_index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh":true
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/select_dorm_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/emptybed_dorm_index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/emptybed_dorm_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/vacantroom_dorm_index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/vacantroom_dorm_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/evaluation_dorm_index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/evaluation_dorm_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/calle_dorm_index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/calle_dorm_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {

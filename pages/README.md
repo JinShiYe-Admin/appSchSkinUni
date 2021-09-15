@@ -129,3 +129,4 @@ stu_comment|学生评语|Liu|Ruan(广西)|开发
 stu_actionComment|行为与评语(学生/家长端)|Liu|Ruan(广西)|开发
 schhome|家校互动 教师端|Liu|meng(广西)|开发 
 schhome_stu|家校互动 学生端|Liu|Gu|开发
+schhome_dorm|家校互动 学生端|Liu|Gu|开发

@@ -709,25 +709,25 @@ function getPageArray() {
 				{
 					name: '宿舍查询',
 					icon: tempAAA + '/static/images/stu_dorm/select_dorm.png',
-					pagePath: "../../html/stu_dorm/select_dorm_index.html",
+					pagePath: "/pages/stu_dorm/select_dorm_index",
 					url: 'schapp_Dorm_Select'
 				},
 				{
 					name: '空床查询',
 					icon: tempAAA + '/static/images/stu_dorm/emptybed_dorm.png',
-					pagePath: "../../html/stu_dorm/emptybed_dorm_index.html",
+					pagePath: "/pages/stu_dorm/emptybed_dorm_index",
 					url: 'schapp_Dorm_EmptyBed'
 				},
 				{
 					name: '空房查询',
 					icon: tempAAA + '/static/images/stu_dorm/vacantroom_dorm.png',
-					pagePath: "../../html/stu_dorm/vacantroom_dorm_index.html",
+					pagePath: "/pages/stu_dorm/vacantroom_dorm_index",
 					url: 'schapp_Dorm_EmptyRoom'
 				},
 				{
 					name: '访客登记',
 					icon: tempAAA + '/static/images/stu_dorm/calle_dorm.png',
-					pagePath: "../../html/stu_dorm/calle_dorm_index.html",
+					pagePath: "/pages/stu_dorm/calle_dorm_index",
 					url: 'schapp_Dorm_Calle'
 				},
 				{
@@ -751,7 +751,7 @@ function getPageArray() {
 				{
 					name: '宿舍考评',
 					icon: tempAAA + '/static/images/stu_dorm/evaluation_dorm.png',
-					pagePath: "../../html/stu_dorm/evaluation_dorm_index.html",
+					pagePath: "/pages/stu_dorm/evaluation_dorm_index",
 					url: 'schapp_Dorm_Evaluation'
 				},
 			]

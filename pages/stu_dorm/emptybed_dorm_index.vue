@@ -16,17 +16,27 @@
 			<view class="select-line"></view>
 		</view>
 		<view style="padding:44px 15px 0px;">
+			<view v-if="total" class="title-text" style="margin-top: 5px;">{{total.dorm_name}}</view>
+			<uni-row v-if="total">
+				<uni-col :span='12'><view class="detail-text" style="margin-top: 5px;">空余房间数:{{total.spare_room_nums}}</view></uni-col>
+				<uni-col :span='12'><view class="detail-text" style="margin-top: 5px;">空余床位数:{{total.spare_bed_nums}}</view></uni-col>
+			</uni-row>
+			<view v-if="total" class="double-line" style="margin: 0 -15px;"></view>
 			<uni-list :border="false">
 				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
 					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
 						<uni-row>
-							<uni-col :span="12"><view class="detail-text">班级:{{item.grd_name}} {{item.cls_name}}</view></uni-col>
+							<uni-col :span="12"><view class="detail-text">楼房:{{item.dorm_name}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text">居住性别:{{item.stu_sex_text}}</view></uni-col>
-							<uni-col :span="24"><view class="detail-text">楼房名:{{item.dorm_names}}</view></uni-col>
+							<uni-col :span="12"><view class="detail-text">空余房间数:{{item.spare_room_nums}}</view></uni-col>
+							<uni-col :span="12"><view class="detail-text">空余床位数:{{item.spare_bed_nums}}</view></uni-col>
 						</uni-row>
 					</text>
 				</uni-list-item>
 			</uni-list>
+			<view v-if="!total">
+				<view class="detail-text" style="text-align: center;">暂无数据</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -38,6 +48,7 @@
 			return {
 				index_code:'',
 				itemData: {},
+				total:'',
 				pageSize:15,
 				pageobj0:{
 					loadFlag:0,//0 刷新 1加载更多
@@ -145,12 +156,13 @@
 					page_size: this.pageSize, //每页记录数
 					index_code: this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_DORM+'classDorm/page',comData,response=>{
+				this.post(this.globaData.INTERFACE_DORM+'stuDorm/pageSpareBedNums',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
 					}, 1000);
 					this.hideLoading()
+					this.total=response.total
 					if(this.pageobj0.loadFlag===0){
 						this.pagedata=[].concat(response.list)
 					}else{
@@ -165,9 +177,13 @@
 				})
 			},
 			toDetails(item){
-				console.log("item: " + JSON.stringify(item));
 				item.index_code=this.index_code
-				util.openwithData('/pages/stu_dorm/classes_dorm_detail',item,{})
+				item.grd_code = this.grdArray[this.grdIndex].value;
+				item.cls_code = this.clsArray[this.clsIndex].value;
+				item.grd_name = this.grdArray[this.grdIndex].text;
+				item.cls_name = this.clsArray[this.clsIndex].text;
+				console.log("item: " + JSON.stringify(item));
+				util.openwithData('/pages/stu_dorm/emptybed_dorm_detail',item,{})
 			}
 		},
 		onLoad(options) {
