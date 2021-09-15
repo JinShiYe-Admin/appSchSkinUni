@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
-		<view class="tabs-fixed">
+		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<uni-row>
 				<uni-col :span="8">
 					<picker class="flex-box" @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
@@ -48,6 +48,7 @@
 						</text>
 					</uni-list-item>
 				</uni-list>
+				<view v-show="pagedata1.length===0" style="text-align: center;" class="detail-text">暂无数据</view>
 				<uni-load-more :status="pageobj1.status" :icon-size="17" :content-text="pageobj1.contentText" />
 			</view>
 		</view>
