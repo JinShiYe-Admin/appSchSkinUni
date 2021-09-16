@@ -210,7 +210,9 @@ function openFile(fileUrl) {
 	// #endif
 	// #ifndef APP-PLUS
 	console.log('urlStr:' + urlStr)
-	var tempArr = urlStr.split('.');
+	var tempArr0 = urlStr.split('?');
+	var urlStrTemp = tempArr0[0];
+	var tempArr = urlStrTemp.split('.');
 	var tempStr = tempArr[tempArr.length - 1];
 	if (tempStr == 'png' || tempStr == 'jpg' || tempStr == 'jpeg' || tempStr == 'gif' || tempStr == 'bmp' ) {
 		var tempArray = [];

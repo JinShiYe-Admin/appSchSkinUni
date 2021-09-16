@@ -114,12 +114,12 @@
 				</picker>
 				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">平均分变化趋势</view>
 				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 0 15px;width: 105px;"></view>
-				<view class="charts-box">
+				<view v-if="sem1Data.chartPjf.series&&sem1Data.chartPjf.series.length>0" class="charts-box">
 					<qiun-data-charts type="column" :chartData="sem1Data.chartPjf" />
 				</view>
 				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">各指标变化趋势</view>
 				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 10px 15px;width: 105px;"></view>
-				<view class="charts-box">
+				<view  v-if="sem1Data.chartQs.series&&sem1Data.chartQs.series.length>0" class="charts-box">
 					<qiun-data-charts type="demotype" :chartData="sem1Data.chartQs" background="none" />
 				</view>
 			</view>
@@ -132,14 +132,14 @@
 				</picker>
 				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">分数段变化趋势(人数)</view>
 				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 10px 15px;width: 145px;"></view>
-				<view class="charts-box">
+				<view v-if="sem2Data.chartFsd.series&&sem2Data.chartFsd.series.length>0" class="charts-box">
 					<qiun-data-charts type="demotype" :chartData="sem2Data.chartFsd" background="none" />
 				</view>
 			</view>
 			<view v-if="semFlag == 3">
 				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">上线率变化趋势(人数)</view>
 				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 10px 15px;width: 145px;"></view>
-				<view class="charts-box">
+				<view v-if="sem3Data.chartSxl.series&&sem3Data.chartSxl.series.length>0" class="charts-box">
 					<qiun-data-charts type="demotype" :chartData="sem3Data.chartSxl" background="none" />
 				</view>
 			</view>

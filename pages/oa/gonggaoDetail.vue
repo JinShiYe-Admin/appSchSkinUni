@@ -40,12 +40,15 @@
 			document.title = ""
 			var isPageHide = false;
 			window.addEventListener('pageshow', function() {
+				document.title = ""
 				if (isPageHide) {
 					window.location.reload();
+					document.title = ""
 				}
 			});
 			window.addEventListener('pagehide', function() {
 				isPageHide = true;
+				document.title = ""
 			});
 			//#endif
 			this.getPageDetail();
