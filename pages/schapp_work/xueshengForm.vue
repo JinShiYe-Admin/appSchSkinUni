@@ -88,10 +88,14 @@
 				}
 			},
 			beginTimeSelect(e){
-				console.log(e);
 				if(this.endtime){
 					if(this.moment(this.endtime).diff(e,'days')>=0){
 						this.begintime=e
+						this.showLoading()
+						this.pageobj0.loadFlag=0
+						this.pageobj0.canload=true
+						this.pageobj0.page_number=1
+						this.getList0();
 					}else{
 						this.showToast('开始时间不能晚于结束时间')
 						this.begintime=this.endtime
@@ -101,10 +105,14 @@
 				}
 			},
 			endTimeSelect(e){
-				console.log(e);
 				if(this.begintime){
 					if(this.moment(e).diff(this.begintime,'days')>=0){
 						this.endtime=e
+						this.showLoading()
+						this.pageobj0.loadFlag=0
+						this.pageobj0.canload=true
+						this.pageobj0.page_number=1
+						this.getList0();
 					}else{
 						this.showToast('结束时间不能早于开始时间')
 						this.endtime=this.begintime

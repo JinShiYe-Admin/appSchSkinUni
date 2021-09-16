@@ -77,6 +77,28 @@ this.getPermissionByPosition("add,delete",tempMenu.access.split("#")[1],response
 //获取Vue 环境变量
 process.env.NODE_ENV  "development":"production"
 
+//自定义tabbar 显示文字 的方法
+view：
+<mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+或
+<mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="navRightBtn" :textClick="navRightCallback"></mynavBar>
+script vue：
+单个按钮不需要传数组
+navRightBtn:['全选','反选','确定'] //文字数组 
+navRightBtn:[{value:'全选',style:{fontSize:15,color:'#00CFBD'}},{value:'反选',style:{fontSize:15,color:'#00CFBD'}},{value:'确定',style:{fontSize:15,color:'#00CFBD'}}] //对象数组  传入文字的内容、大小和颜色 
+navRightCallback:[Function1,Function2,Function3] //方法数组
+
+//自定义tabbar 显示图标 的方法
+<mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
+或
+<mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="navRightBtn" :iconClick="navRightCallback"></mynavBar>
+script vue：
+单个按钮不需要传数组
+navRightBtn:['plusempty','add','delete'] //图标数组  只能出入uniapp 官方 demo  图标示例里的图标
+navRightBtn:[{value:'plusempty',style:{fontSize:15,color:'#00CFBD'}},{value:'cart',style:{fontSize:15,color:'#00CFBD'}}] //对象数组  传入图标的内容、大小和颜色 
+navRightCallback:[Function1,Function2,Function3] //方法数组
+
+
 //使用原生navbar 新建页面style 下拉刷新配置参数
  "style" :                                                                                    
 {

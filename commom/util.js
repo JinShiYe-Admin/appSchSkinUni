@@ -733,19 +733,19 @@ function getPageArray() {
 				{
 					name: '宿舍考勤',
 					icon: tempAAA + '/static/images/stu_dorm/attendance_dorm.png',
-					pagePath: "../../html/stu_dorm/attendance_dorm_index.html",
+					pagePath: "/pages/stu_dorm/attendance_dorm_index",
 					url: 'schapp_Dorm_Attendance'
 				},
 				{
 					name: '宿舍行为',
 					icon: tempAAA + '/static/images/stu_dorm/action_dorm.png',
-					pagePath: "../../html/stu_dorm/action_dorm_index.html",
+					pagePath: "/pages/stu_dorm/action_dorm_index",
 					url: 'schapp_Dorm_Action'
 				},
 				{
 					name: '宿舍卫生',
 					icon: tempAAA + '/static/images/stu_dorm/health_dorm.png',
-					pagePath: "../../html/stu_dorm/health_dorm_index.html",
+					pagePath: "/pages/stu_dorm/health_dorm_index",
 					url: 'schapp_Dorm_Health'
 				},
 				{

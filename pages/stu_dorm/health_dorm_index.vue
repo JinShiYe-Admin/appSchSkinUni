@@ -1,40 +1,34 @@
 <template>
 	<view>
-		<mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
-		<mynavBar v-else ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' ></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon='icon' :iconClick="iconClick"></mynavBar>
 		<view class="tabs-fixed">
 			<uni-row>
-				<uni-col :span="8">
+				<uni-col :span="12">
 					<picker class="flex-box" @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
 						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="grdArray[grdIndex].text" ></uni-easyinput-select>
 					</picker>
 				</uni-col>
-				<uni-col :span="8">
+				<uni-col :span="12">
 					<picker class="flex-box" @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
 						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="clsArray[clsIndex].text" ></uni-easyinput-select>
-					</picker>
-				</uni-col>
-				<uni-col :span="8">
-					<picker class="flex-box" @change="xwClick" :value="xwIndex" :range="xwArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="xwArray[xwIndex].text" ></uni-easyinput-select>
 					</picker>
 				</uni-col>
 			</uni-row>
 			<view class="select-line"></view>
 		</view>
-		<view style="padding-top: 44px;">
+		<view style="padding-top:44px;">
 			<uni-list :border="false">
 				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
 					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text"><view class='leaveType'>{{item.item_txt}}</view>{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
-							<uni-col :span="16"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
-							<uni-col :span="8"><view class="detail-text" style="text-align: right;">{{item.behavior_time}}</view></uni-col>
+							<uni-col :span="24"><view class="detail-text">{{item.grd_name}} {{item.cls_name}}</view></uni-col>
+							<uni-col :span="24"><view class="detail-text">{{item.dorm_name}}{{item.floor_num}}层{{item.room_name}}{{item.bed_num}}</view></uni-col>
+							<uni-col :span="12"><view class="detail-text">考勤:{{item.item_name}}</view></uni-col>
+							<uni-col :span="12"><view class="detail-text" style="text-align: right;">{{item.health_date}}</view></uni-col>
 						</uni-row>
 					</text>
 				</uni-list-item>
 			</uni-list>
-			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
 		</view>
 	</view>
 </template>
@@ -46,8 +40,6 @@
 		data() {
 			return {
 				index_code:'',
-				personInfo: {},
-				add:false,//add按钮权限
 				tabBarItem: {},
 				pageSize:15,
 				pageobj0:{
@@ -65,36 +57,18 @@
 				//顶部筛选框相关内容
 				grdIndex:0,
 				clsIndex:0,
-				xwIndex:0,
-				grdArray: [{text:'',value:''}],
-				clsArray: [{text:'',value:''}],
-				xwArray: [{text:'',value:''}],
+				grdArray: [{name:'',value:''}],
+				clsArray: [{name:'',value:''}],
+				
+				
+				icon:['list'],
+				iconClick:[this.formClick],
 			}
 		},
 		components: {
 			mynavBar
 		},
 		methods: {
-			iconClick(){
-				let that=this
-				if(this.grdArray.length==0){
-					this.showToast('无法获取年级数据，不能进行添加操作')
-				}else if(this.clsArray.length==0){
-					this.showToast('无法获取班级数据，不能进行添加操作')
-				}else if(this.xwArray.length==0){
-					this.showToast('无法获取行为细项数据，不能进行添加操作')
-				}else {
-					util.openwithData('/pages/stu_behavior/extra_behavior_add',{index_code:this.index_code},{
-						refreshExtBehavior(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj0.loadFlag=0
-							that.pageobj0.canload=true
-							that.pageobj0.page_number=1
-							that.getList0()
-						}
-					})
-				}
-			},
 			grdClick:function(e){
 				if(this.grdIndex!==e.detail.value){
 					 this.grdIndex=e.detail.value
@@ -116,15 +90,12 @@
 					 this.getList0();
 				}
 			},
-			xwClick:function(e){
-				if(this.xwIndex!==e.detail.value){
-					 this.xwIndex=e.detail.value
-					 this.showLoading()
-					 this.pageobj0.loadFlag=0
-					 this.pageobj0.canload=true
-					 this.pageobj0.page_number=1
-					 this.getList0();
-				}
+			formClick(){
+				let item={index_code:this.index_code}
+				util.openwithData('/pages/stu_dorm/health_dorm_form',item,{})
+			},
+			addClick(){
+				console.log(45);
 			},
 			getGrd(){//获取年级
 				let comData={
@@ -183,31 +154,15 @@
 					}
 				})
 			},
-			getXw(){//获取行为细项
-				let comData={
-					op_code:'index',
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'ExtraBehavior/getDict',comData,response=>{
-				    console.log("responseabaa: " + JSON.stringify(response));
-					this.hideLoading()
-					let xwList = [{
-						value: '',
-						text: '全部行为'
-					}].concat(response.qbArray);
-					this.xwArray = xwList;
-				})
-			},
 			getList0(){//获取页面数据
 				let comData={
 					grd_code: this.grdArray[this.grdIndex].value,
 					cls_code: this.clsArray[this.clsIndex].value,
-					item_code: this.xwArray[this.xwIndex].value,
 					page_number: this.pageobj0.page_number, //当前页数
 					page_size: this.pageSize, //每页记录数
 					index_code: this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'ExtraBehavior/list',comData,response=>{
+				this.post(this.globaData.INTERFACE_DORM+'dormHealth/page',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
@@ -227,34 +182,42 @@
 				})
 			},
 			toDetails(item){
+				console.log("item: " + JSON.stringify(item));
 				item.index_code=this.index_code
 				let that=this
-				util.openwithData('/pages/stu_behavior/extra_behavior_detail',item,{
-					refreshExtBehaviorDetail(data){//子页面调用父页面需要的方法
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getList0()
-					}
-				})
+				util.openwithData('/pages/stu_dorm/health_dorm_detail',item,{
+						refreshList(data){//子页面调用父页面需要的方法
+							that.showLoading()
+							that.pageobj0.loadFlag=0
+							that.pageobj0.canload=true
+							that.pageobj0.page_number=1
+							that.getList0()
+						}
+					})
 			}
 		},
 		onLoad(options) {
-			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
+			this.index_code=itemData.access.split('#')[1]
 			itemData.index=100
+			console.log("itemData: " + JSON.stringify(itemData));
+			this.personInfo = util.getPersonal();
 			this.tabBarItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
-				 this.getPermissionByPosition('add',this.index_code,result=>{
-					 this.add=result[0]
-					 this.hideLoading();
-				 })
+				 	 this.showLoading()
+				 	 this.getPermissionByPosition('add',this.index_code,result=>{
+				 		 this.add=result[0]
+						 if(result[0]){
+							 this.icon.push('plusempty')
+							 this.iconClick.push(this.addClick)
+						 }
+				 		 this.hideLoading();
+				 	 })
 				 this.getGrd()
-				 this.getXw()
 			},100)
+			uni.setNavigationBarTitle({title:itemData.text});
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
@@ -276,73 +239,61 @@
 				this.getList0()
 			}
 		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			uni.pageScrollTo({
-			    scrollTop: this.scrollLength,
-			    duration: 0
-			});
-		},
-		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
-			this.scrollLength=e.scrollTop
-		},
 	}
 </script>
 
 <style>
-	.select-line{
-		height: 2px;
-		background-color: #00CFBD;
-		margin: 0 -15px;
+	.center{
+		text-align: center;
 	}
-	 .slot-box {
-	 	/* #ifndef APP-NVUE */
-	 	display: flex;
-	 	/* #endif */
-	 	flex-direction: row;
-	 	align-items: center;
-	 }
-	 
-	 .content{
-	 	margin: 2px 0;
-	 }
-	 .slot-text {
-	 	flex: 1;
-	 	font-size: 14px;
-	 	margin-right: 10px;
-	 }
-	 
+	.slot-box {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		align-items: center;
+	}
+	.slot-text {
+		flex: 1;
+		font-size: 14px;
+		margin-right: 10px;
+	}
+	
 	 .line{
 	 	height: 1px;
 	 	background-color: #e5e5e5;
 	 	margin: 5px 0;
 	 }
 	 
-	 .title-text{
-		 display: flex;
-		 align-items: center;
-	 	width: 80vw;
-	 	overflow: hidden;
-	 	text-overflow: ellipsis;
-	 	white-space: nowrap;
+	 .title-text,.title-text2{
+		display: flex;
+		align-items: center;
+		color: #5C5C5C;
+		font-size: 14px;
+	 	word-break: break-all;
 	 }
-	 
+	 .title-text{
+		font-weight: 600;
+	 }
 	 .detail-text{
 	 	color: #939393;
 	 	font-size: 12px;
 	 	margin: 3px 0;
+		line-height: 2;
 	 }
-	 
-	 .leaveType {
-		 font-size:12px ;
-	 	width: 48px;
-	 	color: #EFAD44;
-	 	padding:0px 3px;
-	 	border-radius: 4px;
-		margin-right: 3px;
-	 	border: 1px solid #EFAD44;
+	 .line-green{
+	 	background-color: #00CFBD;
+	 	margin-bottom: 0.3125rem;
+	 	height: 1px;
 	 }
-	 
-	 .uni-input-input{
-		 font-size: 13px;
-	 }
+	 .double-line{
+	 	height: 5px;
+	 	background-color: #e5e5e5;
+	 	margin: 5px 0;
+	}
+	.select-line{
+		height: 2px;
+		background-color: #00CFBD;
+		margin: 0 -15px;
+	}
 </style>

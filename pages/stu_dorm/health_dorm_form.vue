@@ -16,28 +16,15 @@
 			</view>
 			<view class="select-line"></view>
 		</view>
-		<view style="padding-top: 44px;">
+		<view style="padding-top:44px;">
 			<uni-list :border="false">
-				<uni-list-item :border="true">
-					<text slot="body" class="slot-box slot-text">
+				<uni-list-item showArrow :key="index" v-for="(model,index) in pagedata" :border="true">
+					<text slot="body" class="slot-box slot-text" @click="toDetails(model)">
+						<view class="title-text">{{model.grd_name}} {{model.cls_name}}</view>
 						<uni-row>
-							<uni-col :span="24"><view class="title-text-total">{{listTotal.row_name}}</view></uni-col>
-							<template v-for="(item,index) in listTotal.kqxxList">
-								<uni-col :key="index+Math.random()" :span="8"><view class="detail-text">{{item.name}}:{{item.value}} 次</view></uni-col>
-							</template>
-						</uni-row>
-					</text>
-				</uni-list-item>
-			</uni-list>
-			<view class="double-line"></view>
-			<uni-list :border="false">
-				<uni-list-item  :key="index" v-for="(model,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text">
-						<uni-row>
-							<uni-col :span="24"><view class="title-text">{{model.grd_name}}&ensp;{{model.class_name}}</view></uni-col>
-							<template v-for="(item,index2) in model.kqxxList">
-								<uni-col :key="index2+Math.random()"  :span="8"><view class="detail-text">{{item.name}}:{{item.value}} 次</view></uni-col>
-							</template>
+							<uni-col :key='index' :span="12" v-for="(item,index) in model.subList">
+								<view class="detail-text">{{item.name}}:{{item.value}} 次</view>
+							</uni-col>
 						</uni-row>
 					</text>
 				</uni-list-item>
@@ -66,10 +53,9 @@
 					canload:true,//是否加载更多
 				},
 				pagedata:[],
-				listTotal:{},//统计数据
 				//顶部筛选框相关内容
 				grdIndex:0,
-				begintime:this.moment().format('YYYY-MM-DD'),
+				begintime:this.moment().subtract(7,'days').format('YYYY-MM-DD'),
 				endtime:this.moment().format('YYYY-MM-DD'),
 				grdArray: [{text:'',value:'-1'}],
 				startDate:'2010-01-01',
@@ -160,30 +146,19 @@
 					page_size: this.pageSize, //每页记录数
 					index_code: this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_WORK+'AttendanceReport/statisticsClassAttendance',comData,response=>{
+				this.post(this.globaData.INTERFACE_DORM+'dormHealth/statistics',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
 					}, 1000);
 					this.hideLoading()
 					if(this.pageobj0.loadFlag===0){
-						this.addKqName(response.qaArray,response.staticArray,list=>{
-							this.pagedata=[].concat(list);
-						})
-						this.addKqName(response.qaArray,[response.total],list=>{
-							if(list.length>0){
-								this.listTotal=list[0];
-							}
+						this.addKqName(response.head, response.list, list=> {
+							this.pagedata = [].concat(list);
 						})
 					}else{
-						//合并数组
-						this.addKqName(response.qaArray,response.staticArray,list=>{
-							this.pagedata= this.pagedata.concat(list);
-						})
-						this.addKqName(response.qaArray,[response.total],list=>{
-							if(list.length>0){
-								this.listTotal=list[0];
-							}
+						this.addKqName(response.head, response.list, list=> {
+							this.pagedata = this.pagedata.concat(list);
 						})
 					}
 					if(this.pageobj0.page_number>=response.total_page){
@@ -194,32 +169,38 @@
 					}
 				})
 			},
-			addKqName(qaList,list,callback){
-				list.map(function(currValue){
-					let list=[]
-					qaList.map(function(currValue2){
-						let kqValue=currValue2.value;
-						if(""+currValue[kqValue]){
-							let obj={}
-							obj.name=currValue2.text;
-							obj.value=currValue[kqValue];
+			addKqName(qaList, listS, callback) {
+				listS.map(function(currValue) {
+					let list = []
+					qaList.map(function(currValue2) {
+						let key = currValue2.key;
+						if ("" + currValue[key]) {
+							let obj = {}
+							obj.name = currValue2.text;
+							obj.value = currValue[key];
 							list.push(obj)
 						}
 					})
-					currValue.kqxxList=list;
+					currValue.subList = list;
 				})
-				console.log("list: " + JSON.stringify(list));
-				callback(list)
+				callback(listS)
+			},
+			toDetails(item){
+				item.index_code=this.index_code
+				item.begintime = this.begintime;
+				item.endtime = this.endtime;
+				console.log("item: " + JSON.stringify(item));
+				util.openwithData('/pages/stu_dorm/health_dorm_form_detail',item,{})
 			}
 		},
 		onLoad(options) {
 			const itemData = util.getPageData(options);
-			this.index_code=itemData.access.split("#")[1]
+			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				 this.showLoading()
 				 this.getGrd()
 			},100)
-			uni.setNavigationBarTitle({title:itemData.text});
+			uni.setNavigationBarTitle({title:'宿舍卫生报表'});
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
