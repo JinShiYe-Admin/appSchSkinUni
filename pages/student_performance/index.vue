@@ -8,11 +8,11 @@
 		<view class="content" style="margin-top: 60px;">
 			<view v-if="semFlag == 0">
 				<my-swiperPage :allValue="semFlag0Data.subList" @swiperPagechange='changeSwiper'></my-swiperPage>
-				<m-steps v-for="(item, index) in semFlag0Data.sem0List" :item='item' :key="index" :index='index'>
+				<m-steps v-for="(item, index) in semFlag0Data.sem0List" :item='item' :key="index" :index='index' >
 					<view slot="dateTop" style="width: 100px;text-align: center;font-size: 12px;color: #808080;">
 						{{item.exam_date.split(' ')[0]}}
 					</view>
-					<view slot="content" class="viewNode" style="min-height: 50px;">
+					<view slot="content" class="viewNode" style="min-height: 50px;" @click='clickSingleScore(item)'>
 						<view v-if="item.type == 1" class="">
 							<template v-if="item.exam_type == 1">
 								<view class="examType" style="background: #f88c54;">期中</view>
@@ -384,18 +384,19 @@
 				});
 			},
 			clickSingleScore: function(model) {
-				model.access = curPage.access.split('#')[1];
+				model.access = this.tabBarItem.access.split('#')[1];
+				console.log('clickSingleScore:'+JSON.stringify(model));
 				util.openwithData("/pages/student_performance/singleScore", model);
 			},
 			clickSumScore: function(model) {
-				model.access = curPage.access.split('#')[1];
+				model.access = this.tabBarItem.access.split('#')[1];
 				util.openwithData("/pages/student_performance/sumScore", model);
 			},
 			clickKnowPointDetail: function(model) { //查看各知识点详情
-				model.access = curPage.access.split('#')[1];
-				model.per_name = contentData.knowPoints.knowData.per_name;
-				model.per_code = contentData.knowPoints.knowData.per_code;
-				model.nowSubject = contentData.knowPoints.nowSubject;
+				model.access = this.tabBarItem.access.split('#')[1];
+				model.per_name = this.knowPoints.knowData.per_name;
+				model.per_code = this.knowPoints.knowData.per_code;
+				model.nowSubject = this.knowPoints.nowSubject;
 				console.log('查看各知识点详情', JSON.stringify(model))
 				util.openwithData("/pages/student_performance/zhishidianfenxi_xiangqing", model);
 			},
@@ -405,10 +406,10 @@
 				// model.score_rate = tempM.score_rate;
 				// model.id = tempM.book_catalog_id;
 				model.flag = 1;
-				model.access = curPage.access.split('#')[1];
+				model.access = this.tabBarItem.access.split('#')[1];
 				model.type = 'low';
 				model.headTitle = '得分率最低的十个知识点';
-				model.bookList = contentData.knowPoints.knowData.low_score_list;
+				model.bookList = this.knowPoints.knowData.low_score_list;
 				model.bookIndex = index;
 				console.log('得分率最低的十个知识点')
 				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
@@ -419,19 +420,19 @@
 				// model.score_rate = tempM.score_rate;
 				// model.id = tempM.book_catalog_id;
 				model.flag = 1;
-				model.access = curPage.access.split('#')[1];
+				model.access = this.tabBarItem.access.split('#')[1];
 				model.type = 'height';
 				model.headTitle = '得分率最高的十个知识点';
-				model.bookList = contentData.knowPoints.knowData.high_score_list;
+				model.bookList = this.knowPoints.knowData.high_score_list;
 				model.bookIndex = index;
 				console.log('得分率最高的十个知识点')
 				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
 			},
 			clickWrongBookDetail: function(model) { //查看错题详情
-				model.access = curPage.access.split('#')[1];
-				model.per_name = contentData.wrongBook.wrongData.per_name;
-				model.per_code = contentData.wrongBook.wrongData.per_code;
-				model.nowSubject = contentData.wrongBook.nowSubject;
+				model.access = this.tabBarItem.access.split('#')[1];
+				model.per_name = this.wrongBook.wrongData.per_name;
+				model.per_code = this.wrongBook.wrongData.per_code;
+				model.nowSubject = this.wrongBook.nowSubject;
 				console.log('查看查看错题详情', JSON.stringify(model))
 				util.openwithData("/pages/student_performance/cuoti_xiangqing", model);
 			},
@@ -441,9 +442,9 @@
 				// model.name = tempM.name;
 				// model.id = tempM.book_catalog_id;
 				model.flag = 2;
-				model.access = curPage.access.split('#')[1];
+				model.access = this.tabBarItem.access.split('#')[1];
 				model.headTitle = '知识点错题榜';
-				model.bookList = contentData.wrongBook.wrongData.error_point_list;
+				model.bookList = this.wrongBook.wrongData.error_point_list;
 				model.bookIndex = index;
 				console.log('知识点错题榜')
 				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
@@ -454,9 +455,9 @@
 				// model.name = tempM.paper_name;
 				// model.id = tempM.paper_id;
 				model.flag = 3;
-				model.access = curPage.access.split('#')[1];
+				model.access = this.tabBarItem.access.split('#')[1];
 				model.headTitle = '考试/作业错题榜';
-				model.bookList = contentData.wrongBook.wrongData.error_task_list;
+				model.bookList = this.wrongBook.wrongData.error_task_list;
 				model.bookIndex = index;
 				console.log('考试/作业错题榜')
 				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
