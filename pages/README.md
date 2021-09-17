@@ -77,10 +77,10 @@ this.getPermissionByPosition("add,delete",tempMenu.access.split("#")[1],response
 //获取Vue 环境变量
 process.env.NODE_ENV  "development":"production"
 
-//自定义tabbar 显示文字 的方法
+//自定义navbar 右上方显示文字 的方法
 view：
 <mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
-或
+或 显示多个
 <mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="navRightBtn" :textClick="navRightCallback"></mynavBar>
 script vue：
 单个按钮不需要传数组
@@ -88,9 +88,9 @@ navRightBtn:['全选','反选','确定'] //文字数组
 navRightBtn:[{value:'全选',style:{fontSize:15,color:'#00CFBD'}},{value:'反选',style:{fontSize:15,color:'#00CFBD'}},{value:'确定',style:{fontSize:15,color:'#00CFBD'}}] //对象数组  传入文字的内容、大小和颜色 
 navRightCallback:[Function1,Function2,Function3] //方法数组
 
-//自定义tabbar 显示图标 的方法
+//自定义tabbar 右上方显示图标 的方法
 <mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
-或
+或 显示多个
 <mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="navRightBtn" :iconClick="navRightCallback"></mynavBar>
 script vue：
 单个按钮不需要传数组
@@ -99,7 +99,7 @@ navRightBtn:[{value:'plusempty',style:{fontSize:15,color:'#00CFBD'}},{value:'car
 navRightCallback:[Function1,Function2,Function3] //方法数组
 
 
-//使用原生navbar 新建页面style 下拉刷新配置参数
+//使用原生navbar page.json内新建页面style 下拉刷新配置参数
  "style" :                                                                                    
 {
 	"navigationBarTitleText": "",
@@ -149,6 +149,6 @@ stu_behavior|学生行为|Liu|Ruan(广西)|开发
 schapp_work|学生考勤|Liu|Ruan(广西)|开发
 stu_comment|学生评语|Liu|Ruan(广西)|开发
 stu_actionComment|行为与评语(学生/家长端)|Liu|Ruan(广西)|开发
-schhome|家校互动 教师端|Liu|meng(广西)|开发 
+schhome|家校互动 教师端|Liu|Meng(广西)|开发 
 schhome_stu|家校互动 学生端|Liu|Gu|开发
-schhome_dorm|家校互动 学生端|Liu|Gu|开发
+schhome_dorm|学生宿舍 学生端|Liu|Meng(广西)|开发

@@ -337,13 +337,17 @@
 			}
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			uni.pageScrollTo({
-			    scrollTop: this.scrollLength,
-			    duration: 0
-			});
+			// #ifdef H5
+				uni.pageScrollTo({
+					scrollTop: this.scrollLength,
+					duration: 0
+				});
+			// #endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
-			this.scrollLength=e.scrollTop
+			// #ifdef H5
+				this.scrollLength=e.scrollTop
+			// #endif
 		},
 	}
 </script>
