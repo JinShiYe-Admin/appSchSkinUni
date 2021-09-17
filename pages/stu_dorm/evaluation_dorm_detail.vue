@@ -17,7 +17,7 @@
 		<view style="padding:5px 15px 0px;">
 			<uni-list :border="false">
 				<uni-list-item  :key="index" v-for="(model,index) in pageArray" :border="true">
-					<text slot="body" class="slot-box slot-text" @click="toDetails(model)">
+					<text slot="body" class="slot-box slot-text" >
 						<uni-row>
 							<uni-col :span="12"><view class="detail-text">房间:{{model.dorm_name}}{{model.floor_num}}层{{model.room_name}}房间</view></uni-col>
 							<uni-col :span="12"><view class="detail-text">居住性别:{{model.stu_sex_text}}</view></uni-col>

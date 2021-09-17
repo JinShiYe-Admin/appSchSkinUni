@@ -16,7 +16,7 @@
 			<view class="line" style="margin-top: 5px;"></view>
 			<uni-list :border="false">
 				<uni-list-item  :key="index" v-for="(model,index) in pageArray" :border="true">
-					<text slot="body" class="slot-box slot-text" @click="toDetails(model)">
+					<text slot="body" class="slot-box slot-text">
 						<uni-row>
 							<uni-col :span="24"><view class="detail-text">房间:{{model.room_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">床位数:{{model.spare_bed_nums}}</view></uni-col>
