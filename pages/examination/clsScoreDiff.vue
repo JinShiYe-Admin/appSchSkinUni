@@ -211,6 +211,19 @@
 			// 获取数据范围授权：年级
 			this.getGrdList();
 		},
+		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+			// #ifdef H5
+				uni.pageScrollTo({
+					scrollTop: this.scrollLength,
+					duration: 0
+				});
+			// #endif
+		},
+		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
+			// #ifdef H5
+				this.scrollLength=e.scrollTop
+			// #endif
+		},
 		methods: {
 			changeDrawer(e) {
 				if(e == false){

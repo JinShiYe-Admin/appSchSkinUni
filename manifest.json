@@ -115,7 +115,7 @@
         "title" : "智慧校园",
         "router" : {
             "base" : "/develop/jsyWechat/wxf9b41cac260dd423/202108171104/",
-            "mode" : "history"
+            "mode" : "hash"
         },
         "sdkConfigs" : {
             "maps" : {}
