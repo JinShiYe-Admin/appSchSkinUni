@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<scroll-view scroll-y="true" v-show="1>100" style="height: 350px;width: 150px;">
+			<view>123</view>
+		</scroll-view>
 		<uni-list :border="false">
 			<uni-list-item showArrow v-for="(model,index) in pageArray" :key='index' direction='column' clickable @click="clickItem(model)" :border="true">
 				<view slot="body" class="slot-box slot-text">
