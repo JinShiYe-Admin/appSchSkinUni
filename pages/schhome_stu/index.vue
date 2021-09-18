@@ -15,28 +15,32 @@
 			<uni-list :border="false">
 				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
 					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
-						<view style="display: flex;align-items: center;">
+						<view style="display: flex;">
 							<view class="icons-text" :class="item.msg_type=='1-1'?'icons-text-school':
-							item.msg_type=='1-2'?'icons-text-grade':
-							item.msg_type=='1-3'?'icons-text-class':
-							item.msg_type=='1-4'?'icons-text-homework':
-							item.msg_type=='1-5'?'icons-text-performance':
-							item.msg_type=='1-6'?'icons-text-score':''">
-								<template v-if="item.msg_type=='1-1'">校</template>
-								<template v-if="item.msg_type=='1-2'">年</template>
-								<template v-if="item.msg_type=='1-3'">班</template>
-								<template v-if="item.msg_type=='1-4'">作业</template>
-								<template v-if="item.msg_type=='1-5'">个性</template>
-								<template v-if="item.msg_type=='1-6'">成绩</template>
+								item.msg_type=='1-2'?'icons-text-grade':
+								item.msg_type=='1-3'?'icons-text-class':
+								item.msg_type=='1-4'?'icons-text-homework':
+								item.msg_type=='1-5'?'icons-text-performance':
+								item.msg_type=='1-6'?'icons-text-score':''">
+									<template v-if="item.msg_type=='1-1'">校</template>
+									<template v-if="item.msg_type=='1-2'">年</template>
+									<template v-if="item.msg_type=='1-3'">班</template>
+									<template v-if="item.msg_type=='1-4'">作业</template>
+									<template v-if="item.msg_type=='1-5'">个性</template>
+									<template v-if="item.msg_type=='1-6'">成绩</template>
 							</view>
-							<view class="title-text">{{item.send_user_tname}}</view>
-							<view class="detail-text">{{item.send_time}}</view>
-						</view>
-						<view class="detail-text" style="text-align: left; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">
-							<template v-if="item.msg_type=='1-6'">请进入详情页查看</template>
-							<template v-else>
-								{{item.msg_content}}
-							</template>
+							<view style="display: flex;flex-direction: column;flex: 1;margin-top: 7px;">
+								<view style="display: flex;">
+									<view class="title-text">{{item.send_user_tname}}</view>
+									<view class="detail-text">{{item.send_time}}</view>
+								</view>
+								<view class="detail-text" style="margin-top: 7px;text-align: left; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">
+									<template v-if="item.msg_type=='1-6'">请进入详情页查看</template>
+									<template v-else>
+										{{item.msg_content}}
+									</template>
+								</view>
+							</view>
 						</view>
 					</text>
 				</uni-list-item>
