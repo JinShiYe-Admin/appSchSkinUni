@@ -1,6 +1,6 @@
 <template>
 	<view>
-		
+		<my-swiperSlide></my-swiperSlide>
 	</view>
 </template>
 

@@ -7,65 +7,63 @@
 		<view class="content" style="margin-top: 60px;">
 			<h4 class="examName">{{itemData.name}}</h4>
 			<view v-if="semFlag == 0">
-				<uni-grid :column="3" :showBorder='false' :square="false" :highlight="false">
-					<uni-grid-item>
-						<view class="grid-item-box" style="height: 130px;">
+				<view>
+					<uni-row>
+						<uni-col :span="8" style="height: 18px;">
 							<view class="scoreOrderBorder">
 								<view class="scoreOrder">{{semFlag0Data.grd_order}}</view>
 							</view>
 							<view class="scoreOrderName">年级排名</view>
-						</view>
-					</uni-grid-item>
-					<uni-grid-item>
-						<view class="grid-item-box" style="height: 130px;">
+						</uni-col>
+						<uni-col :span="8">
 							<view class="charts-box">
 								<qiun-data-charts style="margin-top: -60px;" type="arcbar"
 									:opts="semFlag0Data.myScoreShow" :chartData="semFlag0Data.myScoreQs" />
 							</view>
 							<view class="scoreOrderName" style="margin-top: -80px;text-align: center;">我的成绩</view>
-						</view>
-					</uni-grid-item>
-					<uni-grid-item>
-						<view class="grid-item-box" style="height: 130px;">
+						</uni-col>
+						<uni-col :span="8">
 							<view class="scoreOrderBorder">
 								<view class="scoreOrder">{{semFlag0Data.cls_order}}</view>
 							</view>
 							<view class="scoreOrderName">班级排名</view>
-						</view>
-					</uni-grid-item>
-				</uni-grid>
-				<uni-grid :column="2" :showBorder='false' :square="false" :highlight="false">
-					<uni-grid-item>
-						<view class="grid-item-box">
-							<p class="leaveSum">年级最高分：{{semFlag0Data.grd_max_score}}</p>
-						</view>
-					</uni-grid-item>
-					<uni-grid-item>
-						<view class="grid-item-box">
-							<p class="leaveSum">年级均分：{{semFlag0Data.grd_avg_score}}</p>
-						</view>
-					</uni-grid-item>
-					<uni-grid-item>
-						<view class="grid-item-box">
-							<p class="leaveSum">班级最高分：{{semFlag0Data.cls_max_score}}</p>
-						</view>
-					</uni-grid-item>
-					<uni-grid-item>
-						<view class="grid-item-box">
-							<p class="leaveSum">班级均分：{{semFlag0Data.cls_avg_score}}</p>
-						</view>
-					</uni-grid-item>
-					<uni-grid-item>
-						<view class="grid-item-box">
-							<p class="leaveSum">年级参考人数：{{semFlag0Data.grd_stuc}}</p>
-						</view>
-					</uni-grid-item>
-					<uni-grid-item>
-						<view class="grid-item-box">
-							<p class="leaveSum">班级参考人数：{{semFlag0Data.cls_stuc}}</p>
-						</view>
-					</uni-grid-item>
-				</uni-grid>
+						</uni-col>
+					</uni-row>
+				</view>
+				<view>
+					<uni-grid :column="2" :showBorder='false' :square="false" :highlight="false">
+						<uni-grid-item>
+							<view class="grid-item-box">
+								<p class="leaveSum">年级最高分：{{semFlag0Data.grd_max_score}}</p>
+							</view>
+						</uni-grid-item>
+						<uni-grid-item>
+							<view class="grid-item-box">
+								<p class="leaveSum">年级均分：{{semFlag0Data.grd_avg_score}}</p>
+							</view>
+						</uni-grid-item>
+						<uni-grid-item>
+							<view class="grid-item-box">
+								<p class="leaveSum">班级最高分：{{semFlag0Data.cls_max_score}}</p>
+							</view>
+						</uni-grid-item>
+						<uni-grid-item>
+							<view class="grid-item-box">
+								<p class="leaveSum">班级均分：{{semFlag0Data.cls_avg_score}}</p>
+							</view>
+						</uni-grid-item>
+						<uni-grid-item>
+							<view class="grid-item-box">
+								<p class="leaveSum">年级参考人数：{{semFlag0Data.grd_stuc}}</p>
+							</view>
+						</uni-grid-item>
+						<uni-grid-item>
+							<view class="grid-item-box">
+								<p class="leaveSum">班级参考人数：{{semFlag0Data.cls_stuc}}</p>
+							</view>
+						</uni-grid-item>
+					</uni-grid>
+				</view>
 				<h4 class="spaceLine">成绩趋势</h4>
 				<p class="spaceLineName">历次考试成绩趋势如下：</p>
 				<view class="charts-box" style="margin-top: 10px;">
@@ -86,10 +84,14 @@
 				</view>
 			</view>
 			<view v-if="semFlag == 2">
-				<!-- <view class="mui-row">
-					<view class="mui-col-xs-6" style="text-align: right;"><span style="margin-right: 10px;font-size: 16px;">考试难度：</span></view>
-					<view id="star" class="mui-col-xs-6" style="margin-left: -15px;"></view>
-				</view> -->
+				<uni-row>
+					<uni-col :span="10">
+						<p class="scoreDetail" style='text-align: right;'>考试难度：</p>
+					</uni-col>
+					<uni-col :span="14">
+						<uni-rate style="margin-top: 5px;" :max="5" :value="semFlag2Data.diff" />
+					</uni-col>
+				</uni-row>
 				<view style="padding: 10px 15px;">
 					<uni-grid :column="4" :square="false" :highlight="false">
 						<uni-grid-item>
@@ -138,72 +140,78 @@
 					</uni-grid>
 				</view>
 				<h4 class="spaceLine">试题分析</h4>
-				<uni-row style="background: #e7e3e3;">
-					<uni-col :span="3" style="height: 18px;">
-						<p class="scoreDetail">题号</p>
-					</uni-col>
-					<uni-col :span="3">
-						<p class="scoreDetail">分值</p>
-					</uni-col>
-					<uni-col :span="5">
-						<p class="scoreDetail">年级满分人数</p>
-					</uni-col>
-					<uni-col :span="5">
-						<p class="scoreDetail">年级平均分</p>
-					</uni-col>
-					<uni-col :span="5">
-						<p class="scoreDetail">我的得分</p>
-					</uni-col>
-					<uni-col :span="3">
-						<p class="scoreDetail"></p>
-					</uni-col>
-				</uni-row>
-				<uni-row v-for="(item) in semFlag2Data.que_score_list" :key='item.question_number'
-					style="background: #e1faeb;margin-top: 5px;">
-					<uni-col :span="3" style="height: 18px;">
-						<p class="scoreDetail">{{item.question_number}}</p>
-					</uni-col>
-					<uni-col :span="3">
-						<p class="scoreDetail">{{item.question_score}}</p>
-					</uni-col>
-					<uni-col :span="5">
-						<p class="scoreDetail">{{item.full_score_stuc}}</p>
-					</uni-col>
-					<uni-col :span="5">
-						<p class="scoreDetail">{{item.grd_avg_score}}</p>
-					</uni-col>
-					<uni-col :span="5">
-						<p class="scoreDetail">{{item.score}}</p>
-					</uni-col>
-					<uni-col :span="3">
-						<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
-							src="/static/images/student_performance//search.png"></image>
-					</uni-col>
-				</uni-row>
-				<h4 class="spaceLine">知识点分析</h4>
-				<uni-row v-if="semFlag2Data.knowledge_list.length>0" style="background: #e7e3e3;">
-					<uni-col :span="4" style="height: 18px;">
-						<p class="scoreDetail">知识点</p>
-					</uni-col>
-					<uni-col :span="3">
-						<p class="scoreDetail">分值</p>
-					</uni-col>
-					<uni-col :span="5">
-						<p class="scoreDetail">考察题目</p>
-					</uni-col>
-					<uni-col :span="5">
-						<p class="scoreDetail">年级均分</p>
-					</uni-col>
-					<uni-col :span="4">
-						<p class="scoreDetail">我的得分</p>
-					</uni-col>
-					<uni-col :span="3">
-						<p class="scoreDetail"></p>
-					</uni-col>
-				</uni-row>
 				<view>
-					<uni-row v-for="(item,index) in semFlag2Data.knowledge_list" :key='index'
-						style="background: #e1faeb;margin-top: 5px;">
+					<uni-row style="background: #e7e3e3;">
+						<uni-col :span="3" style="height: 18px;">
+							<p class="scoreDetail">题号</p>
+						</uni-col>
+						<uni-col :span="3">
+							<p class="scoreDetail">分值</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">年级满分人数</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">年级平均分</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">我的得分</p>
+						</uni-col>
+						<uni-col :span="3">
+							<p class="scoreDetail"></p>
+						</uni-col>
+					</uni-row>
+				</view>
+				<view>
+					<uni-row v-for="(item,index) in semFlag2Data.que_score_list" :key='index' style="background: #e1faeb;margin-top: 5px;">
+						<view @click="toDetailPageSt(item)">
+						<uni-col :span="3" style="height: 18px;">
+							<p class="scoreDetail">{{item.question_number}}</p>
+						</uni-col>
+						<uni-col :span="3">
+							<p class="scoreDetail">{{item.question_score}}</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">{{item.full_score_stuc}}</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">{{item.grd_avg_score}}</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">{{item.score}}</p>
+						</uni-col>
+						<uni-col :span="3">
+							<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
+								src="/static/images/student_performance//search.png"></image>
+						</uni-col>
+						</view>
+					</uni-row>
+				</view>
+				<h4 class="spaceLine">知识点分析</h4>
+				<view>
+					<uni-row v-if="semFlag2Data.knowledge_list.length>0" style="background: #e7e3e3;">
+						<uni-col :span="4" style="height: 18px;">
+							<p class="scoreDetail">知识点</p>
+						</uni-col>
+						<uni-col :span="3">
+							<p class="scoreDetail">分值</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">考察题目</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">年级均分</p>
+						</uni-col>
+						<uni-col :span="4">
+							<p class="scoreDetail">我的得分</p>
+						</uni-col>
+						<uni-col :span="3">
+							<p class="scoreDetail"></p>
+						</uni-col>
+					</uni-row>
+				</view>
+				<view>
+					<uni-row v-for="(item,index) in semFlag2Data.knowledge_list" :key='index' style="background: #e1faeb;margin-top: 5px;" @click="toDetailPageZsd(item)">
 						<uni-col :span="4" style="height: 18px;">
 							<p class="scoreDetail">{{item.knowledge_name}}</p>
 						</uni-col>
@@ -229,18 +237,14 @@
 			</view>
 			<view v-if="semFlag == 3">
 				<view>
-					<uni-grid :column="2" :showBorder='false' :square="false" :highlight="false">
-						<uni-grid-item>
-							<view class="grid-item-box">
-								<p class="leaveSum">本次考试题量：{{semFlag3Data.que_count}}道</p>
-							</view>
-						</uni-grid-item>
-						<uni-grid-item>
-							<view class="grid-item-box">
-								<p class="leaveSum">本次考试错题数量：{{semFlag3Data.error_que_count}}道</p>
-							</view>
-						</uni-grid-item>
-					</uni-grid>
+					<uni-row>
+						<uni-col :span="12" style="height: 18px;">
+							<p class="leaveSum">本次考试题量：{{semFlag3Data.que_count}}道</p>
+						</uni-col>
+						<uni-col :span="12">
+							<p class="leaveSum">本次考试错题数量：{{semFlag3Data.error_que_count}}道</p>
+						</uni-col>
+					</uni-row>
 				</view>
 				<view style="margin: 10px 0 0 15px;font-size: 13px;">
 					<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
@@ -249,7 +253,13 @@
 				<view style="margin-top: 15px;">
 					<p v-if="semFlag3Data.high_que_list.length == 0"
 						style="margin-left: 20px;font-size: 13px;color: gray;">无</p>
-					<p v-for="(item,index) in semFlag3Data.high_que_list" :key='index' class="cuotiNum">{{item}}</p>
+					<uni-grid :column="10" :showBorder='false' :square="false" :highlight="false">
+						<uni-grid-item v-for="(item,index) in semFlag3Data.high_que_list" :key='index'>
+							<view class="grid-item-box">
+								<p class="cuotiNum">{{item}}</p>
+							</view>
+						</uni-grid-item>
+					</uni-grid>
 				</view>
 				<view style="margin: 10px 0 0 15px;font-size: 13px;">
 					<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
@@ -258,7 +268,57 @@
 				<view style="margin: 10px;">
 					<p v-if="semFlag3Data.low_que_list.length == 0"
 						style="margin-left: 20px;font-size: 13px;color: gray;">无</p>
-					<view v-for="(item,index) in semFlag3Data.low_que_list" :key='index' class="cuotiNum">{{item}}</view>
+					<uni-grid :column="10" :showBorder='false' :square="false" :highlight="false">
+						<uni-grid-item v-for="(item,index) in semFlag3Data.low_que_list" :key='index'>
+							<view class="grid-item-box">
+								<p class="cuotiNum">{{item}}</p>
+							</view>
+						</uni-grid-item>
+					</uni-grid>
+				</view>
+				<view>
+					<h4 style='margin-top: 0px;' class="spaceLine">错题详情</h4>
+					<uni-row style="background: #e7e3e3;">
+						<uni-col :span="3" style="height: 18px;">
+							<p class="scoreDetail">题号</p>
+						</uni-col>
+						<uni-col :span="3">
+							<p class="scoreDetail">分值</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">年级满分人数</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">年级平均分</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">我的得分</p>
+						</uni-col>
+						<uni-col :span="3">
+							<p class="scoreDetail"></p>
+						</uni-col>
+					</uni-row>
+					<uni-row v-for="(item,index) in semFlag3Data.error_que_list" :key='index' style="background: #e1faeb;margin-top: 5px;" @click="toDetailPageCT(item)">
+						<uni-col :span="3" style="height: 18px;">
+							<p class="scoreDetail">{{item.question_number}}</p>
+						</uni-col>
+						<uni-col :span="3">
+							<p class="scoreDetail">{{item.question_score}}</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">{{item.full_score_stuc}}</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">{{item.grd_avg_score}}</p>
+						</uni-col>
+						<uni-col :span="5">
+							<p class="scoreDetail">{{item.score}}</p>
+						</uni-col>
+						<uni-col :span="3">
+							<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
+								src="/static/images/student_performance//search.png"></image>
+						</uni-col>
+					</uni-row>
 				</view>
 			</view>
 		</view>
@@ -364,27 +424,15 @@
 					}
 				}
 			},
-			toDetailPage: function(line) { //试题分析
-				console.log(JSON.stringify(contentData.examAnalysis.que_score_list))
-				console.log(JSON.stringify(line))
-				let model = {}
-				model.list = contentData.examAnalysis.que_score_list
-				model.child = line;
-				util.openwithData("/pages/student_performance/shijuan_shiti.html", model);
-				// utils.mOpenWithData("shijuan_shiti.html", [contentData.examAnalysis.que_score_list, line, curPage.id, curPage.access,'试卷分析']);
+			toDetailPageSt(line) { //试题分析
+				console.log('toDetailPage:'+JSON.stringify(line));
+				util.openwithData("/pages/student_performance/shijuan_shiti", [this.semFlag2Data.que_score_list, line, this.itemData.id, this.itemData.access,'试卷分析']);
 			},
 			toDetailPageZsd: function(line) { //知识点分析
-				console.log(JSON.stringify(contentData.examAnalysis.knowledge_list))
-				console.log(JSON.stringify(line))
-				util.openwithData("/pages/student_performance/shijuan_zhishidian", model);
-				// utils.mOpenWithData("shijuan_zhishidian.html", [contentData.examAnalysis.knowledge_list, line, curPage.id,curPage.access,contentData.examAnalysis.que_score_list]);
+				util.openwithData("/pages/student_performance/shijuan_zhishidian", [this.semFlag2Data.knowledge_list, line, this.itemData.id,this.itemData.access,this.semFlag2Data.que_score_list]);
 			},
 			toDetailPageCT: function(line) { //错题详情
-				console.log(JSON.stringify(contentData.ct))
-				console.log(JSON.stringify(line))
-				util.openwithData("/pages/student_performance/shijuan_shiti", model);
-				// utils.mOpenWithData("shijuan_shiti.html", [contentData.semFlag3Data.error_que_list, line, curPage.id, curPage.access,'错题归纳']);
-				// utils.mOpenWithData("cuoti_xiangqing.html", [contentData.ct, line, curPage.id, curPage.access]);
+				util.openwithData("/pages/student_performance/shijuan_shiti", [this.semFlag3Data.error_que_list, line, this.itemData.id, this.itemData.access,'错题归纳']);
 			},
 			//1.3.单科成绩及排名趋势
 			getSingleScoreOrder() {
@@ -504,7 +552,7 @@
 					this.hideLoading();
 					if (data.code == 0) {
 						this.semFlag2Data.knowData = data.data;
-						this.semFlag2Data.diff = data.data.diff;
+						this.semFlag2Data.diff = 5-data.data.diff*5;
 						this.semFlag2Data.que_type_list = [].concat(data.data.que_type_list);
 						this.semFlag2Data.que_score_list = [].concat(data.data.que_score_list);
 						this.semFlag2Data.knowledge_list = [].concat(data.data.knowledge_list);
@@ -621,12 +669,11 @@
 	}
 
 	.cuotiNum {
-		width: 30px;
-		height: 30px;
+		width: 30px !important;
+		height: 30px !important;
 		border-radius: 50%;
 		background: #FF8D1A;
 		color: #FFFFFF;
-		float: left;
 		margin-left: 5px;
 		margin-top: 5px;
 		display: flex;
@@ -634,5 +681,6 @@
 		align-items: center;
 		justify-content: center;
 		font-size: 13px;
+		word-break: break-all;
 	}
 </style>

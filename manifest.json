@@ -114,7 +114,8 @@
         "domain" : "http://jbsch-pb.zhuxue101.net",
         "title" : "智慧校园",
         "router" : {
-            "base" : "/develop/jsyWechat/wxf9b41cac260dd423/202108171104/"
+            "base" : "/develop/jsyWechat/wxf9b41cac260dd423/202108171104/",
+            "mode" : "history"
         },
         "sdkConfigs" : {
             "maps" : {}
