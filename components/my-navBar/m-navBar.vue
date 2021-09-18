@@ -2,12 +2,17 @@
 	<view>
 		<u-navbar-my :title='navItem.text' :backFlag='navItem.index' :backImg="personInfo.img_url" :custom-back="clickLeftImg">
 			<view v-if="icon || text" slot="right" style="display: flex;flex-direction: row;">
-				<view v-if="icon" style="margin: 0 8px;"><uni-icons :type="icon.value?icon.value:icon" :size="icon.style?icon.style.fontSize:18" :color="icon.style?icon.style.color:'#FFFFFF'" @click="$props.iconClick"></uni-icons></view>
+				<template v-if="typeof icon ==='string'">
+					<view v-if="icon" style="margin: 0 8px;"><uni-icons :type="icon.value?icon.value:icon" :size="icon.style?icon.style.fontSize:18" :color="icon.style?icon.style.color:'#FFFFFF'" @click="$props.iconClick"></uni-icons></view>
+				</template>
+				<template v-else-if="typeof icon === 'object'">
+					<view v-for="(item,index) in icon" :key='item' style="margin: 0 8px;"><uni-icons :type="item.value?item.value:item" :size="item.style?item.style.fontSize:18" :color="item.style?item.style.color:'#FFFFFF'" @click="$props.iconClick[index]"></uni-icons></view>
+				</template>
 				<template v-if="typeof text ==='string'">
 					<view style="margin: 0 8px;" :style="{'color':(text.style?text.style.color:'#FFFFFF'),'font-size':(text.style?text.style.fontSize:'15px')}" @click="$props.textClick">{{text.value?text.value:text}}</view>
 				</template>
 				<template v-else-if="typeof text === 'object'">
-					<view v-for="(item,index) in text" :key='item' style="margin: 0 8px;" :style="{'color':(item.style?item.style.color:'#FFFFFF'),'font-size':(item.style?item.style.fontSize:'15px')}" @click="$props.textClick[index]">{{item.value?item.value:item}}</view>
+					<view v-for="(item,index) in text" :key='item' style="margin: 0 8px;" :style="{'color':(item.style?item.style.color:'#FFFFFF'),'font-size':(item.style?item.style.fontSize+'px':'15px')}" @click="$props.textClick[index]">{{item.value?item.value:item}}</view>
 				</template>
 			</view>
 		</u-navbar-my>
@@ -68,13 +73,13 @@
 				}
 			},
 			icon:{
-				type:[Object,String],
+				type:[Array,Object,String],
 				default(){
 					return ''
 				}
 			},
 			iconClick:{
-				type:Function,
+				type:[Array,Object,Function],
 				default(){
 					return {}
 				}

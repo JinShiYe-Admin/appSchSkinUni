@@ -1628,7 +1628,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -1655,7 +1667,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh":true
+                "enablePullDownRefresh":true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -1673,7 +1697,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -1691,7 +1727,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -1709,7 +1757,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -1727,7 +1787,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
             }
             
         }
@@ -1741,6 +1813,191 @@
             
         }
         ,{
+            "path" : "pages/stu_dorm/attendance_dorm_index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": true,
+			   "app-plus": {
+			   	"pullToRefresh": {
+			   		"support": true,
+			   		"style": "circle",
+			   		"offset":"76px"
+			   	}
+			   },
+			   "h5":{
+			   	"pullToRefresh":{
+			   		"offset":"44px"
+			   	}
+			   }
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/attendance_dorm_detail",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/attendance_dorm_form",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/attendance_dorm_form_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/action_dorm_index",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"76px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/action_dorm_detail",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/action_dorm_form",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/action_dorm_form_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/health_dorm_index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"pullToRefresh": {
+               		"support": true,
+               		"style": "circle",
+               		"offset":"76px"
+               	}
+               },
+               "h5":{
+               	"pullToRefresh":{
+               		"offset":"44px"
+               	}
+               }
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/health_dorm_detail",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/health_dorm_form",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/health_dorm_form_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+		 }
+		 ,{
             "path" : "pages/student_performance/singleScore",
             "style" :                                                                                    
             {
@@ -1843,6 +2100,46 @@
             "path" : "pages/student_performance/zhishidian_change",
             "style" :                                                                                    
             {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/attendance_dorm_add",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/action_dorm_add",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/health_dorm_add",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu_dorm/bedSelect",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
