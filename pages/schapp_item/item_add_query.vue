@@ -56,7 +56,8 @@
 				
 				dialogText:"",
 				chooseItem:{},
-				selectList:[]
+				selectList:[],
+				type:'',//rk 入库 ck 出库
 			}
 		},
 		methods: {
@@ -71,14 +72,30 @@
 					if(isRepeat){
 						this.showToast('物品编号重复，请重新选择物品')
 					}else{
-						 this.dialogText='确认选择 '+item.itemName+'（'+item.itemCode+'） 入库吗？'
-						 this.chooseItem=item
-						 this.$refs.alertDialog.open()
+						if(this.type=='rk'){
+							this.dialogText='确认选择 '+item.itemName+'（'+item.itemCode+'） 入库吗？'
+							this.chooseItem=item
+							this.$refs.alertDialog.open()
+						}else if(this.type=='ck' && item.okNum==0){
+							this.showToast('物品库存为0，无法出库')
+						}else{
+							this.dialogText='确认选择 '+item.itemName+'（'+item.itemCode+'） 出库吗？'
+							this.chooseItem=item
+							this.$refs.alertDialog.open()
+						}
 					}
 				}else{
-					this.dialogText='确认选择 '+item.itemName+'（'+item.itemCode+'） 入库吗？'
-					this.chooseItem=item
-					this.$refs.alertDialog.open()
+					if(this.type=='rk'){
+						this.dialogText='确认选择 '+item.itemName+'（'+item.itemCode+'） 入库吗？'
+						this.chooseItem=item
+						this.$refs.alertDialog.open()
+					}else if(this.type=='ck' && item.okNum==0){
+						this.showToast('物品库存为0，无法出库')
+					}else{
+						this.dialogText='确认选择 '+item.itemName+'（'+item.itemCode+'） 出库吗？'
+						this.chooseItem=item
+						this.$refs.alertDialog.open()
+					}
 				}
 			},
 			dialogConfirm(){
@@ -148,6 +165,7 @@
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			this.selectList=itemData.list
+			this.type=itemData.type
 			setTimeout(()=>{
 				 this.showLoading()
 				 this.getList0();

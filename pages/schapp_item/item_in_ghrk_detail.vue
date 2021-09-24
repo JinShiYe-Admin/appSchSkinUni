@@ -11,7 +11,7 @@
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">归还人</view>
+			<view class="form-left">归还人姓名</view>
 			<view class="form-right">{{tabBarItem.returnManName}}</view>
 		</view>
 		<view class="line"></view>

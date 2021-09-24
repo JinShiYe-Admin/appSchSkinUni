@@ -2247,7 +2247,7 @@
             
         }
         ,{
-            "path" : "pages/schapp_item/item_add_in_query",
+            "path" : "pages/schapp_item/item_add_query",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
@@ -2277,6 +2277,7 @@
             "path" : "pages/schapp_item/item_out_lyck_detail",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }

@@ -86,7 +86,7 @@
 		methods: {
 			addItem(){//新增明细
 				let that =this
-				util.openwithData('/pages/schapp_item/item_add_in_query',{index_code:this.index_code,list:[{itemCode:this.formData.itemCode}]},{
+				util.openwithData('/pages/schapp_item/item_add_query',{index_code:this.index_code,list:[{itemCode:this.formData.itemCode}],type:'rk'},{
 					refreshItem(data){//子页面调用父页面需要的方法
 						that.formData.itemCode=data.data.itemCode;
 						that.formData.itemType=data.data.itemTypeCode;
@@ -94,6 +94,7 @@
 						that.formData.itemName=data.data.itemName;
 						that.formData.itemBrand=data.data.itemBrand;
 						that.formData.itemModel=data.data.itemModel;
+						that.formData.inNum=''
 						that.canInput=false
 					}
 				})
@@ -144,8 +145,10 @@
 				}else if(formData.note==''){
 					this.showToast('请输入备注')
 				}else{
-					this.canSub=false
-					this.submitData();
+					if(this.canSub){
+						this.canSub=false
+						this.submitData();
+					}
 				}
 			},
 			submitData(){

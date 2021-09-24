@@ -83,7 +83,7 @@
 		flex: 1;
 		word-break: break-all;
 		color: #787878;
-		text-align: left;
+		text-align: right;
 	}
 	
 	.form-left-approve{

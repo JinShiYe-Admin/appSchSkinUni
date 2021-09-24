@@ -2,7 +2,7 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">入库物品</view>
+			<view class="form-left">采购人姓名</view>
 			<input class="uni-input form-right"  v-model="formData.purchasingManName"  placeholder="请输入"/>
 		</view>
 		<view class="line"></view>
@@ -85,7 +85,7 @@
 		methods: {
 			addItem(){//新增明细
 				let that =this
-				util.openwithData('/pages/schapp_item/item_add_in_query',{index_code:this.index_code,list:this.formData.list},{
+				util.openwithData('/pages/schapp_item/item_add_query',{index_code:this.index_code,list:this.formData.list,type:'rk'},{
 					refreshItem(data){//子页面调用父页面需要的方法
 						let obj={
 							itemCode:data.data.itemCode,

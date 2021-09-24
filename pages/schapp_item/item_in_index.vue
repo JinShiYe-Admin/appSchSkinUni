@@ -186,6 +186,7 @@
 					endTime:'20501231',
 					page_number: this.pageobj1.page_number, //当前页数
 					page_size: this.pageSize, //每页记录数
+					op_code:'index',
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_ITEM+'returnIn/getReturnIns',comData,response=>{

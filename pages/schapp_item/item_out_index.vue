@@ -10,23 +10,11 @@
 					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata0" :border="true">
 						<text slot="body" class="slot-box slot-text" @click="toDetail0(item)">
 							<uni-row>
-								<uni-col :span="24"><view class="title-text">单号:{{item.inCode}}<view v-if="item.isRed==1" class="hcd">红冲单</view></view></uni-col>
-								<template v-if="item.items.length>2">
-									<uni-col :span="8"><view class="detail-text">名称:{{item.items[0].itemName}}</view></uni-col>
-									<uni-col :span="8"><view class="detail-text">型号:{{item.items[0].itemModel}}</view></uni-col>
-									<uni-col :span="8"><view class="detail-text">数量:{{item.items[0].inNum}}</view></uni-col>
-									<uni-col :span="8"><view class="detail-text">名称:{{item.items[1].itemName}}</view></uni-col>
-									<uni-col :span="8"><view class="detail-text">型号:{{item.items[1].itemModel}}</view></uni-col>
-									<uni-col :span="8"><view class="detail-text">数量:{{item.items[1].inNum}}</view></uni-col>
-									<uni-col :span="24"><view class="detail-text">...</view></uni-col>
-								</template>
-								<template v-else>
-									<template v-for="(iteml,index) in item.items">
-										<uni-col :key="index+Math.random()" :span="8"><view class="detail-text">名称:{{iteml.itemName}}</view></uni-col>
-										<uni-col :key="index+Math.random()" :span="8"><view class="detail-text">型号:{{iteml.itemModel}}</view></uni-col>
-										<uni-col :key="index+Math.random()" :span="8"><view class="detail-text">数量:{{iteml.inNum}}</view></uni-col>
-									</template>
-								</template>
+								<uni-col :span="24"><view class="title-text">单号:{{item.outCode}}<view v-if="item.isRed==1" class="hcd">红冲单</view></view></uni-col>
+									<uni-col :span="12"><view class="detail-text">名称:{{item.itemName}}</view></uni-col>
+									<uni-col :span="12"><view class="detail-text">型号:{{item.itemModel}}</view></uni-col>
+									<uni-col :span="12"><view class="detail-text">领用人:{{item.receiveManName}}</view></uni-col>
+									<uni-col :span="12"><view class="detail-text">数量:{{item.outNum}}</view></uni-col>
 							</uni-row>
 						</text>
 					</uni-list-item>
@@ -38,10 +26,11 @@
 					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata1" :border="true">
 						<text slot="body" class="slot-box slot-text" @click="toDetail1(item)">
 							<uni-row>
-								<uni-col :span="24"><view class="title-text">单号:{{item.inCode}}<view v-if="item.isRed==1" class="hcd">红冲单</view><view v-if="item.inType==2" class="orange">报损</view></view></uni-col>
-								<uni-col :key="index+Math.random()" :span="8"><view class="detail-text">名称:{{item.itemName}}</view></uni-col>
-								<uni-col :key="index+Math.random()" :span="8"><view class="detail-text">型号:{{item.itemModel}}</view></uni-col>
-								<uni-col :key="index+Math.random()" :span="8"><view class="detail-text">数量:{{item.inNum}}</view></uni-col>
+								<uni-col :span="24"><view class="title-text">单号:{{item.outCode}}<view v-if="item.isOut==1" class="isout">已出库</view><view v-if="item.isOut==2" class="noout">未出库</view></view></uni-col>
+								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">名称:{{item.itemName}}</view></uni-col>
+								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">型号:{{item.itemModel}}</view></uni-col>
+								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">领用人:{{item.receiveManName}}</view></uni-col>
+								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">数量:{{item.applyNum}}</view></uni-col>
 							</uni-row>
 						</text>
 					</uni-list-item>
@@ -63,9 +52,9 @@
 				icon:'',
 				tabBarItem: {},
 				
-				items: ['采购入库', '归还入库'],
+				items: ['手工出库', '领用出库'],
 				current: 0,
-				
+				add:false,
 				pageSize:15,
 				pageobj0:{
 					loadFlag:0,//0 刷新 1加载更多
@@ -102,6 +91,9 @@
 					this.current = e.currentIndex
 				}
 				if(this.current===0){
+					if(this.add){
+						this.icon='plusempty'
+					}
 					if(this.pagedata0.length===0){
 					 	this.showLoading()
 					 	this.pageobj0.loadFlag=0
@@ -110,6 +102,7 @@
 					 	this.getList0()
 					}
 				}else if(this.current===1){
+					this.icon=''
 					if(this.pagedata1.length===0){
 						this.showLoading()
 						this.pageobj1.loadFlag=0
@@ -122,7 +115,7 @@
 			iconClick(){
 				let that=this
 				if(this.current===0){
-					util.openwithData('/pages/schapp_item/item_in_add',{index_code:this.index_code},{
+					util.openwithData('/pages/schapp_item/item_out_add',{index_code:this.index_code},{
 						refreshByAdd(data){//子页面调用父页面需要的方法
 							that.showLoading()
 							that.pageobj0.loadFlag=0
@@ -131,24 +124,14 @@
 							that.getList0()
 						}
 					})
-				}else if(this.current===1){
-					util.openwithData('/pages/schapp_item/item_in_ghrk_add',{index_code:this.index_code},{
-						refreshByAdd(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj1.loadFlag=0
-							that.pageobj1.canload=true
-							that.pageobj1.page_number=1
-							that.getList1()
-						}
-					})
-				}
+				} 
 			},
 			getList0(){//获取页面数据
 				 let comData={
-				 	inCode:'',
-				 	inManCode:this.personInfo.user_code,
-				 	inManName:'',
-				 	purchasingManName:'',
+				 	outCode:'',
+				 	receiveManName:'',
+				 	outManCode:this.personInfo.user_code,
+				 	outManName:'',
 				 	beginTime:'19700101',
 				 	endTime:'20501231',
 				 	page_number: this.pageobj0.page_number, //当前页数
@@ -156,7 +139,7 @@
 				 	op_code:'index',
 				 	index_code: this.index_code,
 				 }
-				 this.post(this.globaData.INTERFACE_ITEM+'purchasingIn/getPurchasingIns',comData,response=>{
+				 this.post(this.globaData.INTERFACE_ITEM+'handOut/getHandOuts',comData,response=>{
 				     console.log("responseaaa: " + JSON.stringify(response));
 				     setTimeout(function () {
 				     	uni.stopPullDownRefresh();
@@ -177,18 +160,20 @@
 			},
 			getList1(){//获取页面数据
 				let comData={
-					inCode:'',
-					inManCode:this.personInfo.user_code,
-					inManName:'',
-					returnManName:'',
-					inType:0,
+					outCode:'',
+					receiveApplyCode:'',
+					receiveManName:'',
+					outManCode:this.personInfo.user_code,
+					outManName:'',
+					isOut:0,
 					beginTime:'19700101',
 					endTime:'20501231',
 					page_number: this.pageobj1.page_number, //当前页数
 					page_size: this.pageSize, //每页记录数
+					op_code:'index',
 					index_code: this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_ITEM+'returnIn/getReturnIns',comData,response=>{
+				this.post(this.globaData.INTERFACE_ITEM+'receiveOut/getReceiveOuts',comData,response=>{
 					console.log("responseaaa: " + JSON.stringify(response));
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
@@ -209,11 +194,20 @@
 			},
 			toDetail0(item){
 				item.index_code=this.index_code
-				util.openwithData('/pages/schapp_item/item_in_detail',item,{})
+				util.openwithData('/pages/schapp_item/item_out_detail',item,{})
 			},
 			toDetail1(item){
 				item.index_code=this.index_code
-				util.openwithData('/pages/schapp_item/item_in_ghrk_detail',item,{})
+				let that = this
+				util.openwithData('/pages/schapp_item/item_out_lyck_detail',item,{
+					refreshByLyck(data){//子页面调用父页面需要的方法
+						that.showLoading()
+						that.pageobj1.loadFlag=0
+						that.pageobj1.canload=true
+						that.pageobj1.page_number=1
+						that.getList1()
+					}
+				})
 			}
 		},
 		onLoad(options) {
@@ -227,6 +221,7 @@
 				 this.getPermissionByPosition('add',this.index_code,result=>{
 					 if(result[0]){
 						 this.icon='plusempty'
+						 this.add=true
 					 }
 					 this.hideLoading();
 				 })
@@ -344,25 +339,25 @@
 		 font-size: 13px;
 	 }
 	 
-	 .hcd{
+	 .isout{
 		font-size:12px ;
 		width: 35px;
 		color: #FFFFFF;
 		padding:0px 3px;
 		border-radius: 4px;
 		margin-left: 3px;
-		background-color: #f74c31;
-		border: 1px solid #f74c31;
+		background-color: #00CFBD;
+		border: 1px solid #00CFBD;
 	 }
 	 
-	 .orange{
+	 .hcd,.noout{
 		 font-size:12px ;
-		 width: 25px;
+		 width: 35px;
 		 color: #FFFFFF;
 		 padding:0px 3px;
 		 border-radius: 4px;
 		 margin-left: 3px;
-		 background-color: #FF8D1A;
-		 border: 1px solid #FF8D1A;
+		 background-color: #f74c31;
+		 border: 1px solid #f74c31;
 	 }
 </style>
