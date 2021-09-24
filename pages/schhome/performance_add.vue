@@ -108,7 +108,7 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='新建班级作业'
+			itemData.text='新建在校表现'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
@@ -130,7 +130,6 @@
 				let that =this
 				util.openwithData('/pages/schhome/selectGrdClsStu',data,{
 					refreshSetPeople(data){//子页面调用父页面需要的方法
-						console.log("data: " + JSON.stringify(data));
 						that.selectDatas=data.data
 						let selectGradeClassesNames=[]
 						data.data.map(grd_item=>{
