@@ -26,7 +26,7 @@
 					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata1" :border="true">
 						<text slot="body" class="slot-box slot-text" @click="toDetail1(item)">
 							<uni-row>
-								<uni-col :span="24"><view class="title-text">单号:{{item.outCode}}<view v-if="item.isOut==1" class="isout">已出库</view><view v-if="item.isOut==2" class="noout">未出库</view></view></uni-col>
+								<uni-col :span="24"><view class="title-text">单号:{{item.outCode?item.outCode:'暂无'}}<view v-if="item.isOut==1" class="isout">已出库</view><view v-if="item.isOut==2" class="noout">未出库</view></view></uni-col>
 								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">名称:{{item.itemName}}</view></uni-col>
 								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">型号:{{item.itemModel}}</view></uni-col>
 								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">领用人:{{item.receiveManName}}</view></uni-col>
@@ -341,7 +341,7 @@
 	 
 	 .isout{
 		font-size:12px ;
-		width: 35px;
+		width: 37px;
 		color: #FFFFFF;
 		padding:0px 3px;
 		border-radius: 4px;
@@ -352,7 +352,7 @@
 	 
 	 .hcd,.noout{
 		 font-size:12px ;
-		 width: 35px;
+		 width: 37px;
 		 color: #FFFFFF;
 		 padding:0px 3px;
 		 border-radius: 4px;

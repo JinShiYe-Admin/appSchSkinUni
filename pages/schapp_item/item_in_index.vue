@@ -347,7 +347,7 @@
 	 
 	 .hcd{
 		font-size:12px ;
-		width: 35px;
+		width: 37px;
 		color: #FFFFFF;
 		padding:0px 3px;
 		border-radius: 4px;

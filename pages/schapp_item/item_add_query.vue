@@ -21,6 +21,9 @@
 					</text>
 				</uni-list-item>
 			</uni-list>
+			<template v-if="pagedata.length===0">
+				<view class="empty-list-trip">暂无数据</view>
+			</template>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
 		</view>
 		<uni-popup ref="alertDialog" type="dialog">

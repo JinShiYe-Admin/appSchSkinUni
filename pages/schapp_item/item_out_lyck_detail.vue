@@ -1,11 +1,11 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="text" :textClick="textClick"></mynavBar>
-		<view class="uni-flex uni-row form-view">
+		<view v-if="tabBarItem.outCode" class="uni-flex uni-row form-view">
 			<view class="form-left">出库单号</view>
 			<view class="form-right">{{tabBarItem.outCode}}</view>
 		</view>
-		<view class="line"></view>
+		<view v-if="tabBarItem.outCode" class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">领用单号</view>
 			<view class="form-right">{{tabBarItem.receiveApplyCode}}</view>
