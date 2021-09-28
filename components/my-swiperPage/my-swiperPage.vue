@@ -14,7 +14,8 @@
  					<swiper class="swiper" :current="currentIndex" @change="changeSwiper">
  						<swiper-item v-for="(model,index) in allValue" :key='index'>
  							<view class="swiper-item">
- 								<view style="width: 70%;text-align: center;border-radius: 10px;margin-left: 30px;" :style="{'background':backColor,'color':textColor}">
+ 								<view style="width: 80%;border-radius: 10px;padding-top: 3px;padding-bottom: 3px;margin-left: 10%;text-align: center;" :style="showBackColor?{'background':backColor,'color':textColor}:''">
+									<uni-badge v-if="showIndex" :text='index+1' type='error' size="small"></uni-badge>
  									{{model.text}}</view>
  							</view>
  						</swiper-item>
@@ -56,6 +57,14 @@
  					}]
  				}
  			},
+			showBackColor: {//是否显示背景色
+				type: [Boolean],
+				default: false
+			},
+			showIndex: {//是否显示索引
+				type: [Boolean],
+				default: false
+			},
 			backColor: {//背景色、左右按钮颜色
 				type: [String],
 				default: '#00CFBD'
@@ -160,4 +169,8 @@
  	uni-swiper {
  		height: 30px;
  	}
+	
+	::v-deep .uni-badge {
+		line-height: 15px;
+	}
  </style>
