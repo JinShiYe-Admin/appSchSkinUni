@@ -38,6 +38,7 @@
 		data() {
 			return {
 				index_code:'',
+				dormData:{},
 				itemData: {},
 				total:'',//总计
 				pageArray: [], //界面总数组

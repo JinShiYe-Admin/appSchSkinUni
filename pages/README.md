@@ -152,3 +152,4 @@ stu_actionComment|行为与评语(学生/家长端)|Liu|Ruan(广西)|开发
 schhome|家校互动 教师端|Liu|Meng(广西)|开发 
 schhome_stu|家校互动 学生端|Liu|Gu|开发
 schhome_dorm|学生宿舍 学生端|Liu|Meng(广西)|开发
+schapp_item|物品管理|Liu|Kong|开发

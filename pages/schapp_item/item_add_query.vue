@@ -1,10 +1,9 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
 		<view class="tabs-fixed">
 			 <view class="search-box">
 				 <view class="uni-input-wrapper">
-				    <input class="uni-input search-input" placeholder="输入内容关键字" v-model="searchValue" @input="inputChange"/>
+				    <input class="uni-input search-input" placeholder="输入名称或编号进行搜索" v-model="searchValue" @input="inputChange"/>
 				 </view>
 				 <button class="search-button" @click="search"><uni-icons type="search" color="#FFFFFF" size="17" /></button> 
 			 </view>
@@ -12,11 +11,12 @@
 		</view>
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
-				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
+				<uni-list-item :key="index" v-for="(model,index) in pagedata" :border="true">
+					<text slot="body" class="slot-box slot-text" @click="addItems(model)">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text">{{item.send_time}}</view></uni-col>
-							<uni-col :span="24"><view class="detail-text">{{item.msg_content}}</view></uni-col>
+							<uni-col :span="24"><view class="title-text">{{model.itemName}}(编号:{{model.itemCode}})</view></uni-col>
+							<uni-col :span="12"><view class="detail-text">型号:{{model.itemType}}</view></uni-col>
+							<uni-col :span="12"><view class="detail-text">库存:{{model.okNum}}</view></uni-col>
 						</uni-row>
 					</text>
 				</uni-list-item>
@@ -26,12 +26,14 @@
 			</template>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
 		</view>
+		<uni-popup ref="alertDialog" type="dialog">
+			<uni-popup-dialog type="warn" title="提醒" :content="dialogText" @confirm="dialogConfirm"></uni-popup-dialog>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	import util from '../../commom/util.js';
-	import mynavBar from '@/components/my-navBar/m-navBar';
 	export default {
 		data() {
 			return {
@@ -54,13 +56,56 @@
 					canload:true,//是否加载更多
 				},
 				pagedata:[],
-				 
+				
+				dialogText:"",
+				chooseItem:{},
+				selectList:[],
+				type:'',//rk 入库 ck 出库
 			}
 		},
-		components: {
-			mynavBar
-		},
 		methods: {
+			addItems(item){
+				if(this.selectList.length>0){
+					let isRepeat=false;
+					this.selectList.map(function(itemc){
+						if(item.itemCode==itemc.itemCode){
+							isRepeat=true;
+						}
+					})
+					if(isRepeat){
+						this.showToast('物品编号重复，请重新选择物品')
+					}else{
+						if(this.type=='rk'){
+							this.dialogText='确认选择 '+item.itemName+'（'+item.itemCode+'） 入库吗？'
+							this.chooseItem=item
+							this.$refs.alertDialog.open()
+						}else if(this.type=='ck' && item.okNum==0){
+							this.showToast('物品库存为0，无法出库')
+						}else{
+							this.dialogText='确认选择 '+item.itemName+'（'+item.itemCode+'） 出库吗？'
+							this.chooseItem=item
+							this.$refs.alertDialog.open()
+						}
+					}
+				}else{
+					if(this.type=='rk'){
+						this.dialogText='确认选择 '+item.itemName+'（'+item.itemCode+'） 入库吗？'
+						this.chooseItem=item
+						this.$refs.alertDialog.open()
+					}else if(this.type=='ck' && item.okNum==0){
+						this.showToast('物品库存为0，无法出库')
+					}else{
+						this.dialogText='确认选择 '+item.itemName+'（'+item.itemCode+'） 出库吗？'
+						this.chooseItem=item
+						this.$refs.alertDialog.open()
+					}
+				}
+			},
+			dialogConfirm(){
+				const eventChannel = this.getOpenerEventChannel()
+				eventChannel.emit('refreshItem', {data: this.chooseItem});
+				uni.navigateBack();
+			},
 			inputChange(e){
 				if(e.target.value==''){
 					this.searchValue=''
@@ -81,36 +126,16 @@
 					this.pageobj0.page_number=1
 					this.getList0();
 				}
-			},
-			iconClick(){
-				let that=this
-				util.openwithData('/pages/schhome/school_notice_add',{index_code:this.index_code},{
-					refreshList(data){//子页面调用父页面需要的方法
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getList0()
-					}
-				})
-			},
+			}, 
 			getList0(){//获取页面数据
 				let comData={
-					get_unit_code:this.personInfo.unit_code,
-					msg_type:this.MSG_SMS.SCHOOL.MSG_TYPE,
-					msg_content:this.searchValue,
-					dest_user:'',
-					send_time_begin:'1970-01-01',
-					send_time_end:'2051-01-01',
-					send_user:this.personInfo.user_code,
-					grd_code:'',
-					cls_code:'',
-					serviced:'0,1,99,100',
+					itemCodeName:this.searchValue,
+					op_code:'index',
 					page_number: this.pageobj0.page_number, //当前页数
 					page_size: this.pageSize, //每页记录数
 					index_code: this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_SCHHOME+'api/appsms/appsmsp',comData,response=>{
+				this.post(this.globaData.INTERFACE_ITEM+'query/getItemCodes4App',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
@@ -136,39 +161,22 @@
 					}
 				})
 			},
-			toDetails(item){
-				item.index_code=this.index_code
-				util.openwithData('/pages/schhome/school_notice_detail',item,{})
-			}
 		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
-			itemData.index=100
 			this.tabBarItem = itemData;
-			this.index_code=itemData.access.split("#")[1]
+			this.index_code=itemData.index_code
+			this.selectList=itemData.list
+			this.type=itemData.type
 			setTimeout(()=>{
 				 this.showLoading()
-				 this.getPermissionByPosition('add',this.index_code,result=>{
-					 if(result[0]){
-						 this.icon='plusempty'
-					 }
-					 this.hideLoading();
-				 })
 				 this.getList0();
 			},100)
+			uni.setNavigationBarTitle({title:'物品查询'});
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
-		},
-		onPullDownRefresh() {
-			this.pageobj0.loadFlag=0
-			this.pageobj0.canload=true
-			this.pageobj0.page_number=1
-			this.getList0()
-			setTimeout(function () {
-				uni.stopPullDownRefresh();
-			}, 5000);
 		},
 		onReachBottom() {
 			if(this.pageobj0.canload){
@@ -177,19 +185,6 @@
 				this.pageobj0.page_number=this.pageobj0.page_number+1
 				this.getList0()
 			}
-		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			// #ifdef H5
-				uni.pageScrollTo({
-					scrollTop: this.scrollLength,
-					duration: 0
-				});
-			// #endif
-		},
-		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
-			// #ifdef H5
-				this.scrollLength=e.scrollTop
-			// #endif
 		},
 	}
 </script>

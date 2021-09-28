@@ -757,7 +757,34 @@ function getPageArray() {
 					url: 'schapp_Dorm_Evaluation'
 				},
 			]
-		}
+		},
+		{
+			name: "物品管理", //物品管理
+			pagePath: "/pages/schapp_item/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/wupin_tab.png",
+			url: 'schapp_Item',
+			childList: [{
+				name: '物品入库',
+				icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+				pagePath: "/pages/schapp_item/item_in_index",
+				url: 'schapp_Item_warehouse'
+			}, {
+				name: '物品出库',
+				icon: tempAAA + '/static/images/schapp_item/wupinchuku.png',
+				pagePath: "/pages/schapp_item/item_out_index",
+				url: 'schapp_Item_outbound'
+			}, {
+				name: '库存查询',
+				icon: tempAAA + '/static/images/schapp_item/kucunchaxun.png',
+				pagePath: "/pages/schapp_item/item_select_index",
+				url: 'schapp_Item_stock'
+			}, ]
+		},
 	];
 	return tempArray;
 }

@@ -195,6 +195,7 @@
 		 display: flex;
 		 align-items: center;
 	 	width: 80vw;
+		color: #5C5C5C;
 	 	overflow: hidden;
 	 	text-overflow: ellipsis;
 	 	white-space: nowrap;

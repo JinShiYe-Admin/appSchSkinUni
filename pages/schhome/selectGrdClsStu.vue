@@ -182,9 +182,22 @@
 							return clsItem.stuList 
 						}
 					})).length>0)
+					console.log("当前选中的数据: " + JSON.stringify(list));
 					if(list.length===0){
 						this.selectDatas.map(grditem=>{
-							list.push(grditem)
+							if(!grditem.clicked){
+								list.push(grditem)
+							}else{
+								let ngrdItme=grditem;
+								let nclsList=[]
+								grditem.clsList.map(clsItem=>{
+									if(!clsItem.clicked){
+										nclsList.push(clsItem)
+									}
+								})
+								ngrdItme.clsList=nclsList
+								list.push(ngrdItme)
+							}
 						})
 					}else{
 						list.map(listItem=>{
@@ -204,7 +217,8 @@
 						})
 					}
 					let newLists=list.sort(this.compare("value",1));
-					console.log("newLists: " + JSON.stringify(newLists));
+					console.log("之前选中的数据: " + JSON.stringify(this.selectDatas));
+					console.log("最终的数据: " + JSON.stringify(newLists));
 					eventChannel.emit('refreshSetPeople', {data: newLists});
 					uni.navigateBack();
 				}

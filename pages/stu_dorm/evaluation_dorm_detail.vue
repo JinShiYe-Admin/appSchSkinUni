@@ -3,7 +3,7 @@
 		<view style="padding: 0 15px;">
 			<uni-row>
 				<uni-col :span="24">
-					<view class="detail-text" style="margin-top: 5px;">班级:{{itemData.grd_name}} {{itemData.cls_name}}</view>
+					<view class="title-text" style="margin-top: 5px;">{{itemData.grd_name}} {{itemData.cls_name}}</view>
 				</uni-col>
 				<uni-col :span="24">
 					<view class="detail-text" style="margin-top: 5px;">时间段:{{itemData.begintime}} 至 {{itemData.endtime}}</view>
@@ -118,7 +118,6 @@
 	 	word-break: break-all;
 	 }
 	 .title-text{
-		font-weight: 600;
 	 }
 	 .detail-text{
 	 	color: #939393;

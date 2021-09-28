@@ -139,7 +139,6 @@
 	 	word-break: break-all;
 	 }
 	 .title-text{
-		font-weight: 600;
 	 }
 	 .detail-text{
 	 	color: #939393;

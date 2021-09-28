@@ -2146,6 +2146,154 @@
             }
             
         }
+        ,{
+            "path" : "pages/schapp_item/index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_in_index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": true,
+			   "app-plus": {
+			   	"pullToRefresh": {
+			   		"support": true,
+			   		"style": "circle",
+			   		"offset":"76px"
+			   	}
+			   },
+			   "h5":{
+			   	"pullToRefresh":{
+			   		"offset":"44px"
+			   	}
+			   }
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_out_index",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset":"76px"
+					}
+				},
+				"h5":{
+					"pullToRefresh":{
+						"offset":"44px"
+					}
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_select_index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_in_ghrk_add",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_in_ghrk_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_in_add",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_in_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_add_query",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_select_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_out_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_out_lyck_detail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_item/item_out_add",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {
@@ -2219,6 +2367,9 @@
 			},
 			{
 				"pagePath": "pages/stu_dorm/index"
+			},
+			{
+				"pagePath": "pages/schapp_item/index"
 			}
 		]
 	}
