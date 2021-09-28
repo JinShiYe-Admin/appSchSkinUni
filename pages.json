@@ -2073,6 +2073,7 @@
             "path" : "pages/student_performance/tiaozhanzhe",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }

@@ -211,7 +211,8 @@
 					</uni-row>
 				</view>
 				<view>
-					<uni-row v-for="(item,index) in semFlag2Data.knowledge_list" :key='index' style="background: #e1faeb;margin-top: 5px;" @click="toDetailPageZsd(item)">
+					<uni-row v-for="(item,index) in semFlag2Data.knowledge_list" :key='index' style="background: #e1faeb;margin-top: 5px;">
+						<view @click="toDetailPageZsd(item)">
 						<uni-col :span="4" style="height: 18px;">
 							<p class="scoreDetail">{{item.knowledge_name}}</p>
 						</uni-col>
@@ -231,6 +232,7 @@
 							<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
 								src="/static/images/student_performance//search.png"></image>
 						</uni-col>
+						</view>
 					</uni-row>
 				</view>
 				<view v-if="semFlag2Data.knowledge_list.length==0" class="noData">暂无数据</view>
@@ -338,7 +340,6 @@
 				itemData: {},
 				pageSize: 10,
 				semValuesArray: ['成绩及排名', '我的答卷', '试卷分析', '错题归纳'],
-				dateEndTime: '',
 				semFlag: 0, //点击的seg索引
 				semFlag0Data: { //成绩及排名
 					total_score: '', //考试满分

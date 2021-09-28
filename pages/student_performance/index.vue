@@ -7,7 +7,7 @@
 		</view>
 		<view class="content" style="margin-top: 60px;">
 			<view v-if="semFlag == 0">
-				<my-swiperPage :allValue="semFlag0Data.subList" @swiperPagechange='changeSwiper'></my-swiperPage>
+				<my-swiperPage :allValue="semFlag0Data.subList" :showBackColor="true" @swiperPagechange='changeSwiper'></my-swiperPage>
 				<m-steps v-for="(item, index) in semFlag0Data.sem0List" :item='item' :key="index" :index='index' >
 					<view slot="dateTop" style="width: 100px;text-align: center;font-size: 12px;color: #808080;">
 						{{item.exam_date.split(' ')[0]}}
@@ -41,7 +41,7 @@
 					<view slot="dateTop" style="width: 100px;text-align: center;font-size: 12px;color: #808080;">
 						{{item.exam_date.split(' ')[0]}}
 					</view>
-					<view slot="content" class="viewNode" style="min-height: 50px;">
+					<view slot="content" class="viewNode" style="min-height: 50px;" @click='clickSumScore(item)'>
 						<view v-if="item.type == 1" class="">
 							<template v-if="item.exam_type == 1">
 								<view class="examType" style="background: #f88c54;">期中</view>
@@ -66,7 +66,7 @@
 				<view class="uni-loadmore" v-if="semFlag1Data.showLoadMore">{{semFlag1Data.loadMoreText}}</view>
 			</view>
 			<view v-if="semFlag == 2">
-				<my-swiperPage :allValue="semFlag2Data.subList" @swiperPagechange='changeSwiper'></my-swiperPage>
+				<my-swiperPage :allValue="semFlag2Data.subList" :showBackColor="true" @swiperPagechange='changeSwiper'></my-swiperPage>
 				<h4 class="spaceLine">本科知识点概况</h4>
 				<view class="charts-box">
 				  <qiun-data-charts type="arcbar" :opts="semFlag2Data.zhishidianShow" :chartData="semFlag2Data.zhishidianDFL"/>
@@ -136,11 +136,11 @@
 				</uni-list>
 			</view>
 			<view v-if="semFlag == 3">
-				<my-swiperPage :allValue="semFlag3Data.subList" @swiperPagechange='changeSwiper'></my-swiperPage>
+				<my-swiperPage :allValue="semFlag3Data.subList" :showBackColor="true" @swiperPagechange='changeSwiper'></my-swiperPage>
 				<view class="mui-row">
 					<h4 class="spaceLine">错题数量及趋势</h4>
 					<view style="text-align: right;font-size: 13px;margin-top: 10px;margin-right: 15px;">
-						错题总数：465道
+						错题总数：{{semFlag3Data.wrongData.total_num}}道
 					</view>
 					<view class="charts-box" style="margin-top: -20px;">
 					  <qiun-data-charts type="pie" :chartData="semFlag3Data.sumCountQs"/>
@@ -407,9 +407,10 @@
 			},
 			clickKnowPointDetail: function(model) { //查看各知识点详情
 				model.access = this.tabBarItem.access.split('#')[1];
-				model.per_name = this.knowPoints.knowData.per_name;
-				model.per_code = this.knowPoints.knowData.per_code;
-				model.nowSubject = this.knowPoints.nowSubject;
+				model.per_name = this.semFlag2Data.knowData.per_name;
+				model.per_code = this.semFlag2Data.knowData.per_code;
+				model.nowSubject = this.semFlag2Data.nowSubject;
+				model.headTitle = '知识点详情';
 				console.log('查看各知识点详情', JSON.stringify(model))
 				util.openwithData("/pages/student_performance/zhishidianfenxi_xiangqing", model);
 			},
@@ -422,7 +423,7 @@
 				model.access = this.tabBarItem.access.split('#')[1];
 				model.type = 'low';
 				model.headTitle = '得分率最低的十个知识点';
-				model.bookList = this.knowPoints.knowData.low_score_list;
+				model.bookList = this.semFlag2Data.knowData.low_score_list;
 				model.bookIndex = index;
 				console.log('得分率最低的十个知识点')
 				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
@@ -436,16 +437,17 @@
 				model.access = this.tabBarItem.access.split('#')[1];
 				model.type = 'height';
 				model.headTitle = '得分率最高的十个知识点';
-				model.bookList = this.knowPoints.knowData.high_score_list;
+				model.bookList = this.semFlag2Data.knowData.high_score_list;
 				model.bookIndex = index;
 				console.log('得分率最高的十个知识点')
 				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
 			},
 			clickWrongBookDetail: function(model) { //查看错题详情
 				model.access = this.tabBarItem.access.split('#')[1];
-				model.per_name = this.wrongBook.wrongData.per_name;
-				model.per_code = this.wrongBook.wrongData.per_code;
-				model.nowSubject = this.wrongBook.nowSubject;
+				model.per_name = this.semFlag3Data.wrongData.per_name;
+				model.per_code = this.semFlag3Data.wrongData.per_code;
+				model.nowSubject = this.semFlag3Data.nowSubject;
+				model.headTitle = '查看错题';
 				console.log('查看查看错题详情', JSON.stringify(model))
 				util.openwithData("/pages/student_performance/cuoti_xiangqing", model);
 			},
@@ -457,7 +459,7 @@
 				model.flag = 2;
 				model.access = this.tabBarItem.access.split('#')[1];
 				model.headTitle = '知识点错题榜';
-				model.bookList = this.wrongBook.wrongData.error_point_list;
+				model.bookList = this.semFlag3Data.wrongData.error_point_list;
 				model.bookIndex = index;
 				console.log('知识点错题榜')
 				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
@@ -470,7 +472,7 @@
 				model.flag = 3;
 				model.access = this.tabBarItem.access.split('#')[1];
 				model.headTitle = '考试/作业错题榜';
-				model.bookList = this.wrongBook.wrongData.error_task_list;
+				model.bookList = this.semFlag3Data.wrongData.error_task_list;
 				model.bookIndex = index;
 				console.log('考试/作业错题榜')
 				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
