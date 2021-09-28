@@ -183,7 +183,7 @@
 						this.CONFIG=response
 						if(send){
 							this.SMS=true
-							this.icon='settings'
+							this.icon='compose'
 						}
 						this.getSmsWords();
 					} else {
@@ -376,7 +376,7 @@
 				this.SMS = !this.SMS
 				this.icon=''
 				if(this.SMS){
-					this.icon='settings'
+					this.icon='compose'
 				}
 			},
 			changeSign(){
