@@ -3,8 +3,8 @@
 		<view style="padding:5px 15px 0px;">
 			<uni-row>
 				<uni-col :span="24"><view class="title-text">{{formData.msg_content}}</view></uni-col>
-				<uni-col :span="8"><view class="detail-text" style="margin-top: 5px;">发布人:{{formData.send_user_tname}}</view></uni-col>
-				<uni-col :span="16"><view class="detail-text" style="text-align: right;margin-top: 5px;">{{formData.send_time}}</view></uni-col>
+				<uni-col :span="12"><view class="detail-text" style="margin-top: 5px;">发布人:{{formData.send_user_tname}}</view></uni-col>
+				<uni-col :span="12"><view class="detail-text" style="text-align: right;margin-top: 5px;">{{formData.send_time}}</view></uni-col>
 			</uni-row>
 		</view>
 		<view class="double-line"></view>
@@ -88,6 +88,7 @@
 <style>
 	.text{
 		margin: 0 3px 0 0 ;
+		word-break: break-all;
 	}
 	.form-view{
 		padding: 7px 15px;

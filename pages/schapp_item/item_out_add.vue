@@ -113,24 +113,24 @@
 			getMaxOkNum:function(){
 				return '最大可出库数量:'+this.formData.maxOkNum
 			},
-			checkNum:function(inNum){ 
+			checkNum:function(outNum){ 
 				let isRed=this.formData.isRed
-				if(inNum==0){
+				if(outNum==0){
 					this.showToast('无效值，请重新输入')
-					this.formData.inNum=1
+					this.formData.outNum=1
 				}
-				if(inNum==''){
+				if(outNum==''){
 					this.showToast('无效值，请重新输入')
-					this.formData.inNum=1
+					this.formData.outNum=1
 					
 				}
 				
-				if(inNum>this.formData.maxOkNum){
+				if(outNum>this.formData.maxOkNum){
 					this.showToast('超出最大库存数量')
 					this.formData.outNum=this.formData.maxOkNum
 				}
 				
-				if(isRed==false && inNum<0){
+				if(isRed==false && outNum<0){
 					this.showToast('当前为非红冲单，数量不可为负')
 					this.formData.outNum=1
 				}//红冲单可以为负数
@@ -194,9 +194,9 @@
 			},
 			changeAutoplay(){
 				this.formData.isRed = !this.formData.isRed
-				if(this.formData.isRed==false && this.formData.inNum<0){
+				if(this.formData.isRed==false && this.formData.outNum<0){
 					this.showToast('当前为非红冲单，数量不可为负')
-					this.formData.inNum=1
+					this.formData.outNum=1
 				} 
 			},
 		},

@@ -43,15 +43,15 @@
 			<view class="popup-content">
 				<view class="text" @click="checkNow">
 				 <text>即时发送</text>
-				 <uni-icons v-show="nowIcon" type="checkmarkempty" color="#00CFBD" size="17"></uni-icons>
+				 <uni-icons v-show="nowIcon" type="circle-filled" color="#00CFBD" size="17"></uni-icons>
 				</view>
 				<view class="line2"></view>
 				<view class="text"  @click="checkDelay">
 					<text>延时发送</text>
-					<picker v-show="delayIcon" mode="multiSelector" ref="picker" @columnchange="bindMultiPickerColumnChange" :value="multiIndex" :range="multiArray">
+					<picker v-show="delayIcon" mode="multiSelector" ref="picker" @change="valueChange" :value="multiIndex" :range="multiArray">
 						<view class="uni-input">{{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}<uni-icons style="margin-left: 5px;" type="compose" color="#00CFBD" size="16"></uni-icons></view>
 					</picker>
-					<uni-icons v-show="delayIcon" type="checkmarkempty" color="#00CFBD" size="17"></uni-icons>
+					<uni-icons v-show="delayIcon" type="circle-filled" color="#00CFBD" size="17"></uni-icons>
 				</view>
 			</view>
 		</uni-popup>
@@ -149,12 +149,13 @@
 					}
 				})
 			},
-			bindMultiPickerColumnChange(e){//多列选择器选择事件
-				this.multiIndex[e.detail.column] = e.detail.value
+			valueChange(e){
+				this.multiIndex= e.detail.value
 				let day=parseInt(this.multiArray[0][this.multiIndex[0]])?this.multiArray[0][this.multiIndex[0]]+'，':''
 				let hour=parseInt(this.multiArray[1][this.multiIndex[1]])?this.multiArray[1][this.multiIndex[1]]+'，':''
 				let minute=this.multiArray[2][this.multiIndex[2]]
 				this.delay_time_str=day+hour+minute+' 后发送'
+				this.$refs.popup.close()
 				this.$forceUpdate()
 			},
 			iconClick(){
@@ -165,6 +166,7 @@
 				this.delayIcon=false
 				this.is_delay=0
 				this.delay_time_str='立即发送'
+				this.$refs.popup.close()
 			},
 			checkDelay(){//popup 发送时间
 				this.nowIcon=false

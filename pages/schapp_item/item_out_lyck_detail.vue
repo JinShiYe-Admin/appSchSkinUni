@@ -56,7 +56,7 @@
 		</view>
 		<view class="line"></view>
 		<uni-popup ref="alertDialog" type="dialog">
-			<uni-popup-dialog type="warn" title="提醒" content="确定要发货？" @confirm="dialogConfirm"></uni-popup-dialog>
+			<uni-popup-dialog type="warn" title="提醒" content="确定要发货吗？" @confirm="dialogConfirm"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>

@@ -11,7 +11,7 @@
 			 </uni-row>
 			 <view class="select-line"></view>
 		</view>
-		<view style="padding-top: 44px;" >
+		<view style="padding-top: 40px;" >
 			<uni-list :border="false">
 				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
 					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
@@ -29,15 +29,15 @@
 									<template v-if="item.msg_type=='1-5'">个性</template>
 									<template v-if="item.msg_type=='1-6'">成绩</template>
 							</view>
-							<view style="display: flex;flex-direction: column;flex: 1;margin-top: 7px;">
+							<view style="display: flex;flex-direction: column;flex: 1;">
 								<view style="display: flex;">
 									<view class="title-text">{{item.send_user_tname}}</view>
 									<view class="detail-text">{{item.send_time}}</view>
 								</view>
-								<view class="detail-text" style="margin-top: 7px;text-align: left; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">
+								<view class="detail-text" style="margin-left: 5px;text-align: left; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">
 									<template v-if="item.msg_type=='1-6'">请进入详情页查看</template>
 									<template v-else>
-										{{item.msg_content}}
+										{{item.msg_content}}{{item.msg_content}}
 									</template>
 								</view>
 							</view>
@@ -265,8 +265,9 @@
 		 align-items: center;
 		 flex-direction: row;
 		 justify-content: space-around;
-	 	width: 35px;
-	 	height: 35px;
+	 	width: 40px;
+		margin-top: 3px;
+	 	height: 40px;
 	 	border-radius: 50%;
 	 	padding:0px;
 		font-weight: 800 !important;
