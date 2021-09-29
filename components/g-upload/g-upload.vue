@@ -35,6 +35,11 @@
         type: Number,
         default: 4
       },
+	  //选择模式  album 从相册选图，camera 使用相机，默认二者都有。
+	  sourceType:{
+		 type: [String,Array],
+		 default:['album','camera']
+	  },
 	  //显示的最大数量
 	  showMaxCount: {
 	    type: Number,
@@ -87,6 +92,7 @@
       chooseImg() {
         uni.chooseImage({
           sizeType: ['compressed '],
+		  sourceType:this.sourceType,
           count: this.maxCount,
           success: (chooseImageRes) => {
             let tempFilePaths = chooseImageRes.tempFilePaths;

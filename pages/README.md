@@ -98,6 +98,17 @@ navRightBtn:['plusempty','add','delete'] //图标数组  只能出入uniapp 官�
 navRightBtn:[{value:'plusempty',style:{fontSize:15,color:'#00CFBD'}},{value:'cart',style:{fontSize:15,color:'#00CFBD'}}] //对象数组  传入图标的内容、大小和颜色 
 navRightCallback:[Function1,Function2,Function3] //方法数组
 
+//获取七牛下载Token
+this.showLoading();
+cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data) => {
+	this.hideLoading();
+	const tempArr = [];
+	for (let i = 0; i < data.Data.length; i++) {
+		let tempM = data.Data[i];
+		tempArr.push(tempM.Value);
+	}
+	util.openFile(tempArr[0]);
+});
 
 //使用原生navbar page.json内新建页面style 下拉刷新配置参数
  "style" :                                                                                    
@@ -153,3 +164,4 @@ schhome|家校互动 教师端|Liu|Meng(广西)|开发
 schhome_stu|家校互动 学生端|Liu|Gu|开发
 schhome_dorm|学生宿舍 学生端|Liu|Meng(广西)|开发
 schapp_item|物品管理|Liu|Kong|开发
+teachercAttendance|教师考勤|Liu|Kong|开发
