@@ -67,7 +67,7 @@
 			iconClick(){
 				let that=this
 				util.openwithData('/pages/teachercAttendance/add_attendance',{index_code:this.index_code},{
-					refreshQingjia(data){//子页面调用父页面需要的方法
+					refreshList(data){//子页面调用父页面需要的方法
 						that.showLoading()
 						that.pageobj0.loadFlag=0
 						that.pageobj0.canload=true

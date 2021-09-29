@@ -3,7 +3,7 @@
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="location-filled" :iconClick="iconClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">考勤地点</view>
-			<input class="uni-input form-right"  :value="formData.location"  placeholder="点击右上角按钮获取考勤地点" disabled/>
+			<input class="uni-input form-right"  :value="workAddress"  placeholder="点击右上角按钮获取考勤地点" disabled/>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view choose-file">
@@ -41,11 +41,8 @@
 				personInfo: {},
 				tabBarItem: {},
 				canSub:true,
-				formData: {
-					location:'',//定位地址
-				}, //表单内容
-				
 				type: '',
+				workAddress: '',
 				longitude: '',
 				latitude: '',
 				
@@ -81,42 +78,7 @@
 			this.index_code=itemData.index_code
 			let that =this
 			setTimeout(()=>{
-				that.showLoading('正在获取位置')
-				uni.getLocation({
-					type: 'gcj02',
-					geocode:true,
-					// altitude:true,
-					success: function (res) {
-						console.log('当前位置的经度：' + res.longitude);
-						console.log('当前位置的纬度：' + res.latitude);
-						console.log('address：' + JSON.stringify(res.address));
-						that.longitude =res.longitude
-						that.latitude = res.latitude
-						that.hideLoading()
-					},
-					fail() {
-						console.log("获取位置失败");
-						that.hideLoading()
-					},
-					complete:()=> {
-						//#ifdef H5
-						that.$jsonp("https://apis.map.qq.com/ws/geocoder/v1/", {
-							key: "3BSBZ-L7MLV-S2QPR-ULWG7-MKT3E-M5BDW",
-							callbackName: "getJsonData",
-							output: 'jsonp',
-							location: that.latitude+","+that.longitude
-						})
-						.then(json => {
-							// 请求成功的返回数据
-							 console.log(json)
-						})
-						.catch(err => {
-							// 请求失败的返回数据 
-							console.log(err)
-						})
-						//#endif
-					}									
-				})
+				that.getLocation();
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""
@@ -129,38 +91,15 @@
 			showConfirm() {
 				this.type = 'showpopup';
 			},
+			hideConfirm() {
+				this.type = '';
+			},
 			iconClick(){//获取定位地址
 				// if(this.canSub){
 				// 	this.canSub=false
 				// 	this.upLoadImg();
 				// }
-				console.log(123);
-				uni.getLocation({
-					success: (res) => {
-						console.log('doGetLocation-----success:' + JSON.stringify(res));
-						this.hasLocation = true;
-						this.location = formatLocation(res.longitude, res.latitude);
-					},
-					fail: (err) => {
-						console.log('doGetLocation-----fail:' + JSON.stringify(err));
-						// #ifdef MP-BAIDU
-						if (err.errCode === 202 || err.errCode === 10003) { // 202模拟器 10003真机 user deny
-							this.showConfirm();
-						}
-						// #endif
-						// #ifndef MP-BAIDU
-						if (err.errMsg.indexOf("auth deny") >= 0) {
-							uni.showToast({
-								title: "访问位置被拒绝"
-							})
-						} else {
-							uni.showToast({
-								title: err.errMsg
-							})
-						}
-						// #endif
-					}
-				})
+				this.getLocation();
 			},
 			async getLocation() {
 				// #ifdef APP-PLUS
@@ -178,34 +117,52 @@
 					return;
 				}
 				// #endif
-		
+			
 				this.doGetLocation();
 			},
 			doGetLocation() {
+				let that =this
+				this.showLoading('正在获取考勤地点')
 				uni.getLocation({
-					success: (res) => {
-						console.log('doGetLocation-----success:' + JSON.stringify(res));
-						this.hasLocation = true;
-						this.location = formatLocation(res.longitude, res.latitude);
+					type: 'gcj02',
+					geocode: true,
+					// altitude:true,
+					success: function(res) {
+						that.hideLoading()
+						console.log('当前位置的经度：' + res.longitude);
+						console.log('当前位置的纬度：' + res.latitude);
+						console.log('address：' + JSON.stringify(res.address));
+						that.longitude = res.longitude
+						that.latitude = res.latitude
+						//#ifdef APP-PLUS
+						console.log('address：' + JSON.stringify(res.address));
+						that.workAddress = res.address;
+						//#endif
 					},
-					fail: (err) => {
-						console.log('doGetLocation-----fail:' + JSON.stringify(err));
-						// #ifdef MP-BAIDU
-						if (err.errCode === 202 || err.errCode === 10003) { // 202模拟器 10003真机 user deny
-							this.showConfirm();
-						}
-						// #endif
-						// #ifndef MP-BAIDU
-						if (err.errMsg.indexOf("auth deny") >= 0) {
-							uni.showToast({
-								title: "访问位置被拒绝"
+					fail() {
+						console.log("获取位置失败");
+						that.hideLoading()
+					},
+					complete: () => {
+						//#ifdef H5
+						that.$jsonp("https://apis.map.qq.com/ws/geocoder/v1/", {
+								key: "3BSBZ-L7MLV-S2QPR-ULWG7-MKT3E-M5BDW",
+								callbackName: "getJsonData",
+								output: 'jsonp',
+								location: that.latitude + "," + that.longitude
 							})
-						} else {
-							uni.showToast({
-								title: err.errMsg
+							.then(json => {
+								// 请求成功的返回数据
+								console.log(json);
+								that.hideLoading()
+								that.workAddress = json.result.address;
 							})
-						}
-						// #endif
+							.catch(err => {
+								that.hideLoading()
+								// 请求失败的返回数据 
+								console.log(err)
+							})
+						//#endif
 					}
 				})
 			},
@@ -240,7 +197,7 @@
 			async checkPermission() {
 				let status = permision.isIOS ? await permision.requestIOS('location') :
 					await permision.requestAndroid('android.permission.ACCESS_FINE_LOCATION');
-		
+			
 				if (status === null || status === 1) {
 					status = 1;
 				} else if (status === 2) {
@@ -265,6 +222,7 @@
 						}
 					})
 				}
+			
 				return status;
 			},
 			//附件上传相关👇
@@ -287,14 +245,14 @@
 			  // console.log("删除图片_fileeq：", JSON.stringify(this.imgNames))
 			},
 			upLoadImg(){
-				if(this.formData.location==''){
+				if(this.workAddress==''){
 					this.showToast('考勤地点信息为空')
 				}else{
 					let names=[]
 					this.showLoading('正在上传文件...')
 					cloudFileUtil.uploadFiles(this,'1',this.imgList,this.QN_PV_NAME,this.QN_OA_SHIW,(encName,encAddrStr)=>{
-						// console.log("encAddrStr: " + JSON.stringify(encAddrStr));
-						// console.log("names: " + JSON.stringify(encName));
+						console.log("encAddrStr: " + JSON.stringify(encAddrStr));
+						console.log("names: " + JSON.stringify(encName));
 						this.submitData(encName,encAddrStr)
 					})
 				}
@@ -302,49 +260,25 @@
 			//附件上传相关👆
 			submitData(encNameStr,encAddrStr){
 				this.showLoading()
-				let smsFlag=0;
-				if(this.SMS){
-					smsFlag=1
-				}
-				let comm=this.formData.comment
-				let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
-				let asset_ids=[]
-				if(encNameStr){
-					encNameStr.map(function(item,index){
-						let obj={}
-						obj.id=''
-						obj.url=encAddrStr[index]
-						obj.ext=item.split(".")[1]
-						obj.name='附件'+(index+1)+'.'+item.split(".")[1]
-						asset_ids.push(obj)
-					})
-				}
 				let comData={
-					grd_code: this.grdList[this.grdIndex].value,
-					cls_code: this.clsList[this.clsIndex].value,
-					stu_ids: this.stuIdList.join(','),
-					item_code: this.xwxxList[this.xwxxIndex].value,
-					comment: comment,
-					behavior_time: this.formData.time,
-					class_node: this.jcList[this.jcIndex].value,
-					sub_code:this.kmList[this.kmIndex].value,
-					asset_ids:asset_ids,
-					sms_parent_stu_flag:smsFlag,
+					user_code: this.personInfo.user_code, //用户Code
+					user_name: this.personInfo.user_name, //用户名称
+					attend_addr: this.workAddress, //考勤地点
+					attend_addr_x: this.longitude.toString(), //签到地点X坐标
+					attend_addr_y: this.latitude.toString(), //签到地点Y坐标
+					attend_pic: encAddrStr.length>0?encAddrStr[0]:'', //签到拍照
 					index_code:this.index_code,
+					op_code: 'add'
 				}
-				this.post(this.globaData.INTERFACE_STUXWSUB+'StudentBehavior/save',comData,(response0,response)=>{
+				 this.hideLoading()
+				 console.log("comData: " + JSON.stringify(comData));
+				this.post(this.globaData.INTERFACE_ATTENDAND+'attend/addAttend',comData,(response0,response)=>{
 					console.log("response: " + JSON.stringify(response));
-				     if (response.code == 0) {
-						 this.hideLoading()
-						 this.showToast(response.msg);
-				     	 const eventChannel = this.getOpenerEventChannel()
-				     	 eventChannel.emit('refreshClsBehavior', {data: 1});
-				     	 uni.navigateBack();
-				     } else {
-				     	this.canSub=true
-				     	this.hideLoading()
-				     	this.showToast(response.msg);
-				     }
+				    this.hideLoading()
+				    this.showToast(response.msg);
+				    const eventChannel = this.getOpenerEventChannel()
+				    eventChannel.emit('refreshList', {data: 1});
+				    uni.navigateBack();
 				},()=>{
 						this.canSub=true
 				})

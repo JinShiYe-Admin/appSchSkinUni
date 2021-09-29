@@ -41,7 +41,7 @@
 			}
 		},
 		methods: {
-			floorClick(){
+			floorClick(e){
 				if(this.floorIndex!==e.detail.value){
 					 this.floorIndex=e.detail.value
 					 this.showLoading()

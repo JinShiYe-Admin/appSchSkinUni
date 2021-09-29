@@ -95,6 +95,7 @@
 				util.openwithData('/pages/stu_dorm/health_dorm_form',item,{})
 			},
 			addClick(){
+				let that =this
 				util.openwithData('/pages/stu_dorm/health_dorm_add',{index_code:this.index_code},{
 						refreshByAdd(data){//子页面调用父页面需要的方法
 							that.showLoading()
