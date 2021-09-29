@@ -181,7 +181,7 @@
 					send_time_end:'2051-01-01',
 					send_user:this.personInfo.user_code,
 					grd_code:this.grdArray[this.grdIndex].value=="-1"?'':this.grdArray[this.grdIndex].value,
-					cls_code:'',
+					cls_code:this.clsArray[this.clsIndex].value=="-1"?'':this.clsArray[this.clsIndex].value,
 					serviced:'0,1,99,100',
 					page_number: this.pageobj0.page_number, //当前页数
 					page_size: this.pageSize, //每页记录数
@@ -195,8 +195,8 @@
 					if(response!=null){
 						response.list.map(item=>{
 							let grdName=[]
-							let push=true;
 							item.tousers.map(titem=>{
+								let push=true;
 								grdName.map(gitem=>{
 									if(gitem===titem.grd_name){push=false;}
 								})
