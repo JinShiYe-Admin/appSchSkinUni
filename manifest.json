@@ -26,7 +26,8 @@
         /* 模块配置 */
         "modules" : {
             "VideoPlayer" : {},
-            "Webview-x5" : {}
+            "Webview-x5" : {},
+            "Geolocation" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -56,7 +57,13 @@
             /* SDK配置 */
             "sdkConfigs" : {
                 "ad" : {},
-                "geolocation" : {}
+                "geolocation" : {
+                    "baidu" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appkey_ios" : "vVTmvcbT1QKF5prUbNysqKh5Nt38ixSC",
+                        "appkey_android" : "KL26g3s3V8zUMawkq4v0QZ4sVXOkpZ8l"
+                    }
+                }
             }
         },
         "uniStatistics" : {
@@ -118,7 +125,11 @@
             "mode" : "hash"
         },
         "sdkConfigs" : {
-            "maps" : {}
+            "maps" : {
+                "qqmap" : {
+                    "key" : "TKUBZ-D24AF-GJ4JY-JDVM2-IBYKK-KEBCU"
+                }
+            }
         }
     },
     "mp-qq" : {

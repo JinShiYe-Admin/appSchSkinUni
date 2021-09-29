@@ -785,6 +785,55 @@ function getPageArray() {
 				url: 'schapp_Item_stock'
 			}, ]
 		},
+		{
+			name: "richeng", //日程
+			pagePath: "/pages/programme/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/programme_tab.png",
+			url: 'schapp_Programme',
+			childList: [{
+				name: '我的日程',
+				icon: tempAAA + '/static/images/programme/programme_my.png',
+				pagePath: "/pages/programme/myProgramme",
+				url: 'schapp_Programme_My'
+			}, {
+				name: '部门日程',
+				icon: tempAAA + '/static/images/programme/programme_dpt.png',
+				pagePath: "/pages/programme/dptProgramme",
+				url: 'schapp_Programme_Dpt'
+			} ]
+		},
+		{
+			name: "teacherkaoqin", //教师考勤
+			pagePath: "/pages/teachercAttendance/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/attendance_tab.png",
+			url: 'schapp_Attendance',
+			childList: [{
+				name: '我的考勤',
+				icon: tempAAA + '/static/images/teachercAttendance/my_attendance.png',
+				pagePath: "/pages/teachercAttendance/myProgramme",
+				url: 'schapp_Attendance_My'
+			}, {
+				name: '考勤查询',
+				icon: tempAAA + '/static/images/teachercAttendance/attendance_search.png',
+				pagePath: "/pages/teachercAttendance/attendanceSearch",
+				url: 'schapp_Attendance_Search'
+			}, {
+				name: '考勤报表',
+				icon: tempAAA + '/static/images/teachercAttendance/attendance_form.png',
+				pagePath: "/pages/teachercAttendance/attendanceForm",
+				url: 'schapp_Attendance_Form'
+			}]
+		},
 	];
 	return tempArray;
 }
