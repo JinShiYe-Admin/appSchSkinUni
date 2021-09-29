@@ -1,14 +1,13 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :icon="rightIcon" :iconClick="iconClick">
+		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' text="定位" :textClick="textClick">
 		</mynavBar>
 		<uni-row>
 			<uni-col :span="6" style="min-height: 40px;">
 				<view class="leftView">日程时间</view>
 			</uni-col>
 			<uni-col :span="18">
-				<!-- <view class="rightView">大佬设计里的科教</view> -->
-				<input type="text" class="rightView" disabled placeholder="请输入内容" />
+				<input type="text" class="rightView" v-model="todayDate" disabled placeholder="请输入日程时间" />
 			</uni-col>
 		</uni-row>
 		<view class="line"></view>
@@ -17,7 +16,7 @@
 				<view class="leftView">工作地点</view>
 			</uni-col>
 			<uni-col :span="18">
-				<view class="rightView">大佬设计里的科教</view>
+				<input type="text" class="rightView" v-model="workAddress" disabled placeholder="请输入工作地点" />
 			</uni-col>
 		</uni-row>
 		<view class="line"></view>
@@ -26,7 +25,9 @@
 				<view class="leftView">开始时间</view>
 			</uni-col>
 			<uni-col :span="18">
-				<view class="rightView">大佬设计里的科教</view>
+				<picker mode="multiSelector" ref="picker" @change="valueChangeStart" :value="multiIndexStart" :range="multiArray">
+					<view class="uni-input">{{multiArray[0][multiIndexStart[0]]}}:{{multiArray[1][multiIndexStart[1]]}}</view>
+				</picker>
 			</uni-col>
 		</uni-row>
 		<view class="line"></view>
@@ -35,7 +36,9 @@
 				<view class="leftView">结束时间</view>
 			</uni-col>
 			<uni-col :span="18">
-				<view class="rightView">大佬设计里的科教</view>
+				<picker mode="multiSelector" ref="picker" @change="valueChangeEnd" :value="multiIndexEnd" :range="multiArray">
+					<view class="uni-input">{{multiArray[0][multiIndexEnd[0]]}}:{{multiArray[1][multiIndexEnd[1]]}}</view>
+				</picker>
 			</uni-col>
 		</uni-row>
 		<view class="line"></view>
@@ -44,10 +47,14 @@
 				<view class="leftView">日程内容</view>
 			</uni-col>
 			<uni-col :span="18">
-				<textarea placeholder="请输入" v-model="workContent" maxlength="100" ></textarea>
+				<textarea class="rightView" placeholder="请输入日程内容" v-model="workContent" maxlength="100"></textarea>
 			</uni-col>
 		</uni-row>
 		<view class="line"></view>
+		<view class="uni-padding-wrap uni-common-mt">
+			<button size="mini" style="width: 80%;margin-left: 10%;background: #00CFBD;color: white;"
+				@click="submitData()">确定</button>
+		</view>
 		<uni-popup :show="type === 'showpopup'" mode="fixed" @hidePopup="togglePopup('')">
 			<view class="popup-view">
 				<text class="popup-title">需要用户授权位置权限</text>
@@ -64,20 +71,40 @@
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	let _this;
+	const leftArray = [],
+		rightArray = [];
+	for (var i = 0; i < 24; i++) {
+		if (i < 10) {
+			i = '0' + i;
+		}
+		leftArray.push(i)
+	}
+	for (var i = 0; i < 60; i++) {
+		if (i < 10) {
+			i = '0' + i;
+		}
+		rightArray.push(i)
+	}
 	export default {
 		data() {
 			return {
 				personInfo: {},
 				itemData: {},
 				type: '',
-				rightIcon: '', //add按钮权限
+				canClick: true, //防止提交按钮多次点击
 				todayDate: '',
 				begintime: '09:00',
 				endtime: '17:00',
 				workAddress: '',
-				workContent: 'sdsdfsd',
+				workContent: '',
 				longitude: '',
-				latitude: ''
+				latitude: '',
+				multiArray: [ //多列选择器内容
+					leftArray,
+					rightArray
+				],
+				multiIndexStart: [9, 0], //多列选择器初始值
+				multiIndexEnd: [17, 0], //多列选择器初始值
 			}
 		},
 		components: {
@@ -96,45 +123,91 @@
 			//#ifndef APP-PLUS
 			document.title = ""
 			//#endif
-			//4.获取某人日程列表
-			// this.getPageList();
-
-			uni.getLocation({
-				type: 'gcj02',
-				geocode:true,
-				// altitude:true,
-				success: function (res) {
-					console.log('当前位置的经度：' + res.longitude);
-					console.log('当前位置的纬度：' + res.latitude);
-					console.log('address：' + JSON.stringify(res.address));
-					_this.longitude =res.longitude
-					_this.latitude = res.latitude
-				},
-				fail() {
-					console.log("获取位置失败");
-				},
-				complete:()=> {
-					//#ifdef H5
-					_this.$jsonp("https://apis.map.qq.com/ws/geocoder/v1/", {
-						key: "3BSBZ-L7MLV-S2QPR-ULWG7-MKT3E-M5BDW",
-						callbackName: "getJsonData",
-						output: 'jsonp',
-						location: _this.latitude+","+_this.longitude
-					})
-					.then(json => {
-						// 请求成功的返回数据
-						 console.log(json)
-					})
-					.catch(err => {
-						// 请求失败的返回数据 
-						console.log(err)
-					})
-					//#endif
-				}									
-			})
-
+			this.todayDate = this.getNowFormatDate();
+			// 
+			this.getLocation();
 		},
 		methods: {
+			valueChangeStart(e) {
+				this.multiIndexStart = e.detail.value;
+				this.begintime = this.multiArray[0][this.multiIndexStart[0]] + ':' + this.multiArray[1][this.multiIndexStart[1]];
+				this.$forceUpdate();
+			},
+			valueChangeEnd(e) {
+				this.multiIndexEnd = e.detail.value;
+				this.endtime = this.multiArray[0][this.multiIndexEnd[0]] + ':' + this.multiArray[1][this.multiIndexEnd[1]];
+				this.$forceUpdate();
+			},
+			submitData: function() {
+				if (this.canClick) {
+					if (this.workAddress == '') {
+						this.showToast('请输入工作地点')
+					} else if (this.workContent == '') {
+						this.showToast('请输入日程内容')
+					} else if(this.compareTime(this.begintime, this.endtime) == 1){
+						this.showToast("开始时间不能晚于结束时间", "cancel");
+					} else {
+						this.canClick = false;
+						this.submitDataLast();
+					}
+				}
+			},
+			//判断当前选择时间是否小于是指定时间
+			compareTime(beginTime, endTime) {
+				beginTime = beginTime.replace(/-/g, '');
+				beginTime = beginTime.replace(/ /g, '');
+				beginTime = beginTime.replace(/:/g, '');
+				endTime = endTime.replace(/-/g, '');
+				endTime = endTime.replace(/ /g, '');
+				endTime = endTime.replace(/:/g, '');
+				if (parseFloat(beginTime) < parseFloat(endTime)) {
+					return 0;
+				}
+				return 1;
+			},
+			submitDataLast() {
+				this.showLoading();
+				let comData = {
+					user_code: this.personInfo.user_code, //用户Code
+					user_name: this.personInfo.user_name, //用户名称
+					note_note: this.workContent, //日程内容
+					note_addr: this.workAddress, //日程地点
+					note_date: this.todayDate, //日程日期
+					begin_time: this.begintime, //开始时间
+					end_time: this.endtime, //结束时间
+					op_code: 'add', //
+					index_code: this.itemData.index_code, //
+				}
+				console.log("comData: " + JSON.stringify(comData));
+				this.post(this.globaData.INTERFACE_PROGRAMME + 'note/addNote', comData, (data0, data) => {
+					this.canClick = true
+					if (data.code == 0) {
+						this.showToast('保存成功');
+						const eventChannel = this.getOpenerEventChannel();
+						eventChannel.emit('refreshMyProgrammeList');
+						uni.navigateBack();
+					} else {
+						this.canClick = true
+						this.showToast(data.msg);
+					}
+					this.hideLoading();
+				});
+			},
+			getNowFormatDate() {
+				var date = new Date();
+				var seperator1 = "-";
+				var year = date.getFullYear();
+				var month = date.getMonth() + 1;
+				var strDate = date.getDate();
+				if (month >= 1 && month <= 9) {
+					month = "0" + month;
+				}
+				if (strDate >= 0 && strDate <= 9) {
+					strDate = "0" + strDate;
+				}
+				var currentdate = year + seperator1 + month + seperator1 + strDate;
+				return currentdate;
+			},
 			togglePopup(type) {
 				this.type = type;
 			},
@@ -144,35 +217,8 @@
 			hideConfirm() {
 				this.type = '';
 			},
-			iconClick() {
-				console.log('iconClick');
-				// let model = {};
-				// let index_code = this.itemData.access.split('#')[1]
-				// model.index_code = index_code;
-				// model.text = '新增日程';
-				// util.openwithData("/pages/programme/add_programme", model);
-			},
-			//4.获取某人日程列表
-			getPageList() {
-				var comData = {
-					user_code: this.personInfo.user_code, //用户Code
-					note_addr: '', //日程地点
-					begin_time: '20170101', //查询开始时间
-					end_time: '30180127', //查询结束时间
-					page_number: this.pageIndex, //当前页数
-					page_size: this.pageSize, //每页记录数
-					index_code: this.itemData.access.split('#')[1],
-					op_code: 'index'
-				}
-				this.showLoading();
-				this.post(this.globaData.INTERFACE_PROGRAMME + 'note/getNotes', comData, (data0, data) => {
-					this.hideLoading();
-					if (data.code == 0) {
-
-					} else {
-						this.showToast(data.msg);
-					}
-				});
+			textClick() {
+				this.getLocation();
 			},
 			async getLocation() {
 				// #ifdef APP-PLUS
@@ -195,31 +241,65 @@
 			},
 			doGetLocation() {
 				uni.getLocation({
-					success: (res) => {
-						console.log('doGetLocation-----success:' + JSON.stringify(res));
-						this.hasLocation = true;
-						this.location = formatLocation(res.longitude, res.latitude);
+					type: 'gcj02',
+					geocode: true,
+					// altitude:true,
+					success: function(res) {
+						console.log('当前位置的经度：' + res.longitude);
+						console.log('当前位置的纬度：' + res.latitude);
+						console.log('address：' + JSON.stringify(res.address));
+						_this.longitude = res.longitude
+						_this.latitude = res.latitude
 					},
-					fail: (err) => {
-						console.log('doGetLocation-----fail:' + JSON.stringify(err));
-						// #ifdef MP-BAIDU
-						if (err.errCode === 202 || err.errCode === 10003) { // 202模拟器 10003真机 user deny
-							this.showConfirm();
-						}
-						// #endif
-						// #ifndef MP-BAIDU
-						if (err.errMsg.indexOf("auth deny") >= 0) {
-							uni.showToast({
-								title: "访问位置被拒绝"
+					fail() {
+						console.log("获取位置失败");
+					},
+					complete: () => {
+						//#ifdef H5
+						_this.$jsonp("https://apis.map.qq.com/ws/geocoder/v1/", {
+								key: "3BSBZ-L7MLV-S2QPR-ULWG7-MKT3E-M5BDW",
+								callbackName: "getJsonData",
+								output: 'jsonp',
+								location: _this.latitude + "," + _this.longitude
 							})
-						} else {
-							uni.showToast({
-								title: err.errMsg
+							.then(json => {
+								// 请求成功的返回数据
+								console.log(json);
+								_this.workAddress = json.result.address;
 							})
-						}
-						// #endif
+							.catch(err => {
+								// 请求失败的返回数据 
+								console.log(err)
+							})
+						//#endif
 					}
 				})
+				// uni.getLocation({
+				// 	success: (res) => {
+				// 		console.log('doGetLocation-----success:' + JSON.stringify(res));
+				// 		this.hasLocation = true;
+				// 		this.location = formatLocation(res.longitude, res.latitude);
+				// 	},
+				// 	fail: (err) => {
+				// 		console.log('doGetLocation-----fail:' + JSON.stringify(err));
+				// 		// #ifdef MP-BAIDU
+				// 		if (err.errCode === 202 || err.errCode === 10003) { // 202模拟器 10003真机 user deny
+				// 			this.showConfirm();
+				// 		}
+				// 		// #endif
+				// 		// #ifndef MP-BAIDU
+				// 		if (err.errMsg.indexOf("auth deny") >= 0) {
+				// 			uni.showToast({
+				// 				title: "访问位置被拒绝"
+				// 			})
+				// 		} else {
+				// 			uni.showToast({
+				// 				title: err.errMsg
+				// 			})
+				// 		}
+				// 		// #endif
+				// 	}
+				// })
 			},
 			getSetting: function() {
 				return new Promise((resolve, reject) => {
@@ -285,40 +365,53 @@
 </script>
 
 <style>
-	.leftView{
-		text-align: center;margin-top: 10px;font-size: 14px;
+	.leftView {
+		text-align: center;
+		margin-top: 10px;
+		font-size: 14px;
 	}
-	.rightView{
-		word-break: break-all;padding: 10px 10px;font-size: 14px;color: gray;
+
+	.rightView {
+		word-break: break-all;
+		padding: 10px 10px;
+		font-size: 14px;
+		color: gray;
 	}
-	.line{
+
+	.line {
 		height: 1px;
 		background-color: #e5e5e5;
 		margin: 5px 0;
 	}
-	.line-green{
+
+	.line-green {
 		background-color: #00CFBD;
 		margin-bottom: 0.3125rem;
 		height: 1px;
 	}
-	.double-line{
+
+	.double-line {
 		height: 5px;
 		background-color: #e5e5e5;
 		margin: 5px 0;
 	}
-	.form-view{
+
+	.form-view {
 		padding: 0px 15px;
 	}
-	.form-left{
+
+	.form-left {
 		font-size: 14px;
 		/* width: 200rpx; */
 		color: #3F3F3F;
 	}
-	.form-left-textarea{
+
+	.form-left-textarea {
 		margin-top: 5px;
 		align-self: flex-start;
 	}
-	.form-right{
+
+	.form-right {
 		font-size: 13px;
 		-webkit-flex: 1;
 		flex: 1;
@@ -326,23 +419,25 @@
 		color: #787878;
 		text-align: right;
 	}
-	::v-deep .form-right .placeholder{
+
+	::v-deep .form-right .placeholder {
 		color: grey;
 		font-size: 14px;
 		padding-right: 10px;
 	}
-	.uni-flex{
+
+	.uni-flex {
 		min-height: 40px;
 		align-items: center;
 	}
-	
-	textarea{
+
+	textarea {
 		font-size: 13px;
 		height: 80px;
 		padding: 5px;
 	}
-	
-	.form-left-approve{
+
+	.form-left-approve {
 		margin: 5px 0;
 		font-size: 13px;
 		-webkit-flex: 1;
