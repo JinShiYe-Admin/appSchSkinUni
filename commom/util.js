@@ -820,7 +820,7 @@ function getPageArray() {
 			childList: [{
 				name: '我的考勤',
 				icon: tempAAA + '/static/images/teachercAttendance/my_attendance.png',
-				pagePath: "/pages/teachercAttendance/myProgramme",
+				pagePath: "/pages/teachercAttendance/myAttendance",
 				url: 'schapp_Attendance_My'
 			}, {
 				name: '考勤查询',

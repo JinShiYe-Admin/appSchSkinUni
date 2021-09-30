@@ -291,7 +291,7 @@
 				let comm=this.formData.comment
 				let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
 				let comData={
-					attendance_date:this.formData.time,
+					behavior_date:this.formData.time,
 					bed_nums:this.bedIdList.join(","),
 					dorm_name:this.buildList[this.buildIndex].value,
 					floor_num:''+this.floorList[this.floorIndex].value,
