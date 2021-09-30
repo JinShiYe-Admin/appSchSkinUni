@@ -2369,19 +2369,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
+                "enablePullDownRefresh": false
             }
             
         }
@@ -2390,19 +2378,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-                "app-plus": {
-                	"pullToRefresh": {
-                		"support": true,
-                		"style": "circle",
-                		"offset":"76px"
-                	}
-                },
-                "h5":{
-                	"pullToRefresh":{
-                		"offset":"44px"
-                	}
-                }
+                "enablePullDownRefresh": false
             }
             
         }
