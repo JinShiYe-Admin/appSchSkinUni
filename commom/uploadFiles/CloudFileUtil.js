@@ -602,11 +602,13 @@ var upload = function(fPath, token, key, uploadCompletedCallBack, onStateChanged
 var uploadFiles = function(that,type,files,mainSpace,uploadSpace,callback) {
 		let names=[]
 		let newImgList=files.filter(item=>{
-			return item.indexOf('blob:')!==-1 || item.indexOf('file:')!==-1
+			return item.indexOf('blob:')!==-1 || item.indexOf('file:')!==-1 || item.indexOf('https://')===-1 || item.indexOf('http://')===-1
 		})//过滤服务器已经上传过的文件
 		let imgUrls=files.filter(item=>{
-			return !(item.indexOf('blob:')===0 || item.indexOf('file:')===0)
+			return !(item.indexOf('blob:')>-1 || item.indexOf('file:')>-1 || item.indexOf('https://')===-1 || item.indexOf('http://')===-1)
 		})//过滤服务器已经上传过的文件
+		console.log("newImgList: " + JSON.stringify(newImgList));
+		console.log("imgUrls: " + JSON.stringify(imgUrls));
 		newImgList.map((item,index)=>{
 			//如果是H5 文件是blob ，可以用item.name 获取文件名  如果是app-plus ,item是一个String，需要截取字符串，这里不写了
 			names.push(that.moment().format('YYYYMMDDHHmmsss')+'_'+index+'.png')
