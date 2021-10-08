@@ -32,7 +32,9 @@
 	// 七牛上传相关
 	 import gUpload from "@/components/g-upload/g-upload.vue"
 	 import cloudFileUtil from '../../commom/uploadFiles/CloudFileUtil.js';
-	 
+	 // #ifdef APP-PLUS
+	 import permision from "@/commom/permission.js"
+	 // #endif
 	 
 	export default {
 		data() {
@@ -136,11 +138,12 @@
 						that.latitude = res.latitude
 						//#ifdef APP-PLUS
 						console.log('address：' + JSON.stringify(res.address));
-						that.workAddress = res.address;
+						that.workAddress = res.address.province+res.address.city+res.address.district+res.address.street+res.address.streetNum+res.address.poiName;
 						//#endif
 					},
 					fail() {
 						console.log("获取位置失败");
+						that.openGps();
 						that.hideLoading()
 					},
 					complete: () => {
@@ -165,6 +168,48 @@
 						//#endif
 					}
 				})
+			},
+			openGps() {
+				let system = uni.getSystemInfoSync(); // 获取系统信息
+				if (system.platform === 'android') { // 判断平台
+					var context = plus.android.importClass("android.content.Context");
+					var locationManager = plus.android.importClass("android.location.LocationManager");
+					var main = plus.android.runtimeMainActivity();
+					var mainSvr = main.getSystemService(context.LOCATION_SERVICE);
+					if (!mainSvr.isProviderEnabled(locationManager.GPS_PROVIDER)) {
+						uni.showModal({
+							title: '提示',
+							content: '请打开定位服务功能',
+							showCancel: false, // 不显示取消按钮
+							success() {
+								var Intent = plus.android.importClass('android.content.Intent');
+								var Settings = plus.android.importClass('android.provider.Settings');
+								var intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+								main.startActivity(intent); // 打开系统设置GPS服务页面
+							}
+						});
+					}
+				} else if (system.platform === 'ios') {
+					var cllocationManger = plus.ios.import("CLLocationManager");
+					var enable = cllocationManger.locationServicesEnabled();
+					var status = cllocationManger.authorizationStatus();
+					plus.ios.deleteObject(cllocationManger);
+					uni.showModal({
+						title: '提示',
+						content: '请打开定位服务功能',
+						showCancel: false, // 不显示取消按钮
+						success() {
+							var UIApplication = plus.ios.import("UIApplication");
+							var application2 = UIApplication.sharedApplication();
+							var NSURL2 = plus.ios.import("NSURL");
+							var setting2 = NSURL2.URLWithString("App-Prefs:root=Privacy&path=LOCATION");
+							application2.openURL(setting2);
+							plus.ios.deleteObject(setting2);
+							plus.ios.deleteObject(NSURL2);
+							plus.ios.deleteObject(application2);
+						}
+					});
+				}
 			},
 			getSetting: function() {
 				return new Promise((resolve, reject) => {
@@ -289,11 +334,11 @@
 
 <style>
 	.sure-button{
-		border-color:#00CFBD;
-		background: #00CFBD;
-		color: #FFFFFF;
-		font-size: 14px;
-		flex:1;
+		border-color:#00CFBD !important;
+		background: #00CFBD !important;
+		color: #FFFFFF !important;
+		font-size: 14px !important;
+		flex:1 !important;
 	}
 	.line{
 		height: 1px;

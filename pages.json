@@ -1612,12 +1612,12 @@
                 	"pullToRefresh": {
                 		"support": true,
                 		"style": "circle",
-                		"offset":"76px"
+                		"offset":"0px"
                 	}
                 },
                 "h5":{
                 	"pullToRefresh":{
-                		"offset":"44px"
+                		"offset":"0px"
                 	}
                 }
             }
@@ -1633,12 +1633,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1672,12 +1672,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1702,12 +1702,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1732,12 +1732,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1762,12 +1762,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1792,12 +1792,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1854,12 +1854,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1916,12 +1916,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
@@ -1978,12 +1978,12 @@
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset":"0px"
 					}
 				},
 				"h5":{
 					"pullToRefresh":{
-						"offset":"44px"
+						"offset":"0px"
 					}
 				}
             }
