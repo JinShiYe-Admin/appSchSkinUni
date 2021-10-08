@@ -70,6 +70,9 @@
 <script>
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	// #ifdef APP-PLUS
+	import permision from "@/commom/permission.js"
+	// #endif
 	let _this;
 	const leftArray = [],
 		rightArray = [];
@@ -249,14 +252,14 @@
 						console.log('当前位置的纬度：' + res.latitude);
 						//#ifdef APP-PLUS
 						console.log('address：' + JSON.stringify(res.address));
-						that.workAddress = res.address.province+res.address.city+res.address.district+res.address.street+res.address.streetNum+res.address.poiName;
+						_this.workAddress = res.address.province+res.address.city+res.address.district+res.address.street+res.address.streetNum+res.address.poiName;
 						//#endif
 						
 						_this.longitude = res.longitude
 						_this.latitude = res.latitude
 					},
 					fail() {
-						that.openGps();
+						_this.openGps();
 						console.log("获取位置失败");
 					},
 					complete: () => {
