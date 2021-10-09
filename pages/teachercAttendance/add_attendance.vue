@@ -143,7 +143,12 @@
 					},
 					fail() {
 						console.log("获取位置失败");
-						that.openGps();
+						// #ifdef H5
+							that.showToast('请开启位置服务')
+						// #endif
+						// #ifdef APP-PLUS
+							that.openGps();
+						// #endif
 						that.hideLoading()
 					},
 					complete: () => {

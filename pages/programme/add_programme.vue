@@ -259,7 +259,12 @@
 						_this.latitude = res.latitude
 					},
 					fail() {
-						_this.openGps();
+						// #ifdef H5
+							_this.showToast('请开启位置服务')
+						// #endif
+						// #ifdef APP-PLUS
+							_this.openGps();
+						// #endif
 						console.log("获取位置失败");
 					},
 					complete: () => {
