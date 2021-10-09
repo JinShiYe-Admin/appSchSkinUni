@@ -834,6 +834,55 @@ function getPageArray() {
 				url: 'schapp_Attendance_Form'
 			}]
 		},
+		{
+			name: "parents_zhixueKeTang", //智学课堂
+			pagePath: "/pages/zhiXueKeTang/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/zhixueketang_tab.png",
+			url: 'schapp_zhixueKeTang',
+			childList: [{
+				name: '智学资源',
+				icon: tempAAA + '/static/images/zhiXueKeTang/zhixueziyuan.png',
+				pagePath: "/pages/zhiXueKeTang/zhixuezy_index",
+				url: 'schapp_zhixueKeTang_zxzy'
+			}, {
+				name: '组卷测试',
+				icon: tempAAA + '/static/images/zhiXueKeTang/zujuanceshi.png',
+				pagePath: "/pages/zhiXueKeTang/zujuancs_index",
+				url: 'schapp_zhixueKeTang_zjcs'
+			}, {
+				name: '历史测试',
+				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				pagePath: "/pages/zhiXueKeTang/lishics_index",
+				url: 'schapp_zhixueKeTang_lscs'
+			}, {
+				name: '错题本',
+				icon: tempAAA + '/static/images/zhiXueKeTang/cuotiben.png',
+				pagePath: "/pages/zhiXueKeTang/cuotiben_index",
+				url: 'schapp_zhixueKeTang_ctb'
+			}, {
+				name: '学情分析',
+				icon: tempAAA + '/static/images/zhiXueKeTang/xueqingfenxi.png',
+				pagePath: "/pages/zhiXueKeTang/xueqingfx_index",
+				url: 'schapp_zhixueKeTang_xqfx'
+			}]
+		},
+		{
+			name: "kouYuCePing", //口语测评
+			pagePath: "/pages/kouYuCePing/index",
+			iconPath: tempAAA + '/static/tabbar/study.png',
+			selectedIconPath: tempAAA + '/static/tabbar/study_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/kouyuceping_tab.png",
+			url: 'schapp_kouYuCePing',
+			childList: []
+		},
 	];
 	return tempArray;
 }
