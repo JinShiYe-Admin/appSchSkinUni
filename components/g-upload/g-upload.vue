@@ -38,7 +38,9 @@
 	  //选择模式  album 从相册选图，camera 使用相机，默认二者都有。
 	  sourceType:{
 		 type: Array,
-		 default:['album','camera']
+		 default(){
+			 return ['album','camera']
+		 }
 	  },
 	  //显示的最大数量
 	  showMaxCount: {

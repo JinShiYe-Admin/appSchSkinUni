@@ -98,6 +98,12 @@ navRightBtn:['plusempty','add','delete'] //图标数组  只能出入uniapp 官�
 navRightBtn:[{value:'plusempty',style:{fontSize:15,color:'#00CFBD'}},{value:'cart',style:{fontSize:15,color:'#00CFBD'}}] //对象数组  传入图标的内容、大小和颜色 
 navRightCallback:[Function1,Function2,Function3] //方法数组
 
+//标题栏中间字体添加点击事件
+<mynavBar ref="mynavBar" :titleClick="titleClick" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+//标题栏中间字体添加图标
+this.tabBarItem.titleIcon='arrowdown'
+或
+this.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:30,color:'#000'}}
 //获取七牛下载Token
 this.showLoading();
 cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data) => {
