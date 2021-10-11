@@ -10,7 +10,7 @@
 					</view>
 					<view class="u-icon-wrap u-back-text u-line-1" v-if="backText" :style="[backTextStyle]">{{ backText }}</view>
 				</view>
-				<view class="u-navbar-content-title" v-if="title" :style="[titleStyle]">
+				<view class="u-navbar-content-title" @tap="$props.titleClick" v-if="title" :style="[titleStyle]">
 					<view
 					    class="u-title u-line-1"
 					    :style="{
@@ -19,6 +19,7 @@
 							fontWeight: titleBold ? 'bold' : 'normal'
 						}">
 						{{ title }}
+						<uni-icons style="margin-left: 3px;" :type="titleIcon.value?titleIcon.value:titleIcon" :size="titleIcon.style?titleIcon.style.fontSize:18" :color="titleIcon.style?titleIcon.style.color:'#FFFFFF'"></uni-icons>
 					</view>
 				</view>
 				<view class="u-slot-content">
@@ -68,6 +69,18 @@
 	export default {
 		name: "u-navbar",
 		props: {
+			//中间标题栏点击事件
+			titleClick:{
+				type:Function,
+				default:null
+			},
+			//中间标题栏图标
+			titleIcon:{
+				type:[String,Object],
+				default(){
+					return ''
+				}
+			},
 			// 导航栏高度，单位px，非rpx
 			height: {
 				type: [String, Number],

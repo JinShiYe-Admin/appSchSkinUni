@@ -2451,8 +2451,21 @@
             "path" : "pages/zhiXueKeTang/zhixuezy_index",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"76px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"44px"
+                	}
+                }
             }
             
         }
@@ -2693,7 +2706,7 @@
 				"pagePath": "pages/teachercAttendance/index"
 			},
 			{
-				"pagePath": "pages/teachercAttendance/index"
+				"pagePath": "pages/zhiXueKeTang/index"
 			},
 			{
 				"pagePath": "pages/kouYuCePing/index"

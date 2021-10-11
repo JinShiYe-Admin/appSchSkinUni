@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar-my :title='navItem.text' :backFlag='navItem.index' :backImg="personInfo.img_url" :custom-back="clickLeftImg">
+		<u-navbar-my :title='navItem.text' :titleIcon='navItem.titleIcon?navItem.titleIcon:""' :titleClick="$props.titleClick" :backFlag='navItem.index' :backImg="personInfo.img_url" :custom-back="clickLeftImg">
 			<view v-if="icon || text" slot="right" style="display: flex;flex-direction: row;">
 				<template v-if="typeof icon ==='string'">
 					<view v-if="icon" style="margin: 0 8px;"><uni-icons :type="icon.value?icon.value:icon" :size="icon.style?icon.style.fontSize:18" :color="icon.style?icon.style.color:'#FFFFFF'" @click="$props.iconClick"></uni-icons></view>
@@ -95,6 +95,10 @@
 				default(){
 					return {}
 				}
+			},
+			titleClick:{
+				type:Function,
+				default:()=>{}
 			}
 		},
 		methods: {
