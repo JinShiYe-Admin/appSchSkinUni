@@ -1,25 +1,23 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :titleClick="titleClick" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :titleClick="titleClick" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
-			<uni-row style="height: 35px;display: flex;align-items: center;">
-				<uni-col class="mini-date" :span="8">
-					<dy-Date :childValue='endDate' timeType="day" v-on:getData='timeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>
-					<uni-icons style="padding-right: 3px;" size="13" type="arrowdown" color="#C2C7D6"></uni-icons>
-				</uni-col>
-			</uni-row>
+			<scroll-view class="scroll-view_H" scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
+				<view v-for="(item,index) in tablist" :key="item.key" :id="item.key" :data-current="index" class="scroll-view-item_H" @click="tabtap(index)">
+					<text class="uni-tab-item-title" :class="tabIndex==index ? 'uni-tab-item-title-active' : ''">{{item.value}}</text>
+				</view>
+			</scroll-view>
 			<view class="select-line"></view>
 		</view>
 		<view style="padding-top: 37px;">
 			<uni-list :border="false">
-				<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
+				<uni-list-item  :key="index" v-for="(item,index) in 1000" :border="true">
 					<text slot="body" class="slot-box slot-text">
 						<uni-row>
-							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">时间：</view><view class="detail-text">{{item.attend_time}}</view></uni-col>
-							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">地点：</view><view class="detail-text">{{item.attend_addr}}</view></uni-col>
-							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">类型：</view><view class="detail-text">{{item.attend_itemName}}</view></uni-col>
-							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">结果：</view><view class="detail-text">{{item.attend_resultName}}</view></uni-col>
-							<uni-col :span="24" v-if="item.attend_pic.length>0" style="display: flex;align-items: baseline;"><view class="title-text">附件：</view><view class="detail-text" style="color: #00CFBD;" @click="perviewImg(item.attend_pic)">点击查看打卡图片</view></uni-col>
+							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">时间：</view><view class="detail-text">{{item}}</view></uni-col>
+							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">地点：</view><view class="detail-text">{{item}}</view></uni-col>
+							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">类型：</view><view class="detail-text">{{item}}</view></uni-col>
+							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">结果：</view><view class="detail-text">{{item}}</view></uni-col>
 						</uni-row>
 					</text>
 				</uni-list-item>
@@ -33,13 +31,15 @@
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
+	let tablist1=[]
+	for (var i = 0; i < 30; i++) {
+		tablist1.push({key:'shuai_'+i,value:i})
+	}
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				icon:'plusempty',
-				add:false,//add按钮权限
 				tabBarItem: {},
 				pageSize:15,
 				pageobj0:{
@@ -54,16 +54,28 @@
 					canload:true,//是否加载更多
 				},
 				pagedata:[],
-				//顶部筛选框相关内容
-				time:this.moment().format('YYYY-MM-DD'),
-				startDate:'2010-01-01',
-				endDate:this.moment().format('YYYY-MM-DD')
+				tablist:tablist1,
+				scrollInto:'',
+				 tabIndex: 0,
 			}
 		},
 		components: {
 			mynavBar
 		},
 		methods: {
+			tabtap(index){
+				this.switchTab(index);
+			},
+			switchTab(index) {
+				// TODO 获取数据
+				console.log(index);
+			    if (this.tabIndex === index) {
+			        return;
+			    }
+				 this.tabIndex = index;
+				 this.scrollInto = this.tablist[index].key;
+				 console.log("this.tablist[index].key: " + JSON.stringify(this.tablist[index].key));
+			},
 			titleClick(){
 				console.log('刘帅');
 			},
@@ -155,19 +167,16 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
 			this.tabBarItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
-				 this.showLoading()
-				 this.getPermissionByPosition('add',this.index_code,result=>{
-					 this.add=result[0]
-					 if(result[0]){
-						 this.icon='plusempty'
-					 }
-				 })
-				 this.getList0()
+				 // this.showLoading()
 			},100)
+			let that =this
+			setTimeout(function() {
+				that.tabBarItem.text="第一课 散步"
+				that.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
+			}, 2000);
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
@@ -260,5 +269,33 @@
 	 
 	 .uni-input-input{
 		 font-size: 13px;
+	 }
+	 
+	 .scroll-view_H {
+	 	white-space: nowrap;
+	 	width: 100%;
+	 }
+	 .scroll-view-item_H {
+	 	display: inline-block;
+	 	width: 50px;
+	 	height: 40px;
+	 	line-height: 40px;
+	 	text-align: center;
+	 	font-size: 15px;
+	 }
+	 
+	 .uni-tab-item-title {
+	     color: #555;
+	     font-size: 30rpx;
+	     height: 80rpx;
+	     line-height: 80rpx;
+	     flex-wrap: nowrap;
+	     /* #ifndef APP-PLUS */
+	     white-space: nowrap;
+	     /* #endif */
+	 }
+	 
+	 .uni-tab-item-title-active {
+	     color: #00CFBD;
 	 }
 </style>
