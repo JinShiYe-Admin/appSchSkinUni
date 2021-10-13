@@ -2569,15 +2569,6 @@
             
         }
         ,{
-            "path" : "pages/zhiXueKeTang/playVideo",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
             "path" : "pages/zhiXueKeTang/xueqingfx_detail",
             "style" :                                                                                    
             {
