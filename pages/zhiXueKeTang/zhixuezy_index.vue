@@ -117,10 +117,14 @@
 				}
 				this.tabIndex = index;
 				this.scrollInto = this.resCategoryArray[index].key;
+				console.log("index: " + JSON.stringify(index));
+				console.log("this.resCategoryArray: " + JSON.stringify(this.resCategoryArray));
 				this.resCategoryArray.map((item,i)=>{
+					console.log(i,index,i == index);
 					if (i == index) {
 						this.showLoading()
 						this.resCategoryModel = item;
+						console.log("this.resCategoryModel: " + JSON.stringify(item));
 						this.pageobj0.loadFlag=0
 						this.pageobj0.canload=true
 						this.pageobj0.page_number=1
@@ -131,12 +135,24 @@
 			titleClick(){//切换目录
 				let that=this
 				util.openwithData('/pages/zhiXueKeTang/catalogPage',{index_code:this.index_code},{
-					refreshList(data){//子页面调用父页面需要的方法
+					refreshCatalog(data){//子页面调用父页面需要的方法
+						that.tabBarItem.text=data.data[0].data.name; //给标题赋值
+						that.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
+						//当前章节
+						that.resCatalogsModel = data.data[0].data;
+						//当前学段
+						let perModel=data.data[1]
+						perModel.per_code=perModel.per_code.split("_")[1]
+						that.resPerModel = perModel
+						//当前科目
+						let subModel=data.data[2]
+						subModel.sub_code=subModel.sub_code.split("_")[1]
+						that.resSubModel = subModel
 						that.showLoading()
 						that.pageobj0.loadFlag=0
 						that.pageobj0.canload=true
 						that.pageobj0.page_number=1
-						that.getList0()
+						that.getResCategory()
 					}
 				})
 			},
@@ -280,7 +296,7 @@
 			getList0(){//查询资源列表
 				let category_id=this.resCategoryModel.key
 				let id=category_id.split("_")[1]
-				if(id="null"){
+				if(id=="null"){
 					id=null
 				}
 				let comData = {

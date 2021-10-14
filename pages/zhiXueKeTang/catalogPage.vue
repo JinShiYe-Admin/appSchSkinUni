@@ -41,6 +41,9 @@
 				<ly-tree :tree-data="resCatalogsArray" node-key="id" @node-click="treeItemClick" :props="{label:'name'}"/>
 			</scroll-view>
 		</view>
+		<uni-popup ref="alertDialog" type="dialog">
+			<uni-popup-dialog type="warn" title="提醒" content="确定切换到当前章节吗？" @confirm="dialogConfirm"></uni-popup-dialog>
+		</uni-popup>
 	</view>
 </template>
 
@@ -53,6 +56,7 @@
 				index_code:'',
 				personInfo: {},
 				
+				clickitem:{},
 				
 				scrollIntoPer:'',
 				perTabIndex: 0,
@@ -82,16 +86,21 @@
 				}
 				this.perTabIndex = index;
 				this.scrollIntoPer = this.resPerArray[index].key;
-				// this.resPerArray.map((item,i)=>{
-				// 	if (i == index) {
-				// 		this.showLoading()
-				// 		this.resCategoryModel = item;
-				// 		this.pageobj0.loadFlag=0
-				// 		this.pageobj0.canload=true
-				// 		this.pageobj0.page_number=1
-				// 		this.getList0()
-				// 	} 
-				// })
+				this.resPerModel = this.resPerArray[index]
+				//状态重置
+				this.scrollIntoSub=''
+				this.subTabIndex=0
+				this.scrollIntoMater=''
+				this.materTabIndex=0
+				this.scrollIntoFasc=''
+				this.fascTabIndex=0
+				this.resSubArray = [].concat([]);
+				this.resMaterArray = [].concat([]);
+				this.resFascArray = [].concat([]);
+				this.resCatalogsArray = [].concat([]);
+				// 查询科目
+				this.showLoading();
+				this.getResSub();
 			},
 			subtabtap(index){
 				if (this.subTabIndex === index) {
@@ -99,6 +108,18 @@
 				}
 				this.subTabIndex = index;
 				this.scrollIntoSub = this.resSubArray[index].key;
+				this.resSubModel =this.resSubArray[index]
+				//状态重置
+				this.scrollIntoMater=''
+				this.materTabIndex=0
+				this.scrollIntoFasc=''
+				this.fascTabIndex=0
+				this.resMaterArray = [].concat([]);
+				this.resFascArray = [].concat([]);
+				this.resCatalogsArray = [].concat([]);
+				// 查询教版
+				this.showLoading();
+				this.getResMater();
 			},
 			matertabtap(index){
 				if (this.materTabIndex === index) {
@@ -106,6 +127,15 @@
 				}
 				this.materTabIndex = index;
 				this.scrollIntoMater = this.resMaterArray[index].key;
+				this.resMaterModel =this.resMaterArray[index]
+				//状态重置
+				this.scrollIntoFasc=''
+				this.fascTabIndex=0
+				this.resFascArray = [].concat([]);
+				this.resCatalogsArray = [].concat([]);
+				// 查询分册
+				this.showLoading();
+				this.getResFasc();
 			},
 			fasctabtap(index){
 				if (this.fascTabIndex === index) {
@@ -113,6 +143,12 @@
 				}
 				this.fascTabIndex = index;
 				this.scrollIntoFasc = this.resFascArray[index].key;
+				this.resFascModel =this.resFascArray[index]
+				//状态重置
+				this.resCatalogsArray = [].concat([]);
+				// 查询目录
+				this.showLoading();
+				this.getResCatalogs();
 			},
 			getResPer(){// 查询学段
 				let comData={
@@ -122,6 +158,10 @@
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					if (response.list && response.list.length > 0) {
+						for (let i = 0; i < response.list.length; i++) {
+							let model = response.list[i];
+							model.per_code='percode_'+model.per_code
+						}
 						this.resPerArray = [].concat(response.list);
 						this.resPerModel = response.list[0]
 						// 查询科目
@@ -137,14 +177,19 @@
 				})
 			},
 			getResSub(){
+				let per_code=this.resPerModel.per_code.split("_")[1]
 				let comData={
-					per_code: this.resPerModel.per_code, //学段代码
+					per_code: per_code, //学段代码
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_ZXKT+'/pub/resSub',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					if (response.list && response.list.length > 0) {
+						for (let i = 0; i < response.list.length; i++) {
+							let model = response.list[i];
+							model.sub_code='subcode_'+model.sub_code
+						}
 						this.resSubArray = [].concat(response.list);
 						this.resSubModel = response.list[0]
 						// 查询教版
@@ -159,15 +204,21 @@
 				})
 			},
 			getResMater(){//查询教版
+				let per_code=this.resPerModel.per_code.split("_")[1]
+				let sub_code=this.resSubModel.sub_code.split("_")[1]
 				let comData={
-					per_code: this.resPerModel.per_code, //学段代码
-					sub_code: this.resSubModel.sub_code, //科目代码
+					per_code: per_code, //学段代码
+					sub_code: sub_code, //科目代码
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_ZXKT+'/pub/resMater',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					if (response.list && response.list.length > 0) {
+						for (let i = 0; i < response.list.length; i++) {
+							let model = response.list[i];
+							model.mater_code='matercode_'+model.mater_code
+						}
 						this.resMaterArray = [].concat(response.list);
 						this.resMaterModel = response.list[0]
 						// 查询分册
@@ -181,16 +232,23 @@
 				})
 			},
 			getResFasc(){// 查询分册
+				let per_code=this.resPerModel.per_code.split("_")[1]
+				let sub_code=this.resSubModel.sub_code.split("_")[1]
+				let mater_code=this.resMaterModel.mater_code.split("_")[1]
 				let comData={
-					per_code: this.resPerModel.per_code, //学段代码
-					sub_code: this.resSubModel.sub_code, //科目代码
-					mater_code: this.resMaterModel.mater_code, //教版代码
+					per_code: per_code, //学段代码
+					sub_code: sub_code, //科目代码
+					mater_code: mater_code, //教版代码
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_ZXKT+'/pub/resFasc',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					if (response.list && response.list.length > 0) {
+						for (let i = 0; i < response.list.length; i++) {
+							let model = response.list[i];
+							model.fasc_code='fasccode_'+model.fasc_code
+						}
 						this.resFascArray = [].concat(response.list);
 						this.resFascModel = response.list[0]
 						// 查询目录
@@ -203,11 +261,15 @@
 				})
 			},
 			getResCatalogs(){//查询目录
+				let per_code=this.resPerModel.per_code.split("_")[1]
+				let sub_code=this.resSubModel.sub_code.split("_")[1]
+				let mater_code=this.resMaterModel.mater_code.split("_")[1]
+				let fasc_code=this.resFascModel.fasc_code.split("_")[1]
 				let comData = {
-					per_code: this.resPerModel.per_code, //学段代码
-					sub_code: this.resSubModel.sub_code, //科目代码
-					mater_code: this.resMaterModel.mater_code, //教版代码
-					fasc_code: this.resFascModel.fasc_code, //分册代码
+					per_code: per_code, //学段代码
+					sub_code: sub_code, //科目代码
+					mater_code: mater_code, //教版代码
+					fasc_code: fasc_code, //分册代码
 					index_code: this.index_code
 				}
 				this.post(this.globaData.INTERFACE_ZXKT+'/pub/resCatalogs',comData,response=>{
@@ -223,11 +285,17 @@
 			},
 			treeItemClick(item) {
 				console.log(item.isLeaf);
-				// let {id,name,parentId} = item.data;
-				// this.getDptUser(id)
-				// setTimeout(()=>{
-				// 	this.dptClick=true
-				// },1000)
+				console.log("item: " + JSON.stringify(item));
+				if(item.isLeaf){
+					this.clickitem=item
+					this.$refs.alertDialog.open()
+				}
+			},
+			dialogConfirm(){
+				const eventChannel = this.getOpenerEventChannel()
+				eventChannel.emit('refreshCatalog', {data: [this.clickitem,this.resPerModel,this.resSubModel]});
+				uni.navigateBack();
+				this.hideLoading()
 			},
 		},
 		onLoad(options) {
@@ -336,6 +404,7 @@
 		 display: flex;
 		 flex-direction: row;
 		 align-items: center;
+		 height: 40px;
 	 }
 	 .scroll-title{
 		 width: 35px;
