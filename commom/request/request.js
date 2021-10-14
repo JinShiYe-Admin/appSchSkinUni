@@ -83,7 +83,7 @@ function post(url, data, callback, ecallback) {
 									}
 								}
 							});
-					}else{//比如tonken验证超时，被顶下来  参数错误等
+					}else{//比如tonken验证超时，被顶下来  参数错误，code为null等
 						showToast(res.data.msg);
 						console.log(ecallback);
 						if (ecallback) {
