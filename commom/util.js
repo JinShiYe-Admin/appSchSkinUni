@@ -104,6 +104,20 @@ function getMenuMore() {
 	}
 }
 
+//设置登录用户的菜单信息
+function setStore(key,data) {
+	uni.setStorageSync(Vue.prototype.personal + Vue.prototype.globaData.APPCODE +key, JSON.stringify(data));
+}
+//获取登录用户的菜单信息
+function getStore(key) {
+	const _value = uni.getStorageSync(Vue.prototype.personal + Vue.prototype.globaData.APPCODE+key);
+	if (_value) {
+		return JSON.parse(_value)
+	} else {
+		return {}
+	}
+}
+
 //设置切换tabbar时菜单信息
 function setTabbarMenu(data) {
 	uni.setStorageSync(Vue.prototype.tabbarMenu, JSON.stringify(data))
@@ -910,5 +924,7 @@ module.exports = {
 	getPermissionByPosition: getPermissionByPosition,
 	getPageArray: getPageArray,
 	getUnReadCut: getUnReadCut,
-	openFile: openFile
+	openFile: openFile,
+	setStore:setStore,
+	getStore:getStore
 }
