@@ -15,10 +15,10 @@
 					    class="u-title u-line-1"
 					    :style="{
 							color: titleColor,
-							fontSize: titleSize + 'rpx',
+							fontSize: title.length>7?'14px':titleSize + 'rpx',
 							fontWeight: titleBold ? 'bold' : 'normal'
-						}">
-						{{ title }}
+						}" style="display: flex;justify-content: center;">
+						<text style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 120px;">{{ title }}</text>
 						<uni-icons style="margin-left: 3px;" :type="titleIcon.value?titleIcon.value:titleIcon" :size="titleIcon.style?titleIcon.style.fontSize:18" :color="titleIcon.style?titleIcon.style.color:'#FFFFFF'"></uni-icons>
 					</view>
 				</view>
