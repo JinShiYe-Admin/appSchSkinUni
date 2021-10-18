@@ -454,19 +454,19 @@ function getPageArray() {
 			url: 'schapp_markingPapers',
 			childList: [{
 					name: '周测',
-					icon: tempAAA + '/static/markingPapers/zhouce.png',
+					icon: tempAAA + '/static/images/markingPapers/zhouce.png',
 					pagePath: "/pages/markingPapers/weekTest_index",
 					url: 'schapp_markingPapers_weekTest'
 				},
 				{
 					name: '月考',
-					icon: tempAAA + '/static/markingPapers/yuekao.png',
+					icon: tempAAA + '/static/images/markingPapers/yuekao.png',
 					pagePath: "/pages/markingPapers/monthTest_index",
 					url: 'schapp_markingPapers_monthTest'
 				},
 				{
 					name: '期中期末',
-					icon: tempAAA + '/static/markingPapers/qizhongqimo.png',
+					icon: tempAAA + '/static/images/markingPapers/qizhongqimo.png',
 					pagePath: "/pages/markingPapers/termTest_index",
 					url: 'schapp_markingPapers_termTest'
 				}
