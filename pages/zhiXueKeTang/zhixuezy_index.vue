@@ -46,7 +46,7 @@
 								<image v-else src="../../static/images/zhiXueKeTang/file-icons/other.png" class="resource-img"></image>
 							</template>
 							<uni-row>
-								<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">{{item.name}}</view></uni-col>
+								<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text" style="width: 84vw;"><text style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{item.name}}</text></view></uni-col>
 								<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="detail-text">{{item.create_time}}&ensp;|&ensp;{{item.owner_name}}</view></uni-col>
 							</uni-row>
 						</view>
