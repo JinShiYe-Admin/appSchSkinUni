@@ -1,18 +1,25 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :titleClick="titleClick" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
-		<view class="tabs-fixed" style="background-color: #FFFFFF;">
-			<scroll-view class="scroll-view_H" scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
-				<view v-for="(item,index) in resCategoryArray" :key="item.key" :id="item.key" :data-current="index" class="scroll-view-item_H" @click="tabtap(index)">
-					<text class="uni-tab-item-title" :class="tabIndex==index ? 'uni-tab-item-title-active' : ''">{{item.title}}</text>
+		<mynavBar ref="mynavBar" :titleClick="titleClick" :navItem='tabBarItem' :personInfo='personInfo' :text="navRight" :textClick="textClick"></mynavBar>
+		<view>
+			<uni-popup ref="popup" background-color="#fff">
+				<view class="popup-content" :class="{ 'popup-height': 'top' }">
+					<view style="height: 38px;" :key="tempPer.per_code" v-for="(tempPer, index) in perArray">
+						<label class="perList" @click="selectItem(tempPer)" :style="{background:(tempPer.per_code==resPerModel.per_code?'#00CFBD':'#ECECEC'),color:(tempPer.per_code==resPerModel.per_code?'white':'')}">{{tempPer.per_name}}</label>
+					</view>
 				</view>
-			</scroll-view>
-			<view class="select-line"></view>
+			</uni-popup>
+			<uni-popup ref="subpopup" background-color="#fff">
+				<view class="popup-content" :class="{ 'popup-height': 'top' }">
+					<view class="popup-content-view" :key="tempSub.per_code" v-for="(tempSub, index) in subArray">
+						<label class="perList" @click="selectSubItem(tempSub)" :style="{background:(tempSub.sub_code==resSubModel.sub_code?'#00CFBD':'#ECECEC'),color:(tempSub.sub_code==resSubModel.sub_code?'white':'')}">{{tempSub.sub_name}}</label>
+					</view>
+				</view>
+			</uni-popup>
 		</view>
 		<view style="padding-top: 0px;">
 			<scroll-view class="select-scroll" scroll-y="true" >
-				<!-- <mix-tree :list="leftList" @treeItemClick="treeItemClick" :nodeClick="true"></mix-tree> -->
-				<ly-tree :tree-data="resCatalogsArray" node-key="id" @node-click="treeItemClick" :props="{label:'name'}"/>
+				<ly-tree :tree-data="resCatalogsArray" node-key="id" @node-click="treeItemClick" :props="{label:'name'}" :checkOnlyLeaf="true" :showCheckbox="true" :defaultCheckedKeys="defaultCheckedKeys"/>
 			</scroll-view>
 		</view>
 	</view>
@@ -27,46 +34,73 @@
 				index_code:'',
 				personInfo: {},
 				tabBarItem: {},
+				showItem: false,
+				navRight: '',
+				perArray: [],
 				resPerModel: {}, //当前学段
+				subArray: [],
 				resSubModel: {}, //当前科目
 				resCatalogsArray: [],//目录列表
+				defaultCheckedKeys:[],//已经完成的节点
 			}
 		},
 		components: {
 			mynavBar
 		},
 		methods: {
+			titleClick(){
+				console.log('textClick');
+				this.type = 'top';
+				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
+				this.$refs.popup.close();
+				this.$refs.subpopup.open('top');
+			},
+			textClick() {
+				console.log('textClick');
+				this.type = 'top';
+				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
+				this.$refs.subpopup.close();
+				this.$refs.popup.open('top');
+			},
+			selectItem(tempPer) {
+				this.$refs.popup.close();
+				if(tempPer.per_code!=this.resPerModel.per_code){
+					this.showLoading()
+					this.resPerModel = tempPer;
+					this.navRight = tempPer.per_name + '↓';
+					this.getResSub();
+				}
+			},
+			selectSubItem(tempSub){
+				this.$refs.subpopup.close();
+				if(tempSub.sub_code!=this.resSubModel.sub_code){
+					this.showLoading()
+					this.resSubModel = tempSub;
+					this.tabBarItem.text=tempSub.sub_name+ '↓'; //给标题赋值
+					// this.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
+					this.getResCatalogs();
+				}
+			},
 			treeItemClick(item) {
 				console.log(item.isLeaf);
 				console.log("item: " + JSON.stringify(item));
 				if(item.isLeaf){
-					this.clickitem=item
-					this.$refs.alertDialog.open()
-				}
-			},
-			titleClick(){//切换目录
-				let that=this
-				util.openwithData('/pages/zhiXueKeTang/catalogPage',{index_code:this.index_code},{
-					refreshCatalog(data){//子页面调用父页面需要的方法
-						that.tabBarItem.text=data.data[0].data.name; //给标题赋值
-						that.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
-						//当前章节
-						that.resCatalogsModel = data.data[0].data;
-						//当前学段
-						let perModel=data.data[1]
-						perModel.per_code=perModel.per_code.split("_")[1]
-						that.resPerModel = perModel
-						//当前科目
-						let subModel=data.data[2]
-						subModel.sub_code=subModel.sub_code.split("_")[1]
-						that.resSubModel = subModel
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getResCategory()
+					this.showLoading()
+					let data = item.data
+					data.index_code = this.index_code
+					let comData={
+						catalog_id: data.id,
+						user_code: this.personInfo.user_code,
+						index_code: this.index_code,
 					}
-				})
+					this.post(this.globaData.INTERFACE_ZXKT+'/test/schedule',comData,response=>{
+						 console.log("responseaaa: " + JSON.stringify(response));
+						this.hideLoading()
+						data.catalogId= data.id
+						data.difficulty= response
+						util.openwithData("/pages/zhiXueKeTang/zujuancs_start", data);
+					})
+				}
 			},
 			getResPer(){// 查询学段
 				let comData={
@@ -77,9 +111,16 @@
 					this.hideLoading()
 					if (response.list && response.list.length > 0) {
 						this.resPerModel = response.list[0];
+						this.perArray = response.list;
+						this.navRight = response.list[0].per_name + '↓';
 						// 查询科目
 						this.getResSub();
 					} else {
+						this.resPerModel = {};
+						this.perArray =[];
+						this.subArray= []
+						this.resSubModel= {}
+						this.resCatalogsArray= []
 						this.showToast('暂无学段');
 					}
 				})
@@ -93,12 +134,16 @@
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					if (response.list && response.list.length > 0) {
+						this.subArray = response.list;
 						this.resSubModel = response.list[0];
-						this.tabBarItem.text=response.list[0].sub_name; //给标题赋值
-						this.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
+						this.tabBarItem.text=response.list[0].sub_name+ '↓'; //给标题赋值
+						// this.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
 						// 查询教版
 						this.getResCatalogs();
 					} else {
+						this.subArray= []
+						this.resSubModel= {}
+						this.resCatalogsArray= []
 						this.showToast('暂无科目');
 					}
 				})
@@ -114,156 +159,30 @@
 					console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					if (response) {
-						// let that =this
+						this.getDefaultCheckedKeys(response.catalog.children)
 						this.resCatalogsArray = [].concat(response.catalog.children);
-						// this.getCalalogModel(response.catalog.children, function(tempData) {
-						// 	that.resCatalogsModel = tempData;
-						// 	that.tabBarItem.text=tempData.name; //给标题赋值
-						// 	that.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
-						// 	// 查询资源类型
-						// 	that.getResCategory();
-						// });
 					} else {
 						this.resCatalogsArray = [].concat([]);
 						this.showToast('暂无目录');
 					}
 				},response=>{
-					this.tabBarItem.text='切换目录'; //给标题赋值
-					this.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
+					this.tabBarItem.text='切换目录'+ '↓'; //给标题赋值
+					// this.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
 					this.resCatalogsArray = [].concat([]);
 				});
 			},
-			getCalalogModel(list, callback) {// 找到第一个可用的目录
-				let tempM = list[0];
-				if (tempM.children) {
-					this.getCalalogModel(tempM.children, callback);
-				} else {
-					callback(tempM);
-				}
-			},
-			getResCategory(){// 查询资源类型
-				let comData={
-					per_code: this.resPerModel.per_code, //学段代码
-					index_code: this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_ZXKT+'/pub/resCategory',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					this.hideLoading()
-					if (response.list && response.list.length > 0) {
-						for (let i = 0; i < response.list.length; i++) {
-							let tempM = response.list[i];
-							if (i == 0) {
-								tempM.ischeck = 1;
-							} else {
-								tempM.ischeck = 0;
-							}
+			getDefaultCheckedKeys(list){
+				list.map(item=>{
+					item.disabled='disabled'
+					if(item.children){
+						this.getDefaultCheckedKeys(item.children)
+					}else{
+						if(item.is_finish==1){
+							this.defaultCheckedKeys.push(item.id)
 						}
-						for (let i = 0; i < response.list.length; i++) {
-							let model = response.list[i];
-							model.key='zhi_'+model.key
-						}
-						this.resCategoryArray = [].concat(response.list);
-						this.resCategoryModel = response.list[0];
-						// 查询资源列表
-						this.getList0();
-					} else {
-						this.showToast('暂无资源类型');
 					}
 				})
 			},
-			getList0(){//查询资源列表
-				let category_id=this.resCategoryModel.key
-				let id=category_id.split("_")[1]
-				if(id=="null"){
-					id=null
-				}
-				let comData = {
-					catalog_id: this.resCatalogsModel.id, //目录代码
-					category_id: id, //类型代码
-					sub_code: this.resSubModel.sub_code, //科目代码
-					page_number:  this.pageobj0.page_number, //科目代码
-					page_size: this.pageSize, //
-					index_code: this.index_code
-				}
-				this.post(this.globaData.INTERFACE_ZXKT+'/resource/resourcePage',comData,response=>{
-					console.log("responseaaa: " + JSON.stringify(response));
-					setTimeout(function () {
-						uni.stopPullDownRefresh();
-					}, 1000);
-					this.hideLoading()
-					for (let i = 0; i < response.list.length; i++) {
-						let model = response.list[i];
-						model.create_time = this.modifyTimeFormat(model.create_time);
-						if (model.convert_file_url == null || model.convert_file_url.length == 0) {
-							model.openFileUrl = model.original_file_url;
-						} else {
-							model.openFileUrl = model.convert_file_url;
-						}
-					}
-					if(this.pageobj0.loadFlag===0){
-						this.pagedata=[].concat(response.list)
-					}else{
-						this.pagedata=this.pagedata.concat(response.list)
-					}
-					if(this.pageobj0.page_number>=response.total_page){
-						this.pageobj0.status = 'noMore';
-						this.pageobj0.canload=false
-					}else{
-						this.pageobj0.status = 'more';
-					}
-				});
-			},
-			modifyTimeFormat(str){//将时间转换为显示的格式
-				let tempStr = '';
-				let dt_now = new Date();
-				let int_year = dt_now.getYear();
-				let dt_item = new Date(str.replace(/-/g, '/'));
-				if (int_year == dt_item.getYear()) {
-					tempStr = this.format(dt_item, "MM-dd hh:mm")
-				} else {
-					tempStr = this.format(dt_item, "yyyy-MM-dd hh:mm")
-				}
-				return tempStr;
-			},
-			format(dateTime, format){
-				let o = {
-					"M+": dateTime.getMonth() + 1, //month
-					"d+": dateTime.getDate(), //day
-					"h+": dateTime.getHours(), //hour
-					"m+": dateTime.getMinutes(), //minute
-					"s+": dateTime.getSeconds(), //second
-					"q+": Math.floor((dateTime.getMonth() + 3) / 3), //quarter
-					"S": dateTime.getMilliseconds() //millisecond
-				};
-				if (/(y+)/.test(format)) {
-					format = format.replace(RegExp.$1, (dateTime.getFullYear() + "").substr(4 - RegExp.$1.length));
-				}
-				for (let k in o) {
-					if (new RegExp("(" + k + ")").test(format)) {
-						format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
-					}
-				}
-				return format;
-			},
-			getQueryString(url){
-				try {
-					let theRequest = new Object();
-					if (url.indexOf("?") != -1) {
-						let str = url.split('?')[1];
-						let strs = str.split("&");
-						for (let i = 0; i < strs.length; i++) {
-							theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
-						}
-					}
-					return theRequest;
-				} catch (e) {
-					console.error('对userbus字段进行学段去重时发生异常,' + e);
-					console.error('====================')
-					console.error(e.stack);
-					console.error('====================')
-					return {};
-				}
-			}
 		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();
@@ -278,36 +197,6 @@
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
-		},
-		onPullDownRefresh() {
-			this.pageobj0.loadFlag=0
-			this.pageobj0.canload=true
-			this.pageobj0.page_number=1
-			this.getList0()
-			setTimeout(function () {
-				uni.stopPullDownRefresh();
-			}, 5000);
-		},
-		onReachBottom() {
-			if(this.pageobj0.canload){
-				this.pageobj0.loadFlag=1
-				this.pageobj0.status = 'loading';
-				this.pageobj0.page_number=this.pageobj0.page_number+1
-				this.getList0()
-			}
-		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			// #ifdef H5
-				uni.pageScrollTo({
-					scrollTop: this.scrollLength,
-					duration: 0
-				});
-			// #endif
-		},
-		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
-			// #ifdef H5
-				this.scrollLength=e.scrollTop
-			// #endif
 		},
 	}
 </script>
@@ -400,5 +289,41 @@
 		 width: 40px;
 		 height: 40px;
 		 margin-right: 5px;
+	 }
+	 
+	 .popup-content {
+	 	/* #ifndef APP-NVUE */
+	 	display: flex;
+	 	/* #endif */
+	 	flex-direction: row;
+	 	/* align-items: center; */
+	 	/* justify-content: center; */
+		/* #ifdef APP-PLUS */
+			padding: 80px 0px 10px 0px;
+		/* #endif */
+		/* #ifdef H5 */
+			padding: 50px 0px 10px 0px;
+		/* #endif */
+	 	/* height: 50px; */
+	 	background-color: #fff;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+	 }
+	 
+	 .popup-content-view{
+		height: 48px;
+		display: flex;
+		align-items: center;
+	 }
+	 
+	 .perList {
+	 	margin-left: 20px;
+	 	border: 1px solid white;
+	 	padding: 5px 20px;
+	 	border-radius: 5px;
+	 	font-size: 13px;
+		height: 26px;
+		display: flex;
+		align-items: center;
 	 }
 </style>
