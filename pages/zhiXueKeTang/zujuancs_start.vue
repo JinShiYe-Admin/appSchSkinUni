@@ -156,6 +156,7 @@
 	 	height: 40px;
 	 	border-radius: 50%;
 	 	padding:0px;
+		font-size: 12px;
 		background-color: #A6A6A6;
 	 	color: #FFFFFF;
 	 }
