@@ -98,6 +98,7 @@
 						this.hideLoading()
 						data.catalogId= data.id
 						data.difficulty= response
+						data.delta=4
 						util.openwithData("/pages/zhiXueKeTang/zujuancs_start", data);
 					})
 				}

@@ -43,19 +43,17 @@
 					this.hideLoading()
 					if(response.questions && response.questions.length>0){
 						let item={
-							isTested: false,
 							index_code:this.index_code,
 							data:response,
 							catalogId:this.itemData.catalogId,
-							title:this.itemData.name
+							title:this.itemData.name,
+							delta:this.itemData.delta//返回按钮返回层级，不同模块需要自行判断
 						}
 						util.openwithData('/pages/zhiXueKeTang/zujuancs_testing',item,{})
 					}else{
 						this.showToast('暂无题目')
 					}
-					 
 				})
-				
 			},
 			cancel(){
 				uni.navigateBack()

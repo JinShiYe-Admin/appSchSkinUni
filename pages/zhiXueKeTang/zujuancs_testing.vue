@@ -88,7 +88,8 @@
 						usedTime: this.navRight,
 						index_code:this.index_code,
 						answerArray:answerArray,
-						diskey:this.tabBarItem.data.diskey
+						diskey:this.tabBarItem.data.diskey,
+						delta:this.tabBarItem.delta
 					}
 					let that = this
 			 	 	util.openwithData('/pages/zhiXueKeTang/zujuancs_submit',item,{

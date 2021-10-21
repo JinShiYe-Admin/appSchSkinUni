@@ -56,7 +56,7 @@
 					if(response){
 						response.titleName=this.itemData.titleName
 						response.catalogId=this.itemData.catalogId
-						response.delta=4
+						response.delta=this.itemData.delta
 						util.openwithData("/pages/zhiXueKeTang/zujuancs_result", response);
 					}
 				})

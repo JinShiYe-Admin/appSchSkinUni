@@ -2493,7 +2493,6 @@
             "path" : "pages/zhiXueKeTang/cuotiben_index",
             "style" :                                                                                    
             {
-				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
