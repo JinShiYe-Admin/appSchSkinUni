@@ -42,6 +42,7 @@
 				isSelecting:false,
 				timer:'',
 				isAnswered:false,
+				canClick:true,//防止快速点击
 			}
 		},
 		components: {
@@ -219,23 +220,28 @@
 			 },
 			 //选择
 			 selectOption(k) {
-				 console.log("k: " + JSON.stringify(k));
-			 		this.isSelecting = true;
-					this.isAnswered=true
-			 		let cur = this.questions[this.index];
-			 		let _this = this;
-			 		if(cur.stu_answer) {
-			 			cur.stu_answer = [k];
-			 		}else{
-			 			this.$set(cur, "stu_answer", [k]);
-			 		}
-			 		setTimeout(function(){
-			 			_this.isSelecting = false;
-			 			_this.changeIndex(1);
-			 		}, 500);
-			 		if(!_this.isAnswered) {
-			 			_this.isAnswered=true;
-			 		}
+				 if(this.canClick){
+					 this.canClick=false
+					 console.log("k: " + JSON.stringify(k));
+					 this.isSelecting = true;
+					 this.isAnswered=true
+					 let cur = this.questions[this.index];
+					 let _this = this;
+					 if(cur.stu_answer) {
+					 	cur.stu_answer = [k];
+					 }else{
+					 	this.$set(cur, "stu_answer", [k]);
+					 }
+					 if(!_this.isAnswered) {
+					 	_this.isAnswered=true;
+					 }
+					 setTimeout(function(){
+						_this.canClick=true
+					 	_this.isSelecting = false;
+					 	_this.changeIndex(1);
+						this.canClick=true
+					 }, 500);
+				 }
 			 },
 			 startTimer(){
 				 let that = this
