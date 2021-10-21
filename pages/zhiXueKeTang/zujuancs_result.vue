@@ -92,7 +92,7 @@
 				  util.openwithData('/pages/zhiXueKeTang/zujuancs_testing_answer',{questionData:this.tabBarItem,currentQuestionIndex:questionIndex},{})
 			 },
 			 continueLearn(){
-				 uni.navigateBack({delta:this.tabBarItem.delta})
+				 uni.navigateBack({delta:this.tabBarItem.backSteps})
 				 // let comData={
 				 // 	catalog_id: this.tabBarItem.catalogId,
 				 // 	user_code:this.personInfo.user_code,
@@ -124,6 +124,7 @@
 			this.personInfo = util.getPersonal();
 			itemData.index=100
 			itemData.text='练习报告'
+			itemData.delta=itemData.backSteps?itemData.backSteps:1
 			this.tabBarItem=itemData
 			//#ifndef APP-PLUS
 				document.title=""

@@ -102,10 +102,32 @@
 			},
 			clickItem(model) {
 				console.log('clickItem:' + JSON.stringify(model));
-				model.access = this.itemData.access;
-				model.catalog_id = model.book_catalog_id;
-				model.title = model.name;
-				util.openwithData("/pages/zhiXueKeTang/zujuancs_testing", model);
+				// model.access = this.itemData.access;
+				// model.catalog_id = model.book_catalog_id;
+				// model.title = model.name;
+				// util.openwithData("/pages/zhiXueKeTang/zujuancs_testing", model);
+				let comData={
+						catalog_id: model.book_catalog_id,
+						user_code:this.personInfo.user_code,
+						index_code:this.itemData.access.split('#')[1],
+					}
+					this.showLoading()
+					this.post(this.globaData.INTERFACE_ZXKT+'/test/createPaper',comData,response=>{
+						console.log("responseaaa: " + JSON.stringify(response));
+						this.hideLoading()
+						if(response.questions && response.questions.length>0){
+							let item={
+								index_code:this.itemData.access.split('#')[1],
+								data:response,
+								catalogId:model.book_catalog_id,
+								title:this.itemData.name,
+								backSteps:3//返回按钮返回层级，不同模块需要自行判断
+							}
+							util.openwithData('/pages/zhiXueKeTang/zujuancs_testing',item,{})
+						}else{
+							this.showToast('暂无题目')
+						}
+					})
 			}
 		}
 	}

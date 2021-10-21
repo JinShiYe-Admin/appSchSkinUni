@@ -89,7 +89,7 @@
 						index_code:this.index_code,
 						answerArray:answerArray,
 						diskey:this.tabBarItem.data.diskey,
-						delta:this.tabBarItem.delta
+						backSteps:this.tabBarItem.backSteps
 					}
 					let that = this
 			 	 	util.openwithData('/pages/zhiXueKeTang/zujuancs_submit',item,{
@@ -418,7 +418,9 @@
 	  	width: 100%;
 	  }
 	  
-	  
+	  ::v-deep img{
+	  	max-width: 100% !important;
+	  }
 	  .answer-detail {
 	  	color: #222222;
 	  	line-height: 1.6;
