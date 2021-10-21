@@ -7,11 +7,11 @@
 		<view style="height: 1px;background: #DDDDDD;width: 100%;"></view>
 		<view @touchstart="touchStart" @touchend="touchEnd">
 			<view class="question-box" v-if="questions[index]">
-				<view class="question option-box">{{ (index+1)+".(单选题) " }}<span v-html="questions[index].content"></span></view>
+				<view class="question option-box" style="font-size: 13px;">{{ (index+1)+".(单选题) " }}<span style="font-size: 13px;" v-html="questions[index].content"></span></view>
 				<view>
 					<view class="option-item" v-for="(item, k) in transOption" :key="k">
-						<span class="option-label" :class="answerJudge(k)">{{k}}</span>
-						<span style='margin-left: 5px;' v-html="item"></span>
+						<span class="option-label" style="font-size: 13px;" :class="answerJudge(k)">{{k}}</span>
+						<span style='margin-left: 5px;font-size: 13px;' v-html="item"></span>
 					</view>
 				</view>
 			</view>
@@ -24,7 +24,7 @@
 				</view>
 				<view class="answer-detail">
 					答案解析：<br />
-					<view v-html="questions[index].solve"></view>
+					<view style="font-size: 13px;" v-html="questions[index].solve"></view>
 				</view>
 			</view>
 		</view>
