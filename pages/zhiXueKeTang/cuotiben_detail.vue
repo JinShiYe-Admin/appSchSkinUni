@@ -7,7 +7,7 @@
 		<view style="height: 1px;background: #DDDDDD;width: 100%;"></view>
 		<view @touchstart="touchStart" @touchend="touchEnd">
 			<view class="question-box" v-if="questions[index]">
-				<view class="question option-box">{{ (index+1)+".(单选题) " }}<span class="" v-html="questions[index].content"></span></view>
+				<view class="question option-box">{{ (index+1)+".(单选题) " }}<span v-html="questions[index].content"></span></view>
 				<view>
 					<view class="option-item" v-for="(item, k) in transOption" :key="k">
 						<span class="option-label" :class="answerJudge(k)">{{k}}</span>
@@ -259,11 +259,9 @@
 		padding: 20px;
 	}
 	
-	.image{
-		margin: 5px 10px;
-		width: 100%;
+	::v-deep img{
+		max-width: 100% !important;
 	}
-
 	
 	.answer-detail {
 		color: #222222;

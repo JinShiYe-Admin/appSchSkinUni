@@ -68,7 +68,7 @@
 				<h4 class="spaceLine">总分趋势</h4>
 				<p class="spaceLineName">历次考试成绩趋势如下：</p>
 				<view class="charts-box" style="margin-top: 10px;">
-					<qiun-data-charts type="demotype" :chartData="semFlag0Data.chengjiQs" background="none" />
+					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.chengjiQs" background="none" />
 				</view>
 				<h4 class="spaceLine">排名趋势</h4>
 				<p class="spaceLineName">历次考试排名趋势如下：</p>
@@ -376,21 +376,14 @@
 						this.semFlag1Data.list = data.data.list;
 						// {"categories":["维度1","维度2","维度3","维度4","维度5","维度6"],"series":[{"name":"成交量1","data":[90,110,165,195,187,172]},{"name":"成交量2","data":[190,210,105,35,27,102]}]}
 						// 趋势
-						var tempArr0 = []; //考试名称
-						var tempArr1 = []; //用户得分
-						for (var a = 0; a < data.data.list.length; a++) {
-							var tempM = data.data.list[a];
-							tempArr0.push('');
-							var tee = {
-								name: tempM.sub_name,
-								data: [tempM.standard_score]
-							}
-							tempArr1.push(tee);
+						var tempArray0 = [];
+						var tempArray1 = [];
+						for (var i = 0; i < data.data.list.length; i++) {
+							var tempM = data.data.list[i];
+							tempArray0.push(tempM.sub_name);
+							tempArray1.push(tempM.standard_score);
 						}
-						this.semFlag1Data.radarChartDetail = {
-							categories: tempArr0,
-							series: tempArr1
-						}
+						this.semFlag1Data.radarChartDetail = {"categories":tempArray0,"series":[{"name":"科目","data":tempArray1}]};
 					} else {
 						this.showToast(data.msg);
 					}

@@ -1,12 +1,16 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="navText" :textClick="textClick()"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="navText"
+			:textClick="textClick"></mynavBar>
 		<view class="tabs-fixed">
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="text"
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
 		<view class="content" style="margin-top: 60px;">
-			<view style="text-align: center;font-size: 13px;color: gray;">{{bookItems||"暂无教材"}}<uni-icons type="settings" size="20" color="#00CFBD" style="margin-left: 10px;padding-top: 5px;" @click="bookSelect()"></uni-icons></view>
+			<view style="text-align: center;font-size: 13px;color: gray;">{{bookItems||"暂无教材"}}
+				<uni-icons type="settings" size="20" color="#00CFBD" style="margin-left: 10px;padding-top: 5px;"
+					@click="bookSelect()"></uni-icons>
+			</view>
 			<view v-if="semFlag == 0">
 				<uni-row style="margin-top: 5px;">
 					<uni-col :span="3" @click="changeMenu(-1)">
@@ -25,11 +29,13 @@
 				<view v-if="list.length" class="test-pannel" :class="{sentence: !isWord}">
 					{{list[index].words}}
 					<p class="read" v-if="isWord" v-show="isTested&&list[index].symbol">[{{list[index].symbol}}]</p>
-					<p class="translation" v-else v-show="isTested&&list[index].translations">{{list[index].translations}}</p>
+					<p class="translation" v-else v-show="isTested&&list[index].translations">
+						{{list[index].translations}}
+					</p>
 				</view>
 				<!-- <view v-else-if="state>2" class="test-pannel" style="font-size: 12px;color: #999999;">暂无内容</view>
 				<view v-else class="test-pannel"></view> -->
-							
+
 				<!-- <view class="action-box">
 					<view class="overflow-cover"></view>
 					<view class="score-box">
@@ -70,6 +76,68 @@
 			<view v-if="semFlag == 1">
 			</view>
 			<view v-if="semFlag == 2">
+				<view v-if="total">
+					<template v-for="(item,index) in semFlag2Data.model"  v-if="item.list.length">
+						<view class="result-title" v-show="item.title">
+							{{item.sub_title}}
+							<view class="sec-title">{{item.title}}</view>
+						</view>
+						<uni-list :border="false">
+							<uni-list-item v-for="(v, i) in item.list" :key='index' direction='column' clickable @click="toggleOpen(index,i)" :border="true" :class="{'word-cell': v.category=='read_word'}">
+								<view slot="body" class="slot-box slot-text">
+									<view class="rightView">
+										<view :class="{'word-box': v.category=='read_word', 'sentence-box': v.category=='read_sentence'}">
+											<h4 v-if="v.category=='read_word'">{{v.words}}
+												<span class="symbol" v-if="v.symbol">[{{v.symbol}}]</span>
+												<span class="score" v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
+											</h4>
+											<h4 v-else>{{v.words}}
+												<span class="score" v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
+											</h4>
+											<view class="btns" v-if="semFlag2Data.openLi.index==index&&semFlag2Data.openLi.i==i">
+												<a class="btn-voice" @touchstart.stop="playAudio(v.audio_url, $event)">
+													<svg class="icon" aria-hidden="true">
+														<use xlink:href="#icon-icon-voice"></use>
+													</svg>
+													<span class="icon active img-icon"></span>
+												</a>
+												<a class="btn-record" @touchstart.stop="record(v, $event)" @touchmove.stop="touchMove($event)" @touchend.stop="stopRecord($event)">
+													<svg class="icon" aria-hidden="true">
+														<use xlink:href="#icon-icon-record"></use>
+													</svg>
+													<view class="btn-record-bg">
+														<view class="btn-record-bg-active"></view>
+													</view>
+												</a>
+												<a class="btn-play" @touchstart.stop="playAudio(v.record_url, $event)">
+													<svg class="icon" aria-hidden="true">
+														<use xlink:href="#icon-icon-play"></use>
+													</svg>
+													<svg class="icon active" aria-hidden="true">
+														<use xlink:href="#icon-icon-pause"></use>
+													</svg>
+												</a>
+											</view>
+										</view>
+										<view class="result-bar" v-if="v.category=='read_sentence'&&v.total_score!=null">
+											<view>
+												准确度：{{v.accuracy_score}}
+											</view>
+											<view>
+												完整度：{{v.integrity_score}}
+											</view>
+											<view>
+												流利度：{{v.fluency_score}}
+											</view>
+										</view>
+									</view>
+								</view>
+								
+							</uni-list-item>
+						</uni-list>
+					</template>
+				</view>
+				<view class="list-end" v-else v-show="!semFlag2Data.isLoading">还没有错题</view>
 			</view>
 		</view>
 	</view>
@@ -85,31 +153,39 @@
 				personInfo: {},
 				tabbar: [],
 				tabBarItem: {},
-				navText:'',
-				isGetLast:false,//判断登录者是否有上一次记录
+				navText: '',
+				isGetLast: false, //判断登录者是否有上一次记录
 				catalogId: 0,
 				list: [],
 				index: 0,
-				// category: activeTab,
-				// isRecording: false,
-				// playingAudio: true,
-				// playingRecord: false,
 				menu: [],
-				// valid_touch: false,
-				// state: 1, // 1-unload; 2-loading; 3-loaded; 4-start; 5-submit
 				bookItems: "",
 				contentTitle: "...",
 				isContentTitle: true,
+				state: 1, // 1-unload; 2-loading; 3-loaded; 4-start; 5-submit
 				semValuesArray: ['单词测评', '句子测评', '错题本'],
 				semFlag: 0, //点击的seg索引
 				semFlag0Data: { //单词测评
-					
+
 				},
 				semFlag1Data: { //句子测评
-					
+
 				},
 				semFlag2Data: { //错题本
-					
+					bookName: "",
+					model: [],
+					isRecording: false,
+					isPlaying: false,
+					key: "",
+					valid_touch: false, //是否可touch
+					openLi: {
+						index: -1,
+						i: -1
+					}, //打开的li
+					isLoading: false,
+					isReload: true,
+					page: 1,
+					lastPage: false
 				}
 			}
 		},
@@ -127,29 +203,96 @@
 			console.log('personInfo:' + JSON.stringify(this.personInfo));
 			this.tabBarItem = util.getTabbarMenu();
 			console.log('this.tabBarItem:' + JSON.stringify(this.tabBarItem));
-			
+			uni.setNavigationBarTitle({
+				title: this.tabBarItem.text
+			});
 			var orals_auth = util.getStore('orals_auth');
-			if(orals_auth && orals_auth.user_code==this.personInfo.user_code) {
+			if (orals_auth && orals_auth.user_code == this.personInfo.user_code) {
 				this.isGetLast = true;
 			}
 			util.setStore("orals_auth", this.personInfo);
 			this.navText = '测评记录';
-			// 获取科目列表
+			// 
 			this.getInitData();
 			// this.getContent();
 			// util.setStore("orals_catalog_id", String(v));
 		},
+		computed: {
+			isTested: function() {
+				var cur = this.list[this.index];
+				return cur && cur.total_score != null && cur.total_score >= 0;
+			},
+			isWord: function() {
+				return this.list[this.index].category == 'read_word';
+			},
+			total: function() {
+				var t = 0;
+				this.semFlag2Data.model.forEach(function(v) {
+					t = t + v.list.length;
+				});
+				return t;
+			}
+		},
+		watch: {
+			catalogId: function(v, ov) {
+				this.getContent();
+				util.setStore("orals_catalog_id", String(v));
+			},
+			category: function(v, ov) {
+				this.getContent("category");
+			}
+		},
 		methods: {
-			textClick(){
-				
+			//分数格式
+			setScore(score){
+				return Math.round(score*20);
+			},
+			toggleOpen: function(index, i) {
+				if(this.semFlag2Data.openLi.index == index && this.semFlag2Data.openLi.i == i) {
+					this.semFlag2Data.openLi.index = -1;
+					this.semFlag2Data.openLi.i = -1;
+				} else {
+					this.semFlag2Data.openLi.index = index;
+					this.semFlag2Data.openLi.i = i;
+				}
+			},
+			textClick() {
+				if(this.state == 4) {
+					this.layerBeforeLeave("您还没有提交，确定要离开吗？", ["确定", "取消"], function() {
+						this.goRecord();
+					});
+				} else {
+					this.goRecord();
+				}
+			},
+			goRecord(){
+				var model= {
+					access:this.tabBarItem.access,
+					category: this.semFlag==0?"read_word":"read_sentence"
+				}
+				util.openwithData("/pages/kouYuCePing/record", model,{
+					refreshBook() { //子页面调用父页面需要的方法
+						var catalog_id = util.getStore("orals_catalog_id");
+						if(catalog_id != _this.catalogId) {
+							_this.setBaseData();
+							//错题本数据重置
+							_this.semFlag2Data.page = 1;
+							if(_this.semFlag == 2) {
+								_this.getErrList();
+							} else {
+								_this.semFlag2Data.isReload = true;
+							}
+						}
+					}
+				});
 			},
 			getInitData() {
 				var book_items = util.getStore('kycp_book_items');
 				//保存了上一次记录时
-				if(this.isGetLast && book_items) {
+				if (this.isGetLast && book_items) {
 					var book_codes = this.getBookCodes(book_items);
 					this.getBook(book_codes);
-				}else{
+				} else {
 					this.getBook({})
 				}
 			},
@@ -159,144 +302,151 @@
 				var auto_book = {};
 				// 获取学段
 				this.post(this.globaData.INTERFACE_KYCP + '/pub/resPer', {
-					index_code:this.tabBarItem.access.split('#')[1],
+					index_code: this.tabBarItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
-				}, (res0,res) => {
-					console.log('resPer:'+JSON.stringify(res));
-					if(res.state=="ok") {
+				}, (res0, res) => {
+					console.log('resPer:' + JSON.stringify(res));
+					if (res.state == "ok") {
 						auto_book.per = {
 							list: res.data,
-							selected: defaultCodes.percode || (res.data[0]?res.data[0].percode:"")
+							selected: defaultCodes.percode || (res.data[0] ? res.data[0].percode : "")
 						}
-						
+
 						// 获取科目
 						this.post(this.globaData.INTERFACE_KYCP + '/pub/resSub', {
 							percode: auto_book.per.selected,
-							index_code:this.tabBarItem.access.split('#')[1],
+							index_code: this.tabBarItem.access.split('#')[1],
 							user_code: this.personInfo.user_code
-						}, (res0,res)=> {
-							if(res.state=="ok") {
+						}, (res0, res) => {
+							if (res.state == "ok") {
 								auto_book.sub = {
 									list: res.data,
-									selected: defaultCodes.subcode || (res.data[0]?res.data[0].subcode:"")
+									selected: defaultCodes.subcode || (res.data[0] ? res.data[0]
+										.subcode : "")
 								}
-								
+
 								// 获取教版
 								this.post(this.globaData.INTERFACE_KYCP + '/pub/resMater', {
 									percode: auto_book.per.selected,
 									subcode: auto_book.sub.selected,
-									index_code:this.tabBarItem.access.split('#')[1],
+									index_code: this.tabBarItem.access.split('#')[1],
 									user_code: this.personInfo.user_code
-								}, (res0,res)=> {
-									if(res.state=="ok") {
+								}, (res0, res) => {
+									if (res.state == "ok") {
 										auto_book.mater = {
 											list: res.data,
-											selected: defaultCodes.matercode || (res.data[0]?res.data[0].matercode:"")
+											selected: defaultCodes.matercode || (res.data[0] ?
+												res.data[0].matercode : "")
 										}
-										
+
 										// 获取分册
 										this.post(this.globaData.INTERFACE_KYCP + '/pub/resFasc', {
 											percode: auto_book.per.selected,
 											subcode: auto_book.sub.selected,
 											matercode: auto_book.mater.selected,
-											index_code:this.tabBarItem.access.split('#')[1],
+											index_code: this.tabBarItem.access.split('#')[
+												1],
 											user_code: this.personInfo.user_code
-										}, (res0,res)=> {
-											if(res.state=="ok") {
+										}, (res0, res) => {
+											if (res.state == "ok") {
 												auto_book.fasc = {
 													list: res.data,
-													selected: defaultCodes.fasccode || (res.data[0]?res.data[0].fasccode:"")
+													selected: defaultCodes.fasccode ||
+														(res.data[0] ? res.data[0]
+															.fasccode : "")
 												}
-												
+
 												// 保存目录
-												util.setStore('kycp_book_items', auto_book);
+												util.setStore('kycp_book_items',
+													auto_book);
 												//获取目录
 												this.getCatalog(this.bookCheck(auto_book));
-												
+
 												this.hideLoading();
-											}else{
+											} else {
 												this.hideLoading();
-												if(res.code!=404) this.showToast(res.msg);
+												if (res.code != 404) this.showToast(res
+													.msg);
 											}
 										})
-									}else{
+									} else {
 										this.hideLoading();
-										if(res.code!=404) this.showToast(res.msg);
+										if (res.code != 404) this.showToast(res.msg);
 									}
 								})
-							}else{
+							} else {
 								this.hideLoading();
-								if(res.code!=404) this.showToast(res.msg);
+								if (res.code != 404) this.showToast(res.msg);
 							}
 						})
-					}else{
+					} else {
 						this.hideLoading();
-						if(res.code!=404) this.showToast(res.msg);
+						if (res.code != 404) this.showToast(res.msg);
 					}
 				})
 			},
 			// 检查确保教材的selected是否都在list中
 			bookCheck(book) {
-				for(var key  in book) {
-					var selected="";
-					for(var i=0; i<book[key].list.length; i++) {
-						if(book[key].list[i][key+"code"]==book[key].selected) {
-							selected = book[key].list[i][key+"code"];
+				for (var key in book) {
+					var selected = "";
+					for (var i = 0; i < book[key].list.length; i++) {
+						if (book[key].list[i][key + "code"] == book[key].selected) {
+							selected = book[key].list[i][key + "code"];
 							break;
 						}
 					}
-					if(!selected) book[key].selected = book[key].list[0]?book[key].list[0][key+"code"]:"";
+					if (!selected) book[key].selected = book[key].list[0] ? book[key].list[0][key + "code"] : "";
 				}
 				return book;
 			},
 			//获取目录
 			getCatalog(auto_book) {
 				var data = this.getBookCodes(auto_book);
-				if(Object.keys(data).length<4) {
+				if (Object.keys(data).length < 4) {
 					this.showLoading('教材信息不完整');
 					return;
 				}
 				this.post(this.globaData.INTERFACE_KYCP + '/pub/catalog', {
 					...data,
-					index_code:this.tabBarItem.access.split('#')[1],
+					index_code: this.tabBarItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
-				},(res0,res)=> {
-					if(res.state=="ok") {
+				}, (res0, res) => {
+					if (res.state == "ok") {
 						//保存目录
 						util.setStore("orals_menu", res.data.catalog);
-						
+
 						//保存分册目录
 						var catalog = this.getFinalCatalog(res.data.catalog.children);
 						util.setStore("orals_catalog", catalog);
-						
+
 						this.setBaseData(); //设置数据
-						this.getContent("category");
-					}else{
-						if(res.code!=404) this.showToast(res.msg);
+						// this.getContent("category");
+					} else {
+						if (res.code != 404) this.showToast(res.msg);
 					}
 				})
 			},
 			// 获取教材code
 			getBookCodes(book) {
 				var codes = {};
-				for(var key  in book) {
-					if(key=="per"||key=="sub"||key=="mater"||key=="fasc") {
-						if(book[key].selected) codes[key+"code"] = book[key].selected;
+				for (var key in book) {
+					if (key == "per" || key == "sub" || key == "mater" || key == "fasc") {
+						if (book[key].selected) codes[key + "code"] = book[key].selected;
 					}
 				}
 				return codes;
 			},
 			//获取最末端目录
-			getFinalCatalog(list){
-				var catalog = []; 
-				this.readTree(list, function(node){
-			        if(!node.children) {
-			            catalog.push(node);
-			        }
-			   	});
-			   	catalog.forEach(function(v, i){
-					_this.readTree(list, function(node){
-						if(node.id==v.pid){
+			getFinalCatalog(list) {
+				var catalog = [];
+				this.readTree(list, function(node) {
+					if (!node.children) {
+						catalog.push(node);
+					}
+				});
+				catalog.forEach(function(v, i) {
+					_this.readTree(list, function(node) {
+						if (node.id == v.pid) {
 							catalog[i]["pname"] = node.name;
 						}
 					});
@@ -305,12 +455,12 @@
 			},
 			// 遍历树形菜单，并回调
 			readTree(tree, callback) {
-			    for (var i = 0; i < tree.length; i++) {
-			        callback(tree[i]);
-			        if(tree[i].children) {
-			            this.readTree(tree[i].children, callback);
-			        }
-			    }
+				for (var i = 0; i < tree.length; i++) {
+					callback(tree[i]);
+					if (tree[i].children) {
+						this.readTree(tree[i].children, callback);
+					}
+				}
 			},
 			//设置基础数据
 			setBaseData() {
@@ -323,7 +473,7 @@
 				var isCatalogId = this.menu.some(function(v, i) {
 					return v.id == catalogId;
 				});
-				if(catalogId && isCatalogId) {
+				if (catalogId && isCatalogId) {
 					this.catalogId = catalogId;
 				} else {
 					this.getAutoNode();
@@ -332,26 +482,46 @@
 			//获取默认节点
 			getAutoNode() {
 				var auto_node = this.menu[0];
-				if(auto_node) {
+				if (auto_node) {
 					this.catalogId = auto_node.id;
-				}else{
+				} else {
 					this.catalogId = 0;
 				}
 			},
 			//获取教材名
 			getBookNames() {
 				var orals_menu = util.getStore("orals_menu");
-				return orals_menu.name||"";
+				return orals_menu.name || "";
 			},
 			//选择教材
-			// bookSelect() {
-			// 	if(this.state == 4 && (activeTab == "word" || activeTab == "sentence")) {
-			// 		this.layerBeforeLeave("您还没有提交，确定要离开吗？", ["确定", "取消"], goBook);
-			// 	} else {
-			// 		this.endPlayAudio();
-			// 		this.goBook();
-			// 	}
-			// },
+			bookSelect() {
+				console.log('bookSelect');
+				if (this.state == 4 && (self.semFlag == 0 || self.semFlag == 1)) {
+					console.log('bookSelect000');
+					// this.layerBeforeLeave("您还没有提交，确定要离开吗？", ["确定", "取消"], goBook);
+				} else {
+					console.log('bookSelect111');
+					// this.endPlayAudio();
+					this.goBook();
+				}
+			},
+			goBook(){
+				util.openwithData("/pages/kouYuCePing/book", this.tabBarItem,{
+					refreshBook() { //子页面调用父页面需要的方法
+						var catalog_id = util.getStore("orals_catalog_id");
+						if(catalog_id != _this.catalogId) {
+							_this.setBaseData();
+							//错题本数据重置
+							_this.semFlag2Data.page = 1;
+							if(_this.semFlag == 2) {
+								_this.getErrList();
+							} else {
+								_this.semFlag2Data.isReload = true;
+							}
+						}
+					}
+				});
+			},
 			//显示目录
 			// showMenu() {
 			// 	this.isShowMenu = true;
@@ -415,46 +585,36 @@
 				var catalog = util.getStore('orals_catalog');
 				var cur_node = this.filterArray(catalog, 'id', id)[0];
 				var final_name = "";
-				if(cur_node) {
-					final_name = cur_node.pid?((cur_node.pname||"")+"&nbsp;&nbsp;"+cur_node.name):cur_node.name;
+				if (cur_node) {
+					final_name = cur_node.pid ? ((cur_node.pname || "") + "&nbsp;&nbsp;" + cur_node.name) : cur_node.name;
 				}
 				return final_name;
 			},
 			// 根据某属性的值找数组对象
-			filterArray(arr, key, val) {  
-			    var r = arr.filter(function(item){
-			            return item[key] == val;
-			        });
-			    return r;
+			filterArray(arr, key, val) {
+				var r = arr.filter(function(item) {
+					return item[key] == val;
+				});
+				return r;
 			},
 			//获取评测内容
 			getContent(change_data) {
 				this.showLoading();
-				// !audioEle.ended && audioEle.pause();
-				// var _this = this;
-				// if(!_this.catalogId) {
-				// 	_this.list = [];
-				// 	_this.index = 0;
-				// 	_this.state = 3;
-				// 	this.contentTitle = "...";
-				// 	this.hideLoading();
-				// 	return false;
-				// }
-				// if(change_data != "category") {
+				if (change_data != "category") {
 					this.contentTitle = this.getCatalogName(_this.catalogId);
-					console.log('this.contentTitle:'+this.contentTitle);
-				// }
+					console.log('this.contentTitle:' + this.contentTitle);
+				}
 				var data = {
-					category: _this.category == "word" ? "read_word" : "read_sentence",
+					category: this.semFlag == 0 ? "read_word" : "read_sentence",
 					bookCatalogId: _this.catalogId
 				}
 				_this.state = 2;
 				this.post(this.globaData.INTERFACE_KYCP + '/orals', {
 					...data,
-					index_code:this.tabBarItem.access.split('#')[1],
+					index_code: this.tabBarItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
-				}, (res0,res)=> {
-					if(res.state=="ok") {
+				}, (res0, res) => {
+					if (res.state == "ok") {
 						// this.endPlayAudio();
 						//添加单词句子列表
 						res.data.list.forEach(function(v) {
@@ -467,269 +627,130 @@
 						_this.index = 0;
 						_this.state = 3;
 						this.hideLoading();
-					}else{
+					} else {
 						_this.state = 3;
 						this.hideLoading();
-						if(res.code!=404) this.showToast(res.msg);
+						if (res.code != 404) this.showToast(res.msg);
 					}
 				})
 			},
 			//切换单词句子
-			changeIndex(d) {
-				if(this.isRecording) {
-					return false;
-				}
-				var f_index = this.index + d;
-				if(f_index >= 0 && f_index < this.list.length) {
-					this.index = f_index;
-					this.endPlayAudio();
-				}
-			},
+			changeIndex(d) {},
 			//播放音频
-			playAudio(url, type) {
-				if(!url) {
-					this.showToast(type == "record" ? "您还没录音" : "没有音频", {
-						duration: 'short',
-						type: 'view'
-					});
-					return;
-				}
-			
-				if((this.playingAudio || this.playingRecord) && currentAudioUrl==url) {
-					this.endPlayAudio();
-					return;
-				}
-				
-				if(type == "audio") {
-					this.playingAudio = true;
-				} else if(type == "record") {
-					this.playingRecord = true;
-				}
-				
-				currentAudioUrl = url;
-				if(mui.os.android) {
-					audioPlayCounter = 0;
-					audioEle.src = url;
-					audioEle.play();
-				}else{
-					this.audioPlayer(url, function() {
-						this.endPlayAudio();
-					});
-				}
-			},
+			playAudio(url, type) {},
 			//点击录音
-			record(event) {
-				if(!this.list[this.index]) {
-					this.showToast("没有测评内容", {
-						duration: 'short',
-						type: 'view'
-					});
-					return;
-				}
-				if(!this.isRecording) {
-					var _this = this;
-					// 检查权限
-					this.checkPermissionRECORD(function () {
-						_this.isRecording = true;
-						_this.startRecord();
-						recorderTimer = setTimeout(function() {
-							_this.isRecording && _this.stopRecord();
-						}, _this.list[_this.index].time_len * 1000 || 5000);
-						this.touchStart(event.targetTouches[0]);
-					});
-				}
-			},
+			record(event) {},
 			//开始录音
-			startRecord() {
-				var _this = this;
-				var record = this.list[this.index];
-				gentry && this.gentry();
-				recorder = this.setRecorder(_this.valid_touch, function(p) {
-					var ps = p.split("/")
-					files.push({
-						name: ps.pop(),
-						path: p
-					});
-					_this.uploadRecord(record);
-				});
-			},
-			touchMove(event) {
-				var _this = this;
-				_this.isRecording && this.touchEnd(event.targetTouches[0], function() {
-					_this.stopRecord();
-				});
-			},
+			startRecord() {},
+			touchMove(event) {},
 			//停止录音
-			stopRecord(event) {
-				if(this.isRecording) {
-					recorder && recorder.stop();
-					this.isRecording = false;
-					clearTimeout(recorderTimer);
-				}
-			},
+			stopRecord(event) {},
 			//上传录音
-			uploadRecord: function(record) {
-				if(files.length <= 0) {
-					return;
-				}
-				var _this = this;
-				// this.uploadRecordFile(record, files, {index_code:this.tabBarItem.access.split('#')[1],}, (res0,res)=> {
-				// 	_this.state = 4;
-				// 	var cur_li = _this.list[_this.index];
-				// 	cur_li.total_score = res.data.total_score;
-				// 	cur_li.record_url = res.data.record_url;
-				// 	if(cur_li.category == "read_sentence") {
-				// 		cur_li.accuracy_score = res.data.accuracy_score;
-				// 		cur_li.fluency_score = res.data.fluency_score;
-				// 		cur_li.integrity_score = res.data.integrity_score;
-				// 	}
-				// });
-			},
+			uploadRecord: function(record) {},
 			//提交
 			submit: function() {
-				this.endPlayAudio();
+				// this.endPlayAudio();
 				this.showLoading("正在提交");
 				this.post(this.globaData.INTERFACE_KYCP + '/orals/save', {
 					data: _this.list,
-					index_code:this.tabBarItem.access.split('#')[1],
-					user_code: userInfo.user_code
-				}, (res0,res)=> {
-					if(res.state=="ok") {
-						_this.state = 5;
+					index_code: this.tabBarItem.access.split('#')[1],
+					user_code: this.personInfo.user_code
+				}, (res0, res) => {
+					this.hideLoading();
+					if (res.state == "ok") {
+						this.state = 5;
 						//打开结果页
 						this.goResult({
-							title: this.contentTitle,
+							title: secondTitle.contentTitle,
 							cate: _this.list[0].category,
 							catalog_id: _this.catalogId
 						});
-						resultVue.page = 1;
-						resultVue.isReload = true;
-						plus.nativeUI.closeWaiting();
-					}else{
-						plus.nativeUI.closeWaiting();
-						if(res.code!=404) this.showToast(res.msg);
+						this.semFlag2Data.page = 1;
+						this.semFlag2Data.isReload = true;
+					} else {
+						this.showToast(res.msg);
 					}
 				})
 			},
 			clickSeg: function(e) {
 				if (this.semFlag != e.currentIndex) {
 					this.semFlag = e.currentIndex;
-					console.log('this.semFlag:' + e.currentIndex);
 					if (this.semFlag == 0) {
-						if (this.semFlag0Data.subList.length == 0) {
-							// 获取科目列表
-							this.getSubList(0, subArray => {
-								for (var i = 0; i < subArray.length; i++) {
-									var tempM = subArray[i];
-									tempM.text = tempM.sub_name;
-								}
-								this.semFlag0Data.subList = [].concat(subArray);
-								if (subArray.length > 0) {
-									this.semFlag0Data.nowSubject = subArray[0];
-								}
-								// 获取单科成绩列表
-								this.getSingleSubScore();
-							});
-						}
+						this.navText = '测评记录';
 					} else if (this.semFlag == 1) {
-						if (this.semFlag1Data.sem1List.length == 0) {
-							// 获取全科成绩列表
-							this.getSumSubScore();
-						}
+						this.navText = '测评记录';
 					} else if (this.semFlag == 2) {
-						if (this.semFlag2Data.knowData.total_point == '') {
-							// 获取科目列表
-							this.getSubList(this.semFlag, subArray => {
-								for (var i = 0; i < subArray.length; i++) {
-									var tempM = subArray[i];
-									tempM.text = tempM.sub_name;
+						this.navText = '';
+						this.getErrList();
+					}
+				}
+			},
+			getErrList(callback) {
+				console.log('getErrList');
+				this.semFlag2Data.isLoading = true;
+				//错题本列表
+				var catalog_ids;
+				if (this.semFlag2Data.page == 1) {
+					console.log('getErrList11111');
+					this.showLoading();
+					this.semFlag2Data.bookName = this.getBookNames();
+					this.semFlag2Data.model = [];
+					catalog_ids = [];
+					//可选目录节点
+					var catalog = util.getStore('orals_catalog');
+					if (!catalog) {
+						console.log('getErrList11113:'+JSON.stringify(catalog));
+						return;
+					}
+					catalog.forEach(function(v) {
+						catalog_ids.push(v.id);
+						_this.semFlag2Data.model.push({
+							id: v.id,
+							sub_title: v.pname,
+							title: v.name,
+							list: []
+						});
+					});
+					this.semFlag2Data.model.sort(function(a, b) {
+						console.log('getErrList11114');
+						return a.id - b.id;
+					});
+				}
+console.log('getErrList11112');
+				//获取节点内容
+				this.post(this.globaData.INTERFACE_KYCP + '/orals', {
+					bookCatalogId: catalog_ids.join(),
+					showAll: false,
+					totalScoreLimit: "4.0",
+					page: true,
+					p: this.semFlag2Data.page,
+					s: 10,
+					index_code:this.tabBarItem.access.split('#')[1],
+					user_code: this.personInfo.user_code
+				}, (res0,res)=> {
+					if (res.state == "ok") {
+						this.semFlag2Data.key = res.data.key;
+						res.data.page.list.forEach(function(val, index) {
+							for (var i = 0; i < _this.semFlag2Data.model.length; i++) {
+								if (_this.semFlag2Data.model[i].id == val.book_catalog_id) {
+									_this.semFlag2Data.model[i].list.push(val);
 								}
-								this.semFlag2Data.subList = [].concat(subArray);
-								if (subArray.length > 0) {
-									this.semFlag2Data.nowSubject = subArray[0];
-								}
-								// 获取知识点分析
-								this.getKnowPoint();
-							});
-						}
-					}
-				}
-			},
-			//获取单科成绩
-			getSingleSubScore() {
-				let comData = {
-					user_code: this.personInfo.user_code,
-					sub_code: this.semFlag0Data.nowSubject.sub_code,
-					page_number: this.semFlag0Data.pageIndex,
-					page_size: this.pageSize,
-					index_code: this.tabBarItem.access.split('#')[1],
-				}
-				this.showLoading();
-				this.post(this.globaData.INTERFACE_STUSCORE + 'singleSub/page', comData, (data0, data) => {
-					this.hideLoading();
-					if (data.code == 0) {
-						this.semFlag0Data.pageIndex++;
-						this.semFlag0Data.total_page = data.data.total_page;
-						if (this.semFlag0Data.flagRef == 0) {
-							if (data.data.list.length == 0) {
-								this.showToast('暂无数据');
 							}
-							this.semFlag0Data.sem0List = [].concat(data.data.list);
-							uni.stopPullDownRefresh();
-						} else {
-							this.semFlag0Data.sem0List = this.semFlag0Data.sem0List.concat(data.data.list);
+						});
+						if (this.semFlag2Data.page == 1) {
+							this.hideLoading();
 						}
+						this.semFlag2Data.lastPage = res.data.page.last_page;
+						this.semFlag2Data.page = res.data.page.page_number + 1;
+						this.semFlag2Data.isLoading = false;
+
+						callback && callback(res);
 					} else {
-						this.showToast(data.msg);
+						this.semFlag2Data.isLoading = false;
+						this.semFlag2Data.page == 1 && this.hideLoading();;
+						if (res.code != 404) this.showToast(res.msg);
 					}
-				});
-			},
-			//获取全科成绩
-			getSumSubScore() {
-				let comData = {
-					user_code: this.personInfo.user_code,
-					page_number: this.semFlag1Data.pageIndex,
-					page_size: this.pageSize,
-					index_code: this.tabBarItem.access.split('#')[1],
-				}
-				this.showLoading();
-				this.post(this.globaData.INTERFACE_STUSCORE + 'fullSub/page', comData, (data0, data) => {
-					this.hideLoading();
-					if (data.code == 0) {
-						this.semFlag1Data.pageIndex++;
-						this.semFlag1Data.total_page = data.data.total_page;
-						if (this.semFlag1Data.flagRef == 0) {
-							if (data.data.list.length == 0) {
-								this.showToast('暂无数据');
-							}
-							this.semFlag1Data.sem1List = [].concat(data.data.list);
-							uni.stopPullDownRefresh();
-						} else {
-							this.semFlag1Data.sem1List = this.semFlag1Data.sem1List.concat(data.data.list);
-						}
-					} else {
-						this.showToast(data.msg);
-					}
-				});
-			},
-			//获取知识点
-			getKnowPoint() {
-				let comData = {
-					user_code: this.personInfo.user_code,
-					sub_code: this.semFlag2Data.nowSubject.sub_code,
-					index_code: this.tabBarItem.access.split('#')[1],
-				}
-				this.showLoading();
-				this.post(this.globaData.INTERFACE_STUSCORE + 'point/subOverview', comData, (data0, data) => {
-					this.hideLoading();
-					if (data.code == 0) {
-						this.semFlag2Data.knowData = data.data;
-						this.semFlag2Data.zhishidianDFL = {"series":[{"name":"得分率","data":this.semFlag2Data.knowData.average_score_rate,"color":"#00CFBD"}]};
-						this.semFlag2Data.zhishidianShow = {title:{name:this.semFlag2Data.knowData.average_score_rate*100+'%',fontSize:35,color:'#00CFBD'},subtitle:{name:'得分率',color:'#666666',fontSize:15}}
-					} else {
-						this.showToast(data.msg);
-					}
-				});
+				})
 			}
 		}
 	}
@@ -740,12 +761,45 @@
 		text-align: center;
 		padding-top: 15px;
 	}
-	.progress-box > span {
+
+	.progress-box>span {
 		background-color: #EBEBEB;
 		display: inline-block;
 		width: 80px;
 		border-radius: 10px;
 		font-size: 13px;
-	    line-height: 1.6;
+		line-height: 1.6;
+	}
+
+	.test-pannel {
+		height: calc(40% - 35px);
+	}
+	
+	.list-end {
+		text-align: center;
+		color: #999999;
+		margin-top: 20px;
+		font-size: 12px;
+	}
+	
+	.result-title {
+		color: #333333;
+		background-color: #EEEEEE;
+		margin-top: 15px;
+		padding: 10px;
+		text-align: center;
+		font-size: 16px;
+	}
+	.result-title .sec-title {
+		color: #666666;
+		font-size: 15px;
+	}
+	
+	.result-bar {
+		font-size: 12px;
+		color: #999999;
+		margin-top: 10px;
+		display: flex;
+	  	justify-content: space-between;
 	}
 </style>

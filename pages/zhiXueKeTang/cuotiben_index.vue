@@ -5,8 +5,7 @@
 		<view>
 			<uni-popup ref="popup" background-color="#fff">
 				<view class="popup-content" :class="{ 'popup-height': 'top' }">
-					<!-- <text class="text">popup 内容</text> -->
-					<view v-for="(tempPer, index) in per.list">
+					<view v-for="(tempPer, index) in per.list" :key='index'>
 						<label class="perList" @click="selectItem(tempPer)" :style="{background:(tempPer.per_code==per.selected.per_code?'#00CFBD':'#ECECEC'),color:(tempPer.per_code==per.selected.per_code?'white':'')}">{{tempPer.per_name}}</label>
 					</view>
 				</view>
@@ -46,7 +45,6 @@
 					selected: {},
 					list: []
 				},
-				showItem: false
 			}
 		},
 		onLoad(option) {
