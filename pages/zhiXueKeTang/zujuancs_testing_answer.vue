@@ -2,7 +2,7 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="navRight" :textClick="()=>{}"></mynavBar>
 		<view style="display: flex;height: 40px;align-items: center;padding:0 10px;justify-content: space-between;">
-			<view style="font-size: 14px;color: #000000;">{{tabBarItem.data.paper_name}}</view>
+			<view style="font-size: 14px;color: #000000;">{{tabBarItem.questionData.report.name}}</view>
 			<view style="font-size: 12px;color: #666666;">{{progress}}</view>
 		</view>
 		<view class="line"></view>
@@ -10,16 +10,27 @@
 			<view class="question-box" v-if="questions[index]">
 				<view class="question option-box">{{ (index+1)+".(单选题) " }}<span class="" v-html="questions[index].content"></span></view>
 				<view>
-					<view class="option-item" v-for="(item, k) in transOptions" :key="k" @click="selectOption(k)">
-						<span class="option-label" :class="{selected: questions[index].stu_answer==k}">{{k}}</span>
+					<view class="option-item" v-for="(item, k) in transOptions" :key="k" >
+						<span class="option-label" :class="answerJudge(k)">{{k}}</span>
 						<span style='margin-left: 5px;' v-html="item"></span>
 					</view>
 				</view>
 			</view>
 		</view>
-		<uni-popup ref="alertDialog" type="dialog">
-			<uni-popup-dialog type="warn" title="确定要退出练习吗？" content="退出后不保存本次练习记录" @confirm="dialogConfirm"></uni-popup-dialog>
-		</uni-popup>
+		<view class="line"></view>
+		<view style="display: flex;padding:0 15px;">
+			<view style="display: flex;">
+				<text style="font-size: 12px;">正确答案：</text>
+				<text style="font-size: 12px;color: #00CFBD;margin-left: 3px;">{{getAnswerName(questions[index].answer)}}</text>
+			</view>
+			<view style="display: flex;margin-left: 10px;">
+				<text style="font-size: 12px;">你选的：</text>
+				<text style="font-size: 12px;color: #f76260;margin-left: 3px;">{{getAnswerName(questions[index].stu_answer)}}</text>
+			</view>
+		</view>
+		<view style="display: flex;padding:10px 15px;">
+			<view style="font-size: 13px;" v-html="questions[index].solve"></view>
+		</view>
 	</view>
 </template>
 
@@ -32,16 +43,12 @@
 				index_code:'',
 				personInfo: {},
 				tabBarItem: {},
-				navRight:'00:00',
+				navRight:'',
 				touchStartX: 0, // 触屏起始点x  
-				questions:[],
 				index:0,
-				time:0,
+				questions:[],
 				transOptions:[],
 				progress:'',
-				isSelecting:false,
-				timer:'',
-				isAnswered:false,
 			}
 		},
 		components: {
@@ -66,47 +73,7 @@
 			 //切换题目
 			 changeIndex(d) {
 			 	 let des = this.index+d;
-			 	 if(des>=this.questions.length){
-			 	 	//停止计时
-			 	 	clearInterval(this.timer);
-			 	 	//测试数据
-			 	 	let _this = this;
-			 	 	let answerArray = [];
-			 	 	this.questions.forEach(function(v, i){
-			 	 		answerArray.push({
-			 	 			index: i,
-			 	 			question_id: v.question_id,
-			 	 			stu_answer: v.stu_answer||[]
-			 	 		});
-			 	 	});
-					console.log("answerArray: " + JSON.stringify(answerArray));
-			 	 	//进入提交页
-					let item={
-						catalogId:this.tabBarItem.catalogId,
-						name: this.tabBarItem.data.paper_name,
-						titleName:this.tabBarItem.text,
-						usedTime: this.navRight,
-						index_code:this.index_code,
-						answerArray:answerArray,
-						diskey:this.tabBarItem.data.diskey,
-						delta:this.tabBarItem.delta
-					}
-					let that = this
-			 	 	util.openwithData('/pages/zhiXueKeTang/zujuancs_submit',item,{
-						refreshQuestion(data){//子页面调用父页面需要的方法
-							console.log("data: " + JSON.stringify(data));
-							that.index = data.data.index||0;
-							that.startTimer();
-							that.gprogress()
-							that.transOption()
-							//滚动到顶
-							uni.pageScrollTo({
-								scrollTop: 0,
-								duration: 0
-							});
-						}
-					})
-			 	 }else if(des<0){
+			 	 if(des>=this.questions.length || des<0){
 			 	 	return false;
 			 	 }else{
 			 	 	this.index = des;
@@ -118,25 +85,6 @@
 						duration: 0
 					});
 			 	 }
-			 },
-			 //退出弹窗确认事件
-			 dialogConfirm(){
-				 this.isAnswered=false
-				 //停止计时
-				 clearInterval(this.timer);
-				// #ifdef H5
-					const pages = getCurrentPages()
-					if (pages.length > 1) {
-						uni.navigateBack({delta:1})
-						return;
-					}
-					//使用vue-router返回上一级
-					let a = this.$router.go(-1)
-					return;
-				// #endif
-				// #ifdef APP-PLUS
-					uni.navigateBack({delta:1})
-				// #endif
 			 },
 			 //解析题目选项
 			 transOption() {
@@ -154,13 +102,30 @@
 					this.transOptions=[]
 			 	}
 			 },
-			 //右上角计时器
-			 timeStr() {
-			 	let m = Math.floor(this.time/60);
-			 	let s = this.time-m*60;
-			 	m = m>=10 ? m : "0"+m;
-			 	s = s>=10 ? s : "0"+s;
-			 	return m+":"+s;
+			 getAnswerName(answer) {
+			 	var asr = "";
+			 	if(answer){
+			 		var an1 = answer.match(/[a-zA-Z]/);
+			 		if(an1){
+			 			asr = an1[0];
+			 		}
+			 	}
+			 	return asr;
+			 },
+			 // 判断答案是正确、错误或没选
+			 answerJudge(key) {
+			 	let answer = this.questions[this.index].answer;
+			 	let stu_answer = this.questions[this.index].stu_answer;
+			 	if (!answer || !stu_answer) return "";
+			 	if (answer.indexOf(key) != -1 && stu_answer.indexOf(key) != -1) {
+			 		return "selected";
+			 	} else if (stu_answer.indexOf(key) != -1) {
+			 		return "err";
+			 	} else if (answer.indexOf(key) != -1) {
+			 		return "selected";
+			 	} else {
+			 		return "";
+			 	}
 			 },
 			 //答题进度
 			 gprogress() {
@@ -179,101 +144,27 @@
 			 		this.progress="0/0"
 			 	}
 			 },
-			  // 排除题目异常
-			 clearError(questions){
-				 let isWrongOpt=false;
-				 let newQ=[]
-				 for(let i=0;i<questions.length;i++) {
-				 	let ques = questions[i];
-				 	try{
-				 		var ques_ops = JSON.parse(ques.option);
-				 		ques_ops = ques_ops.map(function(v){
-				 			if(v.indexOf("<span>")==0) { //提取<span>开头的
-				 				return v.slice(6,-7);
-				 			}else{
-				 				return v;
-				 			}
-				 		});
-				 		ques_ops.forEach(function(v,i){
-				 			if(!/^[a-zA-Z]/.test(v)){ //开头不是字符
-				 				isWrongOpt = true;
-				 			}
-				 		});
-				 	}catch(e){
-				 		isWrongOpt = true;
-				 	}
-				 	if(isWrongOpt) {
-				 		console.log("异常题："+JSON.stringify(ques));
-				 		break;
-				 	}else{
-				 		ques.option = JSON.stringify(ques_ops);
-						newQ.push(ques)
-				 	}
-				 }
-				 if(isWrongOpt){
-					 this.dialogConfirm()
-				 	 this.showToast("题目异常，请重新做题或换个知识点");
-				 }else{
-					 this.questions=newQ
-				 }
-			 },
-			 //选择
-			 selectOption(k) {
-				 console.log("k: " + JSON.stringify(k));
-			 		this.isSelecting = true;
-					this.isAnswered=true
-			 		let cur = this.questions[this.index];
-			 		let _this = this;
-			 		if(cur.stu_answer) {
-			 			cur.stu_answer = [k];
-			 		}else{
-			 			this.$set(cur, "stu_answer", [k]);
-			 		}
-			 		setTimeout(function(){
-			 			_this.isSelecting = false;
-			 			_this.changeIndex(1);
-			 		}, 400);
-			 		if(!_this.isAnswered) {
-			 			_this.isAnswered=true;
-			 		}
-			 },
-			 startTimer(){
-				 let that = this
-				 this.timer=setInterval(value=>{
-				 	that.time++
-				 	that.navRight=that.timeStr()
-				 },1000)
-			 }
 		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			console.log("itemData: " + JSON.stringify(itemData));
 			itemData.index=100
-			itemData.text=itemData.title
+			itemData.text=itemData.questionData.titleName
 			this.tabBarItem = itemData;
-			this.index_code=itemData.index_code
+			this.questions=itemData.questionData.detail_info
+			this.navRight=[{value:'用时：'+itemData.questionData.report.used_time,style:{fontSize:12,color:'#FFFFFF'}}]
+			this.index=itemData.currentQuestionIndex
 			let that = this
 			setTimeout(()=>{
-				that.clearError(itemData.data.questions)
 				that.transOption()
 				that.gprogress()
-				that.startTimer()
 			}, 100);
 			
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
 		},
-		onBackPress(options){
-			if(this.isAnswered){
-				this.$refs.alertDialog.open()
-				return true;  
-			}
-			//停止计时
-			clearInterval(this.timer);
-			return false
-		}
 	}
 </script>
 

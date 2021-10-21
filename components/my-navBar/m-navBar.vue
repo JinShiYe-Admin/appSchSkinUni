@@ -147,15 +147,28 @@
 					// #ifdef H5
 						const pages = getCurrentPages()
 						if (pages.length > 1) {
+							if(this.navItem.delta){
+								uni.navigateBack({delta:this.navItem.delta})
+								return
+							}else{
+								uni.navigateBack({delta:1})
+								return;
+							}
+						}else{
+							//使用vue-router返回上一级
+							let a = this.$router.go(-1)
+							return;
+						}
+					// #endif
+					// #ifdef APP-PLUS
+						if(this.navItem){
+							uni.navigateBack({delta:this.navItem.delta})
+							return
+						}else{
 							uni.navigateBack({delta:1})
 							return;
 						}
-						//使用vue-router返回上一级
-						let a = this.$router.go(-1)
-						return;
-					// #endif
-					// #ifdef APP-PLUS
-						uni.navigateBack({delta:1})
+						
 					// #endif
 					// this.$router.go(-1)
 				}

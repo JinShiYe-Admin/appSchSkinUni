@@ -2473,6 +2473,7 @@
             "path" : "pages/zhiXueKeTang/zujuancs_index",
             "style" :                                                                                    
             {
+                "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -2482,6 +2483,7 @@
             "path" : "pages/zhiXueKeTang/lishics_index",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -2491,7 +2493,6 @@
             "path" : "pages/zhiXueKeTang/cuotiben_index",
             "style" :                                                                                    
             {
-				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -2596,6 +2597,7 @@
             "path" : "pages/zhiXueKeTang/zujuancs_result",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -2623,6 +2625,17 @@
             "path" : "pages/zhiXueKeTang/zujuancs_testing",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/zhiXueKeTang/zujuancs_testing_answer",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
