@@ -5,14 +5,14 @@
 			<uni-popup ref="popup" background-color="#fff">
 				<view class="popup-content" :class="{ 'popup-height': 'top' }">
 					<!-- <text class="text">popup 内容</text> -->
-					<view :key="tempPer" v-for="(tempPer, index) in per.list">
+					<view :key="tempPer.per_code+Math.random()" v-for="(tempPer, index) in per.list">
 						<label class="perList" @click="selectItem(tempPer)" :style="{background:(tempPer.per_code==per.selected.per_code?'#00CFBD':'#ECECEC'),color:(tempPer.per_code==per.selected.per_code?'white':'')}">{{tempPer.per_name}}</label>
 					</view>
 				</view>
 			</uni-popup>
 		</view>
 		<uni-list>
-			<uni-list-item v-for="(model,index) in pageArray" :key='index' direction='column' showArrow clickable
+			<uni-list-item v-for="(model,index) in pageArray" :key='index+"_"+Math.random()' direction='column' showArrow clickable
 				@click="clickItem(model)">
 				<view slot="body" style="min-height: 40px;">
 					<view style="float: left;">
