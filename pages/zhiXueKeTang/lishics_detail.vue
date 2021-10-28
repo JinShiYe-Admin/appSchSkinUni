@@ -3,15 +3,13 @@
 		<uni-list>
 			<uni-list-item v-for="(model,index) in pagedata" :key='index' direction='column' showArrow clickable
 				@click="clickItem(model)">
-				<view slot="body" style="min-height: 40px;">
-					<view style="float: left;">
+				<view slot="body" style="min-height: 40px;display: flex;justify-content: space-between;">
+					<view style="display: flex;flex-direction: column;">
 						<view style="font-size: 14px;margin-top: 10px;">{{model.name}}</view>
-					</view>
-					<view style="float: left;">
 						<view style="font-size: 12px;color: gray;margin-top: 12px;">{{model.create_time.substr(0,16)}}</view>
 					</view>
 					<view class="rightView">
-						<view style="text-align: right;font-size: 13px;color: gray;margin-top: 10px;">{{model.score}}分
+						<view style="text-align: right;font-size: 13px;color: gray;margin-top: 12px;width: 45px;">{{model.score}}分
 						</view>
 					</view>
 				</view>

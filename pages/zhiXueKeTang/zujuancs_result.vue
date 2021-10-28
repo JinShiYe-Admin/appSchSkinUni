@@ -168,7 +168,7 @@
 		flex-direction: column;
 		align-items: center;
 		z-index: 5;
-		width: 70px;
+		width: 65px;
 	}
 	.mini-line{
 		background-color: #CACDD1;
