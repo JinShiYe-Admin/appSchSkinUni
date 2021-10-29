@@ -30,7 +30,7 @@
 				<view style="width:105px;height: 105px;background-color: #FECE00;margin: auto;border-radius: 50%;display: flex;justify-content: space-around;align-items: center;">
 					<view style="display: flex;flex-direction: column;">
 						<text style="color: #FFFFFF;font-size: 13px;">得分</text>
-						<text style="color: #FFFFFF;font-size: 35px;font-weight: 800;">50</text>
+						<text style="color: #FFFFFF;font-size: 35px;font-weight: 800;">{{this.tabBarItem.report.score}}</text>
 						<text style="color: #FFFFFF;font-size: 13px;align-self: flex-end;">分</text>
 					</view>
 				</view>
