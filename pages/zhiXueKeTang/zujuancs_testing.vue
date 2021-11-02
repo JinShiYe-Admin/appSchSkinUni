@@ -8,11 +8,11 @@
 		<view class="line"></view>
 		<view @touchstart="touchStart" @touchend="touchEnd">
 			<view class="question-box" v-if="questions[index]">
-				<view class="question option-box">{{ (index+1)+".(单选题) " }}<span class="" v-html="questions[index].content"></span></view>
+				<view class="question option-box" style="font-size: 13px;">{{ (index+1)+".(单选题) " }}<span style="font-size: 13px;" v-html="questions[index].content"></span></view>
 				<view>
 					<view class="option-item" v-for="(item, k) in transOptions" :key="k" @click="selectOption(k)">
 						<span class="option-label" :class="{selected: questions[index].stu_answer==k}">{{k}}</span>
-						<span style='margin-left: 5px;' v-html="item"></span>
+						<span style='margin-left: 5px;font-size: 13px;' v-html="item"></span>
 					</view>
 				</view>
 			</view>
@@ -42,6 +42,7 @@
 				isSelecting:false,
 				timer:'',
 				isAnswered:false,
+				canClick:true,//防止快速点击
 			}
 		},
 		components: {
@@ -89,7 +90,7 @@
 						index_code:this.index_code,
 						answerArray:answerArray,
 						diskey:this.tabBarItem.data.diskey,
-						delta:this.tabBarItem.delta
+						backSteps:this.tabBarItem.backSteps
 					}
 					let that = this
 			 	 	util.openwithData('/pages/zhiXueKeTang/zujuancs_submit',item,{
@@ -219,23 +220,28 @@
 			 },
 			 //选择
 			 selectOption(k) {
-				 console.log("k: " + JSON.stringify(k));
-			 		this.isSelecting = true;
-					this.isAnswered=true
-			 		let cur = this.questions[this.index];
-			 		let _this = this;
-			 		if(cur.stu_answer) {
-			 			cur.stu_answer = [k];
-			 		}else{
-			 			this.$set(cur, "stu_answer", [k]);
-			 		}
-			 		setTimeout(function(){
-			 			_this.isSelecting = false;
-			 			_this.changeIndex(1);
-			 		}, 400);
-			 		if(!_this.isAnswered) {
-			 			_this.isAnswered=true;
-			 		}
+				 if(this.canClick){
+					 this.canClick=false
+					 console.log("k: " + JSON.stringify(k));
+					 this.isSelecting = true;
+					 this.isAnswered=true
+					 let cur = this.questions[this.index];
+					 let _this = this;
+					 if(cur.stu_answer) {
+					 	cur.stu_answer = [k];
+					 }else{
+					 	this.$set(cur, "stu_answer", [k]);
+					 }
+					 if(!_this.isAnswered) {
+					 	_this.isAnswered=true;
+					 }
+					 setTimeout(function(){
+						_this.canClick=true
+					 	_this.isSelecting = false;
+					 	_this.changeIndex(1);
+						this.canClick=true
+					 }, 500);
+				 }
 			 },
 			 startTimer(){
 				 let that = this
@@ -418,7 +424,9 @@
 	  	width: 100%;
 	  }
 	  
-	  
+	  ::v-deep img{
+	  	max-width: 100% !important;
+	  }
 	  .answer-detail {
 	  	color: #222222;
 	  	line-height: 1.6;

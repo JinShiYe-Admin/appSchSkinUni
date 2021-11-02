@@ -30,7 +30,7 @@
 				<view style="width:105px;height: 105px;background-color: #FECE00;margin: auto;border-radius: 50%;display: flex;justify-content: space-around;align-items: center;">
 					<view style="display: flex;flex-direction: column;">
 						<text style="color: #FFFFFF;font-size: 13px;">得分</text>
-						<text style="color: #FFFFFF;font-size: 35px;font-weight: 800;">50</text>
+						<text style="color: #FFFFFF;font-size: 35px;font-weight: 800;">{{this.tabBarItem.report.score}}</text>
 						<text style="color: #FFFFFF;font-size: 13px;align-self: flex-end;">分</text>
 					</view>
 				</view>
@@ -92,7 +92,7 @@
 				  util.openwithData('/pages/zhiXueKeTang/zujuancs_testing_answer',{questionData:this.tabBarItem,currentQuestionIndex:questionIndex},{})
 			 },
 			 continueLearn(){
-				 uni.navigateBack({delta:this.tabBarItem.delta})
+				 uni.navigateBack({delta:this.tabBarItem.backSteps})
 				 // let comData={
 				 // 	catalog_id: this.tabBarItem.catalogId,
 				 // 	user_code:this.personInfo.user_code,
@@ -124,6 +124,7 @@
 			this.personInfo = util.getPersonal();
 			itemData.index=100
 			itemData.text='练习报告'
+			itemData.delta=itemData.backSteps?itemData.backSteps:1
 			this.tabBarItem=itemData
 			//#ifndef APP-PLUS
 				document.title=""
@@ -167,7 +168,7 @@
 		flex-direction: column;
 		align-items: center;
 		z-index: 5;
-		width: 70px;
+		width: 65px;
 	}
 	.mini-line{
 		background-color: #CACDD1;

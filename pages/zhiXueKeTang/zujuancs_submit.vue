@@ -32,34 +32,39 @@
 				index_code:'',
 				itemData:{},
 				personInfo: {},
+				canSub:true,
 			}
 		},
 		methods: {
 			submit(){
-				let answerJson = {};
-				this.itemData.answerArray.forEach(function(v){
-					answerJson[v.question_id] = v.stu_answer;
-				});
-				let comData={
-					diskey: this.itemData.diskey,
-					catalogId: this.itemData.catalogId,
-					name: this.itemData.name,
-					usedTime: this.itemData.usedTime,
-					answerJson: answerJson,
-					user_code:this.personInfo.user_code,
-					index_code: this.index_code,
-				}
-				this.showLoading()
-				this.post(this.globaData.INTERFACE_ZXKT+'/test/savePaper',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					this.hideLoading()
-					if(response){
-						response.titleName=this.itemData.titleName
-						response.catalogId=this.itemData.catalogId
-						response.delta=this.itemData.delta
-						util.openwithData("/pages/zhiXueKeTang/zujuancs_result", response);
+				if(this.canSub){
+					this.canSub=false
+					let answerJson = {};
+					this.itemData.answerArray.forEach(function(v){
+						answerJson[v.question_id] = v.stu_answer;
+					});
+					let comData={
+						diskey: this.itemData.diskey,
+						catalogId: this.itemData.catalogId,
+						name: this.itemData.name,
+						usedTime: this.itemData.usedTime,
+						answerJson: answerJson,
+						user_code:this.personInfo.user_code,
+						index_code: this.index_code,
 					}
-				})
+					this.showLoading()
+					this.post(this.globaData.INTERFACE_ZXKT+'/test/savePaper',comData,response=>{
+					    console.log("responseaaa: " + JSON.stringify(response));
+						this.hideLoading()
+						this.canSub=true
+						if(response){
+							response.titleName=this.itemData.titleName
+							response.catalogId=this.itemData.catalogId
+							response.backSteps=this.itemData.backSteps
+							util.openwithData("/pages/zhiXueKeTang/zujuancs_result", response);
+						}
+					})
+				}
 			},
 			 backQuestion(question){
 				 const eventChannel = this.getOpenerEventChannel()
