@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="navText"
-			:textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="navText" :textClick="textClick">
+		</mynavBar>
 		<view class="tabs-fixed">
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="text"
 				activeColor="#00CFBD"></uni-segmented-control>
@@ -13,131 +13,212 @@
 			</view>
 			<view v-if="semFlag == 0">
 				<uni-row style="margin-top: 5px;">
-					<uni-col :span="3" @click="changeMenu(-1)">
-						<uni-icons type="arrowleft" size="20" color="gray" style="float: right;"></uni-icons>
+					<uni-col :span="3">
+						<uni-icons @click="changeMenu(-1)" type="arrowleft" size="20" color="gray"
+							style="float: right;"></uni-icons>
 					</uni-col>
 					<uni-col :span="18">
 						<view @click="showMenu()" style="text-align: center;" v-html="contentTitle"></view>
 					</uni-col>
-					<uni-col :span="3" @click="changeMenu(1)">
-						<uni-icons type="arrowright" size="20" color="gray" style="float: left;"></uni-icons>
+					<uni-col :span="3">
+						<uni-icons @click="changeMenu(1)" type="arrowright" size="20" color="gray" style="float: left;">
+						</uni-icons>
 					</uni-col>
 				</uni-row>
 				<view class="progress-box">
-					<span>{{(index+1)+"/"+list.length}}</span>
+					<span>{{(semFlag0Data.index+1)+"/"+semFlag0Data.list.length}}</span>
 				</view>
-				<view v-if="list.length" class="test-pannel" :class="{sentence: !isWord}">
-					{{list[index].words}}
-					<p class="read" v-if="isWord" v-show="isTested&&list[index].symbol">[{{list[index].symbol}}]</p>
-					<p class="translation" v-else v-show="isTested&&list[index].translations">
-						{{list[index].translations}}
+				<view v-if="semFlag0Data.list.length" class="test-pannel" :class="{sentence: !isWordsemFlag0}">
+					{{semFlag0Data.list[semFlag0Data.index].words}}
+					<p class="read" v-if="isWordsemFlag0"
+						v-show="isTestedFlag0&&semFlag0Data.list[semFlag0Data.index].symbol">
+						[{{semFlag0Data.list[semFlag0Data.index].symbol}}]</p>
+					<p class="translation" v-else
+						v-show="isTestedFlag0&&semFlag0Data.list[semFlag0Data.index].translations">
+						{{semFlag0Data.list[semFlag0Data.index].translations}}
 					</p>
 				</view>
-				<!-- <view v-else-if="state>2" class="test-pannel" style="font-size: 12px;color: #999999;">暂无内容</view>
-				<view v-else class="test-pannel"></view> -->
+				<view v-else-if="state>2" class="test-pannel" style="font-size: 12px;color: #999999;">暂无内容</view>
+				<view v-else class="test-pannel"></view>
 
-				<!-- <view class="action-box">
+				<view class="action-box" v-if="semFlag0Data.list.length">
 					<view class="overflow-cover"></view>
 					<view class="score-box">
-						<span class="score" v-if="isTested">{{setScore(list[index].total_score)}}</span>
+						<span class="scoreCss"
+							v-if="isTestedFlag0">{{setScore(semFlag0Data.list[semFlag0Data.index].total_score)}}</span>
 					</view>
-					<view class="btns-box">
-						<a class="btn-voice" :class="{active: playingAudio}" @tap="playAudio(list[index]?list[index].audio_url:'', 'audio')">
-							<svg class="icon" aria-hidden="true">
-								<use xlink:href="#icon-icon-voice"></use>
-							</svg>
-							<span class="icon active img-icon"></span>
-						</a>
-						<a class="btn-record" :class="{active: isRecording}" @touchstart.stop="record($event)" @touchmove.stop="touchMove($event)" @touchend.stop="stopRecord">
-							<svg class="icon" aria-hidden="true">
-								<use xlink:href="#icon-icon-record"></use>
-							</svg>
-							<view class="btn-record-bg">
-								<view class="btn-record-bg-active"></view>
-							</view>
-						</a>
-						<a class="btn-play" :class="{active: playingRecord}" @tap="playAudio(list[index]?list[index].record_url:'', 'record')">
-							<svg class="icon" aria-hidden="true">
-								<use xlink:href="#icon-icon-play"></use>
-							</svg>
-							<svg class="icon active" aria-hidden="true">
-								<use xlink:href="#icon-icon-pause"></use>
-							</svg>
-						</a>
+					<view class="btn-record">
+						按住录音，松开提交
 					</view>
-							
+					<view style="text-align: center;">
+						<image src="/static/images/kouYuCePing/btn_voice.png"
+							@click.stop="playAudio(semFlag0Data.list[semFlag0Data.index].audio_url)" class="btn-img-cp"
+							style="left: -20px;">
+						</image>
+						<image src="/static/images/kouYuCePing/btn_record.png"
+							@touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)"
+							@touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="btn-img-cp"
+							style="width: 60px;height: 60px;">
+						</image>
+						<image src="/static/images/kouYuCePing/btn_play.png"
+							@click.stop="playAudio(semFlag0Data.list[semFlag0Data.index].record_url)" class="btn-img-cp"
+							style="right: -20px;">
+						</image>
+					</view>
 					<view class="skip-box">
-						<a :class="{disabled: index==0}" @tap="changeIndex(-1)">上一个</a>
-						<a v-show="index<list.length-1" @tap="changeIndex(1)">下一个</a>
-						<a v-show="index==list.length-1" class="btn-submit" @tap="submit">提交</a>
+						<a :class="{disabled: semFlag0Data.index==0}" @tap="changeIndex(-1)">上一个</a>
+						<a v-show="semFlag0Data.index<semFlag0Data.list.length-1" @tap="changeIndex(1)">下一个</a>
+						<a v-show="semFlag0Data.index==semFlag0Data.list.length-1" class="btn-submit"
+							@tap="submit">提交</a>
 					</view>
-				</view> -->
+				</view>
 			</view>
 			<view v-if="semFlag == 1">
+				<uni-row style="margin-top: 5px;">
+					<uni-col :span="3">
+						<uni-icons @click="changeMenu(-1)" type="arrowleft" size="20" color="gray"
+							style="float: right;"></uni-icons>
+					</uni-col>
+					<uni-col :span="18">
+						<view @click="showMenu()" style="text-align: center;" v-html="contentTitle"></view>
+					</uni-col>
+					<uni-col :span="3">
+						<uni-icons @click="changeMenu(1)" type="arrowright" size="20" color="gray" style="float: left;">
+						</uni-icons>
+					</uni-col>
+				</uni-row>
+				<view class="progress-box">
+					<span>{{(semFlag1Data.index+1)+"/"+semFlag1Data.list.length}}</span>
+				</view>
+				<view v-if="semFlag1Data.list.length" class="test-pannel" :class="{sentence: !isWordsemFlag1}">
+					{{semFlag1Data.list[semFlag1Data.index].words}}
+					<p class="read" v-if="isWordsemFlag1"
+						v-show="isTestedFlag1&&semFlag1Data.list[semFlag1Data.index].symbol">
+						[{{semFlag1Data.list[semFlag1Data.index].symbol}}]</p>
+					<p class="translation" v-else
+						v-show="isTestedFlag1&&semFlag1Data.list[semFlag1Data.index].translations">
+						{{semFlag1Data.list[semFlag1Data.index].translations}}
+					</p>
+				</view>
+				<view v-else-if="state>2" class="test-pannel" style="font-size: 12px;color: #999999;">暂无内容</view>
+				<view v-else class="test-pannel"></view>
+
+				<view class="action-box" v-if="semFlag1Data.list.length">
+					<view class="overflow-cover"></view>
+					<view class="score-box">
+						<span class="scoreCss"
+							v-if="isTestedFlag1">{{setScore(semFlag1Data.list[semFlag1Data.index].total_score)}}</span>
+					</view>
+					<view class="btn-record">
+						按住录音，松开提交
+					</view>
+					<view style="text-align: center;">
+						<image src="/static/images/kouYuCePing/btn_voice.png"
+							@click.stop="playAudio(semFlag1Data.list[semFlag1Data.index].audio_url)" class="btn-img-cp"
+							style="left: -20px;">
+						</image>
+						<image src="/static/images/kouYuCePing/btn_record.png"
+							@touchstart.stop.prevent="touchStart(semFlag1Data.list[semFlag1Data.index],$event)"
+							@touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="btn-img-cp"
+							style="width: 60px;height: 60px;">
+						</image>
+						<image src="/static/images/kouYuCePing/btn_play.png"
+							@click.stop="playAudio(semFlag1Data.list[semFlag1Data.index].record_url)" class="btn-img-cp"
+							style="right: -20px;">
+						</image>
+					</view>
+					<view class="skip-box">
+						<a :class="{disabled: semFlag1Data.index==0}" @tap="changeIndex(-1)">上一个</a>
+						<a v-show="semFlag1Data.index<semFlag1Data.list.length-1" @tap="changeIndex(1)">下一个</a>
+						<a v-show="semFlag1Data.index==semFlag1Data.list.length-1" class="btn-submit"
+							@tap="submit">提交</a>
+					</view>
+				</view>
 			</view>
 			<view v-if="semFlag == 2">
-				<view v-if="total">
-					<template v-for="(item,index) in semFlag2Data.model"  v-if="item.list.length">
+				<view v-if="semFlag2Data.total">
+					<uni-list class="result-list" v-for="(item,index) in semFlag2Data.model" :key="index"
+						v-if="item.list.length">
 						<view class="result-title" v-show="item.title">
 							{{item.sub_title}}
 							<view class="sec-title">{{item.title}}</view>
 						</view>
-						<uni-list :border="false">
-							<uni-list-item v-for="(v, i) in item.list" :key='index' direction='column' clickable @click="toggleOpen(index,i)" :border="true" :class="{'word-cell': v.category=='read_word'}">
-								<view slot="body" class="slot-box slot-text">
-									<view class="rightView">
-										<view :class="{'word-box': v.category=='read_word', 'sentence-box': v.category=='read_sentence'}">
-											<h4 v-if="v.category=='read_word'">{{v.words}}
-												<span class="symbol" v-if="v.symbol">[{{v.symbol}}]</span>
-												<span class="score" v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
-											</h4>
-											<h4 v-else>{{v.words}}
-												<span class="score" v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
-											</h4>
-											<view class="btns" v-if="semFlag2Data.openLi.index==index&&semFlag2Data.openLi.i==i">
-												<a class="btn-voice" @touchstart.stop="playAudio(v.audio_url, $event)">
-													<svg class="icon" aria-hidden="true">
-														<use xlink:href="#icon-icon-voice"></use>
-													</svg>
-													<span class="icon active img-icon"></span>
-												</a>
-												<a class="btn-record" @touchstart.stop="record(v, $event)" @touchmove.stop="touchMove($event)" @touchend.stop="stopRecord($event)">
-													<svg class="icon" aria-hidden="true">
-														<use xlink:href="#icon-icon-record"></use>
-													</svg>
-													<view class="btn-record-bg">
-														<view class="btn-record-bg-active"></view>
-													</view>
-												</a>
-												<a class="btn-play" @touchstart.stop="playAudio(v.record_url, $event)">
-													<svg class="icon" aria-hidden="true">
-														<use xlink:href="#icon-icon-play"></use>
-													</svg>
-													<svg class="icon active" aria-hidden="true">
-														<use xlink:href="#icon-icon-pause"></use>
-													</svg>
-												</a>
-											</view>
+						<uni-list-item v-for="(v, i) in item.list" :key='i' direction='column' clickable
+							:class="{'word-cell': v.category=='read_word'}" @click="toggleOpen(v)">
+							<view slot="body" class="slot-box slot-text">
+								<view class="rightView">
+									<view style="min-height: 40px;margin-top: 10px;"
+										:class="{'word-box': v.category=='read_word', 'sentence-box': v.category=='read_sentence'}">
+										<h4 v-if="v.category=='read_word'">{{v.words}}
+											<span class="symbol" v-if="v.symbol">[{{v.symbol}}]</span>
+											<span class="score"
+												v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
+										</h4>
+										<h4 v-else>{{v.words}}
+											<span class="score"
+												v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
+										</h4>
+										<view v-if="v.btnShow">
+											<image src="/static/images/kouYuCePing/btn_voice.png"
+												@click.stop="playAudio(v.audio_url)" class="btn-img" style=""></image>
+											<image src="/static/images/kouYuCePing/btn_record.png"
+												@touchstart.stop.prevent="touchStart(v,$event)"
+												@touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd"
+												class="btn-img" style="width: 40px;height: 40px;">
+											</image>
+											<image src="/static/images/kouYuCePing/btn_play.png"
+												@click.stop="playAudio(v.record_url)" class="btn-img" style=""></image>
 										</view>
-										<view class="result-bar" v-if="v.category=='read_sentence'&&v.total_score!=null">
-											<view>
-												准确度：{{v.accuracy_score}}
-											</view>
-											<view>
-												完整度：{{v.integrity_score}}
-											</view>
-											<view>
-												流利度：{{v.fluency_score}}
-											</view>
+									</view>
+									<view class="result-bar" v-if="v.category=='read_sentence'&&v.total_score!=null">
+										<view class="score-item">
+											准确度：{{v.accuracy_score}}
+										</view>
+										<view class="score-item">
+											完整度：{{v.integrity_score}}
+										</view>
+										<view class="score-item">
+											流利度：{{v.fluency_score}}
 										</view>
 									</view>
 								</view>
-								
-							</uni-list-item>
-						</uni-list>
-					</template>
+							</view>
+						</uni-list-item>
+					</uni-list>
 				</view>
-				<view class="list-end" v-else v-show="!semFlag2Data.isLoading">还没有错题</view>
+				<view class="list-end" v-else>还没有错题</view>
+			</view>
+			<view>
+				<uni-popup ref="popup" background-color="#fff">
+					<view class="popup-content" style="max-height: 500px;" :class="{ 'popup-height': 'top' }">
+						<view class="">
+							<view style="font-size: 16px;height: 35px;padding-top: 8px;margin-left: 10px;">
+								<uni-icons type="bars" size="23" color="gray"></uni-icons>
+								<span style='margin-left: 10px;'>选择章节</span>
+							</view>
+							<scroll-view scroll-y="true" class="scroll-Y" style="max-height: 500px;">
+								<uni-list v-for="(v,i) in menu_list" :key="i">
+									<uni-list-item direction='column' class="list-name" style="min-height: 40px;">
+										<view slot="body">
+											<view style="float: left;">
+												<view class="">{{v.name}}</view>
+											</view>
+										</view>
+									</uni-list-item>
+									<uni-list-item v-for="(item, k) in v.list" :key="k" direction='column' clickable
+										:class="{selected: item.id==catalogId}" @click="selectMenu(item.id)"
+										style="min-height: 40px;">
+										<view slot="body">
+											<view style="float: left;">
+												<view style="font-size: 14px;color: gray;">{{item.name}}</view>
+											</view>
+										</view>
+									</uni-list-item>
+								</uni-list>
+							</scroll-view>
+						</view>
+					</view>
+				</uni-popup>
 			</view>
 		</view>
 	</view>
@@ -146,6 +227,8 @@
 <script>
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	// 七牛上传相关
+	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
 	let _this;
 	export default {
 		data() {
@@ -154,10 +237,13 @@
 				tabbar: [],
 				tabBarItem: {},
 				navText: '',
+
+				audioContext: '',
+				recorderManager: '',
+				audioUrl: '', //音频url
+
 				isGetLast: false, //判断登录者是否有上一次记录
 				catalogId: 0,
-				list: [],
-				index: 0,
 				menu: [],
 				bookItems: "",
 				contentTitle: "...",
@@ -165,27 +251,28 @@
 				state: 1, // 1-unload; 2-loading; 3-loaded; 4-start; 5-submit
 				semValuesArray: ['单词测评', '句子测评', '错题本'],
 				semFlag: 0, //点击的seg索引
-				semFlag0Data: { //单词测评
+				uploadModel: {},
+				touchData: {}, //滑动事件数据
+				uploadFlag: false, //是否上传
 
+				menu_list: [],
+
+				semFlag0Data: { //单词测评
+					list: [],
+					index: 0,
 				},
 				semFlag1Data: { //句子测评
-
+					list: [],
+					index: 0,
 				},
 				semFlag2Data: { //错题本
-					bookName: "",
+					page: 1,
 					model: [],
 					isRecording: false,
+					valid_touch: false,
+					// key: "",
 					isPlaying: false,
-					key: "",
-					valid_touch: false, //是否可touch
-					openLi: {
-						index: -1,
-						i: -1
-					}, //打开的li
-					isLoading: false,
-					isReload: true,
-					page: 1,
-					lastPage: false
+					total: 0,
 				}
 			}
 		},
@@ -216,22 +303,118 @@
 			this.getInitData();
 			// this.getContent();
 			// util.setStore("orals_catalog_id", String(v));
+			this.audioContext = uni.createInnerAudioContext();
+			//#ifdef APP-PLUS
+			this.recorderManager = uni.getRecorderManager();
+			//#endif
+			this.audioContext.onStop(() => {
+				console.log('停止播放');
+				this.audioUrl = '';
+			});
+			this.audioContext.onEnded(() => {
+				console.log('停止播放11');
+				this.audioUrl = '';
+			});
+			// #ifdef APP-PLUS
+			this.recorderManager.onStop(function(res) {
+				console.log('recorder stop' + JSON.stringify(res));
+				if (_this.uploadFlag) {
+					_this.uploadFlag = false;
+					_this.showLoading('上传中...');
+					uni.uploadFile({
+						url: _this.globaData.INTERFACE_KYCP + "/pub/upload",
+						filePath: res.tempFilePath,
+						name: 'file',
+						success: (uploadFileRes) => {
+							_this.hideLoading();
+							console.log('uploadFileRes:' + JSON.stringify(uploadFileRes));
+							if (uploadFileRes.statusCode == 200) {
+								var tempM = JSON.parse(uploadFileRes.data);
+								_this.uploadModel.words = _this.uploadModel.words ? _this.uploadModel
+									.words.trim() : _this.uploadModel.words;
+								// if(){
+								// 	_this.uploadModel.key = _this.key;
+								// }else if(){
+								// 	_this.uploadModel.key = _this.key;
+								// }else{
+								// 	_this.uploadModel.key = _this.key;
+								// }
+
+								_this.showLoading('正在评分');
+								_this.post(_this.globaData.INTERFACE_KYCP + '/orals/record', {
+									data: _this.uploadModel,
+									file_url: tempM.data.url,
+									index_code: _this.tabBarItem.access.split('#')[1],
+									user_code: _this.personInfo.user_code
+								}, (res0, res) => {
+									_this.hideLoading();
+									console.log('resres:' + JSON.stringify(res));
+									if (res.code == 0) {
+										_this.uploadModel.key = res.data.key;
+										_this.uploadModel.total_score = res.data.total_score;
+										_this.uploadModel.record_url = res.data.record_url;
+										if (_this.uploadModel.category == "read_sentence") {
+											_this.uploadModel.accuracy_score = res.data
+												.accuracy_score;
+											_this.uploadModel.fluency_score = res.data
+												.fluency_score;
+											_this.uploadModel.integrity_score = res.data
+												.integrity_score;
+										}
+										if (this.semFlag == 2) {
+											_this.post(_this.globaData.INTERFACE_KYCP +
+												'/orals/save', {
+													data: [_this.uploadModel],
+													index_code: _this.tabBarItem.access
+														.split('#')[1],
+													user_code: _this.personInfo.user_code
+												}, (res0, res) => {
+													_this.hideLoading();
+													console.log('resresresresres:' + JSON
+														.stringify(res));
+												})
+										} else {
+
+										}
+
+									} else {
+										_this.showToast('评分失败，请重试');
+									}
+								})
+							} else {
+								uni.showToast('文件上传失败，请稍后再试 ');
+							}
+						},
+						fail: (e) => {
+							console.log(e);
+						}
+					});
+				}
+			});
+			// #endif
 		},
 		computed: {
-			isTested: function() {
-				var cur = this.list[this.index];
+			isTestedFlag0: function() {
+				var cur = this.semFlag0Data.list[this.semFlag0Data.index];
 				return cur && cur.total_score != null && cur.total_score >= 0;
 			},
-			isWord: function() {
-				return this.list[this.index].category == 'read_word';
+			isTestedFlag1: function() {
+				var cur = this.semFlag1Data.list[this.semFlag1Data.index];
+				return cur && cur.total_score != null && cur.total_score >= 0;
 			},
-			total: function() {
-				var t = 0;
-				this.semFlag2Data.model.forEach(function(v) {
-					t = t + v.list.length;
-				});
-				return t;
-			}
+			isWordsemFlag0: function() {
+				return this.semFlag0Data.list[this.semFlag0Data.index].category == 'read_word';
+			},
+			isWordsemFlag1: function() {
+				return this.semFlag1Data.list[this.semFlag1Data.index].category == 'read_word';
+			},
+			// total: function() {
+			// 	var t = 0;
+			// 	this.semFlag2Data.model.forEach(function(v) {
+			// 		t = t + v.list.length;
+			// 	});
+			// 	return t;
+			// }
 		},
 		watch: {
 			catalogId: function(v, ov) {
@@ -243,21 +426,77 @@
 			}
 		},
 		methods: {
-			//分数格式
-			setScore(score){
-				return Math.round(score*20);
+			touchStart(model, e) {
+				this.touchData.clientX = e.changedTouches[0].clientX;
+				this.touchData.clientY = e.changedTouches[0].clientY;
+				this.uploadModel = model;
+				// #ifdef H5
+				console.log('aaaaaaazzzzzzz');
+				// #endif
+				// #ifndef H5
+				this.recorderManager.start({
+					format: 'wav',
+					duration: '10000'
+				});
+				// #endif
 			},
-			toggleOpen: function(index, i) {
-				if(this.semFlag2Data.openLi.index == index && this.semFlag2Data.openLi.i == i) {
-					this.semFlag2Data.openLi.index = -1;
-					this.semFlag2Data.openLi.i = -1;
+			touchEnd(e) {
+				let subX = e.changedTouches[0].clientX - this.touchData.clientX;
+				let subY = e.changedTouches[0].clientY - this.touchData.clientY;
+				subX = Math.abs(subX);
+				subY = Math.abs(subY);
+				if (subX > 30 || subY > 30) {
+
 				} else {
-					this.semFlag2Data.openLi.index = index;
-					this.semFlag2Data.openLi.i = i;
+					// #ifdef H5
+					console.log('aaaaaaazzzzzzz111');
+					// #endif
+					// #ifndef H5
+					console.log('uploadFlaguploadFlag--true');
+					this.uploadFlag = true;
+					this.recorderManager.stop();
+					// #endif
 				}
 			},
+			playAudio(url) {
+				if (url && url.length > 0) {
+					if (this.audioUrl == url) {
+						if (this.audioContext.paused) {
+							this.audioPlay();
+						} else {
+							this.audioContext.stop();
+						}
+					} else {
+						this.audioUrl = url;
+						this.audioPlay();
+					}
+				} else {
+					this.showToast('没有录音');
+				}
+			},
+			audioPlay() {
+				var getDownToken = {
+					appId: this.globaData.QN_APPID, //int 必填 项目id
+					appKey: this.globaData.QN_APPKEY,
+					urls: [this.audioUrl] //array 必填 需要获取下载token文件的路径
+				}
+				var getDownTokenUrl = this.QNGETDOWNTOKENFILE;
+				this.showLoading();
+				cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data) => {
+					this.hideLoading();
+					this.audioContext.src = data.Data[0].Value;
+					this.audioContext.play();
+				});
+			},
+			//分数格式
+			setScore(score) {
+				return Math.round(score * 20);
+			},
+			toggleOpen: function(model) {
+				model.btnShow = !model.btnShow;
+			},
 			textClick() {
-				if(this.state == 4) {
+				if (this.state == 4) {
 					this.layerBeforeLeave("您还没有提交，确定要离开吗？", ["确定", "取消"], function() {
 						this.goRecord();
 					});
@@ -265,19 +504,19 @@
 					this.goRecord();
 				}
 			},
-			goRecord(){
-				var model= {
-					access:this.tabBarItem.access,
-					category: this.semFlag==0?"read_word":"read_sentence"
+			goRecord() {
+				var model = {
+					access: this.tabBarItem.access,
+					category: this.semFlag == 0 ? "read_word" : "read_sentence"
 				}
-				util.openwithData("/pages/kouYuCePing/record", model,{
+				util.openwithData("/pages/kouYuCePing/record", model, {
 					refreshBook() { //子页面调用父页面需要的方法
 						var catalog_id = util.getStore("orals_catalog_id");
-						if(catalog_id != _this.catalogId) {
+						if (catalog_id != _this.catalogId) {
 							_this.setBaseData();
 							//错题本数据重置
 							_this.semFlag2Data.page = 1;
-							if(_this.semFlag == 2) {
+							if (_this.semFlag == 2) {
 								_this.getErrList();
 							} else {
 								_this.semFlag2Data.isReload = true;
@@ -505,15 +744,15 @@
 					this.goBook();
 				}
 			},
-			goBook(){
-				util.openwithData("/pages/kouYuCePing/book", this.tabBarItem,{
+			goBook() {
+				util.openwithData("/pages/kouYuCePing/book", this.tabBarItem, {
 					refreshBook() { //子页面调用父页面需要的方法
 						var catalog_id = util.getStore("orals_catalog_id");
-						if(catalog_id != _this.catalogId) {
+						if (catalog_id != _this.catalogId) {
 							_this.setBaseData();
 							//错题本数据重置
 							_this.semFlag2Data.page = 1;
-							if(_this.semFlag == 2) {
+							if (_this.semFlag == 2) {
 								_this.getErrList();
 							} else {
 								_this.semFlag2Data.isReload = true;
@@ -523,63 +762,63 @@
 				});
 			},
 			//显示目录
-			// showMenu() {
-			// 	this.isShowMenu = true;
-			// 	var menu_list = [];
-			// 	this.menu.forEach(function(v) {
-			// 		var cur_list = this.filterArray(menu_list, "id", v.pid)[0];
-			// 		if(cur_list) {
-			// 			cur_list.list.push(v);
-			// 		} else {
-			// 			menu_list.push({
-			// 				id: v.pid,
-			// 				name: v.pname,
-			// 				list: [v]
-			// 			});
-			// 		}
-			// 	});
-			// 	this.menu_list = menu_list;
-			// 	this.catalogId = this.catalogId;
-			// },
+			showMenu() {
+				this.$refs.popup.open('bottom');
+				var menu_list = [];
+				this.menu.forEach(function(v) {
+					var cur_list = _this.filterArray(menu_list, "id", v.pid)[0];
+					if (cur_list) {
+						cur_list.list.push(v);
+					} else {
+						menu_list.push({
+							id: v.pid,
+							name: v.pname,
+							list: [v]
+						});
+					}
+				});
+				this.menu_list = menu_list;
+				this.catalogId = this.catalogId;
+			},
 			//切换目录
-			// changeMenu(d) {
-			// 	var catalog = this.menu;
-			// 	var c_index;
-			// 	catalog.forEach(function(v, i) {
-			// 		if(v.id == this.catalogId) c_index = i;
-			// 	});
-			// 	var new_index = c_index+d;
-			// 	if(new_index<0) {
-			// 		this.showToast("当前已是第一单元", {type: 'view'});
-			// 	}else if(new_index>=catalog.length) {
-			// 		this.showToast("已到达最后一个单元！", {type: 'view'});
-			// 	}else {
-			// 		if(this.state==4){
-			// 			this.layerBeforeLeave("您还没有提交，离开将不保存成绩！", ["残忍离开", "我再想想"], function(){
-			// 				this.catalogId = catalog[c_index+d].id;
-			// 			});
-			// 		}else{
-			// 			this.catalogId = catalog[c_index+d].id;
-			// 		}
-			// 	}
-			// },
+			changeMenu(d) {
+				console.log('changeMenuchangeMenu:' + d);
+				var catalog = this.menu;
+				var c_index;
+				catalog.forEach(function(v, i) {
+					if (v.id == _this.catalogId) c_index = i;
+				});
+				var new_index = c_index + d;
+				if (new_index < 0) {
+					this.showToast("当前已是第一单元");
+				} else if (new_index >= catalog.length) {
+					this.showToast("已到达最后一个单元！");
+				} else {
+					if (this.state == 4) {
+						console.log('layerBeforeLeave');
+						// this.layerBeforeLeave("您还没有提交，离开将不保存成绩！", ["残忍离开", "我再想想"], function(){
+						// 	this.catalogId = catalog[c_index+d].id;
+						// });
+					} else {
+						this.catalogId = catalog[c_index + d].id;
+					}
+				}
+			},
 			// hideMenu() {
 			// 	this.isShowMenu = false;
 			// },
-			// selectMenu(id) {
-			// 	var _this = this;
-			// 	if(this.state == 4) {
-			// 		this.layerBeforeLeave("您还没有提交，离开将不保存成绩！", ["残忍离开", "我再想想"], function() {
-			// 			_this.isShowMenu = false;
-			// 			_this.catalogId = id;
-			// 			this.catalogId = id;
-			// 		});
-			// 	} else {
-			// 		_this.isShowMenu = false;
-			// 		_this.catalogId = id;
-			// 		this.catalogId = id;
-			// 	}
-			// },
+			selectMenu(id) {
+				this.$refs.popup.close();
+				// if(this.state == 4) {
+				// 	this.layerBeforeLeave("您还没有提交，离开将不保存成绩！", ["残忍离开", "我再想想"], function() {
+				// 		_this.isShowMenu = false;
+				// 		_this.catalogId = id;
+				// 		this.catalogId = id;
+				// 	});
+				// } else {
+				this.catalogId = id;
+				// }
+			},
 			//获取目录名
 			getCatalogName(id) {
 				var catalog = util.getStore('orals_catalog');
@@ -623,9 +862,15 @@
 							v.record_url = null;
 							v.key = res.data.key;
 						});
-						_this.list = res.data.list;
-						_this.index = 0;
-						_this.state = 3;
+						if (this.semFlag == 0) {
+							this.semFlag0Data.list = res.data.list;
+							this.semFlag0Data.index = 0;
+						} else {
+							this.semFlag1Data.list = res.data.list;
+							this.semFlag1Data.index = 0;
+						}
+
+						this.state = 3;
 						this.hideLoading();
 					} else {
 						_this.state = 3;
@@ -635,24 +880,31 @@
 				})
 			},
 			//切换单词句子
-			changeIndex(d) {},
-			//播放音频
-			playAudio(url, type) {},
-			//点击录音
-			record(event) {},
-			//开始录音
-			startRecord() {},
-			touchMove(event) {},
-			//停止录音
-			stopRecord(event) {},
-			//上传录音
-			uploadRecord: function(record) {},
+			changeIndex(d) {
+				// if(this.isRecording) {
+				// 	return false;
+				// }
+				if (this.semFlag == 0) {
+					var f_index = this.semFlag0Data.index + d;
+					if (f_index >= 0 && f_index < this.semFlag0Data.list.length) {
+						this.semFlag0Data.index = f_index;
+						// endPlayAudio();
+					}
+				} else {
+					var f_index = this.semFlag1Data.index + d;
+					if (f_index >= 0 && f_index < this.semFlag1Data.list.length) {
+						this.semFlag1Data.index = f_index;
+						// endPlayAudio();
+					}
+				}
+
+			},
 			//提交
 			submit: function() {
 				// this.endPlayAudio();
 				this.showLoading("正在提交");
 				this.post(this.globaData.INTERFACE_KYCP + '/orals/save', {
-					data: _this.list,
+					data: this.semFlag == 0 ? this.semFlag0Data.list : this.semFlag1Data.list,
 					index_code: this.tabBarItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
 				}, (res0, res) => {
@@ -660,13 +912,19 @@
 					if (res.state == "ok") {
 						this.state = 5;
 						//打开结果页
-						this.goResult({
-							title: secondTitle.contentTitle,
-							cate: _this.list[0].category,
-							catalog_id: _this.catalogId
-						});
-						this.semFlag2Data.page = 1;
-						this.semFlag2Data.isReload = true;
+						// this.goResult({
+						// 	title: secondTitle.contentTitle,
+						// 	cate: _this.list[0].category,
+						// 	catalog_id: _this.catalogId
+						// });
+						this.uploadModel.access = this.tabBarItem.access;
+						this.uploadModel.title = this.uploadModel.book_catalog_name;
+						this.uploadModel.cate = this.uploadModel.category;
+						this.uploadModel.catalog_id = this.uploadModel.book_catalog_id;
+						console.log('clickItem:' + JSON.stringify(this.uploadModel));
+						util.openwithData("/pages/kouYuCePing/result", this.uploadModel);
+						// this.semFlag2Data.page = 1;
+						// this.semFlag2Data.isReload = true;
 					} else {
 						this.showToast(res.msg);
 					}
@@ -679,6 +937,7 @@
 						this.navText = '测评记录';
 					} else if (this.semFlag == 1) {
 						this.navText = '测评记录';
+						this.getContent();
 					} else if (this.semFlag == 2) {
 						this.navText = '';
 						this.getErrList();
@@ -699,7 +958,7 @@
 					//可选目录节点
 					var catalog = util.getStore('orals_catalog');
 					if (!catalog) {
-						console.log('getErrList11113:'+JSON.stringify(catalog));
+						console.log('getErrList11113:' + JSON.stringify(catalog));
 						return;
 					}
 					catalog.forEach(function(v) {
@@ -716,41 +975,68 @@
 						return a.id - b.id;
 					});
 				}
-console.log('getErrList11112');
+				console.log('getErrList11112');
 				//获取节点内容
+				// this.post(this.globaData.INTERFACE_KYCP + '/orals', {
+				// 	bookCatalogId: catalog_ids.join(),
+				// 	showAll: false,
+				// 	totalScoreLimit: "4.0",
+				// 	page: true,
+				// 	p: this.semFlag2Data.page,
+				// 	s: 10,
+				// 	index_code:this.tabBarItem.access.split('#')[1],
+				// 	user_code: this.personInfo.user_code
+				// }, (res0,res)=> {
+				// 	if (res.state == "ok") {
+				// 		this.semFlag2Data.key = res.data.key;
+				// 		res.data.page.list.forEach(function(val, index) {
+				// 			for (var i = 0; i < _this.semFlag2Data.model.length; i++) {
+				// 				if (_this.semFlag2Data.model[i].id == val.book_catalog_id) {
+				// 					_this.semFlag2Data.model[i].list.push(val);
+				// 				}
+				// 			}
+				// 		});
+				// 		if (this.semFlag2Data.page == 1) {
+				// 			this.hideLoading();
+				// 		}
+				// 		this.semFlag2Data.lastPage = res.data.page.last_page;
+				// 		this.semFlag2Data.page = res.data.page.page_number + 1;
+				// 		this.semFlag2Data.isLoading = false;
+
+				// 		callback && callback(res);
+				// 	} else {
+				// 		this.semFlag2Data.isLoading = false;
+				// 		this.semFlag2Data.page == 1 && this.hideLoading();;
+				// 		if (res.code != 404) this.showToast(res.msg);
+				// 	}
+				// })
 				this.post(this.globaData.INTERFACE_KYCP + '/orals', {
+					// category: this.itemData.cate,
 					bookCatalogId: catalog_ids.join(),
-					showAll: false,
 					totalScoreLimit: "4.0",
-					page: true,
-					p: this.semFlag2Data.page,
-					s: 10,
-					index_code:this.tabBarItem.access.split('#')[1],
-					user_code: this.personInfo.user_code
-				}, (res0,res)=> {
-					if (res.state == "ok") {
-						this.semFlag2Data.key = res.data.key;
-						res.data.page.list.forEach(function(val, index) {
+					index_code: this.tabBarItem.access.split('#')[1]
+				}, (res0, res) => {
+					this.hideLoading();
+					if (res.code == 0) {
+						// this.semFlag2Data.key = res.data.key;
+						res.data.list.forEach(function(val, index) {
 							for (var i = 0; i < _this.semFlag2Data.model.length; i++) {
 								if (_this.semFlag2Data.model[i].id == val.book_catalog_id) {
+									val.btnShow = false;
+									val.key = res.data.key;
 									_this.semFlag2Data.model[i].list.push(val);
 								}
 							}
 						});
-						if (this.semFlag2Data.page == 1) {
-							this.hideLoading();
-						}
-						this.semFlag2Data.lastPage = res.data.page.last_page;
-						this.semFlag2Data.page = res.data.page.page_number + 1;
-						this.semFlag2Data.isLoading = false;
-
-						callback && callback(res);
+						var t = 0;
+						this.semFlag2Data.model.forEach(function(v) {
+							t = t + v.list.length;
+						});
+						this.semFlag2Data.total = t;
 					} else {
-						this.semFlag2Data.isLoading = false;
-						this.semFlag2Data.page == 1 && this.hideLoading();;
-						if (res.code != 404) this.showToast(res.msg);
+						this.showToast(res.msg);
 					}
-				})
+				});
 			}
 		}
 	}
@@ -771,17 +1057,45 @@ console.log('getErrList11112');
 		line-height: 1.6;
 	}
 
-	.test-pannel {
+	/* .test-pannel {
 		height: calc(40% - 35px);
+	} */
+	.test-pannel {
+		color: #000000;
+		line-height: 1.4;
+		position: relative;
+		font-size: 200%;
+		word-break: break-word;
+		padding: 0 0.26rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: calc(40% - 44px - 0.1rem);
+		overflow-y: auto;
+		margin-top: 50px;
 	}
-	
+
+	/* .test-pannel .read, .test-pannel .translation {
+		margin-top: 5px;
+	  	color: #666666;
+	}
+	.test-pannel.sentence {
+		font-size: 128.6%;
+	    justify-content: flex-start;
+	    padding-top: 0.15rem;
+	}
+	.test-pannel .translation {
+		margin-top: 50px;
+	} */
+
 	.list-end {
 		text-align: center;
 		color: #999999;
 		margin-top: 20px;
 		font-size: 12px;
 	}
-	
+
 	.result-title {
 		color: #333333;
 		background-color: #EEEEEE;
@@ -790,16 +1104,161 @@ console.log('getErrList11112');
 		text-align: center;
 		font-size: 16px;
 	}
+
 	.result-title .sec-title {
 		color: #666666;
 		font-size: 15px;
 	}
-	
+
 	.result-bar {
 		font-size: 12px;
 		color: #999999;
 		margin-top: 10px;
 		display: flex;
-	  	justify-content: space-between;
+		justify-content: space-between;
+	}
+
+	.title {
+		font-size: 114%;
+		color: #333333;
+		font-weight: normal;
+		margin-top: 0;
+		line-height: 1.4;
+		padding-right: 0.08rem;
+	}
+
+	.cur {
+		font-size: 143%;
+	}
+
+	.btn-img {
+		width: 30px;
+		height: 30px;
+		object-fit: cover;
+		margin-top: 25px;
+		margin-left: 20px;
+	}
+
+	.btn-img-cp {
+		width: 45px;
+		height: 45px;
+		object-fit: cover;
+		margin-top: 25px;
+	}
+
+	.symbol {
+		margin-left: 0.12rem;
+		font-size: 14px;
+		color: #666666;
+	}
+
+	.score {
+		/*font-family: "DINPro";*/
+		background-color: #FAA666;
+		display: inline-block;
+		width: 25px;
+		height: 25px;
+		text-align: center;
+		line-height: 25px;
+		border-radius: 50%;
+		position: absolute;
+		color: #FFFFFF;
+		font-size: 13px;
+		right: 0;
+		/* top: 50%; */
+		/* margin-right: 10px; */
+		margin-top: 0px;
+	}
+
+	.scoreCss {
+		background-color: #FAA666;
+		/* display: inline-block; */
+		width: 25px;
+		height: 25px;
+		text-align: center;
+		line-height: 25px;
+		border-radius: 50%;
+		position: absolute;
+		color: #FFFFFF;
+		font-size: 13px;
+		margin-left: -15px;
+		margin-top: 20px;
+		/* padding: 4px; */
+	}
+
+	::v-deep .uni-list--border-top {
+		height: 0px
+	}
+
+	.skip-box {
+		text-align: center;
+		margin-top: 30px;
+	}
+
+	.skip-box>a {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		border: 2px solid #DDDDDD;
+		/* min-width: 0.80rem;
+		padding: 0px 0.1rem;
+		height: 0.36rem; */
+		border-radius: 20px;
+		color: #666666;
+		font-size: 13px;
+		padding: 5px 15px;
+	}
+
+	.skip-box>a.disabled {
+		background-color: #DDDDDD;
+	}
+
+	.skip-box>a.btn-submit {
+		background-color: #FF9900;
+		border-color: #FF9900;
+		color: #FFFFFF;
+	}
+
+	.skip-box>a+a {
+		margin-left: 20px;
+	}
+
+	.action-box {
+		position: relative;
+	}
+
+	.action-box .overflow-cover {
+		position: absolute;
+		width: 100%;
+		height: 0.15rem;
+		top: -0.15rem;
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+	}
+
+	.action-box .score-box {
+		text-align: center;
+		margin-bottom: 18px;
+		min-height: 0.5rem;
+	}
+
+	.action-box .btns-box {
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 5px;
+		flex-shrink: 0;
+		backface-visibility: hidden;
+	}
+
+	.btn-record {
+		text-align: center;
+		font-size: 10px;
+		color: #7290A1;
+		margin: 70px 0 -20px 0;
+	}
+
+	.list-name {
+		background-color: #F6F6F6;
 	}
 </style>

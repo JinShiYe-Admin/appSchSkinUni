@@ -404,6 +404,56 @@ var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64S
 	});
 }
 
+// 上传音频文件
+var uploadAudio = function uploadAudio(type, fileName, audioUrl, callback, ecallback) {
+	// console.log('uploadAudio');
+	var getToken = {
+		type: type, //str 必填 获取上传token的类型。0上传需要生成缩略图的文件；1上传文件
+		QNFileName: fileName, //str 必填 存放到七牛的文件名
+		appId: Vue.prototype.globaData.QN_APPID, //int 必填 项目id
+		appKey: Vue.prototype.globaData.QN_APPKEY,
+		mainSpace: Vue.prototype.QN_PV_NAME, //str 必填 私有空间或公有空间
+		uploadSpace: Vue.prototype.QN_KYCP, //str 必填  上传的空间
+	}
+	// console.log('getToken:' + JSON.stringify(getToken));
+	getQNUpToken(null,Vue.prototype.QNGETUPLOADTOKEN, getToken, function(data) {
+		console.log('getQNUpToken111:' + JSON.stringify(data));
+		let QNUptoken = data.data; //token数据
+		// console.log('七牛上传token:' + JSON.stringify(QNUptoken));
+		if (QNUptoken.Status == 0) { //失败
+			uni.showToast('获取上传凭证失败 ' + QNUptoken.Message);
+			//console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
+			uni.hideLoading();
+		} else {
+			console.log("上传的Token:" + QNUptoken.Data.Token);
+			console.log("上传的Domain:" + QNUptoken.Data.Domain);
+			// let url = 'https://upload.qiniu.com/putb64/-1/key/' + encode(QNUptoken.Data.Key);
+			uni.uploadFile({
+				url: 'https://upload.qiniu.com/',
+				filePath: audioUrl,
+				formData: {
+					'key': QNUptoken.Data.Key,
+					'token': QNUptoken.Data.Token
+				},
+				name: 'file',
+				success: (uploadFileRes) => {
+					console.log('uploadFileRes:' + JSON.stringify(uploadFileRes));
+					let responseUrl = QNUptoken.Data.Domain + JSON.parse(uploadFileRes.data).key;
+					callback(responseUrl);
+				},
+				fail:(e)=>{
+					console.log(e);
+					uni.showToast('文件上传失败，请稍后再试 ');
+				}
+			});
+		}
+	}, function(xhr, type, errorThrown) {
+		uni.hideLoading();
+		uni.showToast('请求上传凭证失败 ' + type);
+		//console.log('### ERROR ### 请求上传凭证失败' + type);
+	});
+}
+
 function encode(str) {
 	// 对字符串进行编码
 	var encode = encodeURI(str);
@@ -886,4 +936,5 @@ module.exports = {
 	uploadFiles: uploadFiles,
 	getQNDownToken: getQNDownToken,
 	uploadIDCardHeadImge: uploadIDCardHeadImge,
+	uploadAudio:uploadAudio,
 }
