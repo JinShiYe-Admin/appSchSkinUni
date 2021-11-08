@@ -67,12 +67,12 @@
 				<h4 class="spaceLine">成绩趋势</h4>
 				<p class="spaceLineName">历次考试成绩趋势如下：</p>
 				<view class="charts-box" style="margin-top: 10px;">
-					<qiun-data-charts type="demotype" :chartData="semFlag0Data.chengjiQs" background="none" />
+					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.chengjiQs" background="none" />
 				</view>
 				<h4 class="spaceLine">排名趋势</h4>
 				<p class="spaceLineName">历次考试排名趋势如下：</p>
 				<view class="charts-box" style="margin-top: 10px;">
-					<qiun-data-charts type="demotype" :chartData="semFlag0Data.paimingQs" background="none" />
+					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.paimingQs" background="none" />
 				</view>
 			</view>
 			<view v-if="semFlag == 1">
@@ -252,7 +252,7 @@
 					<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
 					<view>高于年级平均分的错题</view>
 				</view>
-				<view style="margin-top: 15px;">
+				<view style="margin-top: 15px;margin-left: 10px;">
 					<p v-if="semFlag3Data.high_que_list.length == 0"
 						style="margin-left: 20px;font-size: 13px;color: gray;">无</p>
 					<uni-grid :column="10" :showBorder='false' :square="false" :highlight="false">
