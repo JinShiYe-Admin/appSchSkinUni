@@ -179,6 +179,6 @@
 	}
 
 	.uni-col {
-		height: 30px;
+		min-height: 30px;
 	}
 </style>
