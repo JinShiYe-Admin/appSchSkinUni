@@ -116,7 +116,9 @@
             "enable" : true
         },
         "devServer" : {
-            "https" : false
+            "https" : true,
+            "key" : "/Users/jinshiye/Desktop/appSchSkinUni1/https/imac/localhost+3-key.pem",
+            "cert" : "/Users/jinshiye/Desktop/appSchSkinUni1/https/imac/localhost+3.pem"
         },
         "domain" : "http://jbsch-pb.zhuxue101.net",
         "title" : "智慧校园",

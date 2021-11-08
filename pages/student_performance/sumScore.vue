@@ -55,8 +55,8 @@
 					</uni-grid>
 				</view>
 				<view style="padding: 10px;">
-					<uni-grid :column="2" :square="false" :highlight="false" style="">
-						<uni-grid-item v-for="(item, index) in semFlag0Data.child_paper_list" :key="index">
+					<uni-grid :column="2" :square="false" :highlight="false">
+						<uni-grid-item v-for="(item, index) in semFlag0Data.child_paper_list" :key="index" style="margin-top: -1px;">
 							<view class="grid-item-box fenxiBox">
 								<text class="text"><span style="color: #333333;">{{item.sub_name}}：</span><span
 										style="color: red;">{{item.stu_score}}
@@ -73,7 +73,7 @@
 				<h4 class="spaceLine">排名趋势</h4>
 				<p class="spaceLineName">历次考试排名趋势如下：</p>
 				<view class="charts-box" style="margin-top: 10px;">
-					<qiun-data-charts type="demotype" :chartData="semFlag0Data.paimingQs" background="none" />
+					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.paimingQs" background="none" />
 				</view>
 			</view>
 			<view v-if="semFlag == 1">
@@ -88,13 +88,14 @@
 					<span style="margin-left: 10px;font-size: 13px;">{{semFlag1Data.cons_sub_names}}</span>
 				</view>
 				<view class="charts-box">
-					<qiun-data-charts type="radar" :opts="{legend:{position: 'bottom'},extra:{radar:{border:true}}}"
-						:chartData="semFlag1Data.radarChartDetail" />
+					<!-- <qiun-data-charts type="radar" :opts="{legend:{position: 'bottom'},extra:{radar:{border:true}}}"
+						:chartData="semFlag1Data.radarChartDetail" /> -->
+					<qiun-data-charts type="radar" :opts="{legend:{position: 'bottom'},extra:{radar:{gridType:'circle'}}}" :chartData="semFlag1Data.radarChartDetail"/>
 				</view>
 				<view style="margin-left: 20px;margin-top: 10px;font-size: 14px;">各科标准分：</view>
 				<view style="padding: 10px;">
 					<uni-grid :column="2" :square="false" :highlight="false" style="">
-						<uni-grid-item v-for="(item, index) in semFlag1Data.list" :key="index">
+						<uni-grid-item v-for="(item, index) in semFlag1Data.list" :key="index" style="margin-top: -1px;">
 							<view class="grid-item-box fenxiBox">
 								<text class="text"><span
 										style="color: #333333;">{{item.sub_name}}：</span><span>{{item.standard_score}}</span></text>
@@ -378,12 +379,14 @@
 						// 趋势
 						var tempArray0 = [];
 						var tempArray1 = [];
+						var tempArray2 = [];
 						for (var i = 0; i < data.data.list.length; i++) {
 							var tempM = data.data.list[i];
 							tempArray0.push(tempM.sub_name);
 							tempArray1.push(tempM.standard_score);
+							tempArray2.push(tempM.avg);
 						}
-						this.semFlag1Data.radarChartDetail = {"categories":tempArray0,"series":[{"name":"科目","data":tempArray1}]};
+						this.semFlag1Data.radarChartDetail = {"categories":tempArray0,"series":[{"name":"分数","data":tempArray1},{"name":"平均分","data":tempArray2}]};
 					} else {
 						this.showToast(data.msg);
 					}
@@ -496,14 +499,14 @@
 
 	.fenxiBox {
 		font-size: 13px;
-		margin: 10px 0 0 5px;
-		height: 25px;
+		margin: 10px 5px 0 5px;
+		min-height: 40px;
 	}
 
 	.scoreDetail {
 		font-size: 11px;
 		text-align: center;
-		padding: 10px 0;
+		padding: 10px 10px;
 		word-break: break-all;
 	}
 
