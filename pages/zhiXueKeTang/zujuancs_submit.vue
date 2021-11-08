@@ -12,13 +12,13 @@
 		</view>
 		<view style="display: flex;flex-wrap: wrap;margin-top: 15px;">
 			<template v-for="item in itemData.answerArray">
-			 <view v-if="item.stu_answer.length" class="icons-text icons-text-lv" @click="backQuestion(item)">{{item.index+1}}</view>
-			 <view v-else class="icons-text icons-text-weida" @click="backQuestion(item)">{{item.index+1}}</view>
+				 <view v-if="item.stu_answer.length" class="icons-text icons-text-lv" @click="backQuestion(item)">{{item.index+1}}</view>
+				 <view v-else class="icons-text icons-text-weida" @click="backQuestion(item)">{{item.index+1}}</view>
 			 </template>
 		</view>
 		<view style="display: flex;justify-content: space-around;">
-			<view style="position: fixed;bottom: 20px">
-				 <button @click="submit" class="mini-btn" style="color: #00CFBD;border-color:#00CFBD ;font-size: 14px;width: 140px;border-radius: 15px;"  type="primary" plain="true">提交</button>
+			<view style="position: fixed;bottom: 0px;background-color: #FFFFFF;padding-bottom: 10px;width: 100vw;">
+				 <button @click="submit" class="mini-btn" style="margin-top: 10px;color: #00CFBD;border-color:#00CFBD ;font-size: 14px;width: 140px;border-radius: 15px;"  type="primary" plain="true">提交</button>
 			</view>
 		</view>
 	</view>

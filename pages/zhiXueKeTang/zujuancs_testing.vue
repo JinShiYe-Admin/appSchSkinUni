@@ -12,7 +12,7 @@
 				<view>
 					<view class="option-item" v-for="(item, k) in transOptions" :key="k" @click="selectOption(k)">
 						<span class="option-label" :class="{selected: questions[index].stu_answer==k}">{{k}}</span>
-						<span style='margin-left: 5px;font-size: 13px;' v-html="item"></span>
+						<span style='margin-left: 5px;font-size: 13px;word-break: break-all;' v-html="item"></span>
 					</view>
 				</view>
 			</view>
