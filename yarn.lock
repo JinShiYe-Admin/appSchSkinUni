@@ -17,6 +17,11 @@ crypto-js@^4.0.0:
   resolved "https://registry.npm.taobao.org/crypto-js/download/crypto-js-4.0.0.tgz#2904ab2677a9d042856a2ea2ef80de92e4a36dcc"
   integrity sha1-KQSrJnep0EKFai6i74DekuSjbcw=
 
+js-audio-recorder@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.nlark.com/js-audio-recorder/download/js-audio-recorder-1.0.7.tgz#01501cb9eb143d57994b42bd5ae97974fda18908"
+  integrity sha1-AVAcuesUPVeZS0K9Wul5dP2hiQg=
+
 moment@^2.29.1:
   version "2.29.1"
   resolved "https://registry.nlark.com/moment/download/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
@@ -35,3 +40,8 @@ vconsole@^3.7.0:
     copy-text-to-clipboard "^3.0.1"
     core-js "^3.11.0"
     mutation-observer "^1.0.3"
+
+vue-jsonp@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.nlark.com/vue-jsonp/download/vue-jsonp-2.0.0.tgz#3bfac56bb72941a2511c11e1a123b876f03427f7"
+  integrity sha1-O/rFa7cpQaJRHBHhoSO4dvA0J/c=
