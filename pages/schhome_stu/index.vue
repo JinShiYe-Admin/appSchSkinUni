@@ -37,7 +37,7 @@
 								<view class="detail-text" style="margin-left: 5px;text-align: left; overflow: hidden; text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">
 									<template v-if="item.msg_type=='1-6'">请进入详情页查看</template>
 									<template v-else>
-										{{item.msg_content}}{{item.msg_content}}
+										{{item.msg_content}}
 									</template>
 								</view>
 							</view>
