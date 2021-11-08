@@ -106,6 +106,11 @@ this.tabBarItem.titleIcon='arrowdown'
 this.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:30,color:'#000'}}
 //获取七牛下载Token
 this.showLoading();
+let getDownToken = {
+	appId: this.globaData.QN_APPID, //int 必填 项目id
+	appKey: this.globaData.QN_APPKEY,
+	urls: [this.audioUrl] //array 必填 需要获取下载token文件的路径
+}
 cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data) => {
 	this.hideLoading();
 	const tempArr = [];

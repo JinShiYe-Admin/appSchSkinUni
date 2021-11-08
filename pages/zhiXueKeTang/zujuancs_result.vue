@@ -44,7 +44,7 @@
 		<view class="line"></view>
 		<view style="padding:8px 15px 10px;display: flex;flex-direction: column;">
 			<text style="font-size: 13px;align-self: center;">学习进度</text>
-			<view class="level-content">
+			<view class="level-content" style="margin-bottom: 50px;z-index: 0;">
 				<template v-for="(item,index) in tabBarItem.levels">
 					<view :key='index+Math.random()' class="level-item">
 						<view class="icons-text" :class="{'icons-text-lv': item<=tabBarItem.report.difficulty_level_id}">LV.{{item}}</view>
@@ -55,8 +55,8 @@
 			</view>
 		</view>
 		<view v-if="!tabBarItem.hideButton" style="display: flex;justify-content: space-around;">
-			<view style="position: fixed;bottom: 20px">
-				 <button @click="continueLearn" class="mini-btn" style="color: #00CFBD;border-color:#00CFBD ;font-size: 14px;width: 140px;border-radius: 15px;"  type="primary" plain="true">继续学习</button>
+			<view style="position: fixed;bottom: 0px;background-color: #FFFFFF;padding-bottom: 10px;width: 100vw;">
+				 <button @click="continueLearn" class="mini-btn" style="margin-top: 10px;color: #00CFBD;border-color:#00CFBD ;font-size: 14px;width: 140px;border-radius: 15px;"  type="primary" plain="true">继续学习</button>
 			</view>
 		</view>
 	</view>

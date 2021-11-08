@@ -24,7 +24,7 @@
 				</view>
 				<view class="answer-detail">
 					答案解析：<br />
-					<view style="font-size: 13px;" v-html="questions[index].solve"></view>
+					<view style="font-size: 13px;word-break: break-all;" v-html="questions[index].solve"></view>
 				</view>
 			</view>
 		</view>
