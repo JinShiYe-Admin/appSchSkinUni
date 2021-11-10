@@ -121,7 +121,6 @@
 								data:response,
 								catalogId:model.book_catalog_id,
 								title:this.itemData.name,
-								backSteps:3//返回按钮返回层级，不同模块需要自行判断
 							}
 							util.openwithData('/pages/zhiXueKeTang/zujuancs_testing',item,{})
 						}else{

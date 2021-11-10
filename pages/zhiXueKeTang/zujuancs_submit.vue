@@ -60,7 +60,6 @@
 						if(response){
 							response.titleName=this.itemData.titleName
 							response.catalogId=this.itemData.catalogId
-							response.backSteps=this.itemData.backSteps
 							util.openwithData("/pages/zhiXueKeTang/zujuancs_result", response);
 						}
 					})

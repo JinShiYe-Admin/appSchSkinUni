@@ -141,9 +141,16 @@
 		flex-direction: row;
 		/* align-items: center; */
 		/* justify-content: center; */
-		padding: 60px 0px 20px 0px;
+			/* #ifdef APP-PLUS */
+				padding: 80px 0px 10px 0px;
+			/* #endif */
+			/* #ifdef H5 */
+				padding: 50px 0px 10px 0px;
+			/* #endif */
 		/* height: 50px; */
 		background-color: #fff;
+			justify-content: flex-start;
+			flex-wrap: wrap;
 	}
 
 	.perList {
