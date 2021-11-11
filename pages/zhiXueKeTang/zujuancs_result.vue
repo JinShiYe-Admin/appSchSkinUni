@@ -54,7 +54,7 @@
 				</template>
 			</view>
 		</view>
-		<view v-if="!tabBarItem.hideButton" style="display: flex;justify-content: space-around;">
+		<view style="display: flex;justify-content: space-around;">
 			<view style="position: fixed;bottom: 0px;background-color: #FFFFFF;padding-bottom: 10px;width: 100vw;">
 				 <button @click="continueLearn" class="mini-btn" style="margin-top: 10px;color: #00CFBD;border-color:#00CFBD ;font-size: 14px;width: 140px;border-radius: 15px;"  type="primary" plain="true">继续学习</button>
 			</view>
@@ -92,30 +92,29 @@
 				  util.openwithData('/pages/zhiXueKeTang/zujuancs_testing_answer',{questionData:this.tabBarItem,currentQuestionIndex:questionIndex},{})
 			 },
 			 continueLearn(){
-				 uni.navigateBack({delta:this.tabBarItem.backSteps})
-				 // let comData={
-				 // 	catalog_id: this.tabBarItem.catalogId,
-				 // 	user_code:this.personInfo.user_code,
-				 // 	index_code: this.index_code,
-				 // }
-				 // this.showLoading()
-				 // this.post(this.globaData.INTERFACE_ZXKT+'/test/createPaper',comData,response=>{
-				 //     console.log("responseaaa: " + JSON.stringify(response));
-				 // 	this.hideLoading()
-				 // 	if(response.questions && response.questions.length>0){
-				 // 		let item={
-				 // 			isTested: false,
-				 // 			index_code:this.index_code,
-				 // 			data:response,
-				 // 			catalogId:this.tabBarItem.catalogId,
-				 // 			title:this.tabBarItem.titleName
-				 // 		}
-				 // 		util.openwithData('/pages/zhiXueKeTang/zujuancs_testing',item,{})
-				 // 	}else{
-				 // 		this.showToast('暂无题目')
-				 // 	}
-				 	 
-				 // })
+				 console.log(this.tabBarItem.backSteps);
+				 let comData={
+				 	catalog_id: this.tabBarItem.catalogId,
+				 	user_code:this.personInfo.user_code,
+				 	index_code: this.index_code,
+				 }
+				 this.showLoading()
+				 this.post(this.globaData.INTERFACE_ZXKT+'/test/createPaper',comData,response=>{
+				     console.log("responseaaa: " + JSON.stringify(response));
+				 	this.hideLoading()
+				 	if(response.questions && response.questions.length>0){
+				 		let item={
+				 			isTested: false,
+				 			index_code:this.index_code,
+				 			data:response,
+				 			catalogId:this.tabBarItem.catalogId,
+				 			title:this.tabBarItem.titleName
+				 		}
+				 		util.openwithData('/pages/zhiXueKeTang/zujuancs_testing',item,{})
+				 	}else{
+				 		this.showToast('暂无题目')
+				 	}
+				 })
 			 }
 		},
 		onLoad(options) {
@@ -124,8 +123,22 @@
 			this.personInfo = util.getPersonal();
 			itemData.index=100
 			itemData.text='练习报告'
-			itemData.delta=itemData.backSteps?itemData.backSteps:1
 			this.tabBarItem=itemData
+			let that = this
+			setTimeout(function() {
+				var pages = getCurrentPages();
+				pages.map((item,index)=>{
+					 console.log(item.route);
+					 if(item.route.indexOf('pages/zhiXueKeTang/zujuancs_index')!==-1 
+					 || item.route.indexOf('pages/zhiXueKeTang/xueqingfx_detail')!==-1
+					 || item.route.indexOf('pages/zhiXueKeTang/lishics_detail')!==-1
+					 ){
+						 console.log((pages.length-1)-index);
+						 itemData.delta=(pages.length-1)-index
+						 that.tabBarItem=itemData
+					 }
+				})
+			}, 100);
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif

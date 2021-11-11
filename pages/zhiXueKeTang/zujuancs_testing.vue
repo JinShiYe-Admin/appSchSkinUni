@@ -90,7 +90,6 @@
 						index_code:this.index_code,
 						answerArray:answerArray,
 						diskey:this.tabBarItem.data.diskey,
-						backSteps:this.tabBarItem.backSteps
 					}
 					let that = this
 			 	 	util.openwithData('/pages/zhiXueKeTang/zujuancs_submit',item,{

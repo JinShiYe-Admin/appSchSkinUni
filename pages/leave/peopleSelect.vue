@@ -5,7 +5,7 @@
 			<uni-col :span="11" style="border-right: 1px solid rgba(238,238,238,.5);">
 				<scroll-view class="select-scroll" scroll-y="true" >
 					<!-- <mix-tree :list="leftList" @treeItemClick="treeItemClick" :nodeClick="true"></mix-tree> -->
-					<ly-tree :tree-data="leftList" node-key="id" @node-click="treeItemClick" />
+					<ly-tree :tree-data="leftList" node-key="id" @node-click="treeItemClick" :highlightCurrent="true"/>
 				</scroll-view>
 			</uni-col>
 			<uni-col :span="13">
@@ -35,9 +35,6 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
-	import mixTree from '@/components/mix-tree/mix-tree';
-	
-	
 	export default {
 		data() {
 			return {

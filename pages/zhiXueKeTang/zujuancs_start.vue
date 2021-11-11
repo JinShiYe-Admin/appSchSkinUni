@@ -47,7 +47,6 @@
 							data:response,
 							catalogId:this.itemData.catalogId,
 							title:this.itemData.name,
-							backSteps:this.itemData.backSteps//返回按钮返回层级，不同模块需要自行判断
 						}
 						util.openwithData('/pages/zhiXueKeTang/zujuancs_testing',item,{})
 					}else{
