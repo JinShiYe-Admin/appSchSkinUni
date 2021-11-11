@@ -170,7 +170,7 @@
 	
 	.nameTime{
 		margin-top: 5px;
-		font-size: 13px;
+		font-size: 12px;
 		color: gray;
 	}
 	

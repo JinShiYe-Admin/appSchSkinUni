@@ -487,6 +487,7 @@
 	}
 
 	textarea {
+		width: 270px;
 		font-size: 13px;
 		height: 80px;
 		padding: 5px;

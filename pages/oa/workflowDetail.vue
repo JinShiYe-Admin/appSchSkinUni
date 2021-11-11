@@ -38,14 +38,15 @@
 				回复</view> -->
 			<!-- <button @click="replyContent(2)" type="button" style="float: right;margin-right: 15px;background: #00CFBD;border-color: #00CFBD;color: white;margin-top: 0px;margin-bottom: 10px;">退回工作流</button> -->
 			<button @click="replyContent(2)" class="mini-btn" type="default"
-				style="float: right;margin-right: 15px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;"
+				style="float: right;margin-right: 15px;margin-top: -20px;background: #00CFBD;border-color: #00CFBD;color: white;"
 				size="mini">退回工作流</button>
 			<textarea maxlength="50" v-model="content"
-				style="border: 1px solid gainsboro;margin: 5px 10px 0 10px;padding: 5px;font-size: 15px;"
+				style="border: 1px solid gainsboro;margin: 15px 10px 0 10px;padding: 5px;font-size: 15px;"
 				placeholder="请输入要批复的内容" rows="3"></textarea>
 			<button @click="replyContent(1)" class="mini-btn" type="default"
 				style="float: right;margin-right: 15px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;"
 				size="mini">确定</button>
+			<br><br>
 		</view>
 		<view v-show="detailModel.ApproveList&&detailModel.ApproveList.length>0"
 			style="itemData.flag == 0 && detailModel.NoticeStatus == 1?'margin-top: 0px;':'margin-top: 50px;'">

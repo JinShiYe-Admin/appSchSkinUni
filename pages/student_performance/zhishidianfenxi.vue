@@ -72,7 +72,7 @@
 					<p v-if="item.content.length==0&&item.option.length==0" style='color: gray;'>暂无数据</p>
 					<p class="rich" v-if="item.content.length>0" style="font-size: 14px;color: #666;" v-html="item.content"></p>
 					<view v-for="(item,indexOp) in item.option" :key='indexOp'>
-						<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;">{{item}}</p>
+						<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;" v-html="item"></p>
 					</view>
 				</view>
 			</view>
@@ -339,5 +339,8 @@
 		background: #d7f3ef;
 		font-size: 14px;
 		color: #505050;
+	}
+	::v-deep p{
+		word-break: break-all;
 	}
 </style>

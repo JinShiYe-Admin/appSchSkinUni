@@ -37,6 +37,7 @@ function post(url, data, callback, ecallback) {
 		},
 		data: signData,
 		success: res => { //接口调用成功的回调函数
+		uni.hideLoading()
 			if (res.statusCode === 200) {
 				if (res.data.state === 'fail') {
 					uni.hideLoading()
