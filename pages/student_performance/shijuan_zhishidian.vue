@@ -179,4 +179,12 @@
 </script>
 
 <style>
+	/* ::v-deep img{
+		max-width: 100%;
+		max-height: 100%;
+	} */
+	
+	::v-deep p{
+		word-break: break-all;
+	}
 </style>

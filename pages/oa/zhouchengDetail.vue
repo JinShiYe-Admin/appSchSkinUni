@@ -78,4 +78,6 @@
 		font-size: 12px;
 		color: #999;
 	}
+	::v-deep table {border-spacing: 0px; max-width: 100%;}
+	::v-deep td { border:1px solid; border-width: 1px;}
 </style>

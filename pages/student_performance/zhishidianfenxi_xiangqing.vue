@@ -299,4 +299,12 @@
 		margin-left: 20px;
 		margin-right: 20px;
 	}
+	
+	::v-deep img{
+		max-width: 100%;
+	}
+	
+	::v-deep p{
+		word-break: break-all;
+	}
 </style>

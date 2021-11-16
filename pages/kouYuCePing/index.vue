@@ -50,20 +50,19 @@
 					<view class="btn-record">
 						按住录音，松开提交
 					</view>
-					<view style="text-align: center;">
-						<image src="/static/images/kouYuCePing/btn_voice.png"
-							@click.stop="playAudio(semFlag0Data.list[semFlag0Data.index].audio_url)" class="btn-img-cp"
-							style="left: -20px;">
-						</image>
-						<image src="/static/images/kouYuCePing/btn_record.png"
-							@touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)"
-							@touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="btn-img-cp"
-							style="width: 60px;height: 60px;">
-						</image>
-						<image src="/static/images/kouYuCePing/btn_play.png"
-							@click.stop="playAudio(semFlag0Data.list[semFlag0Data.index].record_url)" class="btn-img-cp"
-							style="right: -20px;">
-						</image>
+					<view>
+						<uni-row style="margin-top: 15px;">
+							<uni-col :span="10">
+								<view @click.stop="playAudio(semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" style="float: right;margin-right: 15px;"></view>
+							</uni-col>
+							<uni-col :span="4" style="text-align: center;">
+								<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" @touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="img-record btn-img-cp" style="text-align: center;">
+								</view>
+							</uni-col>
+							<uni-col :span="10">
+								<view @click.stop="playAudio(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
+							</uni-col>
+						</uni-row>
 					</view>
 					<view class="skip-box">
 						<a :class="{disabled: semFlag0Data.index==0}" @tap="changeIndex(-1)">上一个</a>
@@ -112,20 +111,19 @@
 					<view class="btn-record">
 						按住录音，松开提交
 					</view>
-					<view style="text-align: center;">
-						<image src="/static/images/kouYuCePing/btn_voice.png"
-							@click.stop="playAudio(semFlag1Data.list[semFlag1Data.index].audio_url)" class="btn-img-cp"
-							style="left: -20px;">
-						</image>
-						<image src="/static/images/kouYuCePing/btn_record.png"
-							@touchstart.stop.prevent="touchStart(semFlag1Data.list[semFlag1Data.index],$event)"
-							@touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="btn-img-cp"
-							style="width: 60px;height: 60px;">
-						</image>
-						<image src="/static/images/kouYuCePing/btn_play.png"
-							@click.stop="playAudio(semFlag1Data.list[semFlag1Data.index].record_url)" class="btn-img-cp"
-							style="right: -20px;">
-						</image>
+					<view>
+						<uni-row style="margin-top: 15px;">
+							<uni-col :span="10">
+								<view @click.stop="playAudio(semFlag1Data.list[semFlag1Data.index].audio_url)" class="img-voice btn-img-cp" style="float: right;margin-right: 15px;"></view>
+							</uni-col>
+							<uni-col :span="4" style="text-align: center;">
+								<view @touchstart.stop.prevent="touchStart(semFlag1Data.list[semFlag1Data.index],$event)" @touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="img-record btn-img-cp" style="text-align: center;">
+								</view>
+							</uni-col>
+							<uni-col :span="10">
+								<view @click.stop="playAudio(semFlag1Data.list[semFlag1Data.index].record_url)" class="img-play btn-img-cp"></view>
+							</uni-col>
+						</uni-row>
 					</view>
 					<view class="skip-box">
 						<a :class="{disabled: semFlag1Data.index==0}" @tap="changeIndex(-1)">上一个</a>
@@ -151,23 +149,19 @@
 										:class="{'word-box': v.category=='read_word', 'sentence-box': v.category=='read_sentence'}">
 										<h4 v-if="v.category=='read_word'">{{v.words}}
 											<span class="symbol" v-if="v.symbol">[{{v.symbol}}]</span>
-											<span class="score"
+											<span class="score" style='right: 10px;'
 												v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
 										</h4>
 										<h4 v-else>{{v.words}}
-											<span class="score"
+											<span class="score" style='right: 10px;'
 												v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
 										</h4>
 										<view v-if="v.btnShow">
-											<image src="/static/images/kouYuCePing/btn_voice.png"
-												@click.stop="playAudio(v.audio_url)" class="btn-img" style=""></image>
-											<image src="/static/images/kouYuCePing/btn_record.png"
-												@touchstart.stop.prevent="touchStart(v,$event)"
-												@touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd"
-												class="btn-img" style="width: 40px;height: 40px;">
-											</image>
-											<image src="/static/images/kouYuCePing/btn_play.png"
-												@click.stop="playAudio(v.record_url)" class="btn-img" style=""></image>
+											<view @click.stop="playAudio(v.audio_url)" class="btn-img img-voice"></view>
+											<view @touchstart.stop.prevent="touchStart(v,$event)" @touchend.stop.prevent="touchEnd"
+												@touchmove.stop.prevent="touchEnd" class="btn-img img-record">
+											</view>
+											<view @click.stop="playAudio(v.record_url)" class="btn-img img-play"></view>
 										</view>
 									</view>
 									<view class="result-bar" v-if="v.category=='read_sentence'&&v.total_score!=null">
@@ -221,6 +215,7 @@
 				</uni-popup>
 			</view>
 		</view>
+		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 
@@ -1131,14 +1126,6 @@
 		font-size: 143%;
 	}
 
-	.btn-img {
-		width: 30px;
-		height: 30px;
-		object-fit: cover;
-		margin-top: 25px;
-		margin-left: 20px;
-	}
-
 	.btn-img-cp {
 		width: 45px;
 		height: 45px;
@@ -1200,9 +1187,6 @@
 		justify-content: center;
 		align-items: center;
 		border: 2px solid #DDDDDD;
-		/* min-width: 0.80rem;
-		padding: 0px 0.1rem;
-		height: 0.36rem; */
 		border-radius: 20px;
 		color: #666666;
 		font-size: 13px;
@@ -1260,5 +1244,34 @@
 
 	.list-name {
 		background-color: #F6F6F6;
+	}
+	
+	.btn-img {
+		width: 40px;
+		height: 40px;
+		object-fit: cover;
+		margin-top: 25px;
+		margin-left: 20px;
+	}
+	
+	.img-voice {
+		background-image: url(~@/static/images/kouYuCePing/btn_voice.png);
+		background-size: 100%;
+		float: left;
+	}
+	
+	.img-record {
+		width: 50px;
+		height: 50px;
+		background-size: 100%;
+		margin-top: 15px;
+		background-image: url(~@/static/images/kouYuCePing/btn_record.png);
+		float: left;
+	}
+	
+	.img-play {
+		background-size: 100%;
+		background-image: url(~@/static/images/kouYuCePing/btn_play.png);
+		float: left;
 	}
 </style>

@@ -1,6 +1,11 @@
 <template>
 	<view>
+		<!-- #ifdef H5 -->
 		<view class="tabs-fixed">
+		<!-- #endif -->
+		<!-- #ifdef APP -->
+		<view class="tabs-fixed" style="top: 0px;">
+		<!-- #endif -->
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
@@ -130,7 +135,7 @@
 						<uni-col :span="4">
 							<p class="scoreDetail">总分</p>
 						</uni-col>
-						<uni-col :span="10">
+						<uni-col :span="9">
 							<p class="scoreDetail">各科</p>
 						</uni-col>
 						<uni-col :span="4">
@@ -152,7 +157,7 @@
 							<view v-if="item.my_score>item.pk_user_score" style="color: #008080;font-size: 20px;font-weight: 900;text-align: center;margin-top: 5px;">胜</view>
 							<view v-if="item.my_score<item.pk_user_score" style="color: red;font-size: 20px;font-weight: 900;text-align: center;margin-top: 5px;">败</view>
 						</uni-col>
-						<uni-col :span="10">
+						<uni-col :span="9">
 							<view style="text-align: center;margin-top: 5px;">
 								<span style="color: red;font-size: 20px;font-weight: 900;">{{item.pkb}}胜</span>
 								<span style="color: #008080;font-size: 20px;font-weight: 900;">{{item.pkc}}败</span>
@@ -168,7 +173,6 @@
 				</view>
 			</view>
 		</view>
-		<u-tabbar-my v-if='itemData.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 
@@ -506,7 +510,7 @@
 	.scoreDetail {
 		font-size: 11px;
 		text-align: center;
-		padding: 10px 10px;
+		padding: 10px 0px;
 		word-break: break-all;
 	}
 

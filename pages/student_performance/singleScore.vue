@@ -1,6 +1,11 @@
 <template>
 	<view>
+		<!-- #ifdef H5 -->
 		<view class="tabs-fixed">
+		<!-- #endif -->
+		<!-- #ifdef APP -->
+		<view class="tabs-fixed" style="top: 0px;">
+		<!-- #endif -->
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
@@ -301,6 +306,7 @@
 						</uni-col>
 					</uni-row>
 					<uni-row v-for="(item,index) in semFlag3Data.error_que_list" :key='index' style="background: #e1faeb;margin-top: 5px;" @click="toDetailPageCT(item)">
+						<view @click="toDetailPageCT(item)">
 						<uni-col :span="3" style="height: 18px;">
 							<p class="scoreDetail">{{item.question_number}}</p>
 						</uni-col>
@@ -320,6 +326,7 @@
 							<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
 								src="/static/images/student_performance//search.png"></image>
 						</uni-col>
+						</view>
 					</uni-row>
 				</view>
 			</view>
