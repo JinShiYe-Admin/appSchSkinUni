@@ -11,7 +11,7 @@ import {VueJsonp} from 'vue-jsonp'
 Vue.use(VueJsonp);
 //配置项开始
 const GLOBALDATA = {}; //参数对象 用于存全局公共参数
-const EnvKey = 3; //1:山东开发 2:广西开发 3:联测 4:云测 5:正式 6性能测试   
+const EnvKey = 4; //1:山东开发 2:广西开发 3:联测 4:云测 5:正式 6性能测试   
 switch (EnvKey) {
 	case 1:
 		GLOBALDATA.EnvKey = EnvKey;
@@ -157,14 +157,14 @@ Vue.prototype.PRIVACE = 'http://www.jiaobao.net/dl/jiaobaoxiaoyuan/jbxyPrivacy.h
 Vue.prototype.QN_PV_NAME = 'jbsch-pv'; //七牛私有空间名
 Vue.prototype.QN_PB_NAME = 'jbsch-pb'; //七牛公有空间名
 Vue.prototype.QNPB = 'https://qn-educds.jiaobaowang.net/'; //公开空间域名
-Vue.prototype.QNGETUPLOADTOKEN = 'https://jbyc.jiaobaowang.net:8504/Api/QiNiu/GetUpLoadToKen';
+Vue.prototype.QNGETUPLOADTOKEN = 'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetUpLoadToKen';
 Vue.prototype.QNGETUPTOKENHEADIMGE =
-	'https://jbyc.jiaobaowang.net:8504/Api/QiNiu/GetUpLoadToKen'; //获取上传个人头像，群头像，资料头像到七牛的token的url
+	'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetUpLoadToKen'; //获取上传个人头像，群头像，资料头像到七牛的token的url
 Vue.prototype.QNGETUPTOKENFILE =
-	'https://jbyc.jiaobaowang.net:8504/Api/QiNiu/GetUpLoadToKen'; //获取上传文件（云存储）到七牛的token的url
+	'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetUpLoadToKen'; //获取上传文件（云存储）到七牛的token的url
 Vue.prototype.QNGETDOWNTOKENFILE =
-	'https://jbyc.jiaobaowang.net:8504/Api/QiNiu/GetAccess'; //获取下载文件（云存储）的token的url，url+七牛文件url
-Vue.prototype.QNGETTOKENDELETE = 'https://jbyc.jiaobaowang.net:8504/Api/QiNiu/Delete'; //获取批量（或者一个）删除七牛文件的token的url
+	'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetAccess'; //获取下载文件（云存储）的token的url，url+七牛文件url
+Vue.prototype.QNGETTOKENDELETE = 'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/Delete'; //获取批量（或者一个）删除七牛文件的token的url
 
 Vue.prototype.PWD_ENCRYPTION = '#@_JFnice_@#'; //修改密码时，加密密钥
 Vue.prototype.SECRETKEY = 'jsy309'; //sign签名时需要的盐

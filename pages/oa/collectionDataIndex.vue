@@ -427,7 +427,7 @@
 	}
 
 	.nameTime {
-		font-size: 13px;
+		font-size: 12px;
 		color: gray;
 	}
 
@@ -435,6 +435,7 @@
 		font-size: 13px;
 		float: left;
 		color: gray;
+		word-break: break-all;
 	}
 
 	.uni-col {

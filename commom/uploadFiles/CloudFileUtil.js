@@ -8,7 +8,7 @@ import Vue from 'vue'
  * @param {Object} callBack
  */
 var getUpLoadTokens = function(that,data, callBack) {
-	//		console.log("getUpLoadTokens " + JSON.stringify(data));
+	console.log("getUpLoadTokens " + JSON.stringify(data));
 	var appId = data.appId; //项目id
 	var desKey = data.appKey; //项目名称
 	var configure = {}; //配置的数据
@@ -58,7 +58,7 @@ var getUpLoadTokens = function(that,data, callBack) {
 		Param: cryption.encryptByDES(desKey, JSON.stringify(params))
 	}
 
-	// console.log("参数数据：" + JSON.stringify(configure.options))
+	console.log("参数数据：" + JSON.stringify(configure.options))
 	//获取token
 	getQNUpTokenWithManage(that,that.QNGETUPLOADTOKEN, configure.options, function(data) {
 		callBack({
@@ -527,8 +527,8 @@ var getIfExist = function(option) {
  * @param {Object} errorCB
  */
 var getQNUpTokenWithManage = function(that,url, data, successCB, errorCB) {
-	// console.log('url:'+url);
-	// console.log('data:'+JSON.stringify(data));
+	console.log('url:'+url);
+	console.log('data:'+JSON.stringify(data));
 	let reuqestTask = uni.request({
 		url: url,
 		timeout: 60000,
@@ -540,7 +540,7 @@ var getQNUpTokenWithManage = function(that,url, data, successCB, errorCB) {
 		},
 		data: data,
 		success: res => { //接口调用成功的回调函数
-			// console.log('11111res:'+JSON.stringify(res));
+			console.log('11111res:'+JSON.stringify(res));
 			if (res.statusCode === 200) {
 				if (res.data.Status === '1') {
 					//服务器返回响应
@@ -553,7 +553,7 @@ var getQNUpTokenWithManage = function(that,url, data, successCB, errorCB) {
 			}
 		},
 		fail: (e) => { //接口调用失败的回调函数  比如跨域了，断网
-			// console.log("e: " + JSON.stringify(e));
+			console.log("e: " + JSON.stringify(e));
 			if(that.canSub){
 				that.canSub=true
 			}
@@ -677,7 +677,7 @@ var uploadFiles = function(that,type,files,mainSpace,uploadSpace,callback) {
 			// getQNUpToken(that,that.QNGETUPLOADTOKEN,getToken, data=> {//---2
 				let QNUptoken = data.data; //token数据
 				let configure = data.configure; //获取token的配置信息
-				// console.log('七牛上传token:' + JSON.stringify(QNUptoken));
+				console.log('七牛上传token:' + JSON.stringify(QNUptoken));
 				if(QNUptoken.Status == 0) { //失败
 					that.showToast('获取上传凭证失败 ' + QNUptoken.Message);
 					// console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
