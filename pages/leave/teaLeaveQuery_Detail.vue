@@ -212,7 +212,7 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.title='请假详情'
+			itemData.text='请假详情'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
