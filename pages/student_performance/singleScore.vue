@@ -331,7 +331,6 @@
 				</view>
 			</view>
 		</view>
-		<u-tabbar-my v-if='itemData.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 

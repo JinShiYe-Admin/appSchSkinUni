@@ -162,17 +162,25 @@ cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data) => {
 ```
 
 #### 模块说明
-包名|说明|App|Api|流程
+包名|说明|App|Api|流程|文档是否完成
 -|-|-|-|-
-examination|考务系统-成绩分析|Liu|Meng(广西)|开发
-examination|考务系统-班级成绩趋势|Zhao|Meng(广西)|开发
-leave|学生请假管理|Liu|Kong|开发
-stu_behavior|学生行为|Liu|Ruan(广西)|开发
-schapp_work|学生考勤|Liu|Ruan(广西)|开发
-stu_comment|学生评语|Liu|Ruan(广西)|开发
-stu_actionComment|行为与评语(学生/家长端)|Liu|Ruan(广西)|开发
-schhome|家校互动 教师端|Liu|Meng(广西)|开发 
-schhome_stu|家校互动 学生端|Liu|Gu|开发
-schhome_dorm|学生宿舍 学生端|Liu|Meng(广西)|开发
-schapp_item|物品管理|Liu|Kong|开发
-teachercAttendance|教师考勤|Liu|Kong|开发
+examination|考务系统-成绩分析|Liu|Meng(广西)|开发|文档完成
+examination|考务系统-班级成绩趋势|Zhao|廖(广西)|开发|文档完成
+kouYuCePing|口语测评|Zhao|Meng(广西)|开发|文档完成
+leave|学生请假管理|Liu|Kong|开发|待补
+markingPapers|阅卷|zhao|meng|文档完成
+oa|OA系统|zhao|Kong|正式|文档完成
+parents_attendance|学生考勤家长端|zhao|阮本伟|正式|文档完成
+programme|日程|Zhao|Kong|正式|文档完成
+register|注册|zhao|meng|文档完成
+schapp_item|物品管理|Liu|Kong|开发|文档完成
+schapp_work|学生考勤|Liu|Ruan(广西)|开发|文档完成
+schhome|家校互动 教师端|Liu|Meng(广西)|开发|文档完成
+schhome_stu|家校互动 学生端|Liu|Gu|开发|文档完成
+stu_behavior|学生行为|Liu|Ruan(广西)|开发|文档完成
+stu_actionComment|行为与评语(学生/家长端)|Liu|Ruan(广西)|开发|文档完成
+stu_comment|学生评语|Liu|Ruan(广西)|开发|文档完成
+schhome_dorm|学生宿舍 学生端|Liu|Meng(广西)|开发|文档完成
+student_performance|学生成绩|Zhao|Meng(广西)|开发|文档完成
+teachercAttendance|教师考勤|Liu|Kong|开发|文档完成
+zhiXueKeTang|智学课堂|zhao|廖建鹏|文档完成
