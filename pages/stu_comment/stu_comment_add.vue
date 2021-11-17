@@ -50,7 +50,7 @@
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left form-left-textarea">行为说明</view>
+			<view class="form-left form-left-textarea">说明</view>
 			<textarea placeholder="请输入" v-model="comment" maxlength="100" ></textarea>
 		</view>
 		<template v-if="SHOW">
@@ -103,7 +103,7 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='添加请假记录'
+			itemData.text='添加评语记录'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{

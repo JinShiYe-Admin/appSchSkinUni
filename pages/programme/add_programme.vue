@@ -251,8 +251,12 @@
 						console.log('当前位置的经度：' + res.longitude);
 						console.log('当前位置的纬度：' + res.latitude);
 						//#ifdef APP-PLUS
-						console.log('address：' + JSON.stringify(res.address));
-						_this.workAddress = res.address.province+res.address.city+res.address.district+res.address.street+res.address.streetNum+res.address.poiName;
+						_this.workAddress = (res.address.province?res.address.province:'')
+						+(res.address.city?res.address.city:'')
+						+(res.address.district?res.address.district:'')
+						+(res.address.street?res.address.street:'')
+						+(res.address.streetNum?res.address.streetNum:'')
+						+(res.address.poiName?res.address.poiName:'');
 						//#endif
 						
 						_this.longitude = res.longitude

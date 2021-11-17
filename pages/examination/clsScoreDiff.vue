@@ -619,6 +619,7 @@
 						for (var b = 0; b < data.data.list.length; b++) {
 							tempNameArray.push('');
 						}
+						console.log("data.data.tag_list: " + JSON.stringify(data.data.list));
 						for (var a = 0; a < data.data.tag_list.length; a++) {
 							var tempM = data.data.tag_list[a];
 							var tempSecModel = {
@@ -633,6 +634,7 @@
 							tempSecModel.data = [].concat(childrenNum);
 							tempSecArray.push(tempSecModel);
 						}
+						console.log("tempNameArray: " + JSON.stringify(tempNameArray));
 						this.sem1Data.chartQs = {
 							categories: tempNameArray,
 							series: tempSecArray
