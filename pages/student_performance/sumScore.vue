@@ -124,9 +124,8 @@
 						type='error' style="" size="small"></uni-badge></button>
 				<br>
 				<h4 class="spaceLine" style='margin-top: 30px;'>PK榜</h4>
-				<view>
 					<uni-row style="background: #e7e3e3;">
-						<uni-col :span="2" style="height: 18px;">
+						<uni-col :span="3" style="height: 18px;">
 							<p class="scoreDetail">次序</p>
 						</uni-col>
 						<uni-col :span="4">
@@ -142,11 +141,9 @@
 							<p class="scoreDetail"> </p>
 						</uni-col>
 					</uni-row>
-				</view>
-				<view>
 					<uni-row v-for="(item,index) in semFlag2Data.pk_list" :key='index' style="background: #e1faeb;margin-top: 5px;">
 						<view @click="toDetailPage(item)">
-						<uni-col :span="2" style="height: 18px;">
+						<uni-col :span="3" style="height: 18px;">
 							<p class="scoreDetail">{{index+1}}</p>
 						</uni-col>
 						<uni-col :span="4">
@@ -170,7 +167,6 @@
 						</uni-col>
 						</view>
 					</uni-row>
-				</view>
 			</view>
 		</view>
 	</view>
@@ -416,6 +412,9 @@
 							tempM.pkc = 0; //败
 							for (var b = 0; b < tempM.sub_score_list.length; b++) {
 								var tempN = tempM.sub_score_list[b];
+								if(tempN.pk_user_score==null){
+									tempN.pk_user_score = 0;
+								}
 								if (tempN.my_score == tempN.pk_user_score) {
 									tempM.pka++;
 								} else if (tempN.my_score > tempN.pk_user_score) {

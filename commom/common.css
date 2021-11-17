@@ -36,6 +36,14 @@
  ::v-deep.segmented-control{
  	margin:7px 5px 0;
  }
+ 
+ ::v-deep img{
+ 	max-width: 100%;
+ }
+ 
+ ::v-deep p{
+ 	word-break: break-all;
+ }
  	
  .uni-list::before,.uni-list::after{
  		 height: 0;

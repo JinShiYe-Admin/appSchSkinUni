@@ -4,23 +4,21 @@
 		<uni-list>
 			<uni-list-item :border="false" v-for="(item,index) in tiaozhanzhe" :key='index' direction='column'>
 				<view slot="body">
-					<uni-row style="">
-						<uni-col style="" :span="2">
-							<view style="padding-top:7px;text-align: center;">{{++index}}</view>
-						</uni-col>
-						<uni-col style="" :span="6">
-							<view style="padding-top:7px;text-align: center;">{{item.cls_name}}</view>
-						</uni-col>
-						<uni-col style="" :span="6">
-							<view style="padding-top:7px;text-align: center;">{{item.user_name}}</view>
-						</uni-col>
-						<uni-col v-if="item.status == 0" style="" :span="6">
-							<button style="background: #43CF7C;border: #43CF7C;color: #FFFFFF; border-radius: 13px;" class="mini-btn" @click="pkOrNo(item,1)" size="mini">接受挑战</button>
-						</uni-col>
-						<uni-col v-if="item.status == 0" style="" :span="4">
-							<button style="background: #FF8D1A;border: #FF8D1A;color: #FFFFFF; border-radius: 13px;" class="mini-btn" @click="pkOrNo(item,2)" size="mini">免战</button>
-						</uni-col>
-					</uni-row>
+					<view style="display: flex;flex-direction: row;align-items: center;justify-content: space-between;">
+						<view style="display: flex;flex-direction: row;">
+							<view style="text-align: center;width: 30px;">{{++index}}</view>
+							<view style="text-align: center;width: 65px;">{{item.cls_name}}</view>
+							<view style="text-align: center;width: 75px;">{{item.user_name}}</view>
+						</view>
+						<view v-if="item.status == 0" style="display: flex;flex-direction: row;">
+							<button
+								style="background: #43CF7C;border: #43CF7C;color: #FFFFFF; border-radius: 13px;margin-right: 5px;padding: 0 8px;"
+								class="mini-btn" @click="pkOrNo(item,1)" size="mini">接受挑战</button>
+							<button
+								style="background: #FF8D1A;border: #FF8D1A;color: #FFFFFF; border-radius: 13px;padding: 0 8px;"
+								class="mini-btn" @click="pkOrNo(item,2)" size="mini">免战</button>
+						</view>
+					</view>
 				</view>
 			</uni-list-item>
 		</uni-list>
@@ -35,7 +33,7 @@
 			return {
 				personInfo: {},
 				itemData: {},
-				pkFlag:0,
+				pkFlag: 0,
 				tiaozhanzhe: [],
 			}
 		},
@@ -53,8 +51,8 @@
 			document.title = ""
 			//#endif
 			this.tiaozhanzhe = [].concat(this.itemData.list);
-			uni.$on('clickLeft',(data) =>{
-				if(this.pkFlag>0){
+			uni.$on('clickLeft', (data) => {
+				if (this.pkFlag > 0) {
 					let eventChannel = this.getOpenerEventChannel();
 					eventChannel.emit('getFullSubPK', {});
 				}
@@ -87,6 +85,6 @@
 
 <style>
 	::v-deep uni-button {
-    padding: 0px 15px;
-}
+		padding: 0px 15px;
+	}
 </style>

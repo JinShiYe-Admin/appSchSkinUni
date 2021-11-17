@@ -55,7 +55,7 @@
 				</view>
 			</view>
 		</view>
-		<view v-if="detailModel.UploadEncAddrShow&&detailModel.UploadEncAddrShow.length>0" style="margin-top: 15px;">
+		<view v-if="detailModel.UploadEncAddrShow&&detailModel.UploadEncAddrShow.length>0&&detailModel.InfoUploadCloseStatus == 1" style="margin-top: 15px;">
 			<view v-for="(extraFile,index) in detailModel.UploadEncAddrShow" :key='index'>
 				<view class="encName" v-show="extraFile">附件:
 					<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
@@ -139,6 +139,10 @@
 				</uni-list-item>
 			</uni-list>
 		</view>
+		<uni-popup ref="chexiaoguanbiPopup" type="dialog">
+			<uni-popup-dialog :title="'确定'+rightName+'吗？'" :duration="2000" :before-close="true" @close="closechexiao"
+				@confirm="confirmchexiao"></uni-popup-dialog>
+		</uni-popup>
 		<uni-popup ref="openClosePopup" type="dialog">
 			<uni-popup-dialog :title="openCloseModel.tempStr" :duration="2000" :before-close="true" @close="close"
 				@confirm="confirm"></uni-popup-dialog>
@@ -395,8 +399,44 @@
 					}
 				});
 			},
-			// @close="closeBackup"
-			// 	@confirm="confirmBackup"
+			closechexiao(){
+				this.$refs.chexiaoguanbiPopup.close();
+			},
+			confirmchexiao(value){
+				this.$refs.chexiaoguanbiPopup.close();
+				if(this.rightFlag == 1){
+					var comData0 = {
+						infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
+						index_code: this.itemData.access.split('#')[1],
+						op_code: 'index',
+					};
+					this.showLoading();
+					//
+					this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectUndo', comData0, (data0, data) => {
+						this.hideLoading();
+						if (data.code == 0) {
+							this.showToast("成功");
+							this.getNoticeByReceiveId_sendId_Detail();
+						}
+					});
+				}else{
+					var comData0 = {
+						infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
+						isClose:'2',//关闭状态,1 打开2 关闭
+						index_code: this.itemData.access.split('#')[1],
+						op_code: 'index',
+					};
+					this.showLoading();
+					//
+					this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectClose', comData0, (data0, data) => {
+						this.hideLoading();
+						if (data.code == 0) {
+							this.showToast("成功");
+							this.getNoticeByReceiveId_sendId_Detail();
+						}
+					});
+				}
+			},
 			closeBackup() {
 				this.$refs.backupPopup.close();
 			},

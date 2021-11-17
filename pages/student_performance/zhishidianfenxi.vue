@@ -95,7 +95,7 @@
 					<view style="font-size: 14px;color: gray;">标准答案</view>
 				</view>
 				<view style="margin-top: 10px;font-size: 14px;color: gray;margin-bottom: 10px;">
-					<p>{{item.task_name}}</p>
+					<p v-html="item.analyse"></p>
 				</view>
 			</view>
 		</view>
@@ -227,7 +227,8 @@
 						}
 						// 获取题目列表
 						if (data.data.question_id_list.length > 0) {
-							var tempA = data.data.question_id_list.slice(0, 10);
+							// var tempA = data.data.question_id_list.slice(0, 10);
+							var tempA = data.data.question_id_list;
 							this.getKnowPointList(tempA);
 						}
 					} else {
@@ -249,7 +250,8 @@
 						this.pointInfo = data.data;
 						// 获取题目列表
 						if (data.data.question_id_list.length > 0) {
-							var tempA = data.data.question_id_list.slice(0, 10);
+							// var tempA = data.data.question_id_list.slice(0, 10);
+							var tempA = data.data.question_id_list;
 							this.getKnowPointList(tempA);
 						}
 					} else {
@@ -271,7 +273,8 @@
 						this.pointInfo = data.data;
 						// 获取题目列表
 						if (data.data.question_id_list.length > 0) {
-							var tempA = data.data.question_id_list.slice(0, 10);
+							// var tempA = data.data.question_id_list.slice(0, 10);
+							var tempA = data.data.question_id_list;
 							this.getKnowPointList(tempA);
 						}
 					} else {
@@ -339,8 +342,5 @@
 		background: #d7f3ef;
 		font-size: 14px;
 		color: #505050;
-	}
-	::v-deep p{
-		word-break: break-all;
 	}
 </style>

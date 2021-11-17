@@ -1,6 +1,11 @@
 <template>
 	<view>
+		<!-- #ifdef H5 -->
 		<view class="tabs-fixed">
+		<!-- #endif -->
+		<!-- #ifdef APP -->
+		<view class="tabs-fixed" style="top: 0px;">
+		<!-- #endif -->
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
@@ -40,10 +45,10 @@
 						</view>
 						<view style="margin-top: 10px;font-size: 14px;">
 							<p v-if="item.content.length==0&&item.option.length==0" style='color: gray;'>暂无数据</p>
-							<p class="rich" v-if="item.content.length>0" style="font-size: 14px;color: #666;"
-								v-html="item.content"></p>
+							<view class="rich" v-if="item.content.length>0" style="font-size: 14px;color: #666;"
+								v-html="item.content"></view>
 							<view v-for="(item,indexOp) in item.option" :key='indexOp'>
-								<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;">{{item}}</p>
+								<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;" v-html="item"></p>
 							</view>
 						</view>
 					</view>
@@ -68,7 +73,7 @@
 							<view style="font-size: 14px;color: gray;">标准答案</view>
 						</view>
 						<view style="margin-top: 10px;font-size: 14px;color: gray;margin-bottom: 10px;">
-							<p>{{item.task_name}}</p>
+							<p v-html="item.analyse"></p>
 						</view>
 					</view>
 				</view>
@@ -108,10 +113,10 @@
 						</view>
 						<view style="margin-top: 10px;font-size: 14px;">
 							<p v-if="item.content.length==0&&item.option.length==0" style='color: gray;'>暂无数据</p>
-							<p class="rich" v-if="item.content.length>0" style="font-size: 14px;color: #666;"
-								v-html="item.content"></p>
+							<view class="rich" v-if="item.content.length>0" style="font-size: 14px;color: #666;"
+								v-html="item.content"></view>
 							<view v-for="(item,indexOp) in item.option" :key='indexOp'>
-								<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;">{{item}}</p>
+								<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;" v-html="item"></p>
 							</view>
 						</view>
 					</view>
@@ -136,7 +141,7 @@
 							<view style="font-size: 14px;color: gray;">标准答案</view>
 						</view>
 						<view style="margin-top: 10px;font-size: 14px;color: gray;margin-bottom: 10px;">
-							<p>{{item.task_name}}</p>
+							<p v-html="item.analyse"></p>
 						</view>
 					</view>
 				</view>
@@ -347,7 +352,8 @@
 						}
 						// 获取题目列表
 						if (data.data.question_id_list.length > 0) {
-							var tempA = data.data.question_id_list.slice(0, 10);
+							// var tempA = data.data.question_id_list.slice(0, 10);
+							var tempA = data.data.question_id_list;
 							this.getKnowPointList(tempA);
 						}
 					} else {

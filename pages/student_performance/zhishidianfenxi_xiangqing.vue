@@ -58,7 +58,7 @@
 					<p class="rich" v-if="item.content.length>0" style="font-size: 14px;color: #666;"
 						v-html="item.content"></p>
 					<view v-for="(item,indexOp) in item.option" :key='indexOp'>
-						<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;">{{item}}</p>
+						<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;" v-html='item'></p>
 					</view>
 				</view>
 			</view>
@@ -83,7 +83,7 @@
 					<view style="font-size: 14px;color: gray;">标准答案</view>
 				</view>
 				<view style="margin-top: 10px;font-size: 14px;color: gray;margin-bottom: 10px;">
-					<p>{{item.task_name}}</p>
+					<p v-html="item.analyse"></p>
 				</view>
 			</view>
 		</view>

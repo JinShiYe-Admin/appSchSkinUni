@@ -607,7 +607,7 @@
 					if (data.code == 0) {
 						this.semFlag2Data.knowData = data.data;
 						this.semFlag2Data.zhishidianDFL = {"series":[{"name":"得分率","data":this.semFlag2Data.knowData.average_score_rate,"color":"#00CFBD"}]};
-						this.semFlag2Data.zhishidianShow = {title:{name:this.semFlag2Data.knowData.average_score_rate*100+'%',fontSize:35,color:'#00CFBD'},subtitle:{name:'得分率',color:'#666666',fontSize:15}}
+						this.semFlag2Data.zhishidianShow = {title:{name:(this.semFlag2Data.knowData.average_score_rate*100).toFixed(1)+'%',fontSize:35,color:'#00CFBD'},subtitle:{name:'得分率',color:'#666666',fontSize:15}}
 					} else {
 						this.showToast(data.msg);
 					}

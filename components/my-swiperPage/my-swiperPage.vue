@@ -14,7 +14,7 @@
  					<swiper class="swiper" :current="currentIndex" @change="changeSwiper">
  						<swiper-item v-for="(model,index) in allValue" :key='index'>
  							<view class="swiper-item">
- 								<view style="width: 80%;border-radius: 10px;padding-top: 3px;padding-bottom: 3px;margin-left: 10%;text-align: center;" :style="showBackColor?{'background':backColor,'color':textColor}:''">
+ 								<view style="width: 100%;border-radius: 10px;padding-top: 3px;padding-bottom: 3px;text-align: center;" :style="showBackColor?{'background':backColor,'color':textColor}:''" class="title">
 									<uni-badge v-if="showIndex" :text='index+1' type='error' size="small"></uni-badge>
  									{{model.text}}</view>
  							</view>
@@ -172,5 +172,13 @@
 	
 	::v-deep .uni-badge {
 		line-height: 15px;
+	}
+	
+	.title {
+		height: 100%;
+		word-break: break-all;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
  </style>

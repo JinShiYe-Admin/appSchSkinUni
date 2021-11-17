@@ -178,6 +178,9 @@
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS+'report/getCls',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
+					if(response.list.length==0){
+						this.showtoast('暂无您管理班级的数据');
+					}
 					response.list.map((currentValue,index)=> {
 						currentValue.value = currentValue.cls_code;
 						currentValue.text = currentValue.cls_name;

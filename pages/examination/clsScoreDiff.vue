@@ -117,8 +117,8 @@
 				<view v-if="sem1Data.chartPjf.series&&sem1Data.chartPjf.series.length>0" class="charts-box">
 					<qiun-data-charts type="column" :chartData="sem1Data.chartPjf" />
 				</view>
-				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">各指标变化趋势</view>
-				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 10px 15px;width: 105px;"></view>
+				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">各指标变化趋势(人数)</view>
+				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 10px 15px;width: 145px;"></view>
 				<view  v-if="sem1Data.chartQs.series&&sem1Data.chartQs.series.length>0" class="charts-box">
 					<qiun-data-charts type="demotype" :chartData="sem1Data.chartQs" background="none" />
 				</view>
@@ -233,6 +233,7 @@
 			},
 			icoClick() {
 				console.log('icoClickicoClickicoClickicoClick');
+				this.$refs.popup.close();
 				this.$refs.showRight.open();
 			},
 			bindPickerGrd(e){
@@ -602,6 +603,8 @@
 							var tempM = data.data.list[a];
 							tempAvgArray.push(tempM.avg);
 							tempNameArray.push('');
+							tempAvgArray.push(tempM.avg);
+							tempNameArray.push('');
 						}
 						this.sem1Data.chartPjf = {
 							categories: tempNameArray,
@@ -613,9 +616,11 @@
 
 						var tempNameArray = [];
 						var tempSecArray = [];
+						for (var b = 0; b < data.data.list.length; b++) {
+							tempNameArray.push('');
+						}
 						for (var a = 0; a < data.data.tag_list.length; a++) {
 							var tempM = data.data.tag_list[a];
-							tempNameArray.push('');
 							var tempSecModel = {
 								name: tempM.name,
 								data: [],
