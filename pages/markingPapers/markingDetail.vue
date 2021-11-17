@@ -5,7 +5,7 @@
 		<p v-if="currentInfoData.count_info" style="margin-top: 10px;text-align: center;color: black;font-size: 14px;">
 			该题组已阅{{currentInfoData.count_info.view_count}}份，当前第{{currentInfoData.count_info.count}}份，任务量{{currentInfoData.count_info.group_count}}份
 		</p>
-			<picker @change="bindPickerChange" :range="groupNumberArray" style="margin: 10px 0 0 20px;">
+			<picker @change="bindPickerChange" :value="nowGroupIndex" :range="groupNumberArray" style="margin: 10px 0 0 20px;">
 				<view class="uni-input">{{groupNumberArray[nowGroupIndex]}}
 				<uni-icons type="forward" size="15" class="uniIcon"></uni-icons></view>
 			</picker>

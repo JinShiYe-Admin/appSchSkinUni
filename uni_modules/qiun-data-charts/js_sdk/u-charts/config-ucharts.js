@@ -337,29 +337,6 @@ module.exports = {
 			}
 		}
 	},
-	"demotype": {
-		//我这里把曲线图当做了自定义图表类型，您可以根据需要随意指定类型或配置
-		"type": "line",
-		"color": color,
-		"padding": [15, 10, 0, 15],
-		"xAxis": {
-			"disableGrid": true,
-		},
-		"yAxis": {
-			"gridType": "dash",
-			"dashLength": 2,
-			"data": [{
-				"tofix": 1,
-			}]
-		},
-		"legend": {},
-		"extra": {
-			"line": {
-				"type": "curve",
-				"width": 2
-			},
-		}
-	},
 	"line": {
 		"type": "line",
 		"canvasId": "",

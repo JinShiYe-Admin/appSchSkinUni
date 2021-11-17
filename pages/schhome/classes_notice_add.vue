@@ -5,17 +5,17 @@
 		<view class="uni-flex uni-row form-view">
 			<textarea placeholder="请输入通知内容,最多300字" v-model="comment" maxlength="300" style="flex: 1;"></textarea>
 		</view>
-		<template v-show="SHOW">
+		<template v-if="SHOW">
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view" style="padding:0 10px;">
 				<view class="form-left" style="width: 300rpx;">同步发送短信</view>
 				<switch class="form-right" :checked="SMS" @change="changeAutoplay" color="#00CFBD"/>
 			</view>
-			<view v-show="SMS" class="uni-flex uni-row form-view" style="padding:0 10px;margin-top: 10px;">
+			<view v-if="SMS" class="uni-flex uni-row form-view" style="padding:0 10px;margin-top: 10px;">
 				<view class="form-left" style="width: 300rpx;">添加签名</view>
 				<switch class="form-right" :checked="SIGN" @change="changeSign" color="#00CFBD"/>
 			</view>
-			<view v-show="SMS" class="form-right" style="padding-right:15px;margin-top: 10px;">{{delay_time_str}}</view>
+			<view v-if="SMS" class="form-right" style="padding-right:15px;margin-top: 10px;">{{delay_time_str}}</view>
 		</template>
 		<view class="uni-flex uni-row form-view" style="padding:0 10px;margin-top: 10px;">
 			<view class="form-left" style="font-size: 14px;height: 30px;">接收人</view>

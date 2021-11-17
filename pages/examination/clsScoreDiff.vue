@@ -613,6 +613,7 @@
 
 						var tempNameArray = [];
 						var tempSecArray = [];
+						console.log("data.data.tag_list: " + JSON.stringify(data.data.list));
 						for (var a = 0; a < data.data.tag_list.length; a++) {
 							var tempM = data.data.tag_list[a];
 							tempNameArray.push('');
@@ -628,9 +629,29 @@
 							tempSecModel.data = [].concat(childrenNum);
 							tempSecArray.push(tempSecModel);
 						}
+						console.log("tempNameArray: " + JSON.stringify(tempNameArray));
 						this.sem1Data.chartQs = {
 							categories: tempNameArray,
 							series: tempSecArray
+						}
+						this.sem1Data.chartQs = {
+							"categories": ["", "", "", "", "", ""],
+							"series": [{
+								"name": "优秀率",
+								"data": [10, 10, 0, 3, 3, 2]
+							}, {
+								"name": "良好率",
+								"data": [0, 0, 4, 5, 5, 0]
+							}, {
+								"name": "合格率",
+								"data": [0, 0, 1, 2, 2, 0]
+							}, {
+								"name": "不合格率",
+								"data": [0, 0, 1, 0, 0, 0]
+							}, {
+								"name": "1",
+								"data": [0, 0, 0, 0, 0, 0]
+							}]
 						}
 						console.log('this.sem1Data.chartQs:'+JSON.stringify(this.sem1Data.chartQs));
 					} else {

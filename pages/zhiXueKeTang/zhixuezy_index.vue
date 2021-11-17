@@ -36,7 +36,7 @@
 								<image v-else-if="item.file_ext.indexOf('wav')!==-1" src="../../static/images/zhiXueKeTang/file-icons/wav.png" class="resource-img"></image>
 								<image v-else-if="item.file_ext.indexOf('wma')!==-1" src="../../static/images/zhiXueKeTang/file-icons/wma.png" class="resource-img"></image>
 								<image v-else-if="item.file_ext.indexOf('wmv')!==-1" src="../../static/images/zhiXueKeTang/file-icons/wmv.png" class="resource-img"></image>
-								<image v-else-if="item.file_ext.indexOf('pdf')!==-1" src="../../static/images/zhiXueKeTang/file-icons/pdf.png" class="resource-img"></image>
+								<image v-else-if="item.file_ext.indexOf('pdf')!==-1" src="../../static/images/zhiXueKeTang/file-icons/pdf.png" class="resource-img" style="width: 30px;height: 35px;margin: 0 5px;"></image>
 								<image v-else-if="item.file_ext.indexOf('exe')!==-1" src="../../static/images/zhiXueKeTang/file-icons/exe.png" class="resource-img"></image>
 								<image v-else-if="item.file_ext.indexOf('jpg')!==-1" src="../../static/images/zhiXueKeTang/file-icons/jpg.png" class="resource-img"></image>
 								<image v-else-if="item.file_ext.indexOf('png')!==-1" src="../../static/images/zhiXueKeTang/file-icons/png.png" class="resource-img"></image>
@@ -45,7 +45,7 @@
 								<image v-else-if="item.file_ext.indexOf('txt')!==-1" src="../../static/images/zhiXueKeTang/file-icons/txt.png" class="resource-img"></image>
 								<image v-else src="../../static/images/zhiXueKeTang/file-icons/other.png" class="resource-img"></image>
 							</template>
-							<uni-row>
+							<uni-row style="flex:1;">
 								<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text" style="width: 84vw;"><text style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{item.name}}</text></view></uni-col>
 								<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="detail-text">{{item.create_time}}&ensp;|&ensp;{{item.owner_name}}</view></uni-col>
 							</uni-row>
