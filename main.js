@@ -301,6 +301,11 @@ Vue.prototype.STUKQ_MSG_SMS = {
 		SMS_TYPE: 'jxhd_kq_ps_stugen', //短信类型 - 请假
 		USER_TYPE: 'YHLX0003,YHLX0004,YHLX0005', //目标用户类型 - 老师和家长
 	},
+	ASKLEAVE_JIAOSHIDAI: {
+		MSG_TYPE: 'ac-askleave', //信息类型 - 请假
+		SMS_TYPE: 'jxhd_kq_ps_stugen', //短信类型 - 请假
+		USER_TYPE: 'YHLX0004', //目标用户类型 - 家长
+	},
 	// DORM: {
 	//    MSG_TYPE: 'ac-dorm', //信息类型 - 宿舍
 	//    USER_TYPE: 'YHLX0004,YHLX0005', //目标用户类型 - 学生家长
