@@ -105,6 +105,8 @@
 				})
 			},
 			clsClick(currentGrdIndex,clsItem){
+				console.log(currentGrdIndex);
+				console.log(clsItem);
 				this.currentGrdIndex=currentGrdIndex
 				this.selectDatas.map(grditem=>{
 					if(grditem.value==this.grdList[this.currentGrdIndex].value){
@@ -136,8 +138,10 @@
 					this.$forceUpdate();
 					if(clsItem.stuList){
 						this.stuList=clsItem.stuList
+						this.hasStuList=true
 						if(clsItem.stuList.length===0){
 							this.showToast("暂无学生")
+							this.hasStuList=false
 						}
 					}else{
 						this.showLoading()

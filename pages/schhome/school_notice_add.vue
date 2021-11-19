@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick" :icon="icon" :iconClick="iconClick"></mynavBar>
-		<uni-notice-bar :single="true" text="点击上方图标可设置短信发送时间"/>
+		<uni-notice-bar :single="true" :text="SMSText"/>
 		<view class="uni-flex uni-row form-view">
 			<textarea placeholder="请输入通知内容,最多300字" v-model="comment" maxlength="300" style="flex: 1;"></textarea>
 		</view>
@@ -79,6 +79,7 @@
 					centerArray,
 					rightArray
 				],
+				SMSText:'未成功获取短信发生配置，当前仅可发送家校互动信息',
 				multiIndex: [0, 0, 4],//多列选择器初始值
 				comment:'',//内容
 				SHOW:false,//是否显示发送短信
@@ -155,6 +156,7 @@
 						this.CONFIG=response
 						if(send){
 							this.SMS=true
+							this.SMSText='点击上方图标可设置短信发送时间'
 							this.icon='compose'
 						}
 						this.getSmsWords();
