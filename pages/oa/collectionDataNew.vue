@@ -102,7 +102,10 @@
 			this.itemData.index = 100;
 			console.log('this.itemData:' + JSON.stringify(this.itemData));
 			this.startTime = this.moment().format('YYYY-MM-DD HH:MM');
+			let tempT = this.moment().add(1,'days').format('YYYY-MM-DD');
+			this.collenctionEndTime = tempT + ' 00:00';
 			console.log('this.startTime:' + this.startTime);
+			console.log('this.collenctionEndTime:' + this.collenctionEndTime);
 			uni.setNavigationBarTitle({
 				title: '新建资料收集'
 			});

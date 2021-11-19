@@ -156,12 +156,7 @@ Vue.prototype.APPORWECHAT = 1; //app为1，微信里面是2
 Vue.prototype.PRIVACE = 'http://www.jiaobao.net/dl/jiaobaoxiaoyuan/jbxyPrivacy.htm'; //用户隐私政策地址
 Vue.prototype.QN_PV_NAME = 'jbsch-pv'; //七牛私有空间名
 Vue.prototype.QN_PB_NAME = 'jbsch-pb'; //七牛公有空间名
-Vue.prototype.QNPB = 'https://qn-educds.jiaobaowang.net/'; //公开空间域名
 Vue.prototype.QNGETUPLOADTOKEN = 'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetUpLoadToKen';
-Vue.prototype.QNGETUPTOKENHEADIMGE =
-	'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetUpLoadToKen'; //获取上传个人头像，群头像，资料头像到七牛的token的url
-Vue.prototype.QNGETUPTOKENFILE =
-	'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetUpLoadToKen'; //获取上传文件（云存储）到七牛的token的url
 Vue.prototype.QNGETDOWNTOKENFILE =
 	'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetAccess'; //获取下载文件（云存储）的token的url，url+七牛文件url
 Vue.prototype.QNGETTOKENDELETE = 'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/Delete'; //获取批量（或者一个）删除七牛文件的token的url
@@ -183,11 +178,11 @@ Vue.prototype.hideLoading = () => {
 		if (Vue.prototype.requestTask.size === 0) {
 			uni.hideLoading()
 		}
-		if (Vue.prototype.requestTask.size > 0) {
+		// if (Vue.prototype.requestTask.size > 0) {
 			setTimeout(() => {
 				uni.hideLoading()
 			}, 15000)
-		}
+		// }
 	}, 100)
 } //关闭加载框
 

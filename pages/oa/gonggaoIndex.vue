@@ -162,6 +162,7 @@
 	}
 	
 	.title{
+		font-size: 13px;
 		word-break:break-all;
 		overflow: hidden;
 		text-overflow: ellipsis;

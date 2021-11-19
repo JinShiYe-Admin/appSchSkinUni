@@ -144,6 +144,10 @@
 
 	::v-deep .uni-badge {
 		line-height: 15px;
+		height: 15px;
+		width: 20px !important;
+		padding: 0px 3px;
+		margin-left: 10px;
 	}
 
 	::v-deep .uni-badge--x {

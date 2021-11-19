@@ -16,7 +16,8 @@
 				<view class="leftView">工作地点</view>
 			</uni-col>
 			<uni-col :span="18">
-				<input type="text" class="rightView" v-model="workAddress" disabled placeholder="请输入工作地点" />
+				<view class="rightView">{{workAddress}}</view>
+				<!-- <input type="text" class="rightView" v-model="workAddress" disabled placeholder="请输入工作地点" /> -->
 			</uni-col>
 		</uni-row>
 		<view class="line"></view>
@@ -98,7 +99,7 @@
 				todayDate: '',
 				begintime: '09:00',
 				endtime: '17:00',
-				workAddress: '',
+				workAddress: '请输入工作地点',
 				workContent: '',
 				longitude: '',
 				latitude: '',

@@ -17,7 +17,7 @@
 									:src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
 							</view>
 							<view class="rightView">
-								<a class="biaoti title">{{model.NoticeTitle}}</a>
+								<a class="biaoti0 title">{{model.NoticeTitle}}</a>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
 										{{model.SendManName}}
@@ -498,7 +498,7 @@
 	}
 
 	.nameTime {
-		font-size: 13px;
+		font-size: 12px;
 		color: gray;
 	}
 
