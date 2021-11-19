@@ -15,7 +15,7 @@
 			</view>
 			<view class="select-line"></view>
 		</view>
-		<view style="padding-top: 44px;">
+		<view style="padding-top: 40px;">
 			<uni-list :border="false">
 				<uni-list-item :border="true">
 					<text slot="body" class="slot-box slot-text">
@@ -29,7 +29,7 @@
 					</text>
 				</uni-list-item>
 			</uni-list>
-			<view class="double-line"></view>
+			<view v-if="listTotal.kqxxList" class="double-line"></view>
 			<uni-list :border="false">
 				<uni-list-item  :key="index" v-for="(model,index) in pagedata" :border="true">
 					<text slot="body" class="slot-box slot-text">
@@ -171,21 +171,25 @@
 						this.addKqName(response.qaArray,response.staticArray,list=>{
 							this.pagedata=[].concat(list);
 						})
-						this.addKqName(response.qaArray,[response.total],list=>{
-							if(list.length>0){
-								this.listTotal=list[0];
-							}
-						})
+						if(response.total.row_name){
+							this.addKqName(response.qaArray,[response.total],list=>{
+								if(list.length>0){
+									this.listTotal=list[0];
+								}
+							})
+						}
 					}else{
 						//合并数组
 						this.addKqName(response.qaArray,response.staticArray,list=>{
 							this.pagedata= this.pagedata.concat(list);
 						})
-						this.addKqName(response.qaArray,[response.total],list=>{
-							if(list.length>0){
-								this.listTotal=list[0];
-							}
-						})
+						if(response.total.row_name){
+							this.addKqName(response.qaArray,[response.total],list=>{
+								if(list.length>0){
+									this.listTotal=list[0];
+								}
+							})
+						}
 					}
 					if(this.pageobj0.page_number>=response.total_page){
 						this.pageobj0.status = 'noMore';
@@ -311,7 +315,7 @@
 	 
 	 .detail-text{
 	 	color: #939393;
-	 	font-size: 12px;
+	 	font-size: 13px;
 	 	margin: 3px 0;
 	 }
 	 
