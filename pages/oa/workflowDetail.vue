@@ -7,8 +7,7 @@
 				style="float: right;border: 1px solid gainsboro;margin: 5px 10px 0 0;font-size: 14px;width: 150px;height: 35px;padding-left: 5px;"
 				placeholder="请输入我的标签" />
 		</view>
-		<view
-			v-if="detailModel.ApproveStatus!=2">
+		<view v-if="detailModel.ApproveStatus!=2">
 			<button @click="saveTag()" type="default" class="down-btn mini-btn"
 				style="float: right;margin-right: 10px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;"
 				size="mini">保存</button>
@@ -205,7 +204,7 @@
 				this.$refs.popup.open();
 			},
 			checkEnc: function(tempUrl) {
-				console.log('tempUrl:'+tempUrl);
+				console.log('tempUrl:' + tempUrl);
 				util.openFile(tempUrl);
 			},
 			saveTag: function() {
@@ -253,10 +252,10 @@
 					this.showLoading();
 					//18.审批事务及文件申请
 					var comData = {
-						approveId: this.itemData.access.ApproveId, //审批ID
+						approveId: this.itemData.ApproveId, //审批ID
 						approveContent: this.content, //回复内容
 						approveResult: flag, //审批结果,1 同意2 退回
-						index_code: this.itemData.access.access.split('#')[1],
+						index_code: this.itemData.access.split('#')[1],
 						op_code: 'index'
 					}
 					//18.审批事务及文件申请
@@ -335,7 +334,7 @@
 																smsMsgtypeCode: this.OA_MSG_SMS
 																	.SMS_TYPE, //信息类型代码
 																servied: this.smsConfig
-																.serviced, //订购状态
+																	.serviced, //订购状态
 																hrSmsid: datas.data.id, //人事短信接口码
 																isCheck: '1', //是否已审核
 																checkTime: '', //审核时间
@@ -363,6 +362,7 @@
 											}
 										} else {
 											this.showToast(data.msg);
+											getNoticeByReceiveId_sendId_Detail(curPage.flag);
 										}
 									});
 							} else {

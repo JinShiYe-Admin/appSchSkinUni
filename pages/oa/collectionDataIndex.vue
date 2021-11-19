@@ -17,7 +17,7 @@
 									:src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
 							</view>
 							<view class="rightView">
-								<a class="biaoti title">{{model.InfoCollectTitle}}</a>
+								<a class="biaoti0 title">{{model.InfoCollectTitle}}</a>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
 										{{model.SendManName}}

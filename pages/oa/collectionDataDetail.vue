@@ -17,7 +17,7 @@
 		</view>
 		<view style="font-size: 14px;color: #666;float: right;margin-top: 15px;">我的标签：</view>
 		<br /><br />
-		<view align="center" class="titleCSS" style="font-size: 18px;color: #000;margin-top: 10px;">
+		<view align="center" class="titleCSS" style="font-size: 18px;color: #000;margin-top: 10px;padding: 0 10px;">
 			{{detailModel.InfoCollectTitle}}
 		</view>
 		<view align="center" class="name-timeCSS" style="font-size: 13px;color: #999;">{{detailModel.SendManName}} |
@@ -60,7 +60,7 @@
 				<view class="encName" v-show="extraFile">附件:
 					<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
 						@click="checkEnc(extraFile)">附件{{index+1}}</a>
-					<a @click="deleteUploadEnc()"
+					<a @click="deleteUploadEnc(detailModel.UploadEncAddr[index])"
 						style="color: white;background: red;padding: 5px 10px;border-radius: 5px;margin-left: 10px;"
 						size="mini">删除</a>
 				</view>
@@ -186,7 +186,8 @@
 				imgNames: [], //服务器回传的图片名称
 				imgList: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
 				imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
-				wxTips: ''
+				wxTips: '',
+				deleteImg:[],//需要删除的附件
 			}
 		},
 		components: {
@@ -218,9 +219,11 @@
 			//#endif
 			//获取详情
 			this.getNoticeByReceiveId_sendId_Detail();
+			
 		},
 		methods: {
-			deleteUploadEnc() {
+			deleteUploadEnc(url) {
+				this.deleteImg.push(url);
 				this.detailModel.UploadEncAddrShow = [];
 			},
 			//附件上传相关👇
@@ -280,6 +283,11 @@
 					this.canSub = true;
 					this.hideLoading();
 					if (data.code == 0) {
+						if(this.deleteImg.length>0){
+							cloudFileUtil.qiniuDelete(this.deleteImg, (data) => {
+								console.log('七牛:' + JSON.stringify(data));
+							});
+						}
 						this.content = '';
 						this.imgNames= [];
 						this.imgList= [];
@@ -486,6 +494,7 @@
 				this.post(url, comData0, (data0, data) => {
 					this.hideLoading();
 					console.log('data:' + JSON.stringify(data));
+					this.deleteImg = [];
 					if (data.code == 0) {
 						if (data.data.InfoCollectEncName) {
 							data.data.InfoCollectEncName = data.data.InfoCollectEncName.split("|");
