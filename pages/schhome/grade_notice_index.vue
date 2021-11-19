@@ -258,7 +258,7 @@
 	 
 	 .detail-text{
 	 	color: #939393;
-	 	font-size: 12px;
+	 	font-size: 13px;
 	 	margin: 3px 0;
 		word-break: break-all;
 	 }
