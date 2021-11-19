@@ -1,10 +1,18 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="location-filled" :iconClick="iconClick"></mynavBar>
-		<view class="uni-flex uni-row form-view">
+		<!-- <view class="uni-flex uni-row form-view">
 			<view class="form-left">考勤地点</view>
 			<input class="uni-input form-right"  :value="workAddress"  placeholder="点击右上角按钮获取考勤地点" disabled/>
-		</view>
+		</view> -->
+		<uni-row>
+			<uni-col :span="6" style="min-height: 40px;">
+				<view class="leftView">工作地点</view>
+			</uni-col>
+			<uni-col :span="18">
+				<view class="rightView">{{workAddress}}</view>
+			</uni-col>
+		</uni-row>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}</view></view>
@@ -35,7 +43,7 @@
 	 // #ifdef APP-PLUS
 	 import permision from "@/commom/permission.js"
 	 // #endif
-	 
+	 let _this;
 	export default {
 		data() {
 			return {
@@ -72,6 +80,7 @@
 			 gUpload
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
@@ -123,21 +132,14 @@
 				this.doGetLocation();
 			},
 			doGetLocation() {
-				let that =this
-				this.showLoading('正在获取考勤地点')
 				uni.getLocation({
 					type: 'gcj02',
 					geocode: true,
 					// altitude:true,
 					success: function(res) {
-						that.hideLoading()
 						console.log('当前位置的经度：' + res.longitude);
 						console.log('当前位置的纬度：' + res.latitude);
-						console.log('address：' + JSON.stringify(res.address));
-						that.longitude = res.longitude
-						that.latitude = res.latitude
 						//#ifdef APP-PLUS
-						console.log('address：' + JSON.stringify(res.address));
 						_this.workAddress = (res.address.province?res.address.province:'')
 						+(res.address.city?res.address.city:'')
 						+(res.address.district?res.address.district:'')
@@ -145,39 +147,65 @@
 						+(res.address.streetNum?res.address.streetNum:'')
 						+(res.address.poiName?res.address.poiName:'');
 						//#endif
+						
+						_this.longitude = res.longitude
+						_this.latitude = res.latitude
 					},
 					fail() {
-						console.log("获取位置失败");
 						// #ifdef H5
-							that.showToast('请开启位置服务')
+							_this.showToast('请开启位置服务')
 						// #endif
 						// #ifdef APP-PLUS
-							that.openGps();
+							_this.openGps();
 						// #endif
-						that.hideLoading()
+						console.log("获取位置失败");
 					},
 					complete: () => {
 						//#ifdef H5
-						that.$jsonp("https://apis.map.qq.com/ws/geocoder/v1/", {
+						_this.$jsonp("https://apis.map.qq.com/ws/geocoder/v1/", {
 								key: "3BSBZ-L7MLV-S2QPR-ULWG7-MKT3E-M5BDW",
 								callbackName: "getJsonData",
 								output: 'jsonp',
-								location: that.latitude + "," + that.longitude
+								location: _this.latitude + "," + _this.longitude
 							})
 							.then(json => {
 								// 请求成功的返回数据
 								console.log(json);
-								that.hideLoading()
-								that.workAddress = json.result.address;
+								_this.workAddress = json.result.address;
 							})
 							.catch(err => {
-								that.hideLoading()
 								// 请求失败的返回数据 
 								console.log(err)
 							})
 						//#endif
 					}
 				})
+				// uni.getLocation({
+				// 	success: (res) => {
+				// 		console.log('doGetLocation-----success:' + JSON.stringify(res));
+				// 		this.hasLocation = true;
+				// 		this.location = formatLocation(res.longitude, res.latitude);
+				// 	},
+				// 	fail: (err) => {
+				// 		console.log('doGetLocation-----fail:' + JSON.stringify(err));
+				// 		// #ifdef MP-BAIDU
+				// 		if (err.errCode === 202 || err.errCode === 10003) { // 202模拟器 10003真机 user deny
+				// 			this.showConfirm();
+				// 		}
+				// 		// #endif
+				// 		// #ifndef MP-BAIDU
+				// 		if (err.errMsg.indexOf("auth deny") >= 0) {
+				// 			uni.showToast({
+				// 				title: "访问位置被拒绝"
+				// 			})
+				// 		} else {
+				// 			uni.showToast({
+				// 				title: err.errMsg
+				// 			})
+				// 		}
+				// 		// #endif
+				// 	}
+				// })
 			},
 			openGps() {
 				let system = uni.getSystemInfoSync(); // 获取系统信息
@@ -343,6 +371,18 @@
 </script>
 
 <style>
+	.leftView {
+		text-align: center;
+		margin-top: 10px;
+		font-size: 14px;
+	}
+	
+	.rightView {
+		word-break: break-all;
+		padding: 10px 10px;
+		font-size: 14px;
+		color: gray;
+	}
 	.sure-button{
 		border-color:#00CFBD !important;
 		background: #00CFBD !important;

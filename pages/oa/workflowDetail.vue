@@ -362,13 +362,13 @@
 											}
 										} else {
 											this.showToast(data.msg);
-											getNoticeByReceiveId_sendId_Detail(curPage.flag);
+											this.getNoticeByReceiveId_sendId_Detail(this.itemData.flag);
 										}
 									});
 							} else {
 								this.content = '';
 								this.showToast('成功');
-								getNoticeByReceiveId_sendId_Detail(curPage.flag);
+								this.getNoticeByReceiveId_sendId_Detail(this.itemData.flag);
 							}
 						} else {
 							this.showToast(data.msg);
