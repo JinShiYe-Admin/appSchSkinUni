@@ -172,50 +172,25 @@
 											if (data4.code == 0) {
 												if (data4.data.list.length > 0) {
 													var tempA = [];
-													for (var i = 0; i < data4.data.list[0].childList
-														.length; i++) { //一级菜单循环
-														var web_first_item = data4.data.list[0]
-															.childList[i];
-														for (var a = 0; a < this.pageArray
-															.length; a++) {
+													for (var i = 0; i < data4.data.list[0].childList.length; i++) { //一级菜单循环
+														var web_first_item = data4.data.list[0].childList[i];
+														for (var a = 0; a < this.pageArray.length; a++) {
 															var local_first_item = this.pageArray[a];
-															if (local_first_item.url == web_first_item
-																.url) {
-																local_first_item.text = web_first_item
-																	.name;
-																local_first_item.access =
-																	web_first_item.access;
-																local_first_item.redspot_url =
-																	web_first_item.redspot_url;
+															if (local_first_item.url == web_first_item.url) {
+																local_first_item.text = web_first_item.name;
+																local_first_item.access = web_first_item.access;
+																local_first_item.redspot_url = web_first_item.redspot_url;
 																let childList = []
-																for (var b = 0; b < web_first_item
-																	.childList
-																	.length; b++) { //二级菜单循环
-																	var web_second_item =
-																		web_first_item.childList[b];
-																	for (var c = 0; c <
-																		local_first_item.childList
-																		.length; c++) {
-																		var local_second_item =
-																			local_first_item.childList[
-																				c];
-																		if (local_second_item.url ==
-																			web_second_item.url) {
-																			local_second_item.access =
-																				web_second_item
-																				.access;
-																			local_second_item
-																				.redspot_url =
-																				web_second_item
-																				.redspot_url;
-																			local_second_item
-																				.childList =
-																				web_second_item
-																				.childList;
-																			local_second_item.text =
-																				web_second_item.name;
-																			childList.push(
-																				local_second_item)
+																for (var b = 0; b < web_first_item.childList.length; b++) { //二级菜单循环
+																	var web_second_item = web_first_item.childList[b];
+																	for (var c = 0; c < local_first_item.childList.length; c++) {
+																		var local_second_item = local_first_item.childList[c];
+																		if (local_second_item.url == web_second_item.url) {
+																			local_second_item.access = web_second_item.access;
+																			local_second_item.redspot_url = web_second_item.redspot_url;
+																			local_second_item.childList = web_second_item.childList;
+																			local_second_item.text = web_second_item.name;
+																			childList.push(local_second_item)
 																		}
 																	}
 																}

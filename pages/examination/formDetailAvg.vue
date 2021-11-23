@@ -179,7 +179,7 @@
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					if(response.list.length==0){
-						this.showtoast('暂无您管理班级的数据');
+						this.showToast('暂无您管理班级的数据');
 					}
 					response.list.map((currentValue,index)=> {
 						currentValue.value = currentValue.cls_code;

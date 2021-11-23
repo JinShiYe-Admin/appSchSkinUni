@@ -9,10 +9,12 @@
 			<view class="itemImg uploadControl">+</view>
 		</view>
 		<view class="clear"></view>
+		<compress ref="compress" />
 	</view>
 </template>
 
 <script>
+	import compress from '@/components/MarsXHChang-CavansCompressImg/compress.vue'
 	export default {
 		props: {
 			//是否显示上传控件
@@ -63,6 +65,9 @@
 				firstInit: true
 			}
 		},
+		components: {
+			compress
+		},
 		watch: {
 			mode(v) {
 				this.init(v)
@@ -99,9 +104,10 @@
 					success: (chooseImageRes) => {
 						console.log('chooseImageRes:' + JSON.stringify(chooseImageRes));
 						let tempArr = [];
+						// #ifdef H5
 						for (var i = 0; i < chooseImageRes.tempFilePaths.length; i++) {
 							var tempUrl = chooseImageRes.tempFilePaths[i];
-							this.compressImg(tempUrl, (returnUrl) => {
+							this.compressImgH5(tempUrl, (returnUrl) => {
 								tempArr.push(returnUrl);
 								if (tempArr.length == chooseImageRes.tempFilePaths.length) {
 									let tempFilePaths = tempArr;
@@ -112,15 +118,44 @@
 										this.showList.push(item);
 									})
 									console.log("tempFiles: ", tempFiles);
-									this.$emit("chooseFile", this.showList, tempFilePaths, tempFiles)
+									this.$emit("chooseFile", this.showList, tempFilePaths, tempFiles);
 								}
 							})
 						}
-
+						// #endif
+						// #ifdef APP
+						for (var i = 0; i < chooseImageRes.tempFilePaths.length; i++) {
+							var tempUrl = chooseImageRes.tempFilePaths[i];
+							this.compressImgApp(tempUrl, (returnUrl) => {
+								tempArr.push(returnUrl);
+								if (tempArr.length == chooseImageRes.tempFilePaths.length) {
+									let tempFilePaths = tempArr;
+									let tempFiles = chooseImageRes.tempFiles;
+									tempFilePaths = tempFilePaths.slice(0, this.showMaxCount - this
+										.showList.length);
+									tempFilePaths.forEach((item) => {
+										this.showList.push(item);
+									})
+									console.log("tempFiles: ", tempFiles);
+									this.$emit("chooseFile", this.showList, tempFilePaths, tempFiles);
+								}
+							})
+						}
+						// #endif
 					}
 				});
 			},
-			compressImg(tempUrl,callback) {
+			compressImgH5(tempUrl, callback) {
+				console.log('tempUrl:' + tempUrl);
+				const compressParams = {
+					src: tempUrl // 必选： 要压缩的图片地址
+				}
+				this.$refs.compress.compress(compressParams).then(filePath => {
+					console.log('filePath:' + filePath);
+					callback(filePath);
+				})
+			},
+			compressImgApp(tempUrl, callback) {
 				uni.compressImage({
 					src: tempUrl,
 					width: '60%',

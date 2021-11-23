@@ -50,11 +50,13 @@
 			},
 			clickItemTab: function(item) {
 				console.log('item:' + JSON.stringify(item));
-				item.index = 99;
-				util.setTabbarMenu(item);
-				uni.switchTab({
-					url: item.pagePath
-				});
+				item.index = 100;
+				util.openwithData(item.pagePath1, item);
+				// item.index = 99;
+				// util.setTabbarMenu(item);
+				// uni.switchTab({
+				// 	url: item.pagePath
+				// });
 			}
 		},
 		components: {

@@ -175,7 +175,7 @@
 				 this.nowSectionArray = [].concat(tempArray);
 				 console.log('this.nowSectionArray:'+JSON.stringify(this.nowSectionArray));
 				 if(this.nowSectionArray.length==0){
-				 	this.showToast('此分段暂无数据');
+				 	this.showToast('暂无您管理班级的数据');
 				 }
 			},
 			getKc(){//获取考次

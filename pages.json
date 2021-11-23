@@ -79,2570 +79,2331 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
-		}
-        ,{
-            "path" : "pages/leave/stuLeaveIndex",
-            "style" :                                                                                    
-            {
+		}, {
+			"path": "pages/leave/stuLeaveIndex",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
 				"app-plus": {
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset": "76px"
 					}
 				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
 					}
 				}
-            }
-        }
-		,{
-		    "path" : "pages/leave/stuLeave_Detail",
-		    "style" :                                                                                    
-		    {
+			}
+		}, {
+			"path": "pages/leave/stuLeaveIndex1",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		}
-		,{
-		    "path" : "pages/leave/stuLeave_add",
-		    "style" :                                                                                    
-		    {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-        ,{
-            "path" : "pages/leave/parLeaveIndex",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
 				"app-plus": {
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset": "76px"
 					}
 				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
 					}
 				}
-            }
-        }
-		,{
-		    "path" : "pages/leave/parLeave_Detail",
-		    "style" :                                                                                    
-		    {
+			}
+		}, {
+			"path": "pages/leave/stuLeave_Detail",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		}
-		,{
-		    "path" : "pages/leave/parLeave_add",
-		    "style" :                                                                                    
-		    {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/leave/stuLeave_add",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-        ,{
-            "path" : "pages/leave/teaLeaveIndex",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/leave/parLeaveIndex",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-        }
-        ,{
-            "path" : "pages/leave/teaLeaveAsk",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
 				"app-plus": {
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset": "76px"
 					}
 				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
 					}
 				}
-            }
-        }
-		,{
-		    "path" : "pages/leave/teaLeaveAsk_add",
-		    "style" :                                                                                    
-		    {
+			}
+		}, {
+			"path": "pages/leave/parLeaveIndex1",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+		}, {
+			"path": "pages/leave/parLeave_Detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/leave/parLeave_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/leave/teaLeaveIndex",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/leave/teaLeaveAsk",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+		}, {
+			"path": "pages/leave/teaLeaveAsk_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		},
 		{
-		    "path" : "pages/leave/teaLeaveAsk_Detail",
-		    "style" :                                                                                    
-		    {
+			"path": "pages/leave/teaLeaveAsk_Detail",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-        ,{
-            "path" : "pages/leave/teaLeaveQuery",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-        },
-		{
-		    "path" : "pages/leave/teaLeaveQuery_Detail",
-		    "style" :                                                                                    
-		    {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/leave/peopleSelect",
-		    "style" :                                                                                    
-		    {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-        ,{
-            "path" : "pages/markingPapers/index",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-        }
-        ,{
-            "path" : "pages/markingPapers/weekTest_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-        }
-        ,{
-            "path" : "pages/markingPapers/monthTest_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-        }
-        ,{
-            "path" : "pages/markingPapers/termTest_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-        }
-        ,{
-            "path" : "pages/examination/index",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-        }
-        ,{
-            "path" : "pages/examination/form",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-        }
-        ,{
-            "path" : "pages/examination/clsScoreDiff",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-        }
-        ,{
-            "path" : "pages/markingPapers/markingDetail",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/markingPapers/stuMarkDetail",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/markingPapers/markScore",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/login/indexWX",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "注册",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/examination/formDetailAvg",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/examination/formDetailSec",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/examination/formDetail",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_actionComment/index",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/parents_attendance/index",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-		,{
-		    "path" : "pages/stu_behavior/index",
-		    "style" :                                                                                    
-		    {
-		       "navigationStyle": "custom", // 隐藏系统导航栏
-		       "navigationBarTitleText": "",
-		       "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/class_behavior_index",
-		    "style" :                                                                                    
-		    {
-		       "navigationStyle": "custom", // 隐藏系统导航栏
-		       "navigationBarTitleText": "",
-		       "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/extra_behavior_index",
-		    "style" :                                                                                    
-		    {
-		       "navigationStyle": "custom", // 隐藏系统导航栏
-		       "navigationBarTitleText": "",
-		       "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/stu_talk_index",
-		    "style" :                                                                                    
-		    {
-		       "navigationStyle": "custom", // 隐藏系统导航栏
-		       "navigationBarTitleText": "",
-		       "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/class_behavior_detail",
-		    "style" :                                                                                    
-		    {
-		       "navigationStyle": "custom", // 隐藏系统导航栏
-		       "navigationBarTitleText": "",
-		       "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/class_behavior_detail",
-		    "style" :                                                                                    
-		    {
-		        "navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/class_behavior_add",
-		    "style" :                                                                                    
-		    {
-		       "navigationStyle": "custom", // 隐藏系统导航栏
-		       "navigationBarTitleText": "",
-		       "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/extra_behavior_add",
-		    "style" :                                                                                    
-		    {
-		        "navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/extra_behavior_detail",
-		    "style" :                                                                                    
-		    {
-		        "navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/stu_talk_detail",
-		    "style" :                                                                                    
-		    {
-		        "navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/stu_talk_detail",
-		    "style" :                                                                                    
-		    {
-		        "navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/stu_talk_action_add",
-		    "style" :                                                                                    
-		    {
-		        "navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/stu_talk_action_detail",
-		    "style" :                                                                                    
-		    {
-		       "navigationStyle": "custom", // 隐藏系统导航栏
-		       "navigationBarTitleText": "",
-		       "enablePullDownRefresh": false
-		    }
-		}
-		,{
-		    "path" : "pages/stu_behavior/studentSelect",
-		    "style" :                                                                                    
-		    {
-		       "navigationStyle": "custom", // 隐藏系统导航栏
-		       "navigationBarTitleText": "",
-		       "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/stu_behavior/stu_talk_add",
-		    "style" :                                                                                    
-		    {
-		        "navigationStyle": "custom", // 隐藏系统导航栏
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-        ,{
-            "path" : "pages/parents_attendance/leaveDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/parents_attendance/attenceDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/parents_attendance/churuxiao",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/index",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/collectionDataDetail",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/collectionDataIndex",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/collectionDataNew",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/gonggaoDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/gonggaoIndex",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/gongziDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/gongziIndex",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/noticeDetail",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/noticeIndex",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/noticeNew",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/selectPeople",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/shiwuDetail",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/shiwuNew",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/workflowDetail",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/workflowIndex",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/workflowNew",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/xiaoliDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/zhouchengDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/shiwuIndex",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/banjiForm",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/jinchuxiaoForm",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/ketangAdd",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": false
-            }
-            
-        }
-         
-        ,{
-            "path" : "pages/schapp_work/ketangForm",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/ketangIndex",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/kewaiAdd",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/kewaiForm",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/kewaiIndex",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/qingjiaAdd",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/qingjiaIndex",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/studentSelect",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_work/xueshengForm",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/oa/shiwuDetailAddUser",
-            "style" :                                                                                    
-            {
-				 "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_comment/index",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-				"enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_comment/stu_comment_detail",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_comment/stu_comment_add",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome_stu/index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-               "app-plus": {
-               	"pullToRefresh": {
-               		"support": true,
-               		"style": "circle",
-               		"offset":"76px"
-               	}
-               },
-               "h5":{
-               	"pullToRefresh":{
-               		"offset":"44px"
-               	}
-               }
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome_stu/detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
+				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/classes_homework_add",
-            "style" :                                                                                    
-            {
-				 "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/classes_homework_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/classes_homework_index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-               "app-plus": {
-               	"pullToRefresh": {
-               		"support": true,
-               		"style": "circle",
-               		"offset":"76px"
-               	}
-               },
-               "h5":{
-               	"pullToRefresh":{
-               		"offset":"44px"
-               	}
-               }
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/classes_notice_add",
-            "style" :                                                                                    
-            {
-				 "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/classes_notice_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/classes_notice_index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-               "app-plus": {
-               	"pullToRefresh": {
-               		"support": true,
-               		"style": "circle",
-               		"offset":"76px"
-               	}
-               },
-               "h5":{
-               	"pullToRefresh":{
-               		"offset":"44px"
-               	}
-               }
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/grade_notice_add",
-            "style" :                                                                                    
-            {
-				 "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/grade_notice_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/grade_notice_index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-               "app-plus": {
-               	"pullToRefresh": {
-               		"support": true,
-               		"style": "circle",
-               		"offset":"76px"
-               	}
-               },
-               "h5":{
-               	"pullToRefresh":{
-               		"offset":"44px"
-               	}
-               }
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/performance_add",
-            "style" :                                                                                    
-            {
-				 "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/performance_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/performance_index",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-                "app-plus": {
-                	"pullToRefresh": {
-                		"support": true,
-                		"style": "circle",
-                		"offset":"76px"
-                	}
-                },
-                "h5":{
-                	"pullToRefresh":{
-                		"offset":"44px"
-                	}
-                }
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/school_notice_add",
-            "style" :                                                                                    
-            {
-				 "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/school_notice_detail",
-            "style" :                                                                                    
-            {
-              "navigationBarTitleText": "",
-              "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/school_notice_index",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-                "app-plus": {
-                	"pullToRefresh": {
-                		"support": true,
-                		"style": "circle",
-                		"offset":"76px"
-                	}
-                },
-                "h5":{
-                	"pullToRefresh":{
-                		"offset":"44px"
-                	}
-                }
-            }
-            
-        }
-        ,{
-            "path" : "pages/schhome/selectGrdClsStu",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/index",
-            "style" :                                                                                    
-            {
+			}
+
+		}, {
+			"path": "pages/leave/teaLeaveQuery",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"76px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/index",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/base_info_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/base_info_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/base_info_floor_list",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-                "app-plus": {
-                	"pullToRefresh": {
-                		"support": true,
-                		"style": "circle",
-                		"offset":"0px"
-                	}
-                },
-                "h5":{
-                	"pullToRefresh":{
-                		"offset":"0px"
-                	}
-                }
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/classes_dorm_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/classes_dorm_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/classes_dorm_stay",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/select_dorm_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh":true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/select_dorm_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/emptybed_dorm_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/emptybed_dorm_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/vacantroom_dorm_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/vacantroom_dorm_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/evaluation_dorm_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/evaluation_dorm_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/calle_dorm_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/calle_dorm_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/attendance_dorm_index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-			   "app-plus": {
-			   	"pullToRefresh": {
-			   		"support": true,
-			   		"style": "circle",
-			   		"offset":"76px"
-			   	}
-			   },
-			   "h5":{
-			   	"pullToRefresh":{
-			   		"offset":"44px"
-			   	}
-			   }
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/attendance_dorm_detail",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/attendance_dorm_form",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset":"0px"
-					}
-				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
-					}
-				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/attendance_dorm_form_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/action_dorm_index",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-                "app-plus": {
-                	"pullToRefresh": {
-                		"support": true,
-                		"style": "circle",
-                		"offset":"76px"
-                	}
-                },
-                "h5":{
-                	"pullToRefresh":{
-                		"offset":"44px"
-                	}
-                }
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/action_dorm_detail",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/action_dorm_form",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
+				"navigationBarTitleText": "",
 				"enablePullDownRefresh": true,
 				"app-plus": {
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"0px"
+						"offset": "76px"
 					}
 				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
 					}
 				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/action_dorm_form_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/health_dorm_index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-               "app-plus": {
-               	"pullToRefresh": {
-               		"support": true,
-               		"style": "circle",
-               		"offset":"76px"
-               	}
-               },
-               "h5":{
-               	"pullToRefresh":{
-               		"offset":"44px"
-               	}
-               }
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/health_dorm_detail",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/health_dorm_form",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
+			}
+		},
+		{
+			"path": "pages/leave/teaLeaveQuery_Detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/leave/peopleSelect",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/markingPapers/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/markingPapers/weekTest_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
 				"app-plus": {
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"0px"
+						"offset": "0px"
 					}
 				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"0px"
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
 					}
 				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/health_dorm_form_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-		 }
-		 ,{
-            "path" : "pages/student_performance/singleScore",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/sumScore",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/zhishidianfenxi_xiangqing",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/zhishidianfenxi",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/cuoti_xiangqing",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/pk_xiangqing",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/shijuan_shiti",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/shijuan_zhishidian",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/tiaozhanzhe",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/yaoqing",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/zhangjie_change",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student_performance/zhishidian_change",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/attendance_dorm_add",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/action_dorm_add",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/health_dorm_add",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/stu_dorm/bedSelect",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_in_index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": true,
-			   "app-plus": {
-			   	"pullToRefresh": {
-			   		"support": true,
-			   		"style": "circle",
-			   		"offset":"76px"
-			   	}
-			   },
-			   "h5":{
-			   	"pullToRefresh":{
-			   		"offset":"44px"
-			   	}
-			   }
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_out_index",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
+			}
+		}, {
+			"path": "pages/markingPapers/monthTest_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
 				"app-plus": {
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset": "0px"
 					}
 				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
 					}
 				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_select_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_in_ghrk_add",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom", // 隐藏系统导航栏
-               "navigationBarTitleText": "",
-               "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_in_ghrk_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_in_add",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_in_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_add_query",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_select_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_out_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_out_lyck_detail",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/schapp_item/item_out_add",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/programme/add_programme",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/programme/dptProgramme",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-                "app-plus": {
-                	"pullToRefresh": {
-                		"support": true,
-                		"style": "circle",
-                		"offset":"76px"
-                	}
-                },
-                "h5":{
-                	"pullToRefresh":{
-                		"offset":"44px"
-                	}
-                }
-            }
-            
-        }
-        ,{
-            "path" : "pages/programme/index",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/programme/myProgramme",
-            "style" :                                                                                    
-            {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
+			}
+		}, {
+			"path": "pages/markingPapers/termTest_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
 				"app-plus": {
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
-						"offset":"76px"
+						"offset": "0px"
 					}
 				},
-				"h5":{
-					"pullToRefresh":{
-						"offset":"44px"
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
 					}
 				}
-            }
-            
-        }
-        ,{
-            "path" : "pages/teachercAttendance/add_attendance",
-            "style" :                                                                                    
-            {
+			}
+		}, {
+			"path": "pages/examination/index",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/teachercAttendance/attendanceDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/teachercAttendance/attendanceForm",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/teachercAttendance/attendanceSearch",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/teachercAttendance/index",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/examination/form",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/teachercAttendance/myAttendance",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+		}, {
+			"path": "pages/examination/clsScoreDiff",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-                "app-plus": {
-                	"pullToRefresh": {
-                		"support": true,
-                		"style": "circle",
-                		"offset":"76px"
-                	}
-                },
-                "h5":{
-                	"pullToRefresh":{
-                		"offset":"44px"
-                	}
-                }
-            }
-            
-        }
-        ,{
-            "path" : "pages/kouYuCePing/index",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/markingPapers/markingDetail",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/index",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/markingPapers/stuMarkDetail",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/zhixuezy_index",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/markingPapers/markScore",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/login/indexWX",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-                "app-plus": {
-                	"pullToRefresh": {
-                		"support": true,
-                		"style": "circle",
-                		"offset":"76px"
-                	}
-                },
-                "h5":{
-                	"pullToRefresh":{
-                		"offset":"44px"
-                	}
-                }
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/zujuancs_index",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/lishics_index",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "注册",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/examination/formDetailAvg",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/cuotiben_index",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/examination/formDetailSec",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/xueqingfx_index",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/examination/formDetail",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/kouYuCePing/book",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_actionComment/index",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/kouYuCePing/record",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": true,
-                "app-plus": {
-                	"pullToRefresh": {
-                		"support": true,
-                		"style": "circle",
-                		"offset":"76px"
-                	}
-                },
-                "h5":{
-                	"pullToRefresh":{
-                		"offset":"44px"
-                	}
-                }
-            }
-            
-        }
-        ,{
-            "path" : "pages/kouYuCePing/result",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/catalogPage",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/cuotiben_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/inside_page",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/lishics_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/xueqingfx_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/zujuancs_result",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_actionComment/index1",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/zujuancs_start",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/zujuancs_submit",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/zujuancs_testing",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/parents_attendance/index",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zhiXueKeTang/zujuancs_testing_answer",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/parents_attendance/index1",
+			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+		}, {
+			"path": "pages/stu_behavior/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_behavior/class_behavior_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_behavior/extra_behavior_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_behavior/stu_talk_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_behavior/class_behavior_detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_behavior/class_behavior_detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_behavior/class_behavior_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_behavior/extra_behavior_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_behavior/extra_behavior_detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_behavior/stu_talk_detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_behavior/stu_talk_detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_behavior/stu_talk_action_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_behavior/stu_talk_action_detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/stu_behavior/studentSelect",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_behavior/stu_talk_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/parents_attendance/leaveDetail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/parents_attendance/attenceDetail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/parents_attendance/churuxiao",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/oa/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/collectionDataDetail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/collectionDataIndex",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/oa/collectionDataNew",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/gonggaoDetail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/gonggaoIndex",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/oa/gongziDetail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/gongziIndex",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/oa/noticeDetail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/noticeIndex",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/oa/noticeNew",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/selectPeople",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/shiwuDetail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/shiwuNew",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/workflowDetail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/workflowIndex",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/oa/workflowNew",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/xiaoliDetail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/zhouchengDetail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/oa/shiwuIndex",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_work/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_work/banjiForm",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_work/jinchuxiaoForm",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_work/ketangAdd",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
+
+		, {
+			"path": "pages/schapp_work/ketangForm",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_work/ketangIndex",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_work/kewaiAdd",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_work/kewaiForm",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_work/kewaiIndex",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_work/qingjiaAdd",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_work/qingjiaIndex",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_work/studentSelect",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_work/xueshengForm",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/oa/shiwuDetailAddUser",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_comment/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_comment/index1",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+		}, {
+			"path": "pages/stu_comment/stu_comment_detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_comment/stu_comment_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome_stu/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schhome_stu/index1",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+		}, {
+			"path": "pages/schhome_stu/detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/classes_homework_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/classes_homework_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/classes_homework_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schhome/classes_notice_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/classes_notice_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/classes_notice_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schhome/grade_notice_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/grade_notice_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/grade_notice_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schhome/performance_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/performance_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/performance_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schhome/school_notice_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/school_notice_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schhome/school_notice_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schhome/selectGrdClsStu",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/student_performance/index1",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+		}, {
+			"path": "pages/stu_dorm/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/base_info_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/base_info_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/base_info_floor_list",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/classes_dorm_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/classes_dorm_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/classes_dorm_stay",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/select_dorm_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/select_dorm_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/emptybed_dorm_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/emptybed_dorm_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/vacantroom_dorm_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/vacantroom_dorm_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/evaluation_dorm_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/evaluation_dorm_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/calle_dorm_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/calle_dorm_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/attendance_dorm_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/attendance_dorm_detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/attendance_dorm_form",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/attendance_dorm_form_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/action_dorm_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/action_dorm_detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/action_dorm_form",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/action_dorm_form_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/health_dorm_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/health_dorm_detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/health_dorm_form",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "0px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "0px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/stu_dorm/health_dorm_form_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/student_performance/singleScore",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/sumScore",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/zhishidianfenxi_xiangqing",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/zhishidianfenxi",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/cuoti_xiangqing",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/pk_xiangqing",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/shijuan_shiti",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/shijuan_zhishidian",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/tiaozhanzhe",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/yaoqing",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/zhangjie_change",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student_performance/zhishidian_change",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/attendance_dorm_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/action_dorm_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/health_dorm_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/stu_dorm/bedSelect",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_item/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_in_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_out_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_select_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_in_ghrk_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_in_ghrk_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_in_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_in_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_add_query",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_select_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_out_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_out_lyck_detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/schapp_item/item_out_add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/programme/add_programme",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/programme/dptProgramme",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/programme/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/programme/myProgramme",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/teachercAttendance/add_attendance",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/teachercAttendance/attendanceDetail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/teachercAttendance/attendanceForm",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/teachercAttendance/attendanceSearch",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/teachercAttendance/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/teachercAttendance/myAttendance",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/kouYuCePing/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/kouYuCePing/index1",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/zhixuezy_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/zujuancs_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/lishics_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/cuotiben_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/xueqingfx_index",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/kouYuCePing/book",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/kouYuCePing/record",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/kouYuCePing/result",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/catalogPage",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/cuotiben_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/inside_page",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/lishics_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/xueqingfx_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/zujuancs_result",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/zujuancs_start",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/zujuancs_submit",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/zujuancs_testing",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zhiXueKeTang/zujuancs_testing_answer",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {
 		//"navigationStyle":"custom",//屏蔽原生导航栏，使用自定义导航栏NavBar https://uniapp.dcloud.io/collocation/pages?id=customnav   https://ask.dcloud.net.cn/article/34921
@@ -2667,8 +2428,7 @@
 		"selectedColor": "#007AFF",
 		"borderStyle": "black",
 		"backgroundColor": "#F8F8F8",
-		"list": [
-			{
+		"list": [{
 				"pagePath": "pages/more/index"
 			},
 			{
