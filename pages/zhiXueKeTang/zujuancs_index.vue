@@ -198,6 +198,12 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+			if(this.resPerModel.per_code && this.resSubModel.sub_code){
+				// 查询教版
+				this.getResCatalogs();
+			}
+		},
 	}
 </script>
 

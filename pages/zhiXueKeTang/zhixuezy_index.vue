@@ -136,6 +136,8 @@
 				let that=this
 				util.openwithData('/pages/zhiXueKeTang/catalogPage',{index_code:this.index_code},{
 					refreshCatalog(data){//子页面调用父页面需要的方法
+						that.tabIndex = 0;
+						that.scrollInto = that.resCategoryArray[0].key;
 						that.tabBarItem.text=data.data[0].data.name; //给标题赋值
 						that.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
 						//当前章节

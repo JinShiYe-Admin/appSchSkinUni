@@ -66,6 +66,9 @@
 				duration: 0
 			});
 			// #endif
+			if(this.per.selected.per_code){
+				this.getList();
+			}
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
@@ -94,6 +97,7 @@
 							list: res.data.list,
 						}
 						this.navRight = firstPer.per_name + '↓';
+						this.showLoading();
 						this.getList();
 					} else {
 						this.showToast(res.msg);
@@ -106,11 +110,11 @@
 				if(tempPer.per_code!=this.per.selected.per_code){
 					this.per.selected = tempPer;
 					this.navRight = tempPer.per_name + '↓';
+					this.showLoading();
 					this.getList();
 				}
 			},
 			getList: function() {
-				this.showLoading();
 				this.post(this.globaData.INTERFACE_ZXKT + "/history", {
 					per_code: this.per.selected.per_code,
 					index_code: this.itemData.access.split('#')[1],
