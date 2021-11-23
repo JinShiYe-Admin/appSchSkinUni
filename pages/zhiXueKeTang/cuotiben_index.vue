@@ -11,21 +11,27 @@
 				</view>
 			</uni-popup>
 		</view>
-		<uni-list>
-			<uni-list-item v-for="(model,index) in pageArray" :key='index' direction='column' showArrow clickable
-				@click="clickItem(model)">
-				<view slot="body" style="min-height: 40px;">
-					<view style="float: left;">
-						<view style="font-size: 14px;color: gray;margin-top: 10px;">{{model.sub_name}}</view>
-					</view>
-					<view class="rightView">
-						<view style="text-align: right;font-size: 13px;color: gray;margin-top: 10px;">{{model.count}}道错题
+		<template v-if="pageArray.length>0">
+			<uni-list>
+				<uni-list-item v-for="(model,index) in pageArray" :key='index' direction='column' showArrow clickable
+					@click="clickItem(model)">
+					<view slot="body" style="min-height: 40px;">
+						<view style="float: left;">
+							<view style="font-size: 14px;color: gray;margin-top: 10px;">{{model.sub_name}}</view>
+						</view>
+						<view class="rightView">
+							<view style="text-align: right;font-size: 13px;color: gray;margin-top: 10px;">{{model.count}}道错题
+							</view>
 						</view>
 					</view>
-				</view>
-			</uni-list-item>
-		</uni-list>
-
+				</uni-list-item>
+			</uni-list>
+		</template>
+		<template v-else>
+			<view class="title-text" style="text-align: center;margin-top: 15px;">
+				暂无错题
+			</view>
+		</template>
 	</view>
 </template>
 

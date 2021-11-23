@@ -74,9 +74,11 @@
 					if (deltaX >= 0) {
 						console.log("左滑")
 						this.changeIndex(-1);
+						this.setTransOption();
 					} else {
 						console.log("右滑")
 						this.changeIndex(1);
+						this.setTransOption();
 					}
 				}
 			},
