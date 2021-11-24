@@ -47,7 +47,7 @@
 				size="mini">确定</button>
 			<br><br>
 		</view>
-		<view v-show="detailModel.ApproveList&&detailModel.ApproveList.length>0"
+		<view v-if="detailModel.ApproveList&&detailModel.ApproveList.length>0"
 			style="itemData.flag == 0 && detailModel.NoticeStatus == 1?'margin-top: 0px;':'margin-top: 50px;'">
 			<view class="" style="height: 10px;background-color: #f2f2f2;margin: 10px 0;"></view>
 			<view class="titleCSS" style="font-size: 14px;color: #333;margin: 10px 0 10px 10px;">回复列表</view>
@@ -348,11 +348,12 @@
 																'approve/doSetSms4AffairApply',
 																dosetData, (data0, doData) => {
 																	this.hideLoading();
-																	const eventChannel = this
-																		.getOpenerEventChannel()
-																	eventChannel.emit(
-																		'refreshWorkflowIndex');
-																	uni.navigateBack();
+																	this.getNoticeByReceiveId_sendId_Detail(this.itemData.flag);
+																	// const eventChannel = this
+																	// 	.getOpenerEventChannel()
+																	// eventChannel.emit(
+																	// 	'refreshWorkflowIndex');
+																	// uni.navigateBack();
 																});
 														} else {
 															this.hideLoading();

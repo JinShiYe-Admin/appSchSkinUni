@@ -376,12 +376,14 @@ function getPageArray() {
 			midButton: false,
 			// 点击某一个item时，跳转的路径，此路径必须是pagees.json中tabBar字段中定义的路径
 			pagePath: '/pages/leave/stuLeaveIndex', // 1.5.6新增，路径需要以"/"开头
+			pagePath1: '/pages/leave/stuLeaveIndex1', // 1.5.6新增，路径需要以"/"开头
 			img_href: tempAAA + "/static/tabbar/stuLeave_img.png",
 			url: 'schapp_stuLeave',
 			childList: []
 		}, {
 			text: "家长代请假", //家长代请假
 			pagePath: "/pages/leave/parLeaveIndex",
+			pagePath1: "/pages/leave/parLeaveIndex1",
 			iconPath: tempAAA + '/static/tabbar/parLeave.png',
 			selectedIconPath: tempAAA + '/static/tabbar/parLeave_select.png',
 			count: 0,
@@ -495,6 +497,7 @@ function getPageArray() {
 		}, {
 			text: "学生考勤", //学生考勤
 			pagePath: "/pages/parents_attendance/index",
+			pagePath1: "/pages/parents_attendance/index1",
 			iconPath: tempAAA + '/static/tabbar/parentAttence.png',
 			selectedIconPath: tempAAA + '/static/tabbar/parentAttence_select.png',
 			count: 0,
@@ -656,6 +659,7 @@ function getPageArray() {
 		{
 			text: "家校互动", //家校互动
 			pagePath: "/pages/schhome_stu/index",
+			pagePath1: "/pages/schhome_stu/index1",
 			iconPath: tempAAA + '/static/tabbar/schhome.png',
 			selectedIconPath: tempAAA + '/static/tabbar/schhome_select.png',
 			count: 0,
@@ -668,6 +672,7 @@ function getPageArray() {
 		{ //学生评语
 			name: "学生评语", //评语
 			pagePath: "/pages/stu_comment/index",
+			pagePath1: "/pages/stu_comment/index1",
 			iconPath: tempAAA + '/static/tabbar/stuComment.png',
 			selectedIconPath: tempAAA + '/static/tabbar/stuComment_select.png',
 			count: 0,
@@ -679,6 +684,7 @@ function getPageArray() {
 		}, {
 			name: "行为与评语", //行为与评语，学生/家长端
 			pagePath: "/pages/stu_actionComment/index",
+			pagePath1: "/pages/stu_actionComment/index1",
 			iconPath: tempAAA + '/static/tabbar/actionComment.png',
 			selectedIconPath: tempAAA + '/static/tabbar/actionComment_select.png',
 			count: 0,
@@ -690,6 +696,7 @@ function getPageArray() {
 		},{
 			name: "学生成绩", //学生成绩
 			pagePath: "/pages/student_performance/index",
+			pagePath1: "/pages/student_performance/index1",
 			iconPath: tempAAA + '/static/tabbar/stuScore.png',
 			selectedIconPath: tempAAA + '/static/tabbar/stuScore_select.png',
 			count: 0,
@@ -888,6 +895,7 @@ function getPageArray() {
 		{
 			name: "kouYuCePing", //口语测评
 			pagePath: "/pages/kouYuCePing/index",
+			pagePath1: "/pages/kouYuCePing/index1",
 			iconPath: tempAAA + '/static/tabbar/kouYuCePing.png',
 			selectedIconPath: tempAAA + '/static/tabbar/kouYuCePing_select.png',
 			count: 0,

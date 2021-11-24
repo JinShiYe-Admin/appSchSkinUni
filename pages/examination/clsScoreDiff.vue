@@ -603,8 +603,6 @@
 							var tempM = data.data.list[a];
 							tempAvgArray.push(tempM.avg);
 							tempNameArray.push('');
-							tempAvgArray.push(tempM.avg);
-							tempNameArray.push('');
 						}
 						this.sem1Data.chartPjf = {
 							categories: tempNameArray,
