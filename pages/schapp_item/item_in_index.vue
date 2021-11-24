@@ -7,8 +7,8 @@
 		<view style="padding-top: 44px;" >
 			<view v-if="current === 0">
 				<uni-list :border="false">
-					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata0" :border="true">
-						<text slot="body" class="slot-box slot-text" @click="toDetail0(item)">
+					<uni-list-item showArrow clickable @click="toDetail0(item)" :key="index" v-for="(item,index) in pagedata0" :border="true">
+						<text slot="body" class="slot-box slot-text" @click.stop="toDetail0(item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">单号:{{item.inCode}}<view v-if="item.isRed==1" class="hcd">红冲单</view></view></uni-col>
 								<template v-if="item.items.length>2">
@@ -35,8 +35,8 @@
 			</view>
 			<view v-if="current === 1">
 				<uni-list :border="false">
-					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text" @click="toDetail1(item)">
+					<uni-list-item showArrow clickable @click="toDetail1(item)" :key="index" v-for="(item,index) in pagedata1" :border="true">
+						<text slot="body" class="slot-box slot-text" @click.stop="toDetail1(item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">单号:{{item.inCode}}<view v-if="item.isRed==1" class="hcd">红冲单</view><view v-if="item.inType==2" class="orange">报损</view></view></uni-col>
 								<uni-col :key="index+Math.random()" :span="8"><view class="detail-text">名称:{{item.itemName}}</view></uni-col>

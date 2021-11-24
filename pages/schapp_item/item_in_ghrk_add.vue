@@ -18,7 +18,7 @@
 		<view class="double-line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">归还人姓名</view>
-			<input class="uni-input form-right"  v-model="formData.returnManName"  placeholder="请输入" :disabled="canInput"/>
+			<input class="uni-input form-right"  v-model="formData.returnManName" maxlength="20"   placeholder="请输入" :disabled="canInput"/>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">

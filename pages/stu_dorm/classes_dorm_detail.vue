@@ -16,8 +16,8 @@
 				<view class="title-text" style="margin-top: 5px;">{{item.floor}}</view>
 				<view class="line" style="margin-top: 5px;"></view>
 				<uni-list :border="false">
-					<uni-list-item showArrow :key="index" v-for="(model,index) in item.list" :border="true">
-						<text slot="body" class="slot-box slot-text" @click="toDetails(item,model)">
+					<uni-list-item showArrow clickable @click="toDetails(item,model)" :key="index" v-for="(model,index) in item.list" :border="true">
+						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item,model)">
 							<uni-row>
 								<uni-col :span="12"><view class="detail-text">房间号:{{model.room_name}}</view></uni-col>
 								<uni-col :span="12"><view class="detail-text">床位数:{{model.bed_nums}}</view></uni-col>

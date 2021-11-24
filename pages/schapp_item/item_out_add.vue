@@ -19,7 +19,7 @@
 		<view class="double-line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">领用人姓名</view>
-			<input class="uni-input form-right"  v-model="formData.receiveManName"  placeholder="请输入" :disabled="canInput"/>
+			<input class="uni-input form-right"  v-model="formData.receiveManName" maxlength="20"   placeholder="请输入" :disabled="canInput"/>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
@@ -29,12 +29,12 @@
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left form-left-textarea">放置地点</view>
-			<input class="uni-input form-right"  v-model="formData.putArea"  placeholder="请输入" :disabled="canInput"/>
+			<input class="uni-input form-right"  v-model="formData.putArea" maxlength="50"   placeholder="请输入" :disabled="canInput"/>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left form-left-textarea">备注</view>
-			<textarea placeholder="请输入" v-model="formData.note" maxlength="100" :disabled="canInput"></textarea>
+			<textarea placeholder="请输入" v-model="formData.note" maxlength="200" :disabled="canInput"></textarea>
 		</view>
 		<view class="double-line"></view>
 		<view class="uni-flex uni-row form-view">

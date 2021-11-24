@@ -8,8 +8,8 @@
 		<view class="content">
 			<view v-if="current === 0">
 				<uni-list :border="false">
-					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata0" :border="true">
-						<text slot="body" class="slot-box slot-text" @click="toDetails(0,item)">
+					<uni-list-item showArrow clickable @click="toDetails(0,item)" :key="index" v-for="(item,index) in pagedata0" :border="true">
+						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(0,item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
@@ -24,8 +24,8 @@
 			</view>
 			<view v-if="current === 1">
 				<uni-list :border="false">
-					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text" @click="toDetails(1,item)">
+					<uni-list-item showArrow clickable @click="toDetails(1,item)" :key="index" v-for="(item,index) in pagedata1" :border="true">
+						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(1,item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
@@ -40,8 +40,8 @@
 			</view>
 			<view v-if="current === 2">
 				<uni-list :border="false">
-					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata2" :border="true">
-						<text slot="body" class="slot-box slot-text" @click="toDetails(2,item)">
+					<uni-list-item showArrow clickable @click="toDetails(2,item)" :key="index" v-for="(item,index) in pagedata2" :border="true">
+						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(2,item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
@@ -57,8 +57,8 @@
 			</view>
 			<view v-if="current === 3">
 				<uni-list :border="false">
-					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata3" :border="true">
-						<text slot="body" class="slot-box slot-text" @click="toDetails(3,item)">
+					<uni-list-item showArrow clickable @click="toDetails(3,item)" :key="index" v-for="(item,index) in pagedata3" :border="true">
+						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(3,item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>

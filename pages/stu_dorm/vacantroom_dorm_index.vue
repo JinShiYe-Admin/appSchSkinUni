@@ -23,8 +23,8 @@
 			</uni-row>
 			<view v-if="total" class="double-line" style="margin: 0 -15px;"></view>
 			<uni-list :border="false">
-				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
+				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
+					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
 							<uni-col :span="12"><view class="detail-text">楼房:{{item.dorm_name}} {{item.floor_num}}层</view></uni-col>
 							<uni-col :span="12"><view class="detail-text">居住性别:{{item.stu_sex_text}}</view></uni-col>

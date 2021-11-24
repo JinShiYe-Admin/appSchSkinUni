@@ -27,8 +27,8 @@
 		<view>
 			<view style="padding-top: 85px;">
 				<uni-list :border="false">
-					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
+					<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata1" :border="true">
+						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begintime}} ~ {{item.endtime}}</view></uni-col>

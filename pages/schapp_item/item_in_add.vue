@@ -3,12 +3,12 @@
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">采购人姓名</view>
-			<input class="uni-input form-right"  v-model="formData.purchasingManName"  placeholder="请输入"/>
+			<input class="uni-input form-right"  v-model="formData.purchasingManName" maxlength="20"  placeholder="请输入"/>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">供应商</view>
-			<input class="uni-input form-right"  v-model="formData.supplierName"  placeholder="请输入"/>
+			<input class="uni-input form-right"  v-model="formData.supplierName" maxlength="20"  placeholder="请输入"/>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">

@@ -311,6 +311,7 @@
 					term_name: this.termList[this.termIndex].value,
 					remark_type: this.remarkList[this.remarkIndex].value,
 					remark: comment,
+					sms_parent_stu_flag:smsFlag,
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_STUPYSUB+'Comment/save',comData,(response0,response)=>{

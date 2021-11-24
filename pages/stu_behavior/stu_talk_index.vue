@@ -29,8 +29,8 @@
 		</view>
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
-				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
+				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
+					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text"><view v-if="item.status!=null" class='leaveType'>{{item.item_txt}}</view>{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}<view v-if="item.status!=null" :class="item.status=='unTalk'?'leaveType1':item.status=='talk'?'leaveType2':item.status=='read'?'leaveType3':''">{{item.status_txt}}</view></view></uni-col>
 							
