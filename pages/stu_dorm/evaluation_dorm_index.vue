@@ -18,8 +18,8 @@
 		</view>
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
-				<uni-list-item showArrow :key="index" v-for="(model,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click="toDetails(model)">
+				<uni-list-item showArrow clickable @click="toDetails(model)" :key="index" v-for="(model,index) in pagedata" :border="true">
+					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
 						<view class="title-text">{{model.grd_name}} {{model.cls_name}}</view>
 						<view class="detail-text">总分：{{model.total_score}} 分</view>
 					</text>

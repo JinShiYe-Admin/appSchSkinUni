@@ -24,8 +24,8 @@
 		<view>
 			<view style="margin-top: 40px;">
 				<uni-list :border="false">
-					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
+					<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata1" :border="true">
+						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 							<uni-row>
 								<uni-col :span="24" style="display: flex;align-items: center;">
 									<uni-col :span="4"><view class="ant-avatar ant-avatar-lg" style="float: left;background-color: rgb(255, 191, 0);vertical-align: middle;">{{item.exam_type_name}}</view></uni-col>

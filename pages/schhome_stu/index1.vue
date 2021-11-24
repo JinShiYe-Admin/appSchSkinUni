@@ -13,8 +13,8 @@
 		</view>
 		<view style="padding-top: 40px;" >
 			<uni-list :border="false">
-				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
+				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
+					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<view style="display: flex;">
 							<view class="icons-text" :class="item.msg_type=='1-1'?'icons-text-school':
 								item.msg_type=='1-2'?'icons-text-grade':

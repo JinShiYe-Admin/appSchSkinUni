@@ -7,8 +7,8 @@
 		<view style="padding-top: 44px;" >
 			<view v-if="current === 0">
 				<uni-list :border="false">
-					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata0" :border="true">
-						<text slot="body" class="slot-box slot-text" @click="toDetail0(item)">
+					<uni-list-item showArrow clickable @click="toDetail0(item)" :key="index" v-for="(item,index) in pagedata0" :border="true">
+						<text slot="body" class="slot-box slot-text" @click.stop="toDetail0(item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">单号:{{item.outCode}}<view v-if="item.isRed==1" class="hcd">红冲单</view></view></uni-col>
 									<uni-col :span="12"><view class="detail-text">名称:{{item.itemName}}</view></uni-col>
@@ -23,8 +23,8 @@
 			</view>
 			<view v-if="current === 1">
 				<uni-list :border="false">
-					<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text" @click="toDetail1(item)">
+					<uni-list-item showArrow clickable @click="toDetail1(item)" :key="index" v-for="(item,index) in pagedata1" :border="true">
+						<text slot="body" class="slot-box slot-text" @click.stop="toDetail1(item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">单号:{{item.outCode?item.outCode:'暂无'}}<view v-if="item.isOut==1" class="isout">已出库</view><view v-if="item.isOut==2" class="noout">未出库</view></view></uni-col>
 								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">名称:{{item.itemName}}</view></uni-col>

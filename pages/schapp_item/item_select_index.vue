@@ -11,8 +11,8 @@
 		</view>
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
-				<uni-list-item showArrow :key="index" v-for="(model,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click="toDetails(model)">
+				<uni-list-item showArrow clickable @click="toDetails(model)" :key="index" v-for="(model,index) in pagedata" :border="true">
+					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">{{model.itemName}}(编号:{{model.itemCode}})</view></uni-col>
 							<uni-col :span="12"><view class="detail-text">型号:{{model.itemType}}</view></uni-col>

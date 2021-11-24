@@ -22,8 +22,8 @@
 		</view>
 		<view style="padding:37px 15px 0px;">
 			<uni-list :border="false">
-				<uni-list-item showArrow :key="index" v-for="(model,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click="toDetails(model)">
+				<uni-list-item showArrow clickable @click="toDetails(model)" :key="index" v-for="(model,index) in pagedata" :border="true">
+					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
 						<uni-row>
 							<uni-col :span="15"><view class="detail-text">楼层:{{model.dorm_name}} {{model.floor_num}}层 {{model.room_name}}室</view></uni-col>
 							<uni-col :span="9"><view class="detail-text">居住性别:{{model.stu_sex_text}}</view></uni-col>

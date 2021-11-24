@@ -14,8 +14,8 @@
 		<view class="double-line"></view>
 		 <view style="padding:5px 15px;">
 			 <uni-list :border="false">
-			 	<uni-list-item showArrow :key="index" v-for="(item,index) in pageArray" :border="true">
-			 		<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
+			 	<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pageArray" :border="true">
+			 		<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 			 			<uni-row>
 			 				<uni-col :span="24"><view class="title-text2">楼房名:{{item.dorm_name}}</view></uni-col>
 			 				<template  v-for="(item2,index2) in item.list">
