@@ -324,7 +324,7 @@
 						if (this.smsSend) {
 							let selectData = this.selectPeople;
 							let touser = [];
-							for (var i = 0; i < selectData.length; i++) {
+							for (var i = 0; i < 1; i++) {
 								let obj = {
 									gen_type: this.OA_MSG_SMS.WORKFLOW.USER_TYPE,
 									dpt_code: selectData[i].dpt_code,

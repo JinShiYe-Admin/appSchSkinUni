@@ -44,6 +44,8 @@
 			</view>
 			<view class="loginBtnView"><button class="loginBtn" @click="sure()">确定</button></view>
 		</view>
+		<popup ref="mapState" protocolPath='/pages/more/privace' :showPopup='showYinsi' @popupState="popupState">
+		</popup>
 	</view>
 </template>
 
@@ -52,6 +54,7 @@
 	import RSAKey from '../../commom/encrypt/rsa.js'
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import update from '../../uni_modules/uni-upgrade-center-app/utils/check-update.js'
+	import popup from '@/components/DuDu-popup/DuDu-popup.vue'
 	export default {
 		data() {
 			return {
@@ -64,12 +67,74 @@
 				jsonData: [],
 				showArray: [],
 				pageArray: util.getPageArray(),
+				showYinsi:false,//是否显示隐私
 			}
 		},
 		components: {
-			uniNavBar
+			uniNavBar,
+			popup
 		},
 		methods: {
+			popupState(e) { //e->false取消 true确认
+				console.log('popupState:' + e);
+				if(e){
+					uni.setStorageSync('yinsi',1);
+					this.showYinsi = false;
+					this.tongyiYinsi();
+				}else{
+					this.showYinsi = true;
+					this.showToast('由于您没有同意教宝校园《用户隐私政策》的相关内容，我们暂时无法为您提供服务。请谅解！');
+				}
+			},
+			tongyiYinsi(){
+				//#ifdef APP-PLUS
+				update();
+				//#endif
+				if (this.APPORWECHAT == 1) {
+					this.showInput = 1;
+					var tempInfo = util.getPersonal();
+					if (tempInfo.userName0) {
+						this.uname = tempInfo.userName0;
+						this.passw = tempInfo.passWord0;
+						this.login();
+					}
+				} else {
+					let openid = this.getUrlParam('openid');
+					console.log('openid111111:' + openid);
+					if (openid) {
+						let tempM = {
+							openid: openid
+						}
+						// util.openwithData('/pages/login/indexWX', tempM);
+						uni.redirectTo({
+							url: '/pages/login/indexWX?openid=' + openid
+						});
+					} else {
+						if (this.globaData.EnvKey == 5) {
+							console.log('页面url:' + window.location.href);
+							var tempUrl = window.location.href;
+							console.log('tempUrl0:' + tempUrl);
+							// var tempUrl1 = tempUrl.replace('index', 'registerIndex');
+							// console.log('tempUrl1:' + tempUrl1);
+							var tempArray = tempUrl.split('/');
+							console.log('tempArray:' + JSON.stringify(tempArray));
+							var appid = '';
+							for (var a = 0; a < tempArray.length; a++) {
+								if (tempArray[a].indexOf("wx") != -1) {
+									appid = tempArray[a];
+								}
+							}
+							tempGo = 'https://jsypay.jiaobaowang.net/jsypaym/wxpay/ThdGetOpenid.ashx?appid=' + appid +
+								'&returi=' + encodeURI(tempUrl);
+							// 向服务器传递appid、返回URL
+							location.replace(tempGo);
+						} else {
+							this.showInput = 2;
+						}
+					}
+				}
+				console.log('this.showInput:' + this.showInput);
+			},
 			sure: function() {
 				if (this.pagePswd == 'jsy@123654') {
 					if (this.APPORWECHAT == 1) {
@@ -154,170 +219,193 @@
 								verify_code: ''
 							};
 							this.post(this.globaData.INTERFACE_SSO_SKIN + 'login', comData, (data0, data1) => {
-									var tempData = data1.data;
-									util.setPersonal(tempData);
-									var tempFlag = 0;
-									//1.4获取菜单
-									//不需要加密的数据
-									var comData4 = {
-										platform_code: this.globaData.PLATFORMCODE, //平台代码
-										app_code: this.globaData.APPCODE, //应用系统代码
-										unit_code: data1.data.user.unit_code,
-										index_code: 'index',
-										access_token: data1.data.access_token //用户令牌
-									};
-									this.post(this.globaData.INTERFACE_SSO_SKIN + 'acl/menu',
-										comData4, (data0, data4) => {
-											console.log("data4: " + JSON.stringify(data4));
-											if (data4.code == 0) {
-												if (data4.data.list.length > 0) {
-													var tempA = [];
-													for (var i = 0; i < data4.data.list[0].childList.length; i++) { //一级菜单循环
-														var web_first_item = data4.data.list[0].childList[i];
-														for (var a = 0; a < this.pageArray.length; a++) {
-															var local_first_item = this.pageArray[a];
-															if (local_first_item.url == web_first_item.url) {
-																local_first_item.text = web_first_item.name;
-																local_first_item.access = web_first_item.access;
-																local_first_item.redspot_url = web_first_item.redspot_url;
-																let childList = []
-																for (var b = 0; b < web_first_item.childList.length; b++) { //二级菜单循环
-																	var web_second_item = web_first_item.childList[b];
-																	for (var c = 0; c < local_first_item.childList.length; c++) {
-																		var local_second_item = local_first_item.childList[c];
-																		if (local_second_item.url == web_second_item.url) {
-																			local_second_item.access = web_second_item.access;
-																			local_second_item.redspot_url = web_second_item.redspot_url;
-																			local_second_item.childList = web_second_item.childList;
-																			local_second_item.text = web_second_item.name;
-																			childList.push(local_second_item)
-																		}
+								var tempData = data1.data;
+								util.setPersonal(tempData);
+								var tempFlag = 0;
+								//1.4获取菜单
+								//不需要加密的数据
+								var comData4 = {
+									platform_code: this.globaData.PLATFORMCODE, //平台代码
+									app_code: this.globaData.APPCODE, //应用系统代码
+									unit_code: data1.data.user.unit_code,
+									index_code: 'index',
+									access_token: data1.data.access_token //用户令牌
+								};
+								this.post(this.globaData.INTERFACE_SSO_SKIN + 'acl/menu',
+									comData4, (data0, data4) => {
+										console.log("data4: " + JSON.stringify(data4));
+										if (data4.code == 0) {
+											if (data4.data.list.length > 0) {
+												var tempA = [];
+												for (var i = 0; i < data4.data.list[0].childList
+													.length; i++) { //一级菜单循环
+													var web_first_item = data4.data.list[0]
+														.childList[i];
+													for (var a = 0; a < this.pageArray
+														.length; a++) {
+														var local_first_item = this.pageArray[a];
+														if (local_first_item.url == web_first_item
+															.url) {
+															local_first_item.text = web_first_item
+																.name;
+															local_first_item.access =
+																web_first_item.access;
+															local_first_item.redspot_url =
+																web_first_item.redspot_url;
+															let childList = []
+															for (var b = 0; b < web_first_item
+																.childList.length; b++) { //二级菜单循环
+																var web_second_item =
+																	web_first_item.childList[b];
+																for (var c = 0; c <
+																	local_first_item.childList
+																	.length; c++) {
+																	var local_second_item =
+																		local_first_item.childList[
+																			c];
+																	if (local_second_item.url ==
+																		web_second_item.url) {
+																		local_second_item.access =
+																			web_second_item.access;
+																		local_second_item
+																			.redspot_url =
+																			web_second_item
+																			.redspot_url;
+																		local_second_item
+																			.childList =
+																			web_second_item
+																			.childList;
+																		local_second_item.text =
+																			web_second_item.name;
+																		childList.push(
+																			local_second_item)
 																	}
 																}
-																local_first_item.childList = childList
-																tempA.push(local_first_item);
 															}
+															local_first_item.childList = childList
+															tempA.push(local_first_item);
 														}
 													}
-													for (var i = 0; i < tempA.length; i++) {
-														let tempM = tempA[i];
-														tempM.index = i;
-													}
-													console.log('tempA:' + JSON.stringify(tempA));
-													if (tempA.length > 5) {
-														var tempArrayM = tempA.slice(4);
-														util.setMenuMore(tempArrayM);
-														tempA = tempA.slice(0, 4);
-														tempA.push({
-															text: "更多",
-															index: 4,
-															pagePath: "/pages/more/index",
-															iconPath: '../../static/tabbar/more.png',
-															selectedIconPath: '../../static/tabbar/more_select.png',
-															img_href: "../../img/schapp_work/kaoqin_tab.png",
-															url: 'schappUni_CoursePractice',
-															childList: []
-														});
-													} else {
-														util.setMenuMore([]);
-													}
-													console.log('tempA:' + JSON.stringify(tempA));
-													this.showArray = [].concat(tempA);
-													util.setMenu(this.showArray);
-													if (this.showArray.length > 0) {
-														util.setTabbarMenu(this.showArray[0]);
-													}
-													//跳转界面
-													tempFlag++;
-													console.log('tempFlag02:' + tempFlag);
-													if (tempFlag == 3) {
-														this.gotoPage();
-													}
+												}
+												for (var i = 0; i < tempA.length; i++) {
+													let tempM = tempA[i];
+													tempM.index = i;
+												}
+												console.log('tempA:' + JSON.stringify(tempA));
+												if (tempA.length > 5) {
+													var tempArrayM = tempA.slice(4);
+													util.setMenuMore(tempArrayM);
+													tempA = tempA.slice(0, 4);
+													tempA.push({
+														text: "更多",
+														index: 4,
+														pagePath: "/pages/more/index",
+														iconPath: '../../static/tabbar/more.png',
+														selectedIconPath: '../../static/tabbar/more_select.png',
+														img_href: "../../img/schapp_work/kaoqin_tab.png",
+														url: 'schappUni_CoursePractice',
+														childList: []
+													});
 												} else {
-													this.showToast('应用系统无权限，请联系管理员');
+													util.setMenuMore([]);
+												}
+												console.log('tempA:' + JSON.stringify(tempA));
+												this.showArray = [].concat(tempA);
+												util.setMenu(this.showArray);
+												if (this.showArray.length > 0) {
+													util.setTabbarMenu(this.showArray[0]);
+												}
+												//跳转界面
+												tempFlag++;
+												console.log('tempFlag02:' + tempFlag);
+												if (tempFlag == 3) {
+													this.gotoPage();
 												}
 											} else {
-												this.showToast(data4.msg);
+												this.showToast('应用系统无权限，请联系管理员');
 											}
-										})
+										} else {
+											this.showToast(data4.msg);
+										}
+									})
 
-									var comData3 = {
-										platform_code: data1.data.user.platform_code, //平台代码
-										app_code: data1.data.user.app_code, //应用系统代码
-										index_code: 'index', //页面权限符,必传,从登录皮肤处获得
-										unit_code: data1.data.user.unit_code, //学校代码,必传
-										user_code: data1.data.user.user_code, //用户代码,必传
-										access_token: data1.data.access_token //用户令牌
-									};
-									//登录用户岗位信息
-									this.post(this.globaData.INTERFACE_HR_SUB + 'user/getUserImg',
-										comData3, (data0,
-											data3) => {
-											if (data3.code == 0) {
+								var comData3 = {
+									platform_code: data1.data.user.platform_code, //平台代码
+									app_code: data1.data.user.app_code, //应用系统代码
+									index_code: 'index', //页面权限符,必传,从登录皮肤处获得
+									unit_code: data1.data.user.unit_code, //学校代码,必传
+									user_code: data1.data.user.user_code, //用户代码,必传
+									access_token: data1.data.access_token //用户令牌
+								};
+								//登录用户岗位信息
+								this.post(this.globaData.INTERFACE_HR_SUB + 'user/getUserImg',
+									comData3, (data0,
+										data3) => {
+										if (data3.code == 0) {
+											var tempPerInfo = util.getPersonal();
+											tempPerInfo.hrImg_url = data3.data.user_img;
+											util.setPersonal(tempPerInfo);
+											tempFlag++;
+											console.log('tempFlag01:' + tempFlag);
+											if (tempFlag == 3) {
+												//跳转界面
+												this.gotoPage();
+											}
+										} else {
+											this.showToast(data3.msg);
+										}
+									});
+
+								//1.42.根据用户类型及代码查询教师/学生信息
+								var comData5 = {
+									platform_code: this.globaData.PLATFORMCODE, //平台代码
+									app_code: this.globaData.APPCODE, //应用系统代码
+									unit_code: data1.data.user.unit_code,
+									user_type_code: data1.data.user.type_code,
+									user_code: data1.data.user.user_code,
+									index_code: 'index',
+									access_token: data1.data.access_token //用户令牌
+								};
+								//1.42.根据用户类型及代码查询教师/学生信息
+								this.post(this.globaData.INTERFACE_HR_SUB +
+									'user/getUserInfoByTypeAndCode', comData5, (
+										data0, data5) => {
+										if (data5.code == '0000') {
+											if (data5.data) {
 												var tempPerInfo = util.getPersonal();
-												tempPerInfo.hrImg_url = data3.data.user_img;
+												if (data1.data.user.type_code == 'YHLX0003') {
+													tempPerInfo.tec_name = data5.data.tec_name;
+													tempPerInfo.sch_name = data5.data.sch_name;
+													tempPerInfo.sch_code = data5.data.sch_code;
+													tempPerInfo.tec_code = data5.data.tec_code;
+													tempPerInfo.dpt_name = data5.data.dpt_name;
+													tempPerInfo.dpt_code = data5.data.dpt_code;
+												} else {
+													tempPerInfo.cls_name = data5.data.cls_name;
+													tempPerInfo.sch_name = data5.data.sch_name;
+													tempPerInfo.sch_code = data5.data.sch_code;
+													tempPerInfo.cls_code = data5.data.cls_code;
+													tempPerInfo.grd_name = data5.data.grd_name;
+													tempPerInfo.grd_code = data5.data.grd_code;
+													tempPerInfo.stu_name = data5.data.stu_name;
+													tempPerInfo.stu_code = data5.data.stu_code;
+												}
 												util.setPersonal(tempPerInfo);
 												tempFlag++;
-												console.log('tempFlag01:' + tempFlag);
+												console.log('tempFlag02:' + tempFlag);
 												if (tempFlag == 3) {
 													//跳转界面
 													this.gotoPage();
 												}
 											} else {
-												this.showToast(data3.msg);
+												this.showToast('应用系统无权限，请联系管理员');
 											}
-										});
+										} else {
+											this.showToast(data5.msg);
+										}
+									});
 
-									//1.42.根据用户类型及代码查询教师/学生信息
-									var comData5 = {
-										platform_code: this.globaData.PLATFORMCODE, //平台代码
-										app_code: this.globaData.APPCODE, //应用系统代码
-										unit_code: data1.data.user.unit_code,
-										user_type_code: data1.data.user.type_code,
-										user_code: data1.data.user.user_code,
-										index_code: 'index',
-										access_token: data1.data.access_token //用户令牌
-									};
-									//1.42.根据用户类型及代码查询教师/学生信息
-									this.post(this.globaData.INTERFACE_HR_SUB +
-										'user/getUserInfoByTypeAndCode', comData5, (
-											data0, data5) => {
-											if (data5.code == '0000') {
-												if (data5.data) {
-													var tempPerInfo = util.getPersonal();
-													if (data1.data.user.type_code == 'YHLX0003') {
-														tempPerInfo.tec_name = data5.data.tec_name;
-														tempPerInfo.sch_name = data5.data.sch_name;
-														tempPerInfo.sch_code = data5.data.sch_code;
-														tempPerInfo.tec_code = data5.data.tec_code;
-														tempPerInfo.dpt_name = data5.data.dpt_name;
-														tempPerInfo.dpt_code = data5.data.dpt_code;
-													} else {
-														tempPerInfo.cls_name = data5.data.cls_name;
-														tempPerInfo.sch_name = data5.data.sch_name;
-														tempPerInfo.sch_code = data5.data.sch_code;
-														tempPerInfo.cls_code = data5.data.cls_code;
-														tempPerInfo.grd_name = data5.data.grd_name;
-														tempPerInfo.grd_code = data5.data.grd_code;
-														tempPerInfo.stu_name = data5.data.stu_name;
-														tempPerInfo.stu_code = data5.data.stu_code;
-													}
-													util.setPersonal(tempPerInfo);
-													tempFlag++;
-													console.log('tempFlag02:' + tempFlag);
-													if (tempFlag == 3) {
-														//跳转界面
-														this.gotoPage();
-													}
-												} else {
-													this.showToast('应用系统无权限，请联系管理员');
-												}
-											} else {
-												this.showToast(data5.msg);
-											}
-										});
-
-								})
+							})
 						} else {
 							this.showToast('获取秘钥失败');
 						}
@@ -360,7 +448,7 @@
 						console.log("跳转页面吧");
 						// this.jsonData = tempData;
 						var tempArray = util.getMenu();
-						console.log('tempArray:'+JSON.stringify(tempArray));
+						console.log('tempArray:' + JSON.stringify(tempArray));
 						if (tempArray.length > 0) {
 							uni.switchTab({
 								url: tempArray[0].pagePath
@@ -391,53 +479,14 @@
 			},
 		},
 		onLoad: function() {
-			//#ifdef APP-PLUS
-			update();
-			//#endif
-			if (this.APPORWECHAT == 1) {
-				this.showInput = 1;
-				var tempInfo = util.getPersonal();
-				if (tempInfo.userName0) {
-					this.uname = tempInfo.userName0;
-					this.passw = tempInfo.passWord0;
-					this.login();
-				}
-			} else {
-				let openid = this.getUrlParam('openid');
-				console.log('openid111111:' + openid);
-				if (openid) {
-					let tempM = {
-						openid: openid
-					}
-					// util.openwithData('/pages/login/indexWX', tempM);
-					uni.redirectTo({
-						url: '/pages/login/indexWX?openid=' + openid
-					});
-				} else {
-					if (this.globaData.EnvKey == 5) {
-						console.log('页面url:' + window.location.href);
-						var tempUrl = window.location.href;
-						console.log('tempUrl0:' + tempUrl);
-						// var tempUrl1 = tempUrl.replace('index', 'registerIndex');
-						// console.log('tempUrl1:' + tempUrl1);
-						var tempArray = tempUrl.split('/');
-						console.log('tempArray:' + JSON.stringify(tempArray));
-						var appid = '';
-						for (var a = 0; a < tempArray.length; a++) {
-							if (tempArray[a].indexOf("wx") != -1) {
-								appid = tempArray[a];
-							}
-						}
-						tempGo = 'https://jsypay.jiaobaowang.net/jsypaym/wxpay/ThdGetOpenid.ashx?appid=' + appid +
-							'&returi=' + encodeURI(tempUrl);
-						// 向服务器传递appid、返回URL
-						location.replace(tempGo);
-					} else {
-						this.showInput = 2;
-					}
-				}
+			// 判断是否同意隐私政策
+			let yinsiShow = uni.getStorageSync('yinsi');
+			console.log('yinsiShow:'+yinsiShow);
+			if(yinsiShow==1){
+				this.tongyiYinsi();
+			}else{
+				this.showYinsi = true;
 			}
-			console.log('this.showInput:' + this.showInput);
 		}
 	}
 </script>

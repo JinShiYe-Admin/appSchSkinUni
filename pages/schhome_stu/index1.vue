@@ -149,7 +149,7 @@
 				util.openwithData('/pages/schhome_stu/detail',item,{})
 			}
 		},
-		onLoad() {
+		onLoad(option) {
 			_this = this;
 			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
 			uni.$on('updateHeadImg', function(data) {
@@ -157,7 +157,7 @@
 			})
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = util.getTabbarMenu();
+			this.tabBarItem = util.getPageData(option);
 			this.index_code=this.tabBarItem.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()

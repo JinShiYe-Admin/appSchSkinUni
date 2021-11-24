@@ -2,7 +2,7 @@
 	<view>
 		<view style="text-align: center;margin: 10px;font-size: 14px;">历次练习得分曲线</view>
 		<view v-if="chartDefen.series&&chartDefen.series.length>0" class="charts-box">
-			<qiun-data-charts type="demotype" :opts="{dataLabel:false}" :chartData="chartDefen" background="none" />
+			<qiun-data-charts type="demotype" :opts="{dataLabel:false,yAxis:{data:[{max:100,min:0}]}}" :chartData="chartDefen" background="none" />
 		</view>
 		<view style="text-align: center;margin: 10px;font-size: 14px;">薄弱知识点</view>
 		<uni-list style="margin-top: -1px;">
@@ -95,6 +95,7 @@
 							categories: tempNameArray,
 							series: [tempM0,tempM1]
 						}
+						console.log('this.chartDefen:'+JSON.stringify(this.chartDefen));
 					} else {
 						this.showToast(res.msg);
 					}

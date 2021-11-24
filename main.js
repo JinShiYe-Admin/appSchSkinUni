@@ -153,7 +153,7 @@ switch (EnvKey) {
 		break;
 }
 Vue.prototype.APPORWECHAT = 1; //app为1，微信里面是2
-Vue.prototype.PRIVACE = 'http://www.jiaobao.net/dl/jiaobaoxiaoyuan/jbxyPrivacy.htm'; //用户隐私政策地址
+Vue.prototype.PRIVACE = 'https://jbsch-pb.zhuxue101.net/formal/privacy/jbxyPrivacy.html'; //用户隐私政策地址
 Vue.prototype.QN_PV_NAME = 'jbsch-pv'; //七牛私有空间名
 Vue.prototype.QN_PB_NAME = 'jbsch-pb'; //七牛公有空间名
 Vue.prototype.QNGETUPLOADTOKEN = 'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetUpLoadToKen';

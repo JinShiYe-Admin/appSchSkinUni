@@ -15,7 +15,7 @@
 		<view style="height: 1px;background: #DDDDDD;margin: 0 10px;"></view>
 		<view style="margin: 10px 0 5px 10px;font-size: 13px;" v-cloak>学科均衡:</view>
 		<view class="charts-box">
-		  <qiun-data-charts type="radar" :opts="{legend:{position: 'bottom'},extra:{radar:{gridType:'circle'}}}" :chartData="xuekejunhengData"/>
+		  <qiun-data-charts type="radar" :opts="{legend:{position: 'bottom'},extra:{radar:{gridType:'circle',max:100}}}" :chartData="xuekejunhengData"/>
 		</view>
 		<uni-list>
 			<uni-list-item direction='column'>

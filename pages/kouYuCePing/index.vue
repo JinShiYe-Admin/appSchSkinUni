@@ -1069,6 +1069,7 @@
 		height: calc(40% - 44px - 0.1rem);
 		overflow-y: auto;
 		margin-top: 50px;
+		text-align: center;
 	}
 
 	/* .test-pannel .read, .test-pannel .translation {
@@ -1137,6 +1138,7 @@
 		margin-left: 0.12rem;
 		font-size: 14px;
 		color: #666666;
+		word-break: break-all;
 	}
 
 	.score {

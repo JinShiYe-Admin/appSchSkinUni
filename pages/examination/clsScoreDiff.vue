@@ -5,7 +5,7 @@
 		<uni-drawer ref="showRight" mode="right" :mask-click="true" :width='280' @change='changeDrawer'>
 			<scroll-view style="height: 100%;" scroll-y="true">
 				<view>
-					<view style="height: 30px;width: 100%;margin-top: 10px;">
+					<view style="height: 30px;width: 100%;margin-top: 30px;">
 						<view style="width: 50%;height: 30px;float: left;">
 							<picker v-if="grdList.length>0" @change="bindPickerGrd" value="grdTempIndex"
 								:range="grdList" range-key="text">
