@@ -1253,11 +1253,15 @@
 	}
 	
 	.img-voice {
+		width: 40px;
+		height: 40px;
 		background-image: url(~@/static/images/kouYuCePing/btn_voice.png);
 		background-size: 100%;
 		float: left;
 	}
 	.img-voice.active {
+		width: 40px;
+		height: 40px;
 		background-image: url(~@/static/images/kouYuCePing/icon-voice.gif);
 		background-size: 100%;
 		float: left;
