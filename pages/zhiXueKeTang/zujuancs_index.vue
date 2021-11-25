@@ -4,7 +4,7 @@
 		<view>
 			<uni-popup ref="popup" background-color="#fff">
 				<view class="popup-content" :class="{ 'popup-height': 'top' }">
-					<view style="height: 38px;" :key="tempPer.per_code" v-for="(tempPer, index) in perArray">
+					<view class="popup-content-view" :key="tempPer.per_code" v-for="(tempPer, index) in perArray">
 						<label class="perList" @click="selectItem(tempPer)" :style="{background:(tempPer.per_code==resPerModel.per_code?'#00CFBD':'#ECECEC'),color:(tempPer.per_code==resPerModel.per_code?'white':'')}">{{tempPer.per_name}}</label>
 					</view>
 				</view>
@@ -318,12 +318,12 @@
 	 
 	 .popup-content-view{
 		height: 48px;
+		padding: 0 8px;
 		display: flex;
 		align-items: center;
 	 }
 	 
 	 .perList {
-	 	margin-left: 20px;
 	 	border: 1px solid white;
 	 	padding: 5px 20px;
 	 	border-radius: 5px;

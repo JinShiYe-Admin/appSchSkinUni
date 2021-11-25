@@ -4,8 +4,7 @@
 		<view>
 			<uni-popup ref="popup" background-color="#fff">
 				<view class="popup-content" :class="{ 'popup-height': 'top' }">
-					<!-- <text class="text">popup 内容</text> -->
-					<view :key="tempPer.per_code+Math.random()" v-for="(tempPer, index) in per.list">
+					<view class="popup-content-view" :key="tempPer.per_code+Math.random()" v-for="(tempPer, index) in per.list">
 						<label class="perList" @click="selectItem(tempPer)" :style="{background:(tempPer.per_code==per.selected.per_code?'#00CFBD':'#ECECEC'),color:(tempPer.per_code==per.selected.per_code?'white':'')}">{{tempPer.per_name}}</label>
 					</view>
 				</view>
@@ -162,12 +161,21 @@
 			justify-content: flex-start;
 			flex-wrap: wrap;
 	}
-
+	
+	.popup-content-view{
+			height: 48px;
+			padding: 0 8px;
+			display: flex;
+			align-items: center;
+	}
+	
 	.perList {
-		margin-left: 20px;
 		border: 1px solid white;
 		padding: 5px 20px;
 		border-radius: 5px;
 		font-size: 13px;
+			height: 26px;
+			display: flex;
+			align-items: center;
 	}
 </style>

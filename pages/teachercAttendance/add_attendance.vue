@@ -67,12 +67,7 @@
 				imgNames: [],//服务器回传的图片名称
 				imgList: [],//选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
 				imgFiles:[],//选择的文件对象，用于上传时获取文件名  不需要改动
-				// #ifdef H5
-					wxTips:',微信端不支持多选',//如果是H5，需要提示该内容
-				// #endif
-				// #ifndef H5
-					wxTips:'',
-				// #endif
+					wxTips:'',//如果是H5，需要提示该内容
 			}
 		},
 		components: {
