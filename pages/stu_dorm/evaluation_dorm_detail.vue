@@ -77,6 +77,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 	}
 </script>
 

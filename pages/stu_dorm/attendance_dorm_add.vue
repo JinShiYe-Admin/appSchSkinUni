@@ -126,6 +126,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		methods: {
 			getSmsConfig(){//获取短信配置
 				let comData={
