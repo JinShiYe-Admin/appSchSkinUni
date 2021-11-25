@@ -27,6 +27,7 @@
 							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">星期{{item.day_week}}&ensp;{{item.class_node}}&ensp;{{item.sub_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">考勤项目:{{item.item_txt}}</view></uni-col>
+							<uni-col :span="24"><view class="detail-text">说明:{{item.comment}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
 						</uni-row>
 					</text>
@@ -351,6 +352,7 @@
 	 	color: #939393;
 	 	font-size: 13px;
 	 	margin: 3px 0;
+		word-break: break-all;
 	 }
 	 
 	 .leaveType {

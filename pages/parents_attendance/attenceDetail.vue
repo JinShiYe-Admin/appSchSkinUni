@@ -25,7 +25,7 @@
 							考勤日期
 						</uni-col>
 						<uni-col :span="16">
-							{{item.attendance_time?item.attendance_time:'暂无'}}
+							{{item.attendance_time?item.attendance_time.split(' ')[0]:'暂无'}}
 						</uni-col>
 						<uni-col :span="8">
 							星期

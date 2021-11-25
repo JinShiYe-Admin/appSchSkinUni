@@ -129,7 +129,7 @@
 		methods: {
 			getSmsConfig(){//获取短信配置
 				let comData={
-					msg_type: this.DORM_MSG_SMS.DORMBEHAVIOR.MSG_TYPE,
+					msg_type: this.DORM_MSG_SMS.DORM.MSG_TYPE,
 					sch_code: this.personInfo.unit_code,
 					index_code:this.index_code,
 				}
@@ -137,7 +137,7 @@
 				    console.log("responseaaa: " + JSON.stringify(response));
 					if (response && response.user_types) {
 						let config_types=response.user_types.split(",");
-						let local_types=this.DORM_MSG_SMS.DORMBEHAVIOR.USER_TYPE.split(",");
+						let local_types=this.DORM_MSG_SMS.DORM.USER_TYPE.split(",");
 						let send=false;
 						config_types.map(citem=>{
 							local_types.map(litem=>{
