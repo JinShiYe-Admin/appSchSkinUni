@@ -360,8 +360,13 @@
 															this.showToast(datas.msg);
 														}
 													});
+											} else {
+												this.content = '';
+												this.showToast(data.msg);
+												this.getNoticeByReceiveId_sendId_Detail(this.itemData.flag);
 											}
 										} else {
+											this.content = '';
 											this.showToast(data.msg);
 											this.getNoticeByReceiveId_sendId_Detail(this.itemData.flag);
 										}
