@@ -39,9 +39,9 @@
 					</p>
 				</view>
 				<view v-else-if="state>2" class="test-pannel" style="font-size: 12px;color: #999999;">暂无内容</view>
-				<view v-else class="test-pannel"></view>
+				<view v-else class="test-pannel">123</view>
 
-				<view class="action-box" v-if="semFlag0Data.list.length">
+				<view class="action-box" v-if="semFlag0Data.list.length" style="display: flex;flex-direction: column;">
 					<view class="overflow-cover"></view>
 					<view class="score-box">
 						<span class="scoreCss"
@@ -50,19 +50,10 @@
 					<view class="btn-record">
 						按住录音，松开提交
 					</view>
-					<view>
-						<uni-row style="margin-top: 15px;">
-							<uni-col :span="10">
-								<view @click.stop="playAudio(semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" style="float: right;margin-right: 15px;"></view>
-							</uni-col>
-							<uni-col :span="4" style="text-align: center;">
-								<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" @touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="img-record btn-img-cp" style="text-align: center;">
-								</view>
-							</uni-col>
-							<uni-col :span="10">
-								<view @click.stop="playAudio(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
-							</uni-col>
-						</uni-row>
+					<view style="display: flex;align-self: center;margin-top: 40px;">
+						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:playAudoIS}"></view>
+						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="img-record btn-img-cp" :class="{active:recordIS}"></view>
+						<view @click.stop="playAudioRighrBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
 					</view>
 					<view class="skip-box">
 						<a :class="{disabled: semFlag0Data.index==0}" @tap="changeIndex(-1)">上一个</a>
@@ -102,7 +93,7 @@
 				<view v-else-if="state>2" class="test-pannel" style="font-size: 12px;color: #999999;">暂无内容</view>
 				<view v-else class="test-pannel"></view>
 
-				<view class="action-box" v-if="semFlag1Data.list.length">
+				<view class="action-box" v-if="semFlag1Data.list.length" style="display: flex;flex-direction: column;">
 					<view class="overflow-cover"></view>
 					<view class="score-box">
 						<span class="scoreCss"
@@ -111,19 +102,10 @@
 					<view class="btn-record">
 						按住录音，松开提交
 					</view>
-					<view>
-						<uni-row style="margin-top: 15px;">
-							<uni-col :span="10">
-								<view @click.stop="playAudio(semFlag1Data.list[semFlag1Data.index].audio_url)" class="img-voice btn-img-cp" style="float: right;margin-right: 15px;"></view>
-							</uni-col>
-							<uni-col :span="4" style="text-align: center;">
-								<view @touchstart.stop.prevent="touchStart(semFlag1Data.list[semFlag1Data.index],$event)" @touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="img-record btn-img-cp" style="text-align: center;">
-								</view>
-							</uni-col>
-							<uni-col :span="10">
-								<view @click.stop="playAudio(semFlag1Data.list[semFlag1Data.index].record_url)" class="img-play btn-img-cp"></view>
-							</uni-col>
-						</uni-row>
+					<view style="display: flex;align-self: center;margin-top: 40px;">
+						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:playAudoIS}"></view>
+						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="img-record btn-img-cp" :class="{active:recordIS}"></view>
+						<view @click.stop="playAudioRighrBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
 					</view>
 					<view class="skip-box">
 						<a :class="{disabled: semFlag1Data.index==0}" @tap="changeIndex(-1)">上一个</a>
@@ -157,11 +139,11 @@
 												v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
 										</h4>
 										<view v-if="v.btnShow">
-											<view @click.stop="playAudio(v.audio_url)" class="btn-img img-voice"></view>
+											<view @click.stop="playAudioLeftBtn(v.audio_url)" class="btn-img img-voice" :class="{active:playAudoIS}"></view>
 											<view @touchstart.stop.prevent="touchStart(v,$event)" @touchend.stop.prevent="touchEnd"
-												@touchmove.stop.prevent="touchEnd" class="btn-img img-record">
+												@touchmove.stop.prevent="touchEnd" class="btn-img img-record" :class="{active:recordIS}">
 											</view>
-											<view @click.stop="playAudio(v.record_url)" class="btn-img img-play"></view>
+											<view @click.stop="playAudioRightBtn(v.record_url)" class="btn-img img-play"></view>
 										</view>
 									</view>
 									<view class="result-bar" v-if="v.category=='read_sentence'&&v.total_score!=null">
@@ -268,7 +250,11 @@
 					// key: "",
 					isPlaying: false,
 					total: 0,
-				}
+				},
+				
+				
+				playAudoIS:false,
+				recordIS:false,
 			}
 		},
 		components: {
@@ -303,10 +289,12 @@
 			this.recorderManager = uni.getRecorderManager();
 			//#endif
 			this.audioContext.onStop(() => {
+				this.playAudoIS=false
 				console.log('停止播放');
 				this.audioUrl = '';
 			});
 			this.audioContext.onEnded(() => {
+				this.playAudoIS=false
 				console.log('停止播放11');
 				this.audioUrl = '';
 			});
@@ -422,6 +410,7 @@
 		},
 		methods: {
 			touchStart(model, e) {
+				this.recordIS=true
 				this.touchData.clientX = e.changedTouches[0].clientX;
 				this.touchData.clientY = e.changedTouches[0].clientY;
 				this.uploadModel = model;
@@ -436,6 +425,7 @@
 				// #endif
 			},
 			touchEnd(e) {
+				this.recordIS=false
 				let subX = e.changedTouches[0].clientX - this.touchData.clientX;
 				let subY = e.changedTouches[0].clientY - this.touchData.clientY;
 				subX = Math.abs(subX);
@@ -453,7 +443,14 @@
 					// #endif
 				}
 			},
-			playAudio(url) {
+			playAudioLeftBtn(url) {
+				 this.playAudoIS=true
+				 this.playAudio(url)
+			},
+			playAudioRightBtn(url) {
+				 this.playAudio(url)
+			},
+			playAudio(url){
 				if (url && url.length > 0) {
 					if (this.audioUrl == url) {
 						if (this.audioContext.paused) {
@@ -1066,9 +1063,8 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		height: calc(40% - 44px - 0.1rem);
+		height: calc(40vh - 64px);
 		overflow-y: auto;
-		margin-top: 50px;
 		text-align: center;
 	}
 
@@ -1128,10 +1124,10 @@
 	}
 
 	.btn-img-cp {
-		width: 45px;
-		height: 45px;
+		width: 40px;
+		height: 40px;
 		object-fit: cover;
-		margin-top: 25px;
+		margin-top: 5px;
 	}
 
 	.symbol {
@@ -1241,7 +1237,7 @@
 		text-align: center;
 		font-size: 10px;
 		color: #7290A1;
-		margin: 70px 0 -20px 0;
+		margin: 30px 0 -20px 0;
 	}
 
 	.list-name {
@@ -1261,6 +1257,11 @@
 		background-size: 100%;
 		float: left;
 	}
+	.img-voice.active {
+		background-image: url(~@/static/images/kouYuCePing/icon-voice.gif);
+		background-size: 100%;
+		float: left;
+	}
 	
 	.img-record {
 		width: 50px;
@@ -1268,6 +1269,15 @@
 		background-size: 100%;
 		margin-top: 15px;
 		background-image: url(~@/static/images/kouYuCePing/btn_record.png);
+		float: left;
+	}
+	
+	.img-record.active {
+		width: 50px;
+		height: 50px;
+		background-size: 100%;
+		margin-top: 15px;
+		background-image: url(~@/static/images/kouYuCePing/icon-record.gif);
 		float: left;
 	}
 	
