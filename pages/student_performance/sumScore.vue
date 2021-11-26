@@ -228,6 +228,11 @@
 			// 1.9.全科总分及排名趋势
 			this.getSumScoreOrder();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			clickSeg: function(e) {
 				if (this.semFlag != e.currentIndex) {

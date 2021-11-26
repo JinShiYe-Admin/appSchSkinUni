@@ -97,6 +97,11 @@
 			//
 			this.getSmsConfig();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			selectSms() {
 				this.smsSend = !this.smsSend;

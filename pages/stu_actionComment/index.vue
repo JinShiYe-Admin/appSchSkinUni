@@ -239,6 +239,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		onPullDownRefresh() {
 			if(this.current===0){
 				this.pageobj0.loadFlag=0

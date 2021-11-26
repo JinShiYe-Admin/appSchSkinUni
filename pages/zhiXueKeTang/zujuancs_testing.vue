@@ -270,6 +270,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		onBackPress(options){
 			if(this.isAnswered){
 				this.$refs.alertDialog.open()

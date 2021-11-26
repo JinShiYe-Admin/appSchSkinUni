@@ -62,6 +62,9 @@
 				duration: 0
 			});
 			// #endif
+						//#ifndef APP-PLUS
+							document.title=""
+						//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5

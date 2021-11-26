@@ -275,6 +275,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		onPullDownRefresh() {
 			this.pageobj1.loadFlag=0
 			this.pageobj1.canload=true

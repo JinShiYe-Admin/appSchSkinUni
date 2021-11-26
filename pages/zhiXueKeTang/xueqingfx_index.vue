@@ -5,7 +5,7 @@
 		<view>
 			<uni-popup ref="popup" background-color="#fff">
 				<view class="popup-content" :class="{ 'popup-height': 'top' }">
-					<view v-for="(tempPer, index) in per.list" :key='index'>
+					<view class="popup-content-view" v-for="(tempPer, index) in per.list" :key='index'>
 						<label class="perList" @click="selectItem(tempPer)" :style="{background:(tempPer.per_code==per.selected.per_code?'#00CFBD':'#ECECEC'),color:(tempPer.per_code==per.selected.per_code?'white':'')}">{{tempPer.per_name}}</label>
 					</view>
 				</view>
@@ -97,6 +97,11 @@
 			// 获取学段
 			this.getPer();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		components: {
 			mynavBar
 		},
@@ -197,5 +202,41 @@
 	.bad {
 		color: #DB4848;
 		border-color: #DB4848;
+	}
+	
+	.popup-content {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		/* align-items: center; */
+		/* justify-content: center; */
+			/* #ifdef APP-PLUS */
+				padding: 80px 0px 10px 0px;
+			/* #endif */
+			/* #ifdef H5 */
+				padding: 50px 0px 10px 0px;
+			/* #endif */
+		/* height: 50px; */
+		background-color: #fff;
+			justify-content: flex-start;
+			flex-wrap: wrap;
+	}
+	
+	.popup-content-view{
+			height: 48px;
+			padding: 0 8px;
+			display: flex;
+			align-items: center;
+	}
+	
+	.perList {
+		border: 1px solid white;
+		padding: 5px 20px;
+		border-radius: 5px;
+		font-size: 13px;
+			height: 26px;
+			display: flex;
+			align-items: center;
 	}
 </style>

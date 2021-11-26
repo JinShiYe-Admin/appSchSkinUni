@@ -155,6 +155,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		methods: {
 			getSmsConfig(){//获取短信配置
 				let comData={

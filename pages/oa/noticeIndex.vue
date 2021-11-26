@@ -196,6 +196,7 @@
 				eventChannel.emit('oaRefreshUnread', {});
 			})
 		},
+		
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
 			// #ifdef H5
 				uni.pageScrollTo({
@@ -203,6 +204,9 @@
 					duration: 0
 				});
 			// #endif
+						//#ifndef APP-PLUS
+							document.title=""
+						//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5

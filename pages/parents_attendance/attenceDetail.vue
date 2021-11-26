@@ -121,6 +121,11 @@
 			this.pageIndex = 1;
 			this.getPageList();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			getDate(sureDtae) {
 				if (sureDtae != this.startTime) {

@@ -62,6 +62,11 @@
 			// 获取题目
 			this.getQuestions();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			touchStart(e) {
 				console.log("触摸开始")

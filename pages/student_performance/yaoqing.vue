@@ -64,6 +64,11 @@
 			// 1.12.全科获取pk学生列表
 			this.getFullSubPK();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			pk: function() {
 				let student = []

@@ -74,6 +74,9 @@
 			if(this.per.selected.per_code){
 				this.getList();
 			}
+						//#ifndef APP-PLUS
+							document.title=""
+						//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5

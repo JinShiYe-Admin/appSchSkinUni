@@ -116,6 +116,11 @@
 			//
 			this.getSmsConfig();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			changeLog(e) {
 				console.log('changeLogchangeLog:' + e);

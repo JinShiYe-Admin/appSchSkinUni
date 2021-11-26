@@ -133,6 +133,11 @@
 			//1.8.阅卷成绩统计
 			this.getPageList();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			ontabtap(e) {
 				let index = e.target.dataset.current || e.currentTarget.dataset.current;
