@@ -50,10 +50,10 @@
 					<view class="btn-record">
 						按住录音，松开提交
 					</view>
-					<view style="display: flex;align-self: center;margin-top: 40px;">
+					<view style="display: flex;align-self: center;margin-top: 20px;">
 						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:playAudoIS}"></view>
 						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="img-record btn-img-cp" :class="{active:recordIS}"></view>
-						<view @click.stop="playAudioRighrBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
+						<view @click.stop="playAudioRightBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
 					</view>
 					<view class="skip-box">
 						<a :class="{disabled: semFlag0Data.index==0}" @tap="changeIndex(-1)">上一个</a>
@@ -105,7 +105,7 @@
 					<view style="display: flex;align-self: center;margin-top: 40px;">
 						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:playAudoIS}"></view>
 						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="img-record btn-img-cp" :class="{active:recordIS}"></view>
-						<view @click.stop="playAudioRighrBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
+						<view @click.stop="playAudioRightBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
 					</view>
 					<view class="skip-box">
 						<a :class="{disabled: semFlag1Data.index==0}" @tap="changeIndex(-1)">上一个</a>
@@ -1124,8 +1124,8 @@
 	}
 
 	.btn-img-cp {
-		width: 40px;
-		height: 40px;
+		width: 60px;
+		height: 60px;
 		object-fit: cover;
 		margin-top: 5px;
 	}
@@ -1245,31 +1245,31 @@
 	}
 	
 	.btn-img {
-		width: 40px;
-		height: 40px;
+		width: 50px;
+		height: 50px;
 		object-fit: cover;
 		margin-top: 25px;
 		margin-left: 20px;
 	}
 	
 	.img-voice {
-		width: 40px;
-		height: 40px;
+		width: 50px;
+		height: 50px;
 		background-image: url(~@/static/images/kouYuCePing/btn_voice.png);
 		background-size: 100%;
 		float: left;
 	}
 	.img-voice.active {
-		width: 40px;
-		height: 40px;
+		width: 50px;
+		height: 50px;
 		background-image: url(~@/static/images/kouYuCePing/icon-voice.gif);
 		background-size: 100%;
 		float: left;
 	}
 	
 	.img-record {
-		width: 50px;
-		height: 50px;
+		width: 60px;
+		height: 60px;
 		background-size: 100%;
 		margin-top: 15px;
 		background-image: url(~@/static/images/kouYuCePing/btn_record.png);
@@ -1277,8 +1277,8 @@
 	}
 	
 	.img-record.active {
-		width: 50px;
-		height: 50px;
+		width: 60px;
+		height: 60px;
 		background-size: 100%;
 		margin-top: 15px;
 		background-image: url(~@/static/images/kouYuCePing/icon-record.gif);
@@ -1286,6 +1286,8 @@
 	}
 	
 	.img-play {
+		width: 50px;
+		height: 50px;
 		background-size: 100%;
 		background-image: url(~@/static/images/kouYuCePing/btn_play.png);
 		float: left;
