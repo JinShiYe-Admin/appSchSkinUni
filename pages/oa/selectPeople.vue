@@ -59,6 +59,11 @@
 			//#endif
 			this.getPeopleList();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			sure() {
 				console.log('sure');

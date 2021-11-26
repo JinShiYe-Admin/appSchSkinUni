@@ -79,6 +79,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		methods: {
 			getList0(){
 				let comData={

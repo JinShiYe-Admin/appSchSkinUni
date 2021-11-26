@@ -200,6 +200,11 @@
 				});
 			});
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			changeKnowPoint(tag) {
 				this.itemData.flag = 1; //错题

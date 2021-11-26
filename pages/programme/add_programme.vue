@@ -131,6 +131,11 @@
 			// 
 			this.getLocation();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			valueChangeStart(e) {
 				this.multiIndexStart = e.detail.value;

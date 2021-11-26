@@ -99,6 +99,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		methods: {
 			textClick(){
 				this.$refs.alertDialog.open()

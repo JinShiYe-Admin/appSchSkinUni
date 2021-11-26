@@ -133,6 +133,11 @@
 				});
 			});
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			changeKnowPoint() {
 				this.itemData.flag = 0; //知识点

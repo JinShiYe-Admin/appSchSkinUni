@@ -94,6 +94,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		methods: {
 			clearInput: function() {
 				this.utype_index = 0;

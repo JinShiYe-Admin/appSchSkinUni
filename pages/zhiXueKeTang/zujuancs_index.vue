@@ -203,6 +203,9 @@
 				// 查询教版
 				this.getResCatalogs();
 			}
+				//#ifndef APP-PLUS
+					document.title=""
+				//#endif
 		},
 	}
 </script>

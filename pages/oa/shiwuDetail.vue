@@ -154,6 +154,11 @@
 			//获取详情
 			this.getNoticeByReceiveId_sendId_Detail();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			// deleteUploadEnc() {
 			// 	this.detailModel.UploadEncAddrShow = [];

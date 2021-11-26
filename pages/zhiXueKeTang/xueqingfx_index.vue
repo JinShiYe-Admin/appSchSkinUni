@@ -97,6 +97,11 @@
 			// 获取学段
 			this.getPer();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		components: {
 			mynavBar
 		},

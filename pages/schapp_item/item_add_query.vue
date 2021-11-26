@@ -178,6 +178,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		onReachBottom() {
 			if(this.pageobj0.canload){
 				this.pageobj0.loadFlag=1

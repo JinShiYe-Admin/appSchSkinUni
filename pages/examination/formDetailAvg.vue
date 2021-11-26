@@ -305,6 +305,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){ 
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		onPullDownRefresh() {
 			this.getList1()
 			setTimeout(function () {

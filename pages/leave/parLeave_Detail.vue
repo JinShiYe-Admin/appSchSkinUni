@@ -119,6 +119,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		methods: {
 			getLeaveDetail(){
 				let url=this.globaData.STULEAVE_API + 'apply/getApplyById'

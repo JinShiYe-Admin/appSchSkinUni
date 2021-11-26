@@ -121,6 +121,11 @@
 			// 
 			this.getUserInfo();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			getUserInfo() {
 				let comData = {

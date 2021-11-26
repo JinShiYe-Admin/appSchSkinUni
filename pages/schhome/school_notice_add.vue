@@ -107,6 +107,11 @@
 				document.title=""
 			//#endif
 		},
+		onShow(){
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 		methods: {
 			valueChange(e){
 				this.multiIndex= e.detail.value

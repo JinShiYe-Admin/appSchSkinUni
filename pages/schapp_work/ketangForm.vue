@@ -262,6 +262,11 @@
 				this.getList0()
 			}
 		},
+		onShow(){
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+		},
 	}
 </script>
 

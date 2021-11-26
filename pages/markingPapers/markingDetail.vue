@@ -113,6 +113,11 @@
 			// 	// 隐藏
 			// });
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		components: {
 			uniNavBar
 		},

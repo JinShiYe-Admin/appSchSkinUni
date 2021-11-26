@@ -221,6 +221,11 @@
 			this.getNoticeByReceiveId_sendId_Detail();
 			
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			deleteUploadEnc(url) {
 				this.deleteImg.push(url);

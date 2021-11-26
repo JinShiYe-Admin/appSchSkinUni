@@ -131,6 +131,11 @@
 			//1.11.获取学生每题答题详情
 			this.getResultDetail();
 		},
+		onShow(){
+					//#ifndef APP-PLUS
+						document.title=""
+					//#endif
+				},
 		methods: {
 			textClick() {
 				console.log('textClicktextClick');
