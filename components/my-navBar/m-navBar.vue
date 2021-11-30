@@ -30,7 +30,7 @@
 					<uni-list-item @click="gotoModifyPswd()" title="修改密码" link to=''></uni-list-item>
 					<uni-list-item @click="zhuxiao()" title="注销账号" link to=''></uni-list-item>
 					<uni-list-item @click="yinsi()" title="用户隐私政策" link to=''></uni-list-item>
-					<uni-list-item @click="about()" title="关于" link to=''></uni-list-item>
+					<uni-list-item @click="about()" title="关于教宝校园" link to=''></uni-list-item>
 				</uni-list>
 				<view v-if="personInfo.backFlag == 1" class="uni-padding-wrap uni-common-mt">
 					<button @click="tuichu()" type="warn">退出登录</button>
