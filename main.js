@@ -11,7 +11,8 @@ import {VueJsonp} from 'vue-jsonp'
 Vue.use(VueJsonp);
 //配置项开始
 const GLOBALDATA = {}; //参数对象 用于存全局公共参数
-const EnvKey = 4; //1:山东开发 2:广西开发 3:联测 4:云测 5:正式 6性能测试   
+const EnvKey = 5; //1:山东开发 2:广西开发 3:联测 4:云测 5:正式 6性能测试   
+Vue.prototype.APPORWECHAT = 2; //app为1，微信里面是2
 switch (EnvKey) {
 	case 1:
 		GLOBALDATA.EnvKey = EnvKey;
@@ -45,7 +46,6 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SSO_SUB = 'https://test.108800.com/ssotosub/api/sub/'; //单点登录,供各子系统用
 		GLOBALDATA.INTERFACE_HR_SUB = 'https://test.108800.com/testhrtosub/api/sub/'; //人事接口,供子系统用
 		GLOBALDATA.INTERFACE_HR_SKIN = 'https://test.108800.com/testhrtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用
-		GLOBALDATA.INTERFACE_EDUSUBAPI = 'https://developgx.108800.com:8443/edusubapi/api/'; //继续教育接口文档 供展示前台
 		GLOBALDATA.INTERFACE_OA = 'https://develop309.108800.com/oasubapi/sub/api/'; //oa接口(孔)
 		GLOBALDATA.INTERFACE_ITEM = 'https://develop309.108800.com/imsubapi/sub/api/'; //物品管理接口(孔)  http://115.28.11.115:8080/imsubapi/sub/api/
 		GLOBALDATA.INTERFACE_BASESUB = 'https://test.108800.com/baseapi/api/baseapi/'; //统一信息接口:考务、家校用(顾)
@@ -81,7 +81,6 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SSO_SUB = 'https://test.108800.com/ssotosub/api/sub/'; //单点登录,供各子系统用 			     单点对子系统接口
 		GLOBALDATA.INTERFACE_HR_SUB = 'https://test.108800.com/hrtosub/api/sub/'; //人事接口,供子系统用 				     人事对子系统接口
 		GLOBALDATA.INTERFACE_HR_SKIN = 'https://test.108800.com/hrtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用        人事对单点及登录皮肤接口
-		GLOBALDATA.INTERFACE_EDUSUBAPI = 'https://test.108800.com/edusubapi/api/'; //继续教育接口文档 供展示前台
 		GLOBALDATA.INTERFACE_OA = 'https://test.108800.com/oasubapi/sub/api/'; //oa接口(孔)
 		GLOBALDATA.INTERFACE_ITEM = 'https://test.108800.com/imsubapi/sub/api/'; //物品管理接口(孔)
 		GLOBALDATA.INTERFACE_BASESUB = 'https://test.108800.com/baseapi/api/baseapi/'; //统一信息接口:考务、家校用(顾)
@@ -111,31 +110,30 @@ switch (EnvKey) {
 		GLOBALDATA.APPCODE = 'schapp#'; //应用系统代码
 		GLOBALDATA.UNITCODE = '-1'; //单位代码，如应用系统需限制本单位用户才允许登录，则传入单位代码，否则传“-1”
 
-		GLOBALDATA.INTERFACE_SSO_SKIN = 'http://sso.108800.com:8080/ssotoskin/api/skin/'; // 单点对登录框接口
-		GLOBALDATA.INTERFACE_SSO_HR = 'http://sso.108800.com:8080/ssotohr/api/hr/'; // 单点对人事接口 (gu )
-		GLOBALDATA.INTERFACE_SUP_HR = 'http://sso.108800.com/suptohr/api/hr/'; //单点对人事及登录皮肤接口  (zeng)
-		GLOBALDATA.INTERFACE_SSO_SUB = 'http://sso.108800.com:8080/ssotosub/api/sub/'; // 单点对子系统接口
-		GLOBALDATA.INTERFACE_HR_SUB = 'http://apps.108800.com/hrtosub/api/sub/'; //人事接口,供子系统用 				     人事对子系统接口
-		GLOBALDATA.INTERFACE_HR_SKIN = 'http://apps.108800.com/hrtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用        人事对单点及登录皮肤接口
-		GLOBALDATA.INTERFACE_EDUSUBAPI = 'http://apps.108800.com/edusubapi/api/'; //继续教育接口文档 供展示前台
-		GLOBALDATA.INTERFACE_OA = 'http://apps.108800.com/oasubapi/sub/api/'; //oa接口(孔)
-		GLOBALDATA.INTERFACE_ITEM = 'http://apps.108800.com/imsubapi/sub/api/'; //物品管理接口(孔)
-		GLOBALDATA.INTERFACE_BASESUB = 'http://sso.108800.com:8080/baseapi/api/baseapi/'; //统一信息接口:考务、家校用(顾)
-		GLOBALDATA.INTERFACE_EXAMINATION = 'http://apps.108800.com/stuzy/api/paper/'; //考务系统接口(蒙)
-		GLOBALDATA.INTERFACE_WORK = 'http://apps.108800.com/stukqsubapi/attendance/'; //学生考勤系统接口(阮)
-		GLOBALDATA.INTERFACE_PROGRAMME = 'http://apps.108800.com/tecrcsubapi/sub/api/'; //日程（孔)
-		GLOBALDATA.INTERFACE_ATTENDAND = 'http://apps.108800.com/tecgpskqsubapi/sub/api/'; //教师考勤（孔)
-		GLOBALDATA.INTERFACE_STUXWSUB = 'http://apps.108800.com/stuxwsubapi/behavior/'; //学生行为（阮) 
-		GLOBALDATA.INTERFACE_STUPYSUB = 'http://apps.108800.com/stuxwsubapi/comment/'; //学生评语（阮)
-		GLOBALDATA.INTERFACE_DORM = 'http://apps.108800.com/stusssubapi/api/app/'; //学生宿舍（阮)
-		GLOBALDATA.INTERFACE_STUSCORE = 'http://apps.108800.com/stuzy/api/stuScore/'; //学生成绩（蒙)
-		GLOBALDATA.INTERFACE_ZXKT = "http://res.108800.com/resstudysubapi/api"; //智学课堂（廖）
-		GLOBALDATA.INTERFACE_KYCP = "http://res.108800.com/resentestsubapi/api"; //口语测评（廖）
-		GLOBALDATA.INTERFACE_SCHHOME = 'http://apps.108800.com:8080/hsservsubapi/'; //家校互动（顾)
-		GLOBALDATA.INTERFACE_SCHHOME_STU = 'http://apps.108800.com:8080/hsservsubapi/'; //家校互动 学生端（顾)
-		GLOBALDATA.PARENTS_ATTENDANCE = 'http://apps.108800.com/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
-		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'http://apps.108800.com/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
-		GLOBALDATA.STULEAVE_API='http://apps.108800.com/stuleavesubapi/sub/api/';//学生请假系统(孔)
+		GLOBALDATA.INTERFACE_SSO_SKIN = 'https://sso.108800.com:8443/ssotoskin/api/skin/'; // 单点对登录框接口
+		GLOBALDATA.INTERFACE_SSO_HR = 'https://sso.108800.com:8443/ssotohr/api/hr/'; // 单点对人事接口 (gu )
+		GLOBALDATA.INTERFACE_SUP_HR = 'https://sso.108800.com/suptohr/api/hr/'; //单点对人事及登录皮肤接口  (zeng)
+		GLOBALDATA.INTERFACE_SSO_SUB = 'https://sso.108800.com:8443/ssotosub/api/sub/'; // 单点对子系统接口
+		GLOBALDATA.INTERFACE_HR_SUB = 'https://apps.108800.com/hrtosub/api/sub/'; //人事接口,供子系统用 				     人事对子系统接口
+		GLOBALDATA.INTERFACE_HR_SKIN = 'https://apps.108800.com/hrtosup/api/skin/'; //人事接口,供APP或PC注册及外皮用        人事对单点及登录皮肤接口
+		GLOBALDATA.INTERFACE_OA = 'https://apps.108800.com/oasubapi/sub/api/'; //oa接口(孔)
+		GLOBALDATA.INTERFACE_ITEM = 'https://apps.108800.com/imsubapi/sub/api/'; //物品管理接口(孔)
+		GLOBALDATA.INTERFACE_BASESUB = 'https://sso.108800.com:8443/baseapi/api/baseapi/'; //统一信息接口:考务、家校用(顾)
+		GLOBALDATA.INTERFACE_EXAMINATION = 'https://apps.108800.com/stuzy/api/paper/'; //考务系统接口(蒙)
+		GLOBALDATA.INTERFACE_WORK = 'https://apps.108800.com/stukqsubapi/attendance/'; //学生考勤系统接口(阮)
+		GLOBALDATA.INTERFACE_PROGRAMME = 'https://apps.108800.com/tecrcsubapi/sub/api/'; //日程（孔)
+		GLOBALDATA.INTERFACE_ATTENDAND = 'https://apps.108800.com/tecgpskqsubapi/sub/api/'; //教师考勤（孔)
+		GLOBALDATA.INTERFACE_STUXWSUB = 'https://apps.108800.com/stuxwsubapi/behavior/'; //学生行为（阮) 
+		GLOBALDATA.INTERFACE_STUPYSUB = 'https://apps.108800.com/stuxwsubapi/comment/'; //学生评语（阮)
+		GLOBALDATA.INTERFACE_DORM = 'https://apps.108800.com/stusssubapi/api/app/'; //学生宿舍（阮)
+		GLOBALDATA.INTERFACE_STUSCORE = 'https://apps.108800.com/stuzy/api/stuScore/'; //学生成绩（蒙)
+		GLOBALDATA.INTERFACE_ZXKT = "https://res.108800.com/resstudysubapi/api"; //智学课堂（廖）
+		GLOBALDATA.INTERFACE_KYCP = "https://res.108800.com/resentestsubapi/api"; //口语测评（廖）
+		GLOBALDATA.INTERFACE_SCHHOME = 'https://apps.108800.com:8443/hsservsubapi/'; //家校互动（顾)
+		GLOBALDATA.INTERFACE_SCHHOME_STU = 'https://apps.108800.com:8443/hsservsubapi/'; //家校互动 学生端（顾)
+		GLOBALDATA.PARENTS_ATTENDANCE = 'https://apps.108800.com/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
+		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://apps.108800.com/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
+		GLOBALDATA.STULEAVE_API='https://apps.108800.com/stuleavesubapi/sub/api/';//学生请假系统(孔)
 		
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 17; //七牛appid
@@ -152,7 +150,7 @@ switch (EnvKey) {
 		GLOBALDATA.QN_APPKEY = 'oatest1010'; //七牛appkey
 		break;
 }
-Vue.prototype.APPORWECHAT = 1; //app为1，微信里面是2
+
 Vue.prototype.PRIVACE = 'https://jbsch-pb.zhuxue101.net/formal/privacy/jbxyPrivacy.html'; //用户隐私政策地址
 Vue.prototype.QN_PV_NAME = 'jbsch-pv'; //七牛私有空间名
 Vue.prototype.QN_PB_NAME = 'jbsch-pb'; //七牛公有空间名
@@ -187,10 +185,10 @@ Vue.prototype.hideLoading = () => {
 } //关闭加载框
 
 //#ifdef H5
-// if (process.env.NODE_ENV === 'development') { //如果是H5的开发环境，自动加载vconsole
+if (process.env.NODE_ENV === 'development') { //如果是H5的开发环境，自动加载vconsole
 	const vconsole = require('vconsole')
 	Vue.prototype.$vconsole = new vconsole() //使用vconsole  APP和小程序端无法使用 
-// }
+}
 // #endif
 
 Vue.prototype.personal = "PERSONAL" //登录用户信息存入storage时key的名称

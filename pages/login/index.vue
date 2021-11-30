@@ -124,8 +124,9 @@
 									appid = tempArray[a];
 								}
 							}
-							tempGo = 'https://jsypay.jiaobaowang.net/jsypaym/wxpay/ThdGetOpenid.ashx?appid=' + appid +
-								'&returi=' + encodeURI(tempUrl);
+							let tempGo = 'https://jsypay.jiaobaowang.net/jsypaym/wxpay/ThdGetOpenid.ashx?appid=' + appid +
+								'&returi=' + encodeURIComponent(tempUrl);
+							console.log('tempGo:' + tempGo);
 							// 向服务器传递appid、返回URL
 							location.replace(tempGo);
 						} else {
@@ -161,6 +162,7 @@
 						}
 						let tempGo = 'https://jsypay.jiaobaowang.net/jsypaym/wxpay/ThdGetOpenid.ashx?appid=' + appid +
 							'&returi=' + encodeURIComponent(tempUrl);
+						console.log('tempGo:' + tempGo);
 						// 向服务器传递appid、返回URL
 						location.replace(tempGo);
 					}
@@ -461,6 +463,7 @@
 			},
 			getUrlParam(name) {
 				var search = window.location.href;
+				console.log('search:'+search);
 				var pattern = new RegExp("[?&]" + name + "\=([^&]+)", "g");
 				var matcher = pattern.exec(search);
 				var items = null;
