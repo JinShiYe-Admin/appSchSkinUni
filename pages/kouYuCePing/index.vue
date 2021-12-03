@@ -51,8 +51,8 @@
 						按住录音，松开提交
 					</view>
 					<view style="display: flex;align-self: center;margin-top: 20px;">
-						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:playAudoIS}"></view>
-						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="img-record btn-img-cp" :class="{active:recordIS}"></view>
+						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index],semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].playAudoIS?semFlag0Data.list[semFlag0Data.index].playAudoIS:false}"></view>
+						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event)" @touchmove.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event)" class="img-record btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].recordIS?semFlag0Data.list[semFlag0Data.index].recordIS:false}"></view>
 						<view @click.stop="playAudioRightBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
 					</view>
 					<view class="skip-box">
@@ -103,8 +103,8 @@
 						按住录音，松开提交
 					</view>
 					<view style="display: flex;align-self: center;margin-top: 40px;">
-						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:playAudoIS}"></view>
-						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd" @touchmove.stop.prevent="touchEnd" class="img-record btn-img-cp" :class="{active:recordIS}"></view>
+						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index],semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].playAudoIS?semFlag0Data.list[semFlag0Data.index].playAudoIS:false}"></view>
+						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event)" @touchmove.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event)" class="img-record btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].recordIS?semFlag0Data.list[semFlag0Data.index].recordIS:false}"></view>
 						<view @click.stop="playAudioRightBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
 					</view>
 					<view class="skip-box">
@@ -139,9 +139,9 @@
 												v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
 										</h4>
 										<view v-if="v.btnShow">
-											<view @click.stop="playAudioLeftBtn(v.audio_url)" class="btn-img img-voice" :class="{active:playAudoIS}"></view>
-											<view @touchstart.stop.prevent="touchStart(v,$event)" @touchend.stop.prevent="touchEnd"
-												@touchmove.stop.prevent="touchEnd" class="btn-img img-record" :class="{active:recordIS}">
+											<view @click.stop="playAudioLeftBtn(v,v.audio_url)" class="btn-img img-voice" :class="{active:v.playAudoIS?v.playAudoIS:false}"></view>
+											<view @touchstart.stop.prevent="touchStart(v,$event)" @touchend.stop.prevent="touchEnd(v,$event)"
+												@touchmove.stop.prevent="touchEnd(v,$event)" class="btn-img img-record" :class="{active:v.recordIS?v.recordIS:false}">
 											</view>
 											<view @click.stop="playAudioRightBtn(v.record_url)" class="btn-img img-play"></view>
 										</view>
@@ -255,6 +255,7 @@
 				
 				playAudoIS:false,
 				recordIS:false,
+				clickV:null,
 			}
 		},
 		components: {
@@ -289,12 +290,14 @@
 			this.recorderManager = uni.getRecorderManager();
 			//#endif
 			this.audioContext.onStop(() => {
-				this.playAudoIS=false
+				this.clickV.playAudoIS=false
+				 this.$forceUpdate();
 				console.log('停止播放');
 				this.audioUrl = '';
 			});
 			this.audioContext.onEnded(() => {
-				this.playAudoIS=false
+				this.clickV.playAudoIS=false
+				 this.$forceUpdate();
 				console.log('停止播放11');
 				this.audioUrl = '';
 			});
@@ -410,7 +413,8 @@
 		},
 		methods: {
 			touchStart(model, e) {
-				this.recordIS=true
+				model.recordIS=true
+				this.$forceUpdate()
 				this.touchData.clientX = e.changedTouches[0].clientX;
 				this.touchData.clientY = e.changedTouches[0].clientY;
 				this.uploadModel = model;
@@ -424,8 +428,9 @@
 				});
 				// #endif
 			},
-			touchEnd(e) {
-				this.recordIS=false
+			touchEnd(model,e) {
+				model.recordIS=false
+				this.$forceUpdate()
 				let subX = e.changedTouches[0].clientX - this.touchData.clientX;
 				let subY = e.changedTouches[0].clientY - this.touchData.clientY;
 				subX = Math.abs(subX);
@@ -443,8 +448,10 @@
 					// #endif
 				}
 			},
-			playAudioLeftBtn(url) {
-				 this.playAudoIS=true
+			playAudioLeftBtn(v,url) {
+				 v.playAudoIS=true
+				 this.clickV=v
+				 this.$forceUpdate();
 				 this.playAudio(url)
 			},
 			playAudioRightBtn(url) {
