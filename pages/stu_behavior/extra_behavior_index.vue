@@ -341,7 +341,7 @@
 	 
 	 .leaveType {
 		 font-size:12px ;
-	 	width: 48px;
+	 	width: auto;
 	 	color: #EFAD44;
 	 	padding:0px 3px;
 	 	border-radius: 4px;

@@ -15,11 +15,11 @@
 								<span class="score" v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
 							</h4>
 							<view v-if="v.btnShow">
-								<view @click.stop="playAudio(v.audio_url)" class="btn-img img-voice"></view>
-								<view @touchstart.stop.prevent="touchStart(v,$event)" @touchend.stop.prevent="touchEnd"
-									@touchmove.stop.prevent="touchEnd" class="btn-img img-record">
+								<view @click.stop="playAudioLeftBtn(v,v.audio_url)" class="btn-img img-voice  btn-img-cp" :class="{active:v.playAudoIS?v.playAudoIS:false}"></view>
+								<view @touchstart.stop.prevent="touchStart(v,$event)" @touchend.stop.prevent="touchEnd(v,$event)"
+									@touchmove.stop.prevent="touchEnd(v,$event)" class="btn-img img-record  btn-img-cp" :class="{active:v.recordIS?v.recordIS:false}">
 								</view>
-								<view @click.stop="playAudio(v.record_url)" class="btn-img img-play"></view>
+								<view @click.stop="playAudioRightBtn(v.record_url)" class="btn-img img-play  btn-img-cp" ></view>
 							</view>
 						</view>
 						<view class="result-bar" v-if="v.category=='read_sentence'&&v.total_score!=null">
@@ -75,6 +75,9 @@
 
 				uploadFlag: false, //是否上传
 				uploadModel: {},
+				playAudoIS:false,
+				recordIS:false,
+				clickV:null,
 			}
 		},
 		onLoad(option) {
@@ -119,10 +122,14 @@
 			});
 			this.audioContext.onStop(() => {
 				console.log('停止播放');
+				this.clickV.playAudoIS=false
+				 this.$forceUpdate();
 				this.audioUrl = '';
 			});
 			this.audioContext.onEnded(() => {
 				console.log('停止播放11');
+				this.clickV.playAudoIS=false
+				 this.$forceUpdate();
 				this.audioUrl = '';
 			});
 			// #ifdef APP-PLUS
@@ -226,6 +233,8 @@
 		},
 		methods: {
 			touchStart(model, e) {
+				model.recordIS=true
+				this.$forceUpdate()
 				this.touchData.clientX = e.changedTouches[0].clientX;
 				this.touchData.clientY = e.changedTouches[0].clientY;
 				this.uploadModel = model;
@@ -247,7 +256,9 @@
 				});
 				// #endif
 			},
-			touchEnd(e) {
+			touchEnd(model, e) {
+				model.recordIS=false
+				this.$forceUpdate()
 				let subX = e.changedTouches[0].clientX - this.touchData.clientX;
 				let subY = e.changedTouches[0].clientY - this.touchData.clientY;
 				subX = Math.abs(subX);
@@ -325,6 +336,15 @@
 					this.recorderManager.stop();
 					// #endif
 				}
+			},
+			playAudioLeftBtn(v,url) {
+				 v.playAudoIS=true
+				 this.clickV=v
+				 this.$forceUpdate();
+				 this.playAudio(url)
+			},
+			playAudioRightBtn(url) {
+				 this.playAudio(url)
 			},
 			playAudio(url) {
 				if (url && url.length > 0) {
@@ -498,21 +518,40 @@
 	}
 
 	.img-voice {
+		width: 40px;
+		height: 40px;
 		background-image: url(~@/static/images/kouYuCePing/btn_voice.png);
 		background-size: 100%;
 		float: left;
 	}
-
-	.img-record {
+	.img-voice.active {
 		width: 40px;
 		height: 40px;
+		background-image: url(~@/static/images/kouYuCePing/icon-voice.gif);
+		background-size: 100%;
+		float: left;
+	}
+	.img-record {
+		width: 50px;
+		height: 50px;
 		background-size: 100%;
 		margin-top: 15px;
 		background-image: url(~@/static/images/kouYuCePing/btn_record.png);
 		float: left;
 	}
+	
+	.img-record.active {
+		width: 50px;
+		height: 50px;
+		background-size: 100%;
+		margin-top: 15px;
+		background-image: url(~@/static/images/kouYuCePing/icon-record.gif);
+		float: left;
+	}
 
 	.img-play {
+		width: 40px;
+		height: 40px;
 		background-size: 100%;
 		background-image: url(~@/static/images/kouYuCePing/btn_play.png);
 		float: left;

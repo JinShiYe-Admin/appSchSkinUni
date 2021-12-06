@@ -441,7 +441,7 @@
 	 
 	 .leaveType {
 		 font-size:12px ;
-	 	width: 48px;
+	 	width: auto;
 	 	color: #EFAD44;
 	 	padding:0px 3px;
 	 	border-radius: 4px;
@@ -450,7 +450,7 @@
 	 }
 	 .leaveType1 {
 	 		 font-size:12px ;
-	 	width: 26px;
+	 	width: auto;
 	 	color: #D78F8F;
 	 	padding:0px 3px;
 	 	border-radius: 4px;
@@ -459,7 +459,7 @@
 	 }
 	 .leaveType2 {
 	 		 font-size:12px ;
-	 	width: 26px;
+	 	width: auto;
 	 	color: #98C0A8;
 	 	padding:0px 3px;
 	 	border-radius: 4px;
@@ -468,7 +468,7 @@
 	 }
 	 .leaveType3 {
 	 		 font-size:12px ;
-	 	width: 26px;
+	 	width: auto;
 	 	color: #51AFCA;
 	 	padding:0px 3px;
 	 	border-radius: 4px;
