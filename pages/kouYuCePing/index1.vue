@@ -52,7 +52,7 @@
 					</view>
 					<view style="display: flex;align-self: center;margin-top: 20px;">
 						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index],semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].playAudoIS?semFlag0Data.list[semFlag0Data.index].playAudoIS:false}"></view>
-						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event)" @touchmove.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event)" class="img-record btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].recordIS?semFlag0Data.list[semFlag0Data.index].recordIS:false}"></view>
+						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event,1)" @touchmove.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event,0)" class="img-record btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].recordIS?semFlag0Data.list[semFlag0Data.index].recordIS:false}"></view>
 						<view @click.stop="playAudioRightBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
 					</view>
 					<view class="skip-box">
@@ -102,9 +102,9 @@
 					<view class="btn-record">
 						按住录音，松开提交
 					</view>
-					<view style="display: flex;align-self: center;margin-top: 40px;">
+					<view style="display: flex;align-self: center;margin-top: 20px;">
 						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index],semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].playAudoIS?semFlag0Data.list[semFlag0Data.index].playAudoIS:false}"></view>
-						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event)" @touchmove.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event)" class="img-record btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].recordIS?semFlag0Data.list[semFlag0Data.index].recordIS:false}"></view>
+						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event,1)" @touchmove.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event,0)" class="img-record btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].recordIS?semFlag0Data.list[semFlag0Data.index].recordIS:false}"></view>
 						<view @click.stop="playAudioRightBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
 					</view>
 					<view class="skip-box">
@@ -139,11 +139,11 @@
 												v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
 										</h4>
 										<view v-if="v.btnShow">
-											<view @click.stop="playAudioLeftBtn(v,v.audio_url)" class="btn-img img-voice" :class="{active:v.playAudoIS?v.playAudoIS:false}"></view>
-											<view @touchstart.stop.prevent="touchStart(v,$event)" @touchend.stop.prevent="touchEnd(v,$event)"
-												@touchmove.stop.prevent="touchEnd(v,$event)" class="btn-img img-record" :class="{active:v.recordIS?v.recordIS:false}">
+											<view @click.stop="playAudioLeftBtn(v,v.audio_url)" class="btn-img img-voice" style="width: 40px;height: 40px;" :class="{active:v.playAudoIS?v.playAudoIS:false}"></view>
+											<view @touchstart.stop.prevent="touchStart(v,$event)" @touchend.stop.prevent="touchEnd(v,$event,1)"
+												@touchmove.stop.prevent="touchEnd(v,$event,0)" class="btn-img img-record" style="width: 50px;height: 50px;" :class="{active:v.recordIS?v.recordIS:false}">
 											</view>
-											<view @click.stop="playAudioRightBtn(v.record_url)" class="btn-img img-play"></view>
+											<view @click.stop="playAudioRightBtn(v.record_url)" class="btn-img img-play" style="width: 40px;height: 40px;"></view>
 										</view>
 									</view>
 									<view class="result-bar" v-if="v.category=='read_sentence'&&v.total_score!=null">
@@ -325,7 +325,13 @@
 								// }else{
 								// 	_this.uploadModel.key = _this.key;
 								// }
-
+								console.log('key:'+JSON.stringify(_this.uploadModel));
+								console.log('正在评分:' + JSON.stringify({
+									data: _this.uploadModel,
+									file_url: tempM.data.url,
+									index_code: _this.tabBarItem.access.split('#')[1],
+									user_code: _this.personInfo.user_code
+								}));
 								_this.showLoading('正在评分');
 								_this.post(_this.globaData.INTERFACE_KYCP + '/orals/record', {
 									data: _this.uploadModel,
@@ -413,7 +419,9 @@
 		},
 		methods: {
 			touchStart(model, e) {
+				console.log('touchStart:'+JSON.stringify(model));
 				model.recordIS=true
+				this.uploadFlag = true;
 				this.$forceUpdate()
 				this.touchData.clientX = e.changedTouches[0].clientX;
 				this.touchData.clientY = e.changedTouches[0].clientY;
@@ -428,16 +436,11 @@
 				});
 				// #endif
 			},
-			touchEnd(model,e) {
-				model.recordIS=false
-				this.$forceUpdate()
-				let subX = e.changedTouches[0].clientX - this.touchData.clientX;
-				let subY = e.changedTouches[0].clientY - this.touchData.clientY;
-				subX = Math.abs(subX);
-				subY = Math.abs(subY);
-				if (subX > 30 || subY > 30) {
-
-				} else {
+			touchEnd(model,e,flag) {
+				console.log('touchEndtouchEndtouchEndtouchEnd');
+				if(flag == 1){
+					model.recordIS=false
+					this.$forceUpdate();
 					// #ifdef H5
 					console.log('aaaaaaazzzzzzz111');
 					// #endif
@@ -446,6 +449,25 @@
 					this.uploadFlag = true;
 					this.recorderManager.stop();
 					// #endif
+				}else{
+					let subX = e.changedTouches[0].clientX - this.touchData.clientX;
+					let subY = e.changedTouches[0].clientY - this.touchData.clientY;
+					subX = Math.abs(subX);
+					subY = Math.abs(subY);
+					if (subX > 100 || subY > 100) {
+						if(model.recordIS){
+							model.recordIS=false
+							this.$forceUpdate();
+							// #ifdef H5
+							console.log('aaaaaaazzzzzzz111');
+							// #endif
+							// #ifndef H5
+							console.log('uploadFlaguploadFlag--true');
+							this.uploadFlag = true;
+							this.recorderManager.stop();
+							// #endif
+						}
+					}
 				}
 			},
 			playAudioLeftBtn(v,url) {
@@ -1131,10 +1153,10 @@
 	}
 
 	.btn-img-cp {
-		width: 60px;
-		height: 60px;
+		width: 70px;
+		height: 70px;
 		object-fit: cover;
-		margin-top: 5px;
+		margin-top: 15px;
 	}
 
 	.symbol {
@@ -1252,31 +1274,31 @@
 	}
 	
 	.btn-img {
-		width: 50px;
-		height: 50px;
+		width: 55px;
+		height: 55px;
 		object-fit: cover;
 		margin-top: 25px;
 		margin-left: 20px;
 	}
 	
 	.img-voice {
-		width: 50px;
-		height: 50px;
+		width: 55px;
+		height: 55px;
 		background-image: url(~@/static/images/kouYuCePing/btn_voice.png);
 		background-size: 100%;
 		float: left;
 	}
 	.img-voice.active {
-		width: 50px;
-		height: 50px;
+		width: 55px;
+		height: 55px;
 		background-image: url(~@/static/images/kouYuCePing/icon-voice.gif);
 		background-size: 100%;
 		float: left;
 	}
 	
 	.img-record {
-		width: 60px;
-		height: 60px;
+		width: 70px;
+		height: 70px;
 		background-size: 100%;
 		margin-top: 15px;
 		background-image: url(~@/static/images/kouYuCePing/btn_record.png);
@@ -1284,8 +1306,8 @@
 	}
 	
 	.img-record.active {
-		width: 60px;
-		height: 60px;
+		width: 70px;
+		height: 70px;
 		background-size: 100%;
 		margin-top: 15px;
 		background-image: url(~@/static/images/kouYuCePing/icon-record.gif);
@@ -1293,8 +1315,8 @@
 	}
 	
 	.img-play {
-		width: 50px;
-		height: 50px;
+		width: 55px;
+		height: 55px;
 		background-size: 100%;
 		background-image: url(~@/static/images/kouYuCePing/btn_play.png);
 		float: left;
