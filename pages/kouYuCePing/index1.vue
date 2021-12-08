@@ -103,9 +103,9 @@
 						按住录音，松开提交
 					</view>
 					<view style="display: flex;align-self: center;margin-top: 20px;">
-						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index],semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].playAudoIS?semFlag0Data.list[semFlag0Data.index].playAudoIS:false}"></view>
-						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event,1)" @touchmove.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event,0)" class="img-record btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].recordIS?semFlag0Data.list[semFlag0Data.index].recordIS:false}"></view>
-						<view @click.stop="playAudioRightBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
+						<view @click.stop="playAudioLeftBtn(semFlag1Data.list[semFlag1Data.index],semFlag1Data.list[semFlag1Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:semFlag1Data.list[semFlag1Data.index].playAudoIS?semFlag1Data.list[semFlag1Data.index].playAudoIS:false}"></view>
+						<view @touchstart.stop.prevent="touchStart(semFlag1Data.list[semFlag1Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd(semFlag1Data.list[semFlag1Data.index],$event,1)" @touchmove.stop.prevent="touchEnd(semFlag1Data.list[semFlag1Data.index],$event,0)" class="img-record btn-img-cp" :class="{active:semFlag1Data.list[semFlag1Data.index].recordIS?semFlag1Data.list[semFlag1Data.index].recordIS:false}"></view>
+						<view @click.stop="playAudioRightBtn(semFlag1Data.list[semFlag1Data.index].record_url)" class="img-play btn-img-cp"></view>
 					</view>
 					<view class="skip-box">
 						<a :class="{disabled: semFlag1Data.index==0}" @tap="changeIndex(-1)">上一个</a>
