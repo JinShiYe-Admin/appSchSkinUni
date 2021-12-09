@@ -1,5 +1,5 @@
 {
-    "name" : "appSchSkinUni",
+    "name" : "教宝校园",
     "appid" : "__UNI__720E42A",
     "description" : "",
     "versionName" : "1.0.0",
@@ -30,7 +30,8 @@
         "modules" : {
             "VideoPlayer" : {},
             "Webview-x5" : {},
-            "Geolocation" : {}
+            "Geolocation" : {},
+            "Push" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -76,6 +77,9 @@
                         "appkey_ios" : "vVTmvcbT1QKF5prUbNysqKh5Nt38ixSC",
                         "appkey_android" : "KL26g3s3V8zUMawkq4v0QZ4sVXOkpZ8l"
                     }
+                },
+                "push" : {
+                    "unipush" : {}
                 }
             }
         },
