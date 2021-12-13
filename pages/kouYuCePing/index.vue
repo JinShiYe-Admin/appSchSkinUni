@@ -262,37 +262,7 @@
 		components: {
 			mynavBar
 		},
-		onLoad() {
-			_this = this;
-			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
-			uni.$on('updateHeadImg', function(data) {
-				_this.$refs.mynavBar.upLoadImg();
-			})
-			this.tabbar = util.getMenu();
-			this.personInfo = util.getPersonal();
-			console.log('personInfo:' + JSON.stringify(this.personInfo));
-			this.tabBarItem = util.getTabbarMenu();
-			console.log('this.tabBarItem:' + JSON.stringify(this.tabBarItem));
-			uni.setNavigationBarTitle({
-				title: this.tabBarItem.text
-			});
-			var orals_auth = util.getStore('orals_auth');
-			if (orals_auth && orals_auth.user_code == this.personInfo.user_code) {
-				this.isGetLast = true;
-			}
-			util.setStore("orals_auth", this.personInfo);
-			this.navText = '测评记录';
-			// 
-			this.getInitData();
-			// this.getContent();
-			// util.setStore("orals_catalog_id", String(v));
-			this.audioContext = uni.createInnerAudioContext();
-			//#ifdef APP-PLUS
-			this.recorderManager = uni.getRecorderManager();
-			//#endif
-			//#ifdef H5
-			this.recorderManager = new Recorder();
-			//#endif
+		onShow() {
 			this.audioContext.onStop(() => {
 				this.clickV.playAudoIS=false
 				 this.$forceUpdate();
@@ -308,6 +278,7 @@
 			// #ifdef APP-PLUS
 			this.recorderManager.onStop(function(res) {
 				console.log('recorder stop' + JSON.stringify(res));
+				console.log('_this.uploadFlag' + _this.uploadFlag);
 				if (_this.uploadFlag) {
 					_this.uploadFlag = false;
 					_this.showLoading('上传中...');
@@ -363,9 +334,9 @@
 														.stringify(res));
 												})
 										} else {
-
+			
 										}
-
+			
 									} else {
 										_this.showToast('评分失败，请重试');
 									}
@@ -381,6 +352,39 @@
 				}
 			});
 			// #endif
+		},
+		onLoad() {
+			_this = this;
+			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
+			uni.$on('updateHeadImg', function(data) {
+				_this.$refs.mynavBar.upLoadImg();
+			})
+			this.tabbar = util.getMenu();
+			this.personInfo = util.getPersonal();
+			console.log('personInfo:' + JSON.stringify(this.personInfo));
+			this.tabBarItem = util.getTabbarMenu();
+			console.log('this.tabBarItem:' + JSON.stringify(this.tabBarItem));
+			uni.setNavigationBarTitle({
+				title: this.tabBarItem.text
+			});
+			var orals_auth = util.getStore('orals_auth');
+			if (orals_auth && orals_auth.user_code == this.personInfo.user_code) {
+				this.isGetLast = true;
+			}
+			util.setStore("orals_auth", this.personInfo);
+			this.navText = '测评记录';
+			// 
+			this.getInitData();
+			// this.getContent();
+			// util.setStore("orals_catalog_id", String(v));
+			this.audioContext = uni.createInnerAudioContext();
+			//#ifdef APP-PLUS
+			this.recorderManager = uni.getRecorderManager();
+			//#endif
+			//#ifdef H5
+			this.recorderManager = new Recorder();
+			//#endif
+			
 		},
 		computed: {
 			isTestedFlag0: function() {
@@ -436,7 +440,10 @@
 				// #ifndef H5
 				this.recorderManager.start({
 					format: 'wav',
-					duration: '10000'
+					duration: '10000',
+					sampleRate:16000,
+					numberOfChannels:1,
+					encodeBitRate:16000
 				});
 				// #endif
 			},

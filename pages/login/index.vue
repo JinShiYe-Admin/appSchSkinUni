@@ -458,7 +458,7 @@
 							});
 							// #ifdef APP-PLUS
 								// 注册消息推送服务
-								igexinTool.initGeXin().turnOnPush().bindAlias(tempData.user_code )
+								igexinTool.initGeXin().bindAlias(tempData.user_code);
 							// #endif
 							console.log('我绑定了我的别名');
 						} else {

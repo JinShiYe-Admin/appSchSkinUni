@@ -12,7 +12,7 @@
 				</uni-grid-item>
 			</uni-grid>
 			<input type="text" :value="personInfo.user_code" style="font-size: 26px;text-align: center;margin-top: 30px;" />
-			<input type="text" :value="clientInfo.clientid" style="font-size: 15px;text-align: center;margin-top: 30px;" />
+			<view>{{clientInfo}}</view>
 		</view>
 		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
