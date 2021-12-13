@@ -55,6 +55,7 @@
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import update from '../../uni_modules/uni-upgrade-center-app/utils/check-update.js'
 	import popup from '@/components/DuDu-popup/DuDu-popup.vue'
+	import igexinTool from '@/commom/igexinTool.js'
 	export default {
 		data() {
 			return {
@@ -455,6 +456,11 @@
 							uni.switchTab({
 								url: tempArray[0].pagePath
 							});
+							// #ifdef APP-PLUS
+								// 注册消息推送服务
+								igexinTool.initGeXin().turnOnPush().bindAlias(tempData.user_code )
+							// #endif
+							console.log('我绑定了我的别名');
 						} else {
 							this.showToast('当前系统没有可用菜单');
 						}

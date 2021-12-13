@@ -29,9 +29,9 @@
         /* 模块配置 */
         "modules" : {
             "VideoPlayer" : {},
-            "Webview-x5" : {},
             "Geolocation" : {},
-            "Push" : {}
+            "Push" : {},
+            "Maps" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -66,7 +66,15 @@
             },
             /* ios打包配置 */
             "ios" : {
-                "pushRegisterMode" : "manual"
+                "pushRegisterMode" : "manual",
+                "privacyDescription" : {
+                    "NSPhotoLibraryUsageDescription" : "该应用需要读取你的相册，以便编辑头像、上传oa等",
+                    "NSPhotoLibraryAddUsageDescription" : "该应用需要读取你的相册，以便为你编辑图片信息",
+                    "NSCameraUsageDescription" : "该应用需要你的相机，以便进行拍照上传",
+                    "NSMicrophoneUsageDescription" : "该应用需要使用你的麦克风，以便继续录音",
+                    "NSLocationWhenInUseUsageDescription" : "该应用需要你的地理位置，以便为你提供当前位置信息",
+                    "NSLocationAlwaysUsageDescription" : "该应用需要持续获取用户地理位置，以便为你进行定位"
+                }
             },
             /* SDK配置 */
             "sdkConfigs" : {
@@ -78,8 +86,49 @@
                         "appkey_android" : "KL26g3s3V8zUMawkq4v0QZ4sVXOkpZ8l"
                     }
                 },
+                "maps" : {},
                 "push" : {
                     "unipush" : {}
+                }
+            },
+            "icons" : {
+                "android" : {
+                    "hdpi" : "",
+                    "xhdpi" : "",
+                    "xxhdpi" : "",
+                    "xxxhdpi" : ""
+                },
+                "ios" : {
+                    "appstore" : "",
+                    "ipad" : {
+                        "app" : "",
+                        "app@2x" : "",
+                        "notification" : "",
+                        "notification@2x" : "",
+                        "proapp@2x" : "",
+                        "settings" : "",
+                        "settings@2x" : "",
+                        "spotlight" : "",
+                        "spotlight@2x" : ""
+                    },
+                    "iphone" : {
+                        "app@2x" : "",
+                        "app@3x" : "",
+                        "notification@2x" : "",
+                        "notification@3x" : "",
+                        "settings@2x" : "",
+                        "settings@3x" : "",
+                        "spotlight@2x" : "",
+                        "spotlight@3x" : ""
+                    }
+                }
+            },
+            "splashscreen" : {
+                "androidStyle" : "default",
+                "android" : {
+                    "hdpi" : "",
+                    "xhdpi" : "",
+                    "xxhdpi" : ""
                 }
             }
         },
@@ -132,11 +181,18 @@
         "uniStatistics" : {
             "enable" : true
         },
+        // ios
         "devServer" : {
             "https" : true,
             "key" : "/Users/jinshiye/Desktop/appSchSkinUni1/https/imac/localhost+3-key.pem",
             "cert" : "/Users/jinshiye/Desktop/appSchSkinUni1/https/imac/localhost+3.pem"
         },
+        //android
+        // "devServer" : {
+        //     "https" : true,
+        //     "key" : "G:\\HBuilderWorkSpace\\appSchSkinUni\\https\\windows\\localhost+3-key.pem",
+        //     "cert" : "G:\\HBuilderWorkSpace\\appSchSkinUni\\https\\windows\\localhost+3.pem"
+        // },
         "domain" : "http://jbsch-pb.zhuxue101.net",
         "title" : "智慧校园",
         "router" : {
