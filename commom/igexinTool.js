@@ -37,7 +37,7 @@ function getVersion() {
 	if (isAndorid) {
 		return Instance.getVersion(context);
 	} else {
-		return GeTuiSdk.version;
+		return GeTuiSdk.version();
 	}
 }
 
@@ -46,6 +46,7 @@ function turnOnPush() {
 	if (isAndorid) {
 		Instance.turnOnPush(context);
 	} else {
+		console.log('开启了');
 		GeTuiSdk.setPushModeForOff(false);
 	}
 	return this
