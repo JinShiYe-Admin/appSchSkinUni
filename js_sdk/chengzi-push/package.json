@@ -1,0 +1,10 @@
+{
+    "id": "chengzi-push",
+    "name": "push,推送，unipush,push，个推push客户端集成,支持离线IOS",
+    "version": "1.0.1",
+    "description": "unipush,推送，push，个推客户端集成dome",
+    "keywords": [
+        "push",
+        "个推，unipush"
+    ]
+}

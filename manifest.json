@@ -81,7 +81,12 @@
                         "appkey_android" : "KL26g3s3V8zUMawkq4v0QZ4sVXOkpZ8l"
                     }
                 },
-                "maps" : {},
+                "maps" : {
+                    "baidu" : {
+                        "appkey_ios" : "vVTmvcbT1QKF5prUbNysqKh5Nt38ixSC",
+                        "appkey_android" : "KL26g3s3V8zUMawkq4v0QZ4sVXOkpZ8l"
+                    }
+                },
                 "push" : {
                     "unipush" : {}
                 }

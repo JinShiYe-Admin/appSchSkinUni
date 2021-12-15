@@ -51,9 +51,20 @@
 						按住录音，松开提交
 					</view>
 					<view style="display: flex;align-self: center;margin-top: 20px;">
-						<view @click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index],semFlag0Data.list[semFlag0Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].playAudoIS?semFlag0Data.list[semFlag0Data.index].playAudoIS:false}"></view>
-						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event,1)" @touchmove.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event,0)" class="img-record btn-img-cp" :class="{active:semFlag0Data.list[semFlag0Data.index].recordIS?semFlag0Data.list[semFlag0Data.index].recordIS:false}"></view>
-						<view @click.stop="playAudioRightBtn(semFlag0Data.list[semFlag0Data.index].record_url)" class="img-play btn-img-cp"></view>
+						<view
+							@click.stop="playAudioLeftBtn(semFlag0Data.list[semFlag0Data.index],semFlag0Data.list[semFlag0Data.index].audio_url)"
+							class="img-voice btn-img-cp"
+							:class="{active:semFlag0Data.list[semFlag0Data.index].playAudoIS?semFlag0Data.list[semFlag0Data.index].playAudoIS:false}">
+						</view>
+						<view @touchstart.stop.prevent="touchStart(semFlag0Data.list[semFlag0Data.index],$event)"
+							style="margin: 0 12px;"
+							@touchend.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event,1)"
+							@touchmove.stop.prevent="touchEnd(semFlag0Data.list[semFlag0Data.index],$event,0)"
+							class="img-record btn-img-cp"
+							:class="{active:semFlag0Data.list[semFlag0Data.index].recordIS?semFlag0Data.list[semFlag0Data.index].recordIS:false}">
+						</view>
+						<view @click.stop="playAudioRightBtn(semFlag0Data.list[semFlag0Data.index].record_url)"
+							class="img-play btn-img-cp"></view>
 					</view>
 					<view class="skip-box">
 						<a :class="{disabled: semFlag0Data.index==0}" @tap="changeIndex(-1)">上一个</a>
@@ -103,9 +114,20 @@
 						按住录音，松开提交
 					</view>
 					<view style="display: flex;align-self: center;margin-top: 20px;">
-						<view @click.stop="playAudioLeftBtn(semFlag1Data.list[semFlag1Data.index],semFlag1Data.list[semFlag1Data.index].audio_url)" class="img-voice btn-img-cp" :class="{active:semFlag1Data.list[semFlag1Data.index].playAudoIS?semFlag1Data.list[semFlag1Data.index].playAudoIS:false}"></view>
-						<view @touchstart.stop.prevent="touchStart(semFlag1Data.list[semFlag1Data.index],$event)" style="margin: 0 12px;" @touchend.stop.prevent="touchEnd(semFlag1Data.list[semFlag1Data.index],$event,1)" @touchmove.stop.prevent="touchEnd(semFlag1Data.list[semFlag1Data.index],$event,0)" class="img-record btn-img-cp" :class="{active:semFlag1Data.list[semFlag1Data.index].recordIS?semFlag1Data.list[semFlag1Data.index].recordIS:false}"></view>
-						<view @click.stop="playAudioRightBtn(semFlag1Data.list[semFlag1Data.index].record_url)" class="img-play btn-img-cp"></view>
+						<view
+							@click.stop="playAudioLeftBtn(semFlag1Data.list[semFlag1Data.index],semFlag1Data.list[semFlag1Data.index].audio_url)"
+							class="img-voice btn-img-cp"
+							:class="{active:semFlag1Data.list[semFlag1Data.index].playAudoIS?semFlag1Data.list[semFlag1Data.index].playAudoIS:false}">
+						</view>
+						<view @touchstart.stop.prevent="touchStart(semFlag1Data.list[semFlag1Data.index],$event)"
+							style="margin: 0 12px;"
+							@touchend.stop.prevent="touchEnd(semFlag1Data.list[semFlag1Data.index],$event,1)"
+							@touchmove.stop.prevent="touchEnd(semFlag1Data.list[semFlag1Data.index],$event,0)"
+							class="img-record btn-img-cp"
+							:class="{active:semFlag1Data.list[semFlag1Data.index].recordIS?semFlag1Data.list[semFlag1Data.index].recordIS:false}">
+						</view>
+						<view @click.stop="playAudioRightBtn(semFlag1Data.list[semFlag1Data.index].record_url)"
+							class="img-play btn-img-cp"></view>
 					</view>
 					<view class="skip-box">
 						<a :class="{disabled: semFlag1Data.index==0}" @tap="changeIndex(-1)">上一个</a>
@@ -139,11 +161,17 @@
 												v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
 										</h4>
 										<view v-if="v.btnShow">
-											<view @click.stop="playAudioLeftBtn(v,v.audio_url)" class="btn-img img-voice" style="width: 40px;height: 40px;" :class="{active:v.playAudoIS?v.playAudoIS:false}"></view>
-											<view @touchstart.stop.prevent="touchStart(v,$event)" @touchend.stop.prevent="touchEnd(v,$event,1)"
-												@touchmove.stop.prevent="touchEnd(v,$event,0)" class="btn-img img-record" style="width: 50px;height: 50px;" :class="{active:v.recordIS?v.recordIS:false}">
+											<view @click.stop="playAudioLeftBtn(v,v.audio_url)"
+												class="btn-img img-voice" style="width: 40px;height: 40px;"
+												:class="{active:v.playAudoIS?v.playAudoIS:false}"></view>
+											<view @touchstart.stop.prevent="touchStart(v,$event)"
+												@touchend.stop.prevent="touchEnd(v,$event,1)"
+												@touchmove.stop.prevent="touchEnd(v,$event,0)"
+												class="btn-img img-record" style="width: 50px;height: 50px;"
+												:class="{active:v.recordIS?v.recordIS:false}">
 											</view>
-											<view @click.stop="playAudioRightBtn(v.record_url)" class="btn-img img-play" style="width: 40px;height: 40px;"></view>
+											<view @click.stop="playAudioRightBtn(v.record_url)" class="btn-img img-play"
+												style="width: 40px;height: 40px;"></view>
 										</view>
 									</view>
 									<view class="result-bar" v-if="v.category=='read_sentence'&&v.total_score!=null">
@@ -252,11 +280,11 @@
 					isPlaying: false,
 					total: 0,
 				},
-				
-				
-				playAudoIS:false,
-				recordIS:false,
-				clickV:null,
+
+
+				playAudoIS: false,
+				recordIS: false,
+				clickV: null,
 			}
 		},
 		components: {
@@ -264,14 +292,14 @@
 		},
 		onShow() {
 			this.audioContext.onStop(() => {
-				this.clickV.playAudoIS=false
-				 this.$forceUpdate();
+				this.clickV.playAudoIS = false
+				this.$forceUpdate();
 				console.log('停止播放');
 				this.audioUrl = '';
 			});
 			this.audioContext.onEnded(() => {
-				this.clickV.playAudoIS=false
-				 this.$forceUpdate();
+				this.clickV.playAudoIS = false
+				this.$forceUpdate();
 				console.log('停止播放11');
 				this.audioUrl = '';
 			});
@@ -293,7 +321,7 @@
 								var tempM = JSON.parse(uploadFileRes.data);
 								_this.uploadModel.words = _this.uploadModel.words ? _this.uploadModel
 									.words.trim() : _this.uploadModel.words;
-								console.log('key:'+JSON.stringify(_this.uploadModel));
+								console.log('key:' + JSON.stringify(_this.uploadModel));
 								console.log('正在评分:' + JSON.stringify({
 									data: _this.uploadModel,
 									file_url: tempM.data.url,
@@ -334,9 +362,9 @@
 														.stringify(res));
 												})
 										} else {
-			
+
 										}
-			
+
 									} else {
 										_this.showToast('评分失败，请重试');
 									}
@@ -382,9 +410,13 @@
 			this.recorderManager = uni.getRecorderManager();
 			//#endif
 			//#ifdef H5
-			this.recorderManager = new Recorder();
+			this.recorderManager = new Recorder({
+				sampleBits: 16, // 采样位数，支持 8 或 16，默认是16
+				sampleRate: 16000, // 采样率，支持 11025、16000、22050、24000、44100、48000，根据浏览器默认值，我的chrome是48000
+				numChannels: 1,
+			});
 			//#endif
-			
+
 		},
 		computed: {
 			isTestedFlag0: function() {
@@ -420,8 +452,8 @@
 		},
 		methods: {
 			touchStart(model, e) {
-				console.log('touchStart:'+JSON.stringify(model));
-				model.recordIS=true
+				console.log('touchStart:' + JSON.stringify(model));
+				model.recordIS = true
 				this.uploadFlag = true;
 				this.$forceUpdate()
 				this.touchData.clientX = e.changedTouches[0].clientX;
@@ -441,30 +473,30 @@
 				this.recorderManager.start({
 					format: 'wav',
 					duration: '10000',
-					sampleRate:16000,
-					numberOfChannels:1,
-					encodeBitRate:16000
+					sampleRate: 16000,
+					numberOfChannels: 1,
+					encodeBitRate: 16000
 				});
 				// #endif
 			},
-			touchEnd(model,e,flag) {
+			touchEnd(model, e, flag) {
 				console.log('touchEndtouchEndtouchEndtouchEnd');
-				if(flag == 1){
-					this.touchUpload(model,e,flag);
-				}else{
+				if (flag == 1) {
+					this.touchUpload(model, e, flag);
+				} else {
 					let subX = e.changedTouches[0].clientX - this.touchData.clientX;
 					let subY = e.changedTouches[0].clientY - this.touchData.clientY;
 					subX = Math.abs(subX);
 					subY = Math.abs(subY);
 					if (subX > 100 || subY > 100) {
-						if(model.recordIS){
-							this.touchUpload(model,e,flag);
+						if (model.recordIS) {
+							this.touchUpload(model, e, flag);
 						}
 					}
 				}
 			},
-			touchUpload(model,e,flag){
-				model.recordIS=false
+			touchUpload(model, e, flag) {
+				model.recordIS = false
 				this.$forceUpdate();
 				// #ifdef H5
 				console.log('aaaaaaazzzzzzz111');
@@ -485,7 +517,7 @@
 							var tempM = JSON.parse(uploadFileRes.data);
 							_this.uploadModel.words = _this.uploadModel.words ? _this.uploadModel
 								.words.trim() : _this.uploadModel.words;
-							console.log('key:'+JSON.stringify(_this.uploadModel));
+							console.log('key:' + JSON.stringify(_this.uploadModel));
 							_this.showLoading('正在评分');
 							_this.post(_this.globaData.INTERFACE_KYCP + '/orals/record', {
 								data: _this.uploadModel,
@@ -520,9 +552,9 @@
 													.stringify(res));
 											})
 									} else {
-						
+
 									}
-						
+
 								} else {
 									_this.showToast('评分失败，请重试');
 								}
@@ -542,16 +574,16 @@
 				this.recorderManager.stop();
 				// #endif
 			},
-			playAudioLeftBtn(v,url) {
-				 v.playAudoIS=true
-				 this.clickV=v
-				 this.$forceUpdate();
-				 this.playAudio(url)
+			playAudioLeftBtn(v, url) {
+				v.playAudoIS = true
+				this.clickV = v
+				this.$forceUpdate();
+				this.playAudio(url)
 			},
 			playAudioRightBtn(url) {
-				 this.playAudio(url)
+				this.playAudio(url)
 			},
-			playAudio(url){
+			playAudio(url) {
 				if (url && url.length > 0) {
 					if (this.audioUrl == url) {
 						if (this.audioContext.paused) {
@@ -1344,7 +1376,7 @@
 	.list-name {
 		background-color: #F6F6F6;
 	}
-	
+
 	.btn-img {
 		width: 55px;
 		height: 55px;
@@ -1352,7 +1384,7 @@
 		margin-top: 25px;
 		margin-left: 20px;
 	}
-	
+
 	.img-voice {
 		width: 55px;
 		height: 55px;
@@ -1360,6 +1392,7 @@
 		background-size: 100%;
 		float: left;
 	}
+
 	.img-voice.active {
 		width: 55px;
 		height: 55px;
@@ -1367,7 +1400,7 @@
 		background-size: 100%;
 		float: left;
 	}
-	
+
 	.img-record {
 		width: 70px;
 		height: 70px;
@@ -1376,7 +1409,7 @@
 		background-image: url(~@/static/images/kouYuCePing/btn_record.png);
 		float: left;
 	}
-	
+
 	.img-record.active {
 		width: 70px;
 		height: 70px;
@@ -1385,7 +1418,7 @@
 		background-image: url(~@/static/images/kouYuCePing/icon-record.gif);
 		float: left;
 	}
-	
+
 	.img-play {
 		width: 55px;
 		height: 55px;
