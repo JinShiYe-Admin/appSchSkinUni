@@ -216,7 +216,9 @@
 				//发送网络请求，data为网络返回值
 				this.post(this.globaData.INTERFACE_HR_SKIN + 'unregister', comData0, (data0, data) => {
 					this.hideLoading();
-					igexinTool.initGeXin().unbindAlias(personal.user_code)
+					//#ifdef APP
+						igexinTool.initGeXin().unbindAlias(personal.user_code)
+					//#endif
 					if (data.code == 0) {
 						this.showToast(data.msg);
 						util.setPersonal({});
@@ -243,7 +245,9 @@
 					//发送网络请求，data为网络返回值
 					this.post(this.globaData.INTERFACE_SSO_SKIN + 'session/removeSession', comData0, data => {
 						this.hideLoading();
-						igexinTool.initGeXin().unbindAlias(personal.user_code)
+						//#ifdef APP
+							igexinTool.initGeXin().unbindAlias(personal.user_code)
+						//#endif
 						util.setPersonal({});
 						this.$refs.showPersonInfo.close();
 						uni.reLaunch({

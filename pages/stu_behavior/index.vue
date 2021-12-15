@@ -49,6 +49,7 @@
 			this.personInfo = util.getPersonal();
 			this.tabBarItem = util.getTabbarMenu();
 			this.clientInfo=plus.push.getClientInfo()
+			console.log("plus.push.getClientInfo(): " + JSON.stringify(plus.push.getClientInfo()));
 		}
 	}
 </script>
