@@ -7,9 +7,12 @@ export default {
 			pushHandle(msg) //处理方法
 		}, false);
 		// 监听在线消息事件    
-		plus.push.addEventListener("receive", function(msg) {			
+		plus.push.addEventListener("receive", function(msg) {
+			console.log('11111111');
 			if (plus.os.name=='iOS') {  //由于IOS 必须要创建本地消息 所以做这个判断
+			console.log('22222222');
 				if (msg.payload&& msg.payload!=null&&msg.type=='receive') {
+					console.log('333333333');
 					console.log(msg);
 					// {"title": "xxx","content": "xxx","payload": "xxx"} 符合这种 才会自动创建消息  文档地址https://ask.dcloud.net.cn/article/35622
 					plus.push.createMessage(msg.payload.content,JSON.stringify(msg.payload))  //创建本地消息
