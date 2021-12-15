@@ -1,6 +1,9 @@
 <script>
+	import push from './js_sdk/push/push.js'; 
 	export default {
 		onLaunch: function() {
+			push.getClient();
+			push.init();
 			console.log('App Launch，app启动')
 			var platform = uni.getSystemInfoSync().platform;
 			//#ifdef APP
@@ -59,5 +62,6 @@
 	// @import "./third-ui/uview-ui/index.scss";
 	@import "./commom/uni.css";
 	@import "./commom/common.css";
+	
 </style>
 

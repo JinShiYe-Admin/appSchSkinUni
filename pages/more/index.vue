@@ -67,10 +67,10 @@
 			this.tabbar = util.getMenu();
 			this.tabarMore = util.getMenuMore();
 			console.log('this.tabarMore:' + JSON.stringify(this.tabarMore));
-			let tempM = plus.push.getClientInfo();
-			console.log('this.tempM:' + JSON.stringify(tempM));
-			let tmepMM = igexinTool.initGeXin().turnOnPush().getVersion();
-			console.log('tmepMM:' + tmepMM);
+			// let tempM = plus.push.getClientInfo();
+			// console.log('this.tempM:' + JSON.stringify(tempM));
+			// let tmepMM = igexinTool.initGeXin().turnOnPush().getVersion();
+			// console.log(igexinTool.initGeXin().turnOnPush().getVersion()());
 		}
 	}
 </script>

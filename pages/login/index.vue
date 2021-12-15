@@ -56,6 +56,7 @@
 	import update from '../../uni_modules/uni-upgrade-center-app/utils/check-update.js'
 	import popup from '@/components/DuDu-popup/DuDu-popup.vue'
 	import igexinTool from '@/commom/igexinTool.js'
+	import permision from "@/js_sdk/wa-permission/permission.js"
 	export default {
 		data() {
 			return {
@@ -496,6 +497,8 @@
 			}else{
 				this.showYinsi = true;
 			}
+			let temp = permision.judgeIosPermission("push");
+			console.log('temp:'+temp);
 		}
 	}
 </script>
