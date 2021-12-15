@@ -29,23 +29,19 @@
         /* 模块配置 */
         "modules" : {
             "VideoPlayer" : {},
+            "Webview-x5" : {},
             "Geolocation" : {},
-            "Push" : {},
-            "Maps" : {}
+            "Push" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
             /* android打包配置 */
             "android" : {
                 "permissions" : [
-                    "<uses-feature android:name=\"android.hardware.camera\"/>",
-                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
                     "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
                     "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
@@ -66,7 +62,6 @@
             },
             /* ios打包配置 */
             "ios" : {
-                "pushRegisterMode" : "manual",
                 "privacyDescription" : {
                     "NSPhotoLibraryUsageDescription" : "该应用需要读取你的相册，以便编辑头像、上传oa等",
                     "NSPhotoLibraryAddUsageDescription" : "该应用需要读取你的相册，以便为你编辑图片信息",
@@ -93,42 +88,42 @@
             },
             "icons" : {
                 "android" : {
-                    "hdpi" : "",
-                    "xhdpi" : "",
-                    "xxhdpi" : "",
-                    "xxxhdpi" : ""
+                    "hdpi" : "unpackage/res/icons/72x72.png",
+                    "xhdpi" : "unpackage/res/icons/96x96.png",
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
                 },
                 "ios" : {
-                    "appstore" : "",
+                    "appstore" : "unpackage/res/icons/1024x1024.png",
                     "ipad" : {
-                        "app" : "",
-                        "app@2x" : "",
-                        "notification" : "",
-                        "notification@2x" : "",
-                        "proapp@2x" : "",
-                        "settings" : "",
-                        "settings@2x" : "",
-                        "spotlight" : "",
-                        "spotlight@2x" : ""
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
                     },
                     "iphone" : {
-                        "app@2x" : "",
-                        "app@3x" : "",
-                        "notification@2x" : "",
-                        "notification@3x" : "",
-                        "settings@2x" : "",
-                        "settings@3x" : "",
-                        "spotlight@2x" : "",
-                        "spotlight@3x" : ""
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "settings@3x" : "unpackage/res/icons/87x87.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
                     }
                 }
             },
             "splashscreen" : {
                 "androidStyle" : "default",
                 "android" : {
-                    "hdpi" : "",
-                    "xhdpi" : "",
-                    "xxhdpi" : ""
+                    "hdpi" : "G:/back/APP/教宝校园/系统图标/启动图/安卓/480x762.png",
+                    "xhdpi" : "G:/back/APP/教宝校园/系统图标/启动图/安卓/720x1242.png",
+                    "xxhdpi" : "G:/back/APP/教宝校园/系统图标/启动图/安卓/1080x1882.png"
                 }
             }
         },
@@ -181,18 +176,18 @@
         "uniStatistics" : {
             "enable" : true
         },
-        // ios
-        "devServer" : {
-            "https" : true,
-            "key" : "/Users/jinshiye/Desktop/appSchSkinUni1/https/imac/localhost+3-key.pem",
-            "cert" : "/Users/jinshiye/Desktop/appSchSkinUni1/https/imac/localhost+3.pem"
-        },
-        //android
+        //ios
         // "devServer" : {
         //     "https" : true,
-        //     "key" : "G:\\HBuilderWorkSpace\\appSchSkinUni\\https\\windows\\localhost+3-key.pem",
-        //     "cert" : "G:\\HBuilderWorkSpace\\appSchSkinUni\\https\\windows\\localhost+3.pem"
+        //     "key" : "/Users/jinshiye/Desktop/appSchSkinUni1/https/imac/localhost+3-key.pem",
+        //     "cert" : "/Users/jinshiye/Desktop/appSchSkinUni1/https/imac/localhost+3.pem"
         // },
+        //android
+        "devServer" : {
+            "https" : true,
+            "key" : "G:\\HBuilderWorkSpace\\appSchSkinUni\\https\\windows\\localhost+3-key.pem",
+            "cert" : "G:\\HBuilderWorkSpace\\appSchSkinUni\\https\\windows\\localhost+3.pem"
+        },
         "domain" : "http://jbsch-pb.zhuxue101.net",
         "title" : "智慧校园",
         "router" : {

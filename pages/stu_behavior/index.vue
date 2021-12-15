@@ -11,8 +11,6 @@
 					</view>
 				</uni-grid-item>
 			</uni-grid>
-			<input type="text" :value="personInfo.user_code" style="font-size: 26px;text-align: center;margin-top: 30px;" />
-			<view>{{clientInfo}}</view>
 		</view>
 		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
@@ -28,7 +26,6 @@
 				personInfo: {},
 				tabbar: [],
 				tabBarItem: {},
-				clientInfo:{}
 			}
 		},
 		components: {
@@ -48,8 +45,6 @@
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			this.tabBarItem = util.getTabbarMenu();
-			this.clientInfo=plus.push.getClientInfo()
-			console.log("plus.push.getClientInfo(): " + JSON.stringify(plus.push.getClientInfo()));
 		}
 	}
 </script>
