@@ -49,8 +49,9 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_OA = 'https://develop309.108800.com/oasubapi/sub/api/'; //oa接口(孔)
 		GLOBALDATA.INTERFACE_ITEM = 'https://develop309.108800.com/imsubapi/sub/api/'; //物品管理接口(孔)  http://115.28.11.115:8080/imsubapi/sub/api/
 		GLOBALDATA.INTERFACE_BASESUB = 'https://test.108800.com/baseapi/api/baseapi/'; //统一信息接口:考务、家校用(顾)
+		GLOBALDATA.INTERFACE_UCARD = 'https://test.108800.com/testucardsubapi/api/ucard/'; //统一信息接口 中小学学校卡(顾)
 		GLOBALDATA.INTERFACE_EXAMINATION = 'https://developgx.108800.com:8443/stuzy/api/paper/'; //考务系统接口(蒙)
-		GLOBALDATA.INTERFACE_WORK = 'https://developgx.108800.com:8443/stukqsubapi/attendance/'; //学生考勤系统接口(阮)
+		GLOBALDATA.INTERFACE_WORK = 'https://develop309.108800.com/stukqsubapi/attendance/'; //学生考勤系统接口(孔)
 		GLOBALDATA.INTERFACE_PROGRAMME = 'https://develop309.108800.com/tecrcsubapi/sub/api/'; //日程（孔)
 		GLOBALDATA.INTERFACE_ATTENDAND = 'https://develop309.108800.com/tecgpskqsubapi/sub/api/'; //教师考勤（孔)
 		GLOBALDATA.INTERFACE_STUXWSUB = 'https://developgx.108800.com:8443/stuxwsubapi/behavior/'; //学生行为（阮) 
@@ -84,6 +85,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_OA = 'https://test.108800.com/oasubapi/sub/api/'; //oa接口(孔)
 		GLOBALDATA.INTERFACE_ITEM = 'https://test.108800.com/imsubapi/sub/api/'; //物品管理接口(孔)
 		GLOBALDATA.INTERFACE_BASESUB = 'https://test.108800.com/baseapi/api/baseapi/'; //统一信息接口:考务、家校用(顾)
+		GLOBALDATA.INTERFACE_UCARD = ''; //统一信息接口 中小学学校卡(顾)
 		GLOBALDATA.INTERFACE_EXAMINATION = 'https://test.108800.com/stuzy/api/paper/'; //考务系统接口(蒙)
 		GLOBALDATA.INTERFACE_WORK = 'https://test.108800.com/stukqsubapi/attendance/'; //学生考勤系统接口(阮)
 		GLOBALDATA.INTERFACE_PROGRAMME = 'https://test.108800.com/tecrcsubapi/sub/api/'; //日程（孔)
@@ -119,6 +121,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_OA = 'https://apps.108800.com/oasubapi/sub/api/'; //oa接口(孔)
 		GLOBALDATA.INTERFACE_ITEM = 'https://apps.108800.com/imsubapi/sub/api/'; //物品管理接口(孔)
 		GLOBALDATA.INTERFACE_BASESUB = 'https://sso.108800.com:8443/baseapi/api/baseapi/'; //统一信息接口:考务、家校用(顾)
+		GLOBALDATA.INTERFACE_UCARD = ''; //统一信息接口 中小学学校卡(顾)
 		GLOBALDATA.INTERFACE_EXAMINATION = 'https://apps.108800.com/stuzy/api/paper/'; //考务系统接口(蒙)
 		GLOBALDATA.INTERFACE_WORK = 'https://apps.108800.com/stukqsubapi/attendance/'; //学生考勤系统接口(阮)
 		GLOBALDATA.INTERFACE_PROGRAMME = 'https://apps.108800.com/tecrcsubapi/sub/api/'; //日程（孔)
@@ -173,6 +176,9 @@ Vue.prototype.showLoading = (requestTitle = '加载中...') => uni.showLoading({
 }) //显示加载框
 Vue.prototype.hideLoading = () => {
 	setTimeout(() => {
+		console.log('Vue.prototype.requestTask.size===');
+		console.log(Vue.prototype.requestTask.size);
+		console.log(Vue.prototype.requestTask);
 		if (Vue.prototype.requestTask.size === 0) {
 			uni.hideLoading()
 		}
