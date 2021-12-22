@@ -3,36 +3,28 @@
 		<mynavBar :navItem='itemData' :personInfo='personInfo' :text="navRight" :textClick="textClick"></mynavBar>
 		<view>
 			<view>
-				<p class="title">学段</p>
+				<view class="title">学段</view>
 				<view>
-					<view v-for="(item, index) in items.per.list" :key='index'>
-						<label class="perList" @click="changePer(item.percode)"
-							:style="{background:(item.percode==items.per.selected?'#00CFBD':'#ECECEC'),color:(item.percode==items.per.selected?'white':'')}">{{item.pername}}</label>
-					</view>
+					<label v-for="(item, index) in items.per.list" :key='index' class="perList" @click="changePer(item.percode)"
+						:style="{background:(item.percode==items.per.selected?'#00CFBD':'#ECECEC'),color:(item.percode==items.per.selected?'white':'')}">{{item.pername}}</label>
 				</view>
 				<br>
-				<p class="title">科目</p>
+				<view class="title">科目</view>
 				<view>
-					<view v-for="(item, index) in items.sub.list" :key='index'>
-						<label class="perList" @click="changeSub(item.subcode)"
-							:style="{background:(item.subcode==items.sub.selected?'#00CFBD':'#ECECEC'),color:(item.subcode==items.sub.selected?'white':'')}">{{item.subname}}</label>
-					</view>
+					<label v-for="(item, index) in items.sub.list" :key='index' class="perList" @click="changeSub(item.subcode)"
+						:style="{background:(item.subcode==items.sub.selected?'#00CFBD':'#ECECEC'),color:(item.subcode==items.sub.selected?'white':'')}">{{item.subname}}</label>
 				</view>
 				<br>
-				<p class="title">教版</p>
+				<view class="title">教版</view>
 				<view>
-					<view v-for="(item, index) in items.mater.list" :key='index'>
-						<label class="perList" @click="changeMater(item.matercode)"
-							:style="{background:(item.matercode==items.mater.selected?'#00CFBD':'#ECECEC'),color:(item.matercode==items.mater.selected?'white':'')}">{{item.matername}}</label>
-					</view>
+					<label v-for="(item, index) in items.mater.list" :key='index' class="perList" @click="changeMater(item.matercode)"
+						:style="{background:(item.matercode==items.mater.selected?'#00CFBD':'#ECECEC'),color:(item.matercode==items.mater.selected?'white':'')}">{{item.matername}}</label>
 				</view>
 				<br>
-				<p class="title">分册</p>
+				<view class="title">分册</view>
 				<view>
-					<view v-for="(item, index) in items.fasc.list" :key='index'>
-						<label class="perList" @click="changeFasc(item.fasccode)"
-							:style="{background:(item.fasccode==items.fasc.selected?'#00CFBD':'#ECECEC'),color:(item.fasccode==items.fasc.selected?'white':'')}">{{item.fascname}}</label>
-					</view>
+					<label v-for="(item, index) in items.fasc.list" :key='index' class="perList" @click="changeFasc(item.fasccode)" style="margin-bottom: 10px;"
+						:style="{background:(item.fasccode==items.fasc.selected?'#00CFBD':'#ECECEC'),color:(item.fasccode==items.fasc.selected?'white':'')}">{{item.fascname}}</label>
 				</view>
 			</view>
 		</view>
@@ -179,6 +171,7 @@
 					user_code: this.personInfo.user_code
 				}, (res0, res) => {
 					if (res.state == "ok") {
+						res.data.sort(util.compare('fasccode',1));
 						this.items.fasc.list = res.data
 						if (res.data[0] && res.data[0].fasccode) {
 							this.changeFasc(res.data[0].fasccode);
