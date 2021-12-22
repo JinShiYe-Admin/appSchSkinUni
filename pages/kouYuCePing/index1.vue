@@ -243,6 +243,7 @@
 				tabbar: [],
 				tabBarItem: {},
 				navText: '',
+				phoneType:'h5',
 
 				audioContext: '',
 				recorderManager: '',
@@ -291,6 +292,7 @@
 			mynavBar
 		},
 		onShow() {
+			// this.uploadModel = {};
 			this.audioContext.onStop(() => {
 				this.clickV.playAudoIS = false
 				this.$forceUpdate();
@@ -330,6 +332,7 @@
 								}));
 								_this.showLoading('正在评分');
 								_this.post(_this.globaData.INTERFACE_KYCP + '/orals/record', {
+									phone_type:_this.phoneType,
 									data: _this.uploadModel,
 									file_url: tempM.data.url,
 									index_code: _this.tabBarItem.access.split('#')[1],
@@ -408,6 +411,15 @@
 			this.audioContext = uni.createInnerAudioContext();
 			//#ifdef APP-PLUS
 			this.recorderManager = uni.getRecorderManager();
+			uni.getSystemInfo({
+			    success: function (res) {
+					if(res.platform == 'ios'){
+						_this.phoneType = 'ios';
+					}else{
+						_this.phoneType = 'Android';
+					}
+			    }
+			});
 			//#endif
 			//#ifdef H5
 			this.recorderManager = new Recorder({
@@ -501,7 +513,6 @@
 				// #ifdef H5
 				console.log('aaaaaaazzzzzzz111');
 				this.recorderManager.stop();
-				this.recorderManager.play();
 				let tempAu = this.recorderManager.getWAVBlob();
 				let files = new window.File([tempAu], '111.wav');
 				console.log(files);
@@ -520,6 +531,7 @@
 							console.log('key:' + JSON.stringify(_this.uploadModel));
 							_this.showLoading('正在评分');
 							_this.post(_this.globaData.INTERFACE_KYCP + '/orals/record', {
+								phone_type:_this.phoneType,
 								data: _this.uploadModel,
 								file_url: tempM.data.url,
 								index_code: _this.tabBarItem.access.split('#')[1],
@@ -713,6 +725,7 @@
 											user_code: this.personInfo.user_code
 										}, (res0, res) => {
 											if (res.state == "ok") {
+												res.data.sort(util.compare('fasccode',1));
 												auto_book.fasc = {
 													list: res.data,
 													selected: defaultCodes.fasccode ||
@@ -1060,6 +1073,7 @@
 					this.semFlag = e.currentIndex;
 					if (this.semFlag == 0) {
 						this.navText = '测评记录';
+						this.getContent();
 					} else if (this.semFlag == 1) {
 						this.navText = '测评记录';
 						this.getContent();
@@ -1191,12 +1205,14 @@
 		position: relative;
 		font-size: 200%;
 		word-break: break-word;
-		padding: 0 0.26rem;
+		/* padding: 0 0.26rem; */
+		padding: 120px 0.26rem 20px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		height: calc(40vh - 64px);
+		/* height: calc(40vh - 64px); */
+		height: 100px;
 		overflow-y: auto;
 		text-align: center;
 	}
@@ -1238,9 +1254,10 @@
 	.result-bar {
 		font-size: 12px;
 		color: #999999;
-		margin-top: 10px;
+		padding-top: 10px;
 		display: flex;
 		justify-content: space-between;
+		width: 100%;
 	}
 
 	.title {

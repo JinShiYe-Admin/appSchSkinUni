@@ -28,7 +28,7 @@ function getDptTree(dptList) {
 /**
  * 数组排序
  * @param {Object} propertyName key 字段名
- * @param {Object} order  0从小到大  正序  1从大到小 倒序
+ * @param {Object} order  1从小到大  正序  0从大到小 倒序
  */
 function compare(propertyName, order) {
 	return function(object1, object2) {
@@ -903,6 +903,19 @@ function getPageArray() {
 			customIcon: false,
 			img_href: tempAAA + "/static/tabbar/kouYuCePing_img.png",
 			url: 'schapp_kouYuCePing',
+			childList: []
+		},
+		{
+			name: "stuLocationPath", //学生位置及轨迹
+			pagePath: "/pages/stuLocationPath/index",
+			pagePath1: "/pages/stuLocationPath/index1",
+			iconPath: tempAAA + '/static/tabbar/kouYuCePing.png',
+			selectedIconPath: tempAAA + '/static/tabbar/kouYuCePing_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/kouYuCePing_img.png",
+			url: 'schapp_stuLocationPath',
 			childList: []
 		},
 	];

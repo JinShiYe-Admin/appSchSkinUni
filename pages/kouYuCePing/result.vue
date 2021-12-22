@@ -14,13 +14,14 @@
 							<h4 v-else>{{v.words}}
 								<span class="score" v-if="v.total_score!=null">{{setScore(v.total_score)}}</span>
 							</h4>
-							<view v-if="v.btnShow">
+							<view v-if="v.btnShow" style="margin-bottom: 10px;">
 								<view @click.stop="playAudioLeftBtn(v,v.audio_url)"
 									class="btn-img img-voice  btn-img-cp"
 									:class="{active:v.playAudoIS?v.playAudoIS:false}"></view>
 								<view @touchstart.stop.prevent="touchStart(v,$event)"
-									@touchend.stop.prevent="touchEnd(v,$event)"
-									@touchmove.stop.prevent="touchEnd(v,$event)" class="btn-img img-record  btn-img-cp"
+									@touchend.stop.prevent="touchEnd(v,$event,1)"
+									@touchmove.stop.prevent="touchEnd(v,$event,0)"
+									class="btn-img img-record  btn-img-cp"
 									:class="{active:v.recordIS?v.recordIS:false}">
 								</view>
 								<view @click.stop="playAudioRightBtn(v.record_url)"
@@ -63,6 +64,7 @@
 				showLoadMore: false,
 				perTitle: '',
 				imageURL: '/static/images/kouYuCePing/btn_voice.png',
+				phoneType:'h5',
 
 				model: [],
 				isRecording: false,
@@ -102,12 +104,26 @@
 			this.audioContext = uni.createInnerAudioContext();
 			//#ifdef APP-PLUS
 			this.recorderManager = uni.getRecorderManager();
+			uni.getSystemInfo({
+			    success: function (res) {
+					if(res.platform == 'ios'){
+						_this.phoneType = 'ios';
+					}else{
+						_this.phoneType = 'Android';
+					}
+			    }
+			});
 			//#endif
 			//#ifdef H5
-			this.recorderManager = new Recorder();
+			this.recorderManager = new Recorder({
+				sampleBits: 16, // 采样位数，支持 8 或 16，默认是16
+				sampleRate: 16000, // 采样率，支持 11025、16000、22050、24000、44100、48000，根据浏览器默认值，我的chrome是48000
+				numChannels: 1,
+			});
 			//#endif
 			//获取内容
 			this.post(this.globaData.INTERFACE_KYCP + '/orals', {
+				user_code: this.personInfo.user_code,
 				category: this.itemData.cate,
 				bookCatalogId: this.itemData.catalog_id,
 				index_code: this.itemData.access.split('#')[1]
@@ -157,6 +173,7 @@
 								_this.uploadModel.key = _this.key;
 								_this.showLoading('正在评分');
 								_this.post(_this.globaData.INTERFACE_KYCP + '/orals/record', {
+									phone_type:_this.phoneType,
 									data: _this.uploadModel,
 									file_url: tempM.data.url,
 									index_code: _this.itemData.access.split('#')[1],
@@ -258,92 +275,99 @@
 				this.recorderManager.start({
 					format: 'wav',
 					duration: '10000',
-					sampleRate:16000,
-					numberOfChannels:1,
-					encodeBitRate:16000
+					sampleRate: 16000,
+					numberOfChannels: 1,
+					encodeBitRate: 16000
 				});
 				// #endif
 			},
-			touchEnd(model, e) {
-				this.$forceUpdate()
-				let subX = e.changedTouches[0].clientX - this.touchData.clientX;
-				let subY = e.changedTouches[0].clientY - this.touchData.clientY;
-				subX = Math.abs(subX);
-				subY = Math.abs(subY);
-				if (subX > 100 || subY > 100) {
-					if (model.recordIS) {
-						model.recordIS = false
-						this.uploadFlag = true;
-						// #ifdef H5
-						console.log('aaaaaaazzzzzzz111');
-						this.recorderManager.stop();
-						this.recorderManager.play();
-						let tempAu = this.recorderManager.getWAVBlob();
-						let files = new window.File([tempAu], '111.mp3');
-						console.log(files);
-						uni.uploadFile({
-							url: this.globaData.INTERFACE_KYCP + "/pub/upload",
-							method: 'POST',
-							file: files,
-							name: 'file',
-							success: (uploadFileRes) => {
-								_this.hideLoading();
-								console.log('uploadFileRes:' + JSON.stringify(uploadFileRes));
-								if (uploadFileRes.code == 0) {
-									var tempM = JSON.parse(uploadFileRes.data);
-									_this.uploadModel.words = _this.uploadModel.words ? _this.uploadModel
-										.words.trim() : _this.uploadModel.words;
-									_this.uploadModel.key = _this.key;
-									_this.showLoading('正在评分');
-									_this.post(_this.globaData.INTERFACE_KYCP + '/orals/record', {
-										data: _this.uploadModel,
-										file_url: tempM.data.url,
-										index_code: _this.itemData.access.split('#')[1],
-										user_code: _this.personInfo.user_code
-									}, (res0, res) => {
-										_this.hideLoading();
-										console.log('resres:' + JSON.stringify(res));
-										if (res.code == 0) {
-											_this.uploadModel.key = res.data.key;
-											_this.uploadModel.total_score = res.data.total_score;
-											_this.uploadModel.record_url = res.data.record_url;
-											if (_this.uploadModel.category == "read_sentence") {
-												_this.uploadModel.accuracy_score = res.data
-													.accuracy_score;
-												_this.uploadModel.fluency_score = res.data
-													.fluency_score;
-												_this.uploadModel.integrity_score = res.data
-													.integrity_score;
-											}
-											_this.post(_this.globaData.INTERFACE_KYCP +
-												'/orals/save', {
-													data: [_this.uploadModel],
-													index_code: _this.itemData.access.split(
-														'#')[1],
-													user_code: _this.personInfo.user_code
-												}, (res0, res) => {
-													_this.hideLoading();
-													console.log('resresresresres:' + JSON
-														.stringify(res));
-												})
-										} else {
-											_this.showToast('评分失败，请重试');
-										}
-									})
-								} else {
-									uni.showToast('文件上传失败，请稍后再试 ');
-								}
-							},
-							fail: (e) => {
-								console.log('fail:' + JSON.stringify(e));
-							}
-						});
-						// #endif
-						// #ifndef H5
-						this.recorderManager.stop();
-						// #endif
+			touchEnd(model, e, flag) {
+				if (flag == 1) {
+					this.touchUpload(model, e, flag);
+				} else {
+					let subX = e.changedTouches[0].clientX - this.touchData.clientX;
+					let subY = e.changedTouches[0].clientY - this.touchData.clientY;
+					subX = Math.abs(subX);
+					subY = Math.abs(subY);
+					if (subX > 100 || subY > 100) {
+						if (model.recordIS) {
+							this.touchUpload(model, e, flag);
+						}
 					}
 				}
+			},
+			touchUpload(model, e, flag) {
+				model.recordIS = false
+				this.$forceUpdate();
+				this.uploadFlag = true;
+				// #ifdef H5
+				console.log('aaaaaaazzzzzzz111');
+				this.recorderManager.stop();
+				let tempAu = this.recorderManager.getWAVBlob();
+				let files = new window.File([tempAu], '111.wav');
+				console.log(files);
+				uni.uploadFile({
+					url: this.globaData.INTERFACE_KYCP + "/pub/upload",
+					method: 'POST',
+					file: files,
+					name: 'file',
+					success: (uploadFileRes) => {
+						_this.hideLoading();
+						console.log('uploadFileRes:' + JSON.stringify(uploadFileRes));
+						if (uploadFileRes.statusCode == 200) {
+							var tempM = JSON.parse(uploadFileRes.data);
+							_this.uploadModel.words = _this.uploadModel.words ? _this.uploadModel
+								.words.trim() : _this.uploadModel.words;
+							_this.uploadModel.key = _this.key;
+							_this.showLoading('正在评分');
+							_this.post(_this.globaData.INTERFACE_KYCP + '/orals/record', {
+								phone_type:_this.phoneType,
+								data: _this.uploadModel,
+								file_url: tempM.data.url,
+								index_code: _this.itemData.access.split('#')[1],
+								user_code: _this.personInfo.user_code
+							}, (res0, res) => {
+								_this.hideLoading();
+								console.log('resres:' + JSON.stringify(res));
+								if (res.code == 0) {
+									_this.uploadModel.key = res.data.key;
+									_this.uploadModel.total_score = res.data.total_score;
+									_this.uploadModel.record_url = res.data.record_url;
+									if (_this.uploadModel.category == "read_sentence") {
+										_this.uploadModel.accuracy_score = res.data
+											.accuracy_score;
+										_this.uploadModel.fluency_score = res.data
+											.fluency_score;
+										_this.uploadModel.integrity_score = res.data
+											.integrity_score;
+									}
+									_this.post(_this.globaData.INTERFACE_KYCP +
+										'/orals/save', {
+											data: [_this.uploadModel],
+											index_code: _this.itemData.access.split(
+												'#')[1],
+											user_code: _this.personInfo.user_code
+										}, (res0, res) => {
+											_this.hideLoading();
+											console.log('resresresresres:' + JSON
+												.stringify(res));
+										})
+								} else {
+									_this.showToast('评分失败，请重试');
+								}
+							})
+						} else {
+							uni.showToast('文件上传失败，请稍后再试 ');
+						}
+					},
+					fail: (e) => {
+						console.log('fail:' + JSON.stringify(e));
+					}
+				});
+				// #endif
+				// #ifndef H5
+				this.recorderManager.stop();
+				// #endif
 			},
 			playAudioLeftBtn(v, url) {
 				v.playAudoIS = true
@@ -512,9 +536,10 @@
 	.result-bar {
 		font-size: 12px;
 		color: #999999;
-		margin-top: 10px;
 		display: flex;
 		justify-content: space-between;
+		padding-top: 10px;
+		width: 100%;
 	}
 
 	.btn-img {
