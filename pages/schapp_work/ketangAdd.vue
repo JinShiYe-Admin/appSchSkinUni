@@ -76,6 +76,10 @@
 				startDate:'2010-01-01',
 				endDate:this.moment().format('YYYY-MM-DD'),
 				showNextButton:false,
+				leaveDict:[], 
+				attendanceDict:[], 
+				classDict:[],
+				historyData:false,//是否存在历史考勤数据
 			}
 		},
 		components: {
@@ -92,6 +96,9 @@
 				this.showLoading();
 				this.getGrd();
 				this.getJcXwxx();
+				this.getLeaveDict();
+				this.getClassAttendanceDict();
+				this.getClassDict();
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""
@@ -303,8 +310,6 @@
 						if(stuItem.value==leaveRecItem.stu_code){
 							stuItem.item_txt=leaveRecItem.item_txt
 							stuItem.item_code=leaveRecItem.item_code
-							// stuItem.in_out_permission_code=leaveRecItem.in_out_permission_code
-							// stuItem.in_out_permission_txt=leaveRecItem.in_out_permission_txt
 						}
 					})
 					//合并出入型设备考勤数据
@@ -312,8 +317,8 @@
 						if(stuItem.value==equRecItem.stu_code){
 							if(stuItem.item_code){}else{
 								stuItem.equType='出入型设备考勤数据'
-								stuItem.item_txt='课堂缺勤'
-								stuItem.item_code='classAbsence'
+								stuItem.item_txt='已到'
+								stuItem.item_code='*'
 							}
 						}
 					})
@@ -325,8 +330,12 @@
 						jc:this.jcList[this.jcIndex],
 						km:this.kmList[this.kmIndex],
 						time:this.time,
+						leaveDict:this.leaveDict,
+						attendanceDict:this.attendanceDict,
+						classDict:this.classDict,
 						locList:locList,
 						stuList:stuList,
+						historyData:this.historyData,
 						index_code:this.index_code,
 					})
 				}else{//跳转到考勤表单填写页面
@@ -341,7 +350,11 @@
 						jc:this.jcList[this.jcIndex],
 						km:this.kmList[this.kmIndex],
 						time:this.time,
+						leaveDict:this.leaveDict,
+						attendanceDict:this.attendanceDict,
+						classDict:this.classDict,
 						stuList:stuList,
+						historyData:this.historyData,
 						index_code:this.index_code,
 					})
 				}
@@ -384,6 +397,7 @@
 					if(response.list.length===0){
 						if(callback)callback();
 					}else{
+						this.historyData=true
 						this.$refs.alertDialog.open()
 					}
 					this.hideLoading()
@@ -432,6 +446,7 @@
 			getLeaveLocList(){
 				return new Promise((res,rej)=>{
 					let comData={
+						mach_type:8,
 						index_code: this.index_code,
 					} 
 					this.post(this.globaData.INTERFACE_WORK+'LocationAttendance/list',comData,response=>{
@@ -463,9 +478,55 @@
 						}else{
 							res([])
 						}
-						
 					})
 				})
+			},
+			//获取请假常量
+			getLeaveDict(){
+				return new Promise((res,rej)=>{
+					let comData={
+						index_code:this.index_code,
+					}
+					this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/getDict',comData,response=>{
+					    console.log("responseaaaa: " + JSON.stringify(response));
+						this.hideLoading()
+						this.leaveDict=response.qaArray
+					})
+				})
+			},
+			//获取考勤常量 88
+			getClassAttendanceDict(){
+				return new Promise((res,rej)=>{
+					let comData={
+						index_code:this.index_code,
+					}
+					this.post(this.globaData.INTERFACE_WORK+'QuantizationAttendance/list',comData,response=>{
+						let qaArray=[]
+						response.list.map(item=>{
+							if(item.attendance_type=='inClassAttendance'){
+								qaArray.push(
+									{
+										text:item.item_code_txt,
+										value:item.item_code
+									}
+								)
+							}
+						})
+						this.hideLoading()
+						this.attendanceDict=qaArray
+					})
+				})
+			},
+			//获取节次常量
+			getClassDict(){
+					let comData={
+						index_code:this.index_code,
+					}
+					this.post(this.globaData.INTERFACE_WORK+'ClasstimeSchedule/list',comData,response=>{
+					    console.log("responsesabaa: " + JSON.stringify(response));
+						this.hideLoading()
+						this.classDict=response.timeArray
+					})
 			}
 		},
 	}
