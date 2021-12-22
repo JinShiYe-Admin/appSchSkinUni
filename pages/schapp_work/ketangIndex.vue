@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="点名添加" :textClick="textClick"></mynavBar>
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
@@ -78,7 +78,7 @@
 			mynavBar
 		},
 		methods: {
-			iconClick(){
+			textClick(){
 				let that=this
 				if(this.grdArray.length==0){
 					this.showToast('无法获取年级数据，不能进行添加操作')

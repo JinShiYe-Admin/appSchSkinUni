@@ -1008,9 +1008,24 @@
 				"enablePullDownRefresh": false
 			}
 
-		}
+		},
+		{
+			"path": "pages/schapp_work/ketangAddLocEqu",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		
+		},{
+			"path": "pages/schapp_work/ketangAddStu",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 
-		, {
+		}, {
 			"path": "pages/schapp_work/ketangForm",
 			"style": {
 				"navigationBarTitleText": "",

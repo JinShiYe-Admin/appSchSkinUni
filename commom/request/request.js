@@ -37,7 +37,6 @@ function post(url, data, callback, ecallback) {
 		},
 		data: signData,
 		success: res => { //接口调用成功的回调函数
-		uni.hideLoading()
 			if (res.statusCode === 200) {
 				if (res.data.state === 'fail') {
 					uni.hideLoading()
@@ -123,10 +122,10 @@ function post(url, data, callback, ecallback) {
 			showToast('网络请求失败')
 		},
 		complete: () => {
-			Vue.prototype.requestTask.delete(reuqestTask)
+			Vue.prototype.requestTask.delete(reuqestTask._xhr._requestID)
 		}
 	});
-	Vue.prototype.requestTask.set(reuqestTask, true)
+	Vue.prototype.requestTask.set(reuqestTask._xhr._requestID, reuqestTask._xhr._url)
 
 }
 
