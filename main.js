@@ -174,7 +174,12 @@ Vue.prototype.showLoading = (requestTitle = '加载中...') => uni.showLoading({
 	title: String(requestTitle),
 	mask: true
 }) //显示加载框
-Vue.prototype.hideLoading = () => {} //关闭加载框
+Vue.prototype.hideLoading = () => {
+	setTimeout(() => {
+		if (Vue.prototype.requestTask.length === 0) {uni.hideLoading()}
+		setTimeout(() => {uni.hideLoading()}, 15000)
+	}, 100)
+} //关闭加载框
 
 //#ifdef H5
 if (process.env.NODE_ENV === 'development') { //如果是H5的开发环境，自动加载vconsole
