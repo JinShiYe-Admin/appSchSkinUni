@@ -175,11 +175,11 @@ Vue.prototype.showLoading = (requestTitle = '加载中...') => uni.showLoading({
 	mask: true
 }) //显示加载框
 Vue.prototype.hideLoading = () => {
-	setTimeout(() => {
-		console.log('Vue.prototype.requestTask.size===');
-		console.log(Vue.prototype.requestTask.size);
-		console.log(Vue.prototype.requestTask);
+	let task=setTimeout(() => {
 		if (Vue.prototype.requestTask.size === 0) {
+			console.log('Vue.prototype.requestTask.size===');
+			console.log(Vue.prototype.requestTask.size);
+			console.log(Vue.prototype.requestTask);
 			uni.hideLoading()
 		}
 		// if (Vue.prototype.requestTask.size > 0) {
@@ -187,7 +187,7 @@ Vue.prototype.hideLoading = () => {
 				uni.hideLoading()
 			}, 15000)
 		// }
-	}, 100)
+	}, 500)
 } //关闭加载框
 
 //#ifdef H5

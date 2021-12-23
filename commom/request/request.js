@@ -29,7 +29,8 @@ function post(url, data, callback, ecallback) {
 		...data,
 	})
 	console.log(url, JSON.stringify(signData));
-	let reuqestTask = uni.request({
+	Vue.prototype.requestTask.set(url, JSON.stringify(signData))
+	uni.request({
 		url: url,
 		method: 'POST',
 		header: {
@@ -122,11 +123,9 @@ function post(url, data, callback, ecallback) {
 			showToast('网络请求失败')
 		},
 		complete: () => {
-			Vue.prototype.requestTask.delete(reuqestTask._xhr._requestID)
+			Vue.prototype.requestTask.delete(url)
 		}
 	});
-	Vue.prototype.requestTask.set(reuqestTask._xhr._requestID, reuqestTask._xhr._url)
-
 }
 
 var timeTask = null
