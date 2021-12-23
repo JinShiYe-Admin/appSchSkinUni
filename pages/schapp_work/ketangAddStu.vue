@@ -104,6 +104,7 @@
 		methods: {
 			dialogConfirm(e){
 				this.$refs.alertDialog.close()
+				this.showLoading();
 				this.deleteData()
 			},
 			dialogClose(){
@@ -191,8 +192,7 @@
 						 		 pageIndex=(pages.length-1)-index
 						 	 }
 						 })
-						 const eventChannel = this.getOpenerEventChannel()
-						 eventChannel.emit('refreshKetang', {data: 1});
+						 uni.$emit('refreshKetangList', {data: 1});
 						 uni.navigateBack({delta:pageIndex});
 					} else {
 						this.canSub=true

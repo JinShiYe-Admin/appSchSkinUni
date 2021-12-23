@@ -197,6 +197,7 @@
 				id:itemData.id
 			}
 			this.time=itemData.attendance_time
+			this.comment=itemData.comment
 			if(itemData.del==1){
 				this.icon='trash'
 			}
@@ -247,6 +248,7 @@
 			save(){
 				if(this.canSub){
 					this.canSub=false
+					this.showLoading()
 					let comData={
 						grd_code:this.tabBarItem.grd_code,
 						cls_code:this.tabBarItem.cls_code,
@@ -265,6 +267,7 @@
 							 this.hideLoading()
 							 this.showToast(response.msg);
 							 const eventChannel = this.getOpenerEventChannel()
+							 eventChannel.emit('refreshKetang', {data: 1});
 							 uni.navigateBack();
 						} else {
 							this.canSub=true
@@ -291,10 +294,11 @@
 				}
 				this.post(url,comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					const eventChannel = this.getOpenerEventChannel()
 					this.showToast('操作成功')
-					uni.navigateBack();
 					this.hideLoading()
+					const eventChannel = this.getOpenerEventChannel()
+					eventChannel.emit('refreshKetang', {data: 1});
+					uni.navigateBack();
 				})
 			},
 			stuSelect(e){
