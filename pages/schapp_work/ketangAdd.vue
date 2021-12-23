@@ -71,8 +71,8 @@
 				grdList: [], //年级数组
 				clsList: [], //班级数组
 				stuList:[],//学生数组
-				jcList: [], //出入权限数组
-				kmList: [], //出入权限数组
+				jcList: [], //节次数组
+				kmList: [], //科目数组
 				startDate:'2010-01-01',
 				endDate:this.moment().format('YYYY-MM-DD'),
 				showNextButton:false,
@@ -135,7 +135,6 @@
 					}else{
 						this.showToast('获取年级为空');
 					}
-					this.hideLoading()
 				})
 			},
 			getCls(grd_id){
@@ -160,7 +159,7 @@
 					}else{
 						this.showToast('获取班级为空');
 					}
-					this.hideLoading()
+					
 				})
 			},
 			getKm(grd_id,cls_id){//获取科目
@@ -173,7 +172,7 @@
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					this.hideLoading()
+					
 					let sub = response.sub_list;
 					let subList = [];
 					sub.map(function(currentValue) {
@@ -197,7 +196,7 @@
 				}
 				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
 				    console.log("responsesabaa: " + JSON.stringify(response));
-					this.hideLoading()
+					
 					this.jcList=[].concat(response.timeArray)
 				})
 			},
@@ -377,30 +376,30 @@
 					}else{
 						this.showToast('获取学生为空');
 					}
-					this.hideLoading()
+					
 				})
 			},
 			//查询是否存在考勤记录55
 			getStudentAttendance(callback){
 				let comData={
 					grd_code: this.grdList[this.grdIndex].value,
-					cls_code: this.grdList[this.clsIndex].value,
+					cls_code: this.clsList[this.clsIndex].value,
 					sub_code: this.kmList[this.kmIndex].value,
 					class_node:this.jcList[this.jcIndex].value,
-					query_time: this.time,
+					query_tiem: this.time,
 					page_number: 1, //当前页数
 					page_size: 9999999, //每页记录数
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/list',comData,response=>{
-				    // console.log("StudentAttendance/list: " + JSON.stringify(response));
+				    console.log("StudentAttendance/list: " + JSON.stringify(response));
 					if(response.list.length===0){
 						if(callback)callback();
 					}else{
 						this.historyData=true
 						this.$refs.alertDialog.open()
 					}
-					this.hideLoading()
+					
 				})
 			},
 			//获取选择日期对应的学生请假数据50
@@ -417,7 +416,7 @@
 					} 
 					this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/list',comData,response=>{
 						// console.log("获取选择日期对应的学生请假数据: " + JSON.stringify(response));
-						this.hideLoading()
+						
 						res(response.list)
 					})
 				})
@@ -437,7 +436,7 @@
 					} 
 					this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/cardList',comData,response=>{
 						// console.log("获取出入型设备的识别数据: " + JSON.stringify(response));
-						this.hideLoading()
+						
 						res(response.list)
 					})
 				})
@@ -451,7 +450,7 @@
 					} 
 					this.post(this.globaData.INTERFACE_WORK+'LocationAttendance/list',comData,response=>{
 						// console.log("获取定位型设备列表: " + JSON.stringify(response));
-						this.hideLoading()
+						
 						res(response.list)
 					})
 				})
@@ -472,7 +471,7 @@
 						index_code: this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_UCARD+'HrStuCardP',comData,response=>{
-						this.hideLoading()
+						
 						if(response!==null){
 							res(response.list)
 						}else{
@@ -489,7 +488,7 @@
 					}
 					this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/getDict',comData,response=>{
 					    console.log("responseaaaa: " + JSON.stringify(response));
-						this.hideLoading()
+						
 						this.leaveDict=response.qaArray
 					})
 				})
@@ -512,7 +511,7 @@
 								)
 							}
 						})
-						this.hideLoading()
+						
 						this.attendanceDict=qaArray
 					})
 				})
@@ -524,7 +523,7 @@
 					}
 					this.post(this.globaData.INTERFACE_WORK+'ClasstimeSchedule/list',comData,response=>{
 					    console.log("responsesabaa: " + JSON.stringify(response));
-						this.hideLoading()
+						
 						this.classDict=response.timeArray
 					})
 			}

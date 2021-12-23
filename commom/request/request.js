@@ -1,7 +1,6 @@
 /**
  * 注意：
  * APP端多次调用showLoading会导致加载框频闪，所以为了保证加载框不会频闪，尽量避免多次调用
- * 需手动在页面中最后一次请求接口的方法内调用this.hideLoading()关闭加载框
  */
 
 import Vue from 'vue'
@@ -29,7 +28,7 @@ function post(url, data, callback, ecallback) {
 		...data,
 	})
 	console.log(url, JSON.stringify(signData));
-	Vue.prototype.requestTask.set(url, JSON.stringify(signData))
+	Vue.prototype.requestTask.push(url)
 	uni.request({
 		url: url,
 		method: 'POST',
@@ -123,7 +122,9 @@ function post(url, data, callback, ecallback) {
 			showToast('网络请求失败')
 		},
 		complete: () => {
-			Vue.prototype.requestTask.delete(url)
+			Vue.prototype.requestTask.map((urlItem,index)=>{if(urlItem==url){Vue.prototype.requestTask.splice(index,1)}})
+			if (Vue.prototype.requestTask.length === 0) {setTimeout(() => {uni.hideLoading()}, 200)}
+			setTimeout(() => {uni.hideLoading()}, 15000)
 		}
 	});
 }

@@ -25,7 +25,10 @@
 			<uni-list-item v-for="(item,index) in tabBarItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.value" rightText="右侧文字" >
 				<template v-slot:footer>
 					<view class="uni-flex uni-row form-view">
-						<picker style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :range="rightList" range-key="text">
+						<picker v-if="item.status=='interfaceData'" style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
+							<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/>
+						</picker>
+						<picker v-else style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :range="rightList" :value="item.rightIndex" range-key="text">
 							<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList[item.rightIndex].text:''"  placeholder="请选择" disabled/>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
@@ -34,7 +37,7 @@
 			</uni-list-item>
 		</uni-list>
 		<uni-popup ref="alertDialog" type="dialog">
-			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,保存将覆盖原有记录!" closeText='继续' confirmText="取消" @confirm="dialogConfirm"></uni-popup-dialog>
+			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,保存将覆盖原有记录!" closeText='继续' confirmText="取消" @confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template> 
@@ -51,14 +54,10 @@
 				personInfo: {},
 				tabBarItem: {},
 				rightList:[],
+				rightList2:[],
 				stuList:[],
-				bjrs:0,
-				yd:0,
-				ktqq:0,
-				cd:0,
-				zt:0,
-				sj:0,
-				bj:0,
+				bjrs:0,yd:0,ktqq:0,cd:0,zt:0,sj:0,bj:0,
+				canSub:true,
 			}
 		},
 		components: {
@@ -75,19 +74,22 @@
 			this.index_code=itemData.index_code 
 			console.log("this.tabBarItem: " + JSON.stringify(this.tabBarItem));
 			let rightList = [{text:'已到',value:'*'}].concat(this.tabBarItem.leaveDict).concat(this.tabBarItem.attendanceDict)
+			let rightList2 = [{text:'检测识别',value:'**'}].concat(rightList)
 			this.rightList=rightList
+			this.rightList2=rightList2
 			let stuList=itemData.stuList
 			stuList.map(stuItem=>{
 				stuItem.rightIndex=-1
 				stuItem.status='default'//没有默认值
-				rightList.map((rightItem,index)=>{
+				rightList2.map((rightItem,index)=>{
 					if(stuItem.item_code==rightItem.value){
-						console.log(index);
+						stuItem.equType='接口操作赋值'
 						stuItem.rightIndex=index
-						stuItem.status='initData'//接口或用户操作赋值
+						stuItem.status='interfaceData'//接口操作赋值
 					}
 				})
-			})
+			}) 
+			console.log("stuList: " + JSON.stringify(stuList));
 			this.stuList=stuList
 			this.setTotal();
 			//#ifndef APP-PLUS
@@ -102,7 +104,10 @@
 		methods: {
 			dialogConfirm(e){
 				this.$refs.alertDialog.close()
-				this.submitData()
+				this.deleteData()
+			},
+			dialogClose(){
+				this.canSub=true
 			},
 			textClick(){
 				let canSubmit=true
@@ -114,15 +119,89 @@
 				if(canSubmit){
 					if(this.tabBarItem.historyData){
 						this.$refs.alertDialog.open()
+						this.canSub=false
 					}else{
-						this.submitData()
+						if(this.canSub){
+							this.canSub=false
+							this.showLoading()
+							this.submitData()
+						}
 					}
 				}else{
 					this.showToast('请将考勤情况填写完整再保存！')
 				}
 			},
+			//删除之前的考勤记录 112
+			deleteData(){
+				let comData={
+					grd_code:this.tabBarItem.grd.value,
+					cls_code:this.tabBarItem.cls.value,
+					class_node:this.tabBarItem.jc.value,
+					begintime: this.tabBarItem.time,
+					endtime: this.tabBarItem.time,
+					index_code: this.index_code,
+				}
+				console.log("comData: " + JSON.stringify(comData));
+				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/deleteList',comData,(response0,response)=>{
+				    console.log("StudentAttendance/deleteList: " + JSON.stringify(response));
+					if(response.state=='ok'){
+						this.submitData()
+					}else{
+						this.hideLoading()
+						this.showToast('历史考勤记录删除失败,请联系管理员')
+					}
+				})
+			},
 			submitData(){
-				console.log('终于可以提交了');
+				let stuList=[]
+				this.stuList.map(stuItem=>{
+					if(stuItem.item_code=='*'){}else{
+						let obj={
+							stu_code:stuItem.value,
+							stu_name:stuItem.name,
+							item_code:stuItem.item_code,
+						}
+						stuList.push(obj)
+					}
+				})
+				let comData={
+					grd_code:this.tabBarItem.grd.value,
+					grd_name:this.tabBarItem.grd.text,
+					cls_code:this.tabBarItem.cls.value,
+					cls_name:this.tabBarItem.cls.text,
+					attendance_time:this.tabBarItem.time,
+					class_node:this.tabBarItem.jc.value,
+					sub_code:this.tabBarItem.km.value,
+					sub_name:this.tabBarItem.km.text,
+					comment:'',
+					list:stuList,
+					index_code:this.index_code,
+				}
+				console.log("comData: " + JSON.stringify(comData));
+				//113.课堂考勤-按班级新增
+				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/saveList',comData,(response0,response)=>{
+				    console.log("responseaaaa: " + JSON.stringify(response));
+					if (response.code == 0) {
+						 this.hideLoading()
+						 this.showToast(response.msg);
+						 var pages = getCurrentPages();
+						 let pageIndex=1
+						 pages.map((item,index)=>{
+						 	 if(item.route.indexOf('pages/schapp_work/ketangIndex')!==-1){
+						 		 pageIndex=(pages.length-1)-index
+						 	 }
+						 })
+						 const eventChannel = this.getOpenerEventChannel()
+						 eventChannel.emit('refreshKetang', {data: 1});
+						 uni.navigateBack({delta:pageIndex});
+					} else {
+						this.canSub=true
+						this.hideLoading()
+						this.showToast(response.msg);
+					}
+				},()=>{
+						this.canSub=true
+				})
 			},
 			yidao(){
 				let stuList=this.stuList
@@ -159,10 +238,11 @@
 			rightSelect(item,e){
 				if(this.rightList.length>0){
 					if(item.rightIndex!==e.detail.value){
+						 item.equType='用户操作赋值'
 						 item.rightIndex=e.detail.value
 						 item.item_txt=this.rightList[e.detail.value].text
 						 item.item_code=this.rightList[e.detail.value].value
-						 item.status='initData'
+						 item.status='initData'//用户操作赋值
 					}
 				}
 				this.setTotal()
