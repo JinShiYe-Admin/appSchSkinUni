@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon='icon' :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed"  style="background-color: #FFFFFF;">
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
@@ -12,9 +12,10 @@
 				<picker style="flex: 1;"  @change="stuClick" :value="stuIndex" :range="stuArray" range-key="text">
 					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="stuArray[stuIndex].text" ></uni-easyinput-select>
 				</picker>
-				<picker style="flex: 1;" @change="termClick" :value="termIndex" :range="termArray" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="termArray[termIndex].text" ></uni-easyinput-select>
-				</picker>
+				<view class="mini-date" style="flex: 1;">
+					<dy-Date :childValue='endDate' timeType="day" v-on:getData='timeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>
+					<uni-icons style="padding-right: 3px;" size="13" type="arrowdown" color="#C2C7D6"></uni-icons>
+				</view>
 			</view>
 			<view class="select-line"></view>
 		</view>
@@ -46,7 +47,6 @@
 				personInfo: {},
 				tabbar: [],
 				tabBarItem: {},
-				icon:'',
 				pageSize:15,
 				pageobj0:{
 					loadFlag:0,//0 刷新 1加载更多
@@ -60,18 +60,16 @@
 					canload:true,//是否加载更多
 				},
 				pagedata:[],
-				remarkType:[],//评语类型数组
 				//顶部筛选框相关内容
 				grdIndex:0,
 				clsIndex:0,
 				stuIndex:0,
-				yearIndex:0,
-				termIndex:0,
 				grdArray: [{text:'',value:'-1'}],
 				clsArray: [{text:'',value:'-1'}],
 				stuArray: [{text:'',value:'-1'}],
-				yearArray: [{text:'',value:''}],
-				termArray: [{text:'',value:''}],
+				time:this.moment().format('YYYY-MM-DD'),
+				startDate:this.moment().subtract(14,'days').format('YYYY-MM-DD'),
+				endDate:this.moment().format('YYYY-MM-DD')
 			}
 		},
 		components: {
@@ -90,24 +88,6 @@
 				// 		that.getList0()
 				// 	}
 				// })
-			},
-			iconClick(){
-				let that=this
-				if(this.grdArray.length==0){
-					this.showToast('无法获取年级数据，不能进行添加操作')
-				}else if(this.clsArray.length==0){
-					this.showToast('无法获取班级数据，不能进行添加操作')
-				}else{
-					util.openwithData('/pages/stu_comment/stu_comment_add',{index_code:this.index_code},{
-						refreshList(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj0.loadFlag=0
-							that.pageobj0.canload=true
-							that.pageobj0.page_number=1
-							that.getList0()
-						}
-					})
-				}
 			},
 			grdClick:function(e){
 				if(this.grdIndex!==e.detail.value){
@@ -141,15 +121,13 @@
 					 this.getList0();
 				}
 			},
-			termClick:function(e){
-				if(this.termIndex!==e.detail.value){
-					 this.termIndex=e.detail.value
-					 this.showLoading()
-					 this.pageobj0.loadFlag=0
-					 this.pageobj0.canload=true
-					 this.pageobj0.page_number=1
-					 this.getList0();
-				}
+			timeSelect(e){
+				this.time=e
+				this.showLoading()
+				this.pageobj0.loadFlag=0
+				this.pageobj0.canload=true
+				this.pageobj0.page_number=1
+				this.getList0();
 			},
 			getGrd(){//获取年级
 				let comData={
@@ -215,28 +193,26 @@
 					page_size:1,
 					page_number:-1,
 					mtp:8,
+					order:'stu_name',
+					sort:'ASC',
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'stu',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading();
-					// var str = ['李晓明','王晓璐','张一丹','白小马','阿凡提'];
-					// var res = str.sort(function(a,b){return a.localeCompare(b)})
-					// console.log(str) // -> ["阿凡提", "白小马", "李晓明", "王晓璐", "张一丹"]
 					let stuArray=[];
-					let newList=response.list.sort(this.compare("stu_name",0));
-					console.log('newList:'+JSON.stringify(newList));
 					if(response.list.length>0){
 						let obj = {};
 						obj.value = '-1';
 						obj.text = '全部学生';
 						stuArray.push(obj);
 					}
-					response.list.map(function(currentValue) {
-						currentValue.value = currentValue.stu_code;
-						currentValue.text = currentValue.stu_name;
-						stuArray.push(currentValue)
-					})
+					for (var i = 0; i < response.list.length; i++) {
+						let tempM = response.list[i];
+						tempM.value = tempM.stu_code;
+						tempM.text = tempM.stu_name;
+						stuArray.push(tempM);
+					}
 					if(stuArray.length>0 ){
 						this.stuArray=stuArray;
 						this.getList0()
@@ -246,35 +222,10 @@
 					}
 				})
 			},
-			getDictList(){//获取班级
-				let comData={
-					op_code:'index',
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_STUPYSUB+'Comment/getDict',comData,response=>{
-					this.hideLoading()
-					let newList=response.yearArray.sort(this.compare("value",0));
-					let yearList = [{
-						value: '',
-						text: '全部年份'
-					}].concat(newList);
-					let termList = [{
-						value: '',
-						text: '全部学期'
-					}].concat(response.termArray);
-					this.yearArray = yearList;
-					
-					this.termArray = termList;
-					
-					this.remarkType = response.remarkTypeArray;
-				})
-			},
 			getList0(){//获取页面数据
 				let comData={
 					grd_code: this.grdArray[this.grdIndex].value,
 					cls_code: this.clsArray[this.clsIndex].value,
-					year:this.yearArray[this.yearIndex].value,
-					term_name:this.termArray[this.termIndex].value,
 					remark_type: '',
 					begintime:'1970-01-01',
 					endtime:'2050-12-31',

@@ -2422,8 +2422,21 @@
             "path" : "pages/stuLocationPath/index",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+               "navigationStyle": "custom", // 隐藏系统导航栏
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"pullToRefresh": {
+               		"support": true,
+               		"style": "circle",
+               		"offset": "76px"
+               	}
+               },
+               "h5": {
+               	"pullToRefresh": {
+               		"offset": "44px"
+               	}
+               }
             }
             
         }
@@ -2431,8 +2444,21 @@
             "path" : "pages/stuLocationPath/index1",
             "style" :                                                                                    
             {
+                "navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
             }
             
         }
@@ -2533,6 +2559,9 @@
 			},
 			{
 				"pagePath": "pages/kouYuCePing/index"
+			},
+			{
+				"pagePath": "pages/stuLocationPath/index"
 			}
 		]
 	}
