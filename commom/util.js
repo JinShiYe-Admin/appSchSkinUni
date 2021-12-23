@@ -909,12 +909,12 @@ function getPageArray() {
 			name: "stuLocationPath", //学生位置及轨迹
 			pagePath: "/pages/stuLocationPath/index",
 			pagePath1: "/pages/stuLocationPath/index1",
-			iconPath: tempAAA + '/static/tabbar/kouYuCePing.png',
-			selectedIconPath: tempAAA + '/static/tabbar/kouYuCePing_select.png',
+			iconPath: tempAAA + '/static/tabbar/stuLocationPath.png',
+			selectedIconPath: tempAAA + '/static/tabbar/stuLocationPath_select.png',
 			count: 0,
 			isDot: false,
 			customIcon: false,
-			img_href: tempAAA + "/static/tabbar/kouYuCePing_img.png",
+			img_href: tempAAA + "/static/tabbar/stuLocationPath_img.png",
 			url: 'schapp_stuLocationPath',
 			childList: []
 		},
