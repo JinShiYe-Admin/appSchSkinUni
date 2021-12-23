@@ -21,8 +21,8 @@
 		</view>
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
-				<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text">
+				<uni-list-item showArrow :key="index" v-for="(item,index) in pagedata" :border="true" @click="toDetails(item)">
+					<text slot="body" class="slot-box slot-text" @click="toDetails(item)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">星期{{item.day_week}}&ensp;{{item.class_node}}&ensp;{{item.sub_name}}</view></uni-col>
@@ -85,15 +85,7 @@
 				}else if(this.clsArray.length==0){
 					this.showToast('无法获取班级数据，不能进行添加操作')
 				}else {
-					util.openwithData('/pages/schapp_work/ketangAdd',{index_code:this.index_code},{
-						refreshKetang(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj0.loadFlag=0
-							that.pageobj0.canload=true
-							that.pageobj0.page_number=1
-							that.getList0()
-						}
-					})
+					util.openwithData('/pages/schapp_work/ketangAdd',{index_code:this.index_code})
 				}
 			},
 			grdClick:function(e){
@@ -256,6 +248,11 @@
 					}
 				})
 			},
+			toDetails(item){
+				item.index_code=this.index_code
+				let that=this
+				util.openwithData('/pages/schapp_work/ketangDetail',item)
+			}
 		},
 		onLoad(options) {
 			this.personInfo = util.getPersonal();
@@ -301,9 +298,14 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
-					document.title=""
-				//#endif
+			//#ifndef APP-PLUS
+				document.title=""
+			//#endif
+			
+			this.pageobj0.loadFlag=0
+			this.pageobj0.canload=true
+			this.pageobj0.page_number=1
+			this.getList0()
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
