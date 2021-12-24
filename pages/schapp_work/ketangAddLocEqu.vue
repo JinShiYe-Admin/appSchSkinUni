@@ -127,7 +127,7 @@
 				 	jc:this.tabBarItem.jc,
 				 	km:this.tabBarItem.km,
 				 	time:this.tabBarItem.time,
-					leaveDict:this.tabBarItem.leaveDict,
+					// leaveDict:this.tabBarItem.leaveDict,
 					attendanceDict:this.tabBarItem.attendanceDict,
 					classDict:this.tabBarItem.classDict,
 				 	stuList:stuList,
@@ -240,7 +240,7 @@
 	}
 	
 	.button-next{
-		background-color: #00CFBD;
+		background-color: #00CFBD !important;
 		width: 35%;
 		font-size: 14px;
 		margin-top: 40px;

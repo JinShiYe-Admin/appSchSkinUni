@@ -73,7 +73,8 @@
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code 
 			console.log("this.tabBarItem: " + JSON.stringify(this.tabBarItem));
-			let rightList = [{text:'已到',value:'*'}].concat(this.tabBarItem.leaveDict).concat(this.tabBarItem.attendanceDict)
+			// let rightList = [{text:'已到',value:'*'}].concat(this.tabBarItem.leaveDict).concat(this.tabBarItem.attendanceDict)
+			let rightList = [{text:'已到',value:'*'}].concat(this.tabBarItem.attendanceDict)
 			let rightList2 = [{text:'检测识别',value:'**'}].concat(rightList)
 			this.rightList=rightList
 			this.rightList2=rightList2
@@ -156,7 +157,7 @@
 			submitData(){
 				let stuList=[]
 				this.stuList.map(stuItem=>{
-					if(stuItem.item_code=='*'){}else{
+					if(stuItem.item_code=='*' || stuItem.item_code=='**'){}else{
 						let obj={
 							stu_code:stuItem.value,
 							stu_name:stuItem.name,
@@ -165,43 +166,56 @@
 						stuList.push(obj)
 					}
 				})
-				let comData={
-					grd_code:this.tabBarItem.grd.value,
-					grd_name:this.tabBarItem.grd.text,
-					cls_code:this.tabBarItem.cls.value,
-					cls_name:this.tabBarItem.cls.text,
-					attendance_time:this.tabBarItem.time,
-					class_node:this.tabBarItem.jc.value,
-					sub_code:this.tabBarItem.km.value,
-					sub_name:this.tabBarItem.km.text,
-					comment:'',
-					list:stuList,
-					index_code:this.index_code,
-				}
-				console.log("comData: " + JSON.stringify(comData));
-				//113.课堂考勤-按班级新增
-				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/saveList',comData,(response0,response)=>{
-				    console.log("responseaaaa: " + JSON.stringify(response));
-					if (response.code == 0) {
-						 this.hideLoading()
-						 this.showToast(response.msg);
-						 var pages = getCurrentPages();
-						 let pageIndex=1
-						 pages.map((item,index)=>{
-						 	 if(item.route.indexOf('pages/schapp_work/ketangIndex')!==-1){
-						 		 pageIndex=(pages.length-1)-index
-						 	 }
-						 })
-						 uni.$emit('refreshKetangList', {data: 1});
-						 uni.navigateBack({delta:pageIndex});
-					} else {
-						this.canSub=true
-						this.hideLoading()
-						this.showToast(response.msg);
+				if(stuList.length>0){
+					let comData={
+						grd_code:this.tabBarItem.grd.value,
+						grd_name:this.tabBarItem.grd.text,
+						cls_code:this.tabBarItem.cls.value,
+						cls_name:this.tabBarItem.cls.text,
+						attendance_time:this.tabBarItem.time,
+						class_node:this.tabBarItem.jc.value,
+						sub_code:this.tabBarItem.km.value,
+						sub_name:this.tabBarItem.km.text,
+						comment:'',
+						list:stuList,
+						index_code:this.index_code,
 					}
-				},()=>{
-						this.canSub=true
-				})
+					console.log("comData: " + JSON.stringify(comData));
+					//113.课堂考勤-按班级新增
+					this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/saveList',comData,(response0,response)=>{
+					    console.log("responseaaaa: " + JSON.stringify(response));
+						if (response.code == 0) {
+							 this.hideLoading()
+							 this.showToast(response.msg);
+							 var pages = getCurrentPages();
+							 let pageIndex=1
+							 pages.map((item,index)=>{
+							 	 if(item.route.indexOf('pages/schapp_work/ketangIndex')!==-1){
+							 		 pageIndex=(pages.length-1)-index
+							 	 }
+							 })
+							 uni.$emit('refreshKetangList', {data: 1});
+							 uni.navigateBack({delta:pageIndex});
+						} else {
+							this.canSub=true
+							this.hideLoading()
+							this.showToast(response.msg);
+						}
+					},()=>{
+							this.canSub=true
+					})
+				}else{
+					this.hideLoading()
+					this.showToast('当前班级学生全部已到，无需保存！');
+					var pages = getCurrentPages();
+					let pageIndex=1
+					pages.map((item,index)=>{
+						 if(item.route.indexOf('pages/schapp_work/ketangIndex')!==-1){
+							 pageIndex=(pages.length-1)-index
+						 }
+					})
+					uni.navigateBack({delta:pageIndex});
+				}
 			},
 			yidao(){
 				let stuList=this.stuList
