@@ -39,6 +39,9 @@
 		<uni-popup ref="alertDialog" type="dialog">
 			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,保存将覆盖原有记录!" closeText='继续' confirmText="取消" @confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
 		</uni-popup>
+		<uni-popup ref="alertDialog2" type="dialog">
+			<uni-popup-dialog type="warn" title="提醒" content="当前班级无考勤异常学生，无需保存，是否返回！!" closeText='返回' confirmText="取消" @confirm="dialogConfirm2"></uni-popup-dialog>
+		</uni-popup>
 	</view>
 </template> 
 
@@ -107,6 +110,17 @@
 				this.$refs.alertDialog.close()
 				this.showLoading();
 				this.deleteData()
+			},
+			dialogConfirm2(e){
+				this.$refs.alertDialog2.close()
+				var pages = getCurrentPages();
+				let pageIndex=1
+				pages.map((item,index)=>{
+					 if(item.route.indexOf('pages/schapp_work/ketangIndex')!==-1){
+						 pageIndex=(pages.length-1)-index
+					 }
+				})
+				uni.navigateBack({delta:pageIndex});
 			},
 			dialogClose(){
 				this.canSub=true
@@ -206,15 +220,7 @@
 					})
 				}else{
 					this.hideLoading()
-					this.showToast('当前班级学生全部已到，无需保存！');
-					var pages = getCurrentPages();
-					let pageIndex=1
-					pages.map((item,index)=>{
-						 if(item.route.indexOf('pages/schapp_work/ketangIndex')!==-1){
-							 pageIndex=(pages.length-1)-index
-						 }
-					})
-					uni.navigateBack({delta:pageIndex});
+					this.$refs.alertDialog2.open()
 				}
 			},
 			yidao(){
