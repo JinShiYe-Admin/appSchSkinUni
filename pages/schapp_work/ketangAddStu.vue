@@ -120,6 +120,7 @@
 						 pageIndex=(pages.length-1)-index
 					 }
 				})
+				uni.$emit('refreshKetangList', {data: 1});
 				uni.navigateBack({delta:pageIndex});
 			},
 			dialogClose(){
