@@ -134,17 +134,7 @@
 					}
 				})
 				if(canSubmit){
-					let stuList=[]
-					this.stuList.map(stuItem=>{
-						if(stuItem.item_code=='*' || stuItem.item_code=='**'){}else{
-							let obj={
-								stu_code:stuItem.value,
-								stu_name:stuItem.name,
-								item_code:stuItem.item_code,
-							}
-							stuList.push(obj)
-						}
-					})
+					let stuList=this.getStuList()
 					if(stuList.length>0){
 						if(this.tabBarItem.historyData){
 							this.$refs.alertDialog.open()
@@ -195,7 +185,7 @@
 					sub_code:this.tabBarItem.km.value,
 					sub_name:this.tabBarItem.km.text,
 					comment:'',
-					list:stuList,
+					list:this.getStuList(),
 					index_code:this.index_code,
 				}
 				console.log("comData: " + JSON.stringify(comData));
@@ -222,6 +212,20 @@
 				},()=>{
 						this.canSub=true
 				})
+			},
+			getStuList(){
+				let stuList=[]
+				this.stuList.map(stuItem=>{
+					if(stuItem.item_code=='*' || stuItem.item_code=='**'){}else{
+						let obj={
+							stu_code:stuItem.value,
+							stu_name:stuItem.name,
+							item_code:stuItem.item_code,
+						}
+						stuList.push(obj)
+					}
+				})
+				return stuList;
 			},
 			yidao(){
 				let stuList=this.stuList
