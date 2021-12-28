@@ -5,25 +5,25 @@
 		<view>
 			<uni-section v-if="location_type_1.length>0" title="教室" type="line"></uni-section>
 			<view style="display: flex;flex-direction: row;flex-wrap: wrap;padding:0 15px;justify-content: space-between;">
-				<view @click="setChecked(item)" :key="item.id" v-for="item in location_type_1" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}&ensp;{{tabBarItem.grd.text}}{{tabBarItem.cls.text}}</view>
+				<view @click="setChecked(item,1)" :key="item.id" v-for="item in location_type_1" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}</view>
 			</view>
 		</view>
 		<view>
 			<uni-section v-if="location_type_2.length>0" title="宿舍" type="line"></uni-section>
 			<view style="display: flex;flex-direction: row;flex-wrap: wrap;padding:0 15px;justify-content: space-between;">
-				<view @click="setChecked(item)" :key="item.id" v-for="item in location_type_2" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}&ensp;{{tabBarItem.grd.text}}{{tabBarItem.cls.text}}</view>
+				<view @click="setChecked(item,2)" :key="item.id" v-for="item in location_type_2" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}</view>
 			</view>
 		</view>
 		<view>
 			<uni-section v-if="location_type_3.length>0" title="室外" type="line"></uni-section>
 			<view style="display: flex;flex-direction: row;flex-wrap: wrap;padding:0 15px;justify-content: space-between;">
-				<view @click="setChecked(item)" :key="item.id" v-for="item in location_type_3" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}&ensp;{{tabBarItem.grd.text}}{{tabBarItem.cls.text}}</view>
+				<view @click="setChecked(item,3)" :key="item.id" v-for="item in location_type_3" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}</view>
 			</view>
 		</view>
 		<view>
 			<uni-section v-if="location_type_4.length>0" title="其他" type="line"></uni-section>
 			<view style="display: flex;flex-direction: row;flex-wrap: wrap;padding:0 15px;justify-content: space-between;">
-				<view @click="setChecked(item)" :key="item.id" v-for="item in location_type_4" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}&ensp;{{tabBarItem.grd.text}}{{tabBarItem.cls.text}}</view>
+				<view @click="setChecked(item,4)" :key="item.id" v-for="item in location_type_4" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}</view>
 			</view>
 		</view>
 		<!-- <view class="line"></view> -->
@@ -90,20 +90,34 @@
 			//#endif
 		},
 		methods: {
-			setChecked(item){
-				item.checked=!item.checked
-				if(item.checked){
-					this.checked_equ.set(item.id,item)
-				}else{
-					this.checked_equ.delete(item.id)
+			setChecked(item,type){
+				if(type==1){
+					this.setAllChecked(this.location_type_1,item)
+				}else if(type==2){
+					this.setAllChecked(this.location_type_2,item)
+				}else if(type==3){
+					this.setAllChecked(this.location_type_3,item)
+				}else if(type==4){
+					this.setAllChecked(this.location_type_4,item)
 				}
-				console.log(this.checked_equ);
+				if(item.checked){
+					this.checked_equ.set(item.mach_id,item)
+				}else{
+					this.checked_equ.delete(item.mach_id)
+				}
 				if(this.checked_equ.size>0){
 					this.showNextButton=true
 				}else{
 					this.showNextButton=false
 				}
 				this.$forceUpdate();
+			},
+			setAllChecked(list,item){
+				list.map(litem=>{
+					if(litem.mach_id==item.mach_id){
+						litem.checked=!litem.checked
+					}
+				})
 			},
 			async nextStep(){
 				 this.showLoading();
@@ -112,11 +126,11 @@
 				 let stuList =this.tabBarItem.stuList
 				 stuList.map(stuItem=>{
 					 leaveLocRecordList.map(rItem=>{
-						 if(stuItem.card_id==rItem){
+						 if(stuItem.card_id==rItem.card_id){
 							 if(stuItem.item_code){}else{
 							 	stuItem.equType='定位型设备考勤数据'
-							 	stuItem.item_txt='已到'
-							 	stuItem.item_code='*'
+							 	stuItem.item_txt='检测识别'
+							 	stuItem.item_code='**'
 							 }
 						 }
 					 })
@@ -162,7 +176,7 @@
 						index_code: this.index_code,
 					} 
 					this.post(this.globaData.INTERFACE_UCARD+'blemachtimecardp',comData,response=>{
-						// console.log("获取定位型设备列表: " + JSON.stringify(response));
+						console.log("获取定位型设备考勤数据: " + JSON.stringify(response));
 						this.hideLoading()
 						if(response!==null){
 							res(response.list)

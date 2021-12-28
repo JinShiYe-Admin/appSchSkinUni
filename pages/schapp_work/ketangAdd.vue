@@ -302,8 +302,8 @@
 						if(stuItem.value==equRecItem.stu_code){
 							if(stuItem.item_code){}else{
 								stuItem.equType='出入型设备考勤数据'
-								stuItem.item_txt='已到'
-								stuItem.item_code='*'
+								stuItem.item_txt='检测识别'
+								stuItem.item_code='**'
 							}
 						}
 					})

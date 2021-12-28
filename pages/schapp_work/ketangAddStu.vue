@@ -22,10 +22,10 @@
 			</view>
 		</view>
 		<uni-list>
-			<uni-list-item v-for="(item,index) in tabBarItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.value" rightText="右侧文字" >
+			<uni-list-item v-for="(item,index) in tabBarItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.card_id" >
 				<template v-slot:footer>
 					<view class="uni-flex uni-row form-view">
-						<picker v-if="item.status=='interfaceData'" style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
+						<picker v-if="item.interface" style="width:120px;" mode="selector" @change="rightSelect2(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
 							<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/>
 						</picker>
 						<picker v-else style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :range="rightList" :value="item.rightIndex" range-key="text">
@@ -85,11 +85,13 @@
 			stuList.map(stuItem=>{
 				stuItem.rightIndex=-1
 				stuItem.status='default'//没有默认值
+				stuItem.interface=false//设备识别的数据
 				rightList2.map((rightItem,index)=>{
 					if(stuItem.item_code==rightItem.value){
 						stuItem.equType='接口操作赋值'
 						stuItem.rightIndex=index
 						stuItem.status='interfaceData'//接口操作赋值
+						stuItem.interface=true//设备识别的数据
 					}
 				})
 			}) 
@@ -266,6 +268,19 @@
 						 item.rightIndex=e.detail.value
 						 item.item_txt=this.rightList[e.detail.value].text
 						 item.item_code=this.rightList[e.detail.value].value
+						 item.status='initData'//用户操作赋值
+					}
+				}
+				this.setTotal()
+				this.$forceUpdate();
+			},
+			rightSelect2(item,e){
+				if(this.rightList2.length>0){
+					if(item.rightIndex!==e.detail.value){
+						 item.equType='用户操作赋值'
+						 item.rightIndex=e.detail.value
+						 item.item_txt=this.rightList2[e.detail.value].text
+						 item.item_code=this.rightList2[e.detail.value].value
 						 item.status='initData'//用户操作赋值
 					}
 				}
