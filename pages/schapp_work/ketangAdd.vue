@@ -289,16 +289,19 @@
 				equRecordList=await this.getLeaveEquRecordList();//获取出入型设备的识别数据 
 				if(this.time == this.moment().format('YYYY-MM-DD')){
 					locList=await this.getLeaveLocList();//获取定位型设备列表
-					cardIdList=await this.getCardIdList();//获取卡ID 与班级学生绑定
+					// cardIdList=await this.getCardIdList();//获取卡ID 与班级学生绑定
 				}
 				let stuList =this.stuList
 				stuList.map(stuItem=>{
 					//合并学生与卡ID数据
-					cardIdList.map(cardIdItem=>{
-						if(stuItem.value==cardIdItem.uid){
-							stuItem.card_id=cardIdItem.card_id
-						}
-					})
+					// cardIdList.map(cardIdItem=>{
+					// 	if(stuItem.value==cardIdItem.uid){
+					// 		stuItem.card_id=cardIdItem.card_id
+					// 	}
+					// })
+					if(stuItem.card_id){
+						cardIdList.push(stuItem)
+					}
 					//合并请假数据
 					leaveRecordList.map(leaveRecItem=>{
 						if(stuItem.value==leaveRecItem.stu_code){
@@ -317,6 +320,7 @@
 						}
 					})
 				})
+				console.log("stuList: " + JSON.stringify(stuList));
 				if(locList.length>0 && cardIdList.length>0){//跳转到定位型设备选择列表
 					util.openwithData('/pages/schapp_work/ketangAddLocEqu',{
 						grd:this.grdList[this.grdIndex],
@@ -358,6 +362,7 @@
 				let comData={
 					grd_codes:this.grdList[this.grdIndex].value,
 					cls_codes:this.clsList[this.clsIndex].value,
+					mtp:8,
 					page_size:1,
 					page_number:-1,
 					index_code:this.index_code,
@@ -369,7 +374,8 @@
 					stu.map(stuItem=>{
 						stuList.push({
 							name:stuItem.stu_name,
-							value:stuItem.stu_code
+							value:stuItem.stu_code,
+							card_id:stuItem.card_no?stuItem.card_no:''
 						})
 					})
 					if(stuList.length>0 ){
@@ -388,7 +394,7 @@
 					cls_code: this.clsList[this.clsIndex].value,
 					sub_code: this.kmList[this.kmIndex].value,
 					class_node:this.jcList[this.jcIndex].value,
-					query_tiem: this.time,
+					query_time: this.time,
 					page_number: 1, //当前页数
 					page_size: 9999999, //每页记录数
 					index_code: this.index_code,
@@ -458,30 +464,30 @@
 				})
 			},
 			//获取学生卡ID 2.1
-			getCardIdList(){
-				return new Promise((res,rej)=>{
-					let comData={
-						page_size:999999,
-						page_number:1,
-						card_id:'',
-						uname:'',
-						card_tp:8,
-						unit_code:this.personInfo.unit_code,
-						grd_code:this.grdList[this.grdIndex].value,
-						cls_code:this.clsList[this.clsIndex].value,
-						is_card:1,
-						index_code: this.index_code,
-					}
-					this.post(this.globaData.INTERFACE_UCARD+'HrStuCardP',comData,response=>{
+			// getCardIdList(){
+			// 	return new Promise((res,rej)=>{
+			// 		let comData={
+			// 			page_size:999999,
+			// 			page_number:1,
+			// 			card_id:'',
+			// 			uname:'',
+			// 			card_tp:8,
+			// 			unit_code:this.personInfo.unit_code,
+			// 			grd_code:this.grdList[this.grdIndex].value,
+			// 			cls_code:this.clsList[this.clsIndex].value,
+			// 			is_card:1,
+			// 			index_code: this.index_code,
+			// 		}
+			// 		this.post(this.globaData.INTERFACE_UCARD+'HrStuCardP',comData,response=>{
 						
-						if(response!==null){
-							res(response.list)
-						}else{
-							res([])
-						}
-					})
-				})
-			},
+			// 			if(response!==null){
+			// 				res(response.list)
+			// 			}else{
+			// 				res([])
+			// 			}
+			// 		})
+			// 	})
+			// },
 			//获取请假常量
 			// getLeaveDict(){
 			// 	return new Promise((res,rej)=>{

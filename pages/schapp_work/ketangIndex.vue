@@ -228,9 +228,9 @@
 			},
 			getList0(){//获取页面数据
 				let comData={
-					grd_code: this.grdArray[this.grdIndex].value,
-					cls_code: this.clsArray[this.clsIndex].value,
-					sub_code: this.kmArray[this.kmIndex].value,
+					grd_code:'',
+					cls_code:'',
+					sub_code: '',
 					query_time: this.time,
 					page_number: this.pageobj0.page_number, //当前页数
 					page_size: this.pageSize, //每页记录数
