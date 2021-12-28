@@ -95,10 +95,8 @@
 			setTimeout(()=>{
 				this.showLoading();
 				this.getGrd();
-				this.getJcXwxx();
-				// this.getLeaveDict();
 				this.getClassAttendanceDict();
-				// this.getClassDict();
+				this.getClassDict();
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""
@@ -183,16 +181,6 @@
 						this.kmList=[];
 						this.showToast('获取科目为空');
 					}
-				})
-			},
-			getJcXwxx(){//获取常量 节次 
-				let comData={
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
-				    console.log("responsesabaa: " + JSON.stringify(response));
-					
-					this.jcList=[].concat(response.timeArray)
 				})
 			},
 			grdSelect(e){
@@ -488,19 +476,6 @@
 			// 		})
 			// 	})
 			// },
-			//获取请假常量
-			// getLeaveDict(){
-			// 	return new Promise((res,rej)=>{
-			// 		let comData={
-			// 			index_code:this.index_code,
-			// 		}
-			// 		this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/getDict',comData,response=>{
-			// 		    console.log("responseaaaa: " + JSON.stringify(response));
-						
-			// 			this.leaveDict=response.qaArray
-			// 		})
-			// 	})
-			// },
 			//获取考勤 节次 常量 54
 			getClassAttendanceDict(){
 				return new Promise((res,rej)=>{
@@ -508,33 +483,22 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
-						// let qaArray=[]
-						// response.list.map(item=>{
-						// 	if(item.attendance_type=='inClassAttendance'){
-						// 		qaArray.push(
-						// 			{
-						// 				text:item.item_code_txt,
-						// 				value:item.item_code
-						// 			}
-						// 		)
-						// 	}
-						// })
 						this.attendanceDict=response.qaArray
-						this.classDict=response.timeArray
+						this.jcList=response.timeArray
 					})
 				})
 			},
 			//获取节次常量
-			// getClassDict(){
-			// 		let comData={
-			// 			index_code:this.index_code,
-			// 		}
-			// 		this.post(this.globaData.INTERFACE_WORK+'ClasstimeSchedule/list',comData,response=>{
-			// 		    console.log("responsesabaa: " + JSON.stringify(response));
+			getClassDict(){
+					let comData={
+						index_code:this.index_code,
+					}
+					this.post(this.globaData.INTERFACE_WORK+'ClasstimeSchedule/list',comData,response=>{
+					    console.log("responsesabaa: " + JSON.stringify(response));
 						
-			// 			this.classDict=response.timeArray
-			// 		})
-			// }
+						this.classDict=response.timeArray
+					})
+			}
 		},
 	}
 </script>
