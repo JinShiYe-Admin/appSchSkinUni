@@ -353,6 +353,7 @@
 												.integrity_score;
 										}
 										if (this.semFlag == 2) {
+											_this.showLoading('正在评分');
 											_this.post(_this.globaData.INTERFACE_KYCP +
 												'/orals/save', {
 													data: [_this.uploadModel],
