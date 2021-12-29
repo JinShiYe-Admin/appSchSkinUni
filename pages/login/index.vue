@@ -223,6 +223,9 @@
 								verify_code: ''
 							};
 							this.post(this.globaData.INTERFACE_SSO_SKIN + 'login', comData, (data0, data1) => {
+								// #ifdef APP-PLUS
+								plus.runtime.setBadgeNumber(0);
+								// #endif
 								var tempData = data1.data;
 								util.setPersonal(tempData);
 								var tempFlag = 0;
@@ -303,6 +306,9 @@
 													tempA.push({
 														text: "更多",
 														index: 4,
+														count: 0,
+														isDot: false,
+														customIcon: false,
 														pagePath: "/pages/more/index",
 														iconPath: '../../static/tabbar/more.png',
 														selectedIconPath: '../../static/tabbar/more_select.png',
@@ -452,7 +458,8 @@
 						console.log("跳转页面吧");
 						// this.jsonData = tempData;
 						var tempArray = util.getMenu();
-						console.log('tempArray:' + JSON.stringify(tempArray));
+						// console.log('tempArray:' + JSON.stringify(tempArray));
+						util.getPushCut();
 						if (tempArray.length > 0) {
 							uni.switchTab({
 								url: tempArray[0].pagePath

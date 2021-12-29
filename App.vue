@@ -1,10 +1,9 @@
 <script>
-	import push from './js_sdk/push/push.js'; 
+	import push from './js_sdk/push/push.js';
 	export default {
 		onLaunch: function() {
 			console.log('App Launch，app启动')
 			//#ifdef APP
-			console.log('11111111');
 			push.getClient();
 			push.init();
 			//#endif 

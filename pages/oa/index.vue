@@ -38,58 +38,47 @@
 			clickItem:function(chilItem){
 				util.openwithData(chilItem.pagePath,chilItem,{
 					oaRefreshUnread(){
-						console.log('refreshrefreshrefreshrefreshrefreshrefreshrefreshrefreshrefreshrefresh');
 						// 获取未读数
-						_this.getUnReadCntFun();
+						// _this.getUnReadCntFun();
+						util.getPushCut();
 					}
 				});
 			},
 			// 获取未读数
 			getUnReadCntFun() {
+				let tempCount = 0;
 				for (var a = 0; a < this.tabBarItem.childList.length; a++) {
 					var tempM0 = this.tabBarItem.childList[a];
 					if (tempM0.redspot_url != null && tempM0.redspot_url.length > 0) {
 						// 获取未读数
 						util.getUnReadCut(tempM0.access, tempM0.redspot_url, (data) => {
-							console.log('datadata:'+JSON.stringify(data));
-							// console.log('index:'+index);
+							tempCount = tempCount+data[0].dotnum;
+							this.setTabbarCount(tempCount);
 							for (var b = 0; b < this.tabBarItem.childList.length; b++) {
 								var tempM1 = this.tabBarItem.childList[b];
 								if (tempM1.access == data[0].access) {
 									this.$set(this.tabBarItem.childList[b],'noReadCut',data[0].dotnum);
-									console.log('this.tabBarItem:'+JSON.stringify(this.tabBarItem));
 									this.updataNoReadeCut = false;
 									this.updataNoReadeCut = true;
 								}
 							}
 						},a);
-						// getUnReadCut(tempM0.access, tempM0.redspot_url, function(data) {
-						// 	console.log('getUnReadCut:' + JSON.stringify(data));
-						// 	if (data.code == 0) {
-						// 		var tempNoRead = 0;
-						// 		for (var b = 0; b < this.childList.length; b++) {
-						// 			var tempM1 = this.childList[b];
-						// 			if (tempM1.access == data.data.list[0].access) {
-						// 				tempM1.NoReadCnt = data.data.list[0].dotnum;
-						// 			}
-						// 			tempNoRead = tempNoRead + tempM1.NoReadCnt;
-						// 		}
-						// 		console.log('tempNoRead:' + tempNoRead);
-								
-						// 		var badgeNum = store.get(window.storageKeyName.BADGENUMBER) * 1 -this.noReadCut + tempNoRead;
-						// 		console.log('badgeNum:' + badgeNum);
-						// 		this.noReadCut = badgeNum;
-						// 		mui.fire(plus.webview.currentWebview().opener(), 'showNoReadCnt', {
-						// 			showNoReadCnt: badgeNum,
-						// 			url: this.pageUrl
-						// 		});
-						// 		store.set(window.storageKeyName.BADGENUMBER, badgeNum);
-						// 		//设置app角标,flag=0直接设置角标数字，flag=1角标减1,falg=2角标加1
-						// 		utils.setBadgeNumber(0, badgeNum);
-						// 	}
-						// });
 					}
 				}
+			},
+			setTabbarCount(tempCount){
+				let tempNumber = 0;
+				for (var i = 0; i < this.tabbar.length; i++) {
+					let tempM = this.tabbar[i];
+					if(tempM.access == this.tabBarItem.access){
+						this.$set(this.tabbar[i],'count',tempCount);
+					}
+					tempNumber = tempNumber + tempM.count;
+				}
+				
+				// #ifdef APP-PLUS
+				plus.runtime.setBadgeNumber(tempNumber);
+				// #endif
 			}
 		},
 		onLoad() {
@@ -97,17 +86,25 @@
 			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
 			uni.$on('updateHeadImg', function(data) {
 				_this.$refs.mynavBar.upLoadImg();
-			})
+			});
+			
+			// 获取未读推送消息数的监听
+			uni.$on('setPushCount', function(data) {
+				_this.tabbar = util.getMenu();
+				for (var i = 0; i < _this.tabbar.length; i++) {
+					let tempM = _this.tabbar[i];
+					if(tempM.access == _this.tabBarItem.access){
+						_this.tabBarItem = tempM;
+					}
+				}
+			});
 			this.tabbar = util.getMenu();
+			// console.log('this.tabbar:'+JSON.stringify(this.tabbar));
 			this.personInfo = util.getPersonal();
 			this.tabBarItem = util.getTabbarMenu();
-			for (var i = 0; i < this.tabBarItem.childList.length; i++) {
-				var tempM = this.tabBarItem.childList[i];
-				tempM.noReadCut = 0;
-			}
 			console.log('this.tabBarItem:'+JSON.stringify(this.tabBarItem));
 			// 获取未读数
-			this.getUnReadCntFun();
+			// this.getUnReadCntFun();
 		}
 	}
 </script>

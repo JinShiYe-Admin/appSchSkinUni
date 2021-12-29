@@ -23,7 +23,7 @@
 						:color="elColor(index)"
 						:custom-prefix="item.customIcon ? 'custom-icon' : 'uicon'"
 					></u-icon>
-					<u-badge :count="item.count" :is-dot="item.isDot"
+					<u-badge style="color: white;" :count="item.count" :is-dot="item.isDot"
 						v-if="item.count"
 						:offset="[-2, getOffsetRight(item.count, item.isDot)]"
 					></u-badge>
@@ -247,6 +247,10 @@
 		margin: 0 auto;
 		text-align: center;
 		font-size: 12px !important;
+	}
+	::v-deep .u-badge {
+		font-size: 10px !important;
+		line-height: 10px;
 	}
 	.u-tabbar {
 		&__content {
