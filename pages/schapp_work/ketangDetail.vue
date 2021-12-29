@@ -159,8 +159,8 @@
 				jcList: [], //节次数组
 				kmList: [], //科目数组
 				attendanceList: [], //考勤情况数组
-				leaveDict:[],
-				attendanceDict:[], 
+				// leaveDict:[],
+				// attendanceDict:[], 
 				time:'',//表单内容
 				comment:'',//表单内容
 				startDate:'2010-01-01',
@@ -197,6 +197,7 @@
 				id:itemData.id
 			}
 			this.time=itemData.attendance_time
+			this.comment=itemData.comment
 			if(itemData.del==1){
 				this.icon='trash'
 			}
@@ -210,9 +211,9 @@
 			let that =this
 			setTimeout(function() {
 				that.getStuList();
-				that.getLeaveDict()
+				// that.getLeaveDict()
 				that.getClassAttendanceDict()
-				that.getClassDict()
+				// that.getClassDict()
 			}, 100);
 		},
 		onShow(){
@@ -236,17 +237,18 @@
 						this.stuIndex=index
 					}
 				})
-				let attendanceList=this.leaveDict.concat(this.attendanceDict)
-				attendanceList.map((item,index)=>{
-					if(item.value==this.tabBarItem.item_code){
-						this.attendanceIndex=index
-					}
-				})
-				this.attendanceList=attendanceList
+				// let attendanceList=this.leaveDict.concat(this.attendanceDict)
+				// attendanceList.map((item,index)=>{
+				// 	if(item.value==this.tabBarItem.item_code){
+				// 		this.attendanceIndex=index
+				// 	}
+				// })
+				// this.attendanceList=attendanceList
 			},
 			save(){
 				if(this.canSub){
 					this.canSub=false
+					this.showLoading()
 					let comData={
 						grd_code:this.tabBarItem.grd_code,
 						cls_code:this.tabBarItem.cls_code,
@@ -265,6 +267,7 @@
 							 this.hideLoading()
 							 this.showToast(response.msg);
 							 const eventChannel = this.getOpenerEventChannel()
+							 eventChannel.emit('refreshKetang', {data: 1});
 							 uni.navigateBack();
 						} else {
 							this.canSub=true
@@ -291,10 +294,11 @@
 				}
 				this.post(url,comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					const eventChannel = this.getOpenerEventChannel()
 					this.showToast('操作成功')
-					uni.navigateBack();
 					this.hideLoading()
+					const eventChannel = this.getOpenerEventChannel()
+					eventChannel.emit('refreshKetang', {data: 1});
+					uni.navigateBack();
 				})
 			},
 			stuSelect(e){
@@ -359,48 +363,63 @@
 				})
 			},
 			//获取请假常量
-			getLeaveDict(){
-				let comData={
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/getDict',comData,response=>{
-					console.log("responseaaaa: " + JSON.stringify(response));
-					this.hideLoading()
-					this.leaveDict=response.qaArray
-				})
-			},
-			//获取考勤常量 88
+			// getLeaveDict(){
+			// 	let comData={
+			// 		index_code:this.index_code,
+			// 	}
+			// 	this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/getDict',comData,response=>{
+			// 		console.log("responseaaaa: " + JSON.stringify(response));
+			// 		this.hideLoading()
+			// 		this.leaveDict=response.qaArray
+			// 	})
+			// },
+			//获取考勤常量 54
 			getClassAttendanceDict(){
 				let comData={
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_WORK+'QuantizationAttendance/list',comData,response=>{
-					let qaArray=[]
-					response.list.map(item=>{
-						if(item.attendance_type=='inClassAttendance'){
-							qaArray.push({text:item.item_code_txt,value:item.item_code})
+				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
+					this.hideLoading()
+					// let qaArray=[]
+					// response.list.map(item=>{
+					// 	if(item.attendance_type=='inClassAttendance'){
+					// 		qaArray.push({text:item.item_code_txt,value:item.item_code})
+					// 	}
+					// })
+					
+					// this.attendanceDict=qaArray
+					response.qaArray.map((item,index)=>{
+						if(item.value==this.tabBarItem.item_code){
+							this.attendanceIndex=index
 						}
 					})
-					this.hideLoading()
-					this.attendanceDict=qaArray
-				})
-			},
-			//获取节次常量
-			getClassDict(){
-				let comData={
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
-				    console.log("responsesabaa: " + JSON.stringify(response));
-					this.hideLoading()
-					this.jcList=response.timeArray
 					response.timeArray.map((item,index)=>{
 						if(item.value==this.tabBarItem.class_node){
 							this.jcIndex=index
 						}
 					})
+					
+					// this.attendanceDict=response.qaArray
+					this.attendanceList=response.qaArray
+					this.jcList=response.timeArray
 				})
 			},
+			//获取节次常量
+			// getClassDict(){
+			// 	let comData={
+			// 		index_code:this.index_code,
+			// 	}
+			// 	this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
+			// 	    console.log("responsesabaa: " + JSON.stringify(response));
+			// 		this.hideLoading()
+			// 		this.jcList=response.timeArray
+			// 		response.timeArray.map((item,index)=>{
+			// 			if(item.value==this.tabBarItem.class_node){
+			// 				this.jcIndex=index
+			// 			}
+			// 		})
+			// 	})
+			// },
 		}
 	}
 </script>

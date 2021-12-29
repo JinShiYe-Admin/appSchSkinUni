@@ -86,6 +86,13 @@
 					this.showToast('无法获取班级数据，不能进行添加操作')
 				}else {
 					util.openwithData('/pages/schapp_work/ketangAdd',{index_code:this.index_code})
+					uni.$on('refreshKetangList',()=>{
+						that.showLoading()
+						that.pageobj0.loadFlag=0
+						that.pageobj0.canload=true
+						that.pageobj0.page_number=1
+						that.getList0()
+					});
 				}
 			},
 			grdClick:function(e){
@@ -251,7 +258,15 @@
 			toDetails(item){
 				item.index_code=this.index_code
 				let that=this
-				util.openwithData('/pages/schapp_work/ketangDetail',item)
+				util.openwithData('/pages/schapp_work/ketangDetail',item,{
+					refreshKetang(data){//子页面调用父页面需要的方法
+						that.showLoading()
+						that.pageobj0.loadFlag=0
+						that.pageobj0.canload=true
+						that.pageobj0.page_number=1
+						that.getList0()
+					}
+				})
 			}
 		},
 		onLoad(options) {
@@ -301,11 +316,6 @@
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
-			
-			this.pageobj0.loadFlag=0
-			this.pageobj0.canload=true
-			this.pageobj0.page_number=1
-			this.getList0()
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5

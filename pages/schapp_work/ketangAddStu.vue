@@ -22,10 +22,10 @@
 			</view>
 		</view>
 		<uni-list>
-			<uni-list-item v-for="(item,index) in tabBarItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.value" rightText="右侧文字" >
+			<uni-list-item v-for="(item,index) in tabBarItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.card_id" >
 				<template v-slot:footer>
 					<view class="uni-flex uni-row form-view">
-						<picker v-if="item.status=='interfaceData'" style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
+						<picker v-if="item.interface" style="width:120px;" mode="selector" @change="rightSelect2(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
 							<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/>
 						</picker>
 						<picker v-else style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :range="rightList" :value="item.rightIndex" range-key="text">
@@ -38,6 +38,9 @@
 		</uni-list>
 		<uni-popup ref="alertDialog" type="dialog">
 			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,保存将覆盖原有记录!" closeText='继续' confirmText="取消" @confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
+		</uni-popup>
+		<uni-popup ref="alertDialog2" type="dialog">
+			<uni-popup-dialog type="warn" title="提醒" content="当前班级无考勤异常学生，无需保存，是否返回！!" closeText='返回' confirmText="取消" @confirm="dialogConfirm2"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template> 
@@ -73,7 +76,8 @@
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code 
 			console.log("this.tabBarItem: " + JSON.stringify(this.tabBarItem));
-			let rightList = [{text:'已到',value:'*'}].concat(this.tabBarItem.leaveDict).concat(this.tabBarItem.attendanceDict)
+			// let rightList = [{text:'已到',value:'*'}].concat(this.tabBarItem.leaveDict).concat(this.tabBarItem.attendanceDict)
+			let rightList = [{text:'已到',value:'*'}].concat(this.tabBarItem.attendanceDict)
 			let rightList2 = [{text:'检测识别',value:'**'}].concat(rightList)
 			this.rightList=rightList
 			this.rightList2=rightList2
@@ -81,11 +85,13 @@
 			stuList.map(stuItem=>{
 				stuItem.rightIndex=-1
 				stuItem.status='default'//没有默认值
+				stuItem.interface=false//设备识别的数据
 				rightList2.map((rightItem,index)=>{
 					if(stuItem.item_code==rightItem.value){
 						stuItem.equType='接口操作赋值'
 						stuItem.rightIndex=index
 						stuItem.status='interfaceData'//接口操作赋值
+						stuItem.interface=true//设备识别的数据
 					}
 				})
 			}) 
@@ -104,7 +110,20 @@
 		methods: {
 			dialogConfirm(e){
 				this.$refs.alertDialog.close()
+				this.showLoading();
 				this.deleteData()
+			},
+			dialogConfirm2(e){
+				this.$refs.alertDialog2.close()
+				var pages = getCurrentPages();
+				let pageIndex=1
+				pages.map((item,index)=>{
+					 if(item.route.indexOf('pages/schapp_work/ketangIndex')!==-1){
+						 pageIndex=(pages.length-1)-index
+					 }
+				})
+				uni.$emit('refreshKetangList', {data: 1});
+				uni.navigateBack({delta:pageIndex});
 			},
 			dialogClose(){
 				this.canSub=true
@@ -117,15 +136,20 @@
 					}
 				})
 				if(canSubmit){
-					if(this.tabBarItem.historyData){
-						this.$refs.alertDialog.open()
-						this.canSub=false
-					}else{
-						if(this.canSub){
+					let stuList=this.getStuList()
+					if(stuList.length>0){
+						if(this.tabBarItem.historyData){
+							this.$refs.alertDialog.open()
 							this.canSub=false
-							this.showLoading()
-							this.submitData()
+						}else{
+							if(this.canSub){
+								this.canSub=false
+								this.showLoading()
+								this.submitData()
+							}
 						}
+					}else{
+						this.$refs.alertDialog2.open()
 					}
 				}else{
 					this.showToast('请将考勤情况填写完整再保存！')
@@ -153,17 +177,6 @@
 				})
 			},
 			submitData(){
-				let stuList=[]
-				this.stuList.map(stuItem=>{
-					if(stuItem.item_code=='*'){}else{
-						let obj={
-							stu_code:stuItem.value,
-							stu_name:stuItem.name,
-							item_code:stuItem.item_code,
-						}
-						stuList.push(obj)
-					}
-				})
 				let comData={
 					grd_code:this.tabBarItem.grd.value,
 					grd_name:this.tabBarItem.grd.text,
@@ -174,25 +187,24 @@
 					sub_code:this.tabBarItem.km.value,
 					sub_name:this.tabBarItem.km.text,
 					comment:'',
-					list:stuList,
+					list:this.getStuList(),
 					index_code:this.index_code,
 				}
 				console.log("comData: " + JSON.stringify(comData));
 				//113.课堂考勤-按班级新增
 				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/saveList',comData,(response0,response)=>{
-				    console.log("responseaaaa: " + JSON.stringify(response));
+					console.log("responseaaaa: " + JSON.stringify(response));
 					if (response.code == 0) {
 						 this.hideLoading()
 						 this.showToast(response.msg);
 						 var pages = getCurrentPages();
 						 let pageIndex=1
 						 pages.map((item,index)=>{
-						 	 if(item.route.indexOf('pages/schapp_work/ketangIndex')!==-1){
-						 		 pageIndex=(pages.length-1)-index
-						 	 }
+							 if(item.route.indexOf('pages/schapp_work/ketangIndex')!==-1){
+								 pageIndex=(pages.length-1)-index
+							 }
 						 })
-						 const eventChannel = this.getOpenerEventChannel()
-						 eventChannel.emit('refreshKetang', {data: 1});
+						 uni.$emit('refreshKetangList', {data: 1});
 						 uni.navigateBack({delta:pageIndex});
 					} else {
 						this.canSub=true
@@ -202,6 +214,20 @@
 				},()=>{
 						this.canSub=true
 				})
+			},
+			getStuList(){
+				let stuList=[]
+				this.stuList.map(stuItem=>{
+					if(stuItem.item_code=='*' || stuItem.item_code=='**'){}else{
+						let obj={
+							stu_code:stuItem.value,
+							stu_name:stuItem.name,
+							item_code:stuItem.item_code,
+						}
+						stuList.push(obj)
+					}
+				})
+				return stuList;
 			},
 			yidao(){
 				let stuList=this.stuList
@@ -242,6 +268,19 @@
 						 item.rightIndex=e.detail.value
 						 item.item_txt=this.rightList[e.detail.value].text
 						 item.item_code=this.rightList[e.detail.value].value
+						 item.status='initData'//用户操作赋值
+					}
+				}
+				this.setTotal()
+				this.$forceUpdate();
+			},
+			rightSelect2(item,e){
+				if(this.rightList2.length>0){
+					if(item.rightIndex!==e.detail.value){
+						 item.equType='用户操作赋值'
+						 item.rightIndex=e.detail.value
+						 item.item_txt=this.rightList2[e.detail.value].text
+						 item.item_code=this.rightList2[e.detail.value].value
 						 item.status='initData'//用户操作赋值
 					}
 				}

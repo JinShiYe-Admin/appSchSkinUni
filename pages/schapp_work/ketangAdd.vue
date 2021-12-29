@@ -76,7 +76,7 @@
 				startDate:'2010-01-01',
 				endDate:this.moment().format('YYYY-MM-DD'),
 				showNextButton:false,
-				leaveDict:[], 
+				// leaveDict:[], 
 				attendanceDict:[], 
 				classDict:[],
 				historyData:false,//是否存在历史考勤数据
@@ -95,8 +95,6 @@
 			setTimeout(()=>{
 				this.showLoading();
 				this.getGrd();
-				this.getJcXwxx();
-				this.getLeaveDict();
 				this.getClassAttendanceDict();
 				this.getClassDict();
 			},100)
@@ -114,20 +112,20 @@
 				this.$refs.alertDialog.close()
 				this.getRecord()
 			},
+			//1.4.学校年级
 			getGrd(){
 				let comData={
-					op_code:'add',
-					get_grd:true,
+					is_finish:0,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+				this.post(this.globaData.INTERFACE_HR_SUB+'grd',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					let grds = response.grd_list;
+					let grds = response.list;
 					let grdList=[];
 					grds.map(function(currentValue) {
 						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = currentValue.name;
+						obj.value = currentValue.grd_code;
+						obj.text = currentValue.grd_name;
 						grdList.push(obj)
 					})
 					if(grdList.length>0 ){
@@ -137,21 +135,21 @@
 					}
 				})
 			},
+			//1.6.学校班级
 			getCls(grd_id){
 				let comData={
-					op_code:'add',
-					grd_code:grd_id,
-					get_cls:true,
+					grd_codes:grd_id,
+					is_finish:0,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+				this.post(this.globaData.INTERFACE_HR_SUB+'cls',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					let clss = response.cls_list;
+					let clss = response.list;
 					let clssList=[];
 					clss.map(function(currentValue) {
 						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = currentValue.name;
+						obj.value = currentValue.cls_code;
+						obj.text = currentValue.cls_name;
 						clssList.push(obj)
 					})
 					if(clssList.length>0 ){
@@ -162,42 +160,27 @@
 					
 				})
 			},
+			//1.11.学校科目
 			getKm(grd_id,cls_id){//获取科目
 				let comData={
-					op_code:'index',
-					grd_code: this.grdList[this.grdIndex].value,
-					cls_code: this.clsList[this.clsIndex].value,
-					get_sub: true,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+				this.post(this.globaData.INTERFACE_HR_SUB+'sub',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					
-					let sub = response.sub_list;
+					let sub = response.list;
 					let subList = [];
 					sub.map(function(currentValue) {
-						let name = currentValue.name.indexOf('全部') == -1 ? currentValue.name : '全部科目';
 						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = name;
+						obj.value = currentValue.sub_code;
+						obj.text = currentValue.sub_name;
 						subList.push(obj)
 					})
 					if (subList.length > 0) {
 						this.kmList = [].concat(subList);
 					} else {
 						this.kmList=[];
-						this.showToast('无数据授权 无法获取班级');
+						this.showToast('获取科目为空');
 					}
-				})
-			},
-			getJcXwxx(){//获取常量 节次 
-				let comData={
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
-				    console.log("responsesabaa: " + JSON.stringify(response));
-					
-					this.jcList=[].concat(response.timeArray)
 				})
 			},
 			grdSelect(e){
@@ -294,16 +277,19 @@
 				equRecordList=await this.getLeaveEquRecordList();//获取出入型设备的识别数据 
 				if(this.time == this.moment().format('YYYY-MM-DD')){
 					locList=await this.getLeaveLocList();//获取定位型设备列表
-					cardIdList=await this.getCardIdList();//获取卡ID 与班级学生绑定
+					// cardIdList=await this.getCardIdList();//获取卡ID 与班级学生绑定
 				}
 				let stuList =this.stuList
 				stuList.map(stuItem=>{
 					//合并学生与卡ID数据
-					cardIdList.map(cardIdItem=>{
-						if(stuItem.value==cardIdItem.uid){
-							stuItem.card_id=cardIdItem.card_id
-						}
-					})
+					// cardIdList.map(cardIdItem=>{
+					// 	if(stuItem.value==cardIdItem.uid){
+					// 		stuItem.card_id=cardIdItem.card_id
+					// 	}
+					// })
+					if(stuItem.card_id){
+						cardIdList.push(stuItem)
+					}
 					//合并请假数据
 					leaveRecordList.map(leaveRecItem=>{
 						if(stuItem.value==leaveRecItem.stu_code){
@@ -316,12 +302,13 @@
 						if(stuItem.value==equRecItem.stu_code){
 							if(stuItem.item_code){}else{
 								stuItem.equType='出入型设备考勤数据'
-								stuItem.item_txt='已到'
-								stuItem.item_code='*'
+								stuItem.item_txt='检测识别'
+								stuItem.item_code='**'
 							}
 						}
 					})
 				})
+				console.log("stuList: " + JSON.stringify(stuList));
 				if(locList.length>0 && cardIdList.length>0){//跳转到定位型设备选择列表
 					util.openwithData('/pages/schapp_work/ketangAddLocEqu',{
 						grd:this.grdList[this.grdIndex],
@@ -329,7 +316,7 @@
 						jc:this.jcList[this.jcIndex],
 						km:this.kmList[this.kmIndex],
 						time:this.time,
-						leaveDict:this.leaveDict,
+						// leaveDict:this.leaveDict,
 						attendanceDict:this.attendanceDict,
 						classDict:this.classDict,
 						locList:locList,
@@ -349,7 +336,7 @@
 						jc:this.jcList[this.jcIndex],
 						km:this.kmList[this.kmIndex],
 						time:this.time,
-						leaveDict:this.leaveDict,
+						// leaveDict:this.leaveDict,
 						attendanceDict:this.attendanceDict,
 						classDict:this.classDict,
 						stuList:stuList,
@@ -358,20 +345,29 @@
 					})
 				}
 			},
-			//获取班级学生
+			//获取班级学生 1.8.学校班级学生
 			getStuList(callback){
 				let comData={
-					op_code:'add',
-					grd_code: this.grdList[this.grdIndex].value,
-					cls_code: this.clsList[this.clsIndex].value,
-					get_stu:true,
+					grd_codes:this.grdList[this.grdIndex].value,
+					cls_codes:this.clsList[this.clsIndex].value,
+					mtp:8,
+					page_size:1,
+					page_number:-1,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+				this.post(this.globaData.INTERFACE_HR_SUB+'stu',comData,response=>{
 				    // console.log("responseaaa: " + JSON.stringify(response));
-					let stu = response.stu_list;
-					if(stu.length>0 ){
-						this.stuList=stu;
+					let stu = response.list;
+					let stuList=[]
+					stu.map(stuItem=>{
+						stuList.push({
+							name:stuItem.stu_name,
+							value:stuItem.stu_code,
+							card_id:stuItem.card_no?stuItem.card_no:''
+						})
+					})
+					if(stuList.length>0 ){
+						this.stuList=stuList;
 						if(callback)callback();
 					}else{
 						this.showToast('获取学生为空');
@@ -386,7 +382,7 @@
 					cls_code: this.clsList[this.clsIndex].value,
 					sub_code: this.kmList[this.kmIndex].value,
 					class_node:this.jcList[this.jcIndex].value,
-					query_tiem: this.time,
+					query_time: this.time,
 					page_number: 1, //当前页数
 					page_size: 9999999, //每页记录数
 					index_code: this.index_code,
@@ -415,7 +411,7 @@
 						index_code: this.index_code,
 					} 
 					this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/list',comData,response=>{
-						// console.log("获取选择日期对应的学生请假数据: " + JSON.stringify(response));
+						console.log("获取选择日期对应的学生请假数据: " + JSON.stringify(response));
 						
 						res(response.list)
 					})
@@ -456,63 +452,39 @@
 				})
 			},
 			//获取学生卡ID 2.1
-			getCardIdList(){
-				return new Promise((res,rej)=>{
-					let comData={
-						page_size:999999,
-						page_number:1,
-						card_id:'',
-						uname:'',
-						card_tp:8,
-						unit_code:this.personInfo.unit_code,
-						grd_code:this.grdList[this.grdIndex].value,
-						cls_code:this.clsList[this.clsIndex].value,
-						is_card:1,
-						index_code: this.index_code,
-					}
-					this.post(this.globaData.INTERFACE_UCARD+'HrStuCardP',comData,response=>{
+			// getCardIdList(){
+			// 	return new Promise((res,rej)=>{
+			// 		let comData={
+			// 			page_size:999999,
+			// 			page_number:1,
+			// 			card_id:'',
+			// 			uname:'',
+			// 			card_tp:8,
+			// 			unit_code:this.personInfo.unit_code,
+			// 			grd_code:this.grdList[this.grdIndex].value,
+			// 			cls_code:this.clsList[this.clsIndex].value,
+			// 			is_card:1,
+			// 			index_code: this.index_code,
+			// 		}
+			// 		this.post(this.globaData.INTERFACE_UCARD+'HrStuCardP',comData,response=>{
 						
-						if(response!==null){
-							res(response.list)
-						}else{
-							res([])
-						}
-					})
-				})
-			},
-			//获取请假常量
-			getLeaveDict(){
-				return new Promise((res,rej)=>{
-					let comData={
-						index_code:this.index_code,
-					}
-					this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/getDict',comData,response=>{
-					    console.log("responseaaaa: " + JSON.stringify(response));
-						
-						this.leaveDict=response.qaArray
-					})
-				})
-			},
-			//获取考勤常量 88
+			// 			if(response!==null){
+			// 				res(response.list)
+			// 			}else{
+			// 				res([])
+			// 			}
+			// 		})
+			// 	})
+			// },
+			//获取考勤 节次 常量 54
 			getClassAttendanceDict(){
 				return new Promise((res,rej)=>{
 					let comData={
 						index_code:this.index_code,
 					}
-					this.post(this.globaData.INTERFACE_WORK+'QuantizationAttendance/list',comData,response=>{
-						let qaArray=[]
-						response.list.map(item=>{
-							if(item.attendance_type=='inClassAttendance'){
-								qaArray.push(
-									{
-										text:item.item_code_txt,
-										value:item.item_code
-									}
-								)
-							}
-						})
-						
-						this.attendanceDict=qaArray
+					this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
+						this.attendanceDict=response.qaArray
+						this.jcList=response.timeArray
 					})
 				})
 			},
@@ -592,7 +564,7 @@
 	}
 	
 	.button-next{
-		background-color: #00CFBD;
+		background-color: #00CFBD !important;
 		width: 35%;
 		font-size: 14px;
 		margin-top: 40px;
