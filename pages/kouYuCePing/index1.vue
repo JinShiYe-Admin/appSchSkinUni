@@ -11,7 +11,7 @@
 				<uni-icons type="settings" size="20" color="#00CFBD" style="margin-left: 10px;padding-top: 5px;"
 					@click="bookSelect()"></uni-icons>
 			</view>
-			<view v-if="semFlag == 0">
+			<view v-show="semFlag == 0">
 				<uni-row style="margin-top: 5px;">
 					<uni-col :span="3">
 						<uni-icons @click="changeMenu(-1)" type="arrowleft" size="20" color="gray"
@@ -39,7 +39,7 @@
 					</p>
 				</view>
 				<view v-else-if="state>2" class="test-pannel" style="font-size: 12px;color: #999999;">暂无内容</view>
-				<view v-else class="test-pannel">123</view>
+				<view v-else class="test-pannel"></view>
 
 				<view class="action-box" v-if="semFlag0Data.list.length" style="display: flex;flex-direction: column;">
 					<view class="overflow-cover"></view>
@@ -74,7 +74,7 @@
 					</view>
 				</view>
 			</view>
-			<view v-if="semFlag == 1">
+			<view v-show="semFlag == 1">
 				<uni-row style="margin-top: 5px;">
 					<uni-col :span="3">
 						<uni-icons @click="changeMenu(-1)" type="arrowleft" size="20" color="gray"
@@ -137,7 +137,7 @@
 					</view>
 				</view>
 			</view>
-			<view v-if="semFlag == 2">
+			<view v-show="semFlag == 2">
 				<view v-if="semFlag2Data.total">
 					<uni-list class="result-list" v-for="(item,index) in semFlag2Data.model" :key="index"
 						v-if="item.list.length">
@@ -225,7 +225,7 @@
 				</uni-popup>
 			</view>
 		</view>
-		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
+		<!-- <u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my> -->
 	</view>
 </template>
 
@@ -352,7 +352,7 @@
 											_this.uploadModel.integrity_score = res.data
 												.integrity_score;
 										}
-										if (this.semFlag == 2) {
+										if (_this.semFlag == 2) {
 											_this.showLoading('正在评分');
 											_this.post(_this.globaData.INTERFACE_KYCP +
 												'/orals/save', {
@@ -390,7 +390,18 @@
 			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
 			uni.$on('updateHeadImg', function(data) {
 				_this.$refs.mynavBar.upLoadImg();
-			})
+			});
+			
+			// 获取未读推送消息数的监听
+			uni.$on('setPushCount', function(data) {
+				_this.tabbar = util.getMenu();
+				for (var i = 0; i < _this.tabbar.length; i++) {
+					let tempM = _this.tabbar[i];
+					if(tempM.access == _this.tabBarItem.access){
+						_this.tabBarItem = tempM;
+					}
+				}
+			});
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			console.log('personInfo:' + JSON.stringify(this.personInfo));
@@ -444,7 +455,7 @@
 				return this.semFlag0Data.list[this.semFlag0Data.index].category == 'read_word';
 			},
 			isWordsemFlag1: function() {
-				return this.semFlag1Data.list[this.semFlag1Data.index].category == 'read_word';
+				return this.semFlag1Data.list[this.semFlag1Data.index].category == 'read_sentence';
 			},
 			// total: function() {
 			// 	var t = 0;
@@ -539,11 +550,13 @@
 								user_code: _this.personInfo.user_code
 							}, (res0, res) => {
 								_this.hideLoading();
-								console.log('resres:' + JSON.stringify(res));
+								console.log('resres11111:' + JSON.stringify(res));
 								if (res.code == 0) {
+									console.log('11111111111111');
 									_this.uploadModel.key = res.data.key;
 									_this.uploadModel.total_score = res.data.total_score;
 									_this.uploadModel.record_url = res.data.record_url;
+									console.log('11111111111111222');
 									if (_this.uploadModel.category == "read_sentence") {
 										_this.uploadModel.accuracy_score = res.data
 											.accuracy_score;
@@ -552,7 +565,9 @@
 										_this.uploadModel.integrity_score = res.data
 											.integrity_score;
 									}
-									if (this.semFlag == 2) {
+									console.log('_this.semFlag:'+_this.semFlag);
+									if (_this.semFlag == 2) {
+										console.log('savesavesavesavesavesavesavesavesavesavesavesavesavesave');
 										_this.post(_this.globaData.INTERFACE_KYCP +
 											'/orals/save', {
 												data: [_this.uploadModel],
@@ -726,7 +741,6 @@
 											user_code: this.personInfo.user_code
 										}, (res0, res) => {
 											if (res.state == "ok") {
-												res.data.sort(util.compare('fasccode',1));
 												auto_book.fasc = {
 													list: res.data,
 													selected: defaultCodes.fasccode ||
@@ -1090,7 +1104,6 @@
 				//错题本列表
 				var catalog_ids;
 				if (this.semFlag2Data.page == 1) {
-					console.log('getErrList11111');
 					this.showLoading();
 					this.semFlag2Data.bookName = this.getBookNames();
 					this.semFlag2Data.model = [];
@@ -1098,7 +1111,6 @@
 					//可选目录节点
 					var catalog = util.getStore('orals_catalog');
 					if (!catalog) {
-						console.log('getErrList11113:' + JSON.stringify(catalog));
 						return;
 					}
 					catalog.forEach(function(v) {
@@ -1111,7 +1123,6 @@
 						});
 					});
 					this.semFlag2Data.model.sort(function(a, b) {
-						console.log('getErrList11114');
 						return a.id - b.id;
 					});
 				}
@@ -1154,10 +1165,12 @@
 					// category: this.itemData.cate,
 					bookCatalogId: catalog_ids.join(),
 					totalScoreLimit: "4.0",
+					showAll: false,
 					index_code: this.tabBarItem.access.split('#')[1]
 				}, (res0, res) => {
 					this.hideLoading();
 					if (res.code == 0) {
+						console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
 						// this.semFlag2Data.key = res.data.key;
 						res.data.list.forEach(function(val, index) {
 							for (var i = 0; i < _this.semFlag2Data.model.length; i++) {
@@ -1255,7 +1268,7 @@
 	.result-bar {
 		font-size: 12px;
 		color: #999999;
-		padding-top: 10px;
+		margin-top: 10px;
 		display: flex;
 		justify-content: space-between;
 		width: 100%;

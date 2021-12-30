@@ -186,7 +186,7 @@
 					}
 				})
 			},
-			getStu(){//获取班级
+			getStu(){//获取班级学生
 				let comData={
 					grd_codes:this.grdArray[this.grdIndex].value,
 					cls_codes:this.clsArray[this.clsIndex].value,
@@ -223,34 +223,41 @@
 				})
 			},
 			getList0(){//获取页面数据
+				let tempId = [];
+				if(this.stuIndex == 0){
+					for (var i = 0; i < this.stuArray.length; i++) {
+						let tempM = this.stuArray[i];
+						if(tempM.card_no){
+							tempId.push(tempM.card_no);
+						}
+					}
+				}
 				let comData={
-					grd_code: this.grdArray[this.grdIndex].value,
-					cls_code: this.clsArray[this.clsIndex].value,
-					remark_type: '',
-					begintime:'1970-01-01',
-					endtime:'2050-12-31',
-					page_number: this.pageobj0.page_number, //当前页数
-					page_size: this.pageSize, //每页记录数
+					cardids: tempId.join(','),//用户蓝牙卡ID串
+					mtp:8,//机器类型,8,蓝牙识别
+					btime:this.time,
+					page_number: 1, //当前页数
+					page_size: 999, //每页记录数
 					index_code: this.index_code,
 				}
-				// this.post(this.globaData.INTERFACE_STUPYSUB+'Comment/list',comData,response=>{
-				//     console.log("responseaaa: " + JSON.stringify(response));
-				// 	setTimeout(function () {
-				// 		uni.stopPullDownRefresh();
-				// 	}, 1000);
-				// 	this.hideLoading()
-				// 	if(this.pageobj0.loadFlag===0){
-				// 		this.pagedata=[].concat(response.list)
-				// 	}else{
-				// 		this.pagedata=this.pagedata.concat(response.list)
-				// 	}
-				// 	if(this.pageobj0.page_number>=response.total_page){
-				// 		this.pageobj0.status = 'noMore';
-				// 		this.pageobj0.canload=false
-				// 	}else{
-				// 		this.pageobj0.status = 'more';
-				// 	}
-				// })
+				this.post(this.globaData.INTERFACE_UCARD+'blemachcardpositionfp',comData,response=>{
+				    console.log("responseaaa: " + JSON.stringify(response));
+					// setTimeout(function () {
+					// 	uni.stopPullDownRefresh();
+					// }, 1000);
+					this.hideLoading()
+					// if(this.pageobj0.loadFlag===0){
+					// 	this.pagedata=[].concat(response.list)
+					// }else{
+					// 	this.pagedata=this.pagedata.concat(response.list)
+					// }
+					// if(this.pageobj0.page_number>=response.total_page){
+					// 	this.pageobj0.status = 'noMore';
+					// 	this.pageobj0.canload=false
+					// }else{
+					// 	this.pageobj0.status = 'more';
+					// }
+				})
 			},
 			compare(propertyName,order) {
 			    return function (object1, object2) { 

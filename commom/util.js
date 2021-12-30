@@ -7,7 +7,6 @@ import uniCopy from '@/js_sdk/xb-copy/uni-copy.js'
 // 刚登录，或者收到推送时，获取推送
 function getPushCut(){
 	var tempMenu = this.getMenu();
-	console.log('util.tempMenu:'+JSON.stringify(tempMenu));
 	let sendCount0 = 0;
 	let sendCount1 = 0;
 	for (var i = 0; i < tempMenu.length; i++) {
@@ -23,6 +22,64 @@ function getPushCut(){
 				});
 			}
 		}
+	}
+	var tempMoreMenu = this.getMenuMore();
+	console.log('tempMoreMenu:'+JSON.stringify(tempMoreMenu));
+	let sendMoreCount0 = 0;
+	let sendMoreCount1 = 0;
+	for (var i = 0; i < tempMoreMenu.length; i++) {
+		let tempModel = tempMoreMenu[i];
+		for (var a = 0; a < tempModel.childList.length; a++) {
+			let tempChildModel = tempModel.childList[a];
+			if (tempChildModel.redspot_url != null && tempChildModel.redspot_url.length > 0) {
+				sendMoreCount0++;
+				// 获取未读数
+				this.getUnReadCut(tempChildModel.access, tempChildModel.redspot_url, (data) => {
+					sendMoreCount1++;
+					this.setPushCutMore(tempMoreMenu,tempChildModel.access,data[0].dotnum,sendMoreCount0,sendMoreCount1);
+				});
+			}
+		}
+	}
+}
+
+function setPushCutMore(tempMenu,access,num,sendCount0,sendCount1){
+	for (var i = 0; i < tempMenu.length; i++) {
+		let tempModel = tempMenu[i];
+		let tempCount = 0;
+		for (var a = 0; a < tempModel.childList.length; a++) {
+			let tempChildModel = tempModel.childList[a];
+			if (tempChildModel.access == access) {
+				tempChildModel.noReadCut = num;
+			}
+			tempCount = tempCount + tempChildModel.noReadCut;
+		}
+		tempModel.count = tempCount;
+	}
+	if(sendCount0 == sendCount1){
+		console.log('tempMenu:'+JSON.stringify(tempMenu));
+		let tempCount = 0;
+		for (var i = 0; i < tempMenu.length; i++) {
+			let tempM1 = tempMenu[i];
+			tempCount = tempCount+tempM1.count;
+		}
+		this.setMenuMore(tempMenu);
+		setTimeout(()=>{
+			let tempNumber = 0;
+			var tempM0 = this.getMenu();
+			for (var i = 0; i < tempM0.length; i++) {
+				let tempM1 = tempM0[i];
+				if(tempM1.url == 'schappUni_CoursePractice'){
+					tempM1.count = tempCount;
+				}
+				tempNumber = tempNumber + tempM1.count;
+			}
+			// #ifdef APP-PLUS
+			plus.runtime.setBadgeNumber(tempNumber);
+			// #endif
+			this.setMenu(tempM0);
+			uni.$emit('setPushCount',{});
+		},1000);
 	}
 }
 
@@ -41,7 +98,20 @@ function setPushCut(tempMenu,access,num,sendCount0,sendCount1){
 	}
 	if(sendCount0 == sendCount1){
 		this.setMenu(tempMenu);
-		uni.$emit('setPushCount',{});
+		let tempMoreMenu = this.getMenuMore();
+		if(tempMoreMenu.length>0){
+			
+		}else{
+			let tempNumber = 0;
+			for (var i = 0; i < tempMenu.length; i++) {
+				let tempM1 = tempMenu[i];
+				tempNumber = tempNumber + tempM.count;
+			}
+			// #ifdef APP-PLUS
+			plus.runtime.setBadgeNumber(tempNumber);
+			// #endif
+			uni.$emit('setPushCount',{});
+		}
 	}
 }
 
@@ -1045,5 +1115,6 @@ module.exports = {
 	setStore:setStore,
 	getStore:getStore,
 	getPushCut:getPushCut,
-	setPushCut:setPushCut
+	setPushCut:setPushCut,
+	setPushCutMore:setPushCutMore
 }
