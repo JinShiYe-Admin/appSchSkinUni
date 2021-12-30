@@ -46,7 +46,7 @@
 			<button type="primary"  class="button-next" @click="nextStep">下一步</button>
 		</view>
 		<uni-popup ref="alertDialog" type="dialog">
-			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,是否继续" closeText='继续' confirmText="取消" @confirm="dialogConfirm"></uni-popup-dialog>
+			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,是否继续" closeText='取消' confirmText="继续" @confirm="dialogConfirm"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template> 
