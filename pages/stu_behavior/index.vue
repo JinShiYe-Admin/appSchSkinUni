@@ -42,9 +42,16 @@
 			uni.$on('updateHeadImg', function(data) {
 				_this.$refs.mynavBar.upLoadImg();
 			});
+			
 			// 获取未读推送消息数的监听
 			uni.$on('setPushCount', function(data) {
 				_this.tabbar = util.getMenu();
+				for (var i = 0; i < _this.tabbar.length; i++) {
+					let tempM = _this.tabbar[i];
+					if(tempM.access == _this.tabBarItem.access){
+						_this.tabBarItem = tempM;
+					}
+				}
 			});
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();

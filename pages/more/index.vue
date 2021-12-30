@@ -7,6 +7,8 @@
 				<uni-grid :column="4" :showBorder='false' :square="false" :highlight="false">
 					<uni-grid-item v-for="(chilItem, chiilIndex) in item.childList" :index="chiilIndex"
 						:key="chiilIndex">
+						<uni-badge v-if="chilItem.noReadCut>0" :text='chilItem.noReadCut' type='error' size="small" style="margin-left: 50px;z-index: 99;"></uni-badge>
+						<view v-show="chilItem.noReadCut==0" style="height: 20px;"></view>
 						<view class="grid-item-box" @click="clickItem(chilItem)">
 							<image :src="chilItem.icon" class="moreImg" mode="aspectFill" />
 							<text style="margin-top: 10px;font-size: 13px;color: #878787;"
@@ -63,6 +65,17 @@
 			uniNavBar
 		},
 		onLoad(option) {
+			// 获取未读推送消息数的监听
+			uni.$on('setPushCount', function(data) {
+				_this.tabbar = util.getMenu();
+				_this.tabarMore = util.getMenuMore();
+				// for (var i = 0; i < _this.tabbar.length; i++) {
+				// 	let tempM = _this.tabbar[i];
+				// 	if(tempM.access == _this.tabarMore.access){
+				// 		_this.tabarMore = tempM;
+				// 	}
+				// }
+			});
 			this.tabbar = util.getMenu();
 			this.tabarMore = util.getMenuMore();
 			console.log('this.tabarMore:' + JSON.stringify(this.tabarMore));
@@ -99,5 +112,20 @@
 
 	.uni-border-bottom ::after {
 		border-bottom: 0px solid red !important;
+	}
+	
+	::v-deep .uni-badge {
+		line-height: 16px;
+		/* #ifdef APP-PLUS */
+		padding-top: 0px;
+		/* #endif */
+		margin-bottom: -20px;
+		margin-top: 20px;
+	}
+	
+	::v-deep .uni-badge--x {
+		/* margin-top: 15px;
+		margin-left: 15px; */
+		/* padding-top: -70px; */
 	}
 </style>

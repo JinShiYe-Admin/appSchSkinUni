@@ -462,6 +462,9 @@
 										tempA.push({
 											text: "更多",
 											index: 4,
+											count: 0,
+											isDot: false,
+											customIcon: false,
 											pagePath: "/pages/more/index",
 											iconPath: '../../static/tabbar/more.png',
 											selectedIconPath: '../../static/tabbar/more_select.png',
