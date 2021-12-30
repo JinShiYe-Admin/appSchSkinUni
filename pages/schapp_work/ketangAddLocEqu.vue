@@ -60,7 +60,7 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='点名添加'
+			itemData.text='课堂点名登记'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			console.log("this.tabBarItem: " + JSON.stringify(this.tabBarItem));
@@ -141,7 +141,6 @@
 				 	jc:this.tabBarItem.jc,
 				 	km:this.tabBarItem.km,
 				 	time:this.tabBarItem.time,
-					// leaveDict:this.tabBarItem.leaveDict,
 					attendanceDict:this.tabBarItem.attendanceDict,
 					classDict:this.tabBarItem.classDict,
 				 	stuList:stuList,
@@ -156,23 +155,15 @@
 					 mach_ids.push(obj[1].mach_id)
 				}
 				let classDict=this.tabBarItem.classDict
-				let jcValue=this.tabBarItem.jc.value
-				let beginTime='',endTime='';
-				classDict.map(classItem=>{
-					if(classItem.class_node==jcValue){
-						beginTime=classItem.class_begintime
-						endTime=classItem.class_endtime
-					}
-				})
-				
+				let jc=this.tabBarItem.jc
 				return new Promise((res,rej)=>{
 					let comData={
 						mids:mach_ids.join(','),
 						mtp:8,
 						page_size:9999999,
 						page_number:1,
-						btime:this.tabBarItem.time+' '+beginTime,
-						etime:this.tabBarItem.time+' '+endTime,
+						btime:this.tabBarItem.time+' '+jc.begintime,
+						etime:this.tabBarItem.time+' '+jc.endtime,
 						index_code: this.index_code,
 					} 
 					this.post(this.globaData.INTERFACE_UCARD+'blemachtimecardp',comData,response=>{

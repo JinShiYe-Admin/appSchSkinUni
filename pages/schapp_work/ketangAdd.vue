@@ -76,9 +76,7 @@
 				startDate:'2010-01-01',
 				endDate:this.moment().format('YYYY-MM-DD'),
 				showNextButton:false,
-				// leaveDict:[], 
 				attendanceDict:[], 
-				classDict:[],
 				historyData:false,//是否存在历史考勤数据
 			}
 		},
@@ -89,14 +87,13 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='点名添加'
+			itemData.text='课堂点名登记'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading();
 				this.getGrd();
 				this.getClassAttendanceDict();
-				this.getClassDict();
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""
@@ -293,6 +290,7 @@
 					//合并请假数据
 					leaveRecordList.map(leaveRecItem=>{
 						if(stuItem.value==leaveRecItem.stu_code){
+							stuItem.equType='请假记录数据'
 							stuItem.item_txt=leaveRecItem.item_txt
 							stuItem.item_code=leaveRecItem.item_code
 						}
@@ -316,9 +314,7 @@
 						jc:this.jcList[this.jcIndex],
 						km:this.kmList[this.kmIndex],
 						time:this.time,
-						// leaveDict:this.leaveDict,
 						attendanceDict:this.attendanceDict,
-						classDict:this.classDict,
 						locList:locList,
 						stuList:stuList,
 						historyData:this.historyData,
@@ -336,9 +332,7 @@
 						jc:this.jcList[this.jcIndex],
 						km:this.kmList[this.kmIndex],
 						time:this.time,
-						// leaveDict:this.leaveDict,
 						attendanceDict:this.attendanceDict,
-						classDict:this.classDict,
 						stuList:stuList,
 						historyData:this.historyData,
 						index_code:this.index_code,
@@ -451,31 +445,6 @@
 					})
 				})
 			},
-			//获取学生卡ID 2.1
-			// getCardIdList(){
-			// 	return new Promise((res,rej)=>{
-			// 		let comData={
-			// 			page_size:999999,
-			// 			page_number:1,
-			// 			card_id:'',
-			// 			uname:'',
-			// 			card_tp:8,
-			// 			unit_code:this.personInfo.unit_code,
-			// 			grd_code:this.grdList[this.grdIndex].value,
-			// 			cls_code:this.clsList[this.clsIndex].value,
-			// 			is_card:1,
-			// 			index_code: this.index_code,
-			// 		}
-			// 		this.post(this.globaData.INTERFACE_UCARD+'HrStuCardP',comData,response=>{
-						
-			// 			if(response!==null){
-			// 				res(response.list)
-			// 			}else{
-			// 				res([])
-			// 			}
-			// 		})
-			// 	})
-			// },
 			//获取考勤 节次 常量 54
 			getClassAttendanceDict(){
 				return new Promise((res,rej)=>{
@@ -484,7 +453,8 @@
 					}
 					this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
 						this.attendanceDict=response.qaArray
-						this.jcList=response.timeArray
+						// this.jcList=response.timeArray
+						this.getClassDict();
 					})
 				})
 			},
@@ -496,7 +466,34 @@
 					this.post(this.globaData.INTERFACE_WORK+'ClasstimeSchedule/list',comData,response=>{
 					    console.log("responsesabaa: " + JSON.stringify(response));
 						
-						this.classDict=response.timeArray
+						let classDict=response.timeArray
+						let jcList=[]
+						classDict.map(item=>{
+							if(item.attendance_type=='inClassAttendance'){
+								let beginTime='',endTime='';
+								if(item.attendance_begintime){
+									beginTime=item.attendance_begintime.split(":")[0]+':'+item.attendance_begintime.split(":")[1]
+								}
+								if(item.attendance_endtime){
+									endTime=item.attendance_endtime.split(":")[0]+':'+item.attendance_endtime.split(":")[1]
+								}
+								this.jcList.map(jcItem=>{
+									if(jcItem.value==item.class_node){
+										jcItem.text=item.class_node+'（'+beginTime+'-'+endTime+'）'
+										jcItem.value=item.class_node
+										jcItem.begintime=item.attendance_begintime
+										jcItem.endtime=item.attendance_endtime
+									}
+								})
+								jcList.push({
+									text:item.class_node+'（'+beginTime+'-'+endTime+'）',
+									value:item.class_node,
+									begintime:item.attendance_begintime,
+									endtime:item.attendance_endtime
+								})
+							}
+						})
+						this.jcList=jcList
 					})
 			}
 		},
@@ -546,21 +543,6 @@
 	}
 	.uni-flex{
 		align-items: center;
-	}
-	
-	textarea{
-		font-size: 13px;
-		height: 80px;
-		padding: 5px;
-	}
-	
-	.form-left-approve{
-		margin: 5px 0;
-		font-size: 13px;
-		-webkit-flex: 1;
-		flex: 1;
-		word-break: break-all;
-		color: #787878;
 	}
 	
 	.button-next{

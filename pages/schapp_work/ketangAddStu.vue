@@ -3,7 +3,7 @@
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="保存" :textClick="textClick"></mynavBar>
 		<uni-notice-bar :single="true" text="第三步:请完善学生考勤情况并保存!" />
 		<view style="padding:0 15px;">
-			<view class="title-text">{{tabBarItem.grd.text}}{{tabBarItem.cls.text}}&ensp;{{tabBarItem.parseTime}}&ensp;{{getWeek()}}&ensp;{{tabBarItem.jc.text}}{{getJcTime()}}{{tabBarItem.km.text}}&ensp;课堂考勤</view>
+			<view class="title-text">{{tabBarItem.grd.text}}{{tabBarItem.cls.text}}&ensp;{{tabBarItem.parseTime}}&ensp;{{getWeek()}}&ensp;{{tabBarItem.jc.text}}{{tabBarItem.km.text}}&ensp;课堂考勤</view>
 			<view class="title-total">
 				<view class="detail-text-total">班级人数：<view><text style="font-size: 15px;font-weight: 600;">{{bjrs}}</text>人</view></view>
 				<view class="detail-text-total">已到：<view><text style="font-size: 15px;font-weight: 600;">{{yd}}</text>人</view></view>
@@ -25,13 +25,22 @@
 			<uni-list-item v-for="(item,index) in tabBarItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.card_id" >
 				<template v-slot:footer>
 					<view class="uni-flex uni-row form-view">
-						<picker v-if="item.interface" style="width:120px;" mode="selector" @change="rightSelect2(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
-							<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/>
-						</picker>
-						<picker v-else style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :range="rightList" :value="item.rightIndex" range-key="text">
-							<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList[item.rightIndex].text:''"  placeholder="请选择" disabled/>
-						</picker>
-						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+						<template v-if="item.interface">
+							<picker style="width:120px;" mode="selector" @change="rightSelect2(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
+								<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/>
+							</picker>
+						</template>
+						<template v-else>
+							<template v-if="item.disabled">
+								<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList[item.rightIndex].text:''"  disabled @click="showWarn"/>
+							</template>
+							<template v-else>
+								<picker style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :range="rightList" :value="item.rightIndex" range-key="text" >
+									<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList[item.rightIndex].text:''"  placeholder="请选择" disabled/>
+								</picker>
+							</template>
+							<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+						</template>
 					</view>
 				</template>
 			</uni-list-item>
@@ -72,11 +81,10 @@
 			let parseTime=this.moment(itemData.time).format('YYYY年MM月DD日')
 			itemData.parseTime=parseTime
 			itemData.index=100
-			itemData.text='点名添加'
+			itemData.text='课堂点名登记'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code 
 			console.log("this.tabBarItem: " + JSON.stringify(this.tabBarItem));
-			// let rightList = [{text:'已到',value:'*'}].concat(this.tabBarItem.leaveDict).concat(this.tabBarItem.attendanceDict)
 			let rightList = [{text:'已到',value:'*'}].concat(this.tabBarItem.attendanceDict)
 			let rightList2 = [{text:'检测识别',value:'**'}].concat(rightList)
 			this.rightList=rightList
@@ -86,14 +94,21 @@
 				stuItem.rightIndex=-1
 				stuItem.status='default'//没有默认值
 				stuItem.interface=false//设备识别的数据
-				rightList2.map((rightItem,index)=>{
-					if(stuItem.item_code==rightItem.value){
-						stuItem.equType='接口操作赋值'
-						stuItem.rightIndex=index
-						stuItem.status='interfaceData'//接口操作赋值
-						stuItem.interface=true//设备识别的数据
+				stuItem.disabled=false//是否禁选状态， 如果数据是从学生请假那边的数据，则不能选
+				if(stuItem.item_code=='**'){
+					stuItem.rightIndex=0
+					stuItem.status='interfaceData'//接口操作赋值
+					stuItem.interface=true//设备识别的数据
+				}else{
+					if(stuItem.item_code=='sickLeave' || stuItem.item_code=='absenceLeave'){
+						stuItem.disabled=true	
 					}
-				})
+					rightList.map((rightItem,index)=>{
+						if(stuItem.item_code==rightItem.value){
+							stuItem.rightIndex=index
+						}
+					})
+				}
 			}) 
 			console.log("stuList: " + JSON.stringify(stuList));
 			this.stuList=stuList
@@ -108,6 +123,9 @@
 			//#endif
 		},
 		methods: {
+			showWarn(){
+				this.showToast('该学生已请假，无法修改考勤情况')
+			},
 			dialogConfirm(e){
 				this.$refs.alertDialog.close()
 				this.showLoading();
@@ -286,26 +304,6 @@
 				}
 				this.setTotal()
 				this.$forceUpdate();
-			},
-			//获取节次对应的时间
-			getJcTime(){
-				let classDict=this.tabBarItem.classDict
-				let jcValue=this.tabBarItem.jc.value
-				let time=''
-				classDict.map(classItem=>{
-					if(classItem.class_node==jcValue){
-						let beginTime=classItem.class_begintime
-						let endTime=classItem.class_endtime
-						if(beginTime){
-							beginTime=beginTime.split(":")[0]+':'+beginTime.split(":")[1]
-						}
-						if(endTime){
-							endTime=endTime.split(":")[0]+':'+endTime.split(":")[1]
-						}
-						time='（'+beginTime+'-'+endTime+'）'
-					}
-				})
-				return time
 			},
 			//获取星期几
 			getWeek(){
