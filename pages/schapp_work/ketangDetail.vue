@@ -109,7 +109,7 @@
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view2">
-				<view class="form-left form-left-textarea">行为说明</view>
+				<view class="form-left form-left-textarea">说明</view>
 				<textarea placeholder="请输入" v-model="comment" maxlength="100" ></textarea>
 			</view>
 		</view>
