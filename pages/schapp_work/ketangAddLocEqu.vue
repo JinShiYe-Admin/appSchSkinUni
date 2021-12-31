@@ -91,15 +91,16 @@
 		},
 		methods: {
 			setChecked(item,type){
-				if(type==1){
-					this.setAllChecked(this.location_type_1,item)
-				}else if(type==2){
-					this.setAllChecked(this.location_type_2,item)
-				}else if(type==3){
-					this.setAllChecked(this.location_type_3,item)
-				}else if(type==4){
-					this.setAllChecked(this.location_type_4,item)
-				}
+				// if(type==1){
+				// 	this.setAllChecked(this.location_type_1,item)
+				// }else if(type==2){
+				// 	this.setAllChecked(this.location_type_2,item)
+				// }else if(type==3){
+				// 	this.setAllChecked(this.location_type_3,item)
+				// }else if(type==4){
+				// 	this.setAllChecked(this.location_type_4,item)
+				// }
+				this.setAllChecked(this.tabBarItem.locList,item)
 				if(item.checked){
 					this.checked_equ.set(item.mach_id,item)
 				}else{
@@ -142,7 +143,6 @@
 				 	km:this.tabBarItem.km,
 				 	time:this.tabBarItem.time,
 					attendanceDict:this.tabBarItem.attendanceDict,
-					classDict:this.tabBarItem.classDict,
 				 	stuList:stuList,
 					historyData:this.tabBarItem.historyData,
 				 	index_code:this.index_code,
@@ -154,7 +154,6 @@
 				for (let obj of this.checked_equ) {
 					 mach_ids.push(obj[1].mach_id)
 				}
-				let classDict=this.tabBarItem.classDict
 				let jc=this.tabBarItem.jc
 				return new Promise((res,rej)=>{
 					let comData={

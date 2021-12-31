@@ -54,9 +54,10 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_WORK = 'https://develop309.108800.com/stukqsubapi/attendance/'; //学生考勤系统接口(孔)
 		GLOBALDATA.INTERFACE_PROGRAMME = 'https://develop309.108800.com/tecrcsubapi/sub/api/'; //日程（孔)
 		GLOBALDATA.INTERFACE_ATTENDAND = 'https://develop309.108800.com/tecgpskqsubapi/sub/api/'; //教师考勤（孔)
-		GLOBALDATA.INTERFACE_STUXWSUB = 'https://developgx.108800.com:8443/stuxwsubapi/behavior/'; //学生行为（阮) 
-		GLOBALDATA.INTERFACE_STUPYSUB = 'https://developgx.108800.com:8443/stuxwsubapi/comment/'; //学生评语（阮)
-		GLOBALDATA.INTERFACE_DORM = 'https://developgx.108800.com:8443/stusssubapi/api/app/'; //学生宿舍（阮)
+		GLOBALDATA.INTERFACE_STUXWSUB = 'https://develop309.108800.com/stuxwsubapi/behavior/'; //学生行为（阮) 
+		GLOBALDATA.INTERFACE_STUPYSUB = 'https://develop309.108800.com/stuxwsubapi/comment/'; //学生评语（阮)
+		GLOBALDATA.INTERFACE_DORM = 'https://develop309.108800.com/stusssubapi/api/app/'; //学生宿舍（阮)
+		GLOBALDATA.INTERFACE_DORM_ATTENDANCE_ADVANCETIME = 3; //学生宿舍 宿舍点名模块考勤记录时间提前量
 		GLOBALDATA.INTERFACE_STUSCORE = 'https://developgx.108800.com:8443/stuzy/api/stuScore/'; //学生成绩（蒙)
 		GLOBALDATA.INTERFACE_ZXKT = "https://developgx.108800.com:8443/resstudysubapi/api"; //智学课堂（廖）
 		GLOBALDATA.INTERFACE_KYCP = "https://developgx.108800.com:8443/resentestsubapi/api"; //口语测评（廖）
@@ -93,6 +94,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_STUXWSUB = 'https://test.108800.com/stuxwsubapi/behavior/'; //学生行为（阮) 
 		GLOBALDATA.INTERFACE_STUPYSUB = 'https://test.108800.com/stuxwsubapi/comment/'; //学生评语（阮)
 		GLOBALDATA.INTERFACE_DORM = 'https://test.108800.com/stusssubapi/api/app/'; //学生宿舍（阮)
+		GLOBALDATA.INTERFACE_DORM_ATTENDANCE_ADVANCETIME = 3; //学生宿舍 宿舍点名模块考勤记录时间提前量
 		GLOBALDATA.INTERFACE_STUSCORE = 'https://test.108800.com/stuzy/api/stuScore/'; //学生成绩（蒙)
 		GLOBALDATA.INTERFACE_ZXKT = "https://test.108800.com/resstudysubapi/api"; //智学课堂（廖）
 		GLOBALDATA.INTERFACE_KYCP = "https://test.108800.com/resentestsubapi/api"; //口语测评（廖）
@@ -129,6 +131,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_STUXWSUB = 'https://apps.108800.com/stuxwsubapi/behavior/'; //学生行为（阮) 
 		GLOBALDATA.INTERFACE_STUPYSUB = 'https://apps.108800.com/stuxwsubapi/comment/'; //学生评语（阮)
 		GLOBALDATA.INTERFACE_DORM = 'https://apps.108800.com/stusssubapi/api/app/'; //学生宿舍（阮)
+		GLOBALDATA.INTERFACE_DORM_ATTENDANCE_ADVANCETIME = 3; //学生宿舍 宿舍点名模块考勤记录时间提前量
 		GLOBALDATA.INTERFACE_STUSCORE = 'https://apps.108800.com/stuzy/api/stuScore/'; //学生成绩（蒙)
 		GLOBALDATA.INTERFACE_ZXKT = "https://res.108800.com/resstudysubapi/api"; //智学课堂（廖）
 		GLOBALDATA.INTERFACE_KYCP = "https://res.108800.com/resentestsubapi/api"; //口语测评（廖）
@@ -158,8 +161,7 @@ Vue.prototype.PRIVACE = 'https://jbsch-pb.zhuxue101.net/formal/privacy/jbxyPriva
 Vue.prototype.QN_PV_NAME = 'jbsch-pv'; //七牛私有空间名
 Vue.prototype.QN_PB_NAME = 'jbsch-pb'; //七牛公有空间名
 Vue.prototype.QNGETUPLOADTOKEN = 'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetUpLoadToKen';
-Vue.prototype.QNGETDOWNTOKENFILE =
-	'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetAccess'; //获取下载文件（云存储）的token的url，url+七牛文件url
+Vue.prototype.QNGETDOWNTOKENFILE ='https://sso.108800.com:8443/qiniuapi/Api/QiNiu/GetAccess'; //获取下载文件（云存储）的token的url，url+七牛文件url
 Vue.prototype.QNGETTOKENDELETE = 'https://sso.108800.com:8443/qiniuapi/Api/QiNiu/Delete'; //获取批量（或者一个）删除七牛文件的token的url
 
 Vue.prototype.PWD_ENCRYPTION = '#@_JFnice_@#'; //修改密码时，加密密钥

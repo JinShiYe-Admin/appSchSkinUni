@@ -253,13 +253,14 @@
 			  									—→获取班级学生
 			  									—→获取选择日期对应的学生请假数据
 												—→获取出入型设备的识别数据
-			  									—→跳转到第三步，直接填写考勤信息
+												—→跳过第二步，直接跳转第三步填写考勤信息
 				如果日期是当前日期：  查询是否存在考勤记录
 												—→获取班级学生
 												—→获取选择日期对应的学生请假数据
 												—→获取出入型设备的识别数据
 												—→获取定位型设备列表
 												—→获取定位型设备的识别数据
+												—→跳转到第二步，获取定位型设备的识别数据
 												—→跳转到第三步，填写考勤信息
 			 */
 			nextStep(){
@@ -272,9 +273,10 @@
 				let leaveRecordList=[],equRecordList=[],locList=[],cardIdList=[];
 				leaveRecordList=await this.getLeaveRecordList();//获取选择日期对应的学生请假数据
 				equRecordList=await this.getLeaveEquRecordList();//获取出入型设备的识别数据 
+				let today=false
 				if(this.time == this.moment().format('YYYY-MM-DD')){
 					locList=await this.getLeaveLocList();//获取定位型设备列表
-					// cardIdList=await this.getCardIdList();//获取卡ID 与班级学生绑定
+					today=true
 				}
 				let stuList =this.stuList
 				stuList.map(stuItem=>{
@@ -307,7 +309,7 @@
 					})
 				})
 				console.log("stuList: " + JSON.stringify(stuList));
-				if(locList.length>0 && cardIdList.length>0){//跳转到定位型设备选择列表
+				if(today && locList.length>0 && cardIdList.length>0){//跳转到定位型设备选择列表
 					util.openwithData('/pages/schapp_work/ketangAddLocEqu',{
 						grd:this.grdList[this.grdIndex],
 						cls:this.clsList[this.clsIndex],
@@ -321,7 +323,9 @@
 						index_code:this.index_code,
 					})
 				}else{//跳转到考勤表单填写页面
-					if(locList.length==0){
+					if(!today){
+						this.showToast('日期非当日，跳过第二步')
+					}else if(locList.length==0){
 						this.showToast('暂无定位型设备，跳过第二步')
 					}else if(cardIdList.length==0){
 						this.showToast('暂无学生卡数据，跳过第二步')
@@ -374,7 +378,7 @@
 				let comData={
 					grd_code: this.grdList[this.grdIndex].value,
 					cls_code: this.clsList[this.clsIndex].value,
-					sub_code: this.kmList[this.kmIndex].value,
+					sub_code: '-1',
 					class_node:this.jcList[this.jcIndex].value,
 					query_time: this.time,
 					page_number: 1, //当前页数
@@ -389,7 +393,6 @@
 						this.historyData=true
 						this.$refs.alertDialog.open()
 					}
-					
 				})
 			},
 			//获取选择日期对应的学生请假数据50
@@ -453,7 +456,7 @@
 					}
 					this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
 						this.attendanceDict=response.qaArray
-						// this.jcList=response.timeArray
+						this.jcList=response.timeArray
 						this.getClassDict();
 					})
 				})
@@ -485,15 +488,15 @@
 										jcItem.endtime=item.attendance_endtime
 									}
 								})
-								jcList.push({
-									text:item.class_node+'（'+beginTime+'-'+endTime+'）',
-									value:item.class_node,
-									begintime:item.attendance_begintime,
-									endtime:item.attendance_endtime
-								})
+								// jcList.push({
+								// 	text:item.class_node+'（'+beginTime+'-'+endTime+'）',
+								// 	value:item.class_node,
+								// 	begintime:item.attendance_begintime,
+								// 	endtime:item.attendance_endtime
+								// })
 							}
 						})
-						this.jcList=jcList
+						// this.jcList=jcList
 					})
 			}
 		},

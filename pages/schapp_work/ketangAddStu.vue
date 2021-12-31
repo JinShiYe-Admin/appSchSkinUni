@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="保存" :textClick="textClick"></mynavBar>
-		<uni-notice-bar :single="true" text="第三步:请完善学生考勤情况并保存!" />
+		<uni-notice-bar :single="true" text="第三步:请完善学生考勤情况并保存！" />
 		<view style="padding:0 15px;">
 			<view class="title-text">{{tabBarItem.grd.text}}{{tabBarItem.cls.text}}&ensp;{{tabBarItem.parseTime}}&ensp;{{getWeek()}}&ensp;{{tabBarItem.jc.text}}{{tabBarItem.km.text}}&ensp;课堂考勤</view>
 			<view class="title-total">
@@ -29,10 +29,11 @@
 							<picker style="width:120px;" mode="selector" @change="rightSelect2(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
 								<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/>
 							</picker>
+							<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 						</template>
 						<template v-else>
 							<template v-if="item.disabled">
-								<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList[item.rightIndex].text:''"  disabled @click="showWarn"/>
+								<input class="uni-input form-right"  :value="item.item_txt"  disabled @click="showWarn"/>
 							</template>
 							<template v-else>
 								<picker style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :range="rightList" :value="item.rightIndex" range-key="text" >
@@ -46,10 +47,10 @@
 			</uni-list-item>
 		</uni-list>
 		<uni-popup ref="alertDialog" type="dialog">
-			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,保存将覆盖原有记录!" closeText='取消' confirmText="继续" @confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
+			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,保存将覆盖原有记录！" closeText='取消' confirmText="继续" @confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
 		</uni-popup>
 		<uni-popup ref="alertDialog2" type="dialog">
-			<uni-popup-dialog type="warn" title="提醒" content="当前班级无考勤异常学生，无需保存，是否返回！!" closeText='返回' confirmText="取消" @confirm="dialogConfirm2"></uni-popup-dialog>
+			<uni-popup-dialog type="warn" title="提醒" content="当前班级所有学生均已正常到勤，无需记录！" closeText='取消' confirmText="返回" @confirm="dialogConfirm2"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template> 
@@ -99,15 +100,11 @@
 					stuItem.rightIndex=0
 					stuItem.status='interfaceData'//接口操作赋值
 					stuItem.interface=true//设备识别的数据
-				}else{
-					if(stuItem.item_code=='sickLeave' || stuItem.item_code=='absenceLeave'){
-						stuItem.disabled=true	
-					}
-					rightList.map((rightItem,index)=>{
-						if(stuItem.item_code==rightItem.value){
-							stuItem.rightIndex=index
-						}
-					})
+				}
+				if(stuItem.item_code=='sickLeave' || stuItem.item_code=='absenceLeave'){
+					stuItem.rightIndex=0
+					stuItem.status='leaveData'//请假记录赋值
+					stuItem.disabled=true	
 				}
 			}) 
 			console.log("stuList: " + JSON.stringify(stuList));
@@ -236,7 +233,8 @@
 			getStuList(){
 				let stuList=[]
 				this.stuList.map(stuItem=>{
-					if(stuItem.item_code=='*' || stuItem.item_code=='**'){}else{
+					//已到、检测识别、事假、病假不提交，需要排除
+					if(stuItem.item_code=='*' || stuItem.item_code=='**' || stuItem.item_code=='absenceLeave' || stuItem.item_code=='sickLeave'){}else{
 						let obj={
 							stu_code:stuItem.value,
 							stu_name:stuItem.name,
