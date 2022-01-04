@@ -309,6 +309,10 @@
 					})
 				})
 				console.log("stuList: " + JSON.stringify(stuList));
+				if(this.attendanceDict.length===0){
+					this.showToast('获取考勤常量为空，不能继续添加考勤！')
+					return 0
+				}
 				if(today && locList.length>0 && cardIdList.length>0){//跳转到定位型设备选择列表
 					util.openwithData('/pages/schapp_work/ketangAddLocEqu',{
 						grd:this.grdList[this.grdIndex],

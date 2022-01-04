@@ -115,15 +115,14 @@
 			},
 			addClick(){
 				let that=this
-				util.openwithData('/pages/stu_dorm/attendance_dorm_add',{index_code:this.index_code},{
-						refreshByAdd(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj0.loadFlag=0
-							that.pageobj0.canload=true
-							that.pageobj0.page_number=1
-							that.getList0()
-						}
-					})
+				util.openwithData('/pages/stu_dorm/attendance_dorm_add',{index_code:this.index_code})
+				uni.$on('refreshDromList',()=>{
+					that.showLoading()
+					that.pageobj0.loadFlag=0
+					that.pageobj0.canload=true
+					that.pageobj0.page_number=1
+					that.getList0()
+				});
 			},
 			getGrd(){//获取年级
 				let comData={

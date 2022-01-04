@@ -22,24 +22,24 @@
 			</view>
 		</view>
 		<uni-list>
-			<uni-list-item v-for="(item,index) in tabBarItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.card_id" >
+			<uni-list-item v-for="(item,index) in tabBarItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.card_id?item.card_id:'无卡'" >
 				<template v-slot:footer>
 					<view class="uni-flex uni-row form-view">
 						<template v-if="item.interface">
-							<picker style="width:120px;" mode="selector" @change="rightSelect2(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
-								<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/>
-							</picker>
-							<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-						</template>
-						<template v-else>
 							<template v-if="item.disabled">
 								<input class="uni-input form-right"  :value="item.item_txt"  disabled @click="showWarn"/>
 							</template>
 							<template v-else>
-								<picker style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :range="rightList" :value="item.rightIndex" range-key="text" >
-									<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList[item.rightIndex].text:''"  placeholder="请选择" disabled/>
+								<picker style="width:120px;" mode="selector" @change="rightSelect2(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
+									<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/>
 								</picker>
 							</template>
+							<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+						</template>
+						<template v-else>
+							<picker style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :range="rightList" :value="item.rightIndex" range-key="text" >
+								<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList[item.rightIndex].text:''"  placeholder="请选择" disabled/>
+							</picker>
 							<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 						</template>
 					</view>
@@ -94,7 +94,7 @@
 			stuList.map(stuItem=>{
 				stuItem.rightIndex=-1
 				stuItem.status='default'//没有默认值
-				stuItem.interface=false//设备识别的数据
+				stuItem.interface=false//接口赋值 设备识别的数据
 				stuItem.disabled=false//是否禁选状态， 如果数据是从学生请假那边的数据，则不能选
 				if(stuItem.item_code=='**'){
 					stuItem.rightIndex=0
@@ -105,6 +105,7 @@
 					stuItem.rightIndex=0
 					stuItem.status='leaveData'//请假记录赋值
 					stuItem.disabled=true	
+					stuItem.interface=true
 				}
 			}) 
 			console.log("stuList: " + JSON.stringify(stuList));
@@ -479,4 +480,7 @@
 		}
 	}
 	
+	::v-deep .uni-list-item__content{
+		justify-content: center;
+	}
 </style>

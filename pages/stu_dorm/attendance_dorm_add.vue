@@ -171,7 +171,8 @@
 				this.post(this.globaData.INTERFACE_DORM+'dormAttendance/getDict',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
-					this.attendanceList=response.item_array
+					// this.attendanceList=response.item_array
+					this.attendanceList=[{text:'晚休缺勤',value:'晚休缺勤'}]
 					let rest_array=response.rest_array
 					let rest=[]
 					rest_array.map(function(item){
@@ -401,6 +402,10 @@
 				let cardIdList=this.cardIdList
 				let locList=this.locList
 				this.hideLoading()
+				if(this.attendanceList.length===0){
+					this.showToast('获取考勤常量为空，不能继续添加考勤！')
+					return 0
+				}
 				if(today && cardIdList.length>0 && locList.length>0){//跳转到定位型设备选择列表
 					this.toTwoStep()
 				}else{
@@ -423,11 +428,14 @@
 					time:this.time,
 					stuList:this.stuList,
 					locList:this.locList,
+					attendanceList:this.attendanceList,
 					historyData:this.historyData,
 					index_code:this.index_code,
 				})
 			},
 			toThreeStep(){
+				let endTime=new this.moment().format('HH:mm:ss')
+				let beginTime=new this.moment(this.tabBarItem.time+' '+endTime).subtract(this.globaData.INTERFACE_DORM_ATTENDANCE_ADVANCETIME,'minutes').format('HH:mm:ss');
 				util.openwithData('/pages/stu_dorm/attendance_dorm_add_stu',{//跳转到考勤表单填写页面
 					build:this.buildList[this.buildIndex],
 					floor:this.floorList[this.floorIndex],
@@ -437,6 +445,9 @@
 					stuList:this.stuList,
 					locList:this.locList,
 					historyData:this.historyData,
+					attendanceList:this.attendanceList,
+					beginTime:beginTime,
+					endTime:endTime,
 					index_code:this.index_code,
 				})
 			}

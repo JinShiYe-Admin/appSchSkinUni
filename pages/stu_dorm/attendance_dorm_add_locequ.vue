@@ -99,7 +99,7 @@
 						 }
 					 })
 				 })
-				 util.openwithData('/pages/schapp_work/ketangAddStu',{
+				 util.openwithData('/pages/stu_dorm/attendance_dorm_add_stu',{
 					build:this.tabBarItem.build,
 					floor:this.tabBarItem.floor,
 					dorm:this.tabBarItem.dorm,
@@ -108,6 +108,7 @@
 					beginTime:this.beginTime,
 					endTime:this.endTime,
 				 	stuList:stuList,
+					attendanceList:this.tabBarItem.attendanceList,
 					historyData:this.tabBarItem.historyData,
 				 	index_code:this.index_code,
 				 })
@@ -119,8 +120,8 @@
 					 mach_ids.push(obj[1].mach_id)
 				}
 				return new Promise((res,rej)=>{
-					let beginTime=new this.moment().format('HH:mm:ss')
-					let endTime=new this.moment(this.tabBarItem.time+' '+beginTime).subtract(this.globaData.INTERFACE_DORM_ATTENDANCE_ADVANCETIME,'minutes').format('HH:mm:ss');
+					let endTime=new this.moment().format('HH:mm:ss')
+					let beginTime=new this.moment(this.tabBarItem.time+' '+endTime).subtract(this.globaData.INTERFACE_DORM_ATTENDANCE_ADVANCETIME,'minutes').format('HH:mm:ss');
 					this.beginTime=beginTime
 					this.endTime=endTime
 					let comData={
