@@ -171,8 +171,8 @@
 				this.post(this.globaData.INTERFACE_DORM+'dormAttendance/getDict',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
-					// this.attendanceList=response.item_array
-					this.attendanceList=[{text:'晚休缺勤',value:'晚休缺勤'}]
+					this.attendanceList=response.item_array
+					// this.attendanceList=[{text:'晚休缺勤',value:'晚休缺勤'}]
 					let rest_array=response.rest_array
 					let rest=[]
 					rest_array.map(function(item){
