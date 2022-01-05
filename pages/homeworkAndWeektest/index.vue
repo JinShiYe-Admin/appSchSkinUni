@@ -36,49 +36,7 @@
 		},
 		methods: {
 			clickItem:function(chilItem){
-				util.openwithData(chilItem.pagePath,chilItem,{
-					oaRefreshUnread(){
-						// 获取未读数
-						// _this.getUnReadCntFun();
-						util.getPushCut();
-					}
-				});
-			},
-			// 获取未读数
-			getUnReadCntFun() {
-				let tempCount = 0;
-				for (var a = 0; a < this.tabBarItem.childList.length; a++) {
-					var tempM0 = this.tabBarItem.childList[a];
-					if (tempM0.redspot_url != null && tempM0.redspot_url.length > 0) {
-						// 获取未读数
-						util.getUnReadCut(tempM0.access, tempM0.redspot_url, (data) => {
-							tempCount = tempCount+data[0].dotnum;
-							this.setTabbarCount(tempCount);
-							for (var b = 0; b < this.tabBarItem.childList.length; b++) {
-								var tempM1 = this.tabBarItem.childList[b];
-								if (tempM1.access == data[0].access) {
-									this.$set(this.tabBarItem.childList[b],'noReadCut',data[0].dotnum);
-									this.updataNoReadeCut = false;
-									this.updataNoReadeCut = true;
-								}
-							}
-						},a);
-					}
-				}
-			},
-			setTabbarCount(tempCount){
-				let tempNumber = 0;
-				for (var i = 0; i < this.tabbar.length; i++) {
-					let tempM = this.tabbar[i];
-					if(tempM.access == this.tabBarItem.access){
-						this.$set(this.tabbar[i],'count',tempCount);
-					}
-					tempNumber = tempNumber + tempM.count;
-				}
-				
-				// #ifdef APP-PLUS
-				plus.runtime.setBadgeNumber(tempNumber);
-				// #endif
+				util.openwithData(chilItem.pagePath,chilItem);
 			}
 		},
 		onLoad() {
@@ -104,8 +62,6 @@
 			this.personInfo = util.getPersonal();
 			this.tabBarItem = util.getTabbarMenu();
 			console.log('this.tabBarItem:'+JSON.stringify(this.tabBarItem));
-			// 获取未读数
-			this.getUnReadCntFun();
 		}
 	}
 </script>

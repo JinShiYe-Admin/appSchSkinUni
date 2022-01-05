@@ -1336,7 +1336,11 @@
 	}
 
 	::v-deep .uni-list--border-top {
-		height: 0px
+		height: 0px !important;
+	}
+	
+	::v-deep .uni-list--border-bottom {
+		height: 0px !important;
 	}
 
 	.skip-box {
