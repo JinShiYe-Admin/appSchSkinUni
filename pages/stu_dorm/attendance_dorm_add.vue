@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<uni-notice-bar :single="true" text="第一步:请选择宿舍信息!" />
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼房</view>
 			<picker style="width:100% !important;" mode="selector" @change="buildSelect" :value="buildIndex" :range="buildList" range-key="text">
@@ -26,44 +27,25 @@
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">床位号</view>
-			<input class="uni-input form-right"  v-model="bedNameList.join(',')" placeholder="请选择" disabled @click="selectBed"/>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left">宿舍考勤</view>
-			<picker style="width:100% !important;" mode="selector" @change="attendanceSelect" :value="attendanceIndex" :range="attendanceList" range-key="text">
-				<input class="uni-input form-right"  :value="attendanceIndex>=0?attendanceList[attendanceIndex].text:''" placeholder="请选择" disabled/>
-			</picker>
-			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
-		</view>
-		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
 			<view class="form-left">日期</view>
-			<dy-Date class="uni-input form-right" style="display: flex;align-items: center;padding-right: 0;" :childValue='formData.time'  timeType="day" v-on:getData='timeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>
+			<dy-Date class="uni-input form-right" style="display: flex;align-items: center;padding-right: 0;" :childValue='time'  timeType="day" v-on:getData='timeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
-			<view class="form-left">休息时间</view>
-			<picker style="width:100% !important;" mode="selector" @change="restTimeSelect" :value="restTimeIndex" :range="restTimeList" range-key="text">
-				<input class="uni-input form-right"  :value="restTimeIndex>=0?restTimeList[restTimeIndex].text:''" placeholder="请选择" disabled/>
+			<view class="form-left">午/晚休</view>
+			<picker style="width:100% !important;" mode="selector" @change="qaSelect" :value="qaIndex" :range="qaArray" range-key="text">
+				<input class="uni-input form-right"  :value="qaIndex>=0?qaArray[qaIndex].text:''" placeholder="请选择" disabled/>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
-		<view class="uni-flex uni-row form-view">
-			<view class="form-left form-left-textarea">说明</view>
-			<textarea placeholder="请输入" v-model="formData.comment" maxlength="100" ></textarea>
+		<view v-if="showNextButton">
+			<button type="primary"  class="button-next" @click="nextStep">下一步</button>
 		</view>
-		<template v-if="SHOW">
-			<view class="line"></view>
-			<view class="uni-flex uni-row form-view">
-				<view class="form-left" style="width: 300rpx;">是否发送短信</view>
-				<switch class="form-right" :checked="SMS" @change="changeAutoplay" color="#00CFBD"/>
-			</view>
-		</template>
+		<uni-popup ref="alertDialog" type="dialog">
+			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,是否继续" closeText='取消' confirmText="继续" @confirm="dialogConfirm"></uni-popup-dialog>
+		</uni-popup>
 	</view>
 </template> 
 
@@ -77,33 +59,27 @@
 				personInfo: {},
 				tabBarItem: {},
 				
-				canSub:true,
-				formData: {
-					time:'',//发生日期
-					comment:'',//说明
-				}, //表单内容
+				
+				time:'',//发生日期
 				buildIndex:-1,
 				floorIndex:-1,
 				dormIndex:-1,
-				attendanceIndex:-1,
-				restTimeIndex:-1,
-				
+				qaIndex:-1,
 				build_floor_list: [], //楼房和楼层总数组
 				buildList: [], 
 				floorList: [], 
 				dormList: [], 
-				bedList:[],
-				bedNameList: [],
-				bedIdList: [], 
-				attendanceList: [], 
-				restTimeList: [], 
-				SMS:false,//是否向家长发送短信
-				CONFIG:{},//短信配置 对象
-				WORDS:[],//拒绝关键字 对象
-				SHOW:false,//是否显示发送短信
-				
+				qaArray:[],//午晚休数组
+				stuList:[],//选择的宿舍 床位对应的学生
+				grds:[],//选择的宿舍 床位对应的学生所在的年级数组
+				cls:[],//选择的宿舍 床位对应的学生所在的班级数组
+				attendanceList:[],//考勤项目数组
+				locList:[],//宿舍的定位型设备数组
+				cardIdList:[],//卡ID数组
 				startDate:'2010-01-01',
 				endDate:this.moment().format('YYYY-MM-DD'),
+				showNextButton:false,
+				historyData:false,//是否存在历史考勤数据
 			}
 		},
 		components: {
@@ -113,15 +89,15 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='新建宿舍考勤'
+			itemData.text='宿舍点名登记'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
-			setTimeout(()=>{
-				this.showLoading();
-				this.getSmsConfig();
-				this.getBuildingList();
-				this.getDict();
-			},100)
+			let that =this
+			setTimeout(function() {
+				that.showLoading();
+				that.getBuildingList();
+				that.getDict();
+			}, 100);
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
@@ -132,48 +108,9 @@
 			//#endif
 		},
 		methods: {
-			getSmsConfig(){//获取短信配置
-				let comData={
-					msg_type: this.DORM_MSG_SMS.DORM.MSG_TYPE,
-					sch_code: this.personInfo.unit_code,
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'smsConf/getConf',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					if (response && response.user_types) {
-						let config_types=response.user_types.split(",");
-						let local_types=this.DORM_MSG_SMS.DORM.USER_TYPE.split(",");
-						let send=false;
-						config_types.map(citem=>{
-							local_types.map(litem=>{
-								if(citem==litem){
-									send=true
-								}
-							})
-						})
-						this.SHOW=send
-						this.CONFIG=response
-						this.getSmsWords();
-					} else {
-						this.SHOW=false
-					}
-					this.hideLoading()
-				})
-			},
-			getSmsWords(){//获取拒绝词
-				let comData={
-					page_size: 100000,
-					page_number: 1,
-					status: 1,
-					keyword: '',
-					type: 2,//1敏感词 2拒绝词
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'smsWords/page',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					this.WORDS=response.list
-					this.hideLoading()
-				})
+			dialogConfirm(e){
+				this.$refs.alertDialog.close()
+				this.getCardId()
 			},
 			getBuildingList(){//获取宿舍楼号和楼层数组
 				let comData={
@@ -227,7 +164,7 @@
 					this.dormList=response.list
 				})
 			},
-			getDict(){//获取考勤常量
+			getDict(){//获取考勤项目常量
 				let comData={
 					index_code:this.index_code,
 				}
@@ -235,6 +172,7 @@
 				    console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					this.attendanceList=response.item_array
+					// this.attendanceList=[{text:'晚休缺勤',value:'晚休缺勤'}]
 					let rest_array=response.rest_array
 					let rest=[]
 					rest_array.map(function(item){
@@ -243,86 +181,7 @@
 						 obj.value=item.v
 						 rest.push(obj)
 					})
-					this.restTimeList=rest;
-				})
-			},
-			textClick(){//发送请假信息
-				if(this.buildIndex==-1){
-					this.showToast('请选择楼房')
-				}else if(this.floorIndex==-1){
-					this.showToast('请选择楼层')
-				}else if(this.dormIndex==-1){
-					this.showToast('请选择房间')
-				}else if(this.bedIdList.length==0){
-					this.showToast('请选择床位')
-				}else if(this.attendanceIndex==-1){
-					this.showToast('请选择考勤项目')
-				}else if(this.formData.time==''){
-					this.showToast('请选择日期')
-				}else if(this.restTimeIndex==-1){
-					this.showToast('请选择休息时间')
-				}else{
-					if(this.canSub){
-						this.canSub=false
-						let comm=this.formData.comment
-						let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
-						if(this.SMS){
-							let showToast=false
-							 let words=[]
-							 for (let i = 0; i < this.WORDS.length; i++) {
-							 	let word=this.WORDS[i].word
-							 	if(comment.indexOf(word)!==-1){
-							 		showToast=true
-							 		words.push(word)
-							 	}
-							 }
-							 if(showToast){
-							 	this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
-							 	this.hideLoading()
-								this.canSub=true
-							 	return 0
-							 }
-						}
-						this.submitData();
-					}
-				}
-			},
-			submitData(){
-				this.showLoading()
-				let smsFlag=0;
-				if(this.SMS){
-					smsFlag=1
-				}
-				let comm=this.formData.comment
-				let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
-				let comData={
-					attendance_date:this.formData.time,
-					bed_nums:this.bedIdList.join(","),
-					dorm_name:this.buildList[this.buildIndex].value,
-					floor_num:''+this.floorList[this.floorIndex].value,
-					item_name:this.attendanceList[this.attendanceIndex].value,
-					register_type:'room',
-					remark:comment,
-					rest_code:this.restTimeList[this.restTimeIndex].value, 
-					room_name:this.dormList[this.dormIndex].value,
-					sms_parent_stu_flag:smsFlag,
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_DORM+'dormAttendance/add',comData,(response0,response)=>{
-					console.log("response: " + JSON.stringify(response));
-				     if (response.code == 0) {
-						 this.hideLoading()
-						 this.showToast(response.msg);
-				     	 const eventChannel = this.getOpenerEventChannel()
-				     	 eventChannel.emit('refreshByAdd', {data: 1});
-				     	 uni.navigateBack();
-				     } else {
-				     	this.canSub=true
-				     	this.hideLoading()
-				     	this.showToast(response.msg);
-				     }
-				},()=>{
-						this.canSub=true
+					this.qaArray=rest;
 				})
 			},
 			buildSelect(e){
@@ -332,10 +191,8 @@
 						 this.floorIndex=-1
 						 this.dormIndex=-1
 						 this.dormList=[]
-						 this.bedList=[]
-						 this.bedNameList= [] 
-						 this.bedIdList= [] 
 						this.getFloorList(this.buildList[e.detail.value].value)
+						this.showNext();
 					}
 				}
 			},
@@ -345,10 +202,8 @@
 						 this.floorIndex=e.detail.value
 						 this.dormIndex=-1
 						 this.dormList=[]
-						 this.bedList=[]
-						 this.bedNameList= [] 
-						 this.bedIdList= [] 
 						this.getDormList(this.buildList[this.buildIndex].value,this.floorList[e.detail.value].value)
+						this.showNext();
 					}
 				}
 			},
@@ -356,67 +211,246 @@
 				if(this.dormList.length>0){
 					if(this.dormIndex!==e.detail.value){
 						 this.dormIndex=e.detail.value
-						 this.bedList=[]
-						 this.bedNameList= [] 
-						 this.bedIdList= [] 
-						 this.bedList=this.dormList[e.detail.value].bed_array
+						 this.showNext();
 					}
 				}
 			},
-			selectBed(e){
-				console.log("this.bedList: " + JSON.stringify(this.bedList));
-				if(this.bedList.length==0){
-					this.showToast('当前房间暂无床位')
-				}else{
-					this.bedList.map(item=>{
-						item.checked=false
-						this.bedIdList.map(items=>{
-							if(items==item.value){
-								item.checked=true
-							}
-						})
-					})
-					let that =this 
-					util.openwithData('/pages/stu_dorm/bedSelect',{bedList:this.bedList},{
-						refreshSetPeople(data){//子页面调用父页面需要的方法
-						console.log("data: " + JSON.stringify(data));
-							 let bedNameList= []
-							 let bedIdList= []
-							 data.data.map(item=>{
-								 if(item.checked){
-									 bedNameList.push(item.text)
-									 bedIdList.push(item.value)
-								 }
-							 })
-							 that.bedNameList=bedNameList
-							 that.bedIdList=bedIdList
-						}
-					})
-				}
-			},
-			attendanceSelect(e){
-				if(this.attendanceList.length>0){
-					if(this.attendanceIndex!==e.detail.value){
-						this.attendanceIndex=e.detail.value
+			qaSelect(e){
+				if(this.qaArray.length>0){
+					if(this.qaIndex!==e.detail.value){
+						this.qaIndex=e.detail.value
+						this.showNext();
 					}
 				}
-			},
-			restTimeSelect(e){
-				if(this.restTimeList.length>0){
-					if(this.restTimeIndex!==e.detail.value){
-						this.restTimeIndex=e.detail.value
-					}
-				}
-			},
-			changeAutoplay(){
-				this.SMS = !this.SMS
 			},
 			timePicker(){
 				this.$refs.timePicker.show()
 			},
 			timeSelect(e){
-				this.formData.time=e
+				this.time=e
+				this.showNext();
 			},
+			showNext(){
+				let show =true
+				if(this.buildIndex==-1){
+					show=false
+				}
+				if(this.floorIndex==-1){
+					show=false
+				}
+				if(this.dormIndex==-1){
+					show=false
+				}
+				if(this.qaIndex==-1){
+					show=false
+				}
+				this.showNextButton=show
+			},
+			/**
+			    如果日期不是当前日期：查询是否存在考勤记录
+			  									—→获取床位对应的学生
+												—→获取学生对应的卡ID
+			  									—→获取选择日期对应的学生请假数据
+			  									—→跳过第二步，直接跳转第三步填写考勤信息
+				如果日期是当前日期：  查询是否存在考勤记录
+												—→获取床位对应的学生
+												—→获取学生对应的卡ID
+												—→获取选择日期对应的学生请假数据
+												—→获取定位型设备列表
+												—→跳转到第二步，获取定位型设备的识别数据
+												—→跳转到第三步，填写考勤信息
+			 */
+			nextStep(){
+				this.showLoading('正在加载数据...')
+				this.getStuList()
+			},
+			//获取床位对应的学生
+			getStuList(){
+				const params = {
+					page_number: 1, //当前页数
+					page_size: 9999, //每页记录数
+					dorm_name:this.buildList[this.buildIndex].value,
+					floor_num:this.floorList[this.floorIndex].value,
+					room_name:this.dormList[this.dormIndex].value,
+					index_code: this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_DORM+'stuDorm/pageRoomDetail',params,response2=>{
+					console.log("response2: " + JSON.stringify(response2));
+					this.hideLoading()
+					if (response2.list.length == 0) {
+						this.showToast('宿舍暂无学生！');
+					}else{
+						this.stuList=response2.list
+						let grdCodes=new Map(),clsCodes=new Map(),grds=[],cls=[]
+						response2.list.forEach(item=>{
+							grdCodes.set(item['grd_code'],'')
+							clsCodes.set(item['cls_code'],'')
+						})
+						grdCodes.forEach((value,key)=>{grds.push(key)})
+						clsCodes.forEach((value,key)=>{cls.push(key)})
+						this.getCardId()
+						this.grds=grds
+						this.cls=cls
+						this.getStudentAttendance();
+					}
+				})
+			},
+			//获取这几个学生是否有对应的宿舍考勤记录 72
+			getStudentAttendance(){
+				let comData={
+					begintime:this.time,
+					endtime:this.time,
+					stu_code:'-1',
+					cls_code:'-1',
+					grd_code:'-1',
+					page_number: 1, //当前页数
+					page_size: 9999999, //每页记录数
+					dorm_name:this.buildList[this.buildIndex].value,
+					floor_num:this.floorList[this.floorIndex].value,
+					room_name:this.dormList[this.dormIndex].value,
+					index_code: this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_DORM.substring(0,this.globaData.INTERFACE_DORM.length-4)+'dormAttendance/page',comData,response=>{
+				    console.log("dormAttendance/page: " + JSON.stringify(response));
+					if(response.list.length===0){
+						this.getCardId()
+					}else{
+						this.historyData=true
+						this.$refs.alertDialog.open()
+					}
+				})
+			},
+			//获取学生对应的卡ID
+			getCardId(grds,cls){
+				let comData={
+					grd_codes:this.grds.join(','),
+					cls_codes:this.cls.join(','),
+					mtp:8,
+					page_size:1,
+					page_number:-1,
+					index_code:this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_HR_SUB+'stu',comData,response=>{
+					console.log("responseaaa: " + JSON.stringify(response));
+					let stu = response.list;
+					let stuList=this.stuList
+					let cardIdList=[]
+					stu.map(stuItem=>{
+						stuList.map(item=>{
+							if(stuItem.grd_code==item.grd_code  && stuItem.cls_code==item.cls_code && stuItem.stu_code==item.stu_code){
+								item.card_id=stuItem.card_no?stuItem.card_no:''
+								if(stuItem.card_no){
+									cardIdList.push(stuItem.card_no)
+								}
+							}
+						})
+					})
+					this.cardIdList=cardIdList
+					this.getLeaveRecordList()
+				})
+			},
+			//获取选择日期对应的学生请假数据50
+			getLeaveRecordList(){
+					let comData={
+						grd_code: -1,
+						cls_code: -1,
+						query_time:this.time,
+						item_code:"",
+						page_number: 1, //当前页数
+						page_size:9999999, //每页记录数
+						index_code: this.index_code,
+					} 
+					this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/list',comData,response=>{
+						console.log("获取选择日期对应的学生请假数据: " + JSON.stringify(response));
+						let stuList=this.stuList
+						stuList.map(item=>{
+							response.list.map(litem=>{
+								if(litem.grd_code==item.grd_code  && litem.cls_code==item.cls_code && litem.stu_code==item.stu_code){
+									item.equType='请假记录数据'
+									item.item_txt=litem.item_txt
+									item.item_code=litem.item_code
+								}
+							})
+						})
+						this.getLeaveLocList()
+					})
+			},
+			//获取定位型设备列表108
+			getLeaveLocList(){
+				let comData={
+					mach_type:8,
+					index_code: this.index_code,
+				} 
+				this.post(this.globaData.INTERFACE_WORK+'LocationAttendance/list',comData,response=>{
+					console.log("获取定位型设备列表: " + JSON.stringify(response));
+					let locList=[]
+					response.list.map(item=>{
+						if(item.location_type==2){
+							locList.push(item)
+						}
+					})
+					this.locList = locList
+					this.toPage();
+				})
+			},
+			//跳转页面
+			toPage(){
+				let today=false
+				if(this.time == this.moment().format('YYYY-MM-DD')){
+					today=true
+				}
+				let cardIdList=this.cardIdList
+				let locList=this.locList
+				this.hideLoading()
+				if(this.attendanceList.length===0){
+					this.showToast('获取考勤常量为空，不能继续添加考勤！')
+					return 0
+				}
+				if(today && cardIdList.length>0 && locList.length>0){//跳转到定位型设备选择列表
+					this.toTwoStep()
+				}else{
+					if(!today){
+						this.showToast('日期非当日，跳过第二步')
+					}else if(locList.length==0){
+						this.showToast('暂无定位型设备，跳过第二步')
+					}else if(cardIdList.length==0){
+						this.showToast('暂无学生卡数据，跳过第二步')
+					}
+					this.toThreeStep()
+				}
+			},
+			toTwoStep(){
+				util.openwithData('/pages/stu_dorm/attendance_dorm_add_locequ',{
+					build:this.buildList[this.buildIndex],
+					floor:this.floorList[this.floorIndex],
+					dorm:this.dormList[this.dormIndex],
+					qa:this.qaArray[this.qaIndex],
+					time:this.time,
+					stuList:this.stuList,
+					locList:this.locList,
+					attendanceList:this.attendanceList,
+					historyData:this.historyData,
+					index_code:this.index_code,
+				})
+			},
+			toThreeStep(){
+				let endTime=new this.moment().format('HH:mm:ss')
+				let beginTime=new this.moment(this.tabBarItem.time+' '+endTime).subtract(this.globaData.INTERFACE_DORM_ATTENDANCE_ADVANCETIME,'minutes').format('HH:mm:ss');
+				util.openwithData('/pages/stu_dorm/attendance_dorm_add_stu',{//跳转到考勤表单填写页面
+					build:this.buildList[this.buildIndex],
+					floor:this.floorList[this.floorIndex],
+					dorm:this.dormList[this.dormIndex],
+					qa:this.qaArray[this.qaIndex],
+					time:this.time,
+					stuList:this.stuList,
+					locList:this.locList,
+					historyData:this.historyData,
+					attendanceList:this.attendanceList,
+					beginTime:beginTime,
+					endTime:endTime,
+					index_code:this.index_code,
+				})
+			}
 		},
 	}
 </script>
@@ -466,18 +500,29 @@
 		align-items: center;
 	}
 	
-	textarea{
-		font-size: 13px;
-		height: 80px;
-		padding: 5px;
+	.button-next{
+		background-color: #00CFBD !important;
+		width: 35%;
+		font-size: 14px;
+		margin-top: 40px;
+		animation: 1s opacity2 0s;
+		-webkit-animation: 1s opacity2 0s;
+		-moz-animation: 1s opacity2 0s;
 	}
 	
-	.form-left-approve{
-		margin: 5px 0;
-		font-size: 13px;
-		-webkit-flex: 1;
-		flex: 1;
-		word-break: break-all;
-		color: #787878;
+	@keyframes opacity2{
+		0%{opacity:0}
+		50%{opacity:.8;}
+		100%{opacity:1;}
+	}
+	@-webkit-keyframes opacity2{
+		0%{opacity:0}
+		50%{opacity:.8;}
+		100%{opacity:1;}
+	}
+	@-moz-keyframes opacity2{
+		0%{opacity:0}
+		50%{opacity:.8;}
+		100%{opacity:1;}
 	}
 </style>

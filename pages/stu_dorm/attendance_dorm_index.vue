@@ -26,8 +26,8 @@
 				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
 					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text" style="width: 82vw;">{{item.grd_name}} {{item.cls_name}}  {{item.stu_name}}</view></uni-col>
-							<uni-col :span="24"><view class="detail-text">{{item.dorm_name}}{{item.floor_num}}层{{item.room_name}}{{item.bed_num}}</view></uni-col>
+							<uni-col :span="24"><view class="title-text" style="width: 82vw;">{{item.grd_name}}&ensp;{{item.cls_name}}&ensp;{{item.stu_name}}</view></uni-col>
+							<uni-col :span="24"><view class="detail-text">楼房:{{item.dorm_name}}&ensp;楼层:{{item.floor_num}}层&ensp;房间:{{item.room_name}}&ensp;床位:{{item.bed_num}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text">考勤:{{item.item_name}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text" style="text-align: right;">{{item.attendance_date}}</view></uni-col>
 						</uni-row>
@@ -115,15 +115,14 @@
 			},
 			addClick(){
 				let that=this
-				util.openwithData('/pages/stu_dorm/attendance_dorm_add',{index_code:this.index_code},{
-						refreshByAdd(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj0.loadFlag=0
-							that.pageobj0.canload=true
-							that.pageobj0.page_number=1
-							that.getList0()
-						}
-					})
+				util.openwithData('/pages/stu_dorm/attendance_dorm_add',{index_code:this.index_code})
+				uni.$on('refreshDromList',()=>{
+					that.showLoading()
+					that.pageobj0.loadFlag=0
+					that.pageobj0.canload=true
+					that.pageobj0.page_number=1
+					that.getList0()
+				});
 			},
 			getGrd(){//获取年级
 				let comData={

@@ -3,27 +3,9 @@
 		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
 		<uni-notice-bar :single="true" text="第二步:请选择考勤设备!" />
 		<view>
-			<uni-section v-if="location_type_1.length>0" title="教室" type="line"></uni-section>
-			<view style="display: flex;flex-direction: row;flex-wrap: wrap;padding:0 15px;justify-content: space-between;">
-				<view @click="setChecked(item,1)" :key="item.id" v-for="item in location_type_1" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}</view>
-			</view>
-		</view>
-		<view>
 			<uni-section v-if="location_type_2.length>0" title="宿舍" type="line"></uni-section>
 			<view style="display: flex;flex-direction: row;flex-wrap: wrap;padding:0 15px;justify-content: space-between;">
-				<view @click="setChecked(item,2)" :key="item.id" v-for="item in location_type_2" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}</view>
-			</view>
-		</view>
-		<view>
-			<uni-section v-if="location_type_3.length>0" title="室外" type="line"></uni-section>
-			<view style="display: flex;flex-direction: row;flex-wrap: wrap;padding:0 15px;justify-content: space-between;">
-				<view @click="setChecked(item,3)" :key="item.id" v-for="item in location_type_3" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}</view>
-			</view>
-		</view>
-		<view>
-			<uni-section v-if="location_type_4.length>0" title="其他" type="line"></uni-section>
-			<view style="display: flex;flex-direction: row;flex-wrap: wrap;padding:0 15px;justify-content: space-between;">
-				<view @click="setChecked(item,4)" :key="item.id" v-for="item in location_type_4" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}</view>
+				<view @click="setChecked(item)" :key="item.id" v-for="item in location_type_2" class="detail-text" :class="{'checked':item.checked}">{{item.attendance_location}}</view>
 			</view>
 		</view>
 		<!-- <view class="line"></view> -->
@@ -45,12 +27,11 @@
 				personInfo: {},
 				tabBarItem: {},
 				
-				location_type_1:[],
 				location_type_2:[],
-				location_type_3:[],
-				location_type_4:[],
 				checked_equ:new Map(),//选中的定位型设备
 				showNextButton:false,
+				beginTime:'',//考勤开始时间
+				endTime:'',//考勤结束时间
 			}
 		},
 		components: {
@@ -60,24 +41,15 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='课堂点名登记'
+			itemData.text='宿舍点名登记'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			console.log("this.tabBarItem: " + JSON.stringify(this.tabBarItem));
 			let that =this
 			 itemData.locList.map(item=>{
 				 item.checked=false
-				 if(item.location_type==1){
-					that.location_type_1.push(item)
-				 }
 				 if(item.location_type==2){
 				 	that.location_type_2.push(item)
-				 }
-				 if(item.location_type==3){
-				 	that.location_type_3.push(item)
-				 }
-				 if(item.location_type==4){
-				 	that.location_type_4.push(item)
 				 }
 			 })
 			//#ifndef APP-PLUS
@@ -90,16 +62,7 @@
 			//#endif
 		},
 		methods: {
-			setChecked(item,type){
-				// if(type==1){
-				// 	this.setAllChecked(this.location_type_1,item)
-				// }else if(type==2){
-				// 	this.setAllChecked(this.location_type_2,item)
-				// }else if(type==3){
-				// 	this.setAllChecked(this.location_type_3,item)
-				// }else if(type==4){
-				// 	this.setAllChecked(this.location_type_4,item)
-				// }
+			setChecked(item){
 				this.setAllChecked(this.tabBarItem.locList,item)
 				if(item.checked){
 					this.checked_equ.set(item.mach_id,item)
@@ -136,14 +99,16 @@
 						 }
 					 })
 				 })
-				 util.openwithData('/pages/schapp_work/ketangAddStu',{
-				 	grd:this.tabBarItem.grd,
-				 	cls:this.tabBarItem.cls,
-				 	jc:this.tabBarItem.jc,
-				 	km:this.tabBarItem.km,
+				 util.openwithData('/pages/stu_dorm/attendance_dorm_add_stu',{
+					build:this.tabBarItem.build,
+					floor:this.tabBarItem.floor,
+					dorm:this.tabBarItem.dorm,
+					qa:this.tabBarItem.qa,
 				 	time:this.tabBarItem.time,
-					attendanceDict:this.tabBarItem.attendanceDict,
+					beginTime:this.beginTime,
+					endTime:this.endTime,
 				 	stuList:stuList,
+					attendanceList:this.tabBarItem.attendanceList,
 					historyData:this.tabBarItem.historyData,
 				 	index_code:this.index_code,
 				 })
@@ -154,15 +119,18 @@
 				for (let obj of this.checked_equ) {
 					 mach_ids.push(obj[1].mach_id)
 				}
-				let jc=this.tabBarItem.jc
 				return new Promise((res,rej)=>{
+					let endTime=new this.moment().format('HH:mm:ss')
+					let beginTime=new this.moment(this.tabBarItem.time+' '+endTime).subtract(this.globaData.INTERFACE_DORM_ATTENDANCE_ADVANCETIME,'minutes').format('HH:mm:ss');
+					this.beginTime=beginTime
+					this.endTime=endTime
 					let comData={
 						mids:mach_ids.join(','),
 						mtp:8,
 						page_size:9999999,
 						page_number:1,
-						btime:this.tabBarItem.time+' '+jc.begintime,
-						etime:this.tabBarItem.time+' '+jc.endtime,
+						btime:this.tabBarItem.time+' '+beginTime,
+						etime:this.tabBarItem.time+' '+endTime,
 						index_code: this.index_code,
 					} 
 					this.post(this.globaData.INTERFACE_UCARD+'blemachtimecardp',comData,response=>{

@@ -46,7 +46,7 @@
 			<button type="primary"  class="button-next" @click="nextStep">下一步</button>
 		</view>
 		<uni-popup ref="alertDialog" type="dialog">
-			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,是否继续" closeText='继续' confirmText="取消" @confirm="dialogConfirm"></uni-popup-dialog>
+			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,是否继续" closeText='取消' confirmText="继续" @confirm="dialogConfirm"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template> 
@@ -76,9 +76,7 @@
 				startDate:'2010-01-01',
 				endDate:this.moment().format('YYYY-MM-DD'),
 				showNextButton:false,
-				// leaveDict:[], 
 				attendanceDict:[], 
-				classDict:[],
 				historyData:false,//是否存在历史考勤数据
 			}
 		},
@@ -89,14 +87,13 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='点名添加'
+			itemData.text='课堂点名登记'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading();
 				this.getGrd();
 				this.getClassAttendanceDict();
-				this.getClassDict();
 			},100)
 			//#ifndef APP-PLUS
 				document.title=""
@@ -256,13 +253,14 @@
 			  									—→获取班级学生
 			  									—→获取选择日期对应的学生请假数据
 												—→获取出入型设备的识别数据
-			  									—→跳转到第三步，直接填写考勤信息
+												—→跳过第二步，直接跳转第三步填写考勤信息
 				如果日期是当前日期：  查询是否存在考勤记录
 												—→获取班级学生
 												—→获取选择日期对应的学生请假数据
 												—→获取出入型设备的识别数据
 												—→获取定位型设备列表
 												—→获取定位型设备的识别数据
+												—→跳转到第二步，获取定位型设备的识别数据
 												—→跳转到第三步，填写考勤信息
 			 */
 			nextStep(){
@@ -275,9 +273,10 @@
 				let leaveRecordList=[],equRecordList=[],locList=[],cardIdList=[];
 				leaveRecordList=await this.getLeaveRecordList();//获取选择日期对应的学生请假数据
 				equRecordList=await this.getLeaveEquRecordList();//获取出入型设备的识别数据 
+				let today=false
 				if(this.time == this.moment().format('YYYY-MM-DD')){
 					locList=await this.getLeaveLocList();//获取定位型设备列表
-					// cardIdList=await this.getCardIdList();//获取卡ID 与班级学生绑定
+					today=true
 				}
 				let stuList =this.stuList
 				stuList.map(stuItem=>{
@@ -293,6 +292,7 @@
 					//合并请假数据
 					leaveRecordList.map(leaveRecItem=>{
 						if(stuItem.value==leaveRecItem.stu_code){
+							stuItem.equType='请假记录数据'
 							stuItem.item_txt=leaveRecItem.item_txt
 							stuItem.item_code=leaveRecItem.item_code
 						}
@@ -309,23 +309,27 @@
 					})
 				})
 				console.log("stuList: " + JSON.stringify(stuList));
-				if(locList.length>0 && cardIdList.length>0){//跳转到定位型设备选择列表
+				if(this.attendanceDict.length===0){
+					this.showToast('获取考勤常量为空，不能继续添加考勤！')
+					return 0
+				}
+				if(today && locList.length>0 && cardIdList.length>0){//跳转到定位型设备选择列表
 					util.openwithData('/pages/schapp_work/ketangAddLocEqu',{
 						grd:this.grdList[this.grdIndex],
 						cls:this.clsList[this.clsIndex],
 						jc:this.jcList[this.jcIndex],
 						km:this.kmList[this.kmIndex],
 						time:this.time,
-						// leaveDict:this.leaveDict,
 						attendanceDict:this.attendanceDict,
-						classDict:this.classDict,
 						locList:locList,
 						stuList:stuList,
 						historyData:this.historyData,
 						index_code:this.index_code,
 					})
 				}else{//跳转到考勤表单填写页面
-					if(locList.length==0){
+					if(!today){
+						this.showToast('日期非当日，跳过第二步')
+					}else if(locList.length==0){
 						this.showToast('暂无定位型设备，跳过第二步')
 					}else if(cardIdList.length==0){
 						this.showToast('暂无学生卡数据，跳过第二步')
@@ -336,9 +340,7 @@
 						jc:this.jcList[this.jcIndex],
 						km:this.kmList[this.kmIndex],
 						time:this.time,
-						// leaveDict:this.leaveDict,
 						attendanceDict:this.attendanceDict,
-						classDict:this.classDict,
 						stuList:stuList,
 						historyData:this.historyData,
 						index_code:this.index_code,
@@ -380,7 +382,7 @@
 				let comData={
 					grd_code: this.grdList[this.grdIndex].value,
 					cls_code: this.clsList[this.clsIndex].value,
-					sub_code: this.kmList[this.kmIndex].value,
+					sub_code: '-1',
 					class_node:this.jcList[this.jcIndex].value,
 					query_time: this.time,
 					page_number: 1, //当前页数
@@ -395,7 +397,6 @@
 						this.historyData=true
 						this.$refs.alertDialog.open()
 					}
-					
 				})
 			},
 			//获取选择日期对应的学生请假数据50
@@ -451,31 +452,6 @@
 					})
 				})
 			},
-			//获取学生卡ID 2.1
-			// getCardIdList(){
-			// 	return new Promise((res,rej)=>{
-			// 		let comData={
-			// 			page_size:999999,
-			// 			page_number:1,
-			// 			card_id:'',
-			// 			uname:'',
-			// 			card_tp:8,
-			// 			unit_code:this.personInfo.unit_code,
-			// 			grd_code:this.grdList[this.grdIndex].value,
-			// 			cls_code:this.clsList[this.clsIndex].value,
-			// 			is_card:1,
-			// 			index_code: this.index_code,
-			// 		}
-			// 		this.post(this.globaData.INTERFACE_UCARD+'HrStuCardP',comData,response=>{
-						
-			// 			if(response!==null){
-			// 				res(response.list)
-			// 			}else{
-			// 				res([])
-			// 			}
-			// 		})
-			// 	})
-			// },
 			//获取考勤 节次 常量 54
 			getClassAttendanceDict(){
 				return new Promise((res,rej)=>{
@@ -485,6 +461,7 @@
 					this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
 						this.attendanceDict=response.qaArray
 						this.jcList=response.timeArray
+						this.getClassDict();
 					})
 				})
 			},
@@ -496,7 +473,34 @@
 					this.post(this.globaData.INTERFACE_WORK+'ClasstimeSchedule/list',comData,response=>{
 					    console.log("responsesabaa: " + JSON.stringify(response));
 						
-						this.classDict=response.timeArray
+						let classDict=response.timeArray
+						let jcList=[]
+						classDict.map(item=>{
+							if(item.attendance_type=='inClassAttendance'){
+								let beginTime='',endTime='';
+								if(item.attendance_begintime){
+									beginTime=item.attendance_begintime.split(":")[0]+':'+item.attendance_begintime.split(":")[1]
+								}
+								if(item.attendance_endtime){
+									endTime=item.attendance_endtime.split(":")[0]+':'+item.attendance_endtime.split(":")[1]
+								}
+								this.jcList.map(jcItem=>{
+									if(jcItem.value==item.class_node){
+										jcItem.text=item.class_node+'（'+beginTime+'-'+endTime+'）'
+										jcItem.value=item.class_node
+										jcItem.begintime=item.attendance_begintime
+										jcItem.endtime=item.attendance_endtime
+									}
+								})
+								// jcList.push({
+								// 	text:item.class_node+'（'+beginTime+'-'+endTime+'）',
+								// 	value:item.class_node,
+								// 	begintime:item.attendance_begintime,
+								// 	endtime:item.attendance_endtime
+								// })
+							}
+						})
+						// this.jcList=jcList
 					})
 			}
 		},
@@ -546,21 +550,6 @@
 	}
 	.uni-flex{
 		align-items: center;
-	}
-	
-	textarea{
-		font-size: 13px;
-		height: 80px;
-		padding: 5px;
-	}
-	
-	.form-left-approve{
-		margin: 5px 0;
-		font-size: 13px;
-		-webkit-flex: 1;
-		flex: 1;
-		word-break: break-all;
-		color: #787878;
 	}
 	
 	.button-next{

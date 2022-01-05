@@ -18,7 +18,7 @@
 							fontSize: title.length>7?'14px':titleSize + 'rpx',
 							fontWeight: titleBold ? 'bold' : 'normal'
 						}" style="display: flex;justify-content: center;">
-						<text style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 120px;">{{ title }}</text>
+						<text style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" :style="[titleStyleWidth]">{{ title }}</text>
 						<uni-icons style="margin-left: 3px;" :type="titleIcon.value?titleIcon.value:titleIcon" :size="titleIcon.style?titleIcon.style.fontSize:18" :color="titleIcon.style?titleIcon.style.color:'#FFFFFF'"></uni-icons>
 					</view>
 				</view>
@@ -229,6 +229,9 @@
 				// #endif
 				style.width = uni.upx2px(this.titleWidth) + 'px';
 				return style;
+			},
+			titleStyleWidth() {
+				return {maxWidth:systemInfo.windowWidth / 2 - 15 + 'px'};
 			},
 			// 转换字符数值为真正的数值
 			navbarHeight() {
