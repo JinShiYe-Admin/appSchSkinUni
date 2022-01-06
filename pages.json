@@ -2488,6 +2488,75 @@
             }
             
         }
+        ,{
+            "path" : "pages/stuLocationPath/stuPath",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/homeworkAndWeektest/index",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/homeworkAndWeektest/correct_index",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/homeworkAndWeektest/hwWtAnalyse_index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/homeworkAndWeektest/clsStatistics_index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/homeworkAndWeektest/stuStatistics_index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {
@@ -2578,6 +2647,9 @@
 			},
 			{
 				"pagePath": "pages/stuLocationPath/index"
+			},
+			{
+				"pagePath": "pages/homeworkAndWeektest/index"
 			}
 		]
 	}
