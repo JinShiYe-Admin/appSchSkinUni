@@ -109,6 +109,7 @@
 		},
 		methods: {
 			dialogConfirm(e){
+				console.log('66666666666666666666666666');
 				this.$refs.alertDialog.close()
 				this.getCardId()
 			},
@@ -288,7 +289,6 @@
 						})
 						grdCodes.forEach((value,key)=>{grds.push(key)})
 						clsCodes.forEach((value,key)=>{cls.push(key)})
-						this.getCardId()
 						this.grds=grds
 						this.cls=cls
 						this.getStudentAttendance();
@@ -312,7 +312,7 @@
 				}
 				this.post(this.globaData.INTERFACE_DORM.substring(0,this.globaData.INTERFACE_DORM.length-4)+'dormAttendance/page',comData,response=>{
 				    console.log("dormAttendance/page: " + JSON.stringify(response));
-					if(response.list.length===0){
+					if(response.list.length==0){
 						this.getCardId()
 					}else{
 						this.historyData=true

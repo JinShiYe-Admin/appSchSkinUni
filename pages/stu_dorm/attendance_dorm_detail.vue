@@ -271,35 +271,103 @@
 			//#endif
 		},
 		methods: {
-			onClickItem(e) {
+			async onClickItem(e) {
 				if (this.current !== e.currentIndex) {
 					this.current = e.currentIndex
 				}
-				// if(this.current===0){
-				// 	 console.log('666 小伙子');
-				// }else 
 				if(this.current===1){
 					  if(this.formByClass.grdList.length===0){
-					  	this.getGrd();
-						this.setDefaultData()
+					  	await this.getGrd();
+						await this.setDefaultData()
 					  }
 				}
 			},
-			textClickEvent(){
+			async textClickEvent(){
 				this.editStatus=1
 				this.icon=''
 				this.text=['取消','保存'],
 				this.textClick=[this.cancel,this.save]
 				if(this.formByDorm.build_floor_list.length===0){
-					this.getBuildingList();
+					await this.getBuildingList();
 				}
 				if(this.qaList.length===0 || this.attendanceList.length===0){
-					this.getDict();
+					await this.getDict();
 				}
-				this.setDefaultData()
+				await this.setDefaultData()
 			},
 			setDefaultData(){
-				console.log("this.current: " + JSON.stringify(this.current));
+				return new Promise(async (resolve,reject)=>{
+					if(this.current===0){
+						await this.getFloorList(this.tabBarItem.dorm_name);
+						await this.getDormList(this.tabBarItem.dorm_name,this.tabBarItem.floor_num);
+						this.formByDorm.buildList.map((bItem,index)=>{
+							if(this.tabBarItem.dorm_name==bItem.value){
+								this.formByDorm.buildIndex=index
+							}
+						})
+						this.formByDorm.floorList.map((fItem,index)=>{
+							if(this.tabBarItem.floor_num==fItem.value){
+								this.formByDorm.floorIndex=index
+							}
+						})
+						this.formByDorm.dormList.map((dItem,index)=>{
+							if(this.tabBarItem.room_name==dItem.value){
+								this.formByDorm.dormIndex=index
+							}
+						})
+						if(this.formByDorm.dormList.length>0){
+							await this.getBedList();
+						}
+						this.formByDorm.bedList.map((bItem,index)=>{
+							if(this.tabBarItem.bed_num==bItem.value){
+								this.formByDorm.bedIndex=index
+							}
+						})
+						this.attendanceList.map((aItem,index)=>{
+							if(this.tabBarItem.item_name==aItem.value){
+								this.formByDorm.attendanceIndex=index
+							}
+						}) 
+						this.qaList.map((qItem,index)=>{
+							if(this.tabBarItem.rest_code==qItem.value){
+								this.formByDorm.qaIndex=index
+							}
+						}) 
+						this.formByDorm.time=this.tabBarItem.attendance_date
+						resolve()
+					}else if(this.current===1){
+						await this.getCls(this.tabBarItem.grd_code);
+						await this.getStu(this.tabBarItem.grd_code,this.tabBarItem.cls_code);
+						this.formByClass.grdList.map((item,index)=>{
+							if(this.tabBarItem.grd_code==item.value){
+								this.formByClass.grdIndex=index
+							}
+						})
+						this.formByClass.clsList.map((item,index)=>{
+							if(this.tabBarItem.cls_code==item.value){
+								this.formByClass.clsIndex=index
+							}
+						})
+						this.formByClass.stuList.map((item,index)=>{
+							if(this.tabBarItem.stu_code==item.value){
+								this.formByClass.stuIndex=index
+							}
+						})
+						this.attendanceList.map((aItem,index)=>{
+							if(this.tabBarItem.item_name==aItem.value){
+								this.formByClass.attendanceIndex=index
+							}
+						}) 
+						this.qaList.map((qItem,index)=>{
+							if(this.tabBarItem.rest_code==qItem.value){
+								this.formByClass.qaIndex=index
+							}
+						}) 
+						this.formByClass.time=this.tabBarItem.attendance_date
+						resolve()
+					}
+					
+				})
 			},
 			save(){
 				if(this.canSub){
@@ -371,7 +439,6 @@
 							}
 						}
 					}
-					console.log("comData: " + JSON.stringify(comData));
 					this.post(this.globaData.INTERFACE_DORM.substring(0,this.globaData.INTERFACE_DORM.length-4)+'dormAttendance/edit',comData,(response0,response)=>{
 						if (response.code == 0) {
 							 this.showToast(response.msg);
@@ -444,144 +511,172 @@
 				})
 			},
 			getGrd(){
-				let comData={
-					op_code:'add',
-					get_grd:true,
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					let grds = response.grd_list;
-					let grdList=[];
-					grds.map(function(currentValue) {
-						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = currentValue.name;
-						grdList.push(obj)
-					})
-					if(grdList.length>0 ){
-						this.formByClass.grdList=grdList;
-					}else{
-						this.showToast('获取年级为空');
+				return new Promise((resolve, reject)=>{
+					let comData={
+						op_code:'add',
+						get_grd:true,
+						index_code:this.index_code,
 					}
+					this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+					    console.log("responseaaa: " + JSON.stringify(response));
+						let grds = response.grd_list;
+						let grdList=[];
+						grds.map(function(currentValue) {
+							let obj = {};
+							obj.value = currentValue.value;
+							obj.text = currentValue.name;
+							grdList.push(obj)
+						})
+						if(grdList.length>0 ){
+							this.formByClass.grdList=grdList;
+							resolve()
+						}else{
+							this.showToast('获取年级为空');
+						}
+					})
 				})
 			},
 			getCls(grd_id){
-				let comData={
-					op_code:'add',
-					grd_code:grd_id,
-					get_cls:true,
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					let clss = response.cls_list;
-					let clssList=[];
-					clss.map(function(currentValue) {
-						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = currentValue.name;
-						clssList.push(obj)
-					})
-					if(clssList.length>0 ){
-						this.formByClass.clsList=clssList;
-					}else{
-						this.showToast('获取班级为空');
+				return new Promise((resolve, reject)=>{
+					let comData={
+						op_code:'add',
+						grd_code:grd_id,
+						get_cls:true,
+						index_code:this.index_code,
 					}
-				})
+					console.log("comDataaaaaaaaaaa: " + JSON.stringify(comData));
+					this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+						console.log("responseaaa: " + JSON.stringify(response));
+						let clss = response.cls_list;
+						let clssList=[];
+						clss.map(function(currentValue) {
+							let obj = {};
+							obj.value = currentValue.value;
+							obj.text = currentValue.name;
+							clssList.push(obj)
+						})
+						if(clssList.length>0 ){
+							this.formByClass.clsList=clssList;
+							resolve()
+						}else{
+							this.showToast('获取班级为空');
+						}
+					})
+				});
 			},
 			getStu(grd_id,cls_id){
-				let comData={
-					op_code:'add',
-					grd_code: grd_id,
-					cls_code: cls_id,
-					get_stu:true,
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					let stu = response.stu_list;
-					let stuList=[];
-					stu.map(function(currentValue) {
-						let obj = {};
-						obj.value = currentValue.value;
-						obj.text = currentValue.name;
-						stuList.push(obj)
-					})
-					if(stuList.length>0 ){
-						this.formByClass.stuList=stuList;
-					}else{
-						this.showToast('获取学生为空');
+				return new Promise((resolve, reject)=>{
+					let comData={
+						op_code:'add',
+						grd_code: grd_id,
+						cls_code: cls_id,
+						get_stu:true,
+						index_code:this.index_code,
 					}
+					this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+						console.log("responseaaa: " + JSON.stringify(response));
+						let stu = response.stu_list;
+						let stuList=[];
+						stu.map(function(currentValue) {
+							let obj = {};
+							obj.value = currentValue.value;
+							obj.text = currentValue.name;
+							stuList.push(obj)
+						})
+						if(stuList.length>0 ){
+							this.formByClass.stuList=stuList;
+							resolve()
+						}else{
+							this.showToast('获取学生为空');
+						}
+					})
 				})
 			},
 			getBuildingList(){//获取宿舍楼号和楼层数组
-				let comData={
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_DORM+'dorm/queryDorm',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					let list =response.list
-					if(list.length>0){
-						 this.build_floor_list=list
-						 let buildingList=[]
-						 list.map(function(item){
-							 let obj={}
-							 obj.text=item.text,
-							 obj.value=item.value,
-							 buildingList.push(obj)
-						 })
-						 this.formByDorm.buildList=buildingList;
-					}else{
-						 this.showToast('无法获取楼号数据');
+				return new Promise((resolve, reject)=>{
+					let comData={
+						index_code:this.index_code,
 					}
+					this.post(this.globaData.INTERFACE_DORM+'dorm/queryDorm',comData,response=>{
+						console.log("responseaaa: " + JSON.stringify(response));
+						let list =response.list
+						if(list.length>0){
+							 this.build_floor_list=list
+							 let buildingList=[]
+							 list.map(function(item){
+								 let obj={}
+								 obj.text=item.text,
+								 obj.value=item.value,
+								 buildingList.push(obj)
+							 })
+							 this.formByDorm.buildList=buildingList;
+							 resolve()
+						}else{
+							 this.showToast('无法获取楼号数据');
+						}
+					})
 				})
 			},
 			getFloorList(building){//根据宿舍楼号获取楼层
-				let list=this.build_floor_list
-				let floorList=[]
-				list.map(function(item){
-				  if(building==item.value){
-					  let array=item.floor_array
-					  array.map(function(item){
-						  if((item.text+'').indexOf('层')==-1){
-							  item.text=item.text+'层'
-						  }
-					  })
-					  floorList=array
-				  }
+				return new Promise((resolve, reject)=>{
+					let list=this.build_floor_list
+					let floorList=[]
+					list.map(function(item){
+					  if(building==item.value){
+						  let array=item.floor_array
+						  array.map(function(item){
+							  if((item.text+'').indexOf('层')==-1){
+								  item.text=item.text+'层'
+							  }
+						  })
+						  floorList=array
+					  }
+					})
+					this.formByDorm.floorList=floorList
+					resolve()
 				})
-				this.formByDorm.floorList=floorList
 			},
 			getDormList(building,floor){//根据宿舍楼号、楼层获取宿舍
-				let comData={
-					dorm_name:building,
-					floor_num:floor,
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_DORM+'dorm/queryRoom',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					this.formByDorm.dormList=response.list
+				return new Promise((resolve, reject)=>{
+					let comData={
+						dorm_name:building,
+						floor_num:floor,
+						index_code:this.index_code,
+					}
+					this.post(this.globaData.INTERFACE_DORM+'dorm/queryRoom',comData,response=>{
+						console.log("responseaaa: " + JSON.stringify(response));
+						this.formByDorm.dormList=response.list
+						resolve()
+					})
+				})
+			},
+			getBedList(building,floor){//获取床位
+				return new Promise((resolve, reject)=>{
+					this.formByDorm.bedList=this.formByDorm.dormList[this.formByDorm.dormIndex].bed_array
+					resolve()
 				})
 			},
 			getDict(){//获取考勤项目常量
-				let comData={
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_DORM+'dormAttendance/getDict',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					this.hideLoading()
-					this.attendanceList=response.item_array
-					// this.attendanceList=[{text:'晚休缺勤',value:'晚休缺勤'}]
-					let rest_array=response.rest_array
-					let rest=[]
-					rest_array.map(function(item){
-						 let obj={}
-						 obj.text=item.label
-						 obj.value=item.v
-						 rest.push(obj)
+				return new Promise((resolve, reject)=>{
+					let comData={
+						index_code:this.index_code,
+					}
+					this.post(this.globaData.INTERFACE_DORM+'dormAttendance/getDict',comData,response=>{
+						console.log("responseaaa: " + JSON.stringify(response));
+						this.hideLoading()
+						this.attendanceList=response.item_array
+						// this.attendanceList=[{text:'晚休缺勤',value:'晚休缺勤'}]
+						let rest_array=response.rest_array
+						let rest=[]
+						rest_array.map(function(item){
+							 let obj={}
+							 obj.text=item.label
+							 obj.value=item.v
+							 rest.push(obj)
+						})
+						this.qaList=rest;
+						resolve()
 					})
-					this.qaList=rest;
 				})
 			},
 			buildSelect(e){
@@ -732,7 +827,12 @@
 	}
 	
 	.content{
+		/* #ifdef H5 */
 		margin: 44px 0 2px;
+		/* #endif */
+		/* #ifdef APP-PLUS */
+		margin: 0px 0 2px;
+		/* #endif */
 	}
 	
 	.form-left{
