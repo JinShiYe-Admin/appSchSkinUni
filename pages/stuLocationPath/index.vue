@@ -195,6 +195,7 @@
 					if(data.code == 0){
 						if(stuCode.length==0){
 							let tempA = util.ArrayUnique(data.data.list,'stu_code');
+							let tempArray = [];
 							for (var i = 0; i < this.pagedata.length; i++) {
 								let tempM = this.pagedata[i];
 								for (var a = 0; a < tempA.length; a++) {
@@ -213,7 +214,9 @@
 										}
 									}
 								}
+								tempArray.push(tempM);
 							}
+							this.pagedata = [].concat(tempArray);
 						}else{
 							// card_stime
 							for (var i = 0; i < data.data.list.length; i++) {

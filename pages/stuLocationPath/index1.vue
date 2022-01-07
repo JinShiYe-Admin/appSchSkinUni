@@ -30,7 +30,8 @@
 					<view slot="body">
 						<view class="rightView">
 							<view class="title" style="font-size: 15px;">{{model.locationStr}}</view>
-							<view class="title" style="color: gray;">{{model.card_stime}}<span v-if='model.card_etime'> ~ {{model.card_etime}}</span></view>
+							<view class="title" style="color: gray;">{{model.card_stime}}<span v-if='model.card_etime'>
+									~ {{model.card_etime}}</span></view>
 						</view>
 					</view>
 				</uni-list-item>
@@ -174,9 +175,9 @@
 			},
 			getAttendanceList() { //115.出入型设备-刷卡列表
 				let stuCode = '';
-				if(this.stuIndex == 0){
+				if (this.stuIndex == 0) {
 					stuCode = '';
-				}else{
+				} else {
 					stuCode = this.stuArray[this.stuIndex].stu_code;
 				}
 				let comData = {
@@ -186,35 +187,38 @@
 					grd_code: this.grdArray[this.grdIndex].value,
 					cls_code: this.clsArray[this.clsIndex].value,
 					stu_code: stuCode,
-					pageNumber:1,
-					pageSize:999
+					pageNumber: 1,
+					pageSize: 999
 				}
-				this.post(this.globaData.INTERFACE_WORK + 'AttendanceReport/cardList', comData, (data0,data) => {
+				this.post(this.globaData.INTERFACE_WORK + 'AttendanceReport/cardList', comData, (data0, data) => {
 					console.log("cardList: " + JSON.stringify(data));
 					this.hideLoading();
-					if(data.code == 0){
-						if(stuCode.length==0){
-							let tempA = util.ArrayUnique(data.data.list,'stu_code');
+					if (data.code == 0) {
+						if (stuCode.length == 0) {
+							let tempA = util.ArrayUnique(data.data.list, 'stu_code');
+							let tempArray = [];
 							for (var i = 0; i < this.pagedata.length; i++) {
 								let tempM = this.pagedata[i];
 								for (var a = 0; a < tempA.length; a++) {
 									let tempStu = tempA[a];
 									// code一样
-									if(tempM.stu_code == tempStu.stu_code){
-										if(tempM.deviceFlag == 0){//之前没有写入过数据，直接赋值
+									if (tempM.stu_code == tempStu.stu_code) {
+										if (tempM.deviceFlag == 0) { //之前没有写入过数据，直接赋值
 											tempM.deviceFlag = 1;
 											tempM.endTime = tempStu.card_time;
 											tempM.locationStr = tempStu.attendance_location;
-										}else{
-											if(tempStu.card_time>tempM.endTime){//现在的时间，大于之前的，覆盖
+										} else {
+											if (tempStu.card_time > tempM.endTime) { //现在的时间，大于之前的，覆盖
 												tempM.endTime = tempStu.card_time;
 												tempM.locationStr = tempStu.attendance_location;
 											}
 										}
 									}
 								}
+								tempArray.push(tempM);
 							}
-						}else{
+							this.pagedata = [].concat(tempArray);
+						} else {
 							// card_stime
 							for (var i = 0; i < data.data.list.length; i++) {
 								let tempM = data.data.list[i];
@@ -222,11 +226,11 @@
 								tempM.locationStr = tempM.attendance_location;
 							}
 							this.pagedata = this.pagedata.concat(data.data.list);
-							console.log('this.pagedataAA:'+JSON.stringify(this.pagedata));
+							console.log('this.pagedataAA:' + JSON.stringify(this.pagedata));
 							// this.pagedata
-							this.pagedata.sort(util.compare('card_stime',0));
+							this.pagedata.sort(util.compare('card_stime', 0));
 						}
-					}else{
+					} else {
 						this.showToast(data.msg);
 					}
 				})
@@ -432,7 +436,7 @@
 			// uni.$on('updateHeadImg', function(data) {
 			// 	_this.$refs.mynavBar.upLoadImg();
 			// });
-			
+
 			// // 获取未读推送消息数的监听
 			// uni.$on('setPushCount', function(data) {
 			// 	_this.tabbar = util.getMenu();

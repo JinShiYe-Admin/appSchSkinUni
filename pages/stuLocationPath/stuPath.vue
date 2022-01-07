@@ -83,15 +83,17 @@
 						console.log("responseaaa: " + JSON.stringify(response));
 						this.hideLoading();
 						uni.stopPullDownRefresh();
-						for (var a = 0; a < response.list.length; a++) {
-							let tempM1 = response.list[a];
-							for (var b = 0; b < this.deviceList.length; b++) {
-								let tempM2 = this.deviceList[b];
-								if (tempM1.mach_id == tempM2.mach_id) {
-									tempM1.locationStr = tempM2.attendance_location;
+						if(response){
+							for (var a = 0; a < response.list.length; a++) {
+								let tempM1 = response.list[a];
+								for (var b = 0; b < this.deviceList.length; b++) {
+									let tempM2 = this.deviceList[b];
+									if (tempM1.mach_id == tempM2.mach_id) {
+										tempM1.locationStr = tempM2.attendance_location;
+									}
 								}
+								this.pagedata.push(tempM1);
 							}
-							this.pagedata.push(tempM1);
 						}
 						// 获取出入型设备考勤记录
 						this.getAttendanceList();
