@@ -12,32 +12,40 @@
 					<view v-for="(model,index) in semFlag0Data.dataList" :key='index'>
 						<uni-card isShadow>
 							<text class="content-box-text">
-								<view class="card-title">的点点滴滴的点点滴滴的点点滴滴的点点滴滴的点点滴滴的点点滴滴</view>
+								<view class="card-title">{{model.name}}</view>
 								<view class="card-line"></view>
 								<uni-row class="nameTime">
 									<uni-col :span="16" style="font-size: 14px;">
-										<view class="nameTime">科目：<span class='nameContent'>物理</span></view>
-										<view class="nameTime">截止时间：<span class='nameContent'>2022-01-04 12:00</span></view>
-										<view class="nameTime">年级：<span class='nameContent'>一年级</span></view>
-										<view class="nameTime">班级：<span class='nameContent'>1901班,1901班,1901班,1901班,1901班,1901班,1901班</span></view>
-										<view class="nameTime">学生人数：<span class='nameContent'>100</span></view>
+										<view class="nameTime">科目：<span class='nameContent'>{{model.sub_name}}</span>
+										</view>
+										<view class="nameTime">截止时间：<span class='nameContent'>{{model.deadline}}</span>
+										</view>
+										<view class="nameTime">年级：<span class='nameContent'>{{model.grd_name}}</span>
+										</view>
+										<view class="nameTime">班级：<span class='nameContent'>{{model.cls_names}}</span>
+										</view>
+										<view class="nameTime">学生人数：<span class='nameContent'>{{model.stu_count}}</span>
+										</view>
 									</uni-col>
 									<uni-col :span="8" style="text-align: right;">
 										<view class="scoreOrderBorder" style="color: #00CFBD;">
-											<view class="scoreOrder" style="color: #00CFBD;">22</view>
-											<view class="scoreOrder" style="margin-top: 0px;color: gray;font-size: 10px;">已识别</view>
+											<view class="scoreOrder" style="color: #00CFBD;">{{model.submit_num}}</view>
+											<view class="scoreOrder"
+												style="margin-top: 0px;color: gray;font-size: 10px;">已识别</view>
 										</view>
 										<view class="scoreOrderBorder" style="color: #FAA666;">
-											<view class="scoreOrder" style="color: #FAA666;">33</view>
-											<view class="scoreOrder" style="margin-top: 0px;color: gray;font-size: 10px;">未识别</view>
+											<view class="scoreOrder" style="color: #FAA666;">{{model.no_submit_num}}
+											</view>
+											<view class="scoreOrder"
+												style="margin-top: 0px;color: gray;font-size: 10px;">未识别</view>
 										</view>
 									</uni-col>
 								</uni-row>
 								<uni-row style='margin-top: 10px;'>
-									<uni-col :span="12" style="text-align: center;">
+									<uni-col :span="11" style="text-align: center;">
 										<button class="mini-btn" type="default" size="mini">开始修改</button>
 									</uni-col>
-									<uni-col :span="12" style="text-align: center;">
+									<uni-col :span="11" style="text-align: center;">
 										<button class="mini-btn" type="default" size="mini">取消本次任务</button>
 									</uni-col>
 								</uni-row>
@@ -52,23 +60,23 @@
 					<view v-for="(model,index) in semFlag1Data.dataList" :key='index'>
 						<uni-card isShadow>
 							<text class="content-box-text">
-								<view class="card-title">的点点滴滴的点点滴滴的点点滴滴的点点滴滴的点点滴滴的点点滴滴</view>
+								<view class="card-title">{{model.name}}</view>
 								<view class="card-line"></view>
 								<uni-row class="nameTime">
 									<uni-col :span="16" style="font-size: 14px;">
-										<view class="nameTime">科目：<span class='nameContent'>物理</span></view>
-										<view class="nameTime">截止时间：<span class='nameContent'>2022-01-04 12:00</span></view>
-										<view class="nameTime">年级：<span class='nameContent'>一年级</span></view>
-										<view class="nameTime">班级：<span class='nameContent'>1901班,1901班,1901班,1901班,1901班,1901班,1901班</span></view>
-									</uni-col>
-									<!-- <uni-col :span="8">
-										<view class="charts-box" style="width: 150px;height: 150px;text-align: center;">
-											<qiun-data-charts type="arcbar" :opts="semFlag0Data.zhishidianShow" :chartData="semFlag0Data.zhishidianDFL" />
+										<view class="nameTime">科目：<span class='nameContent'>{{model.sub_name}}</span>
 										</view>
-									</uni-col> -->
-									<uni-col style="display: flex;align-items: center;flex-direction: column;" :span="14">
-										<view class="charts-box" style="width: 150px;height: 150px;text-align: center;">
-											<qiun-data-charts type="arcbar" :opts="semFlag1Data.zhishidianShow" :chartData="semFlag1Data.zhishidianDFL" />
+										<view class="nameTime">截止时间：<span class='nameContent'>{{model.deadline}}</span>
+										</view>
+										<view class="nameTime">年级：<span class='nameContent'>{{model.grd_name}}</span>
+										</view>
+										<view class="nameTime">班级：<span class='nameContent'>{{model.cls_names}}</span>
+										</view>
+									</uni-col>
+									<uni-col :span="8">
+										<view class="charts-box" style="width: 100px;height: 100px;text-align: center;">
+											<qiun-data-charts type="arcbar" :opts="model.zhishidianShow" :animation="false"
+												:chartData="model.zhishidianDFL" />
 										</view>
 									</uni-col>
 								</uni-row>
@@ -79,30 +87,28 @@
 				<view class="uni-loadmore" v-if="semFlag1Data.showLoadMore">{{semFlag1Data.loadMoreText}}</view>
 			</view>
 			<view v-show="semFlag == 2">
-				<uni-list>
-					<uni-list-item showArrow v-for="(model,index) in semFlag2Data.dataList" :key='index'
-						direction='column' clickable @click="clickItem(model)">
-						<view slot="body">
-							<view style="float: left;height: 40px;">
-								<image class="peopleImg"
-									:src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
-							</view>
-							<view class="rightView">
-								<a class="tempCss">[{{model.NoticeStatusName}}]<span
-										style='color: #000000;'>{{model.InfoCollectTitle}}</span></a>
-								<br>
+				<view class="example-body">
+					<view v-for="(model,index) in semFlag2Data.dataList" :key='index'>
+						<uni-card isShadow>
+							<text class="content-box-text">
+								<view class="card-title">{{model.name}}</view>
+								<view class="card-line"></view>
 								<uni-row class="nameTime">
-									<uni-col :span="12">
-										{{model.SendManName}}
-									</uni-col>
-									<uni-col :span="12">
-										{{model.SendTime}}
+									<uni-col :span="24" style="font-size: 14px;">
+										<view class="nameTime">科目：<span class='nameContent'>{{model.sub_name}}</span>
+										</view>
+										<view class="nameTime">截止时间：<span class='nameContent'>{{model.deadline}}</span>
+										</view>
+										<view class="nameTime">年级：<span class='nameContent'>{{model.grd_name}}</span>
+										</view>
+										<view class="nameTime">班级：<span class='nameContent'>{{model.cls_names}}</span>
+										</view>
 									</uni-col>
 								</uni-row>
-							</view>
-						</view>
-					</uni-list-item>
-				</uni-list>
+							</text>
+						</uni-card>
+					</view>
+				</view>
 				<view class="uni-loadmore" v-if="semFlag2Data.showLoadMore">{{semFlag2Data.loadMoreText}}</view>
 			</view>
 		</view>
@@ -134,9 +140,7 @@
 					total_page: 0, //总页数
 					loadMoreText: "加载中...",
 					showLoadMore: false,
-					dataList: [],
-					zhishidianDFL:{},
-					zhishidianShow:{}
+					dataList: []
 				},
 				semFlag2Data: {
 					flagRef: 0, //0刷新1加载更多
@@ -160,9 +164,9 @@
 			tempM.childList = [{
 				name: '识别统计'
 			}, {
-				name: '待修改'
+				name: '待批改'
 			}, {
-				name: '已修改'
+				name: '已批改'
 			}];
 			this.itemData = tempM;
 			console.log('this.itemData:' + JSON.stringify(this.itemData));
@@ -287,17 +291,25 @@
 				if (this.semFlag == 0) {
 					comData.status = '0'; //状态,0未启动 1未改 2批改中 3已改，多个使用,分隔
 					comData.page_number = this.semFlag0Data.pageIndex; //当前页数
-				} else if(this.semFlag == 1){
+				} else if (this.semFlag == 1) {
 					comData.status = '1,2'; //状态,0未启动 1未改 2批改中 3已改，多个使用,分隔
 					comData.page_number = this.semFlag1Data.pageIndex; //当前页数
-				}else if(this.semFlag == 2){
-					comData.status = '0'; //状态,0未启动 1未改 2批改中 3已改，多个使用,分隔
+				} else if (this.semFlag == 2) {
+					comData.status = '3'; //状态,0未启动 1未改 2批改中 3已改，多个使用,分隔
 					comData.page_number = this.semFlag2Data.pageIndex; //当前页数
 				}
 				this.showLoading();
 				this.post(url, comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
+						for (var i = 0; i < data.data.list.length; i++) {
+							let tempArray = [];
+							let tempM = data.data.list[i];
+							for (var a = 0; a < tempM.clss.length; a++) {
+								tempArray.push(tempM.clss[a].cls_name);
+							}
+							tempM.cls_names = tempArray.join(',');
+						}
 						if (this.semFlag == 0) {
 							this.semFlag0Data.pageIndex++;
 							this.semFlag0Data.total_page = data.data.total_page;
@@ -311,27 +323,39 @@
 								this.semFlag0Data.dataList = this.semFlag0Data.dataList.concat(data.data.list);
 							}
 						} else if (this.semFlag == 1) {
-							this.semFlag1Data.zhishidianDFL = {
-								"series": [{
-									"name": "批改进度",
-									// "data": data.data.score_rate,
-									"data": 0.75,
-									"color": "#00CFBD"
-								}]
-							};
-							this.semFlag1Data.zhishidianShow = {
-								title: {
-									// name: parseFloat(data.data.score_rate * 100).toFixed(1) + '%',
-									name: parseFloat(0.75 * 100).toFixed(1) + '%',
-									fontSize: 25,
-									color: '#00CFBD'
-								},
-								subtitle: {
-									name: '批改进度',
-									color: '#666666',
-									fontSize: 13
+							for (var i = 0; i < data.data.list.length; i++) {
+								let tempM = data.data.list[i];
+								tempM.zhishidianDFL = {
+									"series": [{
+										"name": "批改进度",
+										"data": tempM.schedule,
+										"color": "#00CFBD"
+									}]
+								};
+								tempM.zhishidianShow = {
+									animation: false,
+									// errorReload: false,
+									duration:0,
+									title: {
+										// name: parseFloat(tempM.schedule).toFixed(1) + '%',
+										name: tempM.schedule + '%',
+										fontSize: 15,
+										color: '#00CFBD'
+									},
+									subtitle: {
+										name: '批改进度',
+										color: '#666666',
+										fontSize: 11
+									},
+									extra: {
+										arcbar: {
+											width: '5',
+											type: "circle",
+										}
+									}
 								}
 							}
+							
 							this.semFlag1Data.pageIndex++;
 							this.semFlag1Data.total_page = data.data.total_page;
 							if (this.semFlag1Data.flagRef == 0) {
@@ -402,7 +426,8 @@
 	.nameTime {
 		font-size: 13px;
 	}
-	.nameContent{
+
+	.nameContent {
 		color: gray;
 		font-size: 13px;
 	}
@@ -417,18 +442,18 @@
 	.uni-col {
 		margin-top: 0px;
 	}
-	
+
 	.card-line {
 		height: 1px;
 		background-color: #e5e5e5;
 		margin-top: 5px;
 		margin-bottom: 5px;
 	}
-	
+
 	.msg-content {
 		word-break: break-all;
 	}
-	
+
 	.example-body {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -441,13 +466,13 @@
 		background-color: #eef0f2;
 		/* height: calc(100% - 300px) !important; */
 	}
-	
+
 	.example-body {
 		flex-direction: column;
 		padding: 15px;
 		background-color: #eef0f2;
 	}
-	
+
 	.example-body {
 		/* #ifndef APP-NVUE */
 		display: block;
@@ -455,17 +480,17 @@
 		padding: 1px 0;
 		/* padding-bottom: 50px; */
 	}
-	
+
 	.content-box-text {
 		font-size: 12px;
 		line-height: 22px;
 	}
-	
-	.card-title{
+
+	.card-title {
 		font-size: 15px;
 		text-align: center;
 	}
-	
+
 	/* 识别人数圆圈 */
 	.scoreOrderBorder {
 		width: 60px;
@@ -476,7 +501,7 @@
 		margin-left: 25px;
 		text-align: center;
 	}
-	
+
 	/* 识别人数 */
 	.scoreOrder {
 		margin-top: 10px;

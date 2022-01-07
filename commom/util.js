@@ -1124,7 +1124,7 @@ function getPageArray() {
 			url: 'schapp_homework',
 			childList: [{
 				name: '批改',
-				icon: tempAAA + '/static/images/homeworkAndWeektest/zhixueziyuan.png',
+				icon: tempAAA + '/static/images/homeworkAndWeektest/zuoyepigai.png',
 				pagePath: "/pages/homeworkAndWeektest/correct_index",
 				url: 'schapp_homework_correct',
 				noReadCut: 0
@@ -1136,13 +1136,13 @@ function getPageArray() {
 				noReadCut: 0
 			}, {
 				name: '班级统计分析',
-				icon: tempAAA + '/static/images/homeworkAndWeektest/banjitongji.png',
+				icon: tempAAA + '/static/images/homeworkAndWeektest/banjitongjifenxi.png',
 				pagePath: "/pages/homeworkAndWeektest/clsStatistics_index",
 				url: 'schapp_homework_clsStatistics',
 				noReadCut: 0
 			}, {
 				name: '学生统计分析',
-				icon: tempAAA + '/static/images/homeworkAndWeektest/xueshengtongji.png',
+				icon: tempAAA + '/static/images/homeworkAndWeektest/xueshengtongjifenxi.png',
 				pagePath: "/pages/homeworkAndWeektest/stuStatistics_index",
 				url: 'schapp_homework_stuStatistics',
 				noReadCut: 0

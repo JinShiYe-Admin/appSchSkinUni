@@ -2600,6 +2600,14 @@
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
+		}
+        ,{
+            "path" : "pages/homeworkAndWeektest/correct_searchScore",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
             
         }
     ],
