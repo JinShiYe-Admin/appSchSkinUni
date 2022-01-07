@@ -315,7 +315,9 @@
 								this.formByDorm.dormIndex=index
 							}
 						})
-						await this.getBedList();
+						if(this.formByDorm.dormList.length>0){
+							await this.getBedList();
+						}
 						this.formByDorm.bedList.map((bItem,index)=>{
 							if(this.tabBarItem.bed_num==bItem.value){
 								this.formByDorm.bedIndex=index
@@ -542,6 +544,7 @@
 						get_cls:true,
 						index_code:this.index_code,
 					}
+					console.log("comDataaaaaaaaaaa: " + JSON.stringify(comData));
 					this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 						console.log("responseaaa: " + JSON.stringify(response));
 						let clss = response.cls_list;

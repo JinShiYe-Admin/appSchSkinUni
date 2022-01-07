@@ -13,7 +13,7 @@
 		<view class="double-line"></view>
 		<view style="padding:5px 15px 0px;">
 			<uni-list :border="false">
-				<uni-list-item :key="index" v-for="(item,index) in pageArray" :border="true">
+				<uni-list-item :key="index" v-for="(item,index) in pageArray" :border="false">
 					<text slot="body" class="slot-box slot-text">
 						<view class="title-text" style="margin-top: 5px;">{{item.name}}({{item.list.length}}次)</view>
 						<view class="line" style="margin-top: 5px;"></view>
