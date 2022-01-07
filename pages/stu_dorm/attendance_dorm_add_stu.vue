@@ -348,7 +348,7 @@
 					if(stuItem.item_code&&stuItem.item_code=='*'){
 						yd.push(stuItem)
 					}
-					if(stuItem.item_code&&stuItem.item_code=='classAbsence'){
+					if(stuItem.item_code&&stuItem.item_code.indexOf('缺勤')!=-1){
 						qq.push(stuItem)
 					}
 					if(stuItem.item_code&&stuItem.item_code=='absenceLeave'){

@@ -334,6 +334,7 @@
 							}
 						}) 
 						this.formByDorm.time=this.tabBarItem.attendance_date
+						this.formByDorm.comment=this.tabBarItem.remark
 						resolve()
 					}else if(this.current===1){
 						await this.getCls(this.tabBarItem.grd_code);
@@ -364,6 +365,7 @@
 							}
 						}) 
 						this.formByClass.time=this.tabBarItem.attendance_date
+						this.formByClass.comment=this.tabBarItem.remark
 						resolve()
 					}
 					
