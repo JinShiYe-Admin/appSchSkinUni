@@ -442,6 +442,7 @@
 			getLeaveLocList(){
 				return new Promise((res,rej)=>{
 					let comData={
+						loction_type:-1,
 						mach_type:8,
 						index_code: this.index_code,
 					} 

@@ -1150,9 +1150,9 @@ function getPageArray() {
 		},
 		{
 			name: "作业与周测", //作业与周测 学生端
-			pagePath: "/pages/homeworkAndWeektest_stu/index",
-			iconPath: tempAAA + '/static/tabbar/zhixueketang.png',
-			selectedIconPath: tempAAA + '/static/tabbar/zhixueketang_select.png',
+			pagePath: "/pages/homeworkAndWeekTest_stu/index",
+			iconPath: tempAAA + '/static/tabbar/zuoyeyuzhouce.png',
+			selectedIconPath: tempAAA + '/static/tabbar/zuoyeyuzhouce_select.png',
 			count: 0,
 			isDot: false,
 			customIcon: false,
@@ -1160,25 +1160,25 @@ function getPageArray() {
 			url: 'schapp_HomeWorkStu',
 			childList: [{
 				name: '拍照上交',
-				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				icon: tempAAA + '/static/images/homeworkAndWeektest/stu/takingPicture.png',
 				pagePath: "/pages/homeworkAndWeekTest_stu/takingPictureIndex",
 				url: 'schapp_HomeWorkStu_TakingPicture',
 				noReadCut: 0
 			}, {
 				name: '作业/周测成绩',
-				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				icon: tempAAA + '/static/images/homeworkAndWeektest/stu/testResults.png',
 				pagePath: "/pages/homeworkAndWeekTest_stu/testResultsIndex",
 				url: 'schapp_HomeWorkStu_TestResults',
 				noReadCut: 0
 			}, {
 				name: '知识点分析(作业)',
-				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				icon: tempAAA + '/static/images/homeworkAndWeektest/stu/knowledgeAnalysis.png',
 				pagePath: "/pages/homeworkAndWeekTest_stu/knowledgeAnalysisIndex",
 				url: 'schapp_HomeWorkStu_KnowledgeAnalysis',
 				noReadCut: 0
 			}, {
 				name: '题型分析',
-				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				icon: tempAAA + '/static/images/homeworkAndWeektest/stu/qusetionAnalysis.png',
 				pagePath: "/pages/homeworkAndWeekTest_stu/qusetionAnalysisIndex",
 				url: 'schapp_HomeWorkStu_QuestionAnalysis',
 				noReadCut: 0

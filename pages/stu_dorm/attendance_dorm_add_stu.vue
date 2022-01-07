@@ -497,7 +497,7 @@
 	}
 	
 	::v-deep .uni-list-item__content{
-		justify-content: center;
+		justify-content: center !important;
 	}
 	
 </style>

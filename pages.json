@@ -2561,6 +2561,7 @@
 		    "path" : "pages/homeworkAndWeekTest_stu/index",
 		    "style" :                                                                                    
 		    {
+		        "navigationStyle": "custom", // 隐藏系统导航栏
 		        "navigationBarTitleText": "",
 		        "enablePullDownRefresh": false
 		    }
