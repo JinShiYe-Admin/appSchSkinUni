@@ -43,10 +43,10 @@
 								</uni-row>
 								<uni-row style='margin-top: 10px;'>
 									<uni-col :span="11" style="text-align: center;">
-										<button class="mini-btn" type="default" size="mini">开始修改</button>
+										<button class="mini-btn" type="default" size="mini" @click="clickSem0Item(model,0)">开始批改</button>
 									</uni-col>
 									<uni-col :span="11" style="text-align: center;">
-										<button class="mini-btn" type="default" size="mini">取消本次任务</button>
+										<button class="mini-btn" type="default" size="mini" @click="clickSem0Item(model,1)">取消本次任务</button>
 									</uni-col>
 								</uni-row>
 							</text>
@@ -75,8 +75,8 @@
 									</uni-col>
 									<uni-col :span="8">
 										<view class="charts-box" style="width: 100px;height: 100px;text-align: center;">
-											<qiun-data-charts type="arcbar" :opts="model.zhishidianShow" :animation="false"
-												:chartData="model.zhishidianDFL" />
+											<qiun-data-charts type="arcbar" :opts="model.zhishidianShow"
+												:animation="false" :chartData="model.zhishidianDFL" />
 										</view>
 									</uni-col>
 								</uni-row>
@@ -89,7 +89,7 @@
 			<view v-show="semFlag == 2">
 				<view class="example-body">
 					<view v-for="(model,index) in semFlag2Data.dataList" :key='index'>
-						<uni-card isShadow>
+						<uni-card isShadow @click="clickItem(model)">
 							<text class="content-box-text">
 								<view class="card-title">{{model.name}}</view>
 								<view class="card-line"></view>
@@ -112,6 +112,14 @@
 				<view class="uni-loadmore" v-if="semFlag2Data.showLoadMore">{{semFlag2Data.loadMoreText}}</view>
 			</view>
 		</view>
+		<uni-popup ref="popupStart" type="dialog">
+			<uni-popup-dialog title="确定?" content="您确定截止上交吗？" :duration="2000"
+				:before-close="true" @close="closeStart" @confirm="confirmStart"></uni-popup-dialog>
+		</uni-popup>
+		<uni-popup ref="popupDel" type="dialog">
+			<uni-popup-dialog title="确定?" content="您确定取消作业/周测吗？" :duration="2000"
+				:before-close="true" @close="closeDel" @confirm="confirmDel"></uni-popup-dialog>
+		</uni-popup>
 	</view>
 </template>
 
@@ -127,6 +135,7 @@
 				pageSize: 10,
 				semFlag: 0, //点击的seg索引
 				semFlag0Data: { //考勤记录
+					clickModel:{},//
 					flagRef: 0, //0刷新1加载更多
 					pageIndex: 1,
 					total_page: 0, //总页数
@@ -247,15 +256,71 @@
 			}
 		},
 		methods: {
-			clickItem: function(model) {
-				console.log('clickItem.model:' + JSON.stringify(model));
-				if (this.semFlag == 2) {
-					model.flag = 1;
-				} else {
-					model.flag = 0;
+			clickSem0Item(model,flag){
+				if(flag == 0){
+					this.$refs.popupStart.open();
+				}else{
+					this.$refs.popupDel.open();
 				}
+				this.semFlag0Data.clickModel = model;
+			},
+			closeStart() {
+				this.$refs.popupStart.close();
+			},
+			confirmStart(value) {
+				this.$refs.popupStart.close();
+				let comData = {
+					index_code: this.itemData.access.split('#')[1],
+					id: this.semFlag0Data.clickModel.id, //任务id
+				}
+				this.showLoading();
+				//
+				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'teachAssistTask/startView', comData, (data0,data) => {
+					this.hideLoading();
+					if(data.code == 0){
+						this.semFlag0Data.loadMoreText = "加载中..."
+						this.semFlag0Data.flagRef = 0;
+						this.semFlag0Data.pageIndex = 1;
+						this.getPageList();
+					}
+					this.showToast(data.msg);
+				});
+			},
+			closeDel() {
+				this.$refs.popupDel.close();
+			},
+			confirmDel(value) {
+				this.$refs.popupDel.close();
+				let comData = {
+					index_code: this.itemData.access.split('#')[1],
+					id: this.semFlag0Data.clickModel.id, //任务id
+				}
+				this.showLoading();
+				//
+				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'teachAssistTask/delete', comData, (data0,data) => {
+					this.hideLoading();
+					if(data.code == 0){
+						this.semFlag0Data.loadMoreText = "加载中..."
+						this.semFlag0Data.flagRef = 0;
+						this.semFlag0Data.pageIndex = 1;
+						this.getPageList();
+					}
+					this.showToast(data.msg);
+				});
+			},
+			clickItem: function(model) {
 				model.access = this.itemData.access;
-				util.openwithData("/pages/oa/collectionDataDetail", model);
+				console.log('clickLi:' + JSON.stringify(model));
+				util.openwithData("/pages/homeworkAndWeektest/correct_searchScore", model, {
+					publishScore(data) { //子页面调用父页面需要的方法
+						for (var i = 0; i < _this.semFlag2Data.dataList.length; i++) {
+							var tempModel = _this.semFlag2Data.dataList[i];
+							if(data.data == tempModel.id){
+								tempModel.is_publish = true;
+							}
+						}
+					}
+				});
 			},
 			clickSeg: function(e) {
 				uni.pageScrollTo({
@@ -305,6 +370,7 @@
 						for (var i = 0; i < data.data.list.length; i++) {
 							let tempArray = [];
 							let tempM = data.data.list[i];
+							tempM.exam_date = tempM.create_time.split(' ')[0];
 							for (var a = 0; a < tempM.clss.length; a++) {
 								tempArray.push(tempM.clss[a].cls_name);
 							}
@@ -335,7 +401,7 @@
 								tempM.zhishidianShow = {
 									animation: false,
 									// errorReload: false,
-									duration:0,
+									duration: 0,
 									title: {
 										// name: parseFloat(tempM.schedule).toFixed(1) + '%',
 										name: tempM.schedule + '%',
@@ -355,7 +421,7 @@
 									}
 								}
 							}
-							
+
 							this.semFlag1Data.pageIndex++;
 							this.semFlag1Data.total_page = data.data.total_page;
 							if (this.semFlag1Data.flagRef == 0) {

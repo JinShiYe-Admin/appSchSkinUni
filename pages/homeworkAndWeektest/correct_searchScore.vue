@@ -1,5 +1,7 @@
 <template>
 	<view class="tabs">
+		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :text="showLook"
+			:textClick="textClick"></mynavBar>
 		<scroll-view id="tab-bar" class="scroll-h tabs-fixed" :scroll-x="true" :show-scrollbar="false"
 			:scroll-into-view="scrollInto">
 			<view v-for="(tab,index) in classList" :key="tab.id" class="uni-tab-item" :id="tab.id" :data-current="index"
@@ -15,12 +17,7 @@
 			<uni-grid :column="2" :showBorder='false' :square="false" :highlight="false">
 				<uni-grid-item>
 					<view class="grid-item-box">
-						<p class="leaveSum">总人数：{{nowClass.stu_count}}</p>
-					</view>
-				</uni-grid-item>
-				<uni-grid-item>
-					<view class="grid-item-box">
-						<p class="leaveSum">平均分：{{nowClass.avg_score}}</p>
+						<p class="leaveSum">班级人数：{{nowClass.stu_count}}</p>
 					</view>
 				</uni-grid-item>
 				<uni-grid-item>
@@ -30,7 +27,15 @@
 				</uni-grid-item>
 				<uni-grid-item>
 					<view class="grid-item-box">
-						<p class="leaveSum">无成绩人数：{{nowClass.miss_stu_count}}</p>
+						<p class="leaveSum">无成绩人数：
+							<span v-if='nowClass.miss_stu_count == 0'>{{nowClass.miss_stu_count}}</span>
+							<span v-if='nowClass.miss_stu_count > 0' style='color: #FAA666;' @click='clickMissStu'>{{nowClass.miss_stu_count}}</span>
+						</p>
+					</view>
+				</uni-grid-item>
+				<uni-grid-item>
+					<view class="grid-item-box">
+						<p class="leaveSum">平均分：{{nowClass.avg_score}}</p>
 					</view>
 				</uni-grid-item>
 				<uni-grid-item>
@@ -49,7 +54,8 @@
 				学生得分详情</p>
 			<view style="height: 0.5px;background-color: #00cfbd;margin: 5px 28px 0px 15px;"></view>
 			<uni-list>
-				<uni-list-item showArrow clickable :key="index" v-for="(model,index) in nowScoreList" style="font-size: 14px;" @click="clickLi(model)">
+				<uni-list-item showArrow clickable :key="index" v-for="(model,index) in nowScoreList"
+					style="font-size: 14px;" @click="clickLi(model)">
 					<view slot="body" class="">
 						<uni-row>
 							<view style="margin-left: 0px;">
@@ -60,40 +66,28 @@
 							</view>
 							<view style="margin-top: 5px;margin-left: 5px;">
 								<span style="float: left;">
-									<view
-										style="width: 60px;height: 50px;border:1px solid #00aba1;text-align: center;vertical-align: middle;display: table-cell;color: #00aba1;font-size: 14px;">
+									<view class="scoreValue">
 										{{model.total_score}}
 									</view>
-									<view
-										style="width: 62px;height: 20px;color: white;background-color: #00aba1;font-size: 12px;text-align: center;">
-										总分</view>
+									<view class="scoreName">总分</view>
 								</span>
 								<span style="float: left;margin-left: 10px;">
-									<view
-										style="width: 60px;height: 50px;border:1px solid #00aba1;text-align: center;vertical-align: middle;display: table-cell;color: #00aba1;font-size: 14px;">
+									<view class="scoreValue">
 										{{model.object_score}}
 									</view>
-									<view
-										style="width: 62px;height: 20px;color: white;background-color: #00aba1;font-size: 12px;text-align: center;">
-										客观题</view>
+									<view class="scoreName">客观题</view>
 								</span>
 								<span style="float: left;margin-left: 10px;">
-									<view
-										style="width: 60px;height: 50px;border:1px solid #00aba1;text-align: center;vertical-align: middle;display: table-cell;color: #00aba1;font-size: 14px;">
+									<view class="scoreValue">
 										{{model.subject_score}}
 									</view>
-									<view
-										style="width: 62px;height: 20px;color: white;background-color: #00aba1;font-size: 12px;text-align: center;">
-										主观题</view>
+									<view class="scoreName">主观题</view>
 								</span>
 								<span style="float: left;margin-left: 10px;">
-									<view
-										style="width: 60px;height: 50px;border:1px solid #00aba1;text-align: center;vertical-align: middle;display: table-cell;color: #00aba1;font-size: 14px;">
+									<view class="scoreValue">
 										{{model.cls_order}}
 									</view>
-									<view
-										style="width: 62px;height: 20px;color: white;background-color: #00aba1;font-size: 12px;text-align: center;">
-										班级排名</view>
+									<view class="scoreName">班级排名</view>
 								</span>
 							</view>
 						</uni-row>
@@ -101,16 +95,28 @@
 				</uni-list-item>
 			</uni-list>
 		</view>
+		<uni-popup ref="popup" type="center" style="background-color: white;">
+			<view style="background-color: white;padding: 10px;border-radius: 5px;margin-left: 20px;margin-right: 20px;">
+				<view style="margin-top: 20px;text-align: center;">无成绩人员名单</view>
+				<view style="margin-top: 20px;color: gray;font-size: 13px;">{{this.nowClass.miss_stu_names}}</view>
+			</view>
+		</uni-popup>
+		<uni-popup ref="popupSubmit" type="dialog">
+			<uni-popup-dialog title="确定?" content="您确定发布成绩吗？" :duration="2000"
+				:before-close="true" @close="close" @confirm="confirm"></uni-popup-dialog>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	import util from '../../commom/util.js';
+	import mynavBar from '@/components/my-navBar/m-navBar';
 	export default {
 		data() {
 			return {
 				personInfo: {},
 				itemData: {},
+				showLook: '',
 				classIndex: 0, //选择班级的索引
 				nowClass: {}, //当前选择的班级成绩统计
 				classList: [], //班级列表
@@ -119,11 +125,19 @@
 				scrollInto: '',
 			}
 		},
+		components: {
+			mynavBar
+		},
 		onLoad(option) {
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			this.itemData = util.getPageData(option);
 			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.itemData.text = '成绩查看';
+			this.itemData.index = 100;
+			if(!this.itemData.is_publish){
+				this.showLook = '发布成绩';
+			}
 			uni.setNavigationBarTitle({
 				title: '成绩查看'
 			});
@@ -133,12 +147,42 @@
 			//1.8.阅卷成绩统计
 			this.getPageList();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifndef APP-PLUS
+			document.title = ""
+			//#endif
+		},
 		methods: {
+			textClick() {
+				this.$refs.popupSubmit.open();
+			},
+			close() {
+				this.$refs.popupSubmit.close();
+			},
+			confirm(value) {
+				this.$refs.popupSubmit.close();
+				let comData = {
+					index_code: this.itemData.access.split('#')[1],
+					id: this.itemData.id, //任务id
+					user_name:this.personInfo.user_name,
+					user_code:this.personInfo.user_code
+				}
+				this.showLoading();
+				//
+				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'task/publish', comData, (data0,data) => {
+					this.hideLoading();
+					if(data.code == 0){
+						this.showLook = '';
+						const eventChannel = this.getOpenerEventChannel()
+						eventChannel.emit('publishScore', {data: this.itemData.id});
+					}
+					this.showToast(data.msg);
+				});
+			},
+			clickMissStu(){
+				console.log('clickMissStu:'+JSON.stringify(this.nowClass));
+				this.$refs.popup.open();
+			},
 			ontabtap(e) {
 				let index = e.target.dataset.current || e.currentTarget.dataset.current;
 				// this.switchTab(index);
@@ -257,10 +301,32 @@
 		font-size: 14px;
 		color: #505050;
 	}
+
 	.uni-list::before {
-	    height: 0px !important;
+		height: 0px !important;
 	}
+
 	.uni-list--border-top {
-	    height: 0px !important;
+		height: 0px !important;
+	}
+
+	.scoreValue {
+		width: 60px;
+		height: 50px;
+		border: 1px solid gray;
+		text-align: center;
+		vertical-align: middle;
+		display: table-cell;
+		color: gray;
+		font-size: 14px;
+	}
+
+	.scoreName {
+		width: 62px;
+		height: 20px;
+		color: white;
+		background-color: gray;
+		font-size: 12px;
+		text-align: center;
 	}
 </style>

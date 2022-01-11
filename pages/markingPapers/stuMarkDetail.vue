@@ -82,7 +82,7 @@
 					<view class="stuScoreDetail">{{model.complete_score}}</view>
 				</uni-col>
 				<uni-col :span="6">
-					<view v-if="model.stu_answer_list" style="background-color: #c6c6c6;" class="stuScoreDetail">
+					<view v-if="model.stu_answer_list&&model.stu_answer_list.length>0" style="background-color: #c6c6c6;" class="stuScoreDetail">
 						{{model.stu_answer_list.join(',')}}
 					</view>
 					<view v-else="" style="background-color: #c6c6c6;" class="stuScoreDetail">无</view>
