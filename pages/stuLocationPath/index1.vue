@@ -165,6 +165,9 @@
 			getDeviceList() { //108.定位监测设备列表
 				let comData = {
 					mach_type: -1, //设备类型,-1全部
+					location_type:-1,//地点类型,-1全部
+					pageNumber:1,
+					pageSize:999,
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK + 'LocationAttendance/list', comData, data => {
