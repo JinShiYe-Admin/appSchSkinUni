@@ -55,6 +55,7 @@
 		onLoad(option) {
 			this.personInfo = util.getPersonal();
 			this.itemData = util.getPageData(option);
+			this.itemData.index = 100
 			//#ifndef APP-PLUS
 			document.title = ""
 			//#endif

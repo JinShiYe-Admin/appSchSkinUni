@@ -54,9 +54,8 @@
 		},
 		onLoad(option) {
 			this.personInfo = util.getPersonal();
-			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			this.itemData = util.getPageData(option);
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.itemData.index = 100
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
