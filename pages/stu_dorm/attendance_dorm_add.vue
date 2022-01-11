@@ -245,6 +245,9 @@
 				if(this.qaIndex==-1){
 					show=false
 				}
+				if(this.time==''){
+					show=false
+				}
 				this.showNextButton=show
 			},
 			/**
@@ -378,7 +381,10 @@
 			//获取定位型设备列表108
 			getLeaveLocList(){
 				let comData={
+					loction_type:2,
 					mach_type:8,
+					pageNumber:1,
+					pageSize:-1,
 					index_code: this.index_code,
 				} 
 				this.post(this.globaData.INTERFACE_WORK+'LocationAttendance/list',comData,response=>{

@@ -408,6 +408,7 @@
 								id:this.tabBarItem.id,
 								index_code:this.index_code
 							}
+							this.postData(comData)
 						}
 					}else if(this.current==1){
 						if(this.formByClass.grdIndex==-1){
@@ -439,22 +440,25 @@
 								id:this.tabBarItem.id,
 								index_code:this.index_code
 							}
+							this.postData(comData)
 						}
 					}
-					this.post(this.globaData.INTERFACE_DORM.substring(0,this.globaData.INTERFACE_DORM.length-4)+'dormAttendance/edit',comData,(response0,response)=>{
-						if (response.code == 0) {
-							 this.showToast(response.msg);
-							 const eventChannel = this.getOpenerEventChannel()
-							 eventChannel.emit('refreshList', {data: 1});
-							 uni.navigateBack();
-						} else {
-							this.canSub=true
-							this.showToast(response.msg);
-						}
-					},()=>{
-						this.canSub=true
-					})
 				}
+			},
+			postData(comData){
+				this.post(this.globaData.INTERFACE_DORM.substring(0,this.globaData.INTERFACE_DORM.length-4)+'dormAttendance/edit',comData,(response0,response)=>{
+					if (response.code == 0) {
+						 this.showToast(response.msg);
+						 const eventChannel = this.getOpenerEventChannel()
+						 eventChannel.emit('refreshList', {data: 1});
+						 uni.navigateBack();
+					} else {
+						this.canSub=true
+						this.showToast(response.msg);
+					}
+				},()=>{
+					this.canSub=true
+				})
 			},
 			cancel(){
 				this.text='编辑'
@@ -668,6 +672,10 @@
 						this.hideLoading()
 						this.attendanceList=response.item_array
 						// this.attendanceList=[{text:'晚休缺勤',value:'晚休缺勤'}]
+						if(response.item_array.length==0){
+							this.showToast('考勤项目不存在，无法编辑')
+							this.cancel()
+						}
 						let rest_array=response.rest_array
 						let rest=[]
 						rest_array.map(function(item){
