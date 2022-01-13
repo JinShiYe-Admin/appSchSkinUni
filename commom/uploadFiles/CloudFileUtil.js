@@ -366,15 +366,15 @@ var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64S
 	getQNUpToken(null, Vue.prototype.QNGETUPLOADTOKEN, getToken, function(data) {
 		console.log('getQNUpToken111:' + JSON.stringify(data));
 		let QNUptoken = data.data; //token数据
-		// console.log('七牛上传token:' + JSON.stringify(QNUptoken));
+		console.log('七牛上传token:' + JSON.stringify(QNUptoken));
 		if (QNUptoken.Status == 0) { //失败
 			uni.showToast('获取上传凭证失败 ' + QNUptoken.Message);
-			//console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
+			console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
 			uni.hideLoading();
 		} else {
-			// console.log("上传的Token:" + QNUptoken.Data.Token);
-			// console.log("上传的Domain:" + QNUptoken.Data.Domain);
-			// console.log("上传的base64Str:"+base64Str);
+			console.log("上传的Token:" + QNUptoken.Data.Token);
+			console.log("上传的Domain:" + QNUptoken.Data.Domain);
+			console.log("上传的base64Str:"+base64Str);
 			let pic = base64Str;
 			let url = 'https://upload.qiniu.com/putb64/-1/key/' + encode(QNUptoken.Data.Key);
 			uni.request({
@@ -386,12 +386,12 @@ var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64S
 					Authorization: "UpToken " + QNUptoken.Data.Token
 				},
 				success: (uploadFileRes) => {
-					// console.log(uploadFileRes.data);
+					console.log(uploadFileRes.data);
 					let responseUrl = QNUptoken.Data.Domain + uploadFileRes.data.key;
 					callback(responseUrl);
 				},
 				fail: (e) => {
-					// console.log(e);
+					console.log(e);
 					uni.showToast('七牛信息上传失败！');
 					ecallback()
 				}

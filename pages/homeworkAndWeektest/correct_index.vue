@@ -30,8 +30,7 @@
 									<uni-col :span="8" style="text-align: right;">
 										<view class="scoreOrderBorder" style="color: #00CFBD;">
 											<view class="scoreOrder" style="color: #00CFBD;">{{model.submit_num}}</view>
-											<view class="scoreOrder"
-												style="margin-top: 0px;color: gray;font-size: 10px;">已识别</view>
+											<view class="scoreOrder" style="margin-top: 0px;color: gray;font-size: 10px;">已识别</view>
 										</view>
 										<view class="scoreOrderBorder" style="color: #FAA666;">
 											<view class="scoreOrder" style="color: #FAA666;">{{model.no_submit_num}}
@@ -43,10 +42,12 @@
 								</uni-row>
 								<uni-row style='margin-top: 10px;'>
 									<uni-col :span="11" style="text-align: center;">
-										<button class="mini-btn" type="default" size="mini" @click="clickSem0Item(model,0)">开始批改</button>
+										<button class="mini-btn" type="default" size="mini"
+											@click="clickSem0Item(model,0)">开始批改</button>
 									</uni-col>
 									<uni-col :span="11" style="text-align: center;">
-										<button class="mini-btn" type="default" size="mini" @click="clickSem0Item(model,1)">取消本次任务</button>
+										<button class="mini-btn" type="default" size="mini"
+											@click="clickSem0Item(model,1)">取消本次任务</button>
 									</uni-col>
 								</uni-row>
 							</text>
@@ -58,7 +59,7 @@
 			<view v-show="semFlag == 1">
 				<view class="example-body">
 					<view v-for="(model,index) in semFlag1Data.dataList" :key='index'>
-						<uni-card isShadow>
+						<uni-card isShadow @click="clickSem1Item(model)">
 							<text class="content-box-text">
 								<view class="card-title">{{model.name}}</view>
 								<view class="card-line"></view>
@@ -113,12 +114,12 @@
 			</view>
 		</view>
 		<uni-popup ref="popupStart" type="dialog">
-			<uni-popup-dialog title="确定?" content="您确定截止上交吗？" :duration="2000"
-				:before-close="true" @close="closeStart" @confirm="confirmStart"></uni-popup-dialog>
+			<uni-popup-dialog title="确定?" content="您确定截止上交吗？" :duration="2000" :before-close="true" @close="closeStart"
+				@confirm="confirmStart"></uni-popup-dialog>
 		</uni-popup>
 		<uni-popup ref="popupDel" type="dialog">
-			<uni-popup-dialog title="确定?" content="您确定取消作业/周测吗？" :duration="2000"
-				:before-close="true" @close="closeDel" @confirm="confirmDel"></uni-popup-dialog>
+			<uni-popup-dialog title="确定?" content="您确定取消作业/周测吗？" :duration="2000" :before-close="true" @close="closeDel"
+				@confirm="confirmDel"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -135,7 +136,7 @@
 				pageSize: 10,
 				semFlag: 0, //点击的seg索引
 				semFlag0Data: { //考勤记录
-					clickModel:{},//
+					clickModel: {}, //
 					flagRef: 0, //0刷新1加载更多
 					pageIndex: 1,
 					total_page: 0, //总页数
@@ -256,13 +257,18 @@
 			}
 		},
 		methods: {
-			clickSem0Item(model,flag){
-				if(flag == 0){
+			clickSem0Item(model, flag) {
+				if (flag == 0) {
 					this.$refs.popupStart.open();
-				}else{
+				} else {
 					this.$refs.popupDel.open();
 				}
 				this.semFlag0Data.clickModel = model;
+			},
+			clickSem1Item(model){
+				model.access = this.itemData.access;
+				console.log('clickLi:' + JSON.stringify(model));
+				util.openwithData("/pages/homeworkAndWeektest/correct_correct", model);
 			},
 			closeStart() {
 				this.$refs.popupStart.close();
@@ -275,9 +281,9 @@
 				}
 				this.showLoading();
 				//
-				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'teachAssistTask/startView', comData, (data0,data) => {
+				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'teachAssistTask/startView', comData, (data0, data) => {
 					this.hideLoading();
-					if(data.code == 0){
+					if (data.code == 0) {
 						this.semFlag0Data.loadMoreText = "加载中..."
 						this.semFlag0Data.flagRef = 0;
 						this.semFlag0Data.pageIndex = 1;
@@ -297,9 +303,9 @@
 				}
 				this.showLoading();
 				//
-				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'teachAssistTask/delete', comData, (data0,data) => {
+				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'teachAssistTask/delete', comData, (data0, data) => {
 					this.hideLoading();
-					if(data.code == 0){
+					if (data.code == 0) {
 						this.semFlag0Data.loadMoreText = "加载中..."
 						this.semFlag0Data.flagRef = 0;
 						this.semFlag0Data.pageIndex = 1;
@@ -315,7 +321,7 @@
 					publishScore(data) { //子页面调用父页面需要的方法
 						for (var i = 0; i < _this.semFlag2Data.dataList.length; i++) {
 							var tempModel = _this.semFlag2Data.dataList[i];
-							if(data.data == tempModel.id){
+							if (data.data == tempModel.id) {
 								tempModel.is_publish = true;
 							}
 						}
@@ -456,6 +462,22 @@
 </script>
 
 <style>
+	/* 选择框  等悬浮样式 */
+	 .tabs-fixed {
+	 	width: 100vw;
+	 	position: fixed;
+	    /* background-color: #FFFFFF; */
+		background: #F0F0F0;
+	 	z-index: 10;
+	 	left: 0;
+	 	/* #ifndef APP-PLUS */
+	 	top: 44px;
+	 	/* #endif */
+	 	/* #ifdef APP-PLUS */
+	 	right: 3px;
+		top: 64px;
+	 	/* #endif */
+	 }
 	.peopleImg {
 		width: 40px;
 		height: 40px;
