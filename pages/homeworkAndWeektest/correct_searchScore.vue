@@ -257,6 +257,23 @@
 </script>
 
 <style>
+	
+	/* 选择框  等悬浮样式 */
+	 .tabs-fixed {
+	 	width: 100vw;
+	 	position: fixed;
+	    /* background-color: #FFFFFF; */
+		background: #F0F0F0;
+	 	z-index: 10;
+	 	left: 0;
+	 	/* #ifndef APP-PLUS */
+	 	top: 44px;
+	 	/* #endif */
+	 	/* #ifdef APP-PLUS */
+	 	right: 3px;
+		top: 64px;
+	 	/* #endif */
+	 }
 	.tabs {
 		flex: 1;
 		flex-direction: column;
