@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="tabs-fixed" style="background-color: #FFFFFF;">
+		<view class="tabs-fixed">
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="yearClick" :value="yearIndex" :range="yearArray" range-key="year_name">
 					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="yearIndex>=0?yearArray[yearIndex].year_name:'请选择'" ></uni-easyinput-select>
@@ -19,7 +19,7 @@
 				<view>未交：{{stat.miss_count}}</view>
 			</view>
 		</view>
-		 <view style="padding: 0 15px;margin-top: 66px;">
+		 <view style="padding:66px 15px 0;">
 			 <uni-list :border="false">
 			 	<uni-list-item :showArrow="item.state=='已交'" clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
 			 		<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
