@@ -381,10 +381,10 @@
 			//获取定位型设备列表108
 			getLeaveLocList(){
 				let comData={
-					loction_type:2,
+					location_type:2,
 					mach_type:8,
 					pageNumber:1,
-					pageSize:-1,
+					pageSize:9999999,
 					index_code: this.index_code,
 				} 
 				this.post(this.globaData.INTERFACE_WORK+'LocationAttendance/list',comData,response=>{

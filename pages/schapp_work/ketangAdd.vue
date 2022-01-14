@@ -442,10 +442,10 @@
 			getLeaveLocList(){
 				return new Promise((res,rej)=>{
 					let comData={
-						loction_type:-1,
+						location_type:-1,
 						mach_type:8,
 						pageNumber:1,
-						pageSize:-1,
+						pageSize:9999999,
 						index_code: this.index_code,
 					} 
 					this.post(this.globaData.INTERFACE_WORK+'LocationAttendance/list',comData,response=>{
