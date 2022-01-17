@@ -336,7 +336,7 @@
 			setTotal(){
 				let bjrs=[],yd=[],ktqq=[],cd=[],zt=[],sj=[],bj=[]
 				this.stuList.map(stuItem=>{
-					if(stuItem.item_code&&stuItem.item_code=='*'){
+					if(stuItem.item_code&&(stuItem.item_code=='*' || stuItem.item_code=='**')){
 						yd.push(stuItem)
 					}
 					if(stuItem.item_code&&stuItem.item_code=='classAbsence'){
