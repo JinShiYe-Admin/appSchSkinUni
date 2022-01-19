@@ -31,7 +31,6 @@
  	/* #endif */
  	/* #ifdef APP-PLUS */
  	right: 3px;
-	top: 0px;
  	/* #endif */
  }
  ::v-deep.segmented-control{

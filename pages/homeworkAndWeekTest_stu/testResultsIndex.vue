@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="tabs-fixed" style="background-color: #FFFFFF;">
+		<view class="tabs-fixed">
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="yearClick" :value="yearIndex" :range="yearArray" range-key="year_name">
 					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="yearIndex>=0?yearArray[yearIndex].year_name:'请选择'" ></uni-easyinput-select>
@@ -19,7 +19,7 @@
 				<view>未交：{{stat.miss_count}}</view>
 			</view>
 		</view>
-		 <view style="padding: 0 15px;margin-top: 66px;">
+		 <view style="padding:66px 15px 0;">
 			 <uni-list :border="false">
 			 	<uni-list-item :showArrow="item.state=='已交'" clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
 			 		<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
@@ -60,11 +60,11 @@
 				},
 				stat:{},//统计数据
 				pagedata:[],
-				yearIndex:-1,
-				semIndex:-1,
+				yearIndex:0,
+				semIndex:0,
 				subIndex:0,
-				yearArray:[{year_code:'',year_name:''}],//学年列表
-				semArray:[{term_code:'',term_name:''}],//学期列表
+				yearArray:[{year_code:'',year_name:'全部学年'}],//学年列表
+				semArray:[{term_code:'',term_name:'全部学期'}],//学期列表
 				subArray:[{sub_code:'',sub_name:''}],//科目列表
 			}
 		},
@@ -75,7 +75,7 @@
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'year',params,response=>{
 					 console.log("response: " + JSON.stringify(response));
-					 this.yearArray=response.list
+					 this.yearArray=[{year_code:'-1',year_name:'全部学年'}].concat(response.list)
 				})
 			},
 			getSemester(){//获取学期
@@ -86,7 +86,7 @@
 				}
 				this.post(this.globaData.INTERFACE_BASESUB+'SysTermP',params,response=>{
 					 console.log("response: " + JSON.stringify(response));
-					 this.semArray=response.list
+					 this.semArray=[{term_code:'-1',term_name:'全部学期'}].concat(response.list)
 				})
 			},
 			getSubList(){//获取科目
@@ -113,13 +113,13 @@
 					cls_code:this.personInfo.cls_code,
 					stu_code:this.personInfo.stu_code,
 					stu_name:this.personInfo.stu_name,
-					sub_code:this.subList[0].sub_code,
+					sub_code:this.subList[this.subIndex].sub_code,
 				 	index_code: this.index_code, 
 				 }
-				 if(this.yearIndex>=0){
+				 if(this.yearIndex>0){
 				 	params.year_code=this.yearArray[this.yearIndex].year_code
 				 }
-				 if(this.semIndex>=0){
+				 if(this.semIndex>0){
 				 	params.term_code=this.semArray[this.semIndex].term_code
 				 }
 				 this.post(this.globaData.INTERFACE_MARKINGPAPERS+'stuAnalysis/turnSituation',params,response=>{
@@ -127,7 +127,7 @@
 					 this.stat={allcount:parseInt(response.miss_count)+parseInt(response.count),miss_count:response.miss_count,count:response.count}
 				 })
 			},
-			getList(){//获取年级
+			getList(){
 				const params = {
 					page_number:this.pageobj0.page_number,
 					page_size:this.pageSize,
@@ -135,13 +135,13 @@
 					cls_code:this.personInfo.cls_code,
 					stu_code:this.personInfo.stu_code,
 					stu_name:this.personInfo.stu_name,
-					sub_code:this.subList[0].sub_code,
+					sub_code:this.subList[this.subIndex].sub_code,
 					index_code: this.index_code,
 				}
-				if(this.yearIndex>=0){
+				if(this.yearIndex>0){
 					params.year_code=this.yearArray[this.yearIndex].year_code
 				}
-				if(this.semIndex>=0){
+				if(this.semIndex>0){
 					params.term_code=this.semArray[this.semIndex].term_code
 				}
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS+'stuAnalysis/page',params,response=>{
@@ -169,7 +169,7 @@
 					util.openwithData('/pages/homeworkAndWeekTest_stu/testResultsDetail',item,{})
 				}
 			},
-			yearClick(){
+			yearClick(e){
 				if(this.yearIndex!==e.detail.value){
 					 this.yearIndex=e.detail.value
 					 this.showLoading()
@@ -179,7 +179,7 @@
 					 this.getList();
 				}
 			},
-			semClick(){
+			semClick(e){
 				if(this.semIndex!==e.detail.value){
 					 this.semIndex=e.detail.value
 					 this.showLoading()
@@ -189,7 +189,7 @@
 					 this.getList();
 				}
 			},
-			subClick(){
+			subClick(e){
 				if(this.subIndex!==e.detail.value){
 					 this.subIndex=e.detail.value
 					 this.showLoading()
