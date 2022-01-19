@@ -16,14 +16,14 @@
 			</view>
 		</view>
 		<view class="content" style="margin-top: 10px;padding-bottom:35px ;">
-			<view style="font-size: 13px;text-align: center;color:#505050 ;">
+			<view style="font-size: 13px;text-align: center;color:#505050 ;word-break: break-all;padding: 0 15px;">
 				<text>来源：{{question.remark}}</text>
 			</view>
 			<uni-card title="原题" isShadow>
 				<text class="content-box-text">
 					<view v-if="question.content || question.option">
 						<view v-if="question.content" v-html="question.content"></view>
-						<view v-if="question.option" v-for="item in question.option" v-html="item"></view>
+						<view v-if="question.option" :key="index" v-for="(item,index) in question.option" v-html="item"></view>
 					</view>
 					<view v-else style="margin-left: 15px;font-size: 13px;">暂无题目</view>
 				</text>
@@ -115,15 +115,28 @@
 					index_code: this.index_code, 
 				}
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS+'stuAnalysis/queDetail',params,response=>{
-					 this.question={
-						 question_id:response.question_id?response.question_id:'',
-						 content:response.content?response.content:'',
-						 option:response.option?JSON.parse(response.option):'',
-						 answer:response.answer?'<span>【答案】</span>'+JSON.parse(response.answer):'',
-						 analyse:response.analyse?'<span>【分析】</span>'+response.analyse:'',
-						 solve:response.solve?'<span>【解答】</span>'+response.solve:'',
-						 remark:response.remark?response.remark:'',
-						 stu_answer:response.stu_answer?response.stu_answer:'',
+					 if(response){
+					 	this.question={
+					 	 question_id:response.question_id?response.question_id:'',
+					 	 content:response.content?response.content:'',
+					 	 option:response.option?JSON.parse(response.option):'',
+					 	 answer:response.answer?'<span>【答案】</span>'+JSON.parse(response.answer):'',
+					 	 analyse:response.analyse?'<span>【分析】</span>'+response.analyse:'',
+					 	 solve:response.solve?'<span>【解答】</span>'+response.solve:'',
+					 	 remark:response.remark?response.remark:'暂无',
+					 	 stu_answer:response.stu_answer?response.stu_answer:'',
+					 	}
+					 }else{
+					 	this.question={
+					 		 question_id:'',
+					 		 content:'',
+					 		 option:'',
+					 		 answer:'',
+					 		 analyse:'',
+					 		 solve:'',
+					 		 remark:'暂无',
+					 		 stu_answer:'',
+					 	}
 					 }
 				})
 				// const params = {
@@ -192,6 +205,7 @@
 	}
 	.content-box-text{
 		font-size: 13px;
+		word-break: break-all;
 	}
 	::v-deep .uni-card__header-title-text{
 		font-size: 14px;
