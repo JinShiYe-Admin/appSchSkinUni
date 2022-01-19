@@ -106,7 +106,7 @@
 								</uni-col>
 								<uni-col style="" :span="2">
 									<image style="width: 15px;height: 15px;margin-top: 5px; "
-										src="/static/images/student_performance//search.png"></image>
+										src="/static/images/student_performance/search.png"></image>
 								</uni-col>
 							</uni-row>
 						</view>
@@ -128,7 +128,7 @@
 								</uni-col>
 								<uni-col style="" :span="2">
 									<image style="width: 15px;height: 15px;margin-top: 5px; "
-										src="/static/images/student_performance//search.png"></image>
+										src="/static/images/student_performance/search.png"></image>
 								</uni-col>
 							</uni-row>
 						</view>
@@ -177,7 +177,7 @@
 								</uni-col>
 								<uni-col style="" :span="2">
 									<image style="width: 15px;height: 15px;margin-top: 5px; "
-										src="/static/images/student_performance//search.png"></image>
+										src="/static/images/student_performance/search.png"></image>
 								</uni-col>
 							</uni-row>
 						</view>
@@ -200,7 +200,7 @@
 								</uni-col>
 								<uni-col style="" :span="2">
 									<image style="width: 15px;height: 15px;margin-top: 5px; "
-										src="/static/images/student_performance//search.png"></image>
+										src="/static/images/student_performance/search.png"></image>
 								</uni-col>
 							</uni-row>
 						</view>

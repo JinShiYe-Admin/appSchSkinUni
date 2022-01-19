@@ -42,6 +42,7 @@
 						@click="clickScore(currentCorrectModel,0)">零分</button>
 				</view>
 				<view v-if="currentCorrectModel.id" @tap='submitBtnScore' class="submitBtn">提交</view>
+				<p style="color: #d43030;margin-left: 20px;margin-bottom: 0px;">如需添加批阅，请点击图片</p>
 				<image v-show='imgSrc.length>0' mode="aspectFit" :src="imgSrc" :imgSrc='imgSrc'
 					:change:imgSrc="renderScript.receiveSrc" style="margin: 10px 20px 0px 20px;width: 85%;"
 					@click="renderScript.usePED" id="renderScript" class="renderScript"></image>
@@ -190,20 +191,18 @@
 				}
 			},
 			submitBtnAnswer() {
-				console.log('submitBtnAnswer:'+JSON.stringify(this.currentCorrectModel));
-				if (this.currentCorrectModel.stu_answerStr.length == 0) {
-					this.showToast('请输入学生答案');
-					return;
-				}
+				this.currentCorrectModel.stu_answerStr.replace(/\s/g,"");
+				console.log('submitBtnAnswer:' + JSON.stringify(this.currentCorrectModel));
 				let tempArr0 = this.currentCorrectModel.stu_answerStr.split('');
-				if (tempArr0.length == 0) {
-					this.showToast('请输入学生答案');
-					return;
-				}
-				var isletter2 = /^[a-zA-Z]+$/.test(this.currentCorrectModel.stu_answerStr);
-				if(!isletter2){
-					this.showToast('请输入正确的学生答案');
-					return;
+				if (this.currentCorrectModel.stu_answerStr.length == 0) {
+					// this.showToast('请输入学生答案');
+					// return;
+				} else {
+					var isletter2 = /^[a-zA-Z]+$/.test(this.currentCorrectModel.stu_answerStr);
+					if (!isletter2) {
+						this.showToast('请输入正确的学生答案');
+						return;
+					}
 				}
 				let tempArr1 = [];
 				for (var i = 0; i < tempArr0.length; i++) {
@@ -237,7 +236,9 @@
 			submitBtnScore: function() {
 				console.log('clickSubmit:' + JSON.stringify(this.currentCorrectModel));
 				var tempFlag = 0; //判断分数是否输入正确
-				if (parseFloat(this.currentCorrectModel.stu_group_score).toFixed(1) >= 0 && parseFloat(this.currentCorrectModel.stu_group_score).toFixed(1) <= parseFloat(this.currentCorrectModel.group_score).toFixed(1)) {
+				if (parseFloat(this.currentCorrectModel.stu_group_score).toFixed(1) >= 0 && parseFloat(this
+						.currentCorrectModel.stu_group_score).toFixed(1) <= parseFloat(this.currentCorrectModel
+						.group_score).toFixed(1)) {
 					this.currentCorrectModel.stu_group_score = parseFloat(this.currentCorrectModel.stu_group_score);
 				} else {
 					tempFlag++;
@@ -262,7 +263,10 @@
 									if (this.currentCorrectList.length > this.currentCorrectIndex) {
 										this.currentCorrectModel = this.currentCorrectList[this
 											.currentCorrectIndex];
-										this.imgSrc = this.currentCorrectModel.stu_answer_img_url;
+										// this.imgSrc = this.currentCorrectModel.stu_answer_img_url;
+										this.imgSrc = this.currentCorrectModel.painting_img ? this
+											.currentCorrectModel.painting_img : this.currentCorrectModel
+											.stu_answer_img_url;
 									} else {
 										this.currentCorrectModel = {};
 										this.showToast('已提交完当前题组所以答案');
@@ -364,7 +368,7 @@
 								this.currentCorrectList = data.data.list;
 								this.currentCorrectIndex = 0;
 								this.currentCorrectModel = this.currentCorrectList[this.currentCorrectIndex];
-								
+
 							}
 							if (data.data.msg) {
 								this.showToast(data.data.msg);
@@ -388,11 +392,23 @@
 						this.hideLoading();
 						if (data.code == 0) {
 							if (data.data.list && data.data.list.length > 0) {
-								this.currentCorrectList = data.data.list;
+								let tempArr = [];
+								for (var i = 0; i < data.data.list.length; i++) {
+									let tempM = data.data.list[i];
+									if(tempM.is_viewed == false){
+										tempArr.push(tempM);
+									}
+								}
+								if(tempArr.length == 0){
+									this.showToast('当前题组已全部批改');
+									return;
+								}
+								this.currentCorrectList = tempArr;
 								this.currentCorrectIndex = 0;
 								this.currentCorrectModel = this.currentCorrectList[this.currentCorrectIndex];
-								// this.imgSrc = this.currentCorrectModel.painting_img ? this.currentCorrectModel.painting_img : this.currentCorrectModel.stu_answer_img_url;
-								this.imgSrc = this.currentCorrectModel.stu_answer_img_url;
+								this.imgSrc = this.currentCorrectModel.painting_img ? this.currentCorrectModel
+									.painting_img : this.currentCorrectModel.stu_answer_img_url;
+								// this.imgSrc = this.currentCorrectModel.stu_answer_img_url;
 							}
 							if (data.data.msg) {
 								this.showToast(data.data.msg);

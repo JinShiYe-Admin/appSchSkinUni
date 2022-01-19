@@ -400,17 +400,18 @@
 								tempM.zhishidianDFL = {
 									"series": [{
 										"name": "批改进度",
-										"data": tempM.schedule,
+										"data": parseFloat(tempM.schedule/100).toFixed(1),
 										"color": "#00CFBD"
 									}]
 								};
+								console.log('tempM.zhishidianDFL:'+JSON.stringify(tempM.zhishidianDFL));
 								tempM.zhishidianShow = {
-									animation: false,
+									// animation: false,
 									// errorReload: false,
-									duration: 0,
+									// duration: 0,
 									title: {
-										// name: parseFloat(tempM.schedule).toFixed(1) + '%',
-										name: tempM.schedule + '%',
+										name: parseFloat(tempM.schedule).toFixed(1) + '%',
+										// name: tempM.schedule + '%',
 										fontSize: 15,
 										color: '#00CFBD'
 									},
@@ -423,6 +424,8 @@
 										arcbar: {
 											width: '5',
 											type: "circle",
+											startAngle: 0.5,
+											endAngle: 0.5,
 										}
 									}
 								}
