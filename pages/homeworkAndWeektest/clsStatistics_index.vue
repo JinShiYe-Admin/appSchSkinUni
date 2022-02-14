@@ -4,6 +4,8 @@
 		<view class="tabs-fixed">
 			<view style="font-size: 14px;text-align: center;padding-top: 5px;">高一 1901班 物理 作业统计</view>
 			<view style="font-size: 12px;text-align: center;color: gray;">2021-2022学年 上学期</view>
+			<uni-icons style="float: right;margin: -30px 10px 0 0;color: #00CFBD;" type="list" size="30"
+				@click="clickShowSelect()"></uni-icons>
 			<my-segmented-control ref='segmCon' :current="semFlag" :values="itemData.childList" @clickItem="clickSeg"
 				styleType="text" activeColor="#00CFBD"></my-segmented-control>
 		</view>
@@ -80,8 +82,8 @@
 												</view>
 											</uni-col>
 											<uni-col style="" :span="2">
-												<image style="width: 15px;height: 15px;margin-top: 5px; "
-													src="/static/images/student_performance/search.png"></image>
+												<uni-icons style="font-size: 14px;margin-left: 10px;" type="arrowright"
+													size="20"></uni-icons>
 											</uni-col>
 										</uni-row>
 									</view>
@@ -114,8 +116,8 @@
 												</view>
 											</uni-col>
 											<uni-col style="" :span="2">
-												<image style="width: 15px;height: 15px;margin-top: 5px; "
-													src="/static/images/student_performance/search.png"></image>
+												<uni-icons style="font-size: 14px;margin-left: 10px;" type="arrowright"
+													size="20"></uni-icons>
 											</uni-col>
 										</uni-row>
 									</view>
@@ -134,9 +136,13 @@
 									<view>请选择知识点大类</view>
 								</uni-col>
 								<uni-col style="text-align: right;" :span="14">
-									<view style="color: gray;" @click="openLevel">{{semFlag1Data.pickerStr}}<uni-icons style="font-size: 14px;" type="arrowdown" size="20"></uni-icons></view>
-									<level-linkage v-if="semFlag1Data.treeData.length>0" ref="levelLinkage" :pickerValueDefault="semFlag1Data.pickerValueDefault"
-										:allData="semFlag1Data.treeData" @onConfirm="onConfirm" themeColor='#007AFF'></level-linkage>
+									<view style="color: gray;" @click="openLevel">{{semFlag1Data.pickerStr}}
+										<uni-icons style="font-size: 14px;" type="arrowdown" size="20"></uni-icons>
+									</view>
+									<level-linkage v-if="semFlag1Data.treeData.length>0" ref="levelLinkage"
+										:pickerValueDefault="semFlag1Data.pickerValueDefault"
+										:allData="semFlag1Data.treeData" @onConfirm="onConfirm" themeColor='#007AFF'>
+									</level-linkage>
 								</uni-col>
 							</uni-row>
 							<uni-row style="margin: 15px -15px 0 -15px;background-color: #e5e3e3;height: 40px;">
@@ -153,7 +159,8 @@
 									<p class="scoreDetail"> </p>
 								</uni-col>
 							</uni-row>
-							<uni-row v-for="(model,index) in semFlag1Data.catalog_list" :key="index" style="margin: 5px -15px 0 -15px;">
+							<uni-row v-for="(model,index) in semFlag1Data.catalog_list" :key="index"
+								style="margin: 5px -15px 0 -15px;">
 								<uni-col style="" :span="11">
 									<p class="stuScoreDetail">{{model.name}}</p>
 									<view class="card-line" style="margin-left: 10px;"></view>
@@ -165,7 +172,8 @@
 									<p class="stuScoreDetail">{{model.radio?model.radio:0}}</p>
 								</uni-col>
 								<uni-col style="" :span="3">
-									<image style="width: 15px;height: 15px;margin-top: 5px;margin-left: 10px;" src="/static/images/student_performance/search.png"></image>
+									<uni-icons style="font-size: 14px;margin-left: 10px;" type="arrowright" size="20">
+									</uni-icons>
 								</uni-col>
 							</uni-row>
 							<view v-if="semFlag1Data.catalog_list.length==0"
@@ -176,35 +184,173 @@
 			</view>
 			<view v-show="semFlag == 2">
 				<view class="example-body">
-					<view v-for="(model,index) in semFlag2Data.dataList" :key='index'>
-						<uni-card isShadow @click="clickItem(model)">
-							<text class="content-box-text">
-								<view class="card-title">{{model.name}}</view>
-								<view class="card-line"></view>
-								<uni-row class="nameTime">
-									<uni-col :span="24" style="font-size: 14px;">
-										<view class="nameTime">科目：<span class='nameContent'>{{model.sub_name}}</span>
-										</view>
-										<view class="nameTime">截止时间：<span class='nameContent'>{{model.deadline}}</span>
-										</view>
-										<view class="nameTime">年级：<span class='nameContent'>{{model.grd_name}}</span>
-										</view>
-										<view class="nameTime">班级：<span class='nameContent'>{{model.cls_names}}</span>
-										</view>
-									</uni-col>
-								</uni-row>
-							</text>
-						</uni-card>
-					</view>
+					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
+						<text class="content-box-text">
+							<view class="card-title">薄弱知识点榜</view>
+							<uni-list>
+								<uni-list-item :border="false" v-for="(model,index) in semFlag2Data.bad_list"
+									:key='index' direction='column' clickable
+									@click="toDetailPageKnowPointLow(model,index)">
+									<view slot="body">
+										<uni-row style="">
+											<uni-col style="" :span="2">
+												<view
+													style="padding: 1px;margin-top: 0px;width: 20px;height: 20px;font-size: 14px;">
+													{{index+1}}
+												</view>
+												<view class="card-line"></view>
+											</uni-col>
+											<uni-col style="" :span="20">
+												<view
+													style="font-size: 13px;margin-top: 3px;text-align: center;color: #F86A6A;">
+													{{model.question_type_name}}
+												</view>
+											</uni-col>
+											<uni-col style="" :span="2">
+												<uni-icons style="font-size: 14px;margin-left: 10px;" type="arrowright"
+													size="20"></uni-icons>
+											</uni-col>
+										</uni-row>
+									</view>
+								</uni-list-item>
+							</uni-list>
+							<view v-if="semFlag2Data.bad_list.length==0"
+								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
+						</text>
+					</uni-card>
+					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
+						<text class="content-box-text">
+							<view class="card-title">牢固知识点榜</view>
+							<uni-list>
+								<uni-list-item :border="false" v-for="(model,index) in semFlag2Data.good_list"
+									:key='index' direction='column' clickable
+									@click="toDetailPageKnowPointLow(model,index)">
+									<view slot="body">
+										<uni-row style="">
+											<uni-col style="" :span="2">
+												<view
+													style="padding: 1px;margin-top: 0px;width: 20px;height: 20px;font-size: 14px;">
+													{{index+1}}
+												</view>
+												<view class="card-line"></view>
+											</uni-col>
+											<uni-col style="" :span="20">
+												<view
+													style="font-size: 13px;margin-top: 3px;text-align: center;color: #499DF8;">
+													{{model.question_type_name}}
+												</view>
+											</uni-col>
+											<uni-col style="" :span="2">
+												<uni-icons style="font-size: 14px;margin-left: 10px;" type="arrowright"
+													size="20"></uni-icons>
+											</uni-col>
+										</uni-row>
+									</view>
+								</uni-list-item>
+							</uni-list>
+							<view v-if="semFlag2Data.good_list.length==0"
+								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
+						</text>
+					</uni-card>
+					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
+						<text class="content-box-text">
+							<view class="card-title">各知识点详情</view>
+							<view class="card-line"></view>
+							<uni-row style="margin: 15px -15px 0 -15px;background-color: #e5e3e3;height: 40px;">
+								<uni-col style="" :span="11">
+									<p class="scoreDetail">知识点名称</p>
+								</uni-col>
+								<uni-col style="" :span="5">
+									<p class="scoreDetail">考查次数</p>
+								</uni-col>
+								<uni-col style="" :span="5">
+									<p class="scoreDetail">平均得分率</p>
+								</uni-col>
+								<uni-col style="" :span="3">
+									<p class="scoreDetail"> </p>
+								</uni-col>
+							</uni-row>
+							<uni-row v-for="(model,index) in semFlag2Data.list" :key="index"
+								style="margin: 5px -15px 0 -15px;">
+								<uni-col style="" :span="11">
+									<p class="stuScoreDetail">{{model.question_type_name}}</p>
+									<view class="card-line" style="margin-left: 10px;"></view>
+								</uni-col>
+								<uni-col style="" :span="5">
+									<p class="stuScoreDetail">{{model.count?model.count:0}}</p>
+								</uni-col>
+								<uni-col style="" :span="5">
+									<p class="stuScoreDetail">{{model.radio?model.radio:0}}</p>
+								</uni-col>
+								<uni-col style="" :span="3">
+									<uni-icons style="font-size: 14px;margin-left: 10px;" type="arrowright" size="20">
+									</uni-icons>
+								</uni-col>
+							</uni-row>
+							<view v-if="semFlag2Data.list.length==0"
+								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
+						</text>
+					</uni-card>
 				</view>
-				<view class="uni-loadmore" v-if="semFlag2Data.showLoadMore">{{semFlag2Data.loadMoreText}}</view>
 			</view>
 		</view>
-		<uni-popup ref="popup" type="center" style="background-color: white;">
+		<uni-popup ref="popupNames" type="center" style="background-color: white;">
 			<view
 				style="background-color: white;padding: 10px;border-radius: 5px;margin-left: 20px;margin-right: 20px;">
 				<view style="margin-top: 20px;text-align: center;">未交人员名单</view>
 				<view style="margin-top: 20px;color: gray;font-size: 13px;">{{semFlag0Data.miss_stu_nameStr}}</view>
+			</view>
+		</uni-popup>
+		<uni-popup ref="popupSelect" type="center" style="background-color: white;">
+			<scroll-view
+				style="background-color: white;padding: 10px;border-radius: 5px 5px 0px 0px;width: 300px;height: 450px;"
+				class="popupSelect" scroll-y="true">
+				<view class="pupName">学年</view>
+				<uni-row>
+					<uni-col :span="12" v-for="(model,index) in yearList" :key="index">
+						<view :class="index == yearIndexTemp?'popSelect':'popNoSelect'" @click="clickYear(index)">
+							{{model.year_name}}
+						</view>
+					</uni-col>
+				</uni-row>
+				<view class="pupName">学期</view>
+				<uni-row>
+					<uni-col :span="12" v-for="(model,index) in termList" :key="index">
+						<view :class="index == termIndexTemp?'popSelect':'popNoSelect'" @click="clickTerm(index)">
+							{{model.term_name}}
+						</view>
+					</uni-col>
+				</uni-row>
+				<view class="pupName">年级</view>
+				<uni-row>
+					<uni-col :span="12" v-for="(model,index) in grdArray" :key="index">
+						<view :class="index == grdIndexTemp?'popSelect':'popNoSelect'" @click="clickGrd(index)">
+							{{model.name}}
+						</view>
+					</uni-col>
+				</uni-row>
+				<view class="pupName">班级</view>
+				<uni-row>
+					<uni-col :span="12" v-for="(model,index) in clsArrayTemp" :key="index">
+						<view :class="index == clsIndexTemp?'popSelect':'popNoSelect'" @click="clickCls(index)">
+							{{model.name}}
+						</view>
+					</uni-col>
+				</uni-row>
+				<view class="pupName">科目</view>
+				<uni-row>
+					<uni-col :span="12" v-for="(model,index) in subArrayTemp" :key="index">
+						<view :class="index == subIndexTemp?'popSelect':'popNoSelect'" @click="clickSub(index)">
+							{{model.name}}
+						</view>
+					</uni-col>
+				</uni-row>
+			</scroll-view>
+			<view style="background-color: white;height: 50px;">
+				<button class="mini-btn" type="default" size="mini" @click="popSure(0)">取消</button>
+				<button class="mini-btn" type="default" size="mini"
+					style="background-color: #00cfbd;border-color: #00cfbd;color: white;"
+					@click="popSure(1)">确定</button>
 			</view>
 		</uni-popup>
 	</view>
@@ -227,14 +373,19 @@
 					year_name: '全部'
 				}],
 				yearIndex: 0,
+				yearIndexTemp: 0,
 				termList: [{ //学期列表
 					term_code: '',
 					term_name: '全部'
 				}],
 				termIndex: 0,
+				termIndexTemp: 0,
 				grdIndex: 0,
+				grdIndexTemp: 0,
 				clsIndex: 0,
+				clsIndexTemp: 0,
 				subIndex: 0,
+				subIndexTemp: 0,
 				grdArray: [{
 					text: '',
 					value: '-1'
@@ -243,7 +394,15 @@
 					text: '',
 					value: '-1'
 				}],
+				clsArrayTemp: [{
+					text: '',
+					value: '-1'
+				}],
 				subArray: [{
+					text: '',
+					value: '-1'
+				}],
+				subArrayTemp: [{
 					text: '',
 					value: '-1'
 				}],
@@ -260,17 +419,14 @@
 					bad_list: [],
 					good_list: [],
 					catalog_list: [],
-					pickerValueDefault: [0, 0,-1],
+					pickerValueDefault: [0, 0, -1],
 					treeData: [],
-					pickerStr:''
+					pickerStr: ''
 				},
 				semFlag2Data: {
-					flagRef: 0, //0刷新1加载更多
-					pageIndex: 1,
-					total_page: 0, //总页数
-					loadMoreText: "加载中...",
-					showLoadMore: false,
-					dataList: []
+					bad_list: [],
+					good_list: [],
+					list: [],
 				}
 			}
 		},
@@ -304,7 +460,7 @@
 			//获取学期
 			this.getTerm();
 			//获取年级
-			this.getGrd();
+			this.getGrd(1);
 		},
 		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
 			// #ifdef H5
@@ -334,25 +490,9 @@
 					this.getClsAnalysisList();
 				}, 300);
 			} else if (this.semFlag == 1) {
-				// this.semFlag1Data.flagRef = 1;
-				// if (this.semFlag1Data.total_page < this.semFlag1Data.pageIndex) {
-				// 	this.semFlag1Data.loadMoreText = "没有更多数据了!"
-				// 	return;
-				// }
-				// this.semFlag1Data.showLoadMore = true;
-				// setTimeout(() => {
-				// this.getKnowledgeAnalysis();
-				// }, 300);
+				
 			} else if (this.semFlag == 2) {
-				this.semFlag2Data.flagRef = 1;
-				if (this.semFlag2Data.total_page < this.semFlag2Data.pageIndex) {
-					this.semFlag2Data.loadMoreText = "没有更多数据了!"
-					return;
-				}
-				this.semFlag2Data.showLoadMore = true;
-				setTimeout(() => {
-					this.getPageList();
-				}, 300);
+				
 			}
 		},
 		onPullDownRefresh() {
@@ -362,19 +502,69 @@
 				this.semFlag0Data.pageIndex = 1;
 				this.getClsAnalysisList();
 			} else if (this.semFlag == 1) {
-				// uni.stopPullDownRefresh();
-				// this.semFlag1Data.loadMoreText = "加载中..."
-				// this.semFlag1Data.flagRef = 0;
-				// this.semFlag1Data.pageIndex = 1;
 				this.getKnowledgeAnalysis();
 			} else if (this.semFlag == 2) {
-				this.semFlag2Data.loadMoreText = "加载中..."
-				this.semFlag2Data.flagRef = 0;
-				this.semFlag2Data.pageIndex = 1;
-				this.getPageList();
+				this.getQuestionTypeAnalysis();
 			}
 		},
 		methods: {
+			clickYear(index) {
+				this.yearIndexTemp = index;
+			},
+			clickTerm(index) {
+				this.termIndexTemp = index;
+			},
+			clickGrd(index) {
+				this.grdIndexTemp = index;
+				this.getCls(0);
+			},
+			clickCls(index) {
+				this.clsIndexTemp = index;
+				this.getSub(0);
+			},
+			clickSub(index) {
+				this.subIndexTemp = index;
+			},
+			popSure(flag) {
+				if (flag == 0) {
+					this.yearIndexTemp = this.yearIndex;
+					this.termIndexTemp = this.termIndex;
+					this.grdIndexTemp = this.grdIndex;
+					this.clsIndexTemp = this.clsIndex;
+					this.subIndexTemp = this.subIndex;
+					this.clsArrayTemp = [].concat(this.clsArray);
+					this.subArrayTemp = [].concat(this.subArray);
+				} else {
+					this.yearIndex = this.yearIndexTemp;
+					this.termIndex = this.termIndexTemp;
+					this.grdIndex = this.grdIndexTemp;
+					this.clsIndex = this.clsIndexTemp;
+					this.subIndex = this.subIndexTemp;
+					this.clsArray = [].concat(this.clsArrayTemp);
+					this.subArray = [].concat(this.subArrayTemp);
+					this.semFlag0Data.dataList = [];
+					this.semFlag0Data.flagRef = 0;
+					this.semFlag0Data.pageIndex = 1;
+					this.semFlag0Data.total_page = 0;
+					this.semFlag1Data.bad_list = [];
+					this.semFlag1Data.good_list = [];
+					this.semFlag1Data.catalog_list = [];
+					this.semFlag1Data.pickerValueDefault = [0, 0, -1];
+					this.semFlag1Data.treeData = [];
+					this.semFlag1Data.pickerStr = '';
+					this.semFlag2Data.bad_list = [];
+					this.semFlag2Data.good_list = [];
+					this.semFlag2Data.list = [];
+					if (this.semFlag == 0) {
+						this.getClsAnalysisList();
+					} else if (this.semFlag == 1) {
+						this.getKnowledgeAnalysis();
+					} else if (this.semFlag == 2) {
+						this.getQuestionTypeAnalysis();
+					}
+				}
+				this.$refs.popupSelect.close();
+			},
 			openLevel() {
 				this.$refs.levelLinkage.open();
 			},
@@ -382,16 +572,21 @@
 				console.log('onConfirm:' + JSON.stringify(e))
 				// e 确认后选中的数据
 				this.semFlag1Data.pickerStr = e.name;
-				this.semFlag1Data.catalog_list = [].concat(this.semFlag1Data.treeData[e.value[0]].children[e.value[1]].children);
+				this.semFlag1Data.catalog_list = [].concat(this.semFlag1Data.treeData[e.value[0]].children[e.value[1]]
+					.children);
 			},
 			clickMissStu(str) {
 				this.semFlag0Data.miss_stu_nameStr = str;
-				this.$refs.popup.open();
+				this.$refs.popupNames.open();
+			},
+			clickShowSelect() {
+				this.$refs.popupSelect.open();
 			},
 			getYear() { //获取学年
 				let comData = {
 					index_code: this.itemData.access.split('#')[1],
 				}
+				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'year', comData, response => {
 					this.hideLoading()
 					if (response.list.length > 0) {
@@ -407,6 +602,7 @@
 					page_size: 1,
 					index_code: this.itemData.access.split('#')[1],
 				}
+				this.showLoading();
 				this.post(this.globaData.INTERFACE_BASESUB + 'SysTermP', comData, response => {
 					this.hideLoading()
 					if (response.list.length > 0) {
@@ -416,67 +612,79 @@
 					}
 				})
 			},
-			getGrd() { //获取年级
+			getGrd(flag) { //获取年级
 				let comData = {
 					op_code: 'index',
 					get_grd: true,
 					all_grd: false,
 					index_code: this.itemData.access.split('#')[1],
 				}
+				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
 					this.hideLoading()
 					if (response.grd_list.length > 0) {
+						for (var i = 0; i < response.grd_list.length; i++) {
+							let tempM = response.grd_list[i];
+							tempM.value = parseInt(tempM.value);
+						}
+						response.grd_list.sort(util.compare('value',1));
 						this.grdArray = response.grd_list;
-						this.getCls();
+						this.getCls(flag);
 					} else {
 						this.grdArray = [];
-						this.pagedata = [];
 						this.showToast('无数据授权 无法获取年级');
 					}
-					this.grdIndex = 0;
 				})
 			},
-			getCls() { //获取班级
+			getCls(flag) { //获取班级
 				let comData = {
 					op_code: 'index',
-					grd_code: this.grdArray[this.grdIndex].value,
+					grd_code: this.grdArray[this.grdIndexTemp].value,
 					get_cls: true,
 					all_cls: false,
 					index_code: this.itemData.access.split('#')[1],
 				}
+				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
 					this.hideLoading();
 					if (response.cls_list.length > 0) {
-						this.clsArray = response.cls_list;
-						this.getSub();
+						if(flag == 1){
+							this.clsArray = response.cls_list;
+						}
+						this.clsArrayTemp = response.cls_list;
+						this.clsIndexTemp = 0;
+						this.getSub(flag);
 					} else {
 						this.clsArray = [];
-						this.pagedata = [];
+						this.clsArrayTemp = [];
 						this.showToast('无数据授权 无法获取班级');
 					}
-					this.clsIndex = 0;
 				})
 			},
-			getSub() { //获取科目
+			getSub(flag) { //获取科目
 				let comData = {
 					op_code: 'index',
-					grd_code: this.grdArray[this.grdIndex].value,
-					cls_code: this.clsArray[this.clsIndex].value,
+					grd_code: this.grdArray[this.grdIndexTemp].value,
+					cls_code: this.clsArrayTemp[this.clsIndex].value,
 					get_sub: true,
 					all_sub: false,
 					index_code: this.itemData.access.split('#')[1],
 				}
+				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
 					this.hideLoading();
 					if (response.sub_list.length > 0) {
-						this.subArray = response.sub_list;
-						this.getClsAnalysisList();
+						this.subArrayTemp = response.sub_list;
+						this.subIndexTemp = 0;
+						if(flag == 1){
+							this.subArray = response.sub_list;
+							this.getClsAnalysisList();
+						}
 					} else {
 						this.subArray = [];
-						this.pagedata = [];
+						this.subArrayTemp = [];
 						this.showToast('无数据授权 无法获取科目');
 					}
-					this.subIndex = 0;
 				})
 			},
 			clickItem: function(model) {
@@ -510,8 +718,8 @@
 							this.getKnowledgeAnalysis();
 						}
 					} else if (this.semFlag == 2) {
-						if (this.semFlag2Data.total_page == 0) {
-							this.getPageList();
+						if (this.semFlag2Data.bad_list.length == 0) {
+							this.getQuestionTypeAnalysis();
 						}
 					}
 				}
@@ -580,9 +788,34 @@
 						this.semFlag1Data.good_list = [].concat(data.data.good_list);
 						if (data.data.book.catalog_list && data.data.book.catalog_list.length > 0) {
 							this.semFlag1Data.treeData = [].concat(data.data.book.catalog_list);
-							this.semFlag1Data.pickerStr = this.semFlag1Data.treeData[0].name+'-'+this.semFlag1Data.treeData[0].children[0].name;
-							this.semFlag1Data.catalog_list = [].concat(this.semFlag1Data.treeData[0].children[0].children);
+							this.semFlag1Data.pickerStr = this.semFlag1Data.treeData[0].name + '-' + this
+								.semFlag1Data.treeData[0].children[0].name;
+							this.semFlag1Data.catalog_list = [].concat(this.semFlag1Data.treeData[0].children[0]
+								.children);
 						}
+					} else {
+						this.showToast(data.msg);
+					}
+				});
+			},
+			//1.210.题型分析
+			getQuestionTypeAnalysis() {
+				var comData = {
+					year_code: this.yearList[this.yearIndex].year_code,
+					term_code: this.termList[this.termIndex].term_code,
+					grd_code: this.grdArray[this.grdIndex].value,
+					cls_code: this.clsArray[this.clsIndex].value,
+					sub_code: this.subArray[this.subIndex].value,
+					index_code: this.itemData.access.split('#')[1]
+				}
+				this.showLoading();
+				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'clsAnalysis/questionTypeAnalysis', comData, (data0,
+					data) => {
+					this.hideLoading();
+					if (data.code == 0) {
+						this.semFlag2Data.bad_list = [].concat(data.data.bad_list);
+						this.semFlag2Data.good_list = [].concat(data.data.good_list);
+						this.semFlag2Data.list = [].concat(data.data.list);
 					} else {
 						this.showToast(data.msg);
 					}
@@ -773,5 +1006,40 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+	}
+
+	.popNoSelect {
+		margin: 5px 5px 0px 5px;
+		font-size: 14px;
+		text-align: center;
+		border-radius: 20px;
+		height: 25px;
+		padding-top: 7px;
+		border: 1px solid #e5e5e5;
+		background-color: #e5e5e5;
+	}
+
+	.popSelect {
+		margin: 5px 5px 0px 5px;
+		font-size: 14px;
+		text-align: center;
+		border-radius: 20px;
+		height: 25px;
+		padding-top: 7px;
+		border: 1px solid #00CFBD;
+		background-color: #00CFBD;
+		color: white;
+	}
+
+	.pupName {
+		margin: 5px 0;
+		font-size: 14px;
+	}
+
+	.mini-btn {
+		width: 100px;
+		height: 40px;
+		padding-top: 5px !important;
+		margin-left: 40px;
 	}
 </style>
