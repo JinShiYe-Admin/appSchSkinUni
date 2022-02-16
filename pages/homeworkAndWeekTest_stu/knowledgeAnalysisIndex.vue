@@ -17,8 +17,8 @@
 		 <view style="padding:38px 0 15px;">
 			 <uni-card title="薄弱知识点榜" isShadow>
 				<text class="content-box-text">
-					<uni-list v-if="good_list.length>0" :border="false">
-						<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in good_list" :border="true">
+					<uni-list v-if="bad_list.length>0" :border="false">
+						<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in bad_list" :border="true">
 							<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 								<view style="display: flex;align-items: center;width: 81vw;">
 									<view class="left-title">{{index+1}}</view>
@@ -34,8 +34,8 @@
 			 </uni-card>
 			 <uni-card title="牢固知识点榜" isShadow>
 				<text class="content-box-text">
-					<uni-list v-if="bad_list.length>0" :border="false">
-						<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in bad_list" :border="true">
+					<uni-list v-if="good_list.length>0" :border="false">
+						<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in good_list" :border="true">
 							<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 								<view style="display: flex;align-items: center;width: 81vw;">
 									<view class="left-title">{{index+1}}</view>
