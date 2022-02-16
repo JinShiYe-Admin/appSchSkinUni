@@ -2,60 +2,66 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed">
-			<view style="font-size: 14px;text-align: center;padding-top: 5px;">高一 1901班 物理 作业统计</view>
-			<view style="font-size: 12px;text-align: center;color: gray;">2021-2022学年 上学期</view>
+			<view style="font-size: 14px;text-align: center;padding-top: 5px;">{{grdArray[grdIndex].name}} {{clsArray[clsIndex].name}} {{subArray[subIndex].name}} 作业统计</view>
+			<view style="font-size: 12px;text-align: center;color: gray;">{{yearList[yearIndex].year_name}} {{termList[termIndex].term_name}}</view>
 			<uni-icons style="float: right;margin: -30px 10px 0 0;color: #00CFBD;" type="list" size="30"
 				@click="clickShowSelect()"></uni-icons>
 			<my-segmented-control ref='segmCon' :current="semFlag" :values="itemData.childList" @clickItem="clickSeg"
 				styleType="text" activeColor="#00CFBD"></my-segmented-control>
 		</view>
 		<view class="content" style="margin-top: 80px;">
-			<view v-show="semFlag == 0" style="margin-top: 88px;">
-				<uni-row style="margin: 15px 0px 0 0px;background-color: #e5e3e3;height: 40px;">
-					<uni-col style="" :span="7">
-						<p class="scoreDetail">作业名称</p>
-					</uni-col>
-					<uni-col style="" :span="4">
-						<p class="scoreDetail">已交人数</p>
-					</uni-col>
-					<uni-col style="" :span="4">
-						<p class="scoreDetail">未交人数</p>
-					</uni-col>
-					<uni-col style="" :span="3">
-						<p class="scoreDetail">最高分</p>
-					</uni-col>
-					<uni-col style="" :span="3">
-						<p class="scoreDetail">最低分</p>
-					</uni-col>
-					<uni-col style="" :span="3">
-						<p class="scoreDetail">平均分</p>
-					</uni-col>
-				</uni-row>
-				<uni-row v-for="(model,index) in semFlag0Data.dataList" :key="index" style="margin: 5px 0px 0 0px;">
-					<uni-col style="" :span="7">
-						<p class="stuScoreDetail">{{model.name}}</p>
-						<!-- <view style="height: 0.5px;background-color: #00cfbd;margin: 5px -999px 0 10px;"></view> -->
-						<view class="card-line" style="margin-left: 10px;"></view>
-					</uni-col>
-					<uni-col style="" :span="4">
-						<p class="stuScoreDetail">{{model.count}}</p>
-					</uni-col>
-					<uni-col style="" :span="4">
-						<p class="stuScoreDetail" v-if='model.miss_count == 0'>{{model.miss_count}}</p>
-						<p class="stuScoreDetail" v-if='model.miss_count > 0' style='color: #FAA666;'
-							@click='clickMissStu(model.miss_stu_nameStr)'>{{model.miss_count}}</p>
-					</uni-col>
-					<uni-col style="" :span="3">
-						<p class="stuScoreDetail">{{model.max_score}}</p>
-					</uni-col>
-					<uni-col style="" :span="3">
-						<p class="stuScoreDetail">{{model.min_score}}</p>
-					</uni-col>
-					<uni-col style="" :span="3">
-						<p class="stuScoreDetail">{{model.avg_score}}</p>
-					</uni-col>
-				</uni-row>
-				<view class="uni-loadmore" v-if="semFlag0Data.showLoadMore">{{semFlag0Data.loadMoreText}}</view>
+			<view v-show="semFlag == 0" style="">
+				<view class="example-body">
+					<uni-card isShadow :isFull="true" style="margin-top: 0px;">
+						<text class="content-box-text">
+							<uni-row style="background-color: #e5e3e3;height: 40px;margin: 0px -12px 0 -12px;">
+								<uni-col style="" :span="7">
+									<p class="scoreDetail">作业名称</p>
+								</uni-col>
+								<uni-col style="" :span="4">
+									<p class="scoreDetail">已交人数</p>
+								</uni-col>
+								<uni-col style="" :span="4">
+									<p class="scoreDetail">未交人数</p>
+								</uni-col>
+								<uni-col style="" :span="3">
+									<p class="scoreDetail">最高分</p>
+								</uni-col>
+								<uni-col style="" :span="3">
+									<p class="scoreDetail">最低分</p>
+								</uni-col>
+								<uni-col style="" :span="3">
+									<p class="scoreDetail">平均分</p>
+								</uni-col>
+							</uni-row>
+							<uni-row v-for="(model,index) in semFlag0Data.dataList" :key="index" style="margin: 0px -8px 0 -8px;">
+								<uni-col style="" :span="7">
+									<p class="stuScoreDetail">{{model.name}}</p>
+									<!-- <view style="height: 0.5px;background-color: #00cfbd;margin: 5px -999px 0 10px;"></view> -->
+									<view class="card-line" style="margin-left: 10px;"></view>
+								</uni-col>
+								<uni-col style="" :span="4">
+									<p class="stuScoreDetail">{{model.count}}</p>
+								</uni-col>
+								<uni-col style="" :span="4">
+									<p class="stuScoreDetail" v-if='model.miss_count == 0'>{{model.miss_count}}</p>
+									<p class="stuScoreDetail" v-if='model.miss_count > 0' style='color: #FAA666;'
+										@click='clickMissStu(model.miss_stu_nameStr)'>{{model.miss_count}}</p>
+								</uni-col>
+								<uni-col style="" :span="3">
+									<p class="stuScoreDetail">{{model.max_score}}</p>
+								</uni-col>
+								<uni-col style="" :span="3">
+									<p class="stuScoreDetail">{{model.min_score}}</p>
+								</uni-col>
+								<uni-col style="" :span="3">
+									<p class="stuScoreDetail">{{model.avg_score}}</p>
+								</uni-col>
+							</uni-row>
+							<view class="uni-loadmore" v-if="semFlag0Data.showLoadMore">{{semFlag0Data.loadMoreText}}</view>
+						</text>
+					</uni-card>
+				</view>
 			</view>
 			<view v-show="semFlag == 1">
 				<view class="example-body">
@@ -64,8 +70,7 @@
 							<view class="card-title">薄弱知识点榜</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag1Data.bad_list"
-									:key='index' direction='column' clickable
-									@click="toDetailPageKnowPointLow(model,index)">
+									:key='index' direction='column' clickable @click="toDetailPageKnowPoint(model,1)">
 									<view slot="body">
 										<uni-row style="">
 											<uni-col style="" :span="2">
@@ -98,8 +103,7 @@
 							<view class="card-title">牢固知识点榜</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag1Data.good_list"
-									:key='index' direction='column' clickable
-									@click="toDetailPageKnowPointLow(model,index)">
+									:key='index' direction='column' clickable @click="toDetailPageKnowPoint(model,1)">
 									<view slot="body">
 										<uni-row style="">
 											<uni-col style="" :span="2">
@@ -145,7 +149,7 @@
 									</level-linkage>
 								</uni-col>
 							</uni-row>
-							<uni-row style="margin: 15px -15px 0 -15px;background-color: #e5e3e3;height: 40px;">
+							<uni-row style="margin: 15px -12px 0 -12px;background-color: #e5e3e3;height: 40px;">
 								<uni-col style="" :span="11">
 									<p class="scoreDetail">知识点名称</p>
 								</uni-col>
@@ -160,21 +164,23 @@
 								</uni-col>
 							</uni-row>
 							<uni-row v-for="(model,index) in semFlag1Data.catalog_list" :key="index"
-								style="margin: 5px -15px 0 -15px;">
-								<uni-col style="" :span="11">
-									<p class="stuScoreDetail">{{model.name}}</p>
-									<view class="card-line" style="margin-left: 10px;"></view>
-								</uni-col>
-								<uni-col style="" :span="5">
-									<p class="stuScoreDetail">{{model.count?model.count:0}}</p>
-								</uni-col>
-								<uni-col style="" :span="5">
-									<p class="stuScoreDetail">{{model.radio?model.radio:0}}</p>
-								</uni-col>
-								<uni-col style="" :span="3">
-									<uni-icons style="font-size: 14px;margin-left: 10px;" type="arrowright" size="20">
-									</uni-icons>
-								</uni-col>
+								style="margin: 5px -12px 0 -12px;">
+								<view @click="toDetailPageKnowPoint(model,1)">
+									<uni-col style="" :span="11">
+										<p class="stuScoreDetail">{{model.name}}</p>
+										<view class="card-line" style="margin-left: 10px;"></view>
+									</uni-col>
+									<uni-col style="" :span="5">
+										<p class="stuScoreDetail">{{model.count?model.count:0}}</p>
+									</uni-col>
+									<uni-col style="" :span="5">
+										<p class="stuScoreDetail">{{model.radio?model.radio:0}}</p>
+									</uni-col>
+									<uni-col style="" :span="3">
+										<uni-icons style="font-size: 14px;margin-left: 10px;" type="arrowright" size="20">
+										</uni-icons>
+									</uni-col>
+								</view>
 							</uni-row>
 							<view v-if="semFlag1Data.catalog_list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
@@ -189,8 +195,7 @@
 							<view class="card-title">薄弱知识点榜</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag2Data.bad_list"
-									:key='index' direction='column' clickable
-									@click="toDetailPageKnowPointLow(model,index)">
+									:key='index' direction='column' clickable @click="toDetailPageKnowPoint(model,2)">
 									<view slot="body">
 										<uni-row style="">
 											<uni-col style="" :span="2">
@@ -223,8 +228,7 @@
 							<view class="card-title">牢固知识点榜</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag2Data.good_list"
-									:key='index' direction='column' clickable
-									@click="toDetailPageKnowPointLow(model,index)">
+									:key='index' direction='column' clickable @click="toDetailPageKnowPoint(model,2)">
 									<view slot="body">
 										<uni-row style="">
 											<uni-col style="" :span="2">
@@ -256,7 +260,7 @@
 						<text class="content-box-text">
 							<view class="card-title">各知识点详情</view>
 							<view class="card-line"></view>
-							<uni-row style="margin: 15px -15px 0 -15px;background-color: #e5e3e3;height: 40px;">
+							<uni-row style="margin: 15px -12px 0 -12px;background-color: #e5e3e3;height: 40px;">
 								<uni-col style="" :span="11">
 									<p class="scoreDetail">知识点名称</p>
 								</uni-col>
@@ -271,21 +275,23 @@
 								</uni-col>
 							</uni-row>
 							<uni-row v-for="(model,index) in semFlag2Data.list" :key="index"
-								style="margin: 5px -15px 0 -15px;">
-								<uni-col style="" :span="11">
-									<p class="stuScoreDetail">{{model.question_type_name}}</p>
-									<view class="card-line" style="margin-left: 10px;"></view>
-								</uni-col>
-								<uni-col style="" :span="5">
-									<p class="stuScoreDetail">{{model.count?model.count:0}}</p>
-								</uni-col>
-								<uni-col style="" :span="5">
-									<p class="stuScoreDetail">{{model.radio?model.radio:0}}</p>
-								</uni-col>
-								<uni-col style="" :span="3">
-									<uni-icons style="font-size: 14px;margin-left: 10px;" type="arrowright" size="20">
-									</uni-icons>
-								</uni-col>
+								style="margin: 5px -12px 0 -12px;">
+								<view @click="toDetailPageKnowPoint(model,2)">
+									<uni-col style="" :span="11">
+										<p class="stuScoreDetail">{{model.question_type_name}}</p>
+										<view class="card-line" style="margin-left: 10px;"></view>
+									</uni-col>
+									<uni-col style="" :span="5">
+										<p class="stuScoreDetail">{{model.count?model.count:0}}</p>
+									</uni-col>
+									<uni-col style="" :span="5">
+										<p class="stuScoreDetail">{{model.radio?model.radio:0}}</p>
+									</uni-col>
+									<uni-col style="" :span="3">
+										<uni-icons style="font-size: 14px;margin-left: 10px;" type="arrowright" size="20">
+										</uni-icons>
+									</uni-col>
+								</view>
 							</uni-row>
 							<view v-if="semFlag2Data.list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
@@ -346,7 +352,7 @@
 					</uni-col>
 				</uni-row>
 			</scroll-view>
-			<view style="background-color: white;height: 50px;">
+			<view style="background-color: white;height: 50px;border-radius: 0px 0px 5px 5px;">
 				<button class="mini-btn" type="default" size="mini" @click="popSure(0)">取消</button>
 				<button class="mini-btn" type="default" size="mini"
 					style="background-color: #00cfbd;border-color: #00cfbd;color: white;"
@@ -366,17 +372,17 @@
 			return {
 				personInfo: {},
 				itemData: {},
-				pageSize: 10,
+				pageSize: 20,
 				semFlag: 0, //点击的seg索引
 				yearList: [{ //学年列表
 					year_code: '',
-					year_name: '全部'
+					year_name: '全部学年'
 				}],
 				yearIndex: 0,
 				yearIndexTemp: 0,
 				termList: [{ //学期列表
 					term_code: '',
-					term_name: '全部'
+					term_name: '全部学期'
 				}],
 				termIndex: 0,
 				termIndexTemp: 0,
@@ -387,23 +393,23 @@
 				subIndex: 0,
 				subIndexTemp: 0,
 				grdArray: [{
-					text: '',
+					name: '',
 					value: '-1'
 				}],
 				clsArray: [{
-					text: '',
+					name: '',
 					value: '-1'
 				}],
 				clsArrayTemp: [{
-					text: '',
+					name: '',
 					value: '-1'
 				}],
 				subArray: [{
-					text: '',
+					name: '',
 					value: '-1'
 				}],
 				subArrayTemp: [{
-					text: '',
+					name: '',
 					value: '-1'
 				}],
 				semFlag0Data: { //
@@ -508,6 +514,21 @@
 			}
 		},
 		methods: {
+			toDetailPageKnowPoint(model,flag){
+				model.index_code = this.itemData.access.split('#')[1];
+				if(flag == 1){
+					model.text = '班级知识点分析';
+				}else{
+					model.text = '班级题型分析';
+				}
+				model.cls_code = this.clsArray[this.clsIndex].value;
+				console.log('model:'+JSON.stringify(model));
+				if(model.count){
+					util.openwithData("/pages/homeworkAndWeektest/correct_analyseDetail", model);
+				}else{
+					this.showToast('暂无记录')
+				}
+			},
 			clickYear(index) {
 				this.yearIndexTemp = index;
 			},
@@ -687,20 +708,6 @@
 					}
 				})
 			},
-			clickItem: function(model) {
-				model.access = this.itemData.access;
-				console.log('clickLi:' + JSON.stringify(model));
-				util.openwithData("/pages/homeworkAndWeektest/correct_searchScore", model, {
-					publishScore(data) { //子页面调用父页面需要的方法
-						for (var i = 0; i < _this.semFlag2Data.dataList.length; i++) {
-							var tempModel = _this.semFlag2Data.dataList[i];
-							if (data.data == tempModel.id) {
-								tempModel.is_publish = true;
-							}
-						}
-					}
-				});
-			},
 			clickSeg: function(e) {
 				uni.pageScrollTo({
 					scrollTop: 0,
@@ -783,6 +790,7 @@
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'clsAnalysis/knowledgeAnalysis', comData, (data0,
 					data) => {
 					this.hideLoading();
+					uni.stopPullDownRefresh();
 					if (data.code == 0) {
 						this.semFlag1Data.bad_list = [].concat(data.data.bad_list);
 						this.semFlag1Data.good_list = [].concat(data.data.good_list);
@@ -812,6 +820,7 @@
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'clsAnalysis/questionTypeAnalysis', comData, (data0,
 					data) => {
 					this.hideLoading();
+					uni.stopPullDownRefresh();
 					if (data.code == 0) {
 						this.semFlag2Data.bad_list = [].concat(data.data.bad_list);
 						this.semFlag2Data.good_list = [].concat(data.data.good_list);
@@ -826,23 +835,6 @@
 </script>
 
 <style>
-	/* 选择框  等悬浮样式 */
-	.tabs-fixed {
-		width: 100vw;
-		position: fixed;
-		/* background-color: #FFFFFF; */
-		background: #F0F0F0;
-		z-index: 10;
-		left: 0;
-		/* #ifndef APP-PLUS */
-		top: 44px;
-		/* #endif */
-		/* #ifdef APP-PLUS */
-		right: 3px;
-		top: 64px;
-		/* #endif */
-	}
-
 	.scoreDetail {
 		font-size: 13px;
 		text-align: center;
