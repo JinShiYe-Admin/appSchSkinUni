@@ -64,7 +64,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SCHHOME = 'https://test.108800.com/testhsservsubapi/'; //家校互动（顾)
 		GLOBALDATA.INTERFACE_SCHHOME_STU = 'https://test.108800.com/testhsservsubapi/'; //家校互动 学生端（顾)
 		GLOBALDATA.PARENTS_ATTENDANCE = 'https://developgx.108800.com:8443/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
-		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://developgx.108800.com:8443/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
+		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://developgx.108800.com:8443/stuzysubapi/api/admin/'; //考务--作业与周测，（蒙)
 		GLOBALDATA.STULEAVE_API = 'https://develop309.108800.com/stuleavesubapi/sub/api/'; //学生请假系统(孔)
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
@@ -101,7 +101,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SCHHOME = 'https://test.108800.com/hsservsubapi/'; //家校互动（顾)
 		GLOBALDATA.INTERFACE_SCHHOME_STU = 'https://test.108800.com/hsservsubapi/'; //家校互动 学生端（顾)
 		GLOBALDATA.PARENTS_ATTENDANCE = 'https://test.108800.com/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
-		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://test.108800.com/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
+		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://test.108800.com/stuzysubapi/api/admin/'; //考务--作业与周测，（蒙)
 		GLOBALDATA.STULEAVE_API='https://test.108800.com/stuleavesubapi/sub/api/';//学生请假系统(孔)
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
@@ -138,7 +138,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_SCHHOME = 'https://apps.108800.com:8443/hsservsubapi/'; //家校互动（顾)
 		GLOBALDATA.INTERFACE_SCHHOME_STU = 'https://apps.108800.com:8443/hsservsubapi/'; //家校互动 学生端（顾)
 		GLOBALDATA.PARENTS_ATTENDANCE = 'https://apps.108800.com/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
-		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://apps.108800.com/stuzysubapi/api/admin/'; //考务--阅卷，（蒙)
+		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://apps.108800.com/stuzysubapi/api/admin/'; //考务--作业与周测，（蒙)
 		GLOBALDATA.STULEAVE_API='https://apps.108800.com/stuleavesubapi/sub/api/';//学生请假系统(孔)
 		
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
@@ -185,8 +185,8 @@ Vue.prototype.hideLoading = () => {
 
 //#ifdef H5
 if (process.env.NODE_ENV === 'development') { //如果是H5的开发环境，自动加载vconsole
-	const vconsole = require('vconsole')
-	Vue.prototype.$vconsole = new vconsole() //使用vconsole  APP和小程序端无法使用 
+	// const vconsole = require('vconsole')
+	// Vue.prototype.$vconsole = new vconsole() //使用vconsole  APP和小程序端无法使用 
 }
 // #endif
 

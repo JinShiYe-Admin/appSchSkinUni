@@ -91,10 +91,9 @@
 			itemData.text='作业与周测成绩'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
-			console.log("itemData: " + JSON.stringify(itemData));
 			let that = this
 			setTimeout(function() {
-				that.score={series:[{name:"成绩",data:itemData.score?(itemData.score*1/100).toFixed(2):0,color:"#d43030"}]}
+				that.score={series:[{name:"成绩",data:itemData.score?(itemData.score*1/(itemData.total_score)).toFixed(2):0,color:"#d43030"}]}
 				that.scoreOpts={title:{name:itemData.score?itemData.score+' ':'0',fontSize:28,color:'#d43030'},subtitle:{name:'我的成绩',color:'#666666',fontSize:15}}
 				that.getById();
 				that.getTaskResultDetail();
