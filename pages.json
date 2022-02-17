@@ -2687,6 +2687,26 @@
                 "enablePullDownRefresh": false
             }
         }
+        ,{
+            "path" : "pages/homeworkAndWeektest/correct_analyseDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/homeworkAndWeektest/stuStatistics_stuDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {
