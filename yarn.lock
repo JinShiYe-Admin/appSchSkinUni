@@ -2,46 +2,52 @@
 # yarn lockfile v1
 
 
-copy-text-to-clipboard@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.nlark.com/copy-text-to-clipboard/download/copy-text-to-clipboard-3.0.1.tgz#8cbf8f90e0a47f12e4a24743736265d157bce69c"
-  integrity sha1-jL+PkOCkfxLkokdDc2Jl0Ve85pw=
+"cookie-storage@^6.1.0":
+  "integrity" "sha512-HeVqbVy8BjXhAAuFtL6MTG+witHoLbxfky2jgVh9FmxmyL6IKa9gSSyPNjevXCCCxPu6Tzd9J8+eXTRQzYU/cg=="
+  "resolved" "https://registry.npmjs.org/cookie-storage/-/cookie-storage-6.1.0.tgz"
+  "version" "6.1.0"
 
-core-js@^3.11.0:
-  version "3.15.0"
-  resolved "https://registry.nlark.com/core-js/download/core-js-3.15.0.tgz?cache=0&sync_timestamp=1624210413587&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.15.0.tgz#db9554ebce0b6fd90dc9b1f2465c841d2d055044"
-  integrity sha1-25VU684Lb9kNybHyRlyEHS0FUEQ=
+"copy-text-to-clipboard@^3.0.1":
+  "integrity" "sha512-rvVsHrpFcL4F2P8ihsoLdFHmd404+CMg71S756oRSeQgqk51U3kicGdnvfkrxva0xXH92SjGS62B0XIJsbh+9Q=="
+  "resolved" "https://registry.npmjs.org/copy-text-to-clipboard/-/copy-text-to-clipboard-3.0.1.tgz"
+  "version" "3.0.1"
 
-crypto-js@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npm.taobao.org/crypto-js/download/crypto-js-4.0.0.tgz#2904ab2677a9d042856a2ea2ef80de92e4a36dcc"
-  integrity sha1-KQSrJnep0EKFai6i74DekuSjbcw=
+"core-js@^3.11.0":
+  "integrity" "sha512-nuqhq11DcOAbFBV4zCbKeGbKQsUDRqTX0oqx7AttUBuqe3h20ixsE039QHelbL6P4h+9kytVqyEtyZ6gsiwEYw=="
+  "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.20.2.tgz"
+  "version" "3.20.2"
 
-js-audio-recorder@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.nlark.com/js-audio-recorder/download/js-audio-recorder-1.0.7.tgz#01501cb9eb143d57994b42bd5ae97974fda18908"
-  integrity sha1-AVAcuesUPVeZS0K9Wul5dP2hiQg=
+"crypto-js@^4.0.0":
+  "integrity" "sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw=="
+  "resolved" "https://registry.npmjs.org/crypto-js/-/crypto-js-4.1.1.tgz"
+  "version" "4.1.1"
 
-moment@^2.29.1:
-  version "2.29.1"
-  resolved "https://registry.nlark.com/moment/download/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
-  integrity sha1-sr52n6MZQL6e7qZGnAdeNQBvo9M=
+"js-audio-recorder@^1.0.7":
+  "integrity" "sha512-JiDODCElVHGrFyjGYwYyNi7zCbKk9va9C77w+zCPMmi4C6ix7zsX2h3ddHugmo4dOTOTCym9++b/wVW9nC0IaA=="
+  "resolved" "https://registry.npmjs.org/js-audio-recorder/-/js-audio-recorder-1.0.7.tgz"
+  "version" "1.0.7"
 
-mutation-observer@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.npm.taobao.org/mutation-observer/download/mutation-observer-1.0.3.tgz#42e9222b101bca82e5ba9d5a7acf4a14c0f263d0"
-  integrity sha1-QukiKxAbyoLlup1aes9KFMDyY9A=
+"moment@^2.29.1":
+  "integrity" "sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ=="
+  "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.1.tgz"
+  "version" "2.29.1"
 
-vconsole@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.nlark.com/vconsole/download/vconsole-3.7.0.tgz?cache=0&sync_timestamp=1622107701543&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvconsole%2Fdownload%2Fvconsole-3.7.0.tgz#7b347fc635eb09646bb50f0ce0cbfba1852af1b1"
-  integrity sha1-ezR/xjXrCWRrtQ8M4Mv7oYUq8bE=
+"mutation-observer@^1.0.3":
+  "integrity" "sha512-M/O/4rF2h776hV7qGMZUH3utZLO/jK7p8rnNgGkjKUw8zCGjRQPxB8z6+5l8+VjRUQ3dNYu4vjqXYLr+U8ZVNA=="
+  "resolved" "https://registry.npmjs.org/mutation-observer/-/mutation-observer-1.0.3.tgz"
+  "version" "1.0.3"
+
+"vconsole@^3.7.0":
+  "integrity" "sha512-DZ6WrSy+5ep11FWxq89DHv8we83rCCrGZaZqlHEXZ+wCvivFd6kfo8OizIP5iQZ0Ynf8Qxj3UfnilFp4HtTVcA=="
+  "resolved" "https://registry.npmjs.org/vconsole/-/vconsole-3.11.0.tgz"
+  "version" "3.11.0"
   dependencies:
-    copy-text-to-clipboard "^3.0.1"
-    core-js "^3.11.0"
-    mutation-observer "^1.0.3"
+    "cookie-storage" "^6.1.0"
+    "copy-text-to-clipboard" "^3.0.1"
+    "core-js" "^3.11.0"
+    "mutation-observer" "^1.0.3"
 
-vue-jsonp@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.nlark.com/vue-jsonp/download/vue-jsonp-2.0.0.tgz#3bfac56bb72941a2511c11e1a123b876f03427f7"
-  integrity sha1-O/rFa7cpQaJRHBHhoSO4dvA0J/c=
+"vue-jsonp@^2.0.0":
+  "integrity" "sha512-Mzd9GNeuKP5hHFDWZNMWOsCuMILSkA6jo2l4A02wheFz3qqBzH7aSEFTey1BRCZCLizlaf1EqJ5YUtF392KspA=="
+  "resolved" "https://registry.npmjs.org/vue-jsonp/-/vue-jsonp-2.0.0.tgz"
+  "version" "2.0.0"
