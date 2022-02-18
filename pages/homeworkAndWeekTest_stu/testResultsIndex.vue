@@ -136,6 +136,7 @@
 					stu_code:this.personInfo.stu_code,
 					stu_name:this.personInfo.stu_name,
 					sub_code:this.subList[this.subIndex].sub_code,
+					add_total_score:true,
 					index_code: this.index_code,
 				}
 				if(this.yearIndex>0){
