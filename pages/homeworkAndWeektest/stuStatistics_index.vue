@@ -532,6 +532,8 @@
 					model.text = '学生题型分析';
 				}
 				model.cls_code = this.clsArray[this.clsIndex].value;
+				model.stu_code = this.stuArray[this.stuIndex].value;
+				model.flag = 1;//0班级，1学生
 				console.log('model:' + JSON.stringify(model));
 				if (model.count) {
 					util.openwithData("/pages/homeworkAndWeektest/correct_analyseDetail", model);

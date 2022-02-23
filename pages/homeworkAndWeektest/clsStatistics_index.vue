@@ -522,6 +522,7 @@
 					model.text = '班级题型分析';
 				}
 				model.cls_code = this.clsArray[this.clsIndex].value;
+				model.flag = 0;//0班级，1学生
 				console.log('model:'+JSON.stringify(model));
 				if(model.count){
 					util.openwithData("/pages/homeworkAndWeektest/correct_analyseDetail", model);
