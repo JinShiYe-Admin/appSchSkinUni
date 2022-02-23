@@ -136,6 +136,7 @@
 				let that=this
 				util.openwithData('/pages/zhiXueKeTang/catalogPage',{index_code:this.index_code},{
 					refreshCatalog(data){//子页面调用父页面需要的方法
+					console.log("data: " + JSON.stringify(data));
 						that.tabIndex = 0;
 						that.scrollInto = that.resCategoryArray[0].key;
 						that.tabBarItem.text=data.data[0].data.name; //给标题赋值
@@ -143,12 +144,16 @@
 						//当前章节
 						that.resCatalogsModel = data.data[0].data;
 						//当前学段
-						let perModel=data.data[1]
-						perModel.per_code=perModel.per_code.split("_")[1]
+						let perModel={
+							per_name:data.data[1].per_name,
+							per_code:data.data[1].per_code.split("_")[1]
+						}
 						that.resPerModel = perModel
 						//当前科目
-						let subModel=data.data[2]
-						subModel.sub_code=subModel.sub_code.split("_")[1]
+						let subModel={
+							sub_name:data.data[2].sub_name,
+							sub_code:data.data[2].sub_code.split("_")[1]
+						}
 						that.resSubModel = subModel
 						that.showLoading()
 						that.pageobj0.loadFlag=0
