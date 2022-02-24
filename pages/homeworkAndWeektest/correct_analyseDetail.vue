@@ -149,13 +149,13 @@
 				_this.score = {
 					series: [{
 						name: "平均得分率",
-						data: (itemData.radio * 1 / 100).toFixed(2),
+						data: (itemData.radio?itemData.radio:itemData.score_radio * 1 / 100).toFixed(2),
 						color: "#499df8"
 					}]
 				}
 				_this.scoreOpts = {
 					title: {
-						name: itemData.radio + '%',
+						name: itemData.radio?itemData.radio:itemData.score_radio + '%',
 						fontSize: 24,
 						color: '#499df8'
 					},
@@ -232,7 +232,7 @@
 							}
 						}
 					})
-				} else {
+				} else if(this.itemData.flag == 1) {
 					let questionObj = this.questionList[this.questionIndex];
 					const params = {
 						cls_code: this.itemData.cls_code,
@@ -252,6 +252,43 @@
 								analyse: response.analyse ? '<span>【分析】</span>' + response.analyse : '',
 								solve: response.solve ? '<span>【解答】</span>' + response.solve : '',
 								remark: response.remark ? response.remark : '暂无',
+							}
+							this.score_section_list = response.score_section_list;
+							this.question_score = response.question_score;
+							this.avg_score = response.avg_score;
+							this.stu_count = response.stu_count;
+							this.score_radio = response.score_radio;
+						} else {
+							this.question = {
+								question_id: '',
+								content: '',
+								option: '',
+								answer: '',
+								stu_answer:'',
+								analyse: '',
+								solve: '',
+								remark: '暂无',
+							}
+						}
+					})
+				}else {
+					let questionObj = this.questionList[this.questionIndex];
+					const params = {
+						id: this.itemData.id,
+						question_number: questionObj.value.split('|')[1],
+						index_code: this.index_code,
+					}
+					this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'homeWorkQuery/queAnalysisDetail', params, response => {
+						if (response) {
+							this.question = {
+								question_id: response.question.id ? response.question.id : '',
+								content: response.question.content ? response.question.content : '',
+								option: response.question.option ? JSON.parse(response.question.option) : '',
+								answer: response.question.answer ? '<span>【答案】</span>' + JSON.parse(response.question.answer) :'',
+								stu_answer: response.question.stu_answer ? '<span>【答案】</span>' + response.question.stu_answer : '',
+								analyse: response.question.analyse ? '<span>【分析】</span>' + response.question.analyse : '',
+								solve: response.question.solve ? '<span>【解答】</span>' + response.question.solve : '',
+								remark: response.question.remark ? response.question.remark : '暂无',
 							}
 							this.score_section_list = response.score_section_list;
 							this.question_score = response.question_score;

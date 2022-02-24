@@ -2548,7 +2548,19 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
             }
             
         }
@@ -2699,6 +2711,26 @@
         }
         ,{
             "path" : "pages/homeworkAndWeektest/stuStatistics_stuDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/homeworkAndWeektest/hwWtAnalyse_detail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/homeworkAndWeektest/hwWtAnalyse_analyse",
             "style" :                                                                                    
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
