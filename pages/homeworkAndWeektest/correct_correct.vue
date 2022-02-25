@@ -30,7 +30,7 @@
 				<view style="font-size: 15px;">学生：{{currentCorrectModel.stu_name}}</view>
 				<view>
 					<view style='float: left;margin-top: 5px;'>学生成绩：</view>
-					<uni-easyinput type="number" @blur="inputChange(currentCorrectModel)" placeholder="满分分"
+					<uni-easyinput type="number" @blur="inputChange(currentCorrectModel)" placeholder="满分"
 						style="width: 150px;font-size: 13px;float: left;" v-model="currentCorrectModel.stu_group_score">
 					</uni-easyinput>
 				</view>
@@ -182,9 +182,9 @@
 			},
 			inputChange: function(model) {
 				console.log('inputChange.model:' + JSON.stringify(model));
-				model.stu_group_score = parseFloat(model.stu_group_score).toFixed(1);
-				if (parseFloat(model.stu_group_score).toFixed(1) >= 0 && parseFloat(model.stu_group_score)
-					.toFixed(1) <= parseFloat(model.group_score).toFixed(1)) {
+				model.stu_group_score = parseFloat(parseFloat(model.stu_group_score).toFixed(1));
+				model.group_score = parseFloat(parseFloat(model.group_score).toFixed(1));
+				if (model.stu_group_score >= 0 && model.stu_group_score <= model.group_score) {
 					console.log('正常')
 				} else {
 					this.showToast('请输入正确的分数');
@@ -234,11 +234,11 @@
 				});
 			},
 			submitBtnScore: function() {
-				console.log('clickSubmit:' + JSON.stringify(this.currentCorrectModel));
+				// console.log('clickSubmit:' + JSON.stringify(this.currentCorrectModel));
+				this.currentCorrectModel.stu_group_score = parseFloat(parseFloat(this.currentCorrectModel.stu_group_score).toFixed(1));
+				this.currentCorrectModel.group_score = parseFloat(parseFloat(this.currentCorrectModel.group_score).toFixed(1));
 				var tempFlag = 0; //判断分数是否输入正确
-				if (parseFloat(this.currentCorrectModel.stu_group_score).toFixed(1) >= 0 && parseFloat(this
-						.currentCorrectModel.stu_group_score).toFixed(1) <= parseFloat(this.currentCorrectModel
-						.group_score).toFixed(1)) {
+				if ((this.currentCorrectModel.stu_group_score >= 0) && (this.currentCorrectModel.stu_group_score <= this.currentCorrectModel.group_score)) {
 					this.currentCorrectModel.stu_group_score = parseFloat(this.currentCorrectModel.stu_group_score);
 				} else {
 					tempFlag++;

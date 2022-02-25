@@ -1037,7 +1037,7 @@
 		padding-top: 7px;
 		border: 1px solid #e5e5e5;
 		background-color: #e5e5e5;
-		color: white;
+		color: black;
 		word-break: break-all;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -1053,7 +1053,6 @@
 		padding-top: 7px;
 		border: 1px solid #00CFBD;
 		background-color: #00CFBD;
-		color: white;
 		color: white;
 		word-break: break-all;
 		overflow: hidden;
