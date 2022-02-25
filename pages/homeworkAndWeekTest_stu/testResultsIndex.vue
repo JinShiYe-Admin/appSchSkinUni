@@ -14,9 +14,9 @@
 			</view>
 			<view class="select-line"></view>
 			<view class="stat">
-				<view>作业总次数：{{stat.allcount}}</view>
-				<view>已交：{{stat.count}}</view>
-				<view>未交：{{stat.miss_count}}</view>
+				<view>作业总次数：{{stat.allcount?stat.allcount:0}}</view>
+				<view>已交：{{stat.count?stat.count:0}}</view>
+				<view>未交：{{stat.miss_count?stat.miss_count:0}}</view>
 			</view>
 		</view>
 		 <view style="padding:66px 15px 0;">
@@ -177,6 +177,7 @@
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
 					 this.pageobj0.page_number=1
+					  this.getTurnSituation()
 					 this.getList();
 				}
 			},
@@ -187,6 +188,7 @@
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
 					 this.pageobj0.page_number=1
+					  this.getTurnSituation()
 					 this.getList();
 				}
 			},
@@ -197,6 +199,7 @@
 					 this.pageobj0.loadFlag=0
 					 this.pageobj0.canload=true
 					 this.pageobj0.page_number=1
+					  this.getTurnSituation()
 					 this.getList();
 				}
 			}
