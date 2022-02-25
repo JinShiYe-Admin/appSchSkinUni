@@ -81,7 +81,7 @@
 								:key="index" style="margin: 5px -12px 0 -12px;">
 								<view @click="toHomeWorkQueryDetail(model)">
 									<uni-col style="" :span="3">
-										<p class="stuScoreDetail">{{index++}}</p>
+										<p class="stuScoreDetail">{{++index}}</p>
 										<view class="card-line" style="margin-left: 10px;"></view>
 									</uni-col>
 									<uni-col style="" :span="7">

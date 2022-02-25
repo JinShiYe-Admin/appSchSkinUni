@@ -23,7 +23,7 @@
 			<view style="font-size: 13px;text-align: center;color:#505050 ;word-break: break-all;padding: 0 15px;">
 				<text>来源：{{question.remark}}</text>
 			</view>
-			<uni-card v-if="itemData.flag == 0" isShadow :isFull="true">
+			<uni-card v-if="itemData.flag == 0||itemData.flag == 3" isShadow :isFull="true">
 				<text class="content-box-text">
 					<view class="card-title">答题情况</view>
 					<view class="card-line"></view>
@@ -149,7 +149,7 @@
 				_this.score = {
 					series: [{
 						name: "平均得分率",
-						data: (itemData.radio?itemData.radio:itemData.score_radio * 1 / 100).toFixed(2),
+						data: parseFloat(((itemData.radio?itemData.radio:itemData.score_radio) * 1 / 100).toFixed(2)),
 						color: "#499df8"
 					}]
 				}
