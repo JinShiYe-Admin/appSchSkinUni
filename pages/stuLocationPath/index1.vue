@@ -341,9 +341,11 @@
 				})
 			},
 			getList0() { //获取页面数据
+				console.log('getList0');
 				this.pagedata = [];
 				let tempId = [];
 				if (this.stuIndex == 0) {
+					console.log('getList0---0');
 					this.selectFlag = 0;
 					for (var i = 0; i < this.stuArray.length; i++) {
 						let tempM = this.stuArray[i];
@@ -352,6 +354,7 @@
 						}
 					}
 					if (tempId.length == 0) {
+						uni.stopPullDownRefresh();
 						return;
 					}
 					let comData = {
@@ -378,6 +381,9 @@
 									if (tempM0.card_no == tempM1.card_id) {
 										for (var b = 0; b < this.deviceList.length; b++) {
 											let tempM2 = this.deviceList[b];
+											tempM0.locationStr = '地址未知';
+											tempM0.endTime = tempM1.card_etime;
+											tempM0.deviceFlag = 1;
 											if (tempM1.mach_id == tempM2.mach_id) {
 												tempM0.locationStr = tempM2.attendance_location;
 												tempM0.endTime = tempM1.card_etime;
@@ -396,10 +402,12 @@
 						this.getAttendanceList();
 					})
 				} else {
+					console.log('getList0---1');
 					this.selectFlag = 1;
 					let tempStu = this.stuArray[this.stuIndex];
 					console.log('tempStu:' + JSON.stringify(tempStu));
 					if (tempStu.card_no == null) {
+						uni.stopPullDownRefresh();
 						return;
 					}
 					let comData = {
@@ -418,6 +426,7 @@
 						let tempArray = [];
 						for (var a = 0; a < response.list.length; a++) {
 							let tempM1 = response.list[a];
+							tempM1.locationStr = '地址未知';
 							for (var b = 0; b < this.deviceList.length; b++) {
 								let tempM2 = this.deviceList[b];
 								if (tempM1.mach_id == tempM2.mach_id) {
@@ -466,6 +475,7 @@
 			// this.pageobj0.loadFlag=0
 			// this.pageobj0.canload=true
 			// this.pageobj0.page_number=1
+			console.log('onPullDownRefresh');
 			this.getList0()
 			// setTimeout(function () {
 			// 	uni.stopPullDownRefresh();

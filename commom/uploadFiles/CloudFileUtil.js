@@ -427,9 +427,9 @@ var uploadAudio = function uploadAudio(type, fileName, audioUrl, callback, ecall
 		} else {
 			console.log("上传的Token:" + QNUptoken.Data.Token);
 			console.log("上传的Domain:" + QNUptoken.Data.Domain);
-			// let url = 'https://upload.qiniu.com/putb64/-1/key/' + encode(QNUptoken.Data.Key);
+			// let url = 'http://upload.qiniu.com/putb64/-1/key/' + encode(QNUptoken.Data.Key);
 			uni.uploadFile({
-				url: 'https://upload.qiniu.com/',
+				url: 'http://upload.qiniu.com/',
 				filePath: audioUrl,
 				formData: {
 					'key': QNUptoken.Data.Key,
@@ -583,7 +583,7 @@ var upload = function(fPath, token, key, uploadCompletedCallBack, onStateChanged
 	// console.log('upload key: ' + key);
 
 	uni.uploadFile({
-		url: 'https://upload.qiniu.com/',
+		url: 'http://upload.qiniu.com/',
 		filePath: fPath,
 		name: 'file',
 		formData: {
@@ -609,7 +609,7 @@ var upload = function(fPath, token, key, uploadCompletedCallBack, onStateChanged
 	// 	}
 	// });
 
-	// var task = plus.uploader.createUpload("https://upload.qiniu.com/", {
+	// var task = plus.uploader.createUpload("http://upload.qiniu.com/", {
 	// 		method: "POST"
 	// 	},
 	// 	/**
@@ -806,7 +806,7 @@ var _uploadFiles = function(that, fPath, token, key, uploadCompletedCallBack) {
 	// console.log('upload token: ' + token);
 	// console.log('upload key: ' + key);
 	uni.uploadFile({
-		url: 'https://upload.qiniu.com/',
+		url: 'http://upload.qiniu.com/',
 		filePath: fPath,
 		formData: {
 			'key': key,
@@ -836,7 +836,7 @@ var _uploadFiles = function(that, fPath, token, key, uploadCompletedCallBack) {
  */
 var uploadFile = function(tokenInfo, fileName, callback) {
 	////console.log('upload:' + fPath);
-	var task = plus.uploader.createUpload("https://upload.qiniu.com/", {
+	var task = plus.uploader.createUpload("http://upload.qiniu.com/", {
 			method: "POST"
 		},
 		/**
@@ -879,7 +879,7 @@ var uploadFile = function(tokenInfo, fileName, callback) {
 // }
 
 function createTask(tokenInfo, fileName, index, callback) {
-	var task = plus.uploader.createUpload("https://upload.qiniu.com/", {
+	var task = plus.uploader.createUpload("http://upload.qiniu.com/", {
 			method: "POST"
 		},
 		/**

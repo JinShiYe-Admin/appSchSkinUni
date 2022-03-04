@@ -732,6 +732,12 @@ function getPageArray() {
 			img_href: tempAAA + "/static/tabbar/work_img.png",
 			url: 'schapp_Work',
 			childList: [{
+				name: '滞留人员监测',
+				icon: tempAAA + '/static/images/schapp_work/stayPersonWatch.png',
+				pagePath: "/pages/schapp_work/stayPersonWatchIndex",
+				url: 'schapp_Work_StayPersonWatch',
+				noReadCut: 0
+			},{
 				name: '请假记录',
 				icon: tempAAA + '/static/images/schapp_work/qingjiajilu.png',
 				pagePath: "/pages/schapp_work/qingjiaIndex",

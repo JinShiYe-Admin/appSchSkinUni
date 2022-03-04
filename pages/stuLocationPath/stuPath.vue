@@ -86,6 +86,7 @@
 						if(response){
 							for (var a = 0; a < response.list.length; a++) {
 								let tempM1 = response.list[a];
+								tempM1.locationStr = '地址未知';
 								for (var b = 0; b < this.deviceList.length; b++) {
 									let tempM2 = this.deviceList[b];
 									if (tempM1.mach_id == tempM2.mach_id) {

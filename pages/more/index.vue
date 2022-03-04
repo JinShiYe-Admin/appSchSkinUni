@@ -22,7 +22,7 @@
 					<uni-grid-item>
 						<view class="grid-item-box" @click="clickItemTab(item)">
 							<image :src="item.img_href" class="moreImg" mode="aspectFill" />
-							<text style="margin-top: 10px;font-size: 12px;font-weight: 400;"
+							<text style="margin-top: 10px;font-size: 13px;color: #878787;"
 								class="text">{{ item.text }}</text>
 						</view>
 					</uni-grid-item>

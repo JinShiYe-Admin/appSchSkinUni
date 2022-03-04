@@ -351,6 +351,7 @@
 						}
 					}
 					if (tempId.length == 0) {
+						uni.stopPullDownRefresh();
 						return;
 					}
 					let comData = {
@@ -377,6 +378,7 @@
 									if (tempM0.card_no == tempM1.card_id) {
 										for (var b = 0; b < this.deviceList.length; b++) {
 											let tempM2 = this.deviceList[b];
+											tempM0.locationStr = '地址未知';
 											if (tempM1.mach_id == tempM2.mach_id) {
 												tempM0.locationStr = tempM2.attendance_location;
 												tempM0.endTime = tempM1.card_etime;
@@ -399,6 +401,7 @@
 					let tempStu = this.stuArray[this.stuIndex];
 					console.log('tempStu:' + JSON.stringify(tempStu));
 					if (tempStu.card_no == null) {
+						uni.stopPullDownRefresh();
 						return;
 					}
 					let comData = {

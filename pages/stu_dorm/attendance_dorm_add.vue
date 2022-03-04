@@ -91,6 +91,7 @@
 			itemData.index=100
 			itemData.text='宿舍点名登记'
 			this.tabBarItem = itemData;
+			console.log('this.tabBarItem:'+JSON.stringify(this.tabBarItem));
 			this.index_code=itemData.index_code
 			let that =this
 			setTimeout(function() {
@@ -109,7 +110,7 @@
 		},
 		methods: {
 			dialogConfirm(e){
-				console.log('66666666666666666666666666');
+				// console.log('66666666666666666666666666');
 				this.$refs.alertDialog.close()
 				this.getCardId()
 			},
@@ -118,7 +119,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_DORM+'dorm/queryDorm',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let list =response.list
 					if(list.length>0){
@@ -160,7 +161,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_DORM+'dorm/queryRoom',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					this.dormList=response.list
 				})
@@ -170,7 +171,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_DORM+'dormAttendance/getDict',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					this.attendanceList=response.item_array
 					// this.attendanceList=[{text:'晚休缺勤',value:'晚休缺勤'}]
@@ -279,7 +280,7 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_DORM+'stuDorm/pageRoomDetail',params,response2=>{
-					console.log("response2: " + JSON.stringify(response2));
+					// console.log("response2: " + JSON.stringify(response2));
 					this.hideLoading()
 					if (response2.list.length == 0) {
 						this.showToast('宿舍暂无学生！');
@@ -314,7 +315,7 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_DORM.substring(0,this.globaData.INTERFACE_DORM.length-4)+'dormAttendance/page',comData,response=>{
-				    console.log("dormAttendance/page: " + JSON.stringify(response));
+				    // console.log("dormAttendance/page: " + JSON.stringify(response));
 					if(response.list.length==0){
 						this.getCardId()
 					}else{
@@ -334,7 +335,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'stu',comData,response=>{
-					console.log("responseaaa: " + JSON.stringify(response));
+					// console.log("responseaaa: " + JSON.stringify(response));
 					let stu = response.list;
 					let stuList=this.stuList
 					let cardIdList=[]
@@ -364,7 +365,7 @@
 						index_code: this.index_code,
 					} 
 					this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/list',comData,response=>{
-						console.log("获取选择日期对应的学生请假数据: " + JSON.stringify(response));
+						// console.log("获取选择日期对应的学生请假数据: " + JSON.stringify(response));
 						let stuList=this.stuList
 						stuList.map(item=>{
 							response.list.map(litem=>{
@@ -388,7 +389,7 @@
 					index_code: this.index_code,
 				} 
 				this.post(this.globaData.INTERFACE_WORK+'LocationAttendance/list',comData,response=>{
-					console.log("获取定位型设备列表: " + JSON.stringify(response));
+					// console.log("获取定位型设备列表: " + JSON.stringify(response));
 					let locList=[]
 					response.list.map(item=>{
 						if(item.location_type==2){
@@ -440,8 +441,8 @@
 				})
 			},
 			toThreeStep(){
-				let endTime=new this.moment().format('HH:mm:ss')
-				let beginTime=new this.moment(this.tabBarItem.time+' '+endTime).subtract(this.globaData.INTERFACE_DORM_ATTENDANCE_ADVANCETIME,'minutes').format('HH:mm:ss');
+				let endTime=new this.moment().format('HH:mm:ss');
+				let beginTime=new this.moment(this.time+' '+endTime).subtract(this.globaData.INTERFACE_DORM_ATTENDANCE_ADVANCETIME,'minutes').format('HH:mm:ss');
 				util.openwithData('/pages/stu_dorm/attendance_dorm_add_stu',{//跳转到考勤表单填写页面
 					build:this.buildList[this.buildIndex],
 					floor:this.floorList[this.floorIndex],

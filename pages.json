@@ -66,7 +66,37 @@
 					"animationDuration": 200
 				}
 			}
-		}, {
+		},{
+            "path": "uni_modules/uni-upgrade-center/pages/version/list",
+            "style": {
+                "navigationBarTitleText": "版本列表"
+            }
+        }, {
+            "path": "uni_modules/uni-upgrade-center/pages/version/add",
+            "style": {
+                "navigationBarTitleText": "新版发布"
+            }
+        }, {
+            "path": "uni_modules/uni-upgrade-center/pages/version/detail",
+            "style": {
+                "navigationBarTitleText": "版本信息查看"
+            }
+        }, {
+            "path": "uni_modules/uni-upgrade-center/pages/app/list",
+            "style": {
+                "navigationBarTitleText": "应用列表"
+            }
+        }, {
+            "path": "uni_modules/uni-upgrade-center/pages/app/detail",
+            "style": {
+                "navigationBarTitleText": "应用信息查看"
+            }
+        }, {
+            "path": "uni_modules/uni-upgrade-center/pages/app/add",
+            "style": {
+                "navigationBarTitleText": "新增应用"
+            }
+        }, {
 			"path": "pages/more/company",
 			"style": {
 				"navigationBarTitleText": "",
@@ -2736,6 +2766,50 @@
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_work/stayPersonWatchIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/schapp_work/stayPersonWatchDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
             }
             
         }
