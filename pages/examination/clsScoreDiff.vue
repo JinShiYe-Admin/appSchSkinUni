@@ -7,7 +7,7 @@
 				<view>
 					<view style="height: 30px;width: 100%;margin-top: 30px;">
 						<view style="width: 50%;height: 30px;float: left;">
-							<picker v-if="grdList.length>0" @change="bindPickerGrd" value="grdTempIndex"
+							<picker v-if="grdList.length>0" @change="bindPickerGrd" :value="grdTempIndex"
 								:range="grdList" range-key="text">
 								<view class="uni-input" style="text-align: center;">{{grdList[grdTempIndex].text}}
 									<uni-icons type="arrowdown" size="20" style="font-size: 15px;"></uni-icons>
@@ -15,9 +15,9 @@
 							</picker>
 						</view>
 						<view style="width: 50%;height: 30px;float: left;">
-							<picker v-if="clsList.length>0" @change="bindPickerCls" value="clsTempIndex"
-								:range="clsList" range-key="text">
-								<view class="uni-input" style="text-align: center;">{{clsList[clsTempIndex].text}}
+							<picker v-if="clsTempList.length>0" @change="bindPickerCls" :value="clsTempIndex"
+								:range="clsTempList" range-key="text">
+								<view class="uni-input" style="text-align: center;">{{clsTempList[clsTempIndex].text}}
 									<uni-icons type="arrowdown" size="20" style="font-size: 15px;"></uni-icons>
 								</view>
 							</picker>
@@ -488,7 +488,7 @@
 			getFullPaperList(flag) {
 				let comData = {
 					grd_code: this.grdList[this.grdTempIndex].value,
-					cls_code: this.clsList[this.clsTempIndex].value,
+					cls_codes: this.clsTempList[this.clsTempIndex].value,
 					index_code: this.itemData.access.split('#')[1],
 				}
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'paper/getFullPaperList', comData, (data0, data) => {
