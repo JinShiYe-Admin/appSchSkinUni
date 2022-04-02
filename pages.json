@@ -67,37 +67,6 @@
 				}
 			}
 		},
-		// {
-  //           "path": "uni_modules/uni-upgrade-center/pages/version/list",
-  //           "style": {
-  //               "navigationBarTitleText": "版本列表"
-  //           }
-  //       }, {
-  //           "path": "uni_modules/uni-upgrade-center/pages/version/add",
-  //           "style": {
-  //               "navigationBarTitleText": "新版发布"
-  //           }
-  //       }, {
-  //           "path": "uni_modules/uni-upgrade-center/pages/version/detail",
-  //           "style": {
-  //               "navigationBarTitleText": "版本信息查看"
-  //           }
-  //       }, {
-  //           "path": "uni_modules/uni-upgrade-center/pages/app/list",
-  //           "style": {
-  //               "navigationBarTitleText": "应用列表"
-  //           }
-  //       }, {
-  //           "path": "uni_modules/uni-upgrade-center/pages/app/detail",
-  //           "style": {
-  //               "navigationBarTitleText": "应用信息查看"
-  //           }
-  //       }, {
-  //           "path": "uni_modules/uni-upgrade-center/pages/app/add",
-  //           "style": {
-  //               "navigationBarTitleText": "新增应用"
-  //           }
-  //       }, 
 		{
 			"path": "pages/more/company",
 			"style": {
@@ -2815,6 +2784,58 @@
             }
             
         }
+        ,{
+            "path" : "pages/studentTemperature/index",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/studentTemperature/tiWenJiLuIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"offset": "76px"
+					}
+				},
+				"h5": {
+					"pullToRefresh": {
+						"offset": "44px"
+					}
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/studentTemperature/jianKongBaoGaoIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/studentTemperature/jianKongBaoGaoList",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {
@@ -2911,6 +2932,9 @@
 			},
 			{
 				"pagePath": "pages/homeworkAndWeekTest_stu/index"
+			},
+			{
+				"pagePath": "pages/studentTemperature/index"
 			}
 		]
 	}

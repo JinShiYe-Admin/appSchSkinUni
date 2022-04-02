@@ -225,6 +225,7 @@
 			})
 			
 			uni.$on('clickLeft',(data) =>{
+				_this.getUnReadCntFun();
 				let eventChannel = this.getOpenerEventChannel();
 				eventChannel.emit('oaRefreshUnread', {});
 			})

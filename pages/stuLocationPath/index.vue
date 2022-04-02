@@ -122,6 +122,7 @@
 						btime: this.time,
 						index_code: this.index_code
 					}
+					console.log('clickItemclickItem:'+JSON.stringify(model));
 					util.openwithData('/pages/stuLocationPath/stuPath', model);
 				}
 			},
@@ -372,13 +373,13 @@
 							let tempM0 = this.stuArray[i];
 							tempM0.endTime = '';
 							tempM0.deviceFlag = 0;
+							tempM0.locationStr = '地址未知';
 							if (response) {
 								for (var a = 0; a < response.list.length; a++) {
 									let tempM1 = response.list[a];
 									if (tempM0.card_no == tempM1.card_id) {
 										for (var b = 0; b < this.deviceList.length; b++) {
 											let tempM2 = this.deviceList[b];
-											tempM0.locationStr = '地址未知';
 											if (tempM1.mach_id == tempM2.mach_id) {
 												tempM0.locationStr = tempM2.attendance_location;
 												tempM0.endTime = tempM1.card_etime;
@@ -392,7 +393,7 @@
 								tempArray.push(tempM0);
 							}
 						}
-						this.pagedata = this.pagedata.concat(tempArray);
+						this.pagedata = [].concat(tempArray);
 						// 获取出入型设备考勤记录
 						this.getAttendanceList();
 					})

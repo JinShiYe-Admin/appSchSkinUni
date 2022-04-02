@@ -1190,6 +1190,30 @@ function getPageArray() {
 				noReadCut: 0
 			}]
 		},
+		{
+			name: "体温监控", //体温监控 教师端
+			pagePath: "/pages/studentTemperature/index",
+			iconPath: tempAAA + '/static/tabbar/tiwenjiankong.png',
+			selectedIconPath: tempAAA + '/static/tabbar/tiwenjiankong_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/zhixueketang_img.png",
+			url: 'schapp_StudentTemperature',
+			childList: [{
+				name: '每日体温记录',
+				icon: tempAAA + '/static/images/studentTemperature/tiwenjilu.png',
+				pagePath: "/pages/studentTemperature/tiWenJiLuIndex",
+				url: 'schapp_StudentTemperature_Record',
+				noReadCut: 0
+			}, {
+				name: '体温监控报告',
+				icon: tempAAA + '/static/images/studentTemperature/jiankongbaogao.png',
+				pagePath: "/pages/studentTemperature/jianKongBaoGaoIndex",
+				url: 'schapp_StudentTemperature_Report',
+				noReadCut: 0
+			}]
+		}
 	];
 	return tempArray;
 }

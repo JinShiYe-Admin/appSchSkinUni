@@ -185,5 +185,5 @@ student_performance|学生成绩|Zhao|Meng(广西)|开发|文档完成
 teachercAttendance|教师考勤|Liu|Kong|开发|文档完成
 zhiXueKeTang|智学课堂|zhao|廖建鹏|开发|文档完成
 homeworkAndWeekTest_stu|作业与周测 学生|liu|蒙士阅|开发|文档完成
-homeworkAndWeekTest|作业与周测 教师|zhao|蒙士阅|开发|
-stuLocationPath|学生轨迹|zhao|顾 孔|开发|
+homeworkAndWeekTest|作业与周测 教师|zhao|蒙士阅|开发|文档完成
+stuLocationPath|学生轨迹|zhao|顾 孔|开发|文档完成

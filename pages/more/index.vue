@@ -36,6 +36,7 @@
 <script>
 	import util from '../../commom/util.js';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
+	let _this;
 	export default {
 		data() {
 			return {
@@ -48,12 +49,22 @@
 			clickItem: function(item) {
 				console.log('item:' + JSON.stringify(item));
 				item.index = 100;
-				util.openwithData(item.pagePath, item);
+				util.openwithData(item.pagePath, item,{
+					oaRefreshUnread(){
+						// 获取未读数
+						util.getPushCut();
+					}
+				});
 			},
 			clickItemTab: function(item) {
 				console.log('item:' + JSON.stringify(item));
 				item.index = 100;
-				util.openwithData(item.pagePath1, item);
+				util.openwithData(item.pagePath1, item,{
+					oaRefreshUnread(){
+						// 获取未读数
+						util.getPushCut();
+					}
+				});
 				// item.index = 99;
 				// util.setTabbarMenu(item);
 				// uni.switchTab({
@@ -65,6 +76,7 @@
 			uniNavBar
 		},
 		onLoad(option) {
+			_this = this;
 			// 获取未读推送消息数的监听
 			uni.$on('setPushCount', function(data) {
 				_this.tabbar = util.getMenu();

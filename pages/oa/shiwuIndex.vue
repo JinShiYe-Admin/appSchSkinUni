@@ -164,14 +164,14 @@
 		onLoad(option) {
 			_this = this;
 			this.personInfo = util.getPersonal();
-			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
+			// console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			this.itemData = util.getPageData(option);
 			this.itemData.index = 100;
 			for (var i = 0; i < this.itemData.childList.length; i++) {
 				var tempM = this.itemData.childList[i];
 				tempM.noReadCut = 0;
 			}
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			// console.log('this.itemData:' + JSON.stringify(this.itemData));
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
@@ -191,6 +191,7 @@
 			})
 			
 			uni.$on('clickLeft',(data) =>{
+				_this.getUnReadCntFun();
 				let eventChannel = this.getOpenerEventChannel();
 				eventChannel.emit('oaRefreshUnread', {});
 			})
@@ -289,7 +290,7 @@
 								var tempM1 = this.itemData.childList[b];
 								if (tempM1.access == data[0].access) {
 									tempM1.noReadCut = data[0].dotnum;
-									this.$refs.segmCon.upLoadUnReadCut(b,tempM1);
+									_this.$refs.segmCon.upLoadUnReadCut(b,tempM1);
 								}
 							}
 						});

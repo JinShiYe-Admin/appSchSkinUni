@@ -38,8 +38,9 @@
 			clickItem:function(chilItem){
 				util.openwithData(chilItem.pagePath,chilItem,{
 					oaRefreshUnread(){
+						console.log('oa-index------------');
 						// 获取未读数
-						// _this.getUnReadCntFun();
+						_this.getUnReadCntFun();
 						util.getPushCut();
 					}
 				});
@@ -90,6 +91,7 @@
 			
 			// 获取未读推送消息数的监听
 			uni.$on('setPushCount', function(data) {
+				console.log('oa--index--setPushCount');
 				_this.tabbar = util.getMenu();
 				for (var i = 0; i < _this.tabbar.length; i++) {
 					let tempM = _this.tabbar[i];

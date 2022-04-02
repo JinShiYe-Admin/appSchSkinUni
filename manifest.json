@@ -3,7 +3,7 @@
     "appid" : "__UNI__720E42A",
     "description" : "",
     "versionName" : "1.0.4",
-    "versionCode" : 100,
+    "versionCode" : 104,
     "transformPx" : false,
     "networkTimeout" : {
         /*全局网络请求超时时间*/
