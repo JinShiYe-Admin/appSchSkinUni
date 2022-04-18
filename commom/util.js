@@ -1213,6 +1213,42 @@ function getPageArray() {
 				url: 'schapp_StudentTemperature_Report',
 				noReadCut: 0
 			}]
+		},
+		{
+			name: "费用管理", //费用管理 教师端
+			pagePath: "/pages/costMs/index",
+			iconPath: tempAAA + '/static/tabbar/feiyongguanli.png',
+			selectedIconPath: tempAAA + '/static/tabbar/feiyongguanli_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/zhixueketang_img.png",
+			url: 'schapp_CostMs',
+			childList: [{
+				name: '费用申请',
+				icon: tempAAA + '/static/images/costMs/feiyongshenqing.png',
+				pagePath: "/pages/costMs/applyMineIndex",
+				url: 'schapp_CostMs_Apply_Mine',
+				noReadCut: 0
+			}, {
+				name: '费用审批',
+				icon: tempAAA + '/static/images/costMs/feiyongshenpi.png',
+				pagePath: "/pages/costMs/applyApproveIndex",
+				url: 'schapp_CostMs_Apply_Approve',
+				noReadCut: 0
+			}, {
+				name: '报销申请',
+				icon: tempAAA + '/static/images/costMs/feiyongbaoxiao.png',
+				pagePath: "/pages/costMs/accountMine",
+				url: 'schapp_CostMs_Account_Mine',
+				noReadCut: 0
+			}, {
+				name: '报销审批',
+				icon: tempAAA + '/static/images/costMs/baoxiaoshenpi.png',
+				pagePath: "/pages/costMs/accountApprove",
+				url: 'schapp_CostMs_Account_Approve',
+				noReadCut: 0
+			}]
 		}
 	];
 	return tempArray;

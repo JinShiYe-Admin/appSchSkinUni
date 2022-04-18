@@ -11,7 +11,7 @@ import {VueJsonp} from 'vue-jsonp'
 Vue.use(VueJsonp);
 //配置项开始
 const GLOBALDATA = {}; //参数对象 用于存全局公共参数
-const EnvKey = 4; //1:山东开发 2:广西开发 3:联测 4:云测 5:正式 6性能测试   
+const EnvKey = 3; //1:山东开发 2:广西开发 3:联测 4:云测 5:正式 6性能测试   
 Vue.prototype.APPORWECHAT = 1; //app为1，微信里面是2
 switch (EnvKey) {
 	case 1:
@@ -67,6 +67,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://developgx.108800.com:8443/stuzysubapi/api/admin/'; //考务--作业与周测，（蒙)
 		GLOBALDATA.STULEAVE_API = 'https://develop309.108800.com/stuleavesubapi/sub/api/'; //学生请假系统(孔)
 		GLOBALDATA.INTERFACE_TWJK_TEA = 'https://developgx.108800.com:8443/stustatsubapi/api/'; //学生每日体温监控（农）
+		GLOBALDATA.INTERFACE_COSTMS = 'https://develop309.108800.com/cmsubapi/sub/api/'; //费用管理（孔）
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
@@ -105,6 +106,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://test.108800.com/stuzysubapi/api/admin/'; //考务--作业与周测，（蒙)
 		GLOBALDATA.STULEAVE_API='https://test.108800.com/stuleavesubapi/sub/api/';//学生请假系统(孔)
 		GLOBALDATA.INTERFACE_TWJK_TEA = 'https://test.108800.com/stustatsubapi/api/'; //学生每日体温监控（农）
+		GLOBALDATA.INTERFACE_COSTMS = 'https://test.108800.com/cmsubapi/sub/api/'; //费用管理（孔）
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
@@ -143,6 +145,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://apps.108800.com/stuzysubapi/api/admin/'; //考务--作业与周测，（蒙)
 		GLOBALDATA.STULEAVE_API='https://apps.108800.com/stuleavesubapi/sub/api/';//学生请假系统(孔)
 		GLOBALDATA.INTERFACE_TWJK_TEA = 'https://apps.108800.com/stustatsubapi/api/'; //学生每日体温监控（农）
+		GLOBALDATA.INTERFACE_COSTMS = 'https://apps.108800.com/cmsubapi/sub/api/'; //费用管理（孔）
 		
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 17; //七牛appid
@@ -216,6 +219,9 @@ Vue.prototype.QN_JSKQ_WDKQ = "jskq/wdkq/"; //我的考勤
 Vue.prototype.QN_MARKINGPAPERS = 'yuejuanApp/markingPapers'; //七牛公有空间名
 // 口语测评
 Vue.prototype.QN_KYCP = "zypt/kouyupingce/"; //口语测评
+// 财务管理
+Vue.prototype.QN_CWGL_FY = "cwgl/feiyong/"; //费用
+Vue.prototype.QN_CWGL_BX = "cwgl/baoxiao/"; //报销
 
 //----------家校互动短信配置---------start
 Vue.prototype.MSG_SMS = {

@@ -30,8 +30,7 @@
 					<view slot="body">
 						<view class="rightView">
 							<view class="title" style="font-size: 15px;">{{model.locationStr}}</view>
-							<view class="title" style="color: gray;">{{model.card_stime}}<span v-if='model.card_etime'>
-									~ {{model.card_etime}}</span></view>
+							<view class="title" style="color: gray;">{{model.card_stime}}<span v-if='model.card_etime'> ~ {{model.card_etime}}</span></view>
 						</view>
 					</view>
 				</uni-list-item>
@@ -58,7 +57,7 @@
 			</uni-list>
 			<!-- <uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" /> -->
 		</view>
-		<!-- <u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my> -->
+		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 
@@ -123,6 +122,7 @@
 						btime: this.time,
 						index_code: this.index_code
 					}
+					console.log('clickItemclickItem:'+JSON.stringify(model));
 					util.openwithData('/pages/stuLocationPath/stuPath', model);
 				}
 			},
@@ -171,16 +171,15 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK + 'LocationAttendance/list', comData, data => {
-					console.log("dataAAA: " + JSON.stringify(data));
 					this.hideLoading();
 					this.deviceList = [].concat(data.list);
 				})
 			},
 			getAttendanceList() { //115.出入型设备-刷卡列表
 				let stuCode = '';
-				if (this.stuIndex == 0) {
+				if(this.stuIndex == 0){
 					stuCode = '';
-				} else {
+				}else{
 					stuCode = this.stuArray[this.stuIndex].stu_code;
 				}
 				let comData = {
@@ -190,28 +189,27 @@
 					grd_code: this.grdArray[this.grdIndex].value,
 					cls_code: this.clsArray[this.clsIndex].value,
 					stu_code: stuCode,
-					pageNumber: 1,
-					pageSize: 999
+					pageNumber:1,
+					pageSize:999
 				}
-				this.post(this.globaData.INTERFACE_WORK + 'AttendanceReport/cardList', comData, (data0, data) => {
-					console.log("cardList: " + JSON.stringify(data));
+				this.post(this.globaData.INTERFACE_WORK + 'AttendanceReport/cardList', comData, (data0,data) => {
 					this.hideLoading();
-					if (data.code == 0) {
-						if (stuCode.length == 0) {
-							let tempA = util.ArrayUnique(data.data.list, 'stu_code');
+					if(data.code == 0){
+						if(stuCode.length==0){
+							let tempA = util.ArrayUnique(data.data.list,'stu_code');
 							let tempArray = [];
 							for (var i = 0; i < this.pagedata.length; i++) {
 								let tempM = this.pagedata[i];
 								for (var a = 0; a < tempA.length; a++) {
 									let tempStu = tempA[a];
 									// code一样
-									if (tempM.stu_code == tempStu.stu_code) {
-										if (tempM.deviceFlag == 0) { //之前没有写入过数据，直接赋值
+									if(tempM.stu_code == tempStu.stu_code){
+										if(tempM.deviceFlag == 0){//之前没有写入过数据，直接赋值
 											tempM.deviceFlag = 1;
 											tempM.endTime = tempStu.card_time;
 											tempM.locationStr = tempStu.attendance_location;
-										} else {
-											if (tempStu.card_time > tempM.endTime) { //现在的时间，大于之前的，覆盖
+										}else{
+											if(tempStu.card_time>tempM.endTime){//现在的时间，大于之前的，覆盖
 												tempM.endTime = tempStu.card_time;
 												tempM.locationStr = tempStu.attendance_location;
 											}
@@ -221,7 +219,7 @@
 								tempArray.push(tempM);
 							}
 							this.pagedata = [].concat(tempArray);
-						} else {
+						}else{
 							// card_stime
 							for (var i = 0; i < data.data.list.length; i++) {
 								let tempM = data.data.list[i];
@@ -229,11 +227,10 @@
 								tempM.locationStr = tempM.attendance_location;
 							}
 							this.pagedata = this.pagedata.concat(data.data.list);
-							console.log('this.pagedataAA:' + JSON.stringify(this.pagedata));
 							// this.pagedata
-							this.pagedata.sort(util.compare('card_stime', 0));
+							this.pagedata.sort(util.compare('card_stime',0));
 						}
-					} else {
+					}else{
 						this.showToast(data.msg);
 					}
 				})
@@ -246,7 +243,6 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
-					console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let grds = response.grd_list;
 					let grdArray = [];
@@ -276,7 +272,6 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
-					console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let clss = response.cls_list;
 					let clsArray = [];
@@ -309,7 +304,6 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'stu', comData, response => {
-					console.log("responseaaa--stu: " + JSON.stringify(response));
 					this.hideLoading();
 					this.pagedata = [];
 					let stuArray = [];
@@ -341,11 +335,9 @@
 				})
 			},
 			getList0() { //获取页面数据
-				console.log('getList0');
 				this.pagedata = [];
 				let tempId = [];
 				if (this.stuIndex == 0) {
-					console.log('getList0---0');
 					this.selectFlag = 0;
 					for (var i = 0; i < this.stuArray.length; i++) {
 						let tempM = this.stuArray[i];
@@ -367,7 +359,6 @@
 					}
 					this.showLoading();
 					this.post(this.globaData.INTERFACE_UCARD + 'blemachcardpositionfp', comData, response => {
-						console.log("responseaaa: " + JSON.stringify(response));
 						this.hideLoading();
 						uni.stopPullDownRefresh();
 						let tempArray = [];
@@ -375,15 +366,13 @@
 							let tempM0 = this.stuArray[i];
 							tempM0.endTime = '';
 							tempM0.deviceFlag = 0;
+							tempM0.locationStr = '地址未知';
 							if (response) {
 								for (var a = 0; a < response.list.length; a++) {
 									let tempM1 = response.list[a];
 									if (tempM0.card_no == tempM1.card_id) {
 										for (var b = 0; b < this.deviceList.length; b++) {
 											let tempM2 = this.deviceList[b];
-											tempM0.locationStr = '地址未知';
-											tempM0.endTime = tempM1.card_etime;
-											tempM0.deviceFlag = 1;
 											if (tempM1.mach_id == tempM2.mach_id) {
 												tempM0.locationStr = tempM2.attendance_location;
 												tempM0.endTime = tempM1.card_etime;
@@ -397,12 +386,11 @@
 								tempArray.push(tempM0);
 							}
 						}
-						this.pagedata = this.pagedata.concat(tempArray);
+						this.pagedata = [].concat(tempArray);
 						// 获取出入型设备考勤记录
 						this.getAttendanceList();
 					})
 				} else {
-					console.log('getList0---1');
 					this.selectFlag = 1;
 					let tempStu = this.stuArray[this.stuIndex];
 					console.log('tempStu:' + JSON.stringify(tempStu));
@@ -420,20 +408,20 @@
 					}
 					this.showLoading();
 					this.post(this.globaData.INTERFACE_UCARD + 'blemachcardpositiondp', comData, response => {
-						console.log("responseaaa: " + JSON.stringify(response));
 						uni.stopPullDownRefresh();
 						this.hideLoading();
 						let tempArray = [];
-						for (var a = 0; a < response.list.length; a++) {
-							let tempM1 = response.list[a];
-							tempM1.locationStr = '地址未知';
-							for (var b = 0; b < this.deviceList.length; b++) {
-								let tempM2 = this.deviceList[b];
-								if (tempM1.mach_id == tempM2.mach_id) {
-									tempM1.locationStr = tempM2.attendance_location;
+						if(response){
+							for (var a = 0; a < response.list.length; a++) {
+								let tempM1 = response.list[a];
+								for (var b = 0; b < this.deviceList.length; b++) {
+									let tempM2 = this.deviceList[b];
+									if (tempM1.mach_id == tempM2.mach_id) {
+										tempM1.locationStr = tempM2.attendance_location;
+									}
 								}
+								tempArray.push(tempM1);
 							}
-							tempArray.push(tempM1);
 						}
 						this.pagedata = this.pagedata.concat(tempArray);
 						// 获取出入型设备考勤记录
@@ -445,20 +433,20 @@
 		onLoad(option) {
 			_this = this;
 			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
-			// uni.$on('updateHeadImg', function(data) {
-			// 	_this.$refs.mynavBar.upLoadImg();
-			// });
-
-			// // 获取未读推送消息数的监听
-			// uni.$on('setPushCount', function(data) {
-			// 	_this.tabbar = util.getMenu();
-			// 	for (var i = 0; i < _this.tabbar.length; i++) {
-			// 		let tempM = _this.tabbar[i];
-			// 		if(tempM.access == _this.tabBarItem.access){
-			// 			_this.tabBarItem = tempM;
-			// 		}
-			// 	}
-			// });
+			uni.$on('updateHeadImg', function(data) {
+				_this.$refs.mynavBar.upLoadImg();
+			});
+			
+			// 获取未读推送消息数的监听
+			uni.$on('setPushCount', function(data) {
+				_this.tabbar = util.getMenu();
+				for (var i = 0; i < _this.tabbar.length; i++) {
+					let tempM = _this.tabbar[i];
+					if(tempM.access == _this.tabBarItem.access){
+						_this.tabBarItem = tempM;
+					}
+				}
+			});
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			this.tabBarItem = util.getPageData(option);
@@ -475,7 +463,6 @@
 			// this.pageobj0.loadFlag=0
 			// this.pageobj0.canload=true
 			// this.pageobj0.page_number=1
-			console.log('onPullDownRefresh');
 			this.getList0()
 			// setTimeout(function () {
 			// 	uni.stopPullDownRefresh();

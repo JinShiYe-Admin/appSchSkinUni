@@ -175,6 +175,7 @@
 			document.title = ""
 			//#endif
 			uni.$on('clickLeft',(data) =>{
+				console.log('clearInterval');
 				clearInterval(this.timeFun);
 			})
 		},

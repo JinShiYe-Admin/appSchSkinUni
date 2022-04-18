@@ -171,7 +171,6 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK + 'LocationAttendance/list', comData, data => {
-					console.log("dataAAA: " + JSON.stringify(data));
 					this.hideLoading();
 					this.deviceList = [].concat(data.list);
 				})
@@ -194,7 +193,6 @@
 					pageSize:999
 				}
 				this.post(this.globaData.INTERFACE_WORK + 'AttendanceReport/cardList', comData, (data0,data) => {
-					console.log("cardList: " + JSON.stringify(data));
 					this.hideLoading();
 					if(data.code == 0){
 						if(stuCode.length==0){
@@ -229,7 +227,6 @@
 								tempM.locationStr = tempM.attendance_location;
 							}
 							this.pagedata = this.pagedata.concat(data.data.list);
-							console.log('this.pagedataAA:'+JSON.stringify(this.pagedata));
 							// this.pagedata
 							this.pagedata.sort(util.compare('card_stime',0));
 						}
@@ -246,7 +243,6 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
-					console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let grds = response.grd_list;
 					let grdArray = [];
@@ -276,7 +272,6 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
-					console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let clss = response.cls_list;
 					let clsArray = [];
@@ -309,7 +304,6 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'stu', comData, response => {
-					console.log("responseaaa--stu: " + JSON.stringify(response));
 					this.hideLoading();
 					this.pagedata = [];
 					let stuArray = [];
@@ -365,7 +359,6 @@
 					}
 					this.showLoading();
 					this.post(this.globaData.INTERFACE_UCARD + 'blemachcardpositionfp', comData, response => {
-						console.log("responseaaa: " + JSON.stringify(response));
 						this.hideLoading();
 						uni.stopPullDownRefresh();
 						let tempArray = [];
@@ -415,19 +408,20 @@
 					}
 					this.showLoading();
 					this.post(this.globaData.INTERFACE_UCARD + 'blemachcardpositiondp', comData, response => {
-						console.log("responseaaa: " + JSON.stringify(response));
 						uni.stopPullDownRefresh();
 						this.hideLoading();
 						let tempArray = [];
-						for (var a = 0; a < response.list.length; a++) {
-							let tempM1 = response.list[a];
-							for (var b = 0; b < this.deviceList.length; b++) {
-								let tempM2 = this.deviceList[b];
-								if (tempM1.mach_id == tempM2.mach_id) {
-									tempM1.locationStr = tempM2.attendance_location;
+						if(response){
+							for (var a = 0; a < response.list.length; a++) {
+								let tempM1 = response.list[a];
+								for (var b = 0; b < this.deviceList.length; b++) {
+									let tempM2 = this.deviceList[b];
+									if (tempM1.mach_id == tempM2.mach_id) {
+										tempM1.locationStr = tempM2.attendance_location;
+									}
 								}
+								tempArray.push(tempM1);
 							}
-							tempArray.push(tempM1);
 						}
 						this.pagedata = this.pagedata.concat(tempArray);
 						// 获取出入型设备考勤记录

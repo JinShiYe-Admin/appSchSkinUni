@@ -948,19 +948,7 @@
 			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"offset": "76px"
-					}
-				},
-				"h5": {
-					"pullToRefresh": {
-						"offset": "44px"
-					}
-				}
+				"enablePullDownRefresh": false
 			}
 
 		}, {
@@ -2836,6 +2824,88 @@
             }
             
         }
+        ,{
+            "path" : "pages/costMs/index",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/costMs/applyMineIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/costMs/applyApproveIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/costMs/accountMineIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/costMs/accountApproveIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/costMs/applyMineAdd",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/costMs/applyMineDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {
@@ -2935,6 +3005,9 @@
 			},
 			{
 				"pagePath": "pages/studentTemperature/index"
+			},
+			{
+				"pagePath": "pages/costMs/index"
 			}
 		]
 	}
