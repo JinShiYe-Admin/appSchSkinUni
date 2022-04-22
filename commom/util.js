@@ -1239,13 +1239,13 @@ function getPageArray() {
 			}, {
 				name: '报销申请',
 				icon: tempAAA + '/static/images/costMs/feiyongbaoxiao.png',
-				pagePath: "/pages/costMs/accountMine",
+				pagePath: "/pages/costMs/accountMineIndex",
 				url: 'schapp_CostMs_Account_Mine',
 				noReadCut: 0
 			}, {
 				name: '报销审批',
 				icon: tempAAA + '/static/images/costMs/baoxiaoshenpi.png',
-				pagePath: "/pages/costMs/accountApprove",
+				pagePath: "/pages/costMs/accountApproveIndex",
 				url: 'schapp_CostMs_Account_Approve',
 				noReadCut: 0
 			}]

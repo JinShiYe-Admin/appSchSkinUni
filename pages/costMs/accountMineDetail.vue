@@ -22,25 +22,48 @@
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
-				<view class="form-left">申请金额</view>
-				<view class="form-right">￥{{detailData.apply_fee}}</view>
+				<view class="form-left">报销类型</view>
+				<view class="form-right">{{detailData.account_type}}</view>
+			</view>
+			<view class="line"></view>
+			<view class="uni-flex uni-row form-view">
+				<view class="form-left">报销总额</view>
+				<view class="form-right">￥{{detailData.account_sum}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">申请事由</view>
-				<view class="form-right"  style="text-align: left;">{{detailData.apply_reason}}</view>
+				<view class="form-right"  style="text-align: left;">{{detailData.account_reason}}</view>
 			</view>
 			<view class="line"></view>
-			<template v-if="detailData.enc_list.length>0">
-				<view v-for="(extraFile,index) in detailData.enc_list" :key='index'>
-					<view class="encName">附件:
-							<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;" @click="checkEnc(extraFile.enc_addr)">附件{{index+1}}</a>
+			<view class="double-line" style="margin-top: -5px;"></view>
+			<view style="margin: 5px 0 5px 15px;font-size: 15px;font-weight: bold;">费用明细</view>
+			<uni-list>
+				<uni-list-item v-for="(model,index) in detailData.account_items" :key='index'
+					direction='column'>
+					<view slot="body">
+						<view style="float: left;height: 40px;">
+							<image class="peopleImg" @click="clickImg(model.enc_list)"
+								:src="(model.enc_list&&model.enc_list.length>0)?model.enc_list[0].enc_addr:'http://www.108800.com/user.jpg'"></image>
+							<view v-if="model.enc_list.length==0" class="box" style="margin-top: -45px;"><text class="box-text">暂无</text></view>
+							<view v-else-if="model.enc_list.length>0" class="box" style="margin-top: -45px;"><text class="box-text">{{model.enc_list.length}}+</text></view>
+						</view>
+						<view class="rightView">
+							<uni-row class="nameTime">
+								<uni-col :span="12">
+									￥{{model.account_fee}}
+								</uni-col>
+								<uni-col :span="12">
+									{{model.account_time}}
+								</uni-col>
+							</uni-row>
+							<a class="biaoti0">{{model.account_note}}</a>
+						</view>
 					</view>
-				</view>
-			</template>
-			<view class="double-line"></view>
+				</uni-list-item>
+			</uni-list>
+			<view class="double-line" style="margin-top: 0px;"></view>
 			<view style="margin: 5px 0 5px 15px;font-size: 15px;font-weight: bold;">顺序审批人</view>
-			<!-- <view class="line"></view> -->
 			<uni-list>
 				<uni-list-item v-for="(model,index) in detailData.approve_list" :key='index'>
 					<view slot="body" style="width: 100%;">
@@ -105,14 +128,14 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			itemData.text='费用申请单详情'
+			itemData.text='报销申请单详情'
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			console.log("itemData: " + JSON.stringify(itemData));
 			//#ifndef APP-PLUS
 				document.title=""
 			//#endif
-			// 14.通过ID获取费用申请
+			// 21.通过ID获取报销申请
 			this.getDetail();
 			uni.$on('clickLeft',(data) =>{
 				if(_this.isDel == 1){
@@ -127,6 +150,19 @@
 			//#endif
 		},
 		methods: {
+			clickImg(list){
+				if(list.length==0){
+					return;
+				}
+				let newList = []
+				list.map(item => {
+					newList.push(item.enc_addr);
+				})
+				uni.previewImage({
+					current: newList[0],
+					urls: newList
+				})
+			},
 			textClick(){
 				this.$refs.popupDel.open()
 			},
@@ -140,12 +176,12 @@
 					id: this.tabBarItem.id, //任务id
 				}
 				this.showLoading();
-				//11.撤销费用申请
-				this.post(this.globaData.INTERFACE_COSTMS + 'costApply/doSetCostApplyUndo', comData, (data0, data) => {
+				//18.撤销报销申请
+				this.post(this.globaData.INTERFACE_COSTMS + 'accountApply/doSetAccountApplyUndo', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
 						this.isDel = 1;
-						// 14.通过ID获取费用申请
+						// 21.通过ID获取报销申请
 						this.getDetail();
 					}
 					this.showToast(data.msg);
@@ -161,8 +197,8 @@
 					id: this.tabBarItem.id, //任务id
 				}
 				this.showLoading();
-				//14.通过ID获取费用申请
-				this.post(this.globaData.INTERFACE_COSTMS + 'costApply/getCostApplyById', comData, (data0, data) => {
+				//21.通过ID获取报销申请
+				this.post(this.globaData.INTERFACE_COSTMS + 'accountApply/getAccountApplyById', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
 						if(data.data.status == 1){
@@ -326,4 +362,58 @@
 		font-size: 12px;
 		color: #909399;
 	}
+	
+	.peopleImg {
+		width: 40px;
+		height: 40px;
+		border-radius: 5px;
+	}
+	
+	.rightView {
+		margin-left: 10px;
+		float: left;
+		width: calc(100% - 50px);
+	}
+	
+	.biaoti0 {
+		font-size: 13px;
+		width: calc(100%);
+	}
+	
+	/* .title {
+		height: 100%;
+		float: left;
+		font-size: 13px;
+		word-break: break-all;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		color: #000000;
+	} */
+	.nameTime {
+		font-size: 12px;
+		color: gray;
+	}
+	.box {
+			width: 40px;
+			height: 40px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			background-color: #000000;
+			color: #fff;
+			font-size: 12px;
+			/* background: rgba(0,0,0,0.9); */
+		}
+	
+		.box-text {
+			text-align: center;
+			color: #fff;
+			font-size: 12px;
+		}
+		
+		image{
+			opacity: 0.6;
+		}
 </style>

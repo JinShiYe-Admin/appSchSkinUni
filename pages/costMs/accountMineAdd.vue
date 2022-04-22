@@ -2,14 +2,18 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' text="确定" :textClick="textClick">
 		</mynavBar>
-		<view class="titleTemp">金额</view>
-		<input type="number" v-model="title" maxlength="8" class="rightView" style="margin-top: 10px;"
-			placeholder="请输入金额" />
+		<view class="uni-flex uni-row form-view">
+			<view class="form-left">报销类型</view>
+			<picker style="width:100% !important;" mode="selector" @change="selectAccountType" :value="selectAccountTypeIndex" :range="selectAccountTypeArray" range-key="type_name">
+				<input class="uni-input form-right"  :value="selectAccountTypeIndex>=0?selectAccountTypeArray[selectAccountTypeIndex].type_name:''"  placeholder="请选择" disabled/>
+			</picker>
+			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+		</view>
+		<view class="line"></view>
 		<view class="titleTemp">事由</view>
 		<textarea maxlength="300" v-model="content" class="rightView"
 			style="height: 80px;margin-top: 10px;padding-top: 5px;margin-bottom: 10px;" placeholder="请输入申请事由"></textarea>
-		<!-- <view class="line"></view> -->
-		<view class="uni-flex uni-row form-view choose-file">
+		<!-- <view class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">附件<view class="file-des">
 					{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
 				</view>
@@ -17,7 +21,38 @@
 			<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile'
 				@imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount">
 			</g-upload>
+		</view> -->
+		<br>
+		<view class="double-line" style="margin-top: 90px;"></view>
+		<uni-list style="margin-top: -5px;">
+			<uni-list-item direction='column' >
+				<view slot="body">
+					<uni-row>
+						<uni-col :span="20">
+							<view>
+								费用明细<span style='color: #787878;font-size: 12px;'>（当前报销费用总额：<span style='color: red;'>999</span>元）</span>
+							</view>
+						</uni-col>
+						<uni-col :span="4" style="text-align: right;">
+							<uni-icons style="color: #00CFBD;" type="plus-filled" size="25"></uni-icons>
+						</uni-col>
+					</uni-row>
+				</view>
+			</uni-list-item>
+		</uni-list>
+		<view v-if="selectPeople.length==0" style="font-size: 13px;color: #939393;margin: 5px 0 0 10px;">请添加费用明细</view>
+		<view v-else-if="selectPeople.length>0" v-for="(selectModel,index) in selectPeople" :key='index'>
+			<view class="mui-input-row" style="height: 40px;">
+				<p v-if="selectModel.flowFlag == 0" style="margin-left: 10px;float: left;margin-top: 5px;">
+					{{selectModel.user_name}}
+				</p>
+				<p v-else-if="selectModel.flowFlag == 1" style="margin-left: 10px;float: left;margin-top: 5px;">
+					{{selectModel.flow_name}}</p>
+				<button @click="removeSelectModel(index)" type="warn" size="mini"
+					style="margin-left: 20px;">删除</button>
+			</view>
 		</view>
+		
 		<view class="double-line"></view>
 		<uni-list style="margin-top: -5px;">
 			<uni-list-item direction='column' >
@@ -103,7 +138,9 @@
 				imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
 				wxTips: '',
 				copyPeoples:[],
-				copyPeoplesStr:''
+				copyPeoplesStr:'',
+				selectAccountTypeArray:[],
+				selectAccountTypeIndex:-1,
 			}
 		},
 		components: {
@@ -148,6 +185,21 @@
 					this.showToast(data.msg);
 				}
 			});
+			// 获取报销类型
+			var tempData1 = {
+				type_name:'',
+				page_number:1,
+				page_size:0,
+				index_code: this.itemData.index_code,
+			}
+			this.post(this.globaData.INTERFACE_COSTMS + 'accountType/getAccountTypes', tempData1, (data0, data) => {
+				this.hideLoading();
+				if (data.code == 0) {
+					this.selectAccountTypeArray = [].concat(data.data.list);
+				} else {
+					this.showToast(data.msg);
+				}
+			});
 		},
 		onShow() {
 			//#ifndef APP-PLUS
@@ -155,6 +207,13 @@
 			//#endif
 		},
 		methods: {
+			selectAccountType(e){
+				if(this.selectAccountTypeArray.length>0){
+					if(this.selectAccountTypeIndex!==e.detail.value){
+						 this.selectAccountTypeIndex=e.detail.value;
+					}
+				}
+			},
 			selectFlowChange(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value);
 				this.selectFlowFun(this.selectFlowArray[e.target.value]);
@@ -340,11 +399,12 @@
 	}
 
 	.titleTemp {
-		color: black;
-		margin-left: 10px;
+		margin-left: 15px;
 		margin-top: 15px;
 		float: left;
 		width: 40px;
+		font-size: 14px;
+		color: #3F3F3F;
 	}
 
 	.rightView {
@@ -352,7 +412,7 @@
 		border: 1px solid gainsboro;
 		/* margin: 5px 0 0 0px; */
 		font-size: 14px;
-		width: calc(100% - 70px);
+		width: calc(100% - 80px);
 		height: 35px;
 		padding-left: 5px;
 	}
@@ -376,5 +436,48 @@
 		height: 5px;
 		background-color: #e5e5e5;
 		margin: 5px 0;
+	}
+	.form-view{
+		padding: 0px 15px;
+	}
+	.form-left{
+		font-size: 14px;
+		width: 200rpx;
+		color: #3F3F3F;
+	}
+	.form-left-textarea{
+		margin-top: 5px;
+		align-self: flex-start;
+	}
+	.form-right{
+		font-size: 13px;
+		-webkit-flex: 1;
+		flex: 1;
+		word-break: break-all;
+		color: #787878;
+		text-align: right;
+	}
+	::v-deep .form-right .placeholder{
+		color: grey;
+		font-size: 14px;
+		padding-right: 10px;
+	}
+	.uni-flex{
+		align-items: center;
+	}
+	
+	textarea{
+		font-size: 13px;
+		height: 80px;
+		padding: 5px;
+	}
+	
+	.form-left-approve{
+		margin: 5px 0;
+		font-size: 13px;
+		-webkit-flex: 1;
+		flex: 1;
+		word-break: break-all;
+		color: #787878;
 	}
 </style>
