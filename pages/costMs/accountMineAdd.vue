@@ -13,15 +13,6 @@
 		<view class="titleTemp">事由</view>
 		<textarea maxlength="300" v-model="content" class="rightView"
 			style="height: 80px;margin-top: 10px;padding-top: 5px;margin-bottom: 10px;" placeholder="请输入申请事由"></textarea>
-		<!-- <view class="uni-flex uni-row form-view choose-file">
-			<view class="choose-file-text">附件<view class="file-des">
-					{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
-				</view>
-			</view>
-			<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile'
-				@imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount">
-			</g-upload>
-		</view> -->
 		<br>
 		<view class="double-line" style="margin-top: 90px;"></view>
 		<uni-list style="margin-top: -5px;">
@@ -30,27 +21,41 @@
 					<uni-row>
 						<uni-col :span="20">
 							<view>
-								费用明细<span style='color: #787878;font-size: 12px;'>（当前报销费用总额：<span style='color: red;'>999</span>元）</span>
+								报销明细<span style='color: #787878;font-size: 12px;'>（当前报销报销总额：<span style='color: red;'>999</span>元）</span>
 							</view>
 						</uni-col>
 						<uni-col :span="4" style="text-align: right;">
-							<uni-icons style="color: #00CFBD;" type="plus-filled" size="25"></uni-icons>
+							<uni-icons @click='addAccount()' style="color: #00CFBD;" type="plus-filled" size="25"></uni-icons>
 						</uni-col>
 					</uni-row>
 				</view>
 			</uni-list-item>
 		</uni-list>
-		<view v-if="selectPeople.length==0" style="font-size: 13px;color: #939393;margin: 5px 0 0 10px;">请添加费用明细</view>
-		<view v-else-if="selectPeople.length>0" v-for="(selectModel,index) in selectPeople" :key='index'>
-			<view class="mui-input-row" style="height: 40px;">
-				<p v-if="selectModel.flowFlag == 0" style="margin-left: 10px;float: left;margin-top: 5px;">
-					{{selectModel.user_name}}
-				</p>
-				<p v-else-if="selectModel.flowFlag == 1" style="margin-left: 10px;float: left;margin-top: 5px;">
-					{{selectModel.flow_name}}</p>
-				<button @click="removeSelectModel(index)" type="warn" size="mini"
-					style="margin-left: 20px;">删除</button>
-			</view>
+		<view v-if="accountList.length==0" style="font-size: 13px;color: #939393;margin: 5px 0 0 10px;">请添加报销明细</view>
+		<view v-else-if="accountList.length>0" v-for="(accountModel,index) in accountList" :key='index'>
+			<uni-card isShadow>
+				<text class="content-box-text" @click.stop="editAccount(accountModel,index)">
+					<uni-row style=''>
+						<uni-col :span="10" style="font-size: 13px;">
+							￥{{accountModel.eff}}
+						</uni-col>
+						<uni-col :span="10" style="text-align: center;color: #00CFBD;font-size: 13px;">
+							{{accountModel.time}}
+						</uni-col>
+						<uni-col :span="4" style="text-align: right;">
+							<uni-icons @click.stop='delAccount(index)' style="color: #939393;" type="closeempty" size="25"></uni-icons>
+						</uni-col>
+						<uni-col :span="24" style="font-size: 13px;margin-top: 3px;">
+							{{accountModel.content}}
+						</uni-col>
+						<uni-col :span="24" style="">
+							<view v-for="(imgModel,imgIndex) in accountModel.imgList" :key='imgIndex' style="margin-top: 5px;">
+								<image class="peopleImg" style="float: left;margin-left: 5px;" :src=imgModel></image>
+							</view>
+						</uni-col>
+					</uni-row>
+				</text>
+			</uni-card>
 		</view>
 		
 		<view class="double-line"></view>
@@ -107,6 +112,60 @@
 		<view style="margin: 10px;color: gray;word-break:break-all;word-wrap:break-word;font-size: 13px;">
 			{{'已选('+copyPeoples.length+'人）:'}} {{copyPeoplesStr}}
 		</view>
+		<uni-popup ref="popupSelect" type="center" style="background-color: white;">
+			<scroll-view
+				style="background-color: white;padding: 10px;border-radius: 5px 5px 0px 0px;width: 300px;height: 350px;"
+				class="popupSelect" scroll-y="true">
+				<view style="text-align: center;padding-top: 10px;" v-if="accountFlag ==1">编辑报销明细</view>
+				<view style="text-align: center;padding-top: 10px;" v-else>添加报销明细</view>
+				<uni-row style="margin-bottom: 5px;">
+					<uni-col class="addEditLeft" :span="5">
+						金额：
+					</uni-col>
+					<uni-col class="" :span="19">
+						<view class="pickBorder" style="margin-top: 10px;width: 185px;height: 40px;">
+							<input v-model="accountModel.eff" maxlength="8" class="rightInput" type="number" placeholder="请输入报销金额" />
+						</view>
+					</uni-col>
+					<uni-col class="addEditLeft" :span="5">
+						日期：
+					</uni-col>
+					<uni-col class="rowClo" :span="19">
+						<view class="mini-date pickBorder"
+							style="margin-top: -5px;width: 185px;height: 40px;text-align: left;">
+							<dy-Date :childValue='endtime' timeType="day" v-on:getData='timeSelect'
+								:minSelect='startDate' :maxSelect='endDate'></dy-Date>
+							<uni-icons style="padding-right: 13px;" size="13" type="arrowdown" color="#C2C7D6">
+							</uni-icons>
+						</view>
+					</uni-col>
+					<uni-col class="addEditLeft" :span="5">
+						内容：
+					</uni-col>
+					<uni-col class="" :span="19">
+						<view class="pickBorder" style="margin-top: 10px;width: 185px;height: 40px;">
+							<input v-model="accountModel.content" maxlength="30" class="rightInput" type="text" placeholder="请输入报销内容" />
+						</view>
+					</uni-col>
+				</uni-row>
+				<view class="uni-flex uni-row form-view choose-file">
+					<view class="choose-file-text">附件<view class="file-des">
+							{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
+						</view>
+					</view>
+					<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile'
+						@imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount">
+					</g-upload>
+				</view>
+			</scroll-view>
+			<view style="background-color: white;height: 60px;border-radius: 0px 0px 5px 5px;">
+				<view style="height: 10px;"></view>
+				<button class="mini-btn" type="default" size="mini" @click="popSure(0)">取消</button>
+				<button class="mini-btn" type="default" size="mini"
+					style="background-color: #00cfbd;border-color: #00cfbd;color: white;"
+					@click="popSure(1)">确定</button>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -130,17 +189,28 @@
 				// 附件上传相关👇
 				control: true, //是否显示上传 + 按钮 一般用于显示
 				deleteBtn: true, //是否显示删除 按钮 一般用于显示
-				maxCount: 5, //单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 
-				showMaxCount: 5, //单次上传最大数量
+				maxCount: 3, //单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 
+				showMaxCount: 3, //单次上传最大数量
 				columnNum: 3, //每行显示的图片数量
-				imgNames: [], //服务器回传的图片名称
+				// imgNames: [], //服务器回传的图片名称
 				imgList: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
-				imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
+				// imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
 				wxTips: '',
 				copyPeoples:[],
 				copyPeoplesStr:'',
 				selectAccountTypeArray:[],
 				selectAccountTypeIndex:-1,
+				accountList:[],//报销明细
+				accountModel:{
+					content:'',
+					time:'',
+					eff:'',
+					imgList:[]
+				},//弹出框中报销model
+				accountFlag:0,//0添加，1编辑
+				endtime: this.moment().format('YYYY-MM-DD'),
+				startDate: '2020-01-01',
+				endDate: this.moment().format('YYYY-MM-DD'),
 			}
 		},
 		components: {
@@ -152,11 +222,11 @@
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			this.itemData = util.getPageData(option);
-			this.itemData.text = '新建费用申请';
+			this.itemData.text = '新建报销申请';
 			this.itemData.index = 100;
 			console.log('this.itemData:' + JSON.stringify(this.itemData));
 			uni.setNavigationBarTitle({
-				title: '新建费用申请'
+				title: '新建报销申请'
 			});
 			//#ifndef APP-PLUS
 			document.title = "";
@@ -166,7 +236,7 @@
 			// 8.获取全部流程列表
 			var tempData = {
 				flow_name:'',
-				flow_type: 1, //流程类型，0 全部，1 费用申请流程,2 费用报销流程
+				flow_type: 1, //流程类型，0 全部，1 报销申请流程,2 报销报销流程
 				flow_status:1,//流程状态，0 全部，1 有效,2 无效
 				page_number:1,
 				page_size:0,
@@ -207,6 +277,54 @@
 			//#endif
 		},
 		methods: {
+			editAccount(model,index){
+				console.log('editAccount:'+JSON.stringify(model));
+				this.accountModel = model;
+				this.endtime = this.accountModel.time;
+				this.imgList = this.accountModel.imgList;
+				this.accountFlag = 1;
+				this.$refs.popupSelect.open();
+			},
+			delAccount(index){
+				console.log('delAccount:'+index);
+				// this.accountList.splice(index,1);
+			},
+			popSure(flag) {
+				if (flag == 0) {
+					this.$refs.popupSelect.close();
+				} else {
+					if(this.accountModel.eff.length == 0){
+						this.showToast("请输入报销金额");
+					}else if(this.accountModel.content.length == 0){
+						this.showToast("请输入报销内容");
+					}else{
+						this.$refs.popupSelect.close();
+						if(this.imgList.length>0){
+							this.accountModel.time = this.endtime;
+							this.accountModel.imgList = this.imgList;
+							this.accountList.push(this.accountModel);
+						}
+						console.log('this.accountList:'+JSON.stringify(this.accountList));
+					}
+				}
+			},
+			timeSelect(e) {
+				console.log(e);
+				this.endtime = e;
+			},
+			addAccount(){
+				this.accountModel = {
+					content:'',
+					time:'',
+					eff:'',
+					imgList:[]
+				}
+				// this.imgNames = [];
+				this.imgList = [];
+				// this.imgFiles = [];
+				this.accountFlag = 0;
+				this.$refs.popupSelect.open();
+			},
 			selectAccountType(e){
 				if(this.selectAccountTypeArray.length>0){
 					if(this.selectAccountTypeIndex!==e.detail.value){
@@ -221,13 +339,13 @@
 			//附件上传相关👇
 			chooseFile(list, v, f) {
 				this.imgList = list
-				this.imgFiles = this.imgFiles.concat(f)
+				// this.imgFiles = this.imgFiles.concat(f)
 				this.maxCount = this.showMaxCount - list.length
 			},
 			imgDelete(list, eq, fileeq) {
 				this.imgList = list
-				this.imgFiles.splice(fileeq, 1); //删除临时路径
-				this.imgNames.splice(eq, 1); //删除文件名
+				// this.imgFiles.splice(fileeq, 1); //删除临时路径
+				// this.imgNames.splice(eq, 1); //删除文件名
 				this.maxCount = this.showMaxCount - list.length
 			},
 			upLoadImg() {
@@ -300,7 +418,7 @@
 
 				}
 				console.log('tempData:' + JSON.stringify(tempData));
-				//10.新增费用申请
+				//10.新增报销申请
 				this.post(this.globaData.INTERFACE_COSTMS + 'costApply/addCostApply', tempData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
@@ -313,12 +431,19 @@
 				});
 			},
 			textClick() {
+				if(this.selectAccountTypeIndex==-1){
+					this.showToast('请选择报销类型');
+					return;
+				}
 				if (this.content.length > 300) {
 					this.showToast("内容不能超过300字");
 					// sendFlag = 0;
 					return;
 				}
-
+				if(this.accountList.length == 0){
+					this.showToast('请添加报销明细');
+					return;
+				}
 				if (this.selectPeople.length == 0) {
 					this.showToast("请选择接收人");
 					// sendFlag = 0;
@@ -479,5 +604,50 @@
 		flex: 1;
 		word-break: break-all;
 		color: #787878;
+	}
+	
+	.rowClo {
+		text-align: center;
+		margin-top: 15px;
+		font-size: 12px;
+		color: #505050;
+	}
+	
+	.addEditLeft {
+		text-align: right;
+		margin-top: 20px;
+		font-size: 12px;
+		color: #505050;
+	}
+	
+	.pickBorder {
+		border: 1px solid #e5e5e5;
+		width: 160px;
+		border-radius: 5px;
+	}
+	
+	::v-deep .mini-date .uni-input {
+		text-align: left !important;
+		margin-left: 10px;
+		font-size: 14px !important;
+		color: #000000 !important;
+	}
+	
+	.mini-btn {
+		width: 100px;
+		height: 40px;
+		padding-top: 5px !important;
+		margin-left: 40px;
+	}
+	
+	.rightInput {
+		margin-top: 10px;
+		margin-left: 10px;
+		font-size: 14px;
+	}
+	.peopleImg {
+		width: 50px;
+		height: 50px;
+		border-radius: 5px;
 	}
 </style>
