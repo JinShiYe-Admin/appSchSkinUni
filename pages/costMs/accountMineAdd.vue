@@ -11,7 +11,7 @@
 		</view>
 		<view class="line"></view>
 		<view class="titleTemp">事由</view>
-		<textarea maxlength="300" v-model="content" class="rightView"
+		<textarea maxlength="50" v-model="content" class="rightView"
 			style="height: 80px;margin-top: 10px;padding-top: 5px;margin-bottom: 10px;" placeholder="请输入申请事由"></textarea>
 		<br>
 		<view class="double-line" style="margin-top: 90px;"></view>
@@ -43,21 +43,22 @@
 							{{accountModel.time}}
 						</uni-col>
 						<uni-col :span="4" style="text-align: right;">
-							<uni-icons @click.stop='delAccount(index)' style="color: #939393;" type="closeempty" size="25"></uni-icons>
+							<view @click.stop='delAccount(index)'>
+								<uni-icons style="color: #939393;" type="closeempty" size="25"></uni-icons>
+							</view>
 						</uni-col>
 						<uni-col :span="24" style="font-size: 13px;margin-top: 3px;">
 							{{accountModel.content}}
 						</uni-col>
 						<uni-col :span="24" style="">
 							<view v-for="(imgModel,imgIndex) in accountModel.imgList" :key='imgIndex' style="margin-top: 5px;">
-								<image class="peopleImg" style="float: left;margin-left: 5px;" :src=imgModel></image>
+								<image class="peopleImg" style="float: left;margin-left: 5px;" :src=imgModel>
 							</view>
 						</uni-col>
 					</uni-row>
 				</text>
 			</uni-card>
 		</view>
-		
 		<view class="double-line"></view>
 		<uni-list style="margin-top: -5px;">
 			<uni-list-item direction='column' >
@@ -208,6 +209,7 @@
 					imgList:[]
 				},//弹出框中报销model
 				accountFlag:0,//0添加，1编辑
+				accountEditIndex:0,//编辑明细的索引
 				endtime: this.moment().format('YYYY-MM-DD'),
 				startDate: '2020-01-01',
 				endDate: this.moment().format('YYYY-MM-DD'),
@@ -283,11 +285,12 @@
 				this.endtime = this.accountModel.time;
 				this.imgList = this.accountModel.imgList;
 				this.accountFlag = 1;
+				this.accountEditIndex = index;
 				this.$refs.popupSelect.open();
 			},
 			delAccount(index){
 				console.log('delAccount:'+index);
-				// this.accountList.splice(index,1);
+				this.accountList.splice(index,1);
 			},
 			popSure(flag) {
 				if (flag == 0) {
@@ -300,9 +303,13 @@
 					}else{
 						this.$refs.popupSelect.close();
 						if(this.imgList.length>0){
-							this.accountModel.time = this.endtime;
 							this.accountModel.imgList = this.imgList;
-							this.accountList.push(this.accountModel);
+						}
+						this.accountModel.time = this.endtime;
+						if(this.accountFlag==0){
+							this.accountList.push(JSON.parse(JSON.stringify(this.accountModel)));
+						}else{
+							this.accountList.splice(this.accountEditIndex,1,JSON.parse(JSON.stringify(this.accountModel)));
 						}
 						console.log('this.accountList:'+JSON.stringify(this.accountList));
 					}
@@ -313,6 +320,10 @@
 				this.endtime = e;
 			},
 			addAccount(){
+				if(this.accountList.length==5){
+					this.showToast("最多只能添加5条明细");
+					return;
+				}
 				this.accountModel = {
 					content:'',
 					time:'',
@@ -350,7 +361,7 @@
 			},
 			upLoadImg() {
 				this.showLoading();
-				cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PB_NAME, this.QN_CWGL_FY, (encName,
+				cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PB_NAME, this.QN_CWGL_BX, (encName,
 					encAddrStr) => {
 					this.hideLoading();
 					console.log("encAddrStr: " + JSON.stringify(encAddrStr));
@@ -435,8 +446,13 @@
 					this.showToast('请选择报销类型');
 					return;
 				}
-				if (this.content.length > 300) {
-					this.showToast("内容不能超过300字");
+				if (this.content.length == 0) {
+					this.showToast("请输入申请事由");
+					// sendFlag = 0;
+					return;
+				}
+				if (this.content.length > 50) {
+					this.showToast("申请事由不能超过50字");
 					// sendFlag = 0;
 					return;
 				}
