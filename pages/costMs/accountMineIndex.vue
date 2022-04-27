@@ -216,7 +216,7 @@
 					index_code:this.itemData.access.split('#')[1],
 				}
 				util.openwithData('/pages/costMs/accountMineAdd', model, {
-					addRefreshList(data) { //子页面调用父页面需要的方法
+					accountMineAddRefreshList(data) { //子页面调用父页面需要的方法
 						if(_this.semFlag == 0){
 							_this.showLoading();
 							_this.sem0Data.flagRef = 0;

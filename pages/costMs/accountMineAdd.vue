@@ -21,7 +21,7 @@
 					<uni-row>
 						<uni-col :span="20">
 							<view>
-								报销明细<span style='color: #787878;font-size: 12px;'>（当前报销报销总额：<span style='color: red;'>999</span>元）</span>
+								报销明细<span style='color: #787878;font-size: 12px;'>（当前报销报销总额：<span style='color: red;'>{{accountEff}}</span>元）</span>
 							</view>
 						</uni-col>
 						<uni-col :span="4" style="text-align: right;">
@@ -193,14 +193,15 @@
 				maxCount: 3, //单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 
 				showMaxCount: 3, //单次上传最大数量
 				columnNum: 3, //每行显示的图片数量
-				// imgNames: [], //服务器回传的图片名称
+				imgNames: [], //服务器回传的图片名称
 				imgList: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
-				// imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
+				imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
 				wxTips: '',
 				copyPeoples:[],
 				copyPeoplesStr:'',
 				selectAccountTypeArray:[],
 				selectAccountTypeIndex:-1,
+				accountEff:0,//费用总金额
 				accountList:[],//报销明细
 				accountModel:{
 					content:'',
@@ -238,7 +239,7 @@
 			// 8.获取全部流程列表
 			var tempData = {
 				flow_name:'',
-				flow_type: 1, //流程类型，0 全部，1 报销申请流程,2 报销报销流程
+				flow_type: 2, //流程类型，0 全部，1 报销申请流程,2 报销报销流程
 				flow_status:1,//流程状态，0 全部，1 有效,2 无效
 				page_number:1,
 				page_size:0,
@@ -282,11 +283,21 @@
 			editAccount(model,index){
 				console.log('editAccount:'+JSON.stringify(model));
 				this.accountModel = model;
+				this.accountModel.eff = parseFloat(parseFloat(this.accountModel.eff).toFixed(1));
 				this.endtime = this.accountModel.time;
 				this.imgList = this.accountModel.imgList;
+				this.maxCount = this.showMaxCount - this.accountModel.imgList.length;
 				this.accountFlag = 1;
 				this.accountEditIndex = index;
 				this.$refs.popupSelect.open();
+				this.sumAccountEff();
+			},
+			sumAccountEff(){
+				this.accountEff = 0;
+				for (var i = 0; i < this.accountList.length; i++) {
+					var tempM = this.accountList[i];
+					this.accountEff = this.accountEff + tempM.eff;
+				}
 			},
 			delAccount(index){
 				console.log('delAccount:'+index);
@@ -305,12 +316,14 @@
 						if(this.imgList.length>0){
 							this.accountModel.imgList = this.imgList;
 						}
+						this.accountModel.eff = parseFloat(parseFloat(this.accountModel.eff).toFixed(1)) ;
 						this.accountModel.time = this.endtime;
 						if(this.accountFlag==0){
 							this.accountList.push(JSON.parse(JSON.stringify(this.accountModel)));
 						}else{
 							this.accountList.splice(this.accountEditIndex,1,JSON.parse(JSON.stringify(this.accountModel)));
 						}
+						this.sumAccountEff();
 						console.log('this.accountList:'+JSON.stringify(this.accountList));
 					}
 				}
@@ -330,9 +343,10 @@
 					eff:'',
 					imgList:[]
 				}
-				// this.imgNames = [];
+				this.maxCount = this.showMaxCount;
+				this.imgNames = [];
 				this.imgList = [];
-				// this.imgFiles = [];
+				this.imgFiles = [];
 				this.accountFlag = 0;
 				this.$refs.popupSelect.open();
 			},
@@ -344,41 +358,46 @@
 				}
 			},
 			selectFlowChange(e) {
-				console.log('picker发送选择改变，携带值为', e.target.value);
-				this.selectFlowFun(this.selectFlowArray[e.target.value]);
+				if(this.selectFlowArray.length>0){
+					console.log('picker发送选择改变，携带值为', e.target.value);
+					this.selectFlowFun(this.selectFlowArray[e.target.value]);
+				}else{
+					this.showToast("暂无审批流程");
+				}
 			},
 			//附件上传相关👇
 			chooseFile(list, v, f) {
 				this.imgList = list
-				// this.imgFiles = this.imgFiles.concat(f)
+				this.imgFiles = this.imgFiles.concat(f)
 				this.maxCount = this.showMaxCount - list.length
 			},
 			imgDelete(list, eq, fileeq) {
 				this.imgList = list
-				// this.imgFiles.splice(fileeq, 1); //删除临时路径
-				// this.imgNames.splice(eq, 1); //删除文件名
+				this.imgFiles.splice(fileeq, 1); //删除临时路径
+				this.imgNames.splice(eq, 1); //删除文件名
 				this.maxCount = this.showMaxCount - list.length
 			},
-			upLoadImg() {
-				this.showLoading();
-				cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PB_NAME, this.QN_CWGL_BX, (encName,
-					encAddrStr) => {
-					this.hideLoading();
-					console.log("encAddrStr: " + JSON.stringify(encAddrStr));
-					console.log("names: " + JSON.stringify(encName));
-					this.submitData(encName, encAddrStr);
-				});
+			upLoadImg(flag) {//flag为accountList中的索引
+				if (this.accountList.length>flag) {
+					if (this.accountList[flag].imgList.length>0) {
+						this.showLoading();
+						cloudFileUtil.uploadFiles(this, '1', this.accountList[flag].imgList, this.QN_PB_NAME, this.QN_CWGL_BX, (encName,
+							encAddrStr) => {
+							this.hideLoading();
+							this.accountList[flag].encName = encName;
+							this.accountList[flag].encAddrStr = encAddrStr;
+							this.upLoadImg(flag+1);
+						});
+					}else{
+						this.upLoadImg(flag+1);
+					}
+				}else{
+					this.submitData();
+				}
+				
 			},
 			//附件上传相关👆
-			submitData(encNameStr, encAddrStr) {
-				var enc_list = []; //附件列表
-				for (var i = 0; i < encNameStr.length; i++) {
-					var tempM = {
-						enc_name:encNameStr[i],
-						enc_addr:encAddrStr[i]
-					}
-					enc_list.push(tempM);
-				}
+			submitData() {
 				var approve_mans = []; //审批人列表
 				var copy_mans = []; //抄送人列表
 				console.log('this.selectPeople:'+JSON.stringify(this.selectPeople));
@@ -414,27 +433,46 @@
 					sendFlag = 0;
 					return;
 				}
-				console.log('this.content:' + this.content);
+				console.log('this.accountList:' + JSON.stringify(this.accountList));
+				var tempAccountArr = [];
+				for (var i = 0; i < this.accountList.length; i++) {
+					var tempM0 = this.accountList[i];
+					var tempM1 = {
+						account_note:tempM0.content,
+						account_time:tempM0.time.replace(/\-/g,''),
+						account_fee:tempM0.eff,
+						enc_list:[]
+					}
+					if(tempM0.encName){
+						for (var a = 0; a < tempM0.encName.length; a++) {
+							var tempImg = {
+								enc_name:tempM0.encName[a],
+								enc_addr:tempM0.encAddrStr[a],
+							}
+							tempM1.enc_list.push(tempImg);
+						}
+					}
+					tempAccountArr.push(tempM1);
+				}
 				this.showLoading();
 				var tempData = {
-					apply_fee: parseFloat(this.title), //申请金额
-					apply_reason: this.content.replace(/\n/g, '<br>'), //申请事由
-					enc_list: enc_list, //附件
+					account_reason: this.content.replace(/\n/g, '<br>'), //申请事由
+					account_sum:this.accountEff,
+					account_items: tempAccountArr, //
 					approve_mans:approve_mans,
 					copy_mans:copy_mans,
+					account_type:this.selectAccountTypeArray[this.selectAccountTypeIndex].id,
 					apply_man_code: this.personInfo.user_code, //申请人Code
 					apply_man_name: this.personInfo.user_name, //申请人姓名
 					index_code: this.itemData.index_code,
-					// op_code: 'add'
-
 				}
 				console.log('tempData:' + JSON.stringify(tempData));
-				//10.新增报销申请
-				this.post(this.globaData.INTERFACE_COSTMS + 'costApply/addCostApply', tempData, (data0, data) => {
+				// 17.新增报销申请
+				this.post(this.globaData.INTERFACE_COSTMS + 'accountApply/addAccountApply', tempData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
 						const eventChannel = this.getOpenerEventChannel()
-						eventChannel.emit('addRefreshList');
+						eventChannel.emit('accountMineAddRefreshList');
 						uni.navigateBack();
 					} else {
 						this.showToast(data.msg);
@@ -465,7 +503,7 @@
 					// sendFlag = 0;
 					return;
 				}
-				this.upLoadImg();
+				this.upLoadImg(0);
 			},
 			selectPeopleFun(flag) {
 				console.log('selectPeopleFunselectPeopleFunselectPeopleFun');

@@ -229,7 +229,7 @@
 				console.log('this.content:' + this.content);
 				this.showLoading();
 				var tempData = {
-					apply_fee: parseFloat(this.title), //申请金额
+					apply_fee: parseFloat(this.title).toFixed(1), //申请金额
 					apply_reason: this.content.replace(/\n/g, '<br>'), //申请事由
 					enc_list: enc_list, //附件
 					approve_mans:approve_mans,
