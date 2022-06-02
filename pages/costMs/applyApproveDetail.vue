@@ -77,8 +77,8 @@
 		<view style="height: 30px;">
 		</view>
 		<uni-popup ref="inputDialog" type="dialog">
-			<uni-popup-dialog ref="inputClose" maxlength='30' mode="input" :title="`确定${this.dialogText}吗?`" placeholder="请输入内容"
-				@confirm="dialogInputConfirm" ></uni-popup-dialog>
+			<uni-popup-dialog ref="inputClose" beforeClose="true" mode="input" :title="`确定${this.dialogText}吗?`" placeholder="请输入内容"
+				@confirm="dialogInputConfirm" @close="dialogInputClose"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -147,6 +147,9 @@
 				this.dialogFlag = 2;
 			},
 			closeDel() {
+				this.$refs.inputDialog.close();
+			},
+			dialogInputClose(){
 				this.$refs.inputDialog.close();
 			},
 			dialogInputConfirm(value) {
@@ -365,5 +368,9 @@
 	.approvePerCls {
 		font-size: 12px;
 		color: #909399;
+	}
+	
+	::v-deep .uni-popup .uni-popup__wrapper {
+	    margin-top: -200px;
 	}
 </style>

@@ -183,6 +183,7 @@
 				personInfo: {},
 				itemData: {},
 				showSelectPeople: '',
+				sendFlag:0,
 				title: '',
 				content: '',
 				selectPeople: [],
@@ -430,7 +431,7 @@
 				}
 				if (approve_mans.length == 0) {
 					this.showToast("请添加审批人或者审批流程");
-					sendFlag = 0;
+					this.sendFlag = 0;
 					return;
 				}
 				console.log('this.accountList:' + JSON.stringify(this.accountList));
@@ -476,6 +477,7 @@
 						uni.navigateBack();
 					} else {
 						this.showToast(data.msg);
+						this.sendFlag = 0;
 					}
 				});
 			},
@@ -486,12 +488,10 @@
 				}
 				if (this.content.length == 0) {
 					this.showToast("请输入申请事由");
-					// sendFlag = 0;
 					return;
 				}
 				if (this.content.length > 50) {
 					this.showToast("申请事由不能超过50字");
-					// sendFlag = 0;
 					return;
 				}
 				if(this.accountList.length == 0){
@@ -500,10 +500,12 @@
 				}
 				if (this.selectPeople.length == 0) {
 					this.showToast("请选择接收人");
-					// sendFlag = 0;
 					return;
 				}
-				this.upLoadImg(0);
+				if (this.sendFlag == 0) {
+					this.sendFlag = 1;
+					this.upLoadImg(0);
+				}
 			},
 			selectPeopleFun(flag) {
 				console.log('selectPeopleFunselectPeopleFunselectPeopleFun');

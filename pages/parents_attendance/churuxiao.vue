@@ -22,15 +22,15 @@
 						<uni-col :span="12">
 							{{item.card_time}}
 						</uni-col>
-						<uni-col :span="7">
+						<uni-col :span="7" class='location'>
 							{{item.attendance_location}}
 						</uni-col>
 						<uni-col :span="3">
 							<template v-if="item.card_dir_txt && item.card_dir_txt.indexOf('出')!==-1">
-								<view><p style="margin: 0 auto;width: 40px;padding: 2px;background-color: #FF9900;color: #FFFFFF;border-radius: 7px;font-size: 12px;text-align: center;">{{item.card_dir_txt}}</p></view>
+								<view><p style="margin: 0 auto;width: 40px;padding: 2px;background-color: #FF9900;color: #FFFFFF;border-radius: 7px;font-size: 12px;text-align: center;margin-left: 5px;">{{item.card_dir_txt}}</p></view>
 							</template>
 							<template v-else>
-								<view><p style="margin: 0 auto;width: 40px;padding: 2px;background-color: #3ACA3A;color: #FFFFFF;border-radius: 7px;font-size: 12px;text-align: center;">{{item.card_dir_txt}}</p></view>
+								<view><p style="margin: 0 auto;width: 40px;padding: 2px;background-color: #3ACA3A;color: #FFFFFF;border-radius: 7px;font-size: 12px;text-align: center;margin-left: 5px;">{{item.card_dir_txt}}</p></view>
 							</template>
 						</uni-col>
 					</uni-row>
@@ -168,5 +168,11 @@
 
 	.uni-col {
 		height: 30px;
+	}
+	.location{
+		word-break: break-all;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 </style>

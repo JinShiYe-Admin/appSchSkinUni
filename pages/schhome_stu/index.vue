@@ -120,6 +120,9 @@
 					page_size: this.pageSize, //每页记录数
 					index_code: this.index_code,
 				}
+				if(this.personInfo.type_code == 'YHLX0004'){
+					comData.dest_user_code = this.personInfo.stu_code;
+				}
 				this.post(this.globaData.INTERFACE_SCHHOME+'api/appsms/appsmsugetp',comData,response=>{
 					setTimeout(function () {
 						uni.stopPullDownRefresh();

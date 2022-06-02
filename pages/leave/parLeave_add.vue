@@ -198,6 +198,8 @@
 				let comData = {
 					grd_codes:this.personInfo.grd_code,
 					cls_codes:this.personInfo.cls_code,
+					uid_stat:1,
+					user_stat:1,
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'clsTec',comData,response=>{

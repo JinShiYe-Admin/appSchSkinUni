@@ -221,9 +221,9 @@
 	}
 
 	.scroll-h {
-		width: 750rpx;
+		width: 375px;
 		width: 100%;
-		height: 80rpx;
+		height: 40px;
 		background-color: #F0F0F0;
 		flex-direction: row;
 		white-space: nowrap;
@@ -233,15 +233,15 @@
 	.uni-tab-item {
 		display: inline-block;
 		flex-wrap: nowrap;
-		padding-left: 34rpx;
-		padding-right: 34rpx;
+		padding-left: 17px;
+		padding-right: 17px;
 	}
 
 	.uni-tab-item-title {
 		color: #555;
-		font-size: 30rpx;
-		height: 80rpx;
-		line-height: 80rpx;
+		font-size: 15px;
+		height: 40px;
+		line-height: 40px;
 		flex-wrap: nowrap;
 		white-space: nowrap;
 	}

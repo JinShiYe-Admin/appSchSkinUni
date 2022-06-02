@@ -88,6 +88,7 @@
 				personInfo: {},
 				itemData: {},
 				showSelectPeople: '',
+				sendFlag:0,
 				title: '',
 				content: '',
 				selectPeople: [],
@@ -223,7 +224,7 @@
 				}
 				if (approve_mans.length == 0) {
 					this.showToast("请添加审批人或者审批流程");
-					sendFlag = 0;
+					this.sendFlag = 0;
 					return;
 				}
 				console.log('this.content:' + this.content);
@@ -250,22 +251,24 @@
 						uni.navigateBack();
 					} else {
 						this.showToast(data.msg);
+						this.sendFlag = 0;
 					}
 				});
 			},
 			textClick() {
 				if (this.content.length > 300) {
 					this.showToast("内容不能超过300字");
-					// sendFlag = 0;
 					return;
 				}
 
 				if (this.selectPeople.length == 0) {
 					this.showToast("请选择接收人");
-					// sendFlag = 0;
 					return;
 				}
-				this.upLoadImg();
+				if (this.sendFlag == 0) {
+					this.sendFlag = 1;
+					this.upLoadImg();
+				}
 			},
 			selectPeopleFun(flag) {
 				console.log('selectPeopleFunselectPeopleFunselectPeopleFun');

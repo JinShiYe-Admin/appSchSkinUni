@@ -4,7 +4,12 @@
 			<!-- <view class="base-btn" @tap="show = !show" :style="btnStyle"> -->
 			<!-- <view class="base-btn" @tap="show = !show" style="background-color: #00CFBD;width: 150px;height: 35px;margin-left: 20px;margin-top: 10px;border-radius: 5px;color: white;text-align: left;">{{viewName}}
 			</view> -->
-			<uni-list-item class="base-btn" :clickable="true"  @tap="show = !show" style="background-color: #00CFBD;width: 150px;height: 35px;margin-left: 20px;margin-top: 10px;border-radius: 5px;color: white;text-align: left;" >				<template slot="header">					<span style='color: white;font-size: 13px;'>{{viewName}}</span>				</template>			  <template slot="footer">				 <uni-icons type="arrowright" color="#FFFFFF" size="16" style="margin: 0 -10px 0 0;z-index: 2;"></uni-icons>			 </template>			</uni-list-item>
+			<uni-list-item class="base-btn" :clickable="true"  @tap="show = !show" style="background-color: #00CFBD;width: 160px;height: 44px;margin-left: 0px;margin-top: 0px;border-radius: 5px;color: white;text-align: left;" >				<template slot="header">					<!-- <span style='color: white;font-size: 13px;'>{{viewName}}</span>
+					<uni-icons type="forward" size="15" class="uniIcon"></uni-icons> -->
+					<view style="padding: 0px 0 0 0px;color: white;">{{viewName}}
+						<uni-icons type="forward" size="15" class="uniIcon"></uni-icons>
+					</view>				</template>
+							  <!-- <template slot="footer">				 <uni-icons type="arrowright" color="#FFFFFF" size="16" style="margin: 0 -10px 0 0;z-index: 2;"></uni-icons>			 </template> -->			</uni-list-item>
 			<view class="modal" 
 				:style="{ 
 					height: show ? btnList.length * 8 + 'vw' : 0, 
@@ -15,7 +20,7 @@
 					opacity: modalOpacity
 				}"
 			>
-				<view class="modal-ang" v-if="dotShow && btnList.length > 0" :style="direction == 'left' ? 'left: 70px': 'right: 10px'"></view>
+				<!-- <view class="modal-ang" v-if="dotShow && btnList.length > 0" :style="direction == 'left' ? 'left: 70px': 'right: 10px'"></view> -->
 				<view class="modal-item" v-for="(item, index) in btnList" :index="index" :key="index" @tap="callRes(index)">
 					{{item}}
 				</view>
@@ -74,15 +79,15 @@ export default {
 		},
 		modalWidth: {
 			type: String,
-			default: '15vw'
+			default: '160px'
 		},
 		modalLeftPos: {
 			type: String,
-			default: '5vw'
+			default: '0px'
 		},
 		modalTopPos: {
 			type: String,
-			default: '6vw'
+			default: '44px'
 		},
 		modalOpacity: {
 			type: String,
@@ -102,6 +107,9 @@ export default {
 			this.$emit('select', e);
 			this.show=false;
 			this.dotShow=false;
+		},
+		activeF() {
+			this.show = false;
 		}
 	}
 };
@@ -156,4 +164,7 @@ export default {
 .uni-icon-wrapper{
 	color: white !important;
 }
+::v-deep .uni-list-item--hover {
+		background-color: #00CFBD !important;
+	}
 </style>

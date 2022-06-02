@@ -3,6 +3,7 @@ import App from './App'
 import {
 	post
 } from 'commom/request/request.js'
+// import uView from 'uni_modules/uview-ui'
 import uView from './third-ui/uview-ui'
 import util from './commom/util.js'
 import moment from 'moment'
@@ -13,6 +14,8 @@ Vue.use(VueJsonp);
 const GLOBALDATA = {}; //参数对象 用于存全局公共参数
 const EnvKey = 3; //1:山东开发 2:广西开发 3:联测 4:云测 5:正式 6性能测试   
 Vue.prototype.APPORWECHAT = 1; //app为1，微信里面是2
+// Vue.prototype.QN_URL = "https://upload.qiniu.com/"; //
+Vue.prototype.QN_URL = "https://upload.qbox.me/"; //
 switch (EnvKey) {
 	case 1:
 		GLOBALDATA.EnvKey = EnvKey;

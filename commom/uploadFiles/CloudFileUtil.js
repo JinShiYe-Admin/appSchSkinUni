@@ -376,7 +376,7 @@ var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64S
 			// console.log("上传的Domain:" + QNUptoken.Data.Domain);
 			// console.log("上传的base64Str:"+base64Str);
 			let pic = base64Str;
-			let url = 'http://upload.qiniu.com/putb64/-1/key/' + encode(QNUptoken.Data.Key);
+			let url = Vue.prototype.QN_URL+'putb64/-1/key/' + encode(QNUptoken.Data.Key);
 			uni.request({
 				url: url,
 				method: 'POST',
@@ -427,9 +427,8 @@ var uploadAudio = function uploadAudio(type, fileName, audioUrl, callback, ecall
 		} else {
 			console.log("上传的Token:" + QNUptoken.Data.Token);
 			console.log("上传的Domain:" + QNUptoken.Data.Domain);
-			// let url = 'http://upload.qiniu.com/putb64/-1/key/' + encode(QNUptoken.Data.Key);
 			uni.uploadFile({
-				url: 'http://upload.qiniu.com/',
+				url: Vue.prototype.QN_URL,
 				filePath: audioUrl,
 				formData: {
 					'key': QNUptoken.Data.Key,
@@ -583,7 +582,7 @@ var upload = function(fPath, token, key, uploadCompletedCallBack, onStateChanged
 	// console.log('upload key: ' + key);
 
 	uni.uploadFile({
-		url: 'http://upload.qiniu.com/',
+		url: Vue.prototype.QN_URL,
 		filePath: fPath,
 		name: 'file',
 		formData: {
@@ -806,7 +805,7 @@ var _uploadFiles = function(that, fPath, token, key, uploadCompletedCallBack) {
 	// console.log('upload token: ' + token);
 	// console.log('upload key: ' + key);
 	uni.uploadFile({
-		url: 'http://upload.qiniu.com/',
+		url: Vue.prototype.QN_URL,
 		filePath: fPath,
 		formData: {
 			'key': key,
@@ -836,7 +835,7 @@ var _uploadFiles = function(that, fPath, token, key, uploadCompletedCallBack) {
  */
 var uploadFile = function(tokenInfo, fileName, callback) {
 	////console.log('upload:' + fPath);
-	var task = plus.uploader.createUpload("http://upload.qiniu.com/", {
+	var task = plus.uploader.createUpload(Vue.prototype.QN_URL, {
 			method: "POST"
 		},
 		/**
@@ -879,7 +878,7 @@ var uploadFile = function(tokenInfo, fileName, callback) {
 // }
 
 function createTask(tokenInfo, fileName, index, callback) {
-	var task = plus.uploader.createUpload("http://upload.qiniu.com/", {
+	var task = plus.uploader.createUpload(Vue.prototype.QN_URL, {
 			method: "POST"
 		},
 		/**

@@ -43,6 +43,12 @@
 			this.getPageList();
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+			// #ifdef APP-PLUS 
+			plus.navigator.setFullscreen(false);
+			plus.screen.lockOrientation('portrait-primary');
+			//显示状态栏 
+			// #endif
+			
 			// #ifdef H5
 				uni.pageScrollTo({
 					scrollTop: this.scrollLength,
@@ -82,7 +88,7 @@
 				if (model.status == 3) {
 					util.openwithData("/pages/markingPapers/markScore", model);
 				} else {
-					util.openwithData("/pages/markingPapers/markingDetail", model);
+					util.openwithData("/pages/markingPapers/markingDetailHP", model);
 				}
 			},
 			getPageList() {

@@ -151,6 +151,8 @@
 				}
 				var comData = {
 					serv_stat:tempServ,//
+					uid_stat:1,
+					user_stat:1,
 					unit_code: this.personInfo.unit_code, //
 					index_code: this.itemData.access.split('#')[1] //
 				}

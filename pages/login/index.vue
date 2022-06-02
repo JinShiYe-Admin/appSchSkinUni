@@ -63,7 +63,7 @@
 				showInput: 0, //正式环境，直接显示注册,1；非正式环境，如果是微信页面，显示输入密码,2，app直接显示注册,1
 				pagePswd: '',
 				loginInfo: {},
-				title: '欢迎登陆',
+				title: '欢迎登录',
 				uname: '',
 				passw: '',
 				jsonData: [],
