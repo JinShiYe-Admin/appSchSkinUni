@@ -19,7 +19,7 @@
 		<view class="viewRight">
 			<!-- #ifdef H5 -->
 			<view class="viewHead" style="background: #00CFBD;">
-				<deanPop ref="groupH5Pop" :btnList='groupNumberArrayH5' :viewName='groupNumberArrayH5[nowGroupIndex]' @select='clickH5Group'></deanPop>
+				<deanPop v-if="groupNumberArrayH5.length>0" ref="groupH5Pop" :btnList='groupNumberArrayH5' :viewName='groupNumberArrayH5[nowGroupIndex].label' @select='clickH5Group'></deanPop>
 			</view>
 			<!-- #endif -->
 			<!-- #ifdef APP -->
@@ -208,7 +208,7 @@
 				console.log('clickH5Group:'+e);
 				if (this.nowGroupIndex != e) {
 					this.nowGroupIndex = e;
-					this.nowGroupValue = this.groupNumberArrayH5[this.nowGroupIndex];
+					this.nowGroupValue = this.groupNumberArrayH5[this.nowGroupIndex].label;
 					this.currentInfoData = {};
 					this.imgSrc = '';
 					this.imgSrcFlag = 0;
@@ -365,7 +365,6 @@
 				}
 			},
 			clickBack: function() {
-				console.log('clickLeft');
 				uni.navigateBack();
 			},
 			usePED() {
@@ -529,13 +528,13 @@
 								if(i==0){
 									this.nowGroupValue = tempM.label;
 								}
-								var tempH5 = '题组' + data.data.list[i];
+								// var tempH5 = '题组' + data.data.list[i];
 								tempArr.push(tempM);
-								tempArrH5.push(tempH5);
+								tempArrH5.push(tempM);
 							}
 							this.nowGroupIndex = 0;
 							this.groupNumberArray = [].concat(tempArr);
-							this.groupNumberArrayH5 = [].concat(tempArrH5);
+							this.groupNumberArrayH5 = [].concat(tempArr);
 							//1.5.阅卷任务题组的批改情况
 							this.getCurrentInfoData();
 						} else {

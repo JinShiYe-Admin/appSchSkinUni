@@ -10,9 +10,9 @@
 						<uni-icons type="forward" size="15" class="uniIcon"></uni-icons>
 					</view>				</template>
 							  <!-- <template slot="footer">				 <uni-icons type="arrowright" color="#FFFFFF" size="16" style="margin: 0 -10px 0 0;z-index: 2;"></uni-icons>			 </template> -->			</uni-list-item>
-			<view class="modal" 
+			<scroll-view class="modal" scroll-x="true" scroll-y="true"
 				:style="{ 
-					height: show ? btnList.length * 8 + 'vw' : 0, 
+					height: show ? (btnList.length>4?4:btnList.length) * 8 + 'vw' : 0,
 					overflow: show ? '' : 'hidden', 
 					width: modalWidth,
 					top: modalTopPos,
@@ -20,11 +20,10 @@
 					opacity: modalOpacity
 				}"
 			>
-				<!-- <view class="modal-ang" v-if="dotShow && btnList.length > 0" :style="direction == 'left' ? 'left: 70px': 'right: 10px'"></view> -->
 				<view class="modal-item" v-for="(item, index) in btnList" :index="index" :key="index" @tap="callRes(index)">
-					{{item}}
+					{{item.label}}
 				</view>
-			</view>
+			</scroll-view>
 		</view>
 	</view>
 </template>

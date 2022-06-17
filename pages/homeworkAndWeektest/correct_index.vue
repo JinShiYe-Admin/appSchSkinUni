@@ -30,7 +30,8 @@
 									<uni-col :span="8" style="text-align: right;">
 										<view class="scoreOrderBorder" style="color: #00CFBD;">
 											<view class="scoreOrder" style="color: #00CFBD;">{{model.submit_num}}</view>
-											<view class="scoreOrder" style="margin-top: 0px;color: gray;font-size: 10px;">已识别</view>
+											<view class="scoreOrder"
+												style="margin-top: 0px;color: gray;font-size: 10px;">已识别</view>
 										</view>
 										<view class="scoreOrderBorder" style="color: #FAA666;">
 											<view class="scoreOrder" style="color: #FAA666;">{{model.no_submit_num}}
@@ -190,6 +191,11 @@
 			this.getPageList();
 		},
 		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
+			// #ifdef APP-PLUS
+			plus.navigator.setFullscreen(false);
+			plus.screen.lockOrientation('portrait-primary');
+			//显示状态栏 
+			// #endif
 			// #ifdef H5
 			uni.pageScrollTo({
 				scrollTop: this.scrollLength,
@@ -265,10 +271,10 @@
 				}
 				this.semFlag0Data.clickModel = model;
 			},
-			clickSem1Item(model){
+			clickSem1Item(model) {
 				model.access = this.itemData.access;
 				console.log('clickLi:' + JSON.stringify(model));
-				util.openwithData("/pages/homeworkAndWeektest/correct_correct", model);
+				util.openwithData("/pages/homeworkAndWeektest/correct_correctHP", model);
 			},
 			closeStart() {
 				this.$refs.popupStart.close();
@@ -400,11 +406,11 @@
 								tempM.zhishidianDFL = {
 									"series": [{
 										"name": "批改进度",
-										"data": parseFloat(tempM.schedule/100).toFixed(1),
+										"data": parseFloat(tempM.schedule / 100).toFixed(1),
 										"color": "#00CFBD"
 									}]
 								};
-								console.log('tempM.zhishidianDFL:'+JSON.stringify(tempM.zhishidianDFL));
+								console.log('tempM.zhishidianDFL:' + JSON.stringify(tempM.zhishidianDFL));
 								tempM.zhishidianShow = {
 									// animation: false,
 									// errorReload: false,
