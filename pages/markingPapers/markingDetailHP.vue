@@ -9,6 +9,7 @@
 					style="margin: 12px 0 0 10px;text-align: left;color: white;font-size: 14px;float: left;">
 					该题组已阅{{currentInfoData.count_info.view_count}}份，当前第{{currentInfoData.count_info.count}}份，任务量{{currentInfoData.count_info.group_count}}份
 				</p>
+				<button class="mini-btn" type="default" size="mini" @click="setError()" style="width: 80px;color: white;background: darkorange;margin-left: 40px;">问题卷</button>
 			</view>
 			<scroll-view class="answerImg" scroll-x="true" scroll-y="true" :style="'height:'+viewclass+'px'">
 				<image v-show='imgSrc.length>0' mode="widthFix" :src="imgSrc" :imgSrc='imgSrc'
@@ -77,6 +78,9 @@
 					style="background-color: #00cfbd;border-color: #00cfbd;color: white;"
 					@click="popSure(1)">确定</button>
 			</view>
+		</uni-popup>
+		<uni-popup ref="popupError" type="dialog">
+			<uni-popup-dialog title="确定?" content="确定设置为问题卷吗？" :duration="2000" :before-close="true" @close="close" @confirm="confirm"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -204,6 +208,36 @@
 			// uniNavBar
 		},
 		methods: {
+			close() {
+				this.$refs.popupError.close();
+			},
+			confirm(value) {
+				this.$refs.popupError.close();
+				let comData = {
+					index_code: this.itemData.access.split('#')[1],
+					id: this.currentInfoData.evaluation.result_id, //题组id
+					user_code: this.personInfo.user_code, //用户代码
+					user_name: this.personInfo.user_name, //用户
+				}
+					this.showLoading();
+					//设置为问题卷
+					this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'taskResult/markError', comData, (data0,
+						data) => {
+						this.hideLoading();
+						if (data.code == 0) {
+							this.currentInfoData = {};
+							this.imgSrc = '';
+							this.imgSrcFlag = 0;
+							//1.5.阅卷任务题组的批改情况
+							this.getCurrentInfoData();
+						} else {
+							this.showToast(data.msg);
+						}
+					});
+			},
+			setError(){
+				this.$refs.popupError.open();
+			},
 			clickH5Group(e){
 				console.log('clickH5Group:'+e);
 				if (this.nowGroupIndex != e) {
@@ -228,7 +262,9 @@
 			},
 			useOutClickSide() {
 				console.log('useOutClickSide');
+				//#ifdef APP-PLUS
 				this.$refs.feituiSelect.hideOptions && this.$refs.feituiSelect.hideOptions()
+				//#endif
 			},
 			detectOrient() {
 				var width = document.documentElement.clientWidth,
@@ -381,6 +417,9 @@
 			},
 			showNavFun() {
 				console.log('showNavFunshowNavFunshowNavFun');
+				//#ifdef APP-PLUS
+				this.$refs.feituiSelect.hideOptions && this.$refs.feituiSelect.hideOptions()
+				//#endif
 				this.showNav = false;
 			},
 			saveFn(data) {

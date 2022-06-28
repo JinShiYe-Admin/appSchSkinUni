@@ -10,15 +10,9 @@
 			<view v-if="currentCorrectModel.id">
 				<view v-if="groupNumberArray[nowGroupIndex].question_type == 1">
 					<scroll-view class="answerImg" scroll-x="true" scroll-y="true" :style="'height:'+viewclass+'px'">
-						<!-- <image v-show='currentCorrectModel.stu_answer_img_url.length>0' mode="widthFix"
-							:src="currentCorrectModel.stu_answer_img_url"
-							:imgSrc='currentCorrectModel.stu_answer_img_url' :change:imgSrc="renderScript.receiveSrc"
-							@click="renderScript.usePED" id="renderScript" style="width: 100%;" class="renderScript">
-						</image> -->
 						<image v-show='currentCorrectModel.stu_answer_img_url.length>0' mode="widthFix"
-							:src="currentCorrectModel.stu_answer_img_url"
-							:imgSrc='currentCorrectModel.stu_answer_img_url' :change:imgSrc="renderScript.receiveSrc"
-							@click="checkEnc(currentCorrectModel.stu_answer_img_url)" id="renderScript" style="width: 100%;" class="renderScript">
+							:src="currentCorrectModel.stu_answer_img_url" :imgSrc='currentCorrectModel.stu_answer_img_url'
+							@click="checkEnc(currentCorrectModel.stu_answer_img_url)" style="width: 100%;">
 						</image>
 					</scroll-view>
 				</view>
@@ -129,7 +123,7 @@
 					// console.log('saveFnsaveFnsaveFn1111:'+data);
 					ownerVm.callMethod('saveFn', data);
 				});
-				console.log("this.ped: ", ped);
+				console.log("this.ped: "+ ped);
 			}
 		}
 	}
@@ -157,7 +151,7 @@
 				currentCorrectModel: {}, //当前题组对应的学生作业
 				currentCorrectModel: {},
 				viewclass: null,
-				popupclass: null,
+				// popupclass: null,
 				imgPed: null, //
 				imgSrc: '', //试卷图片
 				imgSrcFlag: 0, //判断是否进行涂鸦
@@ -185,13 +179,13 @@
 			setTimeout(() => {
 				// #ifdef APP-PLUS
 				this.viewclass = uni.getSystemInfoSync().windowHeight - 64;
-				this.popupclass = uni.getSystemInfoSync().windowWidth - 160;
+				// this.popupclass = uni.getSystemInfoSync().windowWidth - 160;
 				//隐藏状态栏 
 				// #endif
 
 				//#ifndef APP-PLUS
 				this.viewclass = uni.getSystemInfoSync().windowWidth - 64;
-				this.popupclass = uni.getSystemInfoSync().windowHeight - 160;
+				// this.popupclass = uni.getSystemInfoSync().windowHeight - 160;
 				//#endif
 			}, 500);
 			this.personInfo = util.getPersonal();
@@ -255,7 +249,9 @@
 			},
 			useOutClickSide() {
 				console.log('useOutClickSide');
+				//#ifdef APP-PLUS
 				this.$refs.feituiSelect.hideOptions && this.$refs.feituiSelect.hideOptions()
+				//#endif
 			},
 			clickClearChar() {
 				console.log('clickClearChar');
@@ -327,6 +323,9 @@
 				}
 			},
 			checkEnc: function(tempUrl) {
+				//#ifdef APP-PLUS
+				this.$refs.feituiSelect.hideOptions && this.$refs.feituiSelect.hideOptions()
+				//#endif
 				console.log('tempUrl:' + tempUrl);
 				util.openFile(tempUrl);
 			},
@@ -350,6 +349,9 @@
 				//#ifndef APP-PLUS
 				this.$refs.groupH5Pop.activeF();
 				//#endif
+				//#ifdef APP-PLUS
+				this.$refs.feituiSelect.hideOptions && this.$refs.feituiSelect.hideOptions()
+				//#endif
 				uni.pageScrollTo({
 					scrollTop: 0,
 					duration: 0
@@ -361,6 +363,9 @@
 			showNavFun() {
 				console.log('showNavFunshowNavFunshowNavFun');
 				this.showNav = false;
+				//#ifdef APP-PLUS
+				this.$refs.feituiSelect.hideOptions && this.$refs.feituiSelect.hideOptions()
+				//#endif
 			},
 			saveFn(data) {
 				console.log('saveFnsaveFnsaveFn');
