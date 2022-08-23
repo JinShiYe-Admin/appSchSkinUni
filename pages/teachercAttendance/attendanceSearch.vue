@@ -15,7 +15,7 @@
 		<view style="padding-top: 40px;">
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
+					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
 							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">类型：</view><view class="detail-text">{{item.attend_item_name}}</view></uni-col>
 							<uni-col :span="12" style="display: flex;align-items: baseline;"><view class="title-text">正常：</view><view class="detail-text">{{item.ok_cnt}}次</view></uni-col>
@@ -23,7 +23,7 @@
 							<uni-col :span="12" style="display: flex;align-items: baseline;"><view class="title-text">早退：</view><view class="detail-text">{{item.early_cnt}}次</view></uni-col>
 							<uni-col :span="12" style="display: flex;align-items: baseline;"><view class="title-text">非规定地址打卡：</view><view class="detail-text">{{item.out_cnt}}次</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 		</view>
@@ -141,7 +141,7 @@
 				 this.getUserInfo()
 			},100)
 			uni.setNavigationBarTitle({title:'考勤查询'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -152,7 +152,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

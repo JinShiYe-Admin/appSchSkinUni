@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view style="text-align: center;margin-top: 10px;">
-			<text class="title-text">{{itemData.knowledge_name?itemData.knowledge_name:itemData.question_type_name}}
+			<text class="title-text">{{navItem.knowledge_name?navItem.knowledge_name:navItem.question_type_name}}
 				相关试题</text>
 		</view>
 		<view style="padding:8px 15px 0;display: flex;justify-content: space-around;">
@@ -23,8 +23,8 @@
 			<view style="font-size: 13px;text-align: center;color:#505050 ;word-break: break-all;padding: 0 15px;">
 				<text>来源：{{question.remark}}</text>
 			</view>
-			<uni-card v-if="itemData.flag == 0||itemData.flag == 3" isShadow :isFull="true">
-				<text class="content-box-text">
+			<uni-card v-if="navItem.flag == 0||navItem.flag == 3" isShadow :isFull="true">
+				<view class="content-box-text">
 					<view class="card-title">答题情况</view>
 					<view class="card-line"></view>
 					<uni-row style="">
@@ -67,28 +67,28 @@
 					</uni-row>
 					<view v-if="score_section_list.length==0"
 						style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-				</text>
+				</view>
 			</uni-card>
 			<uni-card title="原题" isShadow :isFull="true">
-				<text class="content-box-text">
+				<view class="content-box-text">
 					<view v-if="question.content || question.option">
 						<view v-if="question.content" v-html="question.content"></view>
 						<view v-if="question.option" :key="index" v-for="(item,index) in question.option" v-html="item">
 						</view>
 					</view>
 					<view v-else style="margin-left: 15px;font-size: 13px;">暂无题目</view>
-				</text>
+				</view>
 			</uni-card>
-			<uni-card v-if="itemData.flag == 1" title="学生答案" isShadow :isFull="true">
-				<text class="content-box-text">
+			<uni-card v-if="navItem.flag == 1" title="学生答案" isShadow :isFull="true">
+				<view class="content-box-text">
 					<view v-if="question.stu_answer">
 						<view v-if="question.stu_answer" v-html="question.stu_answer"></view>
 					</view>
 					<view v-else style="margin-left: 15px;font-size: 13px;">没有作答</view>
-				</text>
+				</view>
 			</uni-card>
 			<uni-card title="解答" isShadow :isFull="true">
-				<text class="content-box-text">
+				<view class="content-box-text">
 					<view v-if="question.answer || question.analyse || question.solve">
 						<view v-if="question.answer" v-html="question.answer"></view>
 						<view v-if="question.answer" class="line"></view>
@@ -97,7 +97,7 @@
 						<view v-if="question.solve" v-html="question.solve"></view>
 					</view>
 					<view v-else style="margin-left: 15px;font-size: 13px;">暂无答案</view>
-				</text>
+				</view>
 			</uni-card>
 		</view>
 	</view>
@@ -111,7 +111,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				questionList: [],
 				questionIndex: 0,
 				question: {},
@@ -126,13 +126,13 @@
 		},
 		onLoad(option) {
 			_this = this;
-			let itemData = util.getPageData(option);
+			let navItem = util.getPageData(option);
 			this.personInfo = util.getPersonal();
-			this.itemData = itemData
-			this.itemData.index = 100;
-			this.index_code = itemData.index_code
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
-			let questionList = itemData.paper_question_number.split(',')
+			this.navItem = navItem
+			this.navItem.index = 100;
+			this.index_code = navItem.index_code
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
+			let questionList = navItem.paper_question_number.split(',')
 			let list = []
 			questionList.map((item, index) => {
 				list.push({
@@ -149,13 +149,13 @@
 				_this.score = {
 					series: [{
 						name: "平均得分率",
-						data: parseFloat(((itemData.radio?itemData.radio:itemData.score_radio) * 1 / 100).toFixed(2)),
+						data: parseFloat(((navItem.radio?navItem.radio:navItem.score_radio) * 1 / 100).toFixed(2)),
 						color: "#499df8"
 					}]
 				}
 				_this.scoreOpts = {
 					title: {
-						name: itemData.radio?itemData.radio:itemData.score_radio + '%',
+						name: navItem.radio?navItem.radio:navItem.score_radio + '%',
 						fontSize: 24,
 						color: '#499df8'
 					},
@@ -167,14 +167,14 @@
 				}
 			}, 500);
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
 		onShow() {
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
@@ -190,10 +190,10 @@
 				}
 			},
 			getQueDetail() {
-				if (this.itemData.flag == 0) {
+				if (this.navItem.flag == 0) {
 					let questionObj = this.questionList[this.questionIndex];
 					const params = {
-						cls_code: this.itemData.cls_code,
+						cls_code: this.navItem.cls_code,
 						id: questionObj.value.split('|')[0],
 						question_number: questionObj.value.split('|')[1],
 						index_code: this.index_code,
@@ -232,11 +232,11 @@
 							}
 						}
 					})
-				} else if(this.itemData.flag == 1) {
+				} else if(this.navItem.flag == 1) {
 					let questionObj = this.questionList[this.questionIndex];
 					const params = {
-						cls_code: this.itemData.cls_code,
-						stu_code: this.itemData.stu_code,
+						cls_code: this.navItem.cls_code,
+						stu_code: this.navItem.stu_code,
 						id: questionObj.value.split('|')[0],
 						question_number: questionObj.value.split('|')[1],
 						index_code: this.index_code,
@@ -274,7 +274,7 @@
 				}else {
 					let questionObj = this.questionList[this.questionIndex];
 					const params = {
-						id: this.itemData.id,
+						id: this.navItem.id,
 						question_number: questionObj.value.split('|')[1],
 						index_code: this.index_code,
 					}

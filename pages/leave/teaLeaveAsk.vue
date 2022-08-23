@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="+代学生请假" :textClick="textClick"></mynavBar>
-		<mynavBar v-else ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' ></mynavBar>
+		<mynavBar v-if="add" ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="+代学生请假" :textClick="textClick"></mynavBar>
+		<mynavBar v-else ref="mynavBar" :navItem='navItem' :personInfo='personInfo' ></mynavBar>
 		<view class="tabs-fixed">
 			<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#00cfbd" @clickItem="onClickItem" />
 		</view>
@@ -9,7 +9,7 @@
 			<view v-if="current === 0">
 				<uni-list :border="false">
 					<uni-list-item showArrow clickable @click="toDetails(0,item)" :key="index" v-for="(item,index) in pagedata0" :border="true">
-						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(0,item)">
+						<view slot="body" class="slot-box slot-text" @click.stop="toDetails(0,item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
@@ -17,7 +17,7 @@
 								<uni-col :span="20"><view class="detail-text">{{item.apply_time}}</view></uni-col>
 								<uni-col :span="4" style="display: flex;align-items: center;justify-content:flex-end;"><view class="detail-text leaveType">{{item.item_code=='sickLeave'?'病假':item.item_code=='absenceLeave'?'事假':''}}</view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 				<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -25,7 +25,7 @@
 			<view v-if="current === 1">
 				<uni-list :border="false">
 					<uni-list-item showArrow clickable @click="toDetails(1,item)" :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(1,item)">
+						<view slot="body" class="slot-box slot-text" @click.stop="toDetails(1,item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
@@ -33,7 +33,7 @@
 								<uni-col :span="20"><view class="detail-text">{{item.apply_time}}</view></uni-col>
 								<uni-col :span="4" style="display: flex;align-items: center;justify-content:flex-end;"><view class="detail-text leaveType">{{item.item_code=='sickLeave'?'病假':item.item_code=='absenceLeave'?'事假':''}}</view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 				<uni-load-more :status="pageobj1.status" :icon-size="17" :content-text="pageobj1.contentText" />
@@ -41,7 +41,7 @@
 			<view v-if="current === 2">
 				<uni-list :border="false">
 					<uni-list-item showArrow clickable @click="toDetails(2,item)" :key="index" v-for="(item,index) in pagedata2" :border="true">
-						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(2,item)">
+						<view slot="body" class="slot-box slot-text" @click.stop="toDetails(2,item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
@@ -50,7 +50,7 @@
 								<uni-col :span="3" style="display: flex;align-items: center;justify-content:flex-end;"><view class="detail-text leaveType">{{item.item_code=='sickLeave'?'病假':item.item_code=='absenceLeave'?'事假':''}}</view></uni-col>
 								<uni-col :span="3" style="display: flex;align-items: center;justify-content:flex-end;"><view class="detail-text" :class="[item.status==0?'leaveType0':item.status==1?'leaveType1':item.status==2?'leaveType2':'']">{{item.status==0?'待审':item.status==1?'通过':item.status==2?'拒绝':''}}</view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 				<uni-load-more :status="pageobj2.status" :icon-size="17" :content-text="pageobj2.contentText" />
@@ -58,7 +58,7 @@
 			<view v-if="current === 3">
 				<uni-list :border="false">
 					<uni-list-item showArrow clickable @click="toDetails(3,item)" :key="index" v-for="(item,index) in pagedata3" :border="true">
-						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(3,item)">
+						<view slot="body" class="slot-box slot-text" @click.stop="toDetails(3,item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
@@ -66,7 +66,7 @@
 								<uni-col :span="20"><view class="detail-text">{{item.apply_time}}</view></uni-col>
 								<uni-col :span="4" style="display: flex;align-items: center;justify-content:flex-end;"><view class="detail-text leaveType">{{item.item_code=='sickLeave'?'病假':item.item_code=='absenceLeave'?'事假':''}}</view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 				<uni-load-more :status="pageobj3.status" :icon-size="17" :content-text="pageobj3.contentText" />
@@ -78,6 +78,7 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
@@ -86,7 +87,7 @@
 				index_code:'',
 				personInfo: {},
 				add:false,//add按钮权限
-				tabBarItem: {},
+				navItem: {},
 				pageSize:15,
 				
 				pageobj0:{
@@ -144,29 +145,28 @@
 		},
 		methods: {
 			textClick(){
-				let that=this
-				util.openwithData('/pages/leave/teaLeaveAsk_add',{index_code:this.index_code},{
+				util.openwithData('/pages/leave/teaLeaveAsk_add',{index_code:_this.index_code},{
 					refresh(data){//子页面调用父页面需要的方法
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getList0()
+						_this.showLoading()
+						_this.pageobj0.loadFlag=0
+						_this.pageobj0.canload=true
+						_this.pageobj0.page_number=1
+						_this.getList0()
 						
-						that.pageobj1.loadFlag=0
-						that.pageobj1.canload=true
-						that.pageobj1.page_number=1
-						that.getList1()
+						_this.pageobj1.loadFlag=0
+						_this.pageobj1.canload=true
+						_this.pageobj1.page_number=1
+						_this.getList1()
 						
-						that.pageobj2.loadFlag=0
-						that.pageobj2.canload=true
-						that.pageobj2.page_number=1
-						that.getList2()
+						_this.pageobj2.loadFlag=0
+						_this.pageobj2.canload=true
+						_this.pageobj2.page_number=1
+						_this.getList2()
 						
-						that.pageobj3.loadFlag=0
-						that.pageobj3.canload=true
-						that.pageobj3.page_number=1
-						that.getList3()
+						_this.pageobj3.loadFlag=0
+						_this.pageobj3.canload=true
+						_this.pageobj3.page_number=1
+						_this.getList3()
 					}
 				})
 			},
@@ -325,10 +325,11 @@
 			}
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
@@ -337,7 +338,7 @@
 				 })
 				 this.getList0()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -405,7 +406,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

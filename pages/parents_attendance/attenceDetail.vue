@@ -17,7 +17,8 @@
 							style="margin-left: 5px;text-align: center;background-color: #FF9900;border-radius: 50%;width: 30px;height: 30px;">
 							<view
 								style="color: #FFFFFF;font-size: 14px;font-weight: 600;display: inline-block;margin-top: 5px;">
-								{{++index}}</view>
+								{{index+1}}
+							</view>
 						</view>
 					</view>
 					<uni-row style="padding: 10px 20px 0;color: #505050;font-size: 14px;">
@@ -94,7 +95,7 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.item_txt + '详情'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			let end_month = this.moment().format('YYYY-MM')
@@ -121,11 +122,11 @@
 			this.pageIndex = 1;
 			this.getPageList();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			getDate(sureDtae) {
 				if (sureDtae != this.startTime) {

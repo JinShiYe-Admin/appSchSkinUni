@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
 		<view v-if="detailData.grd_name || detailData.class_name ||  detailData.stu_name">
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">年级</view>
@@ -48,12 +48,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				detailData:{
 					cls_name:"",
 					item_code:"",
@@ -83,29 +84,30 @@
 			mynavBar,
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text=itemData.title
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.detailData = itemData;
 			this.index_code=itemData.index_code
 			console.log("itemData: " + JSON.stringify(itemData));
 			if(itemData.del==1){
 				this.icon='trash'
 			}
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		methods: {
 			iconClick(){
-				this.$refs.alertDialog.open()
+				_this.$refs.alertDialog.open()
 			},
 			dialogConfirm(){
 				this.showLoading()

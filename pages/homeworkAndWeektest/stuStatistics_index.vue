@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed">
 			<view style="font-size: 14px;text-align: center;padding-top: 5px;">{{grdArray[grdIndex].name}}
 				{{clsArray[clsIndex].name}} {{stuArray[stuIndex].name}}同学 {{subArray[subIndex].name}} 作业统计
@@ -10,14 +10,14 @@
 			</view>
 			<uni-icons style="float: right;margin: -30px 10px 0 0;color: #00CFBD;" type="list" size="30"
 				@click="clickShowSelect()"></uni-icons>
-			<my-segmented-control ref='segmCon' :current="semFlag" :values="itemData.childList" @clickItem="clickSeg"
+			<my-segmented-control ref='segmCon' :current="semFlag" :values="navItem.childList" @clickItem="clickSeg"
 				styleType="text" activeColor="#00CFBD"></my-segmented-control>
 		</view>
 		<view class="content" style="margin-top: 80px;">
 			<view v-show="semFlag == 0" style="">
 				<view class="example-body">
 					<uni-card isShadow :isFull="true" style="margin-top: 0px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<uni-row style="margin: 0px -8px 10px -8px;">
 								<uni-col style="" :span="8">
 									<p class="stuScoreDetail">作业总次数：{{semFlag0Data.miss_count+semFlag0Data.count}}</p>
@@ -63,14 +63,14 @@
 							</uni-row>
 							<view class="uni-loadmore" v-if="semFlag0Data.showLoadMore">{{semFlag0Data.loadMoreText}}
 							</view>
-						</text>
+						</view>
 					</uni-card>
 				</view>
 			</view>
 			<view v-show="semFlag == 1">
 				<view class="example-body">
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">薄弱知识点榜</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag1Data.bad_list"
@@ -100,10 +100,10 @@
 							</uni-list>
 							<view v-if="semFlag1Data.bad_list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">牢固知识点榜</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag1Data.good_list"
@@ -133,10 +133,10 @@
 							</uni-list>
 							<view v-if="semFlag1Data.good_list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">各知识点详情</view>
 							<view class="card-line"></view>
 							<uni-row style="font-size: 13px;margin-top: 7px;margin-bottom: 7px;">
@@ -189,14 +189,14 @@
 							</uni-row>
 							<view v-if="semFlag1Data.catalog_list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 				</view>
 			</view>
 			<view v-show="semFlag == 2">
 				<view class="example-body">
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">薄弱知识点榜</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag2Data.bad_list"
@@ -226,10 +226,10 @@
 							</uni-list>
 							<view v-if="semFlag2Data.bad_list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">牢固知识点榜</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag2Data.good_list"
@@ -259,10 +259,10 @@
 							</uni-list>
 							<view v-if="semFlag2Data.good_list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">各知识点详情</view>
 							<view class="card-line"></view>
 							<uni-row style="margin: 15px -12px 0 -12px;background-color: #e5e3e3;height: 40px;">
@@ -301,7 +301,7 @@
 							</uni-row>
 							<view v-if="semFlag2Data.list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 				</view>
 			</view>
@@ -360,7 +360,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				pageSize: 20,
 				semFlag: 0, //点击的seg索引
 				yearList: [{ //学年列表
@@ -454,12 +454,12 @@
 			}, {
 				name: '学生题型分析'
 			}];
-			this.itemData = tempM;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = tempM;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//获取学年
@@ -476,7 +476,7 @@
 				duration: 0
 			});
 			// #endif
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
@@ -518,14 +518,14 @@
 			clickLi: function(model) {
 				console.log('clickLi.model:' + JSON.stringify(model));
 				if(model.state == '已交'){
-					model.access = this.itemData.access;
-					// model.sub_name = this.itemData.sub_name;
+					model.access = this.navItem.access;
+					// model.sub_name = this.navItem.sub_name;
 					// model.exam_date = model.create_time;
 					util.openwithData("/pages/homeworkAndWeektest/stuStatistics_stuDetail", model);
 				}
 			},
 			toDetailPageKnowPoint(model, flag) {
-				model.index_code = this.itemData.access.split('#')[1];
+				model.index_code = this.navItem.access.split('#')[1];
 				if (flag == 1) {
 					model.text = '学生知识点分析';
 				} else {
@@ -624,7 +624,7 @@
 			},
 			getYear() { //获取学年
 				let comData = {
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'year', comData, response => {
@@ -640,7 +640,7 @@
 				let comData = {
 					page_number: -1,
 					page_size: 1,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_BASESUB + 'SysTermP', comData, response => {
@@ -657,7 +657,7 @@
 					op_code: 'index',
 					get_grd: true,
 					all_grd: false,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
@@ -682,7 +682,7 @@
 					grd_code: this.grdArray[this.grdIndexTemp].value,
 					get_cls: true,
 					all_cls: false,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
@@ -710,7 +710,7 @@
 					all_sub: false,
 					get_stu: true,
 					all_stu: false,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
@@ -769,7 +769,7 @@
 					sub_code: this.subArray[this.subIndex].value,
 					page_size: this.pageSize, //每页记录数
 					page_number: this.semFlag0Data.pageIndex, //当前页数
-					index_code: this.itemData.access.split('#')[1]
+					index_code: this.navItem.access.split('#')[1]
 				}
 				this.showLoading();
 				// 1.211.学生上交作业总结
@@ -811,7 +811,7 @@
 					cls_code: this.clsArray[this.clsIndex].value,
 					stu_code: this.stuArray[this.stuIndex].value,
 					sub_code: this.subArray[this.subIndex].value,
-					index_code: this.itemData.access.split('#')[1]
+					index_code: this.navItem.access.split('#')[1]
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'stuAnalysis/knowledgeAnalysis', comData, (data0,
@@ -842,7 +842,7 @@
 					cls_code: this.clsArray[this.clsIndex].value,
 					stu_code: this.stuArray[this.stuIndex].value,
 					sub_code: this.subArray[this.subIndex].value,
-					index_code: this.itemData.access.split('#')[1]
+					index_code: this.navItem.access.split('#')[1]
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'stuAnalysis/questionTypeAnalysis', comData, (data0,

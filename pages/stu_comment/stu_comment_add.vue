@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
 			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
@@ -66,12 +66,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				text:[],
 				textClickS:[],
 				canSub:true,
@@ -100,11 +101,12 @@
 			mynavBar,
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='添加评语记录'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading();
@@ -112,13 +114,12 @@
 				this.getGrd();
 				this.getDictList();
 			},100)
-			let that=this
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -264,24 +265,24 @@
 				})
 			},
 			textClick(){//发送请假信息
-				if(this.grdIndex==-1){
-					this.showToast('请选择年级')
-				}else if(this.clsIndex==-1){
-					this.showToast('请选择班级')
-				}else if(this.stuIndex==-1){
-					this.showToast('请选择学生')
-				}else if(this.yearIndex==-1){
-					this.showToast('请选择年份')
-				}else if(this.termIndex==-1){
-					this.showToast('请选择学期')
-				}else if(this.remarkIndex==-1){
-					this.showToast('请选择评语类型')
-				}else if(this.comment==''){
-					this.showToast('请输入行为说明')
+				if(_this.grdIndex==-1){
+					_this.showToast('请选择年级')
+				}else if(_this.clsIndex==-1){
+					_this.showToast('请选择班级')
+				}else if(_this.stuIndex==-1){
+					_this.showToast('请选择学生')
+				}else if(_this.yearIndex==-1){
+					_this.showToast('请选择年份')
+				}else if(_this.termIndex==-1){
+					_this.showToast('请选择学期')
+				}else if(_this.remarkIndex==-1){
+					_this.showToast('请选择评语类型')
+				}else if(_this.comment==''){
+					_this.showToast('请输入行为说明')
 				}else{
-					if(this.canSub){
-						this.canSub=false
-						this.submitData()
+					if(_this.canSub){
+						_this.canSub=false
+						_this.submitData()
 					}
 				}
 			},

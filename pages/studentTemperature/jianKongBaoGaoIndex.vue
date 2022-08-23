@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<uni-row style="height: 35px;display: flex;align-items: center;">
 				<uni-col class="mini-date" :span="8">
@@ -65,7 +65,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				pageModel:{},
 				//顶部筛选框相关内容
 				time:this.moment().format('YYYY-MM-DD'),
@@ -168,10 +168,10 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.access.split("#")[1];
 			this.getList0();
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -182,7 +182,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

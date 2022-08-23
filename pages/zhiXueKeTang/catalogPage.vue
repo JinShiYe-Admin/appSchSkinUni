@@ -370,12 +370,12 @@
 			uni.setNavigationBarTitle({
 				title: '切换目录'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
 		onShow() {
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},

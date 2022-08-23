@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼房</view>
 			<picker style="width:100% !important;" mode="selector" @change="buildSelect" :value="buildIndex" :range="buildList" range-key="text">
@@ -70,12 +70,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				canSub:true,
 				formData: {
@@ -110,11 +111,12 @@
 			mynavBar,
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='新建宿舍行为'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading();
@@ -122,12 +124,12 @@
 				this.getBuildingList();
 				this.getDict();
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -247,43 +249,43 @@
 				})
 			},
 			textClick(){//发送请假信息
-				if(this.buildIndex==-1){
-					this.showToast('请选择楼房')
-				}else if(this.floorIndex==-1){
-					this.showToast('请选择楼层')
-				}else if(this.dormIndex==-1){
-					this.showToast('请选择房间')
-				}else if(this.bedIdList.length==0){
-					this.showToast('请选择床位')
-				}else if(this.attendanceIndex==-1){
-					this.showToast('请选择考勤项目')
-				}else if(this.formData.time==''){
-					this.showToast('请选择日期')
-				}else if(this.restTimeIndex==-1){
-					this.showToast('请选择休息时间')
+				if(_this.buildIndex==-1){
+					_this.showToast('请选择楼房')
+				}else if(_this.floorIndex==-1){
+					_this.showToast('请选择楼层')
+				}else if(_this.dormIndex==-1){
+					_this.showToast('请选择房间')
+				}else if(_this.bedIdList.length==0){
+					_this.showToast('请选择床位')
+				}else if(_this.attendanceIndex==-1){
+					_this.showToast('请选择考勤项目')
+				}else if(_this.formData.time==''){
+					_this.showToast('请选择日期')
+				}else if(_this.restTimeIndex==-1){
+					_this.showToast('请选择休息时间')
 				}else{
-					if(this.canSub){
-						this.canSub=false
-						let comm=this.formData.comment
+					if(_this.canSub){
+						_this.canSub=false
+						let comm=_this.formData.comment
 						let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
-						if(this.SMS){
+						if(_this.SMS){
 							let showToast=false
 							 let words=[]
-							 for (let i = 0; i < this.WORDS.length; i++) {
-							 	let word=this.WORDS[i].word
+							 for (let i = 0; i < _this.WORDS.length; i++) {
+							 	let word=_this.WORDS[i].word
 							 	if(comment.indexOf(word)!==-1){
 							 		showToast=true
 							 		words.push(word)
 							 	}
 							 }
 							 if(showToast){
-							 	this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
-							 	this.hideLoading()
-								this.canSub=true
+							 	_this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
+							 	_this.hideLoading()
+								_this.canSub=true
 							 	return 0
 							 }
 						}
-						this.submitData();
+						_this.submitData();
 					}
 				}
 			},

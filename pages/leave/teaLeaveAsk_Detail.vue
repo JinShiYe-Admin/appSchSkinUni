@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view v-if="detailData.grd_name || detailData.cls_name ||  detailData.stu_name">
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">请假申请人</view>
@@ -97,7 +97,7 @@
 				type:0,//0 待审批 1 已审批 2 已发起 3 抄送本人
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				canSub:true,
 				detailData:{
 					cls_name:"",
@@ -132,18 +132,18 @@
 			itemData[1].index=100
 			itemData[1].text='请假详情'
 			this.type = itemData[0];
-			this.tabBarItem = itemData[1];
+			this.navItem = itemData[1];
 			this.index_code=itemData[1].index_code
 			setTimeout(()=>{
 				this.showLoading()
 				this.getLeaveDetail()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -154,7 +154,7 @@
 					url=this.globaData.STULEAVE_API + 'apply/getApproveById'
 				}
 				let comData={
-					id:this.tabBarItem.id,
+					id:this.navItem.id,
 					index_code:this.index_code,
 				}
 				this.post(url,comData,response=>{

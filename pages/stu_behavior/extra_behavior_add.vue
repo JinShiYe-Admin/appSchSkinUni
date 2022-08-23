@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
 			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
@@ -52,7 +52,7 @@
 		</template>
 		<view class="double-line"></view>
 		<view class="uni-flex uni-row form-view choose-file">
-			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}</view></view>
+			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${showMaxCount}张照片${wxTips?wxTips:''})`}}</view></view>
 			<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount"></g-upload>
 		</view>
 	</view>
@@ -64,14 +64,14 @@
 	// 七牛上传相关
 	 import gUpload from "@/components/g-upload/g-upload.vue"
 	 import cloudFileUtil from '../../commom/uploadFiles/CloudFileUtil.js';
-	 
+	let _this;
 	 
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				canSub:true,
 				formData: {
@@ -119,11 +119,12 @@
 			 gUpload
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='新建课外行为'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading();
@@ -131,12 +132,12 @@
 				this.getGrd();
 				this.getXwxx();
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -271,41 +272,41 @@
 				})
 			},
 			textClick(){//发送请假信息
-				if(this.grdIndex==-1){
-					this.showToast('请选择年级')
-				}else if(this.clsIndex==-1){
-					this.showToast('请选择班级')
-				}else if(this.stuIdList.length==0){
-					this.showToast('请选择学生')
-				}else if(this.xwxxIndex==-1){
-					this.showToast('请选择行为细项')
-				}else if(this.formData.time==''){
-					this.showToast('请选择发生日期')
-				}else if(this.formData.comment==''){
-					this.showToast('请输入行为说明')
+				if(_this.grdIndex==-1){
+					_this.showToast('请选择年级')
+				}else if(_this.clsIndex==-1){
+					_this.showToast('请选择班级')
+				}else if(_this.stuIdList.length==0){
+					_this.showToast('请选择学生')
+				}else if(_this.xwxxIndex==-1){
+					_this.showToast('请选择行为细项')
+				}else if(_this.formData.time==''){
+					_this.showToast('请选择发生日期')
+				}else if(_this.formData.comment==''){
+					_this.showToast('请输入行为说明')
 				}else{
-					if(this.canSub){
-						this.canSub=false
-						let comm=this.formData.comment
+					if(_this.canSub){
+						_this.canSub=false
+						let comm=_this.formData.comment
 						let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
-						if(this.SMS){
+						if(_this.SMS){
 							let showToast=false
 							 let words=[]
-							 for (let i = 0; i < this.WORDS.length; i++) {
-							 	let word=this.WORDS[i].word
+							 for (let i = 0; i < _this.WORDS.length; i++) {
+							 	let word=_this.WORDS[i].word
 							 	if(comment.indexOf(word)!==-1){
 							 		showToast=true
 							 		words.push(word)
 							 	}
 							 }
 							 if(showToast){
-							 	this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
-							 	this.hideLoading()
-								this.canSub=true
+							 	_this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
+							 	_this.hideLoading()
+								_this.canSub=true
 							 	return 0
 							 }
 						}
-						this.upLoadImg();
+						_this.upLoadImg();
 					}
 				}
 			},

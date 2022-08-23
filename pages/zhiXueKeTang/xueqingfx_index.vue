@@ -1,21 +1,25 @@
 <template>
 	<view>
-		<mynavBar :navItem='itemData' :personInfo='personInfo' :text="navRight" :textClick="textClick">
+		<mynavBar :navItem='navItem' :personInfo='personInfo' :text="navRight" :textClick="textClick">
 		</mynavBar>
 		<view>
 			<uni-popup ref="popup" background-color="#fff">
 				<view class="popup-content" :class="{ 'popup-height': 'top' }">
 					<view class="popup-content-view" v-for="(tempPer, index) in per.list" :key='index'>
-						<label class="perList" @click="selectItem(tempPer)" :style="{background:(tempPer.per_code==per.selected.per_code?'#00CFBD':'#ECECEC'),color:(tempPer.per_code==per.selected.per_code?'white':'')}">{{tempPer.per_name}}</label>
+						<label class="perList" @click="selectItem(tempPer)"
+							:style="{background:(tempPer.per_code==per.selected.per_code?'#00CFBD':'#ECECEC'),color:(tempPer.per_code==per.selected.per_code?'white':'')}">{{tempPer.per_name}}</label>
 					</view>
 				</view>
 			</uni-popup>
 		</view>
-		<view style="text-align: center;margin: 10px;font-size: 14px;">{{user_name}}学情分析报告<span v-if="pername">（{{pername}}）</span></view>
+		<view style="text-align: center;margin: 10px;font-size: 14px;">{{user_name}}学情分析报告<span
+				v-if="pername">（{{pername}}）</span></view>
 		<view style="height: 1px;background: #DDDDDD;margin: 0 10px;"></view>
 		<view style="margin: 10px 0 5px 10px;font-size: 13px;" v-cloak>学科均衡:</view>
 		<view class="charts-box">
-		  <qiun-data-charts v-if="xuekejunhengData.categories" type="radar" :opts="{legend:{position: 'bottom'},extra:{radar:{gridType:'circle',max:100}}}" :chartData="xuekejunhengData"/>
+			<qiun-data-charts v-if="xuekejunhengData.categories" type="radar"
+				:opts="{legend:{position: 'bottom'},extra:{radar:{gridType:'circle',max:100}}}"
+				:chartData="xuekejunhengData" />
 		</view>
 		<uni-list>
 			<uni-list-item direction='column'>
@@ -32,7 +36,7 @@
 								平均分/满分
 							</uni-col>
 							<uni-col :span="2">
-								
+
 							</uni-col>
 						</uni-row>
 					</view>
@@ -65,11 +69,12 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				navRight: '',
 				type: 'center',
 				perSeleted: {},
@@ -80,27 +85,28 @@
 					selected: {},
 					list: []
 				},
-				xuekejunhengData:{}
+				xuekejunhengData: {}
 			}
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
-			this.itemData = util.getPageData(option);
-			this.itemData.index = 100
+			this.navItem = util.getPageData(option);
+			this.navItem.index = 100
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 获取学段
 			this.getPer();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		components: {
 			mynavBar
 		},
@@ -120,15 +126,15 @@
 		methods: {
 			textClick() {
 				console.log('textClick');
-				this.type = 'top';
+				_this.type = 'top';
 				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
-				this.$refs.popup.open('top');
+				_this.$refs.popup.open('top');
 			},
 			// 获取学段
 			getPer: function() {
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_ZXKT + "/pub/resPer", {
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					user_code: this.personInfo.user_code,
 					per_code: this.per.selected.per_code,
 				}, (res0, res) => {
@@ -149,7 +155,7 @@
 			//获取分析数据
 			selectItem(tempPer) {
 				this.$refs.popup.close();
-				if(tempPer.per_code!=this.per.selected.per_code){
+				if (tempPer.per_code != this.per.selected.per_code) {
 					this.per.selected = tempPer;
 					this.navRight = tempPer.per_name + '↓';
 					this.getAnalysisData();
@@ -159,13 +165,13 @@
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_ZXKT + "/analysis", {
 					per_code: this.per.selected.per_code,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					user_code: this.personInfo.user_code,
 				}, (res0, res) => {
 					this.hideLoading();
 					if (res.code == 0) {
 						this.pageArray = res.data.analysis;
-						this.pername = this.perSeleted?this.perSeleted.pername:"";
+						this.pername = this.perSeleted ? this.perSeleted.pername : "";
 						var tempArray0 = [];
 						var tempArray1 = [];
 						for (var i = 0; i < res.data.analysis.length; i++) {
@@ -173,7 +179,13 @@
 							tempArray0.push(tempM.subname);
 							tempArray1.push(tempM.avg_score);
 						}
-						this.xuekejunhengData = {"categories":tempArray0,"series":[{"name":"科目","data":tempArray1}]};
+						this.xuekejunhengData = {
+							"categories": tempArray0,
+							"series": [{
+								"name": "科目",
+								"data": tempArray1
+							}]
+						};
 					} else {
 						this.showToast(res.msg);
 					}
@@ -181,7 +193,7 @@
 			},
 			clickItem(model) {
 				console.log('clickItem:' + JSON.stringify(model));
-				model.access = this.itemData.access;
+				model.access = this.navItem.access;
 				model.percode = this.per.selected.per_code;
 				util.openwithData("/pages/zhiXueKeTang/xueqingfx_detail", model);
 			}
@@ -198,11 +210,12 @@
 		padding: 0px 5px;
 		margin-right: 5px;
 	}
+
 	.bad {
 		color: #DB4848;
 		border-color: #DB4848;
 	}
-	
+
 	.popup-content {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -210,32 +223,32 @@
 		flex-direction: row;
 		/* align-items: center; */
 		/* justify-content: center; */
-			/* #ifdef APP-PLUS */
-				padding: 80px 0px 10px 0px;
-			/* #endif */
-			/* #ifdef H5 */
-				padding: 50px 0px 10px 0px;
-			/* #endif */
+		/* #ifdef APP-PLUS */
+		padding: 80px 0px 10px 0px;
+		/* #endif */
+		/* #ifdef H5 */
+		padding: 50px 0px 10px 0px;
+		/* #endif */
 		/* height: 50px; */
 		background-color: #fff;
-			justify-content: flex-start;
-			flex-wrap: wrap;
+		justify-content: flex-start;
+		flex-wrap: wrap;
 	}
-	
-	.popup-content-view{
-			height: 48px;
-			padding: 0 8px;
-			display: flex;
-			align-items: center;
+
+	.popup-content-view {
+		height: 48px;
+		padding: 0 8px;
+		display: flex;
+		align-items: center;
 	}
-	
+
 	.perList {
 		border: 1px solid white;
 		padding: 5px 20px;
 		border-radius: 5px;
 		font-size: 13px;
-			height: 26px;
-			display: flex;
-			align-items: center;
+		height: 26px;
+		display: flex;
+		align-items: center;
 	}
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :icon="rightIcon" :iconClick="iconClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="rightIcon" :iconClick="iconClick">
 		</mynavBar>
 		<uni-list>
 			<uni-list-item v-for="(model,index) in dataList" :key='index' direction='column'>
@@ -32,7 +32,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				rightIcon: '', //add按钮权限
 				pageSize: 20,
 				flagRef: 0, //0刷新1加载更多
@@ -50,39 +50,39 @@
 			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.index = 100;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.index = 100;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//4.获取某人日程列表
 			this.getPageList();
 			// 获取权限
-			this.getPermissionByPosition('add', this.itemData.access.split('#')[1], result => {
+			this.getPermissionByPosition('add', this.navItem.access.split('#')[1], result => {
 				console.log('result:' + JSON.stringify(result));
 				if (result[0]) {
 					this.rightIcon = 'plusempty';
 				}
 			})
 		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
 			// #ifdef H5
-				uni.pageScrollTo({
-					scrollTop: this.scrollLength,
-					duration: 0
-				});
+			uni.pageScrollTo({
+				scrollTop: this.scrollLength,
+				duration: 0
+			});
 			// #endif
-						//#ifndef APP-PLUS
-							document.title=""
-						//#endif
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
-				this.scrollLength=e.scrollTop
+			this.scrollLength = e.scrollTop
 			// #endif
 		},
 		onReachBottom() {
@@ -106,14 +106,14 @@
 			iconClick() {
 				console.log('iconClick');
 				let model = {};
-				let index_code = this.itemData.access.split('#')[1]
+				let index_code = _this.navItem.access.split('#')[1]
 				model.index_code = index_code;
 				model.text = '新增日程';
-				util.openwithData("/pages/programme/add_programme", model,{
+				util.openwithData("/pages/programme/add_programme", model, {
 					refreshMyProgrammeList() { //子页面调用父页面需要的方法
-							_this.flagRef = 0;
-							_this.pageIndex = 1;
-							_this.getPageList();
+						_this.flagRef = 0;
+						_this.pageIndex = 1;
+						_this.getPageList();
 					}
 				});
 			},
@@ -126,7 +126,7 @@
 					end_time: '30180127', //查询结束时间
 					page_number: this.pageIndex, //当前页数
 					page_size: this.pageSize, //每页记录数
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				}
 				this.showLoading();
@@ -154,12 +154,12 @@
 </script>
 
 <style>
-	.tempCss{
+	.tempCss {
 		font-size: 14px;
 		color: #000000;
 	}
-	
-	.biaoti{
+
+	.biaoti {
 		font-size: 14px;
 		color: gray;
 		word-break: break-all;

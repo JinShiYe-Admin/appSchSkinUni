@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
 			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
@@ -72,12 +72,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				canSub:true,
 				begintime:'',
@@ -103,11 +104,12 @@
 			mynavBar,
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='添加请假记录'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading();
@@ -115,12 +117,12 @@
 				this.getGrd();
 				this.getCl();
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -262,26 +264,26 @@
 				})
 			},
 			textClick(){//发送请假信息
-				if(this.grdIndex==-1){
-					this.showToast('请选择年级')
-				}else if(this.clsIndex==-1){
-					this.showToast('请选择班级')
-				}else if(this.stuIndex==-1){
-					this.showToast('请选择学生')
-				}else if(this.kqlxIndex==-1){
-					this.showToast('请选择考勤类型')
-				}else if(this.crqxIndex==-1){
-					this.showToast('请选择出入权限')
-				}else if(this.begintime==''){
-					this.showToast('请选择开始时间')
-				}else if(this.endtime==''){
-					this.showToast('请选择结束时间')
-				}else if(this.comment==''){
-					this.showToast('请输入行为说明')
+				if(_this.grdIndex==-1){
+					_this.showToast('请选择年级')
+				}else if(_this.clsIndex==-1){
+					_this.showToast('请选择班级')
+				}else if(_this.stuIndex==-1){
+					_this.showToast('请选择学生')
+				}else if(_this.kqlxIndex==-1){
+					_this.showToast('请选择考勤类型')
+				}else if(_this.crqxIndex==-1){
+					_this.showToast('请选择出入权限')
+				}else if(_this.begintime==''){
+					_this.showToast('请选择开始时间')
+				}else if(_this.endtime==''){
+					_this.showToast('请选择结束时间')
+				}else if(_this.comment==''){
+					_this.showToast('请输入行为说明')
 				}else{
-					if(this.canSub){
-						this.canSub=false
-						this.submitData()
+					if(_this.canSub){
+						_this.canSub=false
+						_this.submitData()
 					}
 				}
 			},

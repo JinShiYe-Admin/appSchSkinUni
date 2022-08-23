@@ -14,16 +14,16 @@
 		<view style="padding:5px 15px 0px;">
 			<uni-list :border="false">
 				<uni-list-item :key="index" v-for="(item,index) in pageArray" :border="false">
-					<text slot="body" class="slot-box slot-text">
+					<view slot="body" class="slot-box slot-text">
 						<view class="title-text" style="margin-top: 5px;">{{item.name}}({{item.list.length}}次)</view>
 						<view class="line" style="margin-top: 5px;"></view>
-						<uni-row :key="index+Math.random()" v-for="(model,index) in item.list">
+						<uni-row :key="index2" v-for="(model,index2) in item.list">
 							<uni-col :span="24"><view class="detail-text">房间:{{model.dorm_name}}{{model.floor_num}}层{{model.room_name}}房间</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">说明:{{model.remark}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">日期:{{model.create_time}}</view></uni-col>
-							<uni-col :span="24" v-if="index <item.list.length-1"><view class="line" style="margin-top: 5px;" ></view></uni-col>
+							<uni-col :span="24" v-if="index2 <item.list.length-1"><view class="line" style="margin-top: 5px;" ></view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<view style="height: 20px;"></view>
@@ -94,12 +94,12 @@
 				 this.getPage()
 			},100)
 			uni.setNavigationBarTitle({title:'报表详情'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

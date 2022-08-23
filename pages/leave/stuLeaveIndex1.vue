@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
-		<mynavBar v-else ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' ></mynavBar>
+		<mynavBar v-if="add" ref="mynavBar" :navItem='navItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
+		<mynavBar v-else ref="mynavBar" :navItem='navItem' :personInfo='personInfo' ></mynavBar>
 		<view class="tabs-fixed">
 			<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#00cfbd" @clickItem="onClickItem" />
 		</view>
@@ -9,7 +9,7 @@
 			<view v-if="current === 0">
 				<uni-list :border="false">
 					<uni-list-item showArrow clickable @click="toDetails(0,item)" :key="index" v-for="(item,index) in pagedata0" :border="true">
-						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(0,item)">
+						<view slot="body" class="slot-box slot-text" @click.stop="toDetails(0,item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
@@ -17,7 +17,7 @@
 								<uni-col :span="20"><view class="detail-text">{{item.apply_time}}</view></uni-col>
 								<uni-col :span="4" style="display: flex;align-items: center;justify-content: flex-end;"><view class="detail-text leaveType">{{item.item_code=='sickLeave'?'病假':item.item_code=='absenceLeave'?'事假':''}}</view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 				<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -25,7 +25,7 @@
 			<view v-if="current === 1">
 				<uni-list :border="false">
 					<uni-list-item showArrow clickable @click="toDetails(1,item)" :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(1,item)">
+						<view slot="body" class="slot-box slot-text" @click.stop="toDetails(1,item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begin_time}} ~ {{item.end_time}}</view></uni-col>
@@ -33,7 +33,7 @@
 								<uni-col :span="20"><view class="detail-text">{{item.apply_time}}</view></uni-col>
 								<uni-col :span="4" style="display: flex;align-items: center;justify-content:flex-end;"><view class="detail-text leaveType">{{item.item_code=='sickLeave'?'病假':item.item_code=='absenceLeave'?'事假':''}}</view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 				<uni-load-more :status="pageobj1.status" :icon-size="17" :content-text="pageobj1.contentText" />
@@ -45,6 +45,7 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
@@ -53,7 +54,7 @@
 				index_code:'',
 				personInfo: {},
 				add:false,//add按钮权限
-				tabBarItem: {},
+				navItem: {},
 				pageSize:15,
 				tabbar: [],
 				
@@ -88,14 +89,13 @@
 		},
 		methods: {
 			iconClick(){
-				let that=this
-				util.openwithData('/pages/leave/stuLeave_add',{index_code:this.index_code},{
+				util.openwithData('/pages/leave/stuLeave_add',{index_code:_this.index_code},{
 					refresh(data){//子页面调用父页面需要的方法
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getList0()
+						_this.showLoading()
+						_this.pageobj0.loadFlag=0
+						_this.pageobj0.canload=true
+						_this.pageobj0.page_number=1
+						_this.getList0()
 					}
 				})
 			},
@@ -178,15 +178,15 @@
 			}
 		},
 		onLoad(option) {
-			let _this = this;
+			_this = this;
 			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
 			uni.$on('updateHeadImg', function(data) {
 				_this.$refs.mynavBar.upLoadImg();
 			})
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = util.getPageData(option);
-			this.index_code=this.tabBarItem.access.split("#")[1]
+			this.navItem = util.getPageData(option);
+			this.index_code=this.navItem.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
 				 this.getPermissionByPosition('add',this.index_code,result=>{
@@ -194,7 +194,7 @@
 				 })
 				 this.getList0()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -238,7 +238,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

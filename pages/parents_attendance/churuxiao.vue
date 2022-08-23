@@ -9,7 +9,7 @@
 				<span>出入校次数：</span><span style="color: #FF3333;font-size: 18px;">{{total_count}}</span>
 			</view>
 			<view style="height: 25px;background-color: #F3EDDB;margin-top:15px;padding: 5px 0 0 10px;">
-				 <p style="color: #505050;font-size: 12px;">出入校详情</p>
+				<p style="color: #505050;font-size: 12px;">出入校详情</p>
 			</view>
 		</view>
 		<uni-list style="">
@@ -17,7 +17,7 @@
 				<view slot="body">
 					<uni-row style="padding: 10px 20px 0;color: #505050;font-size: 14px;">
 						<uni-col :span="2">
-							{{++index}}
+							{{index+1}}
 						</uni-col>
 						<uni-col :span="12">
 							{{item.card_time}}
@@ -27,10 +27,18 @@
 						</uni-col>
 						<uni-col :span="3">
 							<template v-if="item.card_dir_txt && item.card_dir_txt.indexOf('出')!==-1">
-								<view><p style="margin: 0 auto;width: 40px;padding: 2px;background-color: #FF9900;color: #FFFFFF;border-radius: 7px;font-size: 12px;text-align: center;margin-left: 5px;">{{item.card_dir_txt}}</p></view>
+								<view>
+									<p
+										style="margin: 0 auto;width: 40px;padding: 2px;background-color: #FF9900;color: #FFFFFF;border-radius: 7px;font-size: 12px;text-align: center;margin-left: 5px;">
+										{{item.card_dir_txt}}</p>
+								</view>
 							</template>
 							<template v-else>
-								<view><p style="margin: 0 auto;width: 40px;padding: 2px;background-color: #3ACA3A;color: #FFFFFF;border-radius: 7px;font-size: 12px;text-align: center;margin-left: 5px;">{{item.card_dir_txt}}</p></view>
+								<view>
+									<p
+										style="margin: 0 auto;width: 40px;padding: 2px;background-color: #3ACA3A;color: #FFFFFF;border-radius: 7px;font-size: 12px;text-align: center;margin-left: 5px;">
+										{{item.card_dir_txt}}</p>
+								</view>
 							</template>
 						</uni-col>
 					</uni-row>
@@ -68,7 +76,7 @@
 			uni.setNavigationBarTitle({
 				title: '出入校详情'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			let end_month = this.moment().format('YYYY-MM')
@@ -78,20 +86,20 @@
 			this.dateEndTime = end_month;
 			this.getPageList();
 		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
 			// #ifdef H5
-				uni.pageScrollTo({
-					scrollTop: this.scrollLength,
-					duration: 0
-				});
+			uni.pageScrollTo({
+				scrollTop: this.scrollLength,
+				duration: 0
+			});
 			// #endif
-						//#ifndef APP-PLUS
-							document.title=""
-						//#endif
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
-				this.scrollLength=e.scrollTop
+			this.scrollLength = e.scrollTop
 			// #endif
 		},
 		onReachBottom() {
@@ -169,7 +177,8 @@
 	.uni-col {
 		height: 30px;
 	}
-	.location{
+
+	.location {
 		word-break: break-all;
 		overflow: hidden;
 		text-overflow: ellipsis;

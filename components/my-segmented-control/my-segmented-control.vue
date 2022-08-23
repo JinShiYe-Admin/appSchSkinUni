@@ -143,11 +143,17 @@
 	}
 
 	::v-deep .uni-badge {
-		line-height: 15px;
-		height: 15px;
+		line-height: 15px !important;
+		height: 15px !important;
 		width: 20px !important;
-		padding: 0px 3px;
+		
 		margin-left: 10px;
+		/* #ifdef MP */
+		padding: 0px !important;
+		/* #endif */
+		/* #ifndef MP */
+		padding: 0px 3px;
+		/* #endif */
 	}
 
 	::v-deep .uni-badge--x {

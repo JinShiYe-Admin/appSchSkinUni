@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
 		 <view class="tabs-fixed">
 			<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#00cfbd" @clickItem="onClickItem" />
 		 </view>
@@ -8,7 +8,7 @@
 			<view v-if="current === 0">
 				<uni-list :border="false">
 					<uni-list-item showArrow clickable @click="toDetail0(item)" :key="index" v-for="(item,index) in pagedata0" :border="true">
-						<text slot="body" class="slot-box slot-text" @click.stop="toDetail0(item)">
+						<view slot="body" class="slot-box slot-text" @click.stop="toDetail0(item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">单号:{{item.outCode}}<view v-if="item.isRed==1" class="hcd">红冲单</view></view></uni-col>
 									<uni-col :span="12"><view class="detail-text">名称:{{item.itemName}}</view></uni-col>
@@ -16,7 +16,7 @@
 									<uni-col :span="12"><view class="detail-text">领用人:{{item.receiveManName}}</view></uni-col>
 									<uni-col :span="12"><view class="detail-text">数量:{{item.outNum}}</view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 				<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -24,15 +24,15 @@
 			<view v-if="current === 1">
 				<uni-list :border="false">
 					<uni-list-item showArrow clickable @click="toDetail1(item)" :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text" @click.stop="toDetail1(item)">
+						<view slot="body" class="slot-box slot-text" @click.stop="toDetail1(item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">单号:{{item.outCode?item.outCode:'暂无'}}<view v-if="item.isOut==1" class="isout">已出库</view><view v-if="item.isOut==2" class="noout">未出库</view></view></uni-col>
-								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">名称:{{item.itemName}}</view></uni-col>
-								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">型号:{{item.itemModel}}</view></uni-col>
-								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">领用人:{{item.receiveManName}}</view></uni-col>
-								<uni-col :key="index+Math.random()" :span="12"><view class="detail-text">数量:{{item.applyNum}}</view></uni-col>
+								<uni-col :span="12"><view class="detail-text">名称:{{item.itemName}}</view></uni-col>
+								<uni-col :span="12"><view class="detail-text">型号:{{item.itemModel}}</view></uni-col>
+								<uni-col :span="12"><view class="detail-text">领用人:{{item.receiveManName}}</view></uni-col>
+								<uni-col :span="12"><view class="detail-text">数量:{{item.applyNum}}</view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 				<uni-load-more :status="pageobj1.status" :icon-size="17" :content-text="pageobj1.contentText" />
@@ -44,13 +44,14 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
 				icon:'',
-				tabBarItem: {},
+				navItem: {},
 				
 				items: ['手工出库', '领用出库'],
 				current: 0,
@@ -113,15 +114,14 @@
 				}
 			},
 			iconClick(){
-				let that=this
-				if(this.current===0){
-					util.openwithData('/pages/schapp_item/item_out_add',{index_code:this.index_code},{
+				if(_this.current===0){
+					util.openwithData('/pages/schapp_item/item_out_add',{index_code:_this.index_code},{
 						refreshByAdd(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj0.loadFlag=0
-							that.pageobj0.canload=true
-							that.pageobj0.page_number=1
-							that.getList0()
+							_this.showLoading()
+							_this.pageobj0.loadFlag=0
+							_this.pageobj0.canload=true
+							_this.pageobj0.page_number=1
+							_this.getList0()
 						}
 					})
 				} 
@@ -211,10 +211,11 @@
 			}
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
@@ -227,7 +228,7 @@
 				 })
 				 this.getList0();
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -271,7 +272,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

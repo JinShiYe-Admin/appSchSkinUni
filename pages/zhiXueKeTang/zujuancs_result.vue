@@ -1,11 +1,11 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view style="padding:8px 15px 0;">
-			<text style="font-size: 14px;">{{tabBarItem.report.name}}</text>
+			<text style="font-size: 14px;">{{navItem.report.name}}</text>
 			<view style="display: flex;justify-content: space-between;margin-top: 8px;">
-				<text style="font-size: 13px;color: #666666;">{{tabBarItem.report.create_time}}</text>
-				<text style="font-size: 12px;color: #666666;">用时:{{tabBarItem.report.used_time}}</text>
+				<text style="font-size: 13px;color: #666666;">{{navItem.report.create_time}}</text>
+				<text style="font-size: 12px;color: #666666;">用时:{{navItem.report.used_time}}</text>
 			</view>
 		</view>
 		<view class="line"></view>
@@ -30,27 +30,27 @@
 				<view style="width:105px;height: 105px;background-color: #FECE00;margin: auto;border-radius: 50%;display: flex;justify-content: space-around;align-items: center;">
 					<view style="display: flex;flex-direction: column;">
 						<text style="color: #FFFFFF;font-size: 13px;">得分</text>
-						<text style="color: #FFFFFF;font-size: 35px;font-weight: 800;">{{this.tabBarItem.report.score}}</text>
+						<text style="color: #FFFFFF;font-size: 35px;font-weight: 800;">{{this.navItem.report.score}}</text>
 						<text style="color: #FFFFFF;font-size: 13px;align-self: flex-end;">分</text>
 					</view>
 				</view>
 			</view>
 		</view>
 		<view style="padding:8px 15px 10px;display: flex;flex-wrap: wrap;">
-			<template v-for="(item,index) in tabBarItem.detail_info">
-				<view class="icons-text" :class="anserJudge(item.answer, item.stu_answer)" @click="goQuestion(index)">{{item.number}}</view>
+			<template v-for="(item,index) in navItem.detail_info">
+				<view class="icons-text" :class="[anserJudge(item.answer, item.stu_answer)]" @click="goQuestion(index)">{{item.number}}</view>
 			</template>
 		</view>
 		<view class="line"></view>
 		<view style="padding:8px 15px 10px;display: flex;flex-direction: column;">
 			<text style="font-size: 13px;align-self: center;">学习进度</text>
 			<view class="level-content" style="margin-bottom: 50px;z-index: 0;">
-				<template v-for="(item,index) in tabBarItem.levels">
-					<view :key='index+Math.random()' class="level-item">
-						<view class="icons-text" :class="{'icons-text-lv': item<=tabBarItem.report.difficulty_level_id}">LV.{{item}}</view>
-						<text style="font-size: 12px;">{{item==1?'基础':item==2?'巩固':item==3?'提升':'基础'}}{{tabBarItem.report.difficulty_level_id==item?'(当前)':''}}</text>
+				<template v-for="(item,index) in navItem.levels">
+					<view class="level-item">
+						<view class="icons-text" :class="{'icons-text-lv': item<=navItem.report.difficulty_level_id}">LV.{{item}}</view>
+						<text style="font-size: 12px;">{{item==1?'基础':item==2?'巩固':item==3?'提升':'基础'}}{{navItem.report.difficulty_level_id==item?'(当前)':''}}</text>
 					</view>
-					<view :key='index+Math.random()'  v-if="index<tabBarItem.levels.length-1" class="mini-line"></view>
+					<view v-if="index<navItem.levels.length-1" class="mini-line"></view>
 				</template>
 			</view>
 		</view>
@@ -70,7 +70,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 			}
 		},
 		components: {
@@ -89,12 +89,12 @@
 				}
 			},
 			 goQuestion(questionIndex){
-				  util.openwithData('/pages/zhiXueKeTang/zujuancs_testing_answer',{questionData:this.tabBarItem,currentQuestionIndex:questionIndex},{})
+				  util.openwithData('/pages/zhiXueKeTang/zujuancs_testing_answer',{questionData:this.navItem,currentQuestionIndex:questionIndex},{})
 			 },
 			 continueLearn(){
-				 console.log(this.tabBarItem.backSteps);
+				 console.log(this.navItem.backSteps);
 				 let comData={
-				 	catalog_id: this.tabBarItem.catalogId,
+				 	catalog_id: this.navItem.catalogId,
 				 	user_code:this.personInfo.user_code,
 				 	index_code: this.index_code,
 				 }
@@ -107,8 +107,8 @@
 				 			isTested: false,
 				 			index_code:this.index_code,
 				 			data:response,
-				 			catalogId:this.tabBarItem.catalogId,
-				 			title:this.tabBarItem.titleName
+				 			catalogId:this.navItem.catalogId,
+				 			title:this.navItem.titleName
 				 		}
 				 		util.openwithData('/pages/zhiXueKeTang/zujuancs_testing',item,{})
 				 	}else{
@@ -123,7 +123,7 @@
 			this.personInfo = util.getPersonal();
 			itemData.index=100
 			itemData.text='练习报告'
-			this.tabBarItem=itemData
+			this.navItem=itemData
 			let that = this
 			setTimeout(function() {
 				var pages = getCurrentPages();
@@ -135,16 +135,16 @@
 					 ){
 						 console.log((pages.length-1)-index);
 						 itemData.delta=(pages.length-1)-index
-						 that.tabBarItem=itemData
+						 that.navItem=itemData
 					 }
 				})
 			}, 100);
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">采购人姓名</view>
 			<input class="uni-input form-right"  v-model="formData.purchasingManName" maxlength="20"  placeholder="请输入"/>
@@ -52,12 +52,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				canSub:true,
 				formData: {
 					purchasingManName:'',//采购人
@@ -72,18 +73,19 @@
 			mynavBar,
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='新建采购入库'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -153,14 +155,14 @@
 				}
 			},
 			textClick(){//发送请假信息
-				if(this.formData.purchasingManName==''){
-					this.showToast('请输入采购人')
-				}else if(this.formData.supplierName==''){
-					this.showToast('请输入供应商')
-				}else if(this.formData.list.length==0){
-					this.showToast('请至少保留一条物品明细')
+				if(_this.formData.purchasingManName==''){
+					_this.showToast('请输入采购人')
+				}else if(_this.formData.supplierName==''){
+					_this.showToast('请输入供应商')
+				}else if(_this.formData.list.length==0){
+					_this.showToast('请至少保留一条物品明细')
 				}else{
-					let list=this.formData.list
+					let list=_this.formData.list
 					let error=false
 					list.map(function(item){
 						console.log(item.inNum);
@@ -173,11 +175,11 @@
 						}
 					})
 					if(error){
-						this.showToast('请维护物品明细的数量和价格')
+						_this.showToast('请维护物品明细的数量和价格')
 					}else{
-						if(this.canSub){
-							this.canSub=false
-							this.submitData();
+						if(_this.canSub){
+							_this.canSub=false
+							_this.submitData();
 						}
 					}
 				}

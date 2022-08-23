@@ -130,7 +130,7 @@
 			// uni.setNavigationBarTitle({
 			// 	title: this.itemData.name
 			// });
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//1.4.阅卷任务题组列表
@@ -142,7 +142,7 @@
 			// });
 		},
 		onShow() {
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},

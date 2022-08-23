@@ -31,7 +31,7 @@
 		<view class="line"></view>
 		<uni-list :border="false">
 			<uni-list-item :border="true">
-				<text slot="body" class="slot-box slot-text">
+				<view slot="body" class="slot-box slot-text">
 					<uni-row> 
 						<uni-col :span="24"><view class="detail-text">编号: {{ckdDetail.itemCode}}</view></uni-col>
 						<uni-col :span="24"><view class="detail-text">名称: {{ckdDetail.itemName}}</view></uni-col>
@@ -40,7 +40,7 @@
 						<uni-col :span="24"><view class="detail-text">类型: {{ckdDetail.itemType}}</view></uni-col>
 						<uni-col :span="24"><view class="detail-text">属性: {{ckdDetail.itemProp}}</view></uni-col>
 					</uni-row>
-				</text>
+				</view>
 			</uni-list-item>
 		</uni-list>
 		<view class="double-line"></view>
@@ -75,12 +75,12 @@
 				 this.getList0();
 			},100)
 			uni.setNavigationBarTitle({title:'出库单详情'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

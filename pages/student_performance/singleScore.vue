@@ -2,13 +2,16 @@
 	<view>
 		<!-- #ifdef H5 -->
 		<view class="tabs-fixed">
-		<!-- #endif -->
-		<!-- #ifdef APP -->
-		<view class="tabs-fixed" style="top: 0px;">
-		<!-- #endif -->
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
+		<!-- #endif -->
+		<!-- #ifdef APP -->
+		<view class="tabs-fixed" style="top: 0px;">
+			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
+				activeColor="#00CFBD"></uni-segmented-control>
+		</view>
+		<!-- #endif -->
 		<view class="content" style="margin-top: 60px;">
 			<h4 class="examName">{{itemData.name}}</h4>
 			<view v-if="semFlag == 0">
@@ -72,15 +75,17 @@
 				<h4 class="spaceLine">成绩趋势</h4>
 				<p class="spaceLineName">历次考试成绩趋势如下：</p>
 				<view class="charts-box" style="margin-top: 10px;">
-					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.chengjiQs" background="none" />
+					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.chengjiQs"
+						background="none" />
 				</view>
 				<h4 class="spaceLine">排名趋势</h4>
 				<p class="spaceLineName">历次考试排名趋势如下：</p>
 				<view class="charts-box" style="margin-top: 10px;">
-					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.paimingQs" background="none" />
+					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.paimingQs"
+						background="none" />
 				</view>
 			</view>
-			<view v-if="semFlag == 1">
+			<view v-else-if="semFlag == 1">
 				<h4 class="spaceLine">答卷图片</h4>
 				<view v-for="(tempAns,index) in semFlag1Data.img_url_list" style="text-align: center;margin-top: 20px;"
 					:key='index'>
@@ -88,7 +93,7 @@
 						@click="clickAnsImg(tempAns.merge_file_path)"></image>
 				</view>
 			</view>
-			<view v-if="semFlag == 2">
+			<view v-else-if="semFlag == 2">
 				<uni-row>
 					<uni-col :span="10">
 						<p class="scoreDetail" style='text-align: right;'>考试难度：</p>
@@ -168,27 +173,28 @@
 					</uni-row>
 				</view>
 				<view>
-					<uni-row v-for="(item,index) in semFlag2Data.que_score_list" :key='index' style="background: #e1faeb;margin-top: 5px;">
+					<uni-row v-for="(item,index) in semFlag2Data.que_score_list" :key='index'
+						style="background: #e1faeb;margin-top: 5px;">
 						<view @click="toDetailPageSt(item)">
-						<uni-col :span="3" style="height: 18px;">
-							<p class="scoreDetail">{{item.question_number}}</p>
-						</uni-col>
-						<uni-col :span="3">
-							<p class="scoreDetail">{{item.question_score}}</p>
-						</uni-col>
-						<uni-col :span="5">
-							<p class="scoreDetail">{{item.full_score_stuc}}</p>
-						</uni-col>
-						<uni-col :span="5">
-							<p class="scoreDetail">{{item.grd_avg_score}}</p>
-						</uni-col>
-						<uni-col :span="5">
-							<p class="scoreDetail">{{item.score}}</p>
-						</uni-col>
-						<uni-col :span="3">
-							<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
-								src="/static/images/student_performance//search.png"></image>
-						</uni-col>
+							<uni-col :span="3" style="height: 18px;">
+								<p class="scoreDetail">{{item.question_number}}</p>
+							</uni-col>
+							<uni-col :span="3">
+								<p class="scoreDetail">{{item.question_score}}</p>
+							</uni-col>
+							<uni-col :span="5">
+								<p class="scoreDetail">{{item.full_score_stuc}}</p>
+							</uni-col>
+							<uni-col :span="5">
+								<p class="scoreDetail">{{item.grd_avg_score}}</p>
+							</uni-col>
+							<uni-col :span="5">
+								<p class="scoreDetail">{{item.score}}</p>
+							</uni-col>
+							<uni-col :span="3">
+								<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
+									src="/static/images/student_performance//search.png"></image>
+							</uni-col>
 						</view>
 					</uni-row>
 				</view>
@@ -216,33 +222,34 @@
 					</uni-row>
 				</view>
 				<view>
-					<uni-row v-for="(item,index) in semFlag2Data.knowledge_list" :key='index' style="background: #e1faeb;margin-top: 5px;">
+					<uni-row v-for="(item,index) in semFlag2Data.knowledge_list" :key='index'
+						style="background: #e1faeb;margin-top: 5px;">
 						<view @click="toDetailPageZsd(item)">
-						<uni-col :span="4" style="height: 18px;">
-							<p class="scoreDetail">{{item.knowledge_name}}</p>
-						</uni-col>
-						<uni-col :span="3">
-							<p class="scoreDetail">{{item.total_score}}</p>
-						</uni-col>
-						<uni-col :span="5">
-							<p class="scoreDetail">{{item.question_numbers}}</p>
-						</uni-col>
-						<uni-col :span="5">
-							<p class="scoreDetail">{{item.grd_avg_score}}</p>
-						</uni-col>
-						<uni-col :span="4">
-							<p class="scoreDetail">{{item.score}}</p>
-						</uni-col>
-						<uni-col :span="3">
-							<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
-								src="/static/images/student_performance//search.png"></image>
-						</uni-col>
+							<uni-col :span="4" style="height: 18px;">
+								<p class="scoreDetail">{{item.knowledge_name}}</p>
+							</uni-col>
+							<uni-col :span="3">
+								<p class="scoreDetail">{{item.total_score}}</p>
+							</uni-col>
+							<uni-col :span="5">
+								<p class="scoreDetail">{{item.question_numbers}}</p>
+							</uni-col>
+							<uni-col :span="5">
+								<p class="scoreDetail">{{item.grd_avg_score}}</p>
+							</uni-col>
+							<uni-col :span="4">
+								<p class="scoreDetail">{{item.score}}</p>
+							</uni-col>
+							<uni-col :span="3">
+								<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
+									src="/static/images/student_performance//search.png"></image>
+							</uni-col>
 						</view>
 					</uni-row>
 				</view>
 				<view v-if="semFlag2Data.knowledge_list.length==0" class="noData">暂无数据</view>
 			</view>
-			<view v-if="semFlag == 3">
+			<view v-else-if="semFlag == 3">
 				<view>
 					<uni-row>
 						<uni-col :span="12" style="height: 18px;">
@@ -305,27 +312,28 @@
 							<p class="scoreDetail"></p>
 						</uni-col>
 					</uni-row>
-					<uni-row v-for="(item,index) in semFlag3Data.error_que_list" :key='index' style="background: #e1faeb;margin-top: 5px;" @click="toDetailPageCT(item)">
+					<uni-row v-for="(item,index) in semFlag3Data.error_que_list" :key='index'
+						style="background: #e1faeb;margin-top: 5px;" @click="toDetailPageCT(item)">
 						<view @click="toDetailPageCT(item)">
-						<uni-col :span="3" style="height: 18px;">
-							<p class="scoreDetail">{{item.question_number}}</p>
-						</uni-col>
-						<uni-col :span="3">
-							<p class="scoreDetail">{{item.question_score}}</p>
-						</uni-col>
-						<uni-col :span="5">
-							<p class="scoreDetail">{{item.full_score_stuc}}</p>
-						</uni-col>
-						<uni-col :span="5">
-							<p class="scoreDetail">{{item.grd_avg_score}}</p>
-						</uni-col>
-						<uni-col :span="5">
-							<p class="scoreDetail">{{item.score}}</p>
-						</uni-col>
-						<uni-col :span="3">
-							<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
-								src="/static/images/student_performance//search.png"></image>
-						</uni-col>
+							<uni-col :span="3" style="height: 18px;">
+								<p class="scoreDetail">{{item.question_number}}</p>
+							</uni-col>
+							<uni-col :span="3">
+								<p class="scoreDetail">{{item.question_score}}</p>
+							</uni-col>
+							<uni-col :span="5">
+								<p class="scoreDetail">{{item.full_score_stuc}}</p>
+							</uni-col>
+							<uni-col :span="5">
+								<p class="scoreDetail">{{item.grd_avg_score}}</p>
+							</uni-col>
+							<uni-col :span="5">
+								<p class="scoreDetail">{{item.score}}</p>
+							</uni-col>
+							<uni-col :span="3">
+								<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
+									src="/static/images/student_performance//search.png"></image>
+							</uni-col>
 						</view>
 					</uni-row>
 				</view>
@@ -389,26 +397,26 @@
 			uni.setNavigationBarTitle({
 				title: '单科成绩'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 1.3.单科成绩及排名趋势
 			this.getSingleScoreOrder();
 		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
 			// #ifdef H5
-				uni.pageScrollTo({
-					scrollTop: this.scrollLength,
-					duration: 0
-				});
+			uni.pageScrollTo({
+				scrollTop: this.scrollLength,
+				duration: 0
+			});
 			// #endif
-						//#ifndef APP-PLUS
-							document.title=""
-						//#endif
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
-				this.scrollLength=e.scrollTop
+			this.scrollLength = e.scrollTop
 			// #endif
 		},
 		methods: {
@@ -448,14 +456,20 @@
 				}
 			},
 			toDetailPageSt(line) { //试题分析
-				console.log('toDetailPage:'+JSON.stringify(line));
-				util.openwithData("/pages/student_performance/shijuan_shiti", [this.semFlag2Data.que_score_list, line, this.itemData.id, this.itemData.access,'试卷分析']);
+				console.log('toDetailPage:' + JSON.stringify(line));
+				util.openwithData("/pages/student_performance/shijuan_shiti", [this.semFlag2Data.que_score_list, line, this
+					.itemData.id, this.itemData.access, '试卷分析'
+				]);
 			},
 			toDetailPageZsd: function(line) { //知识点分析
-				util.openwithData("/pages/student_performance/shijuan_zhishidian", [this.semFlag2Data.knowledge_list, line, this.itemData.id,this.itemData.access,this.semFlag2Data.que_score_list]);
+				util.openwithData("/pages/student_performance/shijuan_zhishidian", [this.semFlag2Data.knowledge_list,
+					line, this.itemData.id, this.itemData.access, this.semFlag2Data.que_score_list
+				]);
 			},
 			toDetailPageCT: function(line) { //错题详情
-				util.openwithData("/pages/student_performance/shijuan_shiti", [this.semFlag3Data.error_que_list, line, this.itemData.id, this.itemData.access,'错题归纳']);
+				util.openwithData("/pages/student_performance/shijuan_shiti", [this.semFlag3Data.error_que_list, line,
+					this.itemData.id, this.itemData.access, '错题归纳'
+				]);
 			},
 			//1.3.单科成绩及排名趋势
 			getSingleScoreOrder() {
@@ -575,7 +589,7 @@
 					this.hideLoading();
 					if (data.code == 0) {
 						this.semFlag2Data.knowData = data.data;
-						this.semFlag2Data.diff = 5-data.data.diff*5;
+						this.semFlag2Data.diff = 5 - data.data.diff * 5;
 						this.semFlag2Data.que_type_list = [].concat(data.data.que_type_list);
 						this.semFlag2Data.que_score_list = [].concat(data.data.que_score_list);
 						this.semFlag2Data.knowledge_list = [].concat(data.data.knowledge_list);

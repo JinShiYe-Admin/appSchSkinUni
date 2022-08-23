@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :icon="rightIcon" :iconClick="iconClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="rightIcon" :iconClick="iconClick">
 		</mynavBar>
 		<view class="tabs-fixed">
-			<my-segmented-control ref='segmCon' :current="semFlag" :values="itemData.childList" @clickItem="clickSeg" styleType="text"
-				activeColor="#00CFBD"></my-segmented-control>
+			<my-segmented-control ref='segmCon' :current="semFlag" :values="navItem.childList" @clickItem="clickSeg"
+				styleType="text" activeColor="#00CFBD"></my-segmented-control>
 		</view>
 		<view class="content" style="margin-top: 40px;">
 			<view v-show="semFlag == 0">
@@ -20,10 +20,10 @@
 								<a class="biaoti0 title">{{model.InfoCollectTitle}}</a>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
-										{{model.SendManName}}
+										<view style="font-size: 12px;">{{model.SendManName}}</view>
 									</uni-col>
 									<uni-col :span="12">
-										{{model.SendTime}}
+										<view style="font-size: 12px;">{{model.SendTime}}</view>
 									</uni-col>
 								</uni-row>
 							</view>
@@ -45,10 +45,10 @@
 								<a class="biaoti0 title">{{model.InfoCollectTitle}}</a>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
-										{{model.SendManName}}
+										<view style="font-size: 12px;">{{model.SendManName}}</view>
 									</uni-col>
 									<uni-col :span="12">
-										{{model.SendTime}}
+										<view style="font-size: 12px;">{{model.SendTime}}</view>
 									</uni-col>
 								</uni-row>
 							</view>
@@ -67,14 +67,15 @@
 									:src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
 							</view>
 							<view class="rightView">
-								<a class="tempCss">[{{model.NoticeStatusName}}]<span style='color: #000000;'>{{model.InfoCollectTitle}}</span></a>
+								<a class="tempCss">[{{model.NoticeStatusName}}]<span
+										style='color: #000000;'>{{model.InfoCollectTitle}}</span></a>
 								<br>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
-										{{model.SendManName}}
+										<view style="font-size: 12px;">{{model.SendManName}}</view>
 									</uni-col>
 									<uni-col :span="12">
-										{{model.SendTime}}
+										<view style="font-size: 12px;">{{model.SendTime}}</view>
 									</uni-col>
 								</uni-row>
 							</view>
@@ -95,7 +96,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				rightIcon: '', //add按钮权限
 				pageSize: 20,
 				semFlag: 0, //点击的seg索引
@@ -132,17 +133,17 @@
 			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.index = 100;
-			for (var i = 0; i < this.itemData.childList.length; i++) {
-				var tempM = this.itemData.childList[i];
+			this.navItem = util.getPageData(option);
+			this.navItem.index = 100;
+			for (var i = 0; i < this.navItem.childList.length; i++) {
+				var tempM = this.navItem.childList[i];
 				tempM.noReadCut = 0;
 			}
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//获取考勤记录
@@ -150,33 +151,33 @@
 			// 获取未读数
 			this.getUnReadCntFun();
 			// 获取权限
-			this.getPermissionByPosition('add', this.itemData.access.split('#')[1], result => {
+			this.getPermissionByPosition('add', this.navItem.access.split('#')[1], result => {
 				console.log('result:' + JSON.stringify(result));
 				if (result[0]) {
 					this.rightIcon = 'plusempty';
 				}
 			})
-			
-			uni.$on('clickLeft',(data) =>{
+
+			uni.$on('clickLeft', (data) => {
 				_this.getUnReadCntFun();
 				let eventChannel = this.getOpenerEventChannel();
 				eventChannel.emit('oaRefreshUnread', {});
 			})
 		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
 			// #ifdef H5
-				uni.pageScrollTo({
-					scrollTop: this.scrollLength,
-					duration: 0
-				});
+			uni.pageScrollTo({
+				scrollTop: this.scrollLength,
+				duration: 0
+			});
 			// #endif
-						//#ifndef APP-PLUS
-							document.title=""
-						//#endif
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
-				this.scrollLength=e.scrollTop
+			this.scrollLength = e.scrollTop
 			// #endif
 		},
 		onReachBottom() {
@@ -233,16 +234,16 @@
 		methods: {
 			// 获取未读数
 			getUnReadCntFun() {
-				for (var a = 0; a < this.itemData.childList.length; a++) {
-					var tempM0 = this.itemData.childList[a];
+				for (var a = 0; a < this.navItem.childList.length; a++) {
+					var tempM0 = this.navItem.childList[a];
 					if (tempM0.redspot_url != null && tempM0.redspot_url.length > 0) {
 						// 获取未读数
 						util.getUnReadCut(tempM0.access, tempM0.redspot_url, data => {
-							for (var b = 0; b < this.itemData.childList.length; b++) {
-								var tempM1 = this.itemData.childList[b];
+							for (var b = 0; b < this.navItem.childList.length; b++) {
+								var tempM1 = this.navItem.childList[b];
 								if (tempM1.access == data[0].access) {
 									tempM1.noReadCut = data[0].dotnum;
-									this.$refs.segmCon.upLoadUnReadCut(b,tempM1);
+									this.$refs.segmCon.upLoadUnReadCut(b, tempM1);
 								}
 							}
 						});
@@ -251,7 +252,7 @@
 			},
 			iconClick() {
 				console.log('iconClick');
-				util.openwithData("/pages/oa/collectionDataNew", this.itemData,{
+				util.openwithData("/pages/oa/collectionDataNew", _this.navItem, {
 					refreshCollectionIndex() { //子页面调用父页面需要的方法
 						if (_this.semFlag == 2) {
 							_this.semFlag2Data.flagRef = 0;
@@ -268,7 +269,7 @@
 				} else {
 					model.flag = 0;
 				}
-				model.access = this.itemData.access;
+				model.access = this.navItem.access;
 				util.openwithData("/pages/oa/collectionDataDetail", model);
 			},
 			clickSeg: function(e) {
@@ -307,7 +308,7 @@
 					beginTime: '20170101', //查询开始时间
 					endTime: '30180127', //查询结束时间
 					page_size: this.pageSize, //每页记录数
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				}
 				if (this.semFlag == 2) {

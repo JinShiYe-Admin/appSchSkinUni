@@ -1,9 +1,8 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo'>
-		</mynavBar>
-		<view class="tabs-fixed">
-			<my-segmented-control ref='segmCon' :current="semFlag" :values="itemData.childList" @clickItem="clickSeg"
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
+		<view class="tabs-fixed" style="">
+			<my-segmented-control ref='segmCon' :current="semFlag" :values="navItem.childList" @clickItem="clickSeg"
 				styleType="text" activeColor="#00CFBD"></my-segmented-control>
 		</view>
 		<view class="content" style="margin-top: 40px;">
@@ -11,7 +10,7 @@
 				<view class="example-body">
 					<view v-for="(model,index) in semFlag0Data.dataList" :key='index'>
 						<uni-card isShadow>
-							<text class="content-box-text">
+							<view class="content-box-text">
 								<view class="card-title">{{model.name}}</view>
 								<view class="card-line"></view>
 								<uni-row class="nameTime">
@@ -51,7 +50,7 @@
 											@click="clickSem0Item(model,1)">取消本次任务</button>
 									</uni-col>
 								</uni-row>
-							</text>
+							</view>
 						</uni-card>
 					</view>
 				</view>
@@ -61,7 +60,7 @@
 				<view class="example-body">
 					<view v-for="(model,index) in semFlag1Data.dataList" :key='index'>
 						<uni-card isShadow @click="clickSem1Item(model)">
-							<text class="content-box-text">
+							<view class="content-box-text">
 								<view class="card-title">{{model.name}}</view>
 								<view class="card-line"></view>
 								<uni-row class="nameTime">
@@ -82,7 +81,7 @@
 										</view>
 									</uni-col>
 								</uni-row>
-							</text>
+							</view>
 						</uni-card>
 					</view>
 				</view>
@@ -92,7 +91,7 @@
 				<view class="example-body">
 					<view v-for="(model,index) in semFlag2Data.dataList" :key='index'>
 						<uni-card isShadow @click="clickItem(model)">
-							<text class="content-box-text">
+							<view class="content-box-text">
 								<view class="card-title">{{model.name}}</view>
 								<view class="card-line"></view>
 								<uni-row class="nameTime">
@@ -107,7 +106,7 @@
 										</view>
 									</uni-col>
 								</uni-row>
-							</text>
+							</view>
 						</uni-card>
 					</view>
 				</view>
@@ -133,7 +132,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				pageSize: 10,
 				semFlag: 0, //点击的seg索引
 				semFlag0Data: { //考勤记录
@@ -179,12 +178,12 @@
 			}, {
 				name: '已批改'
 			}];
-			this.itemData = tempM;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = tempM;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//获取考勤记录
@@ -202,7 +201,7 @@
 				duration: 0
 			});
 			// #endif
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
@@ -272,7 +271,7 @@
 				this.semFlag0Data.clickModel = model;
 			},
 			clickSem1Item(model) {
-				model.access = this.itemData.access;
+				model.access = this.navItem.access;
 				console.log('clickLi:' + JSON.stringify(model));
 				util.openwithData("/pages/homeworkAndWeektest/correct_correctHP", model);
 			},
@@ -282,7 +281,7 @@
 			confirmStart(value) {
 				this.$refs.popupStart.close();
 				let comData = {
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					id: this.semFlag0Data.clickModel.id, //任务id
 				}
 				this.showLoading();
@@ -304,7 +303,7 @@
 			confirmDel(value) {
 				this.$refs.popupDel.close();
 				let comData = {
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					id: this.semFlag0Data.clickModel.id, //任务id
 				}
 				this.showLoading();
@@ -321,7 +320,7 @@
 				});
 			},
 			clickItem: function(model) {
-				model.access = this.itemData.access;
+				model.access = this.navItem.access;
 				console.log('clickLi:' + JSON.stringify(model));
 				util.openwithData("/pages/homeworkAndWeektest/correct_searchScore", model, {
 					publishScore(data) { //子页面调用父页面需要的方法
@@ -363,7 +362,7 @@
 				var comData = {
 					user_code: this.personInfo.user_code, //用户代码
 					page_size: this.pageSize, //每页记录数
-					index_code: this.itemData.access.split('#')[1]
+					index_code: this.navItem.access.split('#')[1]
 				}
 				if (this.semFlag == 0) {
 					comData.status = '0'; //状态,0未启动 1未改 2批改中 3已改，多个使用,分隔

@@ -4,11 +4,11 @@
 			<text style="font-size: 13px;">学习进度</text>
 			<view class="level-content">
 				<template v-for="(item,index) in itemData.difficulty.levels">
-					<view :key='index+Math.random()' class="level-item">
+					<view class="level-item">
 						<view class="icons-text" :class="{'icons-text-lv':item<=itemData.difficulty.schedule.difficulty_level_id}">LV.{{item}}</view>
 						<text style="font-size: 12px;">{{item==1?'基础':item==2?'巩固':item==3?'提升':'基础'}}{{itemData.difficulty.schedule.difficulty_level_id==item?'(当前)':''}}</text>
 					</view>
-					<view :key='index+Math.random()'  v-if="index<itemData.difficulty.levels.length-1" class="mini-line"></view>
+					<view v-if="index<itemData.difficulty.levels.length-1" class="mini-line"></view>
 				</template>
 			</view>
 			<view class="line"></view>
@@ -65,12 +65,12 @@
 			console.log("itemData: " + JSON.stringify(itemData));
 			this.itemData=itemData
 			uni.setNavigationBarTitle({title:itemData.name});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

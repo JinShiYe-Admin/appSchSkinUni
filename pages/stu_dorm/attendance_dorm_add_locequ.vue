@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<uni-notice-bar :single="true" text="第二步:请选择考勤设备!" />
 		<view>
 			<uni-section v-if="location_type_2.length>0" title="宿舍" type="line"></uni-section>
@@ -25,7 +25,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				location_type_2:[],
 				checked_equ:new Map(),//选中的定位型设备
@@ -42,9 +42,9 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='宿舍点名登记'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
-			console.log("this.tabBarItem: " + JSON.stringify(this.tabBarItem));
+			console.log("this.navItem: " + JSON.stringify(this.navItem));
 			let that =this
 			 itemData.locList.map(item=>{
 				 item.checked=false
@@ -52,18 +52,18 @@
 				 	that.location_type_2.push(item)
 				 }
 			 })
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		methods: {
 			setChecked(item){
-				this.setAllChecked(this.tabBarItem.locList,item)
+				this.setAllChecked(this.navItem.locList,item)
 				if(item.checked){
 					this.checked_equ.set(item.mach_id,item)
 				}else{
@@ -87,7 +87,7 @@
 				 this.showLoading();
 				 let leaveLocRecordList=[];
 				 leaveLocRecordList=await this.getLeaveLocRecordList();
-				 let stuList =this.tabBarItem.stuList
+				 let stuList =this.navItem.stuList
 				 stuList.map(stuItem=>{
 					 leaveLocRecordList.map(rItem=>{
 						 if(stuItem.card_id==rItem.card_id){
@@ -100,16 +100,16 @@
 					 })
 				 })
 				 util.openwithData('/pages/stu_dorm/attendance_dorm_add_stu',{
-					build:this.tabBarItem.build,
-					floor:this.tabBarItem.floor,
-					dorm:this.tabBarItem.dorm,
-					qa:this.tabBarItem.qa,
-				 	time:this.tabBarItem.time,
+					build:this.navItem.build,
+					floor:this.navItem.floor,
+					dorm:this.navItem.dorm,
+					qa:this.navItem.qa,
+				 	time:this.navItem.time,
 					beginTime:this.beginTime,
 					endTime:this.endTime,
 				 	stuList:stuList,
-					attendanceList:this.tabBarItem.attendanceList,
-					historyData:this.tabBarItem.historyData,
+					attendanceList:this.navItem.attendanceList,
+					historyData:this.navItem.historyData,
 				 	index_code:this.index_code,
 				 })
 			},
@@ -121,7 +121,7 @@
 				}
 				return new Promise((res,rej)=>{
 					let endTime=new this.moment().format('HH:mm:ss')
-					let beginTime=new this.moment(this.tabBarItem.time+' '+endTime).subtract(this.globaData.INTERFACE_DORM_ATTENDANCE_ADVANCETIME,'minutes').format('HH:mm:ss');
+					let beginTime=new this.moment(this.navItem.time+' '+endTime).subtract(this.globaData.INTERFACE_DORM_ATTENDANCE_ADVANCETIME,'minutes').format('HH:mm:ss');
 					this.beginTime=beginTime
 					this.endTime=endTime
 					let comData={
@@ -129,8 +129,8 @@
 						mtp:8,
 						page_size:9999999,
 						page_number:1,
-						btime:this.tabBarItem.time+' '+beginTime,
-						etime:this.tabBarItem.time+' '+endTime,
+						btime:this.navItem.time+' '+beginTime,
+						etime:this.navItem.time+' '+endTime,
 						index_code: this.index_code,
 					} 
 					this.post(this.globaData.INTERFACE_UCARD+'blemachtimecardp',comData,response=>{

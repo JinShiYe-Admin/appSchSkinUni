@@ -53,7 +53,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_ITEM = 'https://develop309.108800.com/imsubapi/sub/api/'; //物品管理接口(孔)  http://115.28.11.115:8080/imsubapi/sub/api/
 		GLOBALDATA.INTERFACE_BASESUB = 'https://test.108800.com/baseapi/api/baseapi/'; //统一信息接口:考务、家校用(顾)
 		GLOBALDATA.INTERFACE_UCARD = 'https://test.108800.com/testucardsubapi/api/ucard/'; //统一信息接口 中小学学校卡(顾)
-		GLOBALDATA.INTERFACE_EXAMINATION = 'https://developgx.108800.com:8443/stuzy/api/paper/'; //考务系统接口(蒙)
+		GLOBALDATA.INTERFACE_EXAMINATION = 'https://develop309.108800.com/stuzy/api/paper/'; //考务系统接口(蒙)
 		GLOBALDATA.INTERFACE_WORK = 'https://develop309.108800.com/stukqsubapi/attendance/'; //学生考勤系统接口(孔)
 		GLOBALDATA.INTERFACE_PROGRAMME = 'https://develop309.108800.com/tecrcsubapi/sub/api/'; //日程（孔)
 		GLOBALDATA.INTERFACE_ATTENDAND = 'https://develop309.108800.com/tecgpskqsubapi/sub/api/'; //教师考勤（孔)
@@ -61,15 +61,15 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_STUPYSUB = 'https://develop309.108800.com/stuxwsubapi/comment/'; //学生评语（阮)
 		GLOBALDATA.INTERFACE_DORM = 'https://develop309.108800.com/stusssubapi/api/app/'; //学生宿舍（阮)
 		GLOBALDATA.INTERFACE_DORM_ATTENDANCE_ADVANCETIME = 3; //学生宿舍 宿舍点名模块考勤记录时间提前量 单位：分钟
-		GLOBALDATA.INTERFACE_STUSCORE = 'https://developgx.108800.com:8443/stuzy/api/stuScore/'; //学生成绩（蒙)
-		GLOBALDATA.INTERFACE_ZXKT = "https://developgx.108800.com:8443/resstudysubapi/api"; //智学课堂（廖）
-		GLOBALDATA.INTERFACE_KYCP = "https://developgx.108800.com:8443/resentestsubapi/api"; //口语测评（廖）
+		GLOBALDATA.INTERFACE_STUSCORE = 'https://develop309.108800.com/stuzy/api/stuScore/'; //学生成绩（蒙)
+		GLOBALDATA.INTERFACE_ZXKT = "https://develop309.108800.com/resstudysubapi/api"; //智学课堂（廖）
+		GLOBALDATA.INTERFACE_KYCP = "https://develop309.108800.com/resentestsubapi/api"; //口语测评（廖）
 		GLOBALDATA.INTERFACE_SCHHOME = 'https://test.108800.com/testhsservsubapi/'; //家校互动（顾)
 		GLOBALDATA.INTERFACE_SCHHOME_STU = 'https://test.108800.com/testhsservsubapi/'; //家校互动 学生端（顾)
-		GLOBALDATA.PARENTS_ATTENDANCE = 'https://developgx.108800.com:8443/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
-		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://developgx.108800.com:8443/stuzysubapi/api/admin/'; //考务--作业与周测，（蒙)
+		GLOBALDATA.PARENTS_ATTENDANCE = 'https://develop309.108800.com/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
+		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://develop309.108800.com/stuzysubapi/api/admin/'; //考务--作业与周测，（蒙)
 		GLOBALDATA.STULEAVE_API = 'https://develop309.108800.com/stuleavesubapi/sub/api/'; //学生请假系统(孔)
-		GLOBALDATA.INTERFACE_TWJK_TEA = 'https://developgx.108800.com:8443/stustatsubapi/api/'; //学生每日体温监控（农）
+		GLOBALDATA.INTERFACE_TWJK_TEA = 'https://develop309.108800.com/stustatsubapi/api/'; //学生每日体温监控（农）
 		GLOBALDATA.INTERFACE_COSTMS = 'https://develop309.108800.com/cmsubapi/sub/api/'; //费用管理（孔）
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台

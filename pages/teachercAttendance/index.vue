@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
-		<view v-if="tabBarItem.childList.length>0" style="padding-top: 10px;">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
+		<view v-if="navItem.childList.length>0" style="padding-top: 10px;">
 			<uni-grid v-if="updataNoReadeCut" :column="4" :showBorder='false' :square="false" :highlight="false">
-				<uni-grid-item v-for="(chilItem, chilIndex) in tabBarItem.childList" :index="chilIndex"
+				<uni-grid-item v-for="(chilItem, chilIndex) in navItem.childList" :index="chilIndex"
 					:key="chilIndex">
 					<uni-badge v-if="chilItem.noReadCut>0" :text='chilItem.noReadCut' type='error' size="small" style="margin-left: 50px;z-index: 99;"></uni-badge>
 					<view v-show="chilItem.noReadCut==0" style="height: 20px;"></view>
@@ -14,7 +14,7 @@
 				</uni-grid-item>
 			</uni-grid>
 		</view>
-		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
+		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 
@@ -27,7 +27,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {},
+				navItem: {},
 				updataNoReadeCut:true
 			}
 		},
@@ -51,19 +51,19 @@
 				_this.tabbar = util.getMenu();
 				for (var i = 0; i < _this.tabbar.length; i++) {
 					let tempM = _this.tabbar[i];
-					if(tempM.access == _this.tabBarItem.access){
-						_this.tabBarItem = tempM;
+					if(tempM.access == _this.navItem.access){
+						_this.navItem = tempM;
 					}
 				}
 			});
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = util.getTabbarMenu();
-			for (var i = 0; i < this.tabBarItem.childList.length; i++) {
-				var tempM = this.tabBarItem.childList[i];
+			this.navItem = util.getTabbarMenu();
+			for (var i = 0; i < this.navItem.childList.length; i++) {
+				var tempM = this.navItem.childList[i];
 				tempM.noReadCut = 0;
 			}
-			console.log('this.tabBarItem:'+JSON.stringify(this.tabBarItem));
+			console.log('this.navItem:'+JSON.stringify(this.navItem));
 		}
 	}
 </script>

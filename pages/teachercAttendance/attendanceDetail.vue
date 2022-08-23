@@ -17,7 +17,7 @@
 		<view class="double-line"></view>
 		<uni-list :border="false" v-if="pageData.okList&&pageData.okList.length>0">
 			<uni-list-item :key="index" v-for="(item,index) in pageData.okList" :border="true">
-				<text slot="body" class="slot-box slot-text">
+				<view slot="body" class="slot-box slot-text">
 					<uni-row>
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text title">正常</view></uni-col>
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">姓名：</view><view class="detail-text">{{item.user_name}}</view></uni-col>
@@ -25,13 +25,13 @@
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">地点：</view><view class="detail-text">{{item.attend_addr}}</view></uni-col>
 						<uni-col :span="24" v-if="item.attend_pic.length>0" style="display: flex;align-items: baseline;"><view class="title-text">附件：</view><view class="detail-text" style="color: #00CFBD;" @click="perviewImg(item.attend_pic)">点击查看打卡图片</view></uni-col>
 					</uni-row>
-				</text>
+				</view>
 			</uni-list-item>
 		</uni-list>
 		<view class="line" v-if="pageData.lateList&&pageData.lateList.length>0"></view>
 		<uni-list :border="false" v-if="pageData.lateList&&pageData.lateList.length>0">
 			<uni-list-item :key="index" v-for="(item,index) in pageData.lateList" :border="true">
-				<text slot="body" class="slot-box slot-text">
+				<view slot="body" class="slot-box slot-text">
 					<uni-row>
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text title">迟到</view></uni-col>
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">姓名：</view><view class="detail-text">{{item.user_name}}</view></uni-col>
@@ -39,13 +39,13 @@
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">地点：</view><view class="detail-text">{{item.attend_addr}}</view></uni-col>
 						<uni-col :span="24" v-if="item.attend_pic.length>0" style="display: flex;align-items: baseline;"><view class="title-text">附件：</view><view class="detail-text" style="color: #00CFBD;" @click="perviewImg(item.attend_pic)">点击查看打卡图片</view></uni-col>
 					</uni-row>
-				</text>
+				</view>
 			</uni-list-item>
 		</uni-list>
 		<view class="line" v-if="pageData.earlyList&&pageData.earlyList.length>0"></view>
 		<uni-list :border="false" v-if="pageData.earlyList&&pageData.earlyList.length>0">
 			<uni-list-item :key="index" v-for="(item,index) in pageData.earlyList" :border="true">
-				<text slot="body" class="slot-box slot-text">
+				<view slot="body" class="slot-box slot-text">
 					<uni-row>
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text title">早退</view></uni-col>
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">姓名：</view><view class="detail-text">{{item.user_name}}</view></uni-col>
@@ -53,13 +53,13 @@
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">地点：</view><view class="detail-text">{{item.attend_addr}}</view></uni-col>
 						<uni-col :span="24" v-if="item.attend_pic.length>0" style="display: flex;align-items: baseline;"><view class="title-text">附件：</view><view class="detail-text" style="color: #00CFBD;" @click="perviewImg(item.attend_pic)">点击查看打卡图片</view></uni-col>
 					</uni-row>
-				</text>
+				</view>
 			</uni-list-item>
 		</uni-list>
 		<view class="line" v-if="pageData.outList&&pageData.outList.length>0"></view>
 		<uni-list :border="false" v-if="pageData.outList&&pageData.outList.length>0">
 			<uni-list-item :key="index" v-for="(item,index) in pageData.outList" :border="true">
-				<text slot="body" class="slot-box slot-text">
+				<view slot="body" class="slot-box slot-text">
 					<uni-row>
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text title">非规定地点打开</view></uni-col>
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">姓名：</view><view class="detail-text">{{item.user_name}}</view></uni-col>
@@ -67,7 +67,7 @@
 						<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">地点：</view><view class="detail-text">{{item.attend_addr}}</view></uni-col>
 						<uni-col :span="24" v-if="item.attend_pic.length>0" style="display: flex;align-items: baseline;"><view class="title-text">附件：</view><view class="detail-text" style="color: #00CFBD;" @click="perviewImg(item.attend_pic)">点击查看打卡图片</view></uni-col>
 					</uni-row>
-				</text>
+				</view>
 			</uni-list-item>
 		</uni-list>
 	</view>
@@ -97,12 +97,12 @@
 				that.getDpt()
 			}, 100);
 			uni.setNavigationBarTitle({title:'考勤详情'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

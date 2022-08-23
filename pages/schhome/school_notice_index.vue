@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
 		<view class="tabs-fixed">
 			 <view class="search-box">
 				 <view class="uni-input-wrapper">
@@ -13,12 +13,12 @@
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
+					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">{{item.send_time}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">{{item.msg_content}}</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<template v-if="pagedata.length===0">
@@ -32,13 +32,14 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
 				icon:'',
-				tabBarItem: {},
+				navItem: {},
 				searchValue:'',
 				
 				pageSize:15,
@@ -83,14 +84,13 @@
 				}
 			},
 			iconClick(){
-				let that=this
-				util.openwithData('/pages/schhome/school_notice_add',{index_code:this.index_code},{
+				util.openwithData('/pages/schhome/school_notice_add',{index_code:_this.index_code},{
 					refreshList(data){//子页面调用父页面需要的方法
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getList0()
+						_this.showLoading()
+						_this.pageobj0.loadFlag=0
+						_this.pageobj0.canload=true
+						_this.pageobj0.page_number=1
+						_this.getList0()
 					}
 				})
 			},
@@ -142,10 +142,11 @@
 			}
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
@@ -157,7 +158,7 @@
 				 })
 				 this.getList0();
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -185,7 +186,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

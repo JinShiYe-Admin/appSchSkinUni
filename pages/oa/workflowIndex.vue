@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :icon="rightIcon" :iconClick="iconClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="rightIcon" :iconClick="iconClick">
 		</mynavBar>
 		<view class="tabs-fixed">
-			<my-segmented-control ref='segmCon' :current="semFlag" :values="itemData.childList" @clickItem="clickSeg" styleType="text"
-				activeColor="#00CFBD"></my-segmented-control>
+			<my-segmented-control ref='segmCon' :current="semFlag" :values="navItem.childList" @clickItem="clickSeg"
+				styleType="text" activeColor="#00CFBD"></my-segmented-control>
 		</view>
 		<view class="content" style="margin-top: 40px;">
 			<view v-show="semFlag == 0">
@@ -21,10 +21,10 @@
 									class="biaoti title">{{model.ApplyTitle}}</a>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
-										{{model.ApplyManName}}
+										<view style="font-size: 12px;">{{model.ApplyManName}}</view>
 									</uni-col>
 									<uni-col :span="12">
-										{{model.CreateTime}}
+										<view style="font-size: 12px;">{{model.CreateTime}}</view>
 									</uni-col>
 								</uni-row>
 							</view>
@@ -46,10 +46,10 @@
 								<a class="biaoti0 title">{{model.ApplyTitle}}</a>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
-										{{model.ApplyManName}}
+										<view style="font-size: 12px;">{{model.ApplyManName}}</view>
 									</uni-col>
 									<uni-col :span="12">
-										{{model.CreateTime}}
+										<view style="font-size: 12px;">{{model.CreateTime}}</view>
 									</uni-col>
 								</uni-row>
 							</view>
@@ -71,10 +71,10 @@
 								<a class="biaoti0 title">{{model.ApplyTitle}}</a>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
-										{{model.ApplyManName}}
+										<view style="font-size: 12px;">{{model.ApplyManName}}</view>
 									</uni-col>
 									<uni-col :span="12">
-										{{model.CreateTime}}
+										<view style="font-size: 12px;">{{model.CreateTime}}</view>
 									</uni-col>
 								</uni-row>
 							</view>
@@ -96,10 +96,10 @@
 								<a class="biaoti title">{{model.ApplyTitle}}</a>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
-										{{model.ApplyManName}}
+										<view style="font-size: 12px;">{{model.ApplyManName}}</view>
 									</uni-col>
 									<uni-col :span="12">
-										{{model.CreateTime}}
+										<view style="font-size: 12px;">{{model.CreateTime}}</view>
 									</uni-col>
 								</uni-row>
 							</view>
@@ -122,10 +122,10 @@
 									class="biaoti title">{{model.ApplyTitle}}</a>
 								<uni-row class="nameTime">
 									<uni-col :span="12">
-										{{model.ApplyManName}}
+										<view style="font-size: 12px;">{{model.ApplyManName}}</view>
 									</uni-col>
 									<uni-col :span="12">
-										{{model.CreateTime}}
+										<view style="font-size: 12px;">{{model.CreateTime}}</view>
 									</uni-col>
 								</uni-row>
 							</view>
@@ -146,7 +146,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				rightIcon: '', //add按钮权限
 				pageSize: 20,
 				semFlag: 0, //点击的seg索引
@@ -199,17 +199,17 @@
 			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.index = 100;
-			for (var i = 0; i < this.itemData.childList.length; i++) {
-				var tempM = this.itemData.childList[i];
+			this.navItem = util.getPageData(option);
+			this.navItem.index = 100;
+			for (var i = 0; i < this.navItem.childList.length; i++) {
+				var tempM = this.navItem.childList[i];
 				tempM.noReadCut = 0;
 			}
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//获取考勤记录
@@ -217,33 +217,33 @@
 			// 获取未读数
 			this.getUnReadCntFun();
 			// 获取权限
-			this.getPermissionByPosition('add', this.itemData.access.split('#')[1], result => {
+			this.getPermissionByPosition('add', this.navItem.access.split('#')[1], result => {
 				console.log('result:' + JSON.stringify(result));
 				if (result[0]) {
 					this.rightIcon = 'plusempty';
 				}
 			})
-			
-			uni.$on('clickLeft',(data) =>{
+
+			uni.$on('clickLeft', (data) => {
 				_this.getUnReadCntFun();
 				let eventChannel = this.getOpenerEventChannel();
 				eventChannel.emit('oaRefreshUnread', {});
 			})
 		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
 			// #ifdef H5
-				uni.pageScrollTo({
-					scrollTop: this.scrollLength,
-					duration: 0
-				});
+			uni.pageScrollTo({
+				scrollTop: this.scrollLength,
+				duration: 0
+			});
 			// #endif
-						//#ifndef APP-PLUS
-							document.title=""
-						//#endif
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
-				this.scrollLength=e.scrollTop
+			this.scrollLength = e.scrollTop
 			// #endif
 		},
 		onReachBottom() {
@@ -287,7 +287,7 @@
 				setTimeout(() => {
 					this.getPageList();
 				}, 300);
-			}else if (this.semFlag == 4) {
+			} else if (this.semFlag == 4) {
 				this.semFlag4Data.flagRef = 1;
 				if (this.semFlag4Data.total_page < this.semFlag4Data.pageIndex) {
 					this.semFlag4Data.loadMoreText = "没有更多数据了!"
@@ -320,7 +320,7 @@
 				this.semFlag3Data.flagRef = 0;
 				this.semFlag3Data.pageIndex = 1;
 				this.getPageList();
-			}else if (this.semFlag == 3) {
+			} else if (this.semFlag == 3) {
 				this.semFlag4Data.loadMoreText = "加载中..."
 				this.semFlag4Data.flagRef = 0;
 				this.semFlag4Data.pageIndex = 1;
@@ -330,16 +330,16 @@
 		methods: {
 			// 获取未读数
 			getUnReadCntFun() {
-				for (var a = 0; a < this.itemData.childList.length; a++) {
-					var tempM0 = this.itemData.childList[a];
+				for (var a = 0; a < this.navItem.childList.length; a++) {
+					var tempM0 = this.navItem.childList[a];
 					if (tempM0.redspot_url != null && tempM0.redspot_url.length > 0) {
 						// 获取未读数
 						util.getUnReadCut(tempM0.access, tempM0.redspot_url, data => {
-							for (var b = 0; b < this.itemData.childList.length; b++) {
-								var tempM1 = this.itemData.childList[b];
+							for (var b = 0; b < this.navItem.childList.length; b++) {
+								var tempM1 = this.navItem.childList[b];
 								if (tempM1.access == data[0].access) {
 									tempM1.noReadCut = data[0].dotnum;
-									this.$refs.segmCon.upLoadUnReadCut(b,tempM1);
+									this.$refs.segmCon.upLoadUnReadCut(b, tempM1);
 								}
 							}
 						});
@@ -348,7 +348,7 @@
 			},
 			iconClick() {
 				console.log('iconClick');
-				util.openwithData("/pages/oa/workflowNew", this.itemData,{
+				util.openwithData("/pages/oa/workflowNew", _this.navItem, {
 					refreshWorkflowIndex() { //子页面调用父页面需要的方法
 						if (_this.semFlag == 4) {
 							_this.semFlag4Data.flagRef = 0;
@@ -365,7 +365,7 @@
 				} else {
 					model.flag = 0;
 				}
-				model.access = this.itemData.access;
+				model.access = this.navItem.access;
 				util.openwithData("/pages/oa/workflowDetail", model);
 			},
 			clickSeg: function(e) {
@@ -392,7 +392,7 @@
 						if (this.semFlag3Data.total_page == 0) {
 							this.getPageList();
 						}
-					}else if (this.semFlag == 4) {
+					} else if (this.semFlag == 4) {
 						if (this.semFlag4Data.total_page == 0) {
 							this.getPageList();
 						}
@@ -412,7 +412,7 @@
 					beginTime: '20170101', //查询开始时间
 					endTime: '30180127', //查询结束时间
 					page_size: this.pageSize, //每页记录数
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				}
 				if (this.semFlag == 4) {
@@ -433,11 +433,11 @@
 				} else if (this.semFlag == 2) {
 					comData.status = '2'; //状态,0 全部1 预览2 待批3 已批
 					comData.page_number = this.semFlag2Data.pageIndex; //当前页数
-				}else if (this.semFlag == 3) {
+				} else if (this.semFlag == 3) {
 					comData.status = '3'; //状态,0 全部1 预览2 待批3 已批
 					comData.page_number = this.semFlag3Data.pageIndex; //当前页数
 				}
-				
+
 				// if (datasource.sliderFlag == 0) {
 				// 	comData0.status = '0'; //状态,0 全部1 预览2 待批3 已批
 				// 	comData0.page_number = datasource.receive0.pageIndex; //当前页数

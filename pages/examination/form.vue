@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<uni-row>
 				<uni-col :span="8">
@@ -25,7 +25,7 @@
 			<view style="margin-top: 40px;">
 				<uni-list :border="false">
 					<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
+						<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 							<uni-row>
 								<uni-col :span="24" style="display: flex;align-items: center;">
 									<uni-col :span="4"><view class="ant-avatar ant-avatar-lg" style="float: left;background-color: rgb(255, 191, 0);vertical-align: middle;">{{item.exam_type_name}}</view></uni-col>
@@ -45,7 +45,7 @@
 									</uni-col>
 								</uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 				<view v-show="pagedata1.length===0" style="text-align: center;" class="detail-text">暂无数据</view>
@@ -265,18 +265,18 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.title=itemData.name
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
 				this.showLoading()
 				this.getGrd()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

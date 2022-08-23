@@ -1,12 +1,13 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :text="showLook"
-			:textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text="showLook" :textClick="textClick">
+		</mynavBar>
 		<view>
 			<!-- <p style="margin: 5px 0px 0px 20px;color: #505050;font-size: 14px;font-weight: bold;">考生信息</p>
 			<view style="height: 0.5px;background-color: #00cfbd;margin: 5px 28px 0px 15px;"></view> -->
 			<view class="card-title">{{stuDetailModel.name}}</view>
-			<view style="text-align: right;margin: 10px 20px 0 0;" class="nameContent">{{stuDetailModel.create_time.split(' ')[0]}}</view>
+			<view v-if="stuDetailModel.create_time" style="text-align: right;margin: 10px 20px 0 0;" class="nameContent">
+				{{stuDetailModel.create_time.split(' ')[0]}}</view>
 			<view class="card-line"></view>
 			<uni-row class="">
 				<uni-col :span="16" style="font-size: 14px;">
@@ -21,8 +22,8 @@
 				</uni-col>
 				<uni-col :span="8">
 					<view class="charts-box" style="width: 100px;height: 100px;text-align: center;margin-top: 10px;">
-						<qiun-data-charts type="arcbar" :opts="zhishidianShow"
-							:animation="false" :chartData="zhishidianDFL" />
+						<qiun-data-charts type="arcbar" :opts="zhishidianShow" :animation="false"
+							:chartData="zhishidianDFL" />
 					</view>
 				</uni-col>
 			</uni-row>
@@ -67,52 +68,54 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				showLook: '',
 				stuDetailModel: {}, //学生考试详情
 				stuResultList: [], //学生答题详情列表
 				result_file_list: [],
-				zhishidianShow:{},
-				zhishidianDFL:{}
+				zhishidianShow: {},
+				zhishidianDFL: {}
 			}
 		},
 		components: {
 			mynavBar
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.text = '成绩详情';
-			this.itemData.index = 100;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.text = '成绩详情';
+			this.navItem.index = 100;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
 				title: '成绩详情'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
-			this.stuDetailModel = this.itemData;
+			this.stuDetailModel = this.navItem;
 			//1.10.根据id获取学生考试详情
 			this.getPageDataArray();
 			//1.11.获取学生每题答题详情
 			this.getResultDetail();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			textClick() {
-				console.log('textClicktextClick');
+				console.log('textClicktextClick0');
 				let tempArray = [];
-				for (var i = 0; i < this.result_file_list.length; i++) {
-					let tempM = this.result_file_list[i];
+				for (var i = 0; i < _this.result_file_list.length; i++) {
+					let tempM = _this.result_file_list[i];
 					tempArray.push(tempM.merge_file_path);
 				}
 				uni.previewImage({
@@ -121,8 +124,8 @@
 			},
 			getPageDataArray() {
 				let comData = {
-					index_code: this.itemData.access.split('#')[1],
-					id: this.itemData.id, //
+					index_code: this.navItem.access.split('#')[1],
+					id: this.navItem.id, //
 				}
 				// this.showLoading();
 				//1.10.根据id获取学生考试详情
@@ -143,8 +146,8 @@
 			},
 			getResultDetail() {
 				let comData = {
-					index_code: this.itemData.access.split('#')[1],
-					result_id: this.itemData.id, //
+					index_code: this.navItem.access.split('#')[1],
+					result_id: this.navItem.id, //
 				}
 				// this.showLoading();
 				//1.11.获取学生每题答题详情
@@ -162,7 +165,7 @@
 						this.zhishidianDFL = {
 							"series": [{
 								"name": "成绩",
-								"data": parseFloat(tempStu/tempSum).toFixed(1),
+								"data": parseFloat(tempStu / tempSum).toFixed(1),
 								"color": "#00CFBD"
 							}]
 						};
@@ -234,23 +237,24 @@
 		margin-left: 2px;
 		margin-right: 2px; */
 	}
-	
+
 	.nameTime {
 		font-size: 13px;
 		margin: 10px 0 0 20px;
 	}
-	
+
 	.nameContent {
 		color: gray;
 		font-size: 13px;
 	}
-	
+
 	.card-line {
 		height: 1px;
 		background-color: #e5e5e5;
 		margin-top: 5px;
 		margin-bottom: 5px;
 	}
+
 	.card-title {
 		font-size: 15px;
 		text-align: center;

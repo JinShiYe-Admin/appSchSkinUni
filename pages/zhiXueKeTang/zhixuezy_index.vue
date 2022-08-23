@@ -12,7 +12,7 @@
 		<view style="padding-top: 40px;">
 			<uni-list :border="false">
 				<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click="downloadFile(item,index)">
+					<view slot="body" class="slot-box slot-text" @click="downloadFile(item,index)">
 						<view  style="display: flex;align-items: center;" >
 							<template v-if="item.is_pack">
 								<image src="../../static/images/zhiXueKeTang/file-icons/ziyuanPack.png" class="resource-img"></image>
@@ -50,7 +50,7 @@
 								<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="detail-text">{{item.create_time}}&ensp;|&ensp;{{item.owner_name}}</view></uni-col>
 							</uni-row>
 						</view>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -61,6 +61,7 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
@@ -133,33 +134,32 @@
 				})
 			},
 			titleClick(){//切换目录
-				let that=this
-				util.openwithData('/pages/zhiXueKeTang/catalogPage',{index_code:this.index_code},{
+				util.openwithData('/pages/zhiXueKeTang/catalogPage',{index_code:_this.index_code},{
 					refreshCatalog(data){//子页面调用父页面需要的方法
 					console.log("data: " + JSON.stringify(data));
-						that.tabIndex = 0;
-						that.scrollInto = that.resCategoryArray[0].key;
-						that.tabBarItem.text=data.data[0].data.name; //给标题赋值
-						that.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
+						_this.tabIndex = 0;
+						_this.scrollInto = _this.resCategoryArray[0].key;
+						_this.tabBarItem.text=data.data[0].data.name; //给标题赋值
+						_this.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
 						//当前章节
-						that.resCatalogsModel = data.data[0].data;
+						_this.resCatalogsModel = data.data[0].data;
 						//当前学段
 						let perModel={
 							per_name:data.data[1].per_name,
 							per_code:data.data[1].per_code.split("_")[1]
 						}
-						that.resPerModel = perModel
+						_this.resPerModel = perModel
 						//当前科目
 						let subModel={
 							sub_name:data.data[2].sub_name,
 							sub_code:data.data[2].sub_code.split("_")[1]
 						}
-						that.resSubModel = subModel
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getResCategory()
+						_this.resSubModel = subModel
+						_this.showLoading()
+						_this.pageobj0.loadFlag=0
+						_this.pageobj0.canload=true
+						_this.pageobj0.page_number=1
+						_this.getResCategory()
 					}
 				})
 			},
@@ -245,21 +245,19 @@
 					console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					if (response) {
-						let that =this
 						this.getCalalogModel(response.catalog.children, function(tempData) {
-							that.resCatalogsModel = tempData;
-							that.tabBarItem.text=tempData.name; //给标题赋值
-							that.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
+							_this.resCatalogsModel = tempData;
+							_this.tabBarItem.text=tempData.name; //给标题赋值
+							_this.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
 							// 查询资源类型
-							that.getResCategory();
+							_this.getResCategory();
 						});
 					} else {
 						this.showToast('暂无目录');
 					}
 				},response=>{
-					let that =this
-					that.tabBarItem.text='切换目录'; //给标题赋值
-					that.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
+					_this.tabBarItem.text='切换目录'; //给标题赋值
+					_this.tabBarItem.titleIcon={value:'arrowdown',style:{fontSize:14,color:'#FFFFFF'}}
 				});
 			},
 			getCalalogModel(list, callback) {// 找到第一个可用的目录
@@ -395,6 +393,7 @@
 			}
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
@@ -404,7 +403,7 @@
 				 this.showLoading()
 				 this.getResPer()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -432,7 +431,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

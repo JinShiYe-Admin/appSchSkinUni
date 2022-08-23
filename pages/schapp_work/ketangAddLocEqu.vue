@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<uni-notice-bar :single="true" text="第二步:请选择考勤设备!" />
 		<view>
 			<uni-section v-if="location_type_1.length>0" title="教室" type="line"></uni-section>
@@ -43,7 +43,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				location_type_1:[],
 				location_type_2:[],
@@ -61,9 +61,9 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='课堂点名登记'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
-			console.log("this.tabBarItem: " + JSON.stringify(this.tabBarItem));
+			console.log("this.navItem: " + JSON.stringify(this.navItem));
 			let that =this
 			 itemData.locList.map(item=>{
 				 item.checked=false
@@ -80,12 +80,12 @@
 				 	that.location_type_4.push(item)
 				 }
 			 })
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -100,7 +100,7 @@
 				// }else if(type==4){
 				// 	this.setAllChecked(this.location_type_4,item)
 				// }
-				this.setAllChecked(this.tabBarItem.locList,item)
+				this.setAllChecked(this.navItem.locList,item)
 				if(item.checked){
 					this.checked_equ.set(item.mach_id,item)
 				}else{
@@ -124,7 +124,7 @@
 				 this.showLoading();
 				 let leaveLocRecordList=[];
 				 leaveLocRecordList=await this.getLeaveLocRecordList();
-				 let stuList =this.tabBarItem.stuList
+				 let stuList =this.navItem.stuList
 				 stuList.map(stuItem=>{
 					 leaveLocRecordList.map(rItem=>{
 						 if(stuItem.card_id==rItem.card_id){
@@ -137,14 +137,14 @@
 					 })
 				 })
 				 util.openwithData('/pages/schapp_work/ketangAddStu',{
-				 	grd:this.tabBarItem.grd,
-				 	cls:this.tabBarItem.cls,
-				 	jc:this.tabBarItem.jc,
-				 	km:this.tabBarItem.km,
-				 	time:this.tabBarItem.time,
-					attendanceDict:this.tabBarItem.attendanceDict,
+				 	grd:this.navItem.grd,
+				 	cls:this.navItem.cls,
+				 	jc:this.navItem.jc,
+				 	km:this.navItem.km,
+				 	time:this.navItem.time,
+					attendanceDict:this.navItem.attendanceDict,
 				 	stuList:stuList,
-					historyData:this.tabBarItem.historyData,
+					historyData:this.navItem.historyData,
 				 	index_code:this.index_code,
 				 })
 			},
@@ -154,15 +154,15 @@
 				for (let obj of this.checked_equ) {
 					 mach_ids.push(obj[1].mach_id)
 				}
-				let jc=this.tabBarItem.jc
+				let jc=this.navItem.jc
 				return new Promise((res,rej)=>{
 					let comData={
 						mids:mach_ids.join(','),
 						mtp:8,
 						page_size:9999999,
 						page_number:1,
-						btime:this.tabBarItem.time+' '+jc.begintime,
-						etime:this.tabBarItem.time+' '+jc.endtime,
+						btime:this.navItem.time+' '+jc.begintime,
+						etime:this.navItem.time+' '+jc.endtime,
 						index_code: this.index_code,
 					} 
 					this.post(this.globaData.INTERFACE_UCARD+'blemachtimecardp',comData,response=>{

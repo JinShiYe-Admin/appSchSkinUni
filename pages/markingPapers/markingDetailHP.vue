@@ -9,7 +9,8 @@
 					style="margin: 12px 0 0 10px;text-align: left;color: white;font-size: 14px;float: left;">
 					该题组已阅{{currentInfoData.count_info.view_count}}份，当前第{{currentInfoData.count_info.count}}份，任务量{{currentInfoData.count_info.group_count}}份
 				</p>
-				<button class="mini-btn" type="default" size="mini" @click="setError()" style="width: 80px;color: white;background: darkorange;margin-left: 40px;">问题卷</button>
+				<button class="mini-btn" type="default" size="mini" @click="setError()"
+					style="width: 80px;color: white;background: darkorange;margin-left: 40px;">问题卷</button>
 			</view>
 			<scroll-view class="answerImg" scroll-x="true" scroll-y="true" :style="'height:'+viewclass+'px'">
 				<image v-show='imgSrc.length>0' mode="widthFix" :src="imgSrc" :imgSrc='imgSrc'
@@ -20,7 +21,8 @@
 		<view class="viewRight">
 			<!-- #ifdef H5 -->
 			<view class="viewHead" style="background: #00CFBD;">
-				<deanPop v-if="groupNumberArrayH5.length>0" ref="groupH5Pop" :btnList='groupNumberArrayH5' :viewName='groupNumberArrayH5[nowGroupIndex].label' @select='clickH5Group'></deanPop>
+				<deanPop v-if="groupNumberArrayH5.length>0" ref="groupH5Pop" :btnList='groupNumberArrayH5'
+					:viewName='groupNumberArrayH5[nowGroupIndex].label' @select='clickH5Group'></deanPop>
 			</view>
 			<!-- #endif -->
 			<!-- #ifdef APP -->
@@ -80,7 +82,8 @@
 			</view>
 		</uni-popup>
 		<uni-popup ref="popupError" type="dialog">
-			<uni-popup-dialog title="确定?" content="确定设置为问题卷吗？" :duration="2000" :before-close="true" @close="close" @confirm="confirm"></uni-popup-dialog>
+			<uni-popup-dialog title="确定?" content="确定设置为问题卷吗？" :duration="2000" :before-close="true" @close="close"
+				@confirm="confirm"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -184,7 +187,7 @@
 			// uni.setNavigationBarTitle({
 			// 	title: this.itemData.name
 			// });
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//1.4.阅卷任务题组列表
@@ -196,11 +199,11 @@
 			// });
 		},
 		onShow() {
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
-		onBackPress(options){
+		onBackPress(options) {
 			return false;
 		},
 		components: {
@@ -219,27 +222,27 @@
 					user_code: this.personInfo.user_code, //用户代码
 					user_name: this.personInfo.user_name, //用户
 				}
-					this.showLoading();
-					//设置为问题卷
-					this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'taskResult/markError', comData, (data0,
-						data) => {
-						this.hideLoading();
-						if (data.code == 0) {
-							this.currentInfoData = {};
-							this.imgSrc = '';
-							this.imgSrcFlag = 0;
-							//1.5.阅卷任务题组的批改情况
-							this.getCurrentInfoData();
-						} else {
-							this.showToast(data.msg);
-						}
-					});
+				this.showLoading();
+				//设置为问题卷
+				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'taskResult/markError', comData, (data0,
+					data) => {
+					this.hideLoading();
+					if (data.code == 0) {
+						this.currentInfoData = {};
+						this.imgSrc = '';
+						this.imgSrcFlag = 0;
+						//1.5.阅卷任务题组的批改情况
+						this.getCurrentInfoData();
+					} else {
+						this.showToast(data.msg);
+					}
+				});
 			},
-			setError(){
+			setError() {
 				this.$refs.popupError.open();
 			},
-			clickH5Group(e){
-				console.log('clickH5Group:'+e);
+			clickH5Group(e) {
+				console.log('clickH5Group:' + e);
 				if (this.nowGroupIndex != e) {
 					this.nowGroupIndex = e;
 					this.nowGroupValue = this.groupNumberArrayH5[this.nowGroupIndex].label;
@@ -454,7 +457,8 @@
 					if (tempE.step_score_list) {
 						for (var a = 0; a < tempE.step_score_list.length; a++) {
 							var tempS = tempE.step_score_list[a];
-							if (parseFloat(tempS.stu_score) >= 0 && parseFloat(tempS.stu_score) <= parseFloat(tempS.score)) {
+							if (parseFloat(tempS.stu_score) >= 0 && parseFloat(tempS.stu_score) <= parseFloat(tempS
+									.score)) {
 								tempScore = parseFloat(tempScore) + parseFloat(tempS.stu_score);
 							} else {
 								tempFlag++;
@@ -564,7 +568,7 @@
 									label: '题组' + temp,
 									value: temp
 								}
-								if(i==0){
+								if (i == 0) {
 									this.nowGroupValue = tempM.label;
 								}
 								// var tempH5 = '题组' + data.data.list[i];

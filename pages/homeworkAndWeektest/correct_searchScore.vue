@@ -1,6 +1,6 @@
 <template>
 	<view class="tabs">
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :text="showLook"
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text="showLook"
 			:textClick="textClick"></mynavBar>
 		<scroll-view id="tab-bar" class="scroll-h tabs-fixed" :scroll-x="true" :show-scrollbar="false"
 			:scroll-into-view="scrollInto">
@@ -111,11 +111,12 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				showLook: '',
 				classIndex: 0, //选择班级的索引
 				nowClass: {}, //当前选择的班级成绩统计
@@ -129,32 +130,33 @@
 			mynavBar
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
-			this.itemData.text = '成绩查看';
-			this.itemData.index = 100;
-			if(!this.itemData.is_publish){
+			this.navItem = util.getPageData(option);
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
+			this.navItem.text = '成绩查看';
+			this.navItem.index = 100;
+			if(!this.navItem.is_publish){
 				this.showLook = '发布成绩';
 			}
 			uni.setNavigationBarTitle({
 				title: '成绩查看'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//1.8.阅卷成绩统计
 			this.getPageList();
 		},
 		onShow() {
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
 		methods: {
 			textClick() {
-				this.$refs.popupSubmit.open();
+				_this.$refs.popupSubmit.open();
 			},
 			close() {
 				this.$refs.popupSubmit.close();
@@ -162,8 +164,8 @@
 			confirm(value) {
 				this.$refs.popupSubmit.close();
 				let comData = {
-					index_code: this.itemData.access.split('#')[1],
-					id: this.itemData.id, //任务id
+					index_code: this.navItem.access.split('#')[1],
+					id: this.navItem.id, //任务id
 					user_name:this.personInfo.user_name,
 					user_code:this.personInfo.user_code
 				}
@@ -174,7 +176,7 @@
 					if(data.code == 0){
 						this.showLook = '';
 						const eventChannel = this.getOpenerEventChannel()
-						eventChannel.emit('publishScore', {data: this.itemData.id});
+						eventChannel.emit('publishScore', {data: this.navItem.id});
 					}
 					this.showToast(data.msg);
 				});
@@ -204,15 +206,15 @@
 			},
 			clickLi: function(model) {
 				console.log('clickLi.model:' + JSON.stringify(model));
-				model.access = this.itemData.access;
-				model.sub_name = this.itemData.sub_name;
-				model.exam_date = this.itemData.exam_date;
+				model.access = this.navItem.access;
+				model.sub_name = this.navItem.sub_name;
+				model.exam_date = this.navItem.exam_date;
 				util.openwithData("/pages/markingPapers/stuMarkDetail", model);
 			},
 			getPageList() {
 				let comData = {
-					index_code: this.itemData.access.split('#')[1],
-					task_id: this.itemData.id, //任务id
+					index_code: this.navItem.access.split('#')[1],
+					task_id: this.navItem.id, //任务id
 				}
 				this.showLoading();
 				//1.8.阅卷成绩统计
@@ -229,8 +231,8 @@
 			},
 			getScoreList() {
 				let comData = {
-					index_code: this.itemData.access.split('#')[1],
-					task_id: this.itemData.id, //任务id
+					index_code: this.navItem.access.split('#')[1],
+					task_id: this.navItem.id, //任务id
 				}
 				this.showLoading();
 				//1.9.学生得分列表

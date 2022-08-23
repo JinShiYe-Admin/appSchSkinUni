@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
 		<view class="tabs-fixed"  style="background-color: #FFFFFF;">
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
@@ -22,7 +22,7 @@
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
 				<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text">
+					<view slot="body" class="slot-box slot-text">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
 							<uni-col :span="18"><view class="detail-text">考勤项目:{{item.item_txt}}</view></uni-col>
@@ -30,7 +30,7 @@
 							<uni-col :span="24"><view class="detail-text">考勤说明:{{item.comment}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -48,7 +48,7 @@
 				personInfo: {},
 				icon:'',
 				add:false,//add按钮权限
-				tabBarItem: {},
+				navItem: {},
 				pageSize:15,
 				pageobj0:{
 					loadFlag:0,//0 刷新 1加载更多
@@ -79,19 +79,18 @@
 		},
 		methods: {
 			iconClick(){
-				let that=this
-				if(this.grdArray.length==0){
-					this.showToast('无法获取年级数据，不能进行添加操作')
-				}else if(this.clsArray.length==0){
-					this.showToast('无法获取班级数据，不能进行添加操作')
+				if(_this.grdArray.length==0){
+					_this.showToast('无法获取年级数据，不能进行添加操作')
+				}else if(_this.clsArray.length==0){
+					_this.showToast('无法获取班级数据，不能进行添加操作')
 				}else {
-					util.openwithData('/pages/schapp_work/kewaiAdd',{index_code:this.index_code},{
+					util.openwithData('/pages/schapp_work/kewaiAdd',{index_code:_this.index_code},{
 						refreshKewai(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj0.loadFlag=0
-							that.pageobj0.canload=true
-							that.pageobj0.page_number=1
-							that.getList0()
+							_this.showLoading()
+							_this.pageobj0.loadFlag=0
+							_this.pageobj0.canload=true
+							_this.pageobj0.page_number=1
+							_this.getList0()
 						}
 					})
 				}
@@ -252,7 +251,7 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
@@ -265,7 +264,7 @@
 				 this.getGrd()
 				 this.getKqlx()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -293,7 +292,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼房</view>
 			<picker style="width:100% !important;" mode="selector" @change="buildSelect" :value="buildIndex" :range="buildList" range-key="text">
@@ -47,12 +47,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				canSub:true,
 				formData: {
@@ -79,23 +80,24 @@
 			mynavBar,
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='新建宿舍卫生'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading();
 				this.getBuildingList();
 				this.getDict();
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -163,20 +165,20 @@
 				})
 			},
 			textClick(){//发送请假信息
-				if(this.buildIndex==-1){
-					this.showToast('请选择楼房')
-				}else if(this.floorIndex==-1){
-					this.showToast('请选择楼层')
-				}else if(this.dormIdList.length===0){
-					this.showToast('请选择房间')
-				}else if(this.healthIndex==-1){
-					this.showToast('请选择卫生细项')
-				}else if(this.formData.time==''){
-					this.showToast('请选择日期')
+				if(_this.buildIndex==-1){
+					_this.showToast('请选择楼房')
+				}else if(_this.floorIndex==-1){
+					_this.showToast('请选择楼层')
+				}else if(_this.dormIdList.length===0){
+					_this.showToast('请选择房间')
+				}else if(_this.healthIndex==-1){
+					_this.showToast('请选择卫生细项')
+				}else if(_this.formData.time==''){
+					_this.showToast('请选择日期')
 				}else{
-					if(this.canSub){
-						this.canSub=false
-						this.submitData();
+					if(_this.canSub){
+						_this.canSub=false
+						_this.submitData();
 					}
 				}
 			},

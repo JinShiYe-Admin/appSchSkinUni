@@ -7,10 +7,11 @@
 		<view style="height: 1px;background: #DDDDDD;width: 100%;"></view>
 		<view @touchstart="touchStart" @touchend="touchEnd">
 			<view class="question-box" v-if="questions[index]">
-				<view class="question option-box" style="font-size: 13px;">{{ (index+1)+".(单选题) " }}<span style="font-size: 13px;" v-html="questions[index].content"></span></view>
+				<view class="question option-box" style="font-size: 13px;">{{ (index+1)+".(单选题) " }}<span
+						style="font-size: 13px;" v-html="questions[index].content"></span></view>
 				<view>
 					<view class="option-item" v-for="(item, k) in transOption" :key="k">
-						<span class="option-label" style="font-size: 13px;" :class="answerJudge(k)">{{k}}</span>
+						<span class="option-label" style="font-size: 13px;" :class="[answerJudge(k)]">{{k}}</span>
 						<span style='margin-left: 5px;font-size: 13px;' v-html="item"></span>
 					</view>
 				</view>
@@ -56,17 +57,17 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.sub_name
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 获取题目
 			this.getQuestions();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			touchStart(e) {
 				console.log("触摸开始")
@@ -184,9 +185,11 @@
 		align-items: center;
 		margin-left: 10px;
 	}
-	.option-box{
+
+	.option-box {
 		margin: 5px 10px 0 10px;
 	}
+
 	/* .option-wrap {
 		margin-bottom: -0.4rem;
 		text-align: center;
@@ -265,11 +268,11 @@
 	.answer-box .answer-detail {
 		padding: 20px;
 	}
-	
-	::v-deep img{
+
+	::v-deep img {
 		max-width: 100% !important;
 	}
-	
+
 	.answer-detail {
 		color: #222222;
 		line-height: 1.6;

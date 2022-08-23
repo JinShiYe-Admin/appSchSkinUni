@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<uni-row style="height: 35px;display: flex;align-items: center;">
 				<uni-col class="mini-date" :span="8">
@@ -47,8 +47,8 @@
 				</uni-col>
 				<view class="row-line"></view>
 			</uni-row>
-			<view v-if="tabBarItem.flag == 0" class="tiwenFlag">注：低体温学生指体温低于或者等于36°C的学生。</view>
-			<view v-if="tabBarItem.flag == 1" class="tiwenFlag">注：高体温学生指体温达到或者超过37.2°C的学生。</view>
+			<view v-if="navItem.flag == 0" class="tiwenFlag">注：低体温学生指体温低于或者等于36°C的学生。</view>
+			<view v-if="navItem.flag == 1" class="tiwenFlag">注：高体温学生指体温达到或者超过37.2°C的学生。</view>
 		</view>
 	</view>
 </template>
@@ -61,7 +61,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				pagedata:[],
 				//顶部筛选框相关内容
 				time:this.moment().format('YYYY-MM-DD'),
@@ -82,7 +82,7 @@
 				let comData={
 					take_date: this.time.replace(/-/g, ''), //测量日期
 					index_code: this.index_code,
-					type:this.tabBarItem.flag,
+					type:this.navItem.flag,
 				}
 				// 查询体温监控报告
 				this.post(this.globaData.INTERFACE_TWJK_TEA+'temperature/abnormal',comData,response=>{
@@ -101,11 +101,11 @@
 			}else{
 				itemData.text = '低体温学生名单';
 			}
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code = itemData.index_code;
 			this.time = itemData.time;
 			this.getList0();
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -116,7 +116,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

@@ -1,12 +1,12 @@
 <template>
 	<view>
 		<h4 class="examName">{{point_name}}</h4>
-		<scroll-view class="select-scroll" scroll-y="true" >
+		<scroll-view class="select-scroll" scroll-y="true">
 			<ly-tree :tree-data="pointList" :props="{label:'name'}" node-key="id" @node-click="treeItemClick" />
 		</scroll-view>
 		<uni-popup ref="popup" type="dialog">
-			<uni-popup-dialog title="提示" content="确定要切换到该知识点吗？" :duration="2000"
-				:before-close="true" @close="close" @confirm="confirm"></uni-popup-dialog>
+			<uni-popup-dialog title="提示" content="确定要切换到该知识点吗？" :duration="2000" :before-close="true" @close="close"
+				@confirm="confirm"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -22,7 +22,7 @@
 				per_code: '',
 				point_name: '',
 				pointList: [],
-				selectItem:{}
+				selectItem: {}
 			}
 		},
 		onLoad(option) {
@@ -34,13 +34,13 @@
 				this.itemData.text = '知识点选择';
 				// 获取知识点目录
 				this.getPointList(function(tempList) {
-					console.log('onLoad--tempList:'+JSON.stringify(tempList));
+					console.log('onLoad--tempList:' + JSON.stringify(tempList));
 					_this.pointList = [].concat(tempList);
 				});
 			} else {
-				if(this.itemData.type == 0){
+				if (this.itemData.type == 0) {
 					this.itemData.text = '知识点选择';
-				}else{
+				} else {
 					this.itemData.text = '章节选择';
 				}
 				this.getChapterList(function(tempList) {
@@ -51,20 +51,20 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			treeItemClick(item) {
 				console.log("item: " + JSON.stringify(item));
-				if(item.childNodesId.length==0){
+				if (item.childNodesId.length == 0) {
 					this.selectItem = item.data;
 					console.log('1111111111111111');
 					this.$refs.popup.open();
@@ -76,7 +76,7 @@
 			confirm(value) {
 				this.$refs.popup.close();
 				const eventChannel = this.getOpenerEventChannel();
-				eventChannel.emit('changeZSD',this.selectItem);
+				eventChannel.emit('changeZSD', this.selectItem);
 				uni.navigateBack();
 			},
 			// 获取知识点目录
@@ -97,21 +97,21 @@
 					}
 				});
 			},
-			getDptTree(dptList){
-			    const map = {};
-			    const val = [];
-			    dptList.forEach((item) => {
-			      map[item.dpt_code] = item;
-			    });
-			    dptList.forEach((item) => {
-			      const parent = map[item.pcode];
-			      if (parent) {
-			        (parent.children || (parent.children = [])).push(item);
-			      } else {
-			        val.push(item);
-			      }
-			    });
-			    return val
+			getDptTree(dptList) {
+				const map = {};
+				const val = [];
+				dptList.forEach((item) => {
+					map[item.dpt_code] = item;
+				});
+				dptList.forEach((item) => {
+					const parent = map[item.pcode];
+					if (parent) {
+						(parent.children || (parent.children = [])).push(item);
+					} else {
+						val.push(item);
+					}
+				});
+				return val
 			},
 			// 获取章节目录
 			getChapterList(callback) {
@@ -154,16 +154,17 @@
 		margin-left: 20px;
 		margin-right: 20px;
 	}
-	
+
 	::v-deep .ly-tree-node__content_last {
 		margin-top: 5px;
 	}
-	
+
 	::v-deep .ly-tree-node__content_noLast {
 		background: #E7FAEF;
 		margin-top: 5px;
 	}
-	::v-deep .ly-tree-node__label_last{
+
+	::v-deep .ly-tree-node__label_last {
 		border: 1px solid #D6D4D4;
 		border-radius: 20px;
 		padding: 5px 10px;

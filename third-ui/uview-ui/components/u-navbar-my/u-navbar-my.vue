@@ -250,14 +250,16 @@
 		created() {},
 		methods: {
 			goBack() {
+				console.log('u-navbar-my____back')
+				this.$emit('customBack')
 				// 如果自定义了点击返回按钮的函数，则执行，否则执行返回逻辑
-				if (typeof this.customBack === 'function') {
-					// 在微信，支付宝等环境(H5正常)，会导致父组件定义的customBack()函数体中的this变成子组件的this
-					// 通过bind()方法，绑定父组件的this，让this.customBack()的this为父组件的上下文
-					this.customBack.bind(this.$u.$parent.call(this))();
-				} else {
-					uni.navigateBack();
-				}
+				// if (typeof this.customBack === 'function') {
+				// 	// 在微信，支付宝等环境(H5正常)，会导致父组件定义的customBack()函数体中的this变成子组件的this
+				// 	// 通过bind()方法，绑定父组件的this，让this.customBack()的this为父组件的上下文
+				// 	this.customBack.bind(this.$u.$parent.call(this))();
+				// } else {
+				// 	uni.navigateBack();
+				// }
 			}
 		}
 	};

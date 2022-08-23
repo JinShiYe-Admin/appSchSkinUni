@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="提交" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="提交" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">开始时间</view>
 			<xp-picker mode="ymdhi" ref="beginPicker" history :animation="false" :year-range='[2020,2030]' @confirm="beginTimeSelect"></xp-picker>
@@ -77,12 +77,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				
 				canSub:true,
@@ -115,11 +116,12 @@
 			mynavBar
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='新建请假申请'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading();
@@ -127,12 +129,12 @@
 				this.getLeaveFlows()
 				this.getClsTec();
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -242,29 +244,29 @@
 				})
 			},
 			textClick(){//发送请假信息
-				if(this.formData.begin_time==''){
-					this.showToast('请选择请假开始时间')
-				}else if(this.formData.end_time==''){
-					this.showToast('请选择请假结束时间')
-				}else if(this.formData.qjlb.value==''){
-					this.showToast('请选择请假类别')
-				}else if(this.formData.crqx.value==''){
-					this.showToast('请选择出入权限')
-				}else if(this.formData.comment==''){
-					this.showToast('请输入请假事由')
+				if(_this.formData.begin_time==''){
+					_this.showToast('请选择请假开始时间')
+				}else if(_this.formData.end_time==''){
+					_this.showToast('请选择请假结束时间')
+				}else if(_this.formData.qjlb.value==''){
+					_this.showToast('请选择请假类别')
+				}else if(_this.formData.crqx.value==''){
+					_this.showToast('请选择出入权限')
+				}else if(_this.formData.comment==''){
+					_this.showToast('请输入请假事由')
 				}else{
-					if(this.canSub){
-						this.canSub=false
-						this.showLoading()
+					if(_this.canSub){
+						_this.canSub=false
+						_this.showLoading()
 						let _approve_list=[{
-							approve_user_code:this.formData.clsTec.value,
-							approve_user_name:this.formData.clsTec.text,
+							approve_user_code:_this.formData.clsTec.value,
+							approve_user_name:_this.formData.clsTec.text,
 							approve_user_dept_code:'',
 							approve_user_dept:'',
-						}].concat(this.approve_list)
+						}].concat(_this.approve_list)
 						//抄送人
 						let _copy_list=[]
-						this.formData.copy_list.map(item=>{
+						_this.formData.copy_list.map(item=>{
 							let copy_obj={
 								copy_user_code:item.value,
 								copy_user_name:item.text,
@@ -273,50 +275,50 @@
 						})
 						
 						let smsFlag=0;
-						let comm=this.formData.comment
+						let comm=_this.formData.comment
 						let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
-						if(this.SMS){
+						if(_this.SMS){
 							smsFlag=1;
 							let showToast=false
 							 let words=[]
-							 for (var i = 0; i < this.WORDS.length; i++) {
-							 	let word=this.WORDS[i].word
+							 for (var i = 0; i < _this.WORDS.length; i++) {
+							 	let word=_this.WORDS[i].word
 							 	if(comment.indexOf(word)!==-1){
 							 		showToast=true
 							 		words.push(word)
 							 	}
 							 }
 							 if(showToast){
-							 	this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
-							 	this.hideLoading()
-								this.canSub=true
+							 	_this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
+							 	_this.hideLoading()
+								_this.canSub=true
 							 	return 0
 							 }
 						}
 						
 						let comData={
-							grd_code:this.personInfo.grd_code,
-							grd_name:this.personInfo.grd_name,
-							cls_code:this.personInfo.cls_code,
-							cls_name:this.personInfo.cls_name,
-							stu_code:this.personInfo.stu_code,
-							stu_name:this.personInfo.stu_name,
-							begin_time:this.formData.begin_time,
-							end_time:this.formData.end_time,
-							apply_time:this.formData.diff_times_text,
-							in_out_permission_code:this.formData.crqx.value,
-							item_code:this.formData.qjlb.value,
+							grd_code:_this.personInfo.grd_code,
+							grd_name:_this.personInfo.grd_name,
+							cls_code:_this.personInfo.cls_code,
+							cls_name:_this.personInfo.cls_name,
+							stu_code:_this.personInfo.stu_code,
+							stu_name:_this.personInfo.stu_name,
+							begin_time:_this.formData.begin_time,
+							end_time:_this.formData.end_time,
+							apply_time:_this.formData.diff_times_text,
+							in_out_permission_code:_this.formData.crqx.value,
+							item_code:_this.formData.qjlb.value,
 							sms_parent_stu_flag:1,
 							comment:comment,
-							create_user_code:this.personInfo.user_code,
-							create_user_name:this.personInfo.user_name,
+							create_user_code:_this.personInfo.user_code,
+							create_user_name:_this.personInfo.user_name,
 							approve_list:_approve_list,
 							copy_list:_copy_list,
-							index_code:this.index_code,
+							index_code:_this.index_code,
 						}
-						this.post(this.globaData.STULEAVE_API+'apply/addApply',comData,(response0,response)=>{
+						_this.post(_this.globaData.STULEAVE_API+'apply/addApply',comData,(response0,response)=>{
 						     if (response.code == 0) {
-								let that=this
+								let that=_this
 								that.canSub=true
 								that.showToast(response.msg);
 								setTimeout(function(){
@@ -325,12 +327,12 @@
 									uni.navigateBack()
 								},1500)
 						     } else {
-						     	this.canSub=true
-						     	this.hideLoading()
-						     	this.showToast(response.msg);
+						     	_this.canSub=true
+						     	_this.hideLoading()
+						     	_this.showToast(response.msg);
 						     }
 						},()=>{
-								this.canSub=true
+								_this.canSub=true
 						})
 					}
 				}

@@ -1,64 +1,64 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text='删除' :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text='删除' :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
-			<view class="form-right">{{tabBarItem.grd_name}}</view>
+			<view class="form-right">{{navItem.grd_name}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">班级</view>
-			<view class="form-right">{{tabBarItem.cls_name}}</view>
+			<view class="form-right">{{navItem.cls_name}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">学生</view>
-			<view class="form-right">{{tabBarItem.stu_name}}</view>
+			<view class="form-right">{{navItem.stu_name}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼房</view>
-			<view class="form-right">{{tabBarItem.dorm_name}}</view>
+			<view class="form-right">{{navItem.dorm_name}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼层</view>
-			<view class="form-right">{{tabBarItem.floor_num}}</view>
+			<view class="form-right">{{navItem.floor_num}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">房间号</view>
-			<view class="form-right">{{tabBarItem.room_name}}</view>
+			<view class="form-right">{{navItem.room_name}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">床位号</view>
-			<view class="form-right">{{tabBarItem.bed_num}}</view>
+			<view class="form-right">{{navItem.bed_num}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">宿舍考勤</view>
-			<view class="form-right">{{tabBarItem.item_name}}</view>
+			<view class="form-right">{{navItem.item_name}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">午/晚休</view>
-			<view class="form-right">{{tabBarItem.rest_code_text}}</view>
+			<view class="form-right">{{navItem.rest_code_text}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">说明</view>
-			<view class="form-right">{{tabBarItem.remark?tabBarItem.remark:'暂无'}}</view>
+			<view class="form-right">{{navItem.remark?navItem.remark:'暂无'}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">记录人</view>
-			<view class="form-right">{{tabBarItem.create_user_name}}</view>
+			<view class="form-right">{{navItem.create_user_name}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">行为日期</view>
-			<view class="form-right">{{tabBarItem.behavior_date}}</view>
+			<view class="form-right">{{navItem.behavior_date}}</view>
 		</view>
 		<view style="height: 30px;">
 		</view>
@@ -71,43 +71,45 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 			}
 		},
 		components: {
 			mynavBar
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='行为详情'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			console.log("itemData: " + JSON.stringify(itemData));
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		methods: {
 			textClick(){
-				this.$refs.alertDialog.open()
+				_this.$refs.alertDialog.open()
 			},
 			dialogConfirm(){
 				this.showLoading()
 				let url=this.globaData.INTERFACE_DORM + 'dormBehavior/delete'
 				let comData={
-					id: this.tabBarItem.id,
+					id: this.navItem.id,
 					index_code:this.index_code,
 				}
 				this.post(url,comData,response=>{

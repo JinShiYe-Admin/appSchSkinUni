@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<scroll-view class="select-scroll" scroll-y="true" >
 			<uni-list class="uni-list" :border="false">
 				<checkbox-group >
@@ -19,31 +19,33 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				stuList:[],
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 			}
 		},
 		components: {
 			mynavBar
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='选择学生'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.stuList=itemData.stuList
 			console.log("itemData.stuList: " + JSON.stringify(itemData.stuList));
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -53,8 +55,8 @@
 			},
 			textClick(){
 				let checkTec=[]
-				const eventChannel = this.getOpenerEventChannel()
-				eventChannel.emit('refreshSetPeople', {data: this.stuList});
+				const eventChannel = _this.getOpenerEventChannel()
+				eventChannel.emit('refreshSetPeople', {data: _this.stuList});
 				uni.navigateBack();
 			},
 		}

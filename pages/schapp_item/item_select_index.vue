@@ -12,13 +12,13 @@
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable @click="toDetails(model)" :key="index" v-for="(model,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
+					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">{{model.itemName}}(编号:{{model.itemCode}})</view></uni-col>
 							<uni-col :span="12"><view class="detail-text">型号:{{model.itemType}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text">库存:{{model.okNum}}</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<template v-if="pagedata.length===0">
@@ -90,12 +90,12 @@
 				 this.getList0();
 			},100)
 			uni.setNavigationBarTitle({title:'库存查询'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

@@ -1,15 +1,18 @@
 <template>
 	<view>
 		<view v-if="flag==1">
-			<my-swiperPage ref='swiperPageIndex' :allValue="knowPoints.bookList" :showIndex="true" @swiperPagechange='changeSwiper'>
+			<my-swiperPage ref='swiperPageIndex' :allValue="knowPoints.bookList" :showIndex="true"
+				@swiperPagechange='changeSwiper'>
 			</my-swiperPage>
 		</view>
 		<view v-if="flag==2">
-			<my-swiperPage ref='swiperPageIndex' :allValue="knowPoints.bookList" :showIndex="true" @swiperPagechange='changeSwiper'>
+			<my-swiperPage ref='swiperPageIndex' :allValue="knowPoints.bookList" :showIndex="true"
+				@swiperPagechange='changeSwiper'>
 			</my-swiperPage>
 		</view>
 		<view v-if="flag==3">
-			<my-swiperPage ref='swiperPageIndex' :allValue="knowPoints.bookList" :showIndex="true" @swiperPagechange='changeSwiper'>
+			<my-swiperPage ref='swiperPageIndex' :allValue="knowPoints.bookList" :showIndex="true"
+				@swiperPagechange='changeSwiper'>
 			</my-swiperPage>
 		</view>
 
@@ -47,7 +50,8 @@
 		</view>
 		<view v-if="flag==2||flag==3" style="margin-top: 10px;margin-bottom: 20px;">
 			<view style="height: 22px;width: 2px;background: #00baad;float: left;margin: 10px 5px 0 10px;"></view>
-			<view v-if="pointInfo.question_id_list" style="text-align: center;color: gray;font-size: 15px;">当前错题数量：<span style="color: red;font-size: 25px;">{{pointInfo.question_id_list.length}}</span>题</view>
+			<view v-if="pointInfo.question_id_list" style="text-align: center;color: gray;font-size: 15px;">当前错题数量：<span
+					style="color: red;font-size: 25px;">{{pointInfo.question_id_list.length}}</span>题</view>
 		</view>
 		<view v-for="(item,index) in pointList" :key='index'>
 			<h4 class="spaceLine">考题{{index+1}}</h4>
@@ -70,7 +74,8 @@
 				</view>
 				<view style="margin-top: 10px;font-size: 14px;">
 					<p v-if="item.content.length==0&&item.option.length==0" style='color: gray;'>暂无数据</p>
-					<p class="rich" v-if="item.content.length>0" style="font-size: 14px;color: #666;" v-html="item.content"></p>
+					<p class="rich" v-if="item.content.length>0" style="font-size: 14px;color: #666;"
+						v-html="item.content"></p>
 					<view v-for="(item,indexOp) in item.option" :key='indexOp'>
 						<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;" v-html="item"></p>
 					</view>
@@ -82,11 +87,13 @@
 					<view style="font-size: 14px;color: gray;">我的答案</view>
 				</view>
 				<view style="margin-top: 10px;">
-					<p v-if="item.stu_answer.length==0&&item.stu_answer_img_url.length==0" class="noData" style="margin-top: 15px;color: gray;">暂无数据</p>
+					<p v-if="item.stu_answer.length==0&&item.stu_answer_img_url.length==0" class="noData"
+						style="margin-top: 15px;color: gray;">暂无数据</p>
 					<view v-for="(item1,index) in item.stu_answer" :key='index'>
 						<p style="font-size: 14px;color: #666;margin-left: 15px;">{{item1}}</p>
 					</view>
-					<img v-if="item.stu_answer_img_url.length>0" :src="item.stu_answer_img_url" width="100%" @click='clickImg(item.stu_answer_img_url)'>
+					<img v-if="item.stu_answer_img_url.length>0" :src="item.stu_answer_img_url" width="100%"
+						@click='clickImg(item.stu_answer_img_url)'>
 				</view>
 			</view>
 			<view style="padding: 0 10px;margin-top: 15px;">
@@ -130,7 +137,7 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 
@@ -148,10 +155,10 @@
 			this.knowPoints.nowBook = this.itemData.bookList[this.itemData.bookIndex];
 			this.flag = this.itemData.flag;
 			this.type = this.itemData.type;
-			setTimeout(()=>{
+			setTimeout(() => {
 				this.$refs.swiperPageIndex.currentIndex = this.itemData.bookIndex;
-			},100)
-			
+			}, 100)
+
 			if (this.flag == 1) {
 				// 获取知识点详情
 				this.getKnowPointDetail();
@@ -163,13 +170,13 @@
 				this.getPaperDetail();
 			}
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
-			clickImg(urlStr){
+			clickImg(urlStr) {
 				var tempArray = [];
 				tempArray.push(urlStr);
 				uni.previewImage({
@@ -207,7 +214,7 @@
 					this.hideLoading();
 					if (data.code == 0) {
 						var tempAA = parseFloat(data.data.score_rate * 100).toFixed(1) + '%';
-						console.log('tempAA:'+tempAA);
+						console.log('tempAA:' + tempAA);
 						this.pointInfo = data.data;
 						if (this.itemData.flag == 1) {
 							this.zhishidianDFL = {

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="navText" :textClick="textClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text="navText" :textClick="textClick">
 		</mynavBar>
 		<view class="tabs-fixed">
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="text"
@@ -225,7 +225,7 @@
 				</uni-popup>
 			</view>
 		</view>
-		<!-- <u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my> -->
+		<!-- <u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my> -->
 	</view>
 </template>
 
@@ -241,7 +241,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {},
+				navItem: {},
 				navText: '',
 				phoneType:'h5',
 
@@ -327,7 +327,7 @@
 								console.log('正在评分:' + JSON.stringify({
 									data: _this.uploadModel,
 									file_url: tempM.data.url,
-									index_code: _this.tabBarItem.access.split('#')[1],
+									index_code: _this.navItem.access.split('#')[1],
 									user_code: _this.personInfo.user_code
 								}));
 								_this.showLoading('正在评分');
@@ -335,7 +335,7 @@
 									phone_type:_this.phoneType,
 									data: _this.uploadModel,
 									file_url: tempM.data.url,
-									index_code: _this.tabBarItem.access.split('#')[1],
+									index_code: _this.navItem.access.split('#')[1],
 									user_code: _this.personInfo.user_code
 								}, (res0, res) => {
 									_this.hideLoading();
@@ -357,7 +357,7 @@
 											_this.post(_this.globaData.INTERFACE_KYCP +
 												'/orals/save', {
 													data: [_this.uploadModel],
-													index_code: _this.tabBarItem.access
+													index_code: _this.navItem.access
 														.split('#')[1],
 													user_code: _this.personInfo.user_code
 												}, (res0, res) => {
@@ -390,10 +390,10 @@
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			console.log('personInfo:' + JSON.stringify(this.personInfo));
-			this.tabBarItem = util.getPageData(option);
-			console.log('this.tabBarItem:' + JSON.stringify(this.tabBarItem));
+			this.navItem = util.getPageData(option);
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
-				title: this.tabBarItem.text
+				title: this.navItem.text
 			});
 			var orals_auth = util.getStore('orals_auth');
 			if (orals_auth && orals_auth.user_code == this.personInfo.user_code) {
@@ -531,7 +531,7 @@
 								phone_type:_this.phoneType,
 								data: _this.uploadModel,
 								file_url: tempM.data.url,
-								index_code: _this.tabBarItem.access.split('#')[1],
+								index_code: _this.navItem.access.split('#')[1],
 								user_code: _this.personInfo.user_code
 							}, (res0, res) => {
 								_this.hideLoading();
@@ -556,7 +556,7 @@
 										_this.post(_this.globaData.INTERFACE_KYCP +
 											'/orals/save', {
 												data: [_this.uploadModel],
-												index_code: _this.tabBarItem.access
+												index_code: _this.navItem.access
 													.split('#')[1],
 												user_code: _this.personInfo.user_code
 											}, (res0, res) => {
@@ -634,17 +634,17 @@
 				model.btnShow = !model.btnShow;
 			},
 			textClick() {
-				if (this.state == 4) {
-					this.layerBeforeLeave("您还没有提交，确定要离开吗？", ["确定", "取消"], function() {
-						this.goRecord();
+				if (_this.state == 4) {
+					_this.layerBeforeLeave("您还没有提交，确定要离开吗？", ["确定", "取消"], function() {
+						_this.goRecord();
 					});
 				} else {
-					this.goRecord();
+					_this.goRecord();
 				}
 			},
 			goRecord() {
 				var model = {
-					access: this.tabBarItem.access,
+					access: this.navItem.access,
 					category: this.semFlag == 0 ? "read_word" : "read_sentence"
 				}
 				util.openwithData("/pages/kouYuCePing/record", model, {
@@ -679,7 +679,7 @@
 				var auto_book = {};
 				// 获取学段
 				this.post(this.globaData.INTERFACE_KYCP + '/pub/resPer', {
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
 				}, (res0, res) => {
 					console.log('resPer:' + JSON.stringify(res));
@@ -692,7 +692,7 @@
 						// 获取科目
 						this.post(this.globaData.INTERFACE_KYCP + '/pub/resSub', {
 							percode: auto_book.per.selected,
-							index_code: this.tabBarItem.access.split('#')[1],
+							index_code: this.navItem.access.split('#')[1],
 							user_code: this.personInfo.user_code
 						}, (res0, res) => {
 							if (res.state == "ok") {
@@ -706,7 +706,7 @@
 								this.post(this.globaData.INTERFACE_KYCP + '/pub/resMater', {
 									percode: auto_book.per.selected,
 									subcode: auto_book.sub.selected,
-									index_code: this.tabBarItem.access.split('#')[1],
+									index_code: this.navItem.access.split('#')[1],
 									user_code: this.personInfo.user_code
 								}, (res0, res) => {
 									if (res.state == "ok") {
@@ -721,11 +721,12 @@
 											percode: auto_book.per.selected,
 											subcode: auto_book.sub.selected,
 											matercode: auto_book.mater.selected,
-											index_code: this.tabBarItem.access.split('#')[
+											index_code: this.navItem.access.split('#')[
 												1],
 											user_code: this.personInfo.user_code
 										}, (res0, res) => {
 											if (res.state == "ok") {
+												res.data.sort(util.compare('fasccode',1));
 												auto_book.fasc = {
 													list: res.data,
 													selected: defaultCodes.fasccode ||
@@ -785,7 +786,7 @@
 				}
 				this.post(this.globaData.INTERFACE_KYCP + '/pub/catalog', {
 					...data,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
 				}, (res0, res) => {
 					if (res.state == "ok") {
@@ -883,7 +884,7 @@
 				}
 			},
 			goBook() {
-				util.openwithData("/pages/kouYuCePing/book", this.tabBarItem, {
+				util.openwithData("/pages/kouYuCePing/book", this.navItem, {
 					refreshBook() { //子页面调用父页面需要的方法
 						var catalog_id = util.getStore("orals_catalog_id");
 						if (catalog_id != _this.catalogId) {
@@ -988,7 +989,7 @@
 				_this.state = 2;
 				this.post(this.globaData.INTERFACE_KYCP + '/orals', {
 					...data,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
 				}, (res0, res) => {
 					if (res.state == "ok") {
@@ -1043,7 +1044,7 @@
 				this.showLoading("正在提交");
 				this.post(this.globaData.INTERFACE_KYCP + '/orals/save', {
 					data: this.semFlag == 0 ? this.semFlag0Data.list : this.semFlag1Data.list,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
 				}, (res0, res) => {
 					this.hideLoading();
@@ -1055,7 +1056,7 @@
 						// 	cate: _this.list[0].category,
 						// 	catalog_id: _this.catalogId
 						// });
-						this.uploadModel.access = this.tabBarItem.access;
+						this.uploadModel.access = this.navItem.access;
 						this.uploadModel.title = this.uploadModel.book_catalog_name;
 						this.uploadModel.cate = this.uploadModel.category;
 						this.uploadModel.catalog_id = this.uploadModel.book_catalog_id;
@@ -1120,7 +1121,7 @@
 				// 	page: true,
 				// 	p: this.semFlag2Data.page,
 				// 	s: 10,
-				// 	index_code:this.tabBarItem.access.split('#')[1],
+				// 	index_code:this.navItem.access.split('#')[1],
 				// 	user_code: this.personInfo.user_code
 				// }, (res0,res)=> {
 				// 	if (res.state == "ok") {
@@ -1151,7 +1152,7 @@
 					bookCatalogId: catalog_ids.join(),
 					totalScoreLimit: "4.0",
 					showAll: false,
-					index_code: this.tabBarItem.access.split('#')[1]
+					index_code: this.navItem.access.split('#')[1]
 				}, (res0, res) => {
 					this.hideLoading();
 					if (res.code == 0) {

@@ -4,19 +4,21 @@
 			<view>123</view>
 		</scroll-view>
 		<uni-list :border="false">
-			<uni-list-item showArrow v-for="(model,index) in pageArray" :key='index' direction='column' clickable @click="clickItem(model)" :border="true">
+			<uni-list-item showArrow v-for="(model,index) in pageArray" :key='index' direction='column' clickable
+				@click="clickItem(model)" :border="true">
 				<view slot="body" class="slot-box slot-text">
 					<view style="float: left;">
-						<image class="peopleImg" :src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
+						<image class="peopleImg"
+							:src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
 					</view>
 					<view class="rightView">
 						<view class="title">{{model.AnnouncementTitle}}</view>
 						<uni-row class="nameTime">
 							<uni-col :span="12">
-								{{model.SendManName}}
+								<view style="font-size: 12px;">{{model.SendManName}}</view>
 							</uni-col>
 							<uni-col :span="12">
-								{{model.SendTime}}
+								<view style="font-size: 12px;">{{model.SendTime}}</view>
 							</uni-col>
 						</uni-row>
 					</view>
@@ -50,17 +52,28 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//32.获取浏览的公告（周程/校历）列表
 			this.getPageList();
 		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题			// #ifdef H5				uni.pageScrollTo({					scrollTop: this.scrollLength,					duration: 0				});			// #endif
-						//#ifndef APP-PLUS
-							document.title=""
-						//#endif
-		},		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替			// #ifdef H5				this.scrollLength=e.scrollTop			// #endif		},
+		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
+			// #ifdef H5
+			uni.pageScrollTo({
+				scrollTop: this.scrollLength,
+				duration: 0
+			});
+			// #endif
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
+		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
+			// #ifdef H5
+			this.scrollLength = e.scrollTop
+			// #endif
+		},
 		onReachBottom() {
 			this.flagRef = 1;
 			if (this.total_page < this.pageIndex) {
@@ -95,16 +108,17 @@
 						uni.previewImage({
 							urls: tempArray,
 						});
-					} else{
+					} else {
 						this.showLoading();
 						var tempData = {
 							schoolCalendarId: model.AnnouncementId, //公告ID
-							index_code:model.access.split('#')[1],
-							op_code:'index'
+							index_code: model.access.split('#')[1],
+							op_code: 'index'
 						}
-						this.post(this.globaData.INTERFACE_OA + 'announcement/getCalendarById', tempData,(data0,data) => {
+						this.post(this.globaData.INTERFACE_OA + 'announcement/getCalendarById', tempData, (data0,
+						data) => {
 							this.hideLoading();
-							if(data.code == 0) {
+							if (data.code == 0) {
 								var urlStr = encodeURI(data.data.CalendarAddr);
 								let tempArray = [];
 								tempArray.push(urlStr);
@@ -138,7 +152,7 @@
 					this.pageIndex++;
 					this.total_page = data.total_page;
 					if (this.flagRef == 0) {
-						if(data.list.length==0){
+						if (data.list.length == 0) {
 							this.showToast('暂无数据');
 						}
 						this.pageArray = [].concat(data.list);
@@ -158,27 +172,27 @@
 		height: 40px;
 		border-radius: 50%;
 	}
-	
-	.rightView{
+
+	.rightView {
 		margin-left: 10px;
 		float: left;
 		width: calc(100% - 50px);
 	}
-	
-	.title{
+
+	.title {
 		font-size: 13px;
-		word-break:break-all;
+		word-break: break-all;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-	
-	.nameTime{
+
+	.nameTime {
 		margin-top: 5px;
 		font-size: 12px;
 		color: gray;
 	}
-	
+
 	::v-deep .uni-list-item--hover {
 		background-color: white;
 	}

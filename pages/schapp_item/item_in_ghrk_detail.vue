@@ -37,7 +37,7 @@
 		<view class="line"></view>
 		<uni-list :border="false">
 			<uni-list-item :border="true">
-				<text slot="body" class="slot-box slot-text">
+				<view slot="body" class="slot-box slot-text">
 					<uni-row> 
 						<uni-col :span="24"><view class="detail-text">编号: {{tabBarItem.itemCode}}</view></uni-col>
 						<uni-col :span="24"><view class="detail-text">名称: {{tabBarItem.itemName}}</view></uni-col>
@@ -46,7 +46,7 @@
 						<uni-col :span="24"><view class="detail-text">类型: {{tabBarItem.itemType}}</view></uni-col>
 						<uni-col :span="24"><view class="detail-text">属性: {{tabBarItem.itemProp}}</view></uni-col>
 					</uni-row>
-				</text>
+				</view>
 			</uni-list-item>
 		</uni-list>
 		<view class="double-line"></view>
@@ -83,12 +83,12 @@
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			uni.setNavigationBarTitle({title:'归还入库详情'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

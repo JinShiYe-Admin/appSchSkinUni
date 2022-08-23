@@ -1,29 +1,33 @@
 <template>
 	<view>
-		<mynavBar :navItem='itemData' :personInfo='personInfo' :text="navRight" :textClick="textClick"></mynavBar>
+		<mynavBar :navItem='navItem' :personInfo='personInfo' :text="navRight" :textClick="textClick"></mynavBar>
 		<view>
 			<view>
 				<view class="title">学段</view>
 				<view>
-					<label v-for="(item, index) in items.per.list" :key='index' class="perList" @click="changePer(item.percode)"
+					<label v-for="(item, index) in items.per.list" :key='index' class="perList"
+						@click="changePer(item.percode)"
 						:style="{background:(item.percode==items.per.selected?'#00CFBD':'#ECECEC'),color:(item.percode==items.per.selected?'white':'')}">{{item.pername}}</label>
 				</view>
 				<br>
 				<view class="title">科目</view>
 				<view>
-					<label v-for="(item, index) in items.sub.list" :key='index' class="perList" @click="changeSub(item.subcode)"
+					<label v-for="(item, index) in items.sub.list" :key='index' class="perList"
+						@click="changeSub(item.subcode)"
 						:style="{background:(item.subcode==items.sub.selected?'#00CFBD':'#ECECEC'),color:(item.subcode==items.sub.selected?'white':'')}">{{item.subname}}</label>
 				</view>
 				<br>
 				<view class="title">教版</view>
 				<view>
-					<label v-for="(item, index) in items.mater.list" :key='index' class="perList" @click="changeMater(item.matercode)"
+					<label v-for="(item, index) in items.mater.list" :key='index' class="perList"
+						@click="changeMater(item.matercode)"
 						:style="{background:(item.matercode==items.mater.selected?'#00CFBD':'#ECECEC'),color:(item.matercode==items.mater.selected?'white':'')}">{{item.matername}}</label>
 				</view>
 				<br>
 				<view class="title">分册</view>
 				<view>
-					<label v-for="(item, index) in items.fasc.list" :key='index' class="perList" @click="changeFasc(item.fasccode)" style="margin-bottom: 10px;"
+					<label v-for="(item, index) in items.fasc.list" :key='index' class="perList"
+						@click="changeFasc(item.fasccode)" style="margin-bottom: 10px;"
 						:style="{background:(item.fasccode==items.fasc.selected?'#00CFBD':'#ECECEC'),color:(item.fasccode==items.fasc.selected?'white':'')}">{{item.fascname}}</label>
 				</view>
 			</view>
@@ -39,7 +43,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				navRight: '',
 				catalog: [],
 				items: {
@@ -66,12 +70,12 @@
 			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
-			this.itemData.index = 100;
-			this.itemData.text = '切换教材'
+			this.navItem = util.getPageData(option);
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
+			this.navItem.index = 100;
+			this.navItem.text = '切换教材'
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
 			//当前教材
 			var s_items = util.getStore('kycp_book_items');
@@ -88,22 +92,22 @@
 			this.items.per = s_items.per || {
 				list: []
 			};
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			textClick() {
-				if (this.isChange) {
-					util.setStore("kycp_book_items", this.items);
-					util.setStore("orals_catalog", this.catalog);
-					util.setStore("orals_catalog_id", this.catalog[0] ? this.catalog[0].id : 0);
-					const eventChannel = this.getOpenerEventChannel()
+				if (_this.isChange) {
+					util.setStore("kycp_book_items", _this.items);
+					util.setStore("orals_catalog", _this.catalog);
+					util.setStore("orals_catalog_id", _this.catalog[0] ? _this.catalog[0].id : 0);
+					const eventChannel = _this.getOpenerEventChannel()
 					eventChannel.emit('refreshBook');
 				}
 				uni.navigateBack();
@@ -115,7 +119,7 @@
 				// 获取科目
 				this.post(this.globaData.INTERFACE_KYCP + '/pub/resSub', {
 					percode: this.items.per.selected,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
 				}, (res0, res) => {
 					if (res.state == "ok") {
@@ -141,7 +145,7 @@
 				this.post(this.globaData.INTERFACE_KYCP + '/pub/resMater', {
 					percode: this.items.per.selected,
 					subcode: this.items.sub.selected,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
 				}, (res0, res) => {
 					if (res.state == "ok") {
@@ -167,11 +171,11 @@
 					percode: this.items.per.selected,
 					subcode: this.items.sub.selected,
 					matercode: this.items.mater.selected,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
 				}, (res0, res) => {
 					if (res.state == "ok") {
-						res.data.sort(util.compare('fasccode',1));
+						res.data.sort(util.compare('fasccode', 1));
 						this.items.fasc.list = res.data
 						if (res.data[0] && res.data[0].fasccode) {
 							this.changeFasc(res.data[0].fasccode);
@@ -193,7 +197,7 @@
 				var data = this.getBookCodes(this.items);
 				this.post(this.globaData.INTERFACE_KYCP + '/pub/catalog', {
 					...data,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					user_code: this.personInfo.user_code
 				}, (res0, res) => {
 					if (res.state == "ok") {
@@ -216,24 +220,24 @@
 			// 获取教材code
 			getBookCodes(book) {
 				var codes = {};
-				for(var key  in book) {
-					if(key=="per"||key=="sub"||key=="mater"||key=="fasc") {
-						if(book[key].selected) codes[key+"code"] = book[key].selected;
+				for (var key in book) {
+					if (key == "per" || key == "sub" || key == "mater" || key == "fasc") {
+						if (book[key].selected) codes[key + "code"] = book[key].selected;
 					}
 				}
 				return codes;
 			},
 			//获取最末端目录
-			getFinalCatalog(list){
-				var catalog = []; 
-				this.readTree(list, function(node){
-			        if(!node.children) {
-			            catalog.push(node);
-			        }
-			   	});
-			   	catalog.forEach(function(v, i){
-					_this.readTree(list, function(node){
-						if(node.id==v.pid){
+			getFinalCatalog(list) {
+				var catalog = [];
+				this.readTree(list, function(node) {
+					if (!node.children) {
+						catalog.push(node);
+					}
+				});
+				catalog.forEach(function(v, i) {
+					_this.readTree(list, function(node) {
+						if (node.id == v.pid) {
 							catalog[i]["pname"] = node.name;
 						}
 					});
@@ -242,12 +246,12 @@
 			},
 			// 遍历树形菜单，并回调
 			readTree(tree, callback) {
-			    for (var i = 0; i < tree.length; i++) {
-			        callback(tree[i]);
-			        if(tree[i].children) {
-			            _this.readTree(tree[i].children, callback);
-			        }
-			    }
+				for (var i = 0; i < tree.length; i++) {
+					callback(tree[i]);
+					if (tree[i].children) {
+						_this.readTree(tree[i].children, callback);
+					}
+				}
 			}
 		}
 	}

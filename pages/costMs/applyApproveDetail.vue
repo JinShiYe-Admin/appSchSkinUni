@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="navRightBtn"
-			:textClick="navRightCallback"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text="navRightBtn"
+			@textClickRight="textClickRight"></mynavBar>
 		<view v-if="detailData.id" style="margin-top: 5px;">
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left" style="width: 190px;">单号：{{detailData.apply_code}}</view>
@@ -95,7 +95,7 @@
 			return {
 				index_code: '',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				navRightBtn: [],
 				navRightCallback: [this.tongguo, this.tuihui],
 				detailData: {},
@@ -115,10 +115,10 @@
 			const itemData = util.getPageData(options);
 			itemData.index = 100
 			itemData.text = '费用申请单详情'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code = itemData.index_code
 			console.log("itemData: " + JSON.stringify(itemData));
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 16.通过ID获取费用审批
@@ -131,20 +131,29 @@
 			})
 		},
 		onShow() {
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
 		methods: {
+			textClickRight(data){
+				if (_this.navRightBtn.length>1) {
+					if (data == 0) {
+						_this.tongguo();
+					} else if (data == 1){
+						_this.tuihui();
+					}
+				}
+			},
 			tongguo() {
-				this.$refs.inputDialog.open();
-				this.dialogText = '通过';
-				this.dialogFlag = 1;
+				_this.$refs.inputDialog.open();
+				_this.dialogText = '通过';
+				_this.dialogFlag = 1;
 			},
 			tuihui() {
-				this.$refs.inputDialog.open();
-				this.dialogText = '退回';
-				this.dialogFlag = 2;
+				_this.$refs.inputDialog.open();
+				_this.dialogText = '退回';
+				_this.dialogFlag = 2;
 			},
 			closeDel() {
 				this.$refs.inputDialog.close();
@@ -160,7 +169,7 @@
 				this.$refs.inputDialog.close();
 				let comData = {
 					index_code: this.index_code,
-					id: this.tabBarItem.id,
+					id: this.navItem.id,
 					approve_result:this.dialogFlag
 				}
 				if(value.length == 0){
@@ -192,7 +201,7 @@
 			getDetail() {
 				let comData = {
 					index_code: this.index_code,
-					id: this.tabBarItem.id, //任务id
+					id: this.navItem.id, //任务id
 				}
 				this.showLoading();
 				//16.通过ID获取费用审批

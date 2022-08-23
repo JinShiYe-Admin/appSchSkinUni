@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
 			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
@@ -37,7 +37,7 @@
 		</view>
 		<view class="double-line"></view>
 		<view class="uni-flex uni-row form-view choose-file">
-			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}</view></view>
+			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${showMaxCount}张照片${wxTips?wxTips:''})`}}</view></view>
 			<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount"></g-upload>
 		</view>
 	</view>
@@ -49,14 +49,14 @@
 	// 七牛上传相关
 	 import gUpload from "@/components/g-upload/g-upload.vue"
 	 import cloudFileUtil from '../../commom/uploadFiles/CloudFileUtil.js';
-	 
+	let _this;
 	 
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				canSub:true,
 				formData: {
@@ -102,22 +102,23 @@
 			 gUpload
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='新建主动谈话'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading();
 				this.getGrd();
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -198,20 +199,20 @@
 				})
 			},
 			textClick(){//发送请假信息
-				if(this.grdIndex==-1){
-					this.showToast('请选择年级')
-				}else if(this.clsIndex==-1){
-					this.showToast('请选择班级')
-				}else if(this.stuIdList.length==0){
-					this.showToast('请选择学生')
-				}else if(this.formData.time==''){
-					this.showToast('请选择发生日期')
-				}else if(this.formData.comment==''){
-					this.showToast('请输入谈话记录')
+				if(_this.grdIndex==-1){
+					_this.showToast('请选择年级')
+				}else if(_this.clsIndex==-1){
+					_this.showToast('请选择班级')
+				}else if(_this.stuIdList.length==0){
+					_this.showToast('请选择学生')
+				}else if(_this.formData.time==''){
+					_this.showToast('请选择发生日期')
+				}else if(_this.formData.comment==''){
+					_this.showToast('请输入谈话记录')
 				}else{
-					if(this.canSub){
-						this.canSub=false
-						this.upLoadImg();
+					if(_this.canSub){
+						_this.canSub=false
+						_this.upLoadImg();
 					}
 				}
 			},

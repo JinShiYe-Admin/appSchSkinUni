@@ -97,7 +97,7 @@
 				title: this.itemData.title
 			});
 
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			this.perTitle = this.getBookNames() || "暂无教材";
@@ -227,7 +227,7 @@
 				duration: 0
 			});
 			// #endif
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},

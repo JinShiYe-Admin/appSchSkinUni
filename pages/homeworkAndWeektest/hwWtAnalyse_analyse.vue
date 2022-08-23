@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo'></mynavBar>
-		<view style="margin-top: 10px;text-align: center;">题号：{{itemData.question_number}}</view>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
+		<view style="margin-top: 10px;text-align: center;">题号：{{navItem.question_number}}</view>
 		<view class="content" style="margin-top: 10px;padding-bottom:35px ;">
 			<uni-card isShadow :isFull="true">
-				<text class="content-box-text">
+				<view class="content-box-text">
 					<view class="card-title">答题情况</view>
 					<view class="card-line"></view>
 					<uni-row style="">
@@ -47,20 +47,20 @@
 					</uni-row>
 					<view v-if="score_section_list.length==0"
 						style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-				</text>
+				</view>
 			</uni-card>
 			<uni-card title="原题" isShadow :isFull="true">
-				<text class="content-box-text">
+				<view class="content-box-text">
 					<view v-if="question.content || question.option">
 						<view v-if="question.content" v-html="question.content"></view>
 						<view v-if="question.option" :key="index" v-for="(item,index) in question.option" v-html="item">
 						</view>
 					</view>
 					<view v-else style="margin-left: 15px;font-size: 13px;">暂无题目</view>
-				</text>
+				</view>
 			</uni-card>
 			<uni-card title="解答" isShadow :isFull="true">
-				<text class="content-box-text">
+				<view class="content-box-text">
 					<view v-if="question.answer || question.analyse || question.solve">
 						<view v-if="question.answer" v-html="question.answer"></view>
 						<view v-if="question.answer" class="line"></view>
@@ -69,7 +69,7 @@
 						<view v-if="question.solve" v-html="question.solve"></view>
 					</view>
 					<view v-else style="margin-left: 15px;font-size: 13px;">暂无答案</view>
-				</text>
+				</view>
 			</uni-card>
 		</view>
 	</view>
@@ -83,7 +83,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				questionList: [],
 				questionIndex: 0,
 				question: {},
@@ -98,22 +98,22 @@
 		},
 		onLoad(option) {
 			_this = this;
-			let itemData = util.getPageData(option);
+			let navItem = util.getPageData(option);
 			this.personInfo = util.getPersonal();
-			this.itemData = itemData
-			this.itemData.index = 100;
-			this.index_code = itemData.access;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = navItem
+			this.navItem.index = 100;
+			this.index_code = navItem.access;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			this.getQueDetail();
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
 		onShow() {
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
@@ -123,8 +123,8 @@
 		methods: {
 			getQueDetail() {
 				const params = {
-					id: this.itemData.id,
-					question_number: this.itemData.question_number,
+					id: this.navItem.id,
+					question_number: this.navItem.question_number,
 					index_code: this.index_code,
 				}
 				this.showLoading();

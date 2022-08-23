@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view>
 			<view class="stuName">{{btime}}{{stuModel.grd_name}}{{stuModel.cls_name}}{{stuModel.stu_name}}运动轨迹</view>
 			<uni-list>
@@ -25,7 +25,7 @@
 		data() {
 			return {
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				pageSize: 15,
 				pagedata: [],
 				deviceList: [], //设备位置数组
@@ -110,13 +110,13 @@
 			this.personInfo = util.getPersonal();
 			let tempM = util.getPageData(option);
 			this.index_code = tempM.index_code;
-			tempM.tabBarItem.index = 100;
-			this.tabBarItem = tempM.tabBarItem;
+			tempM.navItem.index = 100;
+			this.navItem = tempM.navItem;
 			this.deviceList = tempM.deviceList;
 			this.stuModel = tempM.stuModel;
 			console.log('this.stuModel:' + JSON.stringify(this.stuModel));
 			this.btime = tempM.btime;
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 
@@ -129,7 +129,7 @@
 				duration: 0
 			});
 			// #endif
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},

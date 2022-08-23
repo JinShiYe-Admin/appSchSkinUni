@@ -28,6 +28,7 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
@@ -50,17 +51,17 @@
 		methods: {
 			titleClick(){
 				console.log('textClick');
-				this.type = 'top';
+				_this.type = 'top';
 				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
-				this.$refs.popup.close();
-				this.$refs.subpopup.open('top');
+				_this.$refs.popup.close();
+				_this.$refs.subpopup.open('top');
 			},
 			textClick() {
 				console.log('textClick');
-				this.type = 'top';
+				_this.type = 'top';
 				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
-				this.$refs.subpopup.close();
-				this.$refs.popup.open('top');
+				_this.$refs.subpopup.close();
+				_this.$refs.popup.open('top');
 			},
 			selectItem(tempPer) {
 				this.$refs.popup.close();
@@ -185,6 +186,7 @@
 			},
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
@@ -194,7 +196,7 @@
 				 this.showLoading()
 				 this.getResPer()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -203,7 +205,7 @@
 				// 查询教版
 				this.getResCatalogs();
 			}
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

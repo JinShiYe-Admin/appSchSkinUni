@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<view style="display: flex;margin-right: 5px;">
 				<picker style="flex: 1;"  @change="dptClick" :value="dptIndex" :range="dptList" range-key="text">
@@ -54,7 +54,7 @@
 				personInfo: {},
 				icon:'',
 				add:false,//add按钮权限
-				tabBarItem: {},
+				navItem: {},
 				pageSize: 10,
 				flagRef: 0, //0刷新1加载更多
 				pageIndex: 1,
@@ -231,10 +231,10 @@
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			this.getUserInfo();
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -262,7 +262,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

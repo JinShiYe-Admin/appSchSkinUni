@@ -31,7 +31,7 @@
 		<view class="line"></view>
 		<uni-list :border="false">
 			<uni-list-item :key="index" v-for="(model,index) in tabBarItem.items" :border="true">
-				<text slot="body" class="slot-box slot-text">
+				<view slot="body" class="slot-box slot-text">
 					<uni-row>
 						<uni-col :span="24"><view class="title-text">{{model.itemName}} ({{model.itemCode}})</view></uni-col>
 						<uni-col :span="12"><view class="detail-text">型号:{{model.itemModel}}</view></uni-col>
@@ -39,7 +39,7 @@
 						<uni-col :span="12"><view class="detail-text">数量:{{model.inNum}}</view></uni-col>
 						<uni-col :span="12"><view class="detail-text">单价:{{model.inPrice}}</view></uni-col>
 					</uni-row>
-				</text>
+				</view>
 			</uni-list-item>
 		</uni-list>
 	</view>
@@ -70,12 +70,12 @@
 			this.tabBarItem = itemData;
 			this.index_code=itemData.index_code
 			uni.setNavigationBarTitle({title:'入库单详情'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

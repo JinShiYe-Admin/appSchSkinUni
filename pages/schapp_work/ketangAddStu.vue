@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="保存" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="保存" :textClick="textClick"></mynavBar>
 		<uni-notice-bar :single="true" text="第三步:请完善学生考勤情况并保存！" />
 		<view style="padding:0 15px;">
-			<view class="title-text">{{tabBarItem.grd.text}}{{tabBarItem.cls.text}}&ensp;{{tabBarItem.parseTime}}&ensp;{{getWeek()}}&ensp;{{tabBarItem.jc.text}}{{tabBarItem.km.text}}&ensp;课堂考勤</view>
+			<view class="title-text">{{navItem.grd.text}}{{navItem.cls.text}}&ensp;{{navItem.parseTime}}&ensp;{{getWeek()}}&ensp;{{navItem.jc.text}}{{navItem.km.text}}&ensp;课堂考勤</view>
 			<view class="title-total">
 				<view class="detail-text-total">班级人数：<view><text style="font-size: 15px;font-weight: 600;">{{bjrs}}</text>人</view></view>
 				<view class="detail-text-total">已到：<view><text style="font-size: 15px;font-weight: 600;">{{yd}}</text>人</view></view>
@@ -22,7 +22,7 @@
 			</view>
 		</view>
 		<uni-list>
-			<uni-list-item v-for="(item,index) in tabBarItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.card_id?item.card_id:'无卡'" >
+			<uni-list-item v-for="(item,index) in navItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.card_id?item.card_id:'无卡'" >
 				<template v-slot:footer>
 					<view class="uni-flex uni-row form-view">
 						<template v-if="item.interface">
@@ -58,14 +58,14 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
-	 
+	let _this;
 	 
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				rightList:[],
 				rightList2:[],
 				stuList:[],
@@ -77,16 +77,17 @@
 			mynavBar,
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			let parseTime=this.moment(itemData.time).format('YYYY年MM月DD日')
 			itemData.parseTime=parseTime
 			itemData.index=100
 			itemData.text='课堂点名登记'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code 
-			console.log("this.tabBarItem: " + JSON.stringify(this.tabBarItem));
-			let rightList = [{text:'已到',value:'*'}].concat(this.tabBarItem.attendanceDict)
+			console.log("this.navItem: " + JSON.stringify(this.navItem));
+			let rightList = [{text:'已到',value:'*'}].concat(this.navItem.attendanceDict)
 			let rightList2 = [{text:'检测识别',value:'**'}].concat(rightList)
 			this.rightList=rightList
 			this.rightList2=rightList2
@@ -111,12 +112,12 @@
 			console.log("stuList: " + JSON.stringify(stuList));
 			this.stuList=stuList
 			this.setTotal();
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -146,39 +147,39 @@
 			},
 			textClick(){
 				let canSubmit=true
-				this.stuList.map(stuItem=>{
+				_this.stuList.map(stuItem=>{
 					if(stuItem.rightIndex==-1){
 						 canSubmit=false
 					}
 				})
 				if(canSubmit){
-					let stuList=this.getStuList()
+					let stuList=_this.getStuList()
 					if(stuList.length>0){
-						if(this.tabBarItem.historyData){
-							this.$refs.alertDialog.open()
-							this.canSub=false
+						if(_this.navItem.historyData){
+							_this.$refs.alertDialog.open()
+							_this.canSub=false
 						}else{
-							if(this.canSub){
-								this.canSub=false
-								this.showLoading()
-								this.submitData()
+							if(_this.canSub){
+								_this.canSub=false
+								_this.showLoading()
+								_this.submitData()
 							}
 						}
 					}else{
-						this.$refs.alertDialog2.open()
+						_this.$refs.alertDialog2.open()
 					}
 				}else{
-					this.showToast('请将考勤情况填写完整再保存！')
+					_this.showToast('请将考勤情况填写完整再保存！')
 				}
 			},
 			//删除之前的考勤记录 112
 			deleteData(){
 				let comData={
-					grd_code:this.tabBarItem.grd.value,
-					cls_code:this.tabBarItem.cls.value,
-					class_node:this.tabBarItem.jc.value,
-					begintime: this.tabBarItem.time,
-					endtime: this.tabBarItem.time,
+					grd_code:this.navItem.grd.value,
+					cls_code:this.navItem.cls.value,
+					class_node:this.navItem.jc.value,
+					begintime: this.navItem.time,
+					endtime: this.navItem.time,
 					index_code: this.index_code,
 				}
 				console.log("comData: " + JSON.stringify(comData));
@@ -194,14 +195,14 @@
 			},
 			submitData(){
 				let comData={
-					grd_code:this.tabBarItem.grd.value,
-					grd_name:this.tabBarItem.grd.text,
-					cls_code:this.tabBarItem.cls.value,
-					cls_name:this.tabBarItem.cls.text,
-					attendance_time:this.tabBarItem.time,
-					class_node:this.tabBarItem.jc.value,
-					sub_code:this.tabBarItem.km.value,
-					sub_name:this.tabBarItem.km.text,
+					grd_code:this.navItem.grd.value,
+					grd_name:this.navItem.grd.text,
+					cls_code:this.navItem.cls.value,
+					cls_name:this.navItem.cls.text,
+					attendance_time:this.navItem.time,
+					class_node:this.navItem.jc.value,
+					sub_code:this.navItem.km.value,
+					sub_name:this.navItem.km.text,
 					comment:'',
 					list:this.getStuList(),
 					index_code:this.index_code,
@@ -306,7 +307,7 @@
 			},
 			//获取星期几
 			getWeek(){
-				let week=this.moment(this.tabBarItem.time).day()
+				let week=this.moment(this.navItem.time).day()
 				let weekName=''
 				switch (week){
 					case 1:

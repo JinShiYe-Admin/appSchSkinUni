@@ -20,12 +20,12 @@
 		<view style="padding:5px 15px 0px;">
 			<uni-list :border="false">
 				<uni-list-item :key="index" v-for="(model,index) in pageArray" :border="true">
-					<text slot="body" class="slot-box slot-text">
+					<view slot="body" class="slot-box slot-text">
 						<uni-row>
 							<uni-col :span="24"><view class="detail-text">姓名:{{model.grd_name}} {{model.cls_name}} {{model.stu_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">床位号:{{model.bed_num}}</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 		</view>
@@ -74,12 +74,12 @@
 				 this.getPage()
 			},100)
 			uni.setNavigationBarTitle({title:'班级宿舍入住情况'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

@@ -53,12 +53,12 @@
 			this.personal = util.getPersonal();
 			console.log('this.personal:'+JSON.stringify(this.personal));
 			uni.setNavigationBarTitle({title: '修改密码'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

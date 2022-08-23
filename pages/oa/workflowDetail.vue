@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :text="rightName" :textClick="textClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text="rightName" :textClick="textClick">
 		</mynavBar>
 		<view v-if="detailModel.ApproveStatus==2">
 			<input maxlength="10" type="text" v-model="tag"
@@ -48,7 +48,7 @@
 			<br><br>
 		</view>
 		<view v-if="detailModel.ApproveList&&detailModel.ApproveList.length>0"
-			style="itemData.flag == 0 && detailModel.NoticeStatus == 1?'margin-top: 0px;':'margin-top: 50px;'">
+			style="navItem.flag == 0 && detailModel.NoticeStatus == 1?'margin-top: 0px;':'margin-top: 50px;'">
 			<view class="" style="height: 10px;background-color: #f2f2f2;margin: 10px 0;"></view>
 			<view class="titleCSS" style="font-size: 14px;color: #333;margin: 10px 0 10px 10px;">回复列表</view>
 			<uni-list>
@@ -85,11 +85,12 @@
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
+	let _this;
 	export default {
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				rightName: '', //右上角显示名称
 				tag: '', //我的标签
 				detailModel: {
@@ -107,16 +108,17 @@
 			mynavBar
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.index = 100;
-			this.itemData.text = '工作流详情';
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.index = 100;
+			this.navItem.text = '工作流详情';
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
 				title: '工作流详情'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = "";
 			this.wxTips = ',微信端不支持多选'; //如果是H5，需要提示该内容
 			var isPageHide = false;
@@ -132,21 +134,21 @@
 			//获取详情
 			this.getNoticeByReceiveId_sendId_Detail();
 			// 如果是接收的，需要发送短信
-			if (this.itemData.flag == 0 && this.itemData.SmsSync == 1) {
+			if (this.navItem.flag == 0 && this.navItem.SmsSync == 1) {
 				this.getSmsConfig();
 			}
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			getSmsConfig() { //获取短信配置
 				let comData = {
 					msg_type: this.OA_MSG_SMS.WORKFLOW.MSG_TYPE,
 					sch_code: this.personInfo.unit_code,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'smsConf/getConf', comData, response => {
@@ -164,7 +166,7 @@
 					noticeId: this.detailModel.NoticeId, //通知ID
 					receiveManId: this.personInfo.user_code, //阅读人ID
 					replyContent: this.content, //回复内容
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				}
 				console.log('tempData1:' + JSON.stringify(tempData1));
@@ -191,7 +193,7 @@
 				this.$refs.popup.close();
 				var comData0 = {
 					applyId: this.detailModel.ApplyId,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				};
 				this.showLoading();
@@ -206,7 +208,7 @@
 			},
 			textClick() {
 				console.log('textClick');
-				this.$refs.popup.open();
+				_this.$refs.popup.open();
 			},
 			checkEnc: function(tempUrl) {
 				console.log('tempUrl:' + tempUrl);
@@ -219,11 +221,11 @@
 					var comData = {
 						applyId: this.detailModel.ApplyId, //申请ID
 						tag: this.tag, //标签
-						index_code: this.itemData.access.split('#')[1],
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					var url = '';
-					if (this.itemData.flag == 1) { //我发送的
+					if (this.navItem.flag == 1) { //我发送的
 						url = this.globaData.INTERFACE_OA + 'approve/doSetSendApplyTag';
 					} else { //接收的
 						comData.receiveManId = this.personInfo.user_code; //阅读人ID
@@ -257,10 +259,10 @@
 					this.showLoading();
 					//18.审批事务及文件申请
 					var comData = {
-						approveId: this.itemData.ApproveId, //审批ID
+						approveId: this.navItem.ApproveId, //审批ID
 						approveContent: this.content, //回复内容
 						approveResult: flag, //审批结果,1 同意2 退回
-						index_code: this.itemData.access.split('#')[1],
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					//18.审批事务及文件申请
@@ -270,8 +272,8 @@
 							if (flag == 1 && this.smsFlag) {
 								// 110.获取下一级审批人
 								var tempData2 = {
-									approveId: this.itemData.ApproveId, //审批ID
-									index_code: this.itemData.access.split('#')[1],
+									approveId: this.navItem.ApproveId, //审批ID
+									index_code: this.navItem.access.split('#')[1],
 								}
 								this.post(this.globaData.INTERFACE_OA + 'approve/getNextAffairApproveMan',
 									tempData2, (data0, manData) => {
@@ -325,7 +327,7 @@
 													sch_code: this.personInfo.unit_code,
 													sch_name: this.personInfo.unit_name,
 													list: touser,
-													index_code: this.itemData.access.split('#')[1],
+													index_code: this.navItem.access.split('#')[1],
 												}
 												this.post(this.globaData.INTERFACE_HR_SUB +
 													'smsRecord/save', comData, (data0,
@@ -346,14 +348,15 @@
 																checkUser: '', //审核人代码
 																checkUserTname: '', //审核人姓名
 																checkUserUnit: '', //审核人单位
-																index_code: this.itemData.access
+																index_code: this.navItem.access
 																	.split('#')[1],
 															}
 															this.post(this.globaData.INTERFACE_OA +
 																'approve/doSetSms4AffairApply',
 																dosetData, (data0, doData) => {
 																	this.hideLoading();
-																	this.getNoticeByReceiveId_sendId_Detail(this.itemData.flag);
+																	this.getNoticeByReceiveId_sendId_Detail(
+																		this.navItem.flag);
 																	// const eventChannel = this
 																	// 	.getOpenerEventChannel()
 																	// eventChannel.emit(
@@ -368,18 +371,19 @@
 											} else {
 												this.content = '';
 												this.showToast(data.msg);
-												this.getNoticeByReceiveId_sendId_Detail(this.itemData.flag);
+												this.getNoticeByReceiveId_sendId_Detail(this.navItem
+												.flag);
 											}
 										} else {
 											this.content = '';
 											this.showToast(data.msg);
-											this.getNoticeByReceiveId_sendId_Detail(this.itemData.flag);
+											this.getNoticeByReceiveId_sendId_Detail(this.navItem.flag);
 										}
 									});
 							} else {
 								this.content = '';
 								this.showToast('成功');
-								this.getNoticeByReceiveId_sendId_Detail(this.itemData.flag);
+								this.getNoticeByReceiveId_sendId_Detail(this.navItem.flag);
 							}
 						} else {
 							this.showToast(data.msg);
@@ -392,17 +396,17 @@
 				this.showLoading();
 				var comData0 = {};
 				var url;
-				if (this.itemData.flag == 0) { //24.通过审批ID获取事务及文件申请及审批
+				if (this.navItem.flag == 0) { //24.通过审批ID获取事务及文件申请及审批
 					comData0 = {
-						approveId: this.itemData.ApproveId, //审批ID
-						index_code: this.itemData.access.split('#')[1],
+						approveId: this.navItem.ApproveId, //审批ID
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					url = this.globaData.INTERFACE_OA + 'approve/getAffairApproveById';
 				} else { //23.通过申请ID获取事务及文件申请
 					comData0 = {
-						applyId: this.itemData.ApplyId, //申请ID
-						index_code: this.itemData.access.split('#')[1],
+						applyId: this.navItem.ApplyId, //申请ID
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					url = this.globaData.INTERFACE_OA + 'approve/getAffairApplyById';
@@ -418,7 +422,7 @@
 							data.data.ApplyEncAddrShow = data.data.ApplyEncAddr;
 						}
 						//如果是接收的，判断是否右上角有功能
-						if (this.itemData.flag == 1) {
+						if (this.navItem.flag == 1) {
 							// 进程处于“新建”且 状态处于“发出”时 显示撤销按钮
 							if (data.data.Progress == 1 && data.data.Status == 1) {
 								this.rightName = '撤销';

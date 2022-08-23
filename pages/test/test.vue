@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
-		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
+		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 
@@ -14,7 +14,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {}
+				navItem: {}
 			}
 		},
 		components: {
@@ -35,17 +35,17 @@
 				_this.tabbar = util.getMenu();
 				for (var i = 0; i < _this.tabbar.length; i++) {
 					let tempM = _this.tabbar[i];
-					if(tempM.access == _this.tabBarItem.access){
-						_this.tabBarItem = tempM;
+					if(tempM.access == _this.navItem.access){
+						_this.navItem = tempM;
 					}
 				}
 			});
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			console.log('personInfo:' + JSON.stringify(this.personInfo));
-			this.tabBarItem = util.getTabbarMenu();
-			console.log('this.tabBarItem:' + JSON.stringify(this.tabBarItem));
-			this.tabBarItem.first=true;
+			this.navItem = util.getTabbarMenu();
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
+			this.navItem.first=true;
 				//...functions
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
@@ -55,7 +55,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

@@ -90,12 +90,12 @@
 			util.setPersonal({});
 			// this.getUserType();
 			uni.setNavigationBarTitle({title: '查询资料'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

@@ -12,14 +12,14 @@
 					<uni-grid :column="4" :showBorder="false" :square="false" :highlight="false">
 						<uni-grid-item v-for="(stuItem,indexStu) in item.stu_list" :key="indexStu">
 							<view class="grid-item-box" style="height: 40px;" @click="clickMe(item.cls_code,stuItem)">
-								<text class="text">
+								<view class="text">
 									<p style="text-align: center;font-size: 13px;padding-top: 5px;padding-bottom: 5px;"
 										:style="{
 										'background':stuItem.isCheck?'#43CF7C':'',
 										'border-radius':stuItem.isCheck?'15px':'0',
 										'color':stuItem.isCheck?'#FFFFFF':''
 										}">{{stuItem.stu_name}}</p>
-								</text>
+								</view>
 							</view>
 						</uni-grid-item>
 					</uni-grid>
@@ -58,17 +58,17 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 1.12.全科获取pk学生列表
 			this.getFullSubPK();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			pk: function() {
 				let student = []

@@ -2,7 +2,7 @@
 	<view>
 		<uni-list :border="false">
 			<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
-				<text slot="body" class="slot-box slot-text" @click="downloadFile(item,index)">
+				<view slot="body" class="slot-box slot-text" @click="downloadFile(item,index)">
 					<view  style="display: flex;align-items: center;" >
 						<template v-if="item.is_pack">
 							<image src="../../static/images/zhiXueKeTang/file-icons/ziyuanPack.png" class="resource-img"></image>
@@ -40,7 +40,7 @@
 							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="detail-text">{{item.create_time}}&ensp;|&ensp;{{item.owner_name}}</view></uni-col>
 						</uni-row>
 					</view>
-				</text>
+				</view>
 			</uni-list-item>
 		</uni-list>
 	</view>
@@ -129,7 +129,7 @@
 				 this.getResPage()
 			},100)
 			uni.setNavigationBarTitle({title:itemData.name});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -140,7 +140,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

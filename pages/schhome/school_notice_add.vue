@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick" :icon="icon" :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick" :icon="icon" :iconClick="iconClick"></mynavBar>
 		<uni-notice-bar :single="true" :text="SMSText"/>
 		<view class="uni-flex uni-row form-view">
 			<textarea placeholder="请输入通知内容,最多300字" v-model="comment" maxlength="300" style="flex: 1;"></textarea>
@@ -51,7 +51,7 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
-	 
+	let _this;
 	const leftArray=[],centerArray=[],rightArray=[];
 	for (var i = 0; i < 32; i++) {
 		leftArray.push(i+'天')
@@ -67,7 +67,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				icon:'',
 				canSub:true,
 				nowIcon:true,
@@ -93,22 +93,23 @@
 			mynavBar
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='新建学校通知'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading();
 				this.getSmsConfig();
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -123,7 +124,7 @@
 				this.$forceUpdate()
 			},
 			iconClick(){
-				this.$refs.popup.open('top')
+				_this.$refs.popup.open('top')
 			},
 			checkNow(){//popup 发送时间
 				this.nowIcon=true
@@ -187,31 +188,31 @@
 				})
 			},
 			textClick(){//发送请假信息
-				if(this.comment==''){
-					this.showToast('请输入通知内容')
+				if(_this.comment==''){
+					_this.showToast('请输入通知内容')
 				}else{
-					if(this.canSub){
-						this.canSub=false
-						let comm=this.comment
+					if(_this.canSub){
+						_this.canSub=false
+						let comm=_this.comment
 						let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
-						if(this.SMS){
+						if(_this.SMS){
 							let showToast=false
 							 let words=[]
-							 for (let i = 0; i < this.WORDS.length; i++) {
-							 	let word=this.WORDS[i].word
+							 for (let i = 0; i < _this.WORDS.length; i++) {
+							 	let word=_this.WORDS[i].word
 							 	if(comment.indexOf(word)!==-1){
 							 		showToast=true
 							 		words.push(word)
 							 	}
 							 }
 							 if(showToast){
-							 	this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
-							 	this.hideLoading()
-								this.canSub=true
+							 	_this.showToast('含有禁止使用的关键词	‘'+words.join("/")+'’	请编辑后再尝试发送')
+							 	_this.hideLoading()
+								_this.canSub=true
 							 	return 0
 							 }
 						}
-						this.submitData();
+						_this.submitData();
 					}
 				}
 			},

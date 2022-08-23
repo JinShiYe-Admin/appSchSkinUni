@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :text="rightText" :textClick="textClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text="rightText" :textClick="textClick">
 		</mynavBar>
 		<button @click="saveTag()" type="default" class="down-btn mini-btn"
 			style="float: right;margin-right: 10px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;"
@@ -26,12 +26,12 @@
 		<p style="height: 10px;background-color: #f2f2f2;"></p>
 		<p class="titleCSS" style="font-size: 14px;color: #333;margin: 10px 0 10px 10px;">接收列表</p>
 		<uni-list>
-			<uni-list-item v-for="(replyModel,index) in detailModel.list" :key='index'
-				direction='column'>
+			<uni-list-item v-for="(replyModel,index) in detailModel.list" :key='index' direction='column'>
 				<view slot="body">
 					<view style="float: left;height: 40px;">
 						<image class="peopleImg"
-							:src="replyModel.ReceiveManPic?replyModel.ReceiveManPic:'http://www.108800.com/user.jpg'"></image>
+							:src="replyModel.ReceiveManPic?replyModel.ReceiveManPic:'http://www.108800.com/user.jpg'">
+						</image>
 					</view>
 					<view class="rightView">
 						<a class="biaoti0 title">{{replyModel.ReceiveManName}}</a>
@@ -48,7 +48,8 @@
 			</uni-list-item>
 		</uni-list>
 		<uni-popup ref="popup" type="dialog">
-			<uni-popup-dialog title="确定撤销?" :duration="2000" :before-close="true" @close="close" @confirm="confirm"></uni-popup-dialog>
+			<uni-popup-dialog title="确定撤销?" :duration="2000" :before-close="true" @close="close" @confirm="confirm">
+			</uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -56,11 +57,12 @@
 <script>
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				rightText: '',
 				detailModel: {},
 				tag: ''
@@ -70,16 +72,17 @@
 			mynavBar
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.text = '通知详情';
-			this.itemData.index = 100;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.text = '通知详情';
+			this.navItem.index = 100;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
 				title: '通知详情'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = "";
 			var isPageHide = false;
 			window.addEventListener('pageshow', function() {
@@ -94,11 +97,11 @@
 			//获取详情
 			this.getNoticeByReceiveId_sendId_Detail();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			close() {
 				this.$refs.popup.close();
@@ -108,7 +111,7 @@
 				//不需要加密的数据
 				var comData0 = {
 					noticeId: this.detailModel.NoticeId,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				};
 				this.showLoading();
@@ -123,23 +126,23 @@
 			},
 			textClick() {
 				console.log('textClick');
-				this.$refs.popup.open();
+				_this.$refs.popup.open();
 			},
 			getNoticeByReceiveId_sendId_Detail() {
 				this.showLoading();
 				var comData0 = {};
 				var url;
-				if (this.itemData.flag == 0) { //15.通过通知接收表ID获取通知
+				if (this.navItem.flag == 0) { //15.通过通知接收表ID获取通知
 					comData0 = {
-						noticeManId: this.itemData.NoticeManId, //协同事务接收表ID
-						index_code: this.itemData.access.split('#')[1],
+						noticeManId: this.navItem.NoticeManId, //协同事务接收表ID
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					url = this.globaData.INTERFACE_OA + 'notice/getNoticeByReceiveId';
 				} else { //14.通过通知ID获取通知
 					comData0 = {
-						noticeId: this.itemData.NoticeId, //协同事务ID
-						index_code: this.itemData.access.split('#')[1],
+						noticeId: this.navItem.NoticeId, //协同事务ID
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					url = this.globaData.INTERFACE_OA + 'notice/getNoticeById';
@@ -154,7 +157,7 @@
 							data.data.NoticeEncAddr = data.data.NoticeEncAddr.split("|");
 						}
 						//如果是接收的，判断是否右上角有功能
-						if (this.itemData.flag == 1) {
+						if (this.navItem.flag == 1) {
 							// 进程处于“新建”且 状态处于“发出”时 显示撤销按钮
 							if (data.data.Progress == 1 && data.data.Status == 1) {
 								console.log('222222');
@@ -169,7 +172,7 @@
 							var comData1 = {
 								noticeId: data.data.NoticeId, //通知ID
 								receiveManId: this.personInfo.user_code, //阅读人ID
-								index_code: this.itemData.access.split('#')[1],
+								index_code: this.navItem.access.split('#')[1],
 								op_code: 'index'
 							}
 							//9.阅读通知
@@ -191,11 +194,11 @@
 					var comData = {
 						noticeId: this.detailModel.NoticeId, //通知ID
 						noticeTag: this.tag, //标签
-						index_code: this.itemData.access.split('#')[1],
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					var url = '';
-					if (this.itemData.flag == 1) { //我发送的
+					if (this.navItem.flag == 1) { //我发送的
 						url = this.globaData.INTERFACE_OA + 'notice/doSetSendNoticeTag';
 					} else { //接收的
 						comData.receiveManId = this.personInfo.user_code; //阅读人ID
@@ -216,7 +219,7 @@
 				}
 			},
 			checkEnc: function(tempUrl) {
-				console.log('tempUrl:'+tempUrl);
+				console.log('tempUrl:' + tempUrl);
 				util.openFile(tempUrl);
 			}
 		}
@@ -268,23 +271,24 @@
 		height: 40px;
 		border-radius: 50%;
 	}
+
 	.rightView {
 		margin-left: 10px;
 		float: left;
 		width: calc(100% - 50px);
 	}
-	
+
 	.biaoti {
 		font-size: 13px;
 		width: calc(100% - 50px);
 	}
-	
+
 	.biaoti0 {
 		margin-left: 8px;
 		font-size: 13px;
 		width: calc(100%);
 	}
-	
+
 	.title {
 		height: 100%;
 		float: left;
@@ -295,12 +299,12 @@
 		white-space: nowrap;
 		color: #000000;
 	}
-	
+
 	.nameTime {
 		font-size: 13px;
 		color: gray;
 	}
-	
+
 	.uni-col {
 		margin-top: 0px;
 	}

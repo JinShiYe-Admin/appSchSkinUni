@@ -6,10 +6,12 @@
 				<view slot="body" style="min-height: 40px;display: flex;justify-content: space-between;">
 					<view style="display: flex;flex-direction: column;">
 						<view style="font-size: 14px;margin-top: 10px;">{{model.name}}</view>
-						<view style="font-size: 12px;color: gray;margin-top: 12px;">{{model.create_time.substr(0,16)}}</view>
+						<view style="font-size: 12px;color: gray;margin-top: 12px;">{{model.create_time.substr(0,16)}}
+						</view>
 					</view>
 					<view class="rightView">
-						<view style="text-align: right;font-size: 13px;color: gray;margin-top: 12px;width: 45px;">{{model.score}}分
+						<view style="text-align: right;font-size: 13px;color: gray;margin-top: 12px;width: 45px;">
+							{{model.score}}分
 						</view>
 					</view>
 				</view>
@@ -26,31 +28,31 @@
 			return {
 				personInfo: {},
 				itemData: {},
-				pageSize:15,
-				pageobj0:{
-					loadFlag:0,//0 刷新 1加载更多
-					page_number:1,//页码
-					status:'more',//加载更多的状态
+				pageSize: 15,
+				pageobj0: {
+					loadFlag: 0, //0 刷新 1加载更多
+					page_number: 1, //页码
+					status: 'more', //加载更多的状态
 					contentText: {
-						contentdown: '',//上滑加载更多
+						contentdown: '', //上滑加载更多
 						contentrefresh: '加载中',
-						contentnomore: ''//没有更多
+						contentnomore: '' //没有更多
 					},
-					canload:true,//是否加载更多
+					canload: true, //是否加载更多
 				},
-				index_code:'',
+				index_code: '',
 				pagedata: [],
 			}
 		},
 		onLoad(option) {
 			this.personInfo = util.getPersonal();
-			let itemData=util.getPageData(option);
+			let itemData = util.getPageData(option);
 			this.itemData = itemData
 			this.index_code = itemData.index_code
 			uni.setNavigationBarTitle({
 				title: itemData.sub_name
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			this.getList();
@@ -62,9 +64,9 @@
 				duration: 0
 			});
 			// #endif
-						//#ifndef APP-PLUS
-							document.title=""
-						//#endif
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
@@ -72,10 +74,10 @@
 			// #endif
 		},
 		onReachBottom() {
-			if(this.pageobj0.canload){
-				this.pageobj0.loadFlag=1
+			if (this.pageobj0.canload) {
+				this.pageobj0.loadFlag = 1
 				this.pageobj0.status = 'loading';
-				this.pageobj0.page_number=this.pageobj0.page_number+1
+				this.pageobj0.page_number = this.pageobj0.page_number + 1
 				this.getList()
 			}
 		},
@@ -93,11 +95,11 @@
 					this.hideLoading();
 					console.log("res: " + JSON.stringify(res));
 					if (res.code == 0) {
-						this.pagedata=this.pagedata.concat(res.data.report_info.list)
-						if(this.pageobj0.page_number>=res.data.report_info.total_page){
+						this.pagedata = this.pagedata.concat(res.data.report_info.list)
+						if (this.pageobj0.page_number >= res.data.report_info.total_page) {
 							this.pageobj0.status = 'noMore';
-							this.pageobj0.canload=false
-						}else{
+							this.pageobj0.canload = false
+						} else {
 							this.pageobj0.status = 'more';
 						}
 					} else {
@@ -116,9 +118,9 @@
 					this.hideLoading();
 					console.log("res: " + JSON.stringify(res));
 					if (res.code == 0) {
-						res0.titleName=model.name
-						res0.catalogId=model.book_catalog_id
-						res0.hideButton=true
+						res0.titleName = model.name
+						res0.catalogId = model.book_catalog_id
+						res0.hideButton = true
 						util.openwithData("/pages/zhiXueKeTang/zujuancs_result", res0);
 					} else {
 						this.showToast(res.msg);

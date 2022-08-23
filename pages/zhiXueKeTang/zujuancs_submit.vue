@@ -78,12 +78,12 @@
 			console.log("itemData: " + JSON.stringify(itemData));
 			this.itemData=itemData
 			uni.setNavigationBarTitle({title:'答题卡'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

@@ -1,34 +1,34 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="text" :textClick="textClick"></mynavBar>
-		<view v-if="tabBarItem.outCode" class="uni-flex uni-row form-view">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text="text" :textClick="textClick"></mynavBar>
+		<view v-if="navItem.outCode" class="uni-flex uni-row form-view">
 			<view class="form-left">出库单号</view>
-			<view class="form-right">{{tabBarItem.outCode}}</view>
+			<view class="form-right">{{navItem.outCode}}</view>
 		</view>
-		<view v-if="tabBarItem.outCode" class="line"></view>
+		<view v-if="navItem.outCode" class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">领用单号</view>
-			<view class="form-right">{{tabBarItem.receiveApplyCode}}</view>
+			<view class="form-right">{{navItem.receiveApplyCode}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">领用人姓名</view>
-			<view class="form-right">{{tabBarItem.receiveManName}}</view>
+			<view class="form-right">{{navItem.receiveManName}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">放置地点</view>
-			<view class="form-right">{{tabBarItem.putArea}}</view>
+			<view class="form-right">{{navItem.putArea}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">申请数量</view>
-			<view class="form-right">{{tabBarItem.applyNum}}</view>
+			<view class="form-right">{{navItem.applyNum}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">申请时间</view>
-			<view class="form-right">{{tabBarItem.applyTime}}</view>
+			<view class="form-right">{{navItem.applyTime}}</view>
 		</view>
 		<view class="double-line"></view>
 		<view class="uni-flex uni-row form-view">
@@ -37,22 +37,22 @@
 		<view class="line"></view>
 		<uni-list :border="false">
 			<uni-list-item :border="true">
-				<text slot="body" class="slot-box slot-text">
+				<view slot="body" class="slot-box slot-text">
 					<uni-row> 
-						<uni-col :span="24"><view class="detail-text">编号: {{tabBarItem.itemCode}}</view></uni-col>
-						<uni-col :span="24"><view class="detail-text">名称: {{tabBarItem.itemName}}</view></uni-col>
-						<uni-col :span="24"><view class="detail-text">型号: {{tabBarItem.itemModel}}</view></uni-col>
-						<uni-col :span="24"><view class="detail-text">品牌: {{tabBarItem.itemBrand}}</view></uni-col>
-						<uni-col :span="24"><view class="detail-text">类型: {{tabBarItem.itemType}}</view></uni-col>
-						<uni-col :span="24"><view class="detail-text">属性: {{tabBarItem.itemProp}}</view></uni-col>
+						<uni-col :span="24"><view class="detail-text">编号: {{navItem.itemCode}}</view></uni-col>
+						<uni-col :span="24"><view class="detail-text">名称: {{navItem.itemName}}</view></uni-col>
+						<uni-col :span="24"><view class="detail-text">型号: {{navItem.itemModel}}</view></uni-col>
+						<uni-col :span="24"><view class="detail-text">品牌: {{navItem.itemBrand}}</view></uni-col>
+						<uni-col :span="24"><view class="detail-text">类型: {{navItem.itemType}}</view></uni-col>
+						<uni-col :span="24"><view class="detail-text">属性: {{navItem.itemProp}}</view></uni-col>
 					</uni-row>
-				</text>
+				</view>
 			</uni-list-item>
 		</uni-list>
 		<view class="double-line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">备注</view>
-			<view class="form-right">{{tabBarItem.note}}</view>
+			<view class="form-right">{{navItem.note}}</view>
 		</view>
 		<view class="line"></view>
 		<uni-popup ref="alertDialog" type="dialog">
@@ -64,12 +64,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				text:'',
 				canSub:true,
 			}
@@ -78,6 +79,7 @@
 			mynavBar
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			let note=itemData.note;
@@ -89,34 +91,34 @@
 			}
 			itemData.index=100
 			itemData.text='领用出库详情'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			console.log("itemData: " + JSON.stringify(itemData));
 			if(itemData.isOut==2){//未出库
 				this.text='发货'
 			}
 			this.index_code=itemData.index_code
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		methods: {
 			textClick(){
-				this.$refs.alertDialog.open()
+				_this.$refs.alertDialog.open()
 			},
 			dialogConfirm(){
 				if(this.canSub){
 					this.canSub=false
 					this.showLoading()
 					let comData={
-						receiveOutId:this.tabBarItem.receiveOutId,
+						receiveOutId:this.navItem.receiveOutId,
 						outManCode:this.personInfo.user_code,
 						outManName:this.personInfo.user_name,
-						outNum:this.tabBarItem.outNum,
+						outNum:this.navItem.outNum,
 						note:'',
 						op_code:'index',
 						index_code: this.index_code,

@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :text="showLook"
-			:textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text="showLook" :textClick="textClick">
+		</mynavBar>
 		<view>
 			<p style="margin: 5px 0px 0px 20px;color: #505050;font-size: 14px;font-weight: bold;">考生信息</p>
 			<view style="height: 0.5px;background-color: #00cfbd;margin: 5px 28px 0px 15px;"></view>
@@ -82,7 +82,8 @@
 					<view class="stuScoreDetail">{{model.complete_score}}</view>
 				</uni-col>
 				<uni-col :span="6">
-					<view v-if="model.stu_answer_list&&model.stu_answer_list.length>0" style="background-color: #c6c6c6;" class="stuScoreDetail">
+					<view v-if="model.stu_answer_list&&model.stu_answer_list.length>0"
+						style="background-color: #c6c6c6;" class="stuScoreDetail">
 						{{model.stu_answer_list.join(',')}}
 					</view>
 					<view v-else="" style="background-color: #c6c6c6;" class="stuScoreDetail">无</view>
@@ -98,11 +99,12 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				showLook: '',
 				stuDetailModel: {}, //学生考试详情
 				stuResultList: [], //学生答题详情列表
@@ -113,35 +115,36 @@
 			mynavBar
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.text = '成绩详情';
-			this.itemData.index = 100;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.text = '成绩详情';
+			this.navItem.index = 100;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
 				title: '成绩详情'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
-			this.stuDetailModel = this.itemData;
+			this.stuDetailModel = this.navItem;
 			//1.10.根据id获取学生考试详情
 			this.getPageDataArray();
 			//1.11.获取学生每题答题详情
 			this.getResultDetail();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			textClick() {
 				console.log('textClicktextClick');
 				let tempArray = [];
-				for (var i = 0; i < this.result_file_list.length; i++) {
-					let tempM = this.result_file_list[i];
+				for (var i = 0; i < _this.result_file_list.length; i++) {
+					let tempM = _this.result_file_list[i];
 					tempArray.push(tempM.merge_file_path);
 				}
 				uni.previewImage({
@@ -150,8 +153,8 @@
 			},
 			getPageDataArray() {
 				let comData = {
-					index_code: this.itemData.access.split('#')[1],
-					id: this.itemData.id, //
+					index_code: this.navItem.access.split('#')[1],
+					id: this.navItem.id, //
 				}
 				// this.showLoading();
 				//1.10.根据id获取学生考试详情
@@ -169,8 +172,8 @@
 			},
 			getResultDetail() {
 				let comData = {
-					index_code: this.itemData.access.split('#')[1],
-					result_id: this.itemData.id, //
+					index_code: this.navItem.access.split('#')[1],
+					result_id: this.navItem.id, //
 				}
 				// this.showLoading();
 				//1.11.获取学生每题答题详情

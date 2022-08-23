@@ -16,7 +16,7 @@
 		</view>
 		 <view style="padding:38px 0 15px;">
 			 <uni-card title="薄弱知识点榜" isShadow>
-				<text class="content-box-text">
+				<view class="content-box-text">
 					<uni-list v-if="bad_list.length>0" :border="false">
 						<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in bad_list" :border="true">
 							<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
@@ -30,24 +30,24 @@
 						</uni-list-item>
 					</uni-list>
 					<view style="margin-left: 15px;font-size: 13px;" v-else>暂无数据</view>
-				</text>
+				</view>
 			 </uni-card>
 			 <uni-card title="牢固知识点榜" isShadow>
-				<text class="content-box-text">
+				<view class="content-box-text">
 					<uni-list v-if="good_list.length>0" :border="false">
 						<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in good_list" :border="true">
-							<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
+							<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 								<view style="display: flex;align-items: center;width: 81vw;">
 									<view class="left-title">{{index+1}}</view>
 									<view style="display: flex;flex-direction: column;margin-left: 8px;flex: 1;">
 										<view class="detail-text-bad">{{item.knowledge_name}}</view>
 									</view>
 								</view>
-							</text>
+							</view>
 						</uni-list-item>
 					</uni-list>
 					<view style="margin-left: 15px;font-size: 13px;" v-else>暂无数据</view>
-				</text>
+				</view>
 			 </uni-card>
 		 </view>
 	</view>
@@ -195,7 +195,7 @@
 				 this.getTurnSituation()
 			},100)
 			uni.setNavigationBarTitle({title:itemData.text});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -206,7 +206,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

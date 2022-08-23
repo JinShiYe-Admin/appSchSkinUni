@@ -1,14 +1,14 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :text="rightName" :textClick="textClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text="rightName" :textClick="textClick">
 		</mynavBar>
-		<view v-if="itemData.flag==0&&detailModel.NoticeStatus==1&&detailModel.NoticeProgress!=3">
+		<view v-if="navItem.flag==0&&detailModel.NoticeStatus==1&&detailModel.NoticeProgress!=3">
 			<input maxlength="10" type="text" v-model="tag"
 				style="float: right;border: 1px solid gainsboro;margin: 5px 10px 0 0;font-size: 14px;width: 150px;height: 35px;padding-left: 5px;"
 				placeholder="请输入我的标签" />
 		</view>
 		<view
-			v-if="itemData.flag==1||detailModel.NoticeStatus==2||detailModel.NoticeStatus==3||detailModel.NoticeProgress==3">
+			v-if="navItem.flag==1||detailModel.NoticeStatus==2||detailModel.NoticeStatus==3||detailModel.NoticeProgress==3">
 			<button @click="saveTag()" type="default" class="down-btn mini-btn"
 				style="float: right;margin-right: 10px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;"
 				size="mini">保存</button>
@@ -31,7 +31,7 @@
 					@click="checkEnc(extraFile)">附件{{index+1}}</a>
 			</view>
 		</view>
-		<view v-if="itemData.flag==0&&detailModel.NoticeStatus==1">
+		<view v-if="navItem.flag==0&&detailModel.NoticeStatus==1">
 			<view class="" style="height: 10px;background-color: #f2f2f2;margin-bottom: 5px;"></view>
 			<view v-if="detailModel.DoneStatus == 1" style="color: black;size: 15px;margin-left: 15px;">继续回复</view>
 			<view v-else-if="detailModel.DoneStatus == 2" style="color: black;size: 15px;margin-left: 15px;">
@@ -43,16 +43,17 @@
 				style="float: right;margin-right: 15px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;"
 				size="mini">确定</button>
 		</view>
-		<view v-if="itemData.flag == 0 && detailModel.NoticeStatus == 1" class="uni-flex uni-row form-view choose-file">
+		<view v-if="navItem.flag == 0 && detailModel.NoticeStatus == 1" class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">附件<view class="file-des">
-					{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
+					{{`(最多可选择${showMaxCount}张照片${wxTips?wxTips:''})`}}
 				</view>
 			</view>
 			<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile'
 				@imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount">
 			</g-upload>
 		</view>
-		<view v-show="detailModel.list&&detailModel.list.length>0" style="itemData.flag == 0 && detailModel.NoticeStatus == 1?'margin-top: 0px;':'margin-top: 50px;'">
+		<view v-show="detailModel.list&&detailModel.list.length>0"
+			style="navItem.flag == 0 && detailModel.NoticeStatus == 1?'margin-top: 0px;':'margin-top: 50px;'">
 			<view class="" style="height: 10px;background-color: #f2f2f2;margin: 10px 0;"></view>
 			<view class="titleCSS" style="font-size: 14px;color: #333;margin: 10px 0 10px 10px;">回复列表</view>
 			<uni-list>
@@ -87,7 +88,8 @@
 			</uni-list>
 		</view>
 		<uni-popup ref="popup" type="dialog">
-			<uni-popup-dialog :title="`确定${this.rightName}吗?`" :duration="2000" :before-close="true" @close="close" @confirm="confirm"></uni-popup-dialog>
+			<uni-popup-dialog :title="`确定${this.rightName}吗?`" :duration="2000" :before-close="true" @close="close"
+				@confirm="confirm"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -98,11 +100,12 @@
 	// 七牛上传相关
 	import gUpload from "@/components/g-upload/g-upload.vue"
 	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
+	let _this;
 	export default {
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				rightName: '', //右上角显示名称
 				tag: '', //我的标签
 				detailModel: {
@@ -129,16 +132,17 @@
 			gUpload
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.index = 100;
-			this.itemData.text = '事务详情';
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.index = 100;
+			this.navItem.text = '事务详情';
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
 				title: '事务详情'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = "";
 			this.wxTips = ',微信端不支持多选'; //如果是H5，需要提示该内容
 			var isPageHide = false;
@@ -154,11 +158,11 @@
 			//获取详情
 			this.getNoticeByReceiveId_sendId_Detail();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			// deleteUploadEnc() {
 			// 	this.detailModel.UploadEncAddrShow = [];
@@ -212,7 +216,7 @@
 					replyContent: this.content, //回复内容
 					encName: encNameTemp, //附件名称
 					encAddr: encAddrTemp, //附件地址
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				}
 				console.log('tempData1:' + JSON.stringify(tempData1));
@@ -239,13 +243,13 @@
 				this.$refs.popup.close();
 				var comData0 = {
 					noticeId: this.detailModel.NoticeId,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				};
 				var url = '';
-				if(this.rightName == '撤销'){
+				if (this.rightName == '撤销') {
 					url = 'cooperateNotice/doSetNoticeUndo';
-				}else{
+				} else {
 					url = 'cooperateNotice/doSetNoticeClose';
 				}
 				this.showLoading();
@@ -260,10 +264,10 @@
 			},
 			textClick() {
 				console.log('textClick');
-				this.$refs.popup.open();
+				_this.$refs.popup.open();
 			},
 			checkEnc: function(tempUrl) {
-				console.log('tempUrl:'+tempUrl);
+				console.log('tempUrl:' + tempUrl);
 				util.openFile(tempUrl);
 			},
 			saveTag: function() {
@@ -272,11 +276,11 @@
 					var comData = {
 						infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
 						tag: this.tag, //标签
-						index_code: this.itemData.access.split('#')[1],
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					var url = '';
-					if (this.itemData.flag == 1) { //我发送的
+					if (this.navItem.flag == 1) { //我发送的
 						url = this.globaData.INTERFACE_OA + 'infoCollect/doSetSendInfoCollectTag';
 					} else { //接收的
 						comData.receiveManId = this.personInfo.user_code; //阅读人ID
@@ -303,7 +307,7 @@
 						infoCollectId: this.detailModel.InfoCollectId, //通知ID
 						receiveManId: this.personInfo.user_code, //阅读人ID
 						tag: this.tag, //标签
-						index_code: this.itemData.access.split('#')[1],
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					//68.修改接收的信息收集标签
@@ -337,17 +341,17 @@
 				this.showLoading();
 				var comData0 = {};
 				var url;
-				if (this.itemData.flag == 0) { //60.通过协同事务接收表ID获取协同事务
+				if (this.navItem.flag == 0) { //60.通过协同事务接收表ID获取协同事务
 					comData0 = {
-						noticeManId: this.itemData.NoticeManId, //协同事务接收表ID
-						index_code: this.itemData.access.split('#')[1],
+						noticeManId: this.navItem.NoticeManId, //协同事务接收表ID
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					url = this.globaData.INTERFACE_OA + 'cooperateNotice/getNoticeByReceiveId';
 				} else { //59.通过协同事务ID获取协同事务
 					comData0 = {
-						noticeId: this.itemData.NoticeId, //协同事务ID
-						index_code: this.itemData.access.split('#')[1],
+						noticeId: this.navItem.NoticeId, //协同事务ID
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					url = this.globaData.INTERFACE_OA + 'cooperateNotice/getNoticeById';
@@ -371,7 +375,7 @@
 							}
 						}
 						//如果是接收的，判断是否右上角有功能
-						if (this.itemData.flag == 1) {
+						if (this.navItem.flag == 1) {
 							// 进程处于“新建”且 状态处于“发出”时 显示撤销按钮
 							if (data.data.NoticeProgress == 1 && data.data.NoticeStatus == 1) {
 								this.rightName = '撤销';
@@ -382,12 +386,12 @@
 						}
 						this.tag = data.data.Tag;
 						this.detailModel = data.data;
-						if (this.itemData.flag == 0) { //54.阅读收到的协同事务
+						if (this.navItem.flag == 0) { //54.阅读收到的协同事务
 							//54.阅读收到的协同事务
 							var comData1 = {
 								noticeId: data.data.NoticeId, //通知ID
 								receiveManId: this.personInfo.user_code, //阅读人ID
-								index_code: this.itemData.access.split('#')[1],
+								index_code: this.navItem.access.split('#')[1],
 								op_code: 'index'
 							}
 							//54.阅读收到的协同事务
@@ -399,7 +403,7 @@
 							//53.阅读发出的协同事务
 							var comData1 = {
 								noticeId: data.data.NoticeId, //通知ID
-								index_code: this.itemData.access.split('#')[1],
+								index_code: this.navItem.access.split('#')[1],
 								op_code: 'index'
 							}
 							//53.阅读发出的协同事务
@@ -439,7 +443,7 @@
 								}
 								var getDownTokenUrl = this.QNGETDOWNTOKENFILE;
 								this.showLoading();
-								cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data,index) => {
+								cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data, index) => {
 									this.hideLoading();
 									console.log('七牛下载token ' + JSON.stringify(data));
 									var tempArr = [];
@@ -447,8 +451,8 @@
 										var tempM = data.Data[a];
 										tempArr.push(tempM.Value);
 									}
-									this.$set(this.detailModel.list[index],'EncAddrShow',tempArr);
-								},i);
+									this.$set(this.detailModel.list[index], 'EncAddrShow', tempArr);
+								}, i);
 							}
 						}
 						console.log('this.detailModel:' + JSON.stringify(this.detailModel));

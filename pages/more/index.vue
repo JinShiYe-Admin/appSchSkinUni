@@ -7,13 +7,28 @@
 				<uni-grid :column="4" :showBorder='false' :square="false" :highlight="false">
 					<uni-grid-item v-for="(chilItem, chiilIndex) in item.childList" :index="chiilIndex"
 						:key="chiilIndex">
-						<uni-badge v-if="chilItem.noReadCut>0" :text='chilItem.noReadCut' type='error' size="small" style="margin-left: 50px;z-index: 99;"></uni-badge>
+						<uni-badge v-if="chilItem.noReadCut>0" :text='chilItem.noReadCut' type='error' size="small" style="margin-left: 50px;z-index: 999;"></uni-badge>
 						<view v-show="chilItem.noReadCut==0" style="height: 20px;"></view>
+						
+						<!-- #ifdef MP -->
+						<view v-if="chilItem.noReadCut==0" class="grid-item-box" @click="clickItem(chilItem)">
+							<image :src="chilItem.icon" class="moreImg" mode="aspectFill" />
+							<text style="margin-top: 10px;font-size: 13px;color: #878787;"
+								class="text">{{ chilItem.text }}</text>
+						</view>
+						<view v-else-if="chilItem.noReadCut>0" class="grid-item-box" @click="clickItem(chilItem)" style="margin-top: -20px;">
+							<image :src="chilItem.icon" class="moreImg" mode="aspectFill" />
+							<text style="margin-top: 10px;font-size: 13px;color: #878787;"
+								class="text">{{ chilItem.text }}</text>
+						</view>
+						<!-- #endif -->
+						<!-- #ifndef MP -->
 						<view class="grid-item-box" @click="clickItem(chilItem)">
 							<image :src="chilItem.icon" class="moreImg" mode="aspectFill" />
 							<text style="margin-top: 10px;font-size: 13px;color: #878787;"
 								class="text">{{ chilItem.text }}</text>
 						</view>
+						<!-- #endif -->
 					</uni-grid-item>
 				</uni-grid>
 			</view>
@@ -133,6 +148,9 @@
 		/* #endif */
 		margin-bottom: -20px;
 		margin-top: 20px;
+		/* #ifdef MP */
+		padding: 0px;
+		/* #endif */
 	}
 	
 	::v-deep .uni-badge--x {

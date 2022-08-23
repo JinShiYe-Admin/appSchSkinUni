@@ -10,24 +10,24 @@
 				</uni-col>
 			</uni-row>
 		</view>
-		<template v-for="item in pageArray">
-			<view :key='item.floor+Math.random()'  class="double-line" style="margin-top: 5px;"></view>
-			<view :key='item.floor+Math.random()'  style="padding: 0 15px;">
+		<view v-for="(item,index0) in pageArray" :key='index0'>
+			<view class="double-line" style="margin-top: 5px;"></view>
+			<view style="padding: 0 15px;">
 				<view class="title-text" style="margin-top: 5px;">{{item.floor}}</view>
 				<view class="line" style="margin-top: 5px;"></view>
 				<uni-list :border="false">
 					<uni-list-item showArrow clickable @click="toDetails(item,model)" :key="index" v-for="(model,index) in item.list" :border="true">
-						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item,model)">
+						<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item,model)">
 							<uni-row>
 								<uni-col :span="12"><view class="detail-text">房间号:{{model.room_name}}</view></uni-col>
 								<uni-col :span="12"><view class="detail-text">床位数:{{model.bed_nums}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">已住数:{{model.stu_nums}}</view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 			</view>
-		</template>
+		</view>
 	</view>
 </template>
 
@@ -81,7 +81,7 @@
 				 this.getPage()
 			},100)
 			uni.setNavigationBarTitle({title:'班级宿舍详情'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -92,7 +92,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

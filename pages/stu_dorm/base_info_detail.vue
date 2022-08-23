@@ -68,12 +68,12 @@
 				 this.getPage()
 			},100)
 			uni.setNavigationBarTitle({title:itemData.dorm_name+itemData.floor_num+'层'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

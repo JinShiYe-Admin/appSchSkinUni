@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon='icon' :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon='icon' :iconClick="iconClick"></mynavBar>
 		<view class="tabs-fixed">
 			<uni-row>
 				<uni-col :span="12">
@@ -19,14 +19,14 @@
 		<view style="padding-top:44px;">
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
+					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text"  style="width: 82vw;">{{item.grd_name}} {{item.cls_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">{{item.dorm_name}}{{item.floor_num}}层{{item.room_name}}{{item.bed_num}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text">考勤:{{item.item_name}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text" style="text-align: right;">{{item.health_date}}</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 		</view>
@@ -40,7 +40,7 @@
 		data() {
 			return {
 				index_code:'',
-				tabBarItem: {},
+				navItem: {},
 				pageSize:15,
 				pageobj0:{
 					loadFlag:0,//0 刷新 1加载更多
@@ -62,7 +62,7 @@
 				
 				
 				icon:['list'],
-				iconClick:[this.formClick],
+				iconClick:[_this.formClick],
 			}
 		},
 		components: {
@@ -91,7 +91,7 @@
 				}
 			},
 			formClick(){
-				let item={index_code:this.index_code}
+				let item={index_code:_this.index_code}
 				util.openwithData('/pages/stu_dorm/health_dorm_form',item,{})
 			},
 			addClick(){
@@ -206,12 +206,13 @@
 			}
 		},
 		onLoad(options) {
+			_this = this;
 			const itemData = util.getPageData(options);
 			this.index_code=itemData.access.split('#')[1]
 			itemData.index=100
 			console.log("itemData: " + JSON.stringify(itemData));
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
@@ -227,7 +228,7 @@
 				 this.getGrd()
 			},100)
 			uni.setNavigationBarTitle({title:itemData.text});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -255,7 +256,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

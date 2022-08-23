@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<view style="display: flex;">
 				<picker style="flex: 1;" @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
@@ -57,7 +57,7 @@
 			</uni-list>
 			<!-- <uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" /> -->
 		</view>
-		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
+		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 
@@ -70,7 +70,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {},
+				navItem: {},
 				pageSize: 15,
 				pageobj0: {
 					loadFlag: 0, //0 刷新 1加载更多
@@ -116,7 +116,7 @@
 					this.showToast('获取不到当前学生位置');
 				} else {
 					let model = {
-						tabBarItem: this.tabBarItem,
+						navItem: this.navItem,
 						stuModel: item,
 						deviceList: this.deviceList,
 						btime: this.time,
@@ -442,20 +442,20 @@
 				_this.tabbar = util.getMenu();
 				for (var i = 0; i < _this.tabbar.length; i++) {
 					let tempM = _this.tabbar[i];
-					if(tempM.access == _this.tabBarItem.access){
-						_this.tabBarItem = tempM;
+					if(tempM.access == _this.navItem.access){
+						_this.navItem = tempM;
 					}
 				}
 			});
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = util.getPageData(option);
-			this.index_code = this.tabBarItem.access.split("#")[1];
+			this.navItem = util.getPageData(option);
+			this.index_code = this.navItem.access.split("#")[1];
 			// 108.定位监测设备列表
 			this.getDeviceList();
 			// 
 			this.getGrd();
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
@@ -483,7 +483,7 @@
 				duration: 0
 			});
 			// #endif
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},

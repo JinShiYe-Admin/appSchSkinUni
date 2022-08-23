@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed">
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="text"
 				activeColor="#00CFBD"></uni-segmented-control>
@@ -113,7 +113,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {},
+				navItem: {},
 				pageSize: 10,
 				semValuesArray: ['考勤记录', '请假统计', '考勤统计'],
 				dateEndTime: '',
@@ -164,8 +164,8 @@
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			console.log('personInfo:' + JSON.stringify(this.personInfo));
-			this.tabBarItem = util.getPageData(option);
-			console.log('this.tabBarItem:' + JSON.stringify(this.tabBarItem));
+			this.navItem = util.getPageData(option);
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			//获取考勤记录
 			this.getAttendancePage();;
 			let end_month = this.moment().format('YYYY-MM')
@@ -292,15 +292,15 @@
 			},
 			clickAttenceDetail: function(model) {
 				console.log('clickAttenceDetail');
-				model.access = this.tabBarItem.access
+				model.access = this.navItem.access
 				util.openwithData("/pages/parents_attendance/attenceDetail", model);
 			},
 			churuxiao: function() {
-				this.tabBarItem.count = this.semFlag2Data.total_count;
-				if (this.tabBarItem.count == 0) {
+				this.navItem.count = this.semFlag2Data.total_count;
+				if (this.navItem.count == 0) {
 					return;
 				}
-				util.openwithData("/pages/parents_attendance/churuxiao", this.tabBarItem);
+				util.openwithData("/pages/parents_attendance/churuxiao", this.navItem);
 			},
 			//获取考勤记录
 			getAttendancePage() {
@@ -312,7 +312,7 @@
 					stu_code: user_code,
 					page_size: this.pageSize,
 					page_number: this.semFlag0Data.pageIndex,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.PARENTS_ATTENDANCE + 'attendance/page', comData, (data0, data) => {
@@ -344,7 +344,7 @@
 					stu_code: user_code,
 					begintime: this.semFlag1Data.startTime,
 					endtime: this.semFlag1Data.endTime,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.PARENTS_ATTENDANCE + 'leave/statistics', comData, (data0, data) => {
@@ -382,7 +382,7 @@
 					endtime: this.semFlag1Data.endTime,
 					page_size: this.pageSize,
 					page_number: this.semFlag1Data.pageNumber,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.PARENTS_ATTENDANCE + 'leave/page', comData, (data0, data) => {
@@ -414,7 +414,7 @@
 					stu_code: user_code,
 					begintime: this.semFlag2Data.startTime,
 					endtime: this.semFlag2Data.endTime,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.PARENTS_ATTENDANCE + 'attendance/inOutCount', comData, (data0, data) => {
@@ -436,7 +436,7 @@
 					stu_code: user_code,
 					begintime: this.semFlag2Data.startTime,
 					endtime: this.semFlag2Data.endTime,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.PARENTS_ATTENDANCE + 'attendance/attendanceCountByMonth', comData, (data0,
@@ -474,7 +474,7 @@
 					page_size: this.pageSize,
 					stu_code: user_code,
 					page_number: this.semFlag2Data.pageNumber,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.PARENTS_ATTENDANCE + 'attendance/pageAttendanceStatistics', comData, (data0,

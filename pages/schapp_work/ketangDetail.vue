@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick" :text='text' :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick" :text='text' :textClick="textClick"></mynavBar>
 		<view v-if="editStatus===0">
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">年级</view>
@@ -124,12 +124,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				detailData:{
 					grd_name:"",
 					class_name:"",
@@ -173,11 +174,12 @@
 			mynavBar,
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='课堂点名详情'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			console.log("itemData: " + JSON.stringify(itemData));
 			this.detailData={
@@ -205,7 +207,7 @@
 			if(itemData.edit==1){
 				this.text='编辑'
 			}
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 			let that =this
@@ -217,29 +219,29 @@
 			}, 100);
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		methods: {
 			iconClick(){
-				this.$refs.alertDialog.open()
+				_this.$refs.alertDialog.open()
 			},
 			textClickEvent(){
 				console.log('修改');
-				this.editStatus=1
-				this.icon=''
-				this.text=['取消','保存'],
-				this.textClick=[this.cancel,this.save]
-				console.log(this.stuList);
-				this.stuList.map((stuItem,index)=>{
-					if(stuItem.value==this.tabBarItem.stu_code){
-						this.stuIndex=index
+				_this.editStatus=1
+				_this.icon=''
+				_this.text=['取消','保存'],
+				_this.textClick=[_this.cancel,_this.save]
+				console.log(_this.stuList);
+				_this.stuList.map((stuItem,index)=>{
+					if(stuItem.value==_this.navItem.stu_code){
+						_this.stuIndex=index
 					}
 				})
 				// let attendanceList=this.leaveDict.concat(this.attendanceDict)
 				// attendanceList.map((item,index)=>{
-				// 	if(item.value==this.tabBarItem.item_code){
+				// 	if(item.value==this.navItem.item_code){
 				// 		this.attendanceIndex=index
 				// 	}
 				// })
@@ -250,15 +252,15 @@
 					this.canSub=false
 					this.showLoading()
 					let comData={
-						grd_code:this.tabBarItem.grd_code,
-						cls_code:this.tabBarItem.cls_code,
+						grd_code:this.navItem.grd_code,
+						cls_code:this.navItem.cls_code,
 						attendance_time:this.time,
 						stu_ids:this.stuList[this.stuIndex].value,
 						item_code:this.attendanceList[this.attendanceIndex].value,
 						class_node:this.jcList[this.jcIndex].value,
 						sub_code:this.kmList[this.kmIndex].value,
 						comment:this.comment,
-						id:this.tabBarItem.id,
+						id:this.navItem.id,
 						index_code:this.index_code,
 					}
 					console.log("comData: " + JSON.stringify(comData));
@@ -339,9 +341,9 @@
 			getStuList(){
 				let comData={
 					op_code:'index',
-					grd_code: this.tabBarItem.grd_code,
-					cls_code: this.tabBarItem.cls_code,
-					sub_code: this.tabBarItem.sub_code,
+					grd_code: this.navItem.grd_code,
+					cls_code: this.navItem.cls_code,
+					sub_code: this.navItem.sub_code,
 					get_stu:true,
 					index_code:this.index_code,
 				}
@@ -350,12 +352,12 @@
 					this.stuList=response.stuArray
 					this.kmList=response.subArray
 					response.stuArray.map((item,index)=>{
-						if(item.value==this.tabBarItem.stu_code){
+						if(item.value==this.navItem.stu_code){
 							this.sutIndex=index
 						}
 					})
 					response.subArray.map((item,index)=>{
-						if(item.value==this.tabBarItem.sub_code){
+						if(item.value==this.navItem.sub_code){
 							this.kmIndex=index
 						}
 					})
@@ -389,12 +391,12 @@
 					
 					// this.attendanceDict=qaArray
 					response.qaArray.map((item,index)=>{
-						if(item.value==this.tabBarItem.item_code){
+						if(item.value==this.navItem.item_code){
 							this.attendanceIndex=index
 						}
 					})
 					response.timeArray.map((item,index)=>{
-						if(item.value==this.tabBarItem.class_node){
+						if(item.value==this.navItem.class_node){
 							this.jcIndex=index
 						}
 					})
@@ -414,7 +416,7 @@
 			// 		this.hideLoading()
 			// 		this.jcList=response.timeArray
 			// 		response.timeArray.map((item,index)=>{
-			// 			if(item.value==this.tabBarItem.class_node){
+			// 			if(item.value==this.navItem.class_node){
 			// 				this.jcIndex=index
 			// 			}
 			// 		})

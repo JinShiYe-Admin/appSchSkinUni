@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="保存" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="保存" :textClick="textClick"></mynavBar>
 		<uni-notice-bar :single="true" text="第三步:请完善学生考勤情况并保存！" />
 		<view style="padding:0 15px;">
-			<view class="title-text">{{tabBarItem.parseTime}}&ensp;{{getWeek()}}&ensp;{{tabBarItem.qa.text}}{{tabBarItem.floor.sut_sex}}宿舍楼{{tabBarItem.build.text}}{{tabBarItem.floor.text}}{{tabBarItem.dorm.text}}&ensp;宿舍点名</view>
-			<view class="detail-text-time">检测时间段：{{tabBarItem.beginTime}} ~ {{tabBarItem.endTime}}</view>
+			<view class="title-text">{{navItem.parseTime}}&ensp;{{getWeek()}}&ensp;{{navItem.qa.text}}{{navItem.floor.sut_sex}}宿舍楼{{navItem.build.text}}{{navItem.floor.text}}{{navItem.dorm.text}}&ensp;宿舍点名</view>
+			<view class="detail-text-time">检测时间段：{{navItem.beginTime}} ~ {{navItem.endTime}}</view>
 			<view class="title-total">
 				<view class="detail-text-total">住宿人数：<view><text style="font-size: 15px;font-weight: 600;">{{zsrs}}</text>人</view></view>
 				<view class="detail-text-total">已到：<view><text style="font-size: 15px;font-weight: 600;">{{yd}}</text>人</view></view>
@@ -18,11 +18,11 @@
 		<view style="position: sticky;top: 44px;z-index: 2;background: #EAEAEA;margin:-6px 0 0;">
 			<view style="display: flex;">
 				<button type="primary" style="font-size: 14px;background-color: #4cd964;border-color: #4cd964;" @click="yidao">"请选择"默认为已到</button>
-				<button type="primary" style="font-size: 14px;background-color: #f0ad4e;border-color: #f0ad4e;" @click='queqin'>"请选择"默认为{{tabBarItem.qa.keyText}}</button>
+				<button type="primary" style="font-size: 14px;background-color: #f0ad4e;border-color: #f0ad4e;" @click='queqin'>"请选择"默认为{{navItem.qa.keyText}}</button>
 			</view>
 		</view>
 		<uni-list>
-			<uni-list-item v-for="(item,index) in tabBarItem.stuList" :key="index" :ellipsis="1" :title="item.stu_name" :note="item.card_id" >
+			<uni-list-item v-for="(item,index) in navItem.stuList" :key="index" :ellipsis="1" :title="item.stu_name" :note="item.card_id" >
 				<template v-slot:footer>
 					<view class="uni-flex uni-row form-view">
 						<template v-if="item.interface">
@@ -58,14 +58,14 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
-	 
+	let _this;
 	 
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				rightList:[],
 				rightList2:[],
 				stuList:[],
@@ -77,6 +77,7 @@
 			mynavBar,
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			let parseTime=this.moment(itemData.time).format('YYYY年MM月DD日')
@@ -88,10 +89,10 @@
 			}else if(itemData.qa.value=='night'){
 				itemData.qa.keyText='晚休缺勤'
 			}
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code 
-			console.log("this.tabBarItem: " + JSON.stringify(this.tabBarItem));
-			let rightList = [{text:'已到',value:'*'}].concat(this.tabBarItem.attendanceList)
+			console.log("this.navItem: " + JSON.stringify(this.navItem));
+			let rightList = [{text:'已到',value:'*'}].concat(this.navItem.attendanceList)
 			let rightList2 = [{text:'检测识别',value:'**'}].concat(rightList)
 			this.rightList=rightList
 			this.rightList2=rightList2
@@ -116,12 +117,12 @@
 			console.log("stuList: " + JSON.stringify(stuList));
 			this.stuList=stuList
 			this.setTotal();
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -151,40 +152,40 @@
 			},
 			textClick(){
 				let canSubmit=true
-				this.stuList.map(stuItem=>{
+				_this.stuList.map(stuItem=>{
 					if(stuItem.rightIndex==-1){
 						 canSubmit=false
 					}
 				})
 				if(canSubmit){
-					let stuList=this.getStuList()
+					let stuList=_this.getStuList()
 					if(stuList.length>0){
-						if(this.tabBarItem.historyData){
-							this.$refs.alertDialog.open()
-							this.canSub=false
+						if(_this.navItem.historyData){
+							_this.$refs.alertDialog.open()
+							_this.canSub=false
 						}else{
-							if(this.canSub){
-								this.canSub=false
-								this.showLoading()
-								this.submitData()
+							if(_this.canSub){
+								_this.canSub=false
+								_this.showLoading()
+								_this.submitData()
 							}
 						}
 					}else{
-						this.$refs.alertDialog2.open()
+						_this.$refs.alertDialog2.open()
 					}
 				}else{
-					this.showToast('请将考勤情况填写完整再保存！')
+					_this.showToast('请将考勤情况填写完整再保存！')
 				}
 			},
 			//删除之前的考勤记录 112
 			deleteData(){
 				let comData={
-					begintime: this.tabBarItem.time,
-					endtime: this.tabBarItem.time,
-					dorm_name:this.tabBarItem.build.value,
-					floor_num:this.tabBarItem.floor.value,
-					room_name:this.tabBarItem.dorm.value,
-					rest_code:this.tabBarItem.qa.value,
+					begintime: this.navItem.time,
+					endtime: this.navItem.time,
+					dorm_name:this.navItem.build.value,
+					floor_num:this.navItem.floor.value,
+					room_name:this.navItem.dorm.value,
+					rest_code:this.navItem.qa.value,
 					index_code: this.index_code,
 				}
 				console.log("comData: " + JSON.stringify(comData));
@@ -200,12 +201,12 @@
 			},
 			submitData(){
 				let comData={
-					attendance_date:this.tabBarItem.time,
-					dorm_name:this.tabBarItem.build.value,
-					floor_num:this.tabBarItem.floor.value,
-					room_name:this.tabBarItem.dorm.value,
+					attendance_date:this.navItem.time,
+					dorm_name:this.navItem.build.value,
+					floor_num:this.navItem.floor.value,
+					room_name:this.navItem.dorm.value,
 					register_type:'room',
-					rest_code:this.tabBarItem.qa.value,
+					rest_code:this.navItem.qa.value,
 					list:this.getStuList(),
 					index_code:this.index_code,
 				}
@@ -274,8 +275,8 @@
 					if(stuItem.status=='default'){
 						stuItem.equType='用户点击默认为缺勤'
 						this.rightList.map((rightItem,index)=>{
-							console.log("this.tabBarItem.qa.keyText: ",this.tabBarItem.qa.keyText);
-							if(rightItem.value==this.tabBarItem.qa.keyText){
+							console.log("this.navItem.qa.keyText: ",this.navItem.qa.keyText);
+							if(rightItem.value==this.navItem.qa.keyText){
 								stuItem.item_txt=rightItem.text
 								stuItem.item_code=rightItem.value
 								stuItem.rightIndex=index
@@ -315,7 +316,7 @@
 			},
 			//获取星期几
 			getWeek(){
-				let week=this.moment(this.tabBarItem.time).day()
+				let week=this.moment(this.navItem.time).day()
 				let weekName=''
 				switch (week){
 					case 1:

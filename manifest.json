@@ -2,8 +2,8 @@
     "name" : "教宝校园",
     "appid" : "__UNI__720E42A",
     "description" : "",
-    "versionName" : "1.0.8",
-    "versionCode" : 108,
+    "versionName" : "1.0.9",
+    "versionCode" : 109,
     "transformPx" : false,
     "networkTimeout" : {
         /*全局网络请求超时时间*/
@@ -52,6 +52,7 @@
                     "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
@@ -66,7 +67,7 @@
                 },
                 "minSdkVersion" : 22,
                 "targetSdkVersion" : 29,
-                "abiFilters" : [ "armeabi-v7a" ]
+                "abiFilters" : [ "armeabi-v7a", "arm64-v8a" ]
             },
             /* ios打包配置 */
             "ios" : {
@@ -77,7 +78,8 @@
                     "NSMicrophoneUsageDescription" : "该应用需要使用你的麦克风，以便继续录音",
                     "NSLocationWhenInUseUsageDescription" : "该应用需要你的地理位置，以便为你提供当前位置信息",
                     "NSLocationAlwaysUsageDescription" : "该应用需要持续获取用户地理位置，以便为你进行定位"
-                }
+                },
+                "dSYMs" : false
             },
             /* SDK配置 */
             "sdkConfigs" : {

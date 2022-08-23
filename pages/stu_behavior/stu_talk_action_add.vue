@@ -1,12 +1,12 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">行为详情</view>
 			<view class="form-right">
-				<view style="margin: 5px 0;text-align: left;">{{tabBarItem.grd_name}}&ensp;{{tabBarItem.class_name}}&ensp;{{tabBarItem.stu_name}}</view>
-				<view style="margin: 5px 0;text-align: left;">{{tabBarItem.behavior_time}}&ensp;&ensp;{{tabBarItem.item_txt}}</view>
-				<view style="margin: 5px 0;text-align: left;">{{tabBarItem.comment}}</view>
+				<view style="margin: 5px 0;text-align: left;">{{navItem.grd_name}}&ensp;{{navItem.class_name}}&ensp;{{navItem.stu_name}}</view>
+				<view style="margin: 5px 0;text-align: left;">{{navItem.behavior_time}}&ensp;&ensp;{{navItem.item_txt}}</view>
+				<view style="margin: 5px 0;text-align: left;">{{navItem.comment}}</view>
 			</view>
 		</view>
 		<template v-if="imgListf.length>0">
@@ -32,7 +32,7 @@
 		<template v-if="edit">
 			<view class="double-line"></view>
 			<view class="uni-flex uni-row form-view choose-file">
-				<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}</view></view>
+				<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${showMaxCount}张照片${wxTips?wxTips:''})`}}</view></view>
 				<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount"></g-upload>
 			</view>
 		</template>
@@ -45,14 +45,14 @@
 	// 七牛上传相关
 	 import gUpload from "@/components/g-upload/g-upload.vue"
 	 import cloudFileUtil from '../../commom/uploadFiles/CloudFileUtil.js';
-	 
+	let _this;
 	 
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				
 				canSub:true,
@@ -91,11 +91,12 @@
 			 gUpload
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='新建行为谈话'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			 this.formData.id=itemData.id
 			 this.edit=itemData.edit==1
@@ -107,19 +108,18 @@
 			if(itemData.canDelete){
 				this.icon='trash'
 			}
-			let that=this
 			setTimeout(()=>{
 				if(itemData.status=='unTalk'){
-					that.showLoading();
-					that.setRead();//已阅操作是根据item的add==1判断的，在列表页已经判断过
+					_this.showLoading();
+					_this.setRead();//已阅操作是根据item的add==1判断的，在列表页已经判断过
 				}
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -129,14 +129,14 @@
 				util.openFile(tempUrl);
 			},
 			textClick(){//发送请假信息
-				if(this.formData.time==''){
-					this.showToast('请选择谈话日期')
-				}else if(this.formData.comment==''){
-					this.showToast('请输入谈话记录')
+				if(_this.formData.time==''){
+					_this.showToast('请选择谈话日期')
+				}else if(_this.formData.comment==''){
+					_this.showToast('请输入谈话记录')
 				}else{
-					if(this.canSub){
-						this.canSub=false
-						this.upLoadImg();
+					if(_this.canSub){
+						_this.canSub=false
+						_this.upLoadImg();
 					}
 				}
 			},
@@ -184,9 +184,9 @@
 					})
 				}
 				let comData={
-					grd_code: this.tabBarItem.grd_code,
-					cls_code: this.tabBarItem.cls_code,
-					student_behavior_id: this.tabBarItem.student_behavior_id,
+					grd_code: this.navItem.grd_code,
+					cls_code: this.navItem.cls_code,
+					student_behavior_id: this.navItem.student_behavior_id,
 					id:''+this.formData.id,
 					chat_detail: this.formData.comment,
 					chat_time: this.formData.time,
@@ -218,9 +218,9 @@
 			},
 			setRead(){
 				let comData={
-					grd_code: this.tabBarItem.grd_code,
-					cls_code: this.tabBarItem.cls_code,
-					student_behavior_id: this.tabBarItem.student_behavior_id,
+					grd_code: this.navItem.grd_code,
+					cls_code: this.navItem.cls_code,
+					student_behavior_id: this.navItem.student_behavior_id,
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_STUXWSUB+'Talk/read',comData,response=>{
@@ -230,7 +230,7 @@
 					 let model={
 						 id:response.id,
 						 edit:response.edit,
-						 bid:this.tabBarItem.student_behavior_id,
+						 bid:this.navItem.student_behavior_id,
 						 create_user_name:response.create_user_name,
 					 }
 					 const eventChannel = this.getOpenerEventChannel()

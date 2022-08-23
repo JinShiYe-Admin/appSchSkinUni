@@ -17,17 +17,17 @@
 		<view style="padding:5px 15px 0px;">
 			<uni-list :border="false">
 				<uni-list-item :key="index" v-for="(item,index) in pageArray" :border="true">
-					<text slot="body" class="slot-box slot-text">
+					<view slot="body" class="slot-box slot-text">
 						<view class="title-text" style="margin-top: 5px;">{{item.floor}}</view>
 						<view class="line" style="margin-top: 5px;"></view>
-						<uni-row :key="index+Math.random()" v-for="(model,index) in item.list">
+						<uni-row :key="index2" v-for="(model,index2) in item.list">
 							<uni-col :span="24"><view class="detail-text">房间:{{model.room_name}}</view></uni-col>
 							<uni-col v-if="grdClsFlag<2" :span="24"><view class="detail-text">分配班级:{{model.cls_name}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text">总床位数:{{model.bed_nums}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text">空余床位数:{{model.spare_bed_nums}}</view></uni-col>
-							<uni-col :span="24" v-if="index<item.list.length-1"><view class="line" style="margin-top: 5px;"></view></uni-col>
+							<uni-col :span="24" v-if="index2<item.list.length-1"><view class="line" style="margin-top: 5px;"></view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 		</view>
@@ -85,12 +85,12 @@
 				 this.getPage()
 			},100)
 			uni.setNavigationBarTitle({title:'空床查询详情'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

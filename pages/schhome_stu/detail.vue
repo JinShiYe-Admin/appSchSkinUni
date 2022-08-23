@@ -24,12 +24,12 @@
 			<template v-if="tabBarItem.msg_type=='1-6'">
 				<uni-list :border="false">
 					<uni-list-item :key="index" v-for="(item,index) in tabBarItem.scoreList" :border="true">
-						<text slot="body" class="slot-box slot-text">
+						<view slot="body" class="slot-box slot-text">
 							<view style="display: flex;">
 								 <view style="width: 80px;font-size: 13px;">{{item.text}}</view>
 								 <view style="flex:1;text-align: right;font-size: 13px;">{{item.value?item.value:0}}</view>
 							</view>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 			</template>
@@ -93,12 +93,12 @@
 				}
 			}
 			this.tabBarItem=itemData
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

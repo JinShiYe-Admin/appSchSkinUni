@@ -18,27 +18,27 @@
 		<view style="padding-top: 40px;">
 			<uni-list :border="false">
 				<uni-list-item :border="true">
-					<text slot="body" class="slot-box slot-text">
+					<view slot="body" class="slot-box slot-text">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text-total">{{listTotal.row_name}}:{{listTotal.people_num}} 人</view></uni-col>
 							<template v-for="(item,index) in listTotal.kqxxList">
-								<uni-col :key="index+Math.random()" :span="8"><view class="detail-text">{{item.name}}:{{item.value}} 人</view></uni-col>
+								<uni-col :key="index" :span="8"><view class="detail-text">{{item.name}}:{{item.value}} 人</view></uni-col>
 							</template>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<view v-if="listTotal.kqxxList" class="double-line"></view>
 			<uni-list :border="false">
 				<uni-list-item  :key="index" v-for="(model,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text">
+					<view slot="body" class="slot-box slot-text">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">{{model.grd_name}}&ensp;{{model.class_name}}({{model.people_num}}人)</view></uni-col>
 							<template v-for="(item,index2) in model.kqxxList">
-								<uni-col :key="index2+Math.random()"  :span="8"><view class="detail-text">{{item.name}}:{{item.value}} 人</view></uni-col>
+								<uni-col :key="index2"  :span="8"><view class="detail-text">{{item.name}}:{{item.value}} 人</view></uni-col>
 							</template>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -225,12 +225,12 @@
 				 this.getGrd()
 			},100)
 			uni.setNavigationBarTitle({title:itemData.text});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

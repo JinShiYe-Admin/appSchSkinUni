@@ -15,7 +15,7 @@
 		<view style="padding-top: 40px;">
 			<uni-list :border="false">
 				<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text">
+					<view slot="body" class="slot-box slot-text">
 						<uni-row>
 							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">姓名：</view><view class="detail-text">{{item.user_name}}</view></uni-col>
 							<uni-col :span="12" style="display: flex;align-items: baseline;"><view class="title-text">正常：</view><view class="detail-text">{{item.ok_cnt}}次</view></uni-col>
@@ -23,7 +23,7 @@
 							<uni-col :span="12" style="display: flex;align-items: baseline;"><view class="title-text">早退：</view><view class="detail-text">{{item.early_cnt}}次</view></uni-col>
 							<uni-col :span="12" style="display: flex;align-items: baseline;"><view class="title-text">非规定地址打卡：</view><view class="detail-text">{{item.out_cnt}}次</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 		</view>
@@ -135,12 +135,12 @@
 				 this.getUserInfo()
 			},100)
 			uni.setNavigationBarTitle({title:'考勤报表'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

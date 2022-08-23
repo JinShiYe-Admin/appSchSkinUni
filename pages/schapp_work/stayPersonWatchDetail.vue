@@ -1,12 +1,12 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view>
-			<view class="nameTime">地点：<span class='nameContent'>{{itemData.attendance_location}}</span>
+			<view class="nameTime">地点：<span class='nameContent'>{{navItem.attendance_location}}</span>
 			</view>
 			<view class="nameTime">识别人数：<span class='nameContent'>{{pageData.length}}</span>
 			</view>
-			<view class="nameTime">时间：<span class='nameContent'>{{itemData.btime}}</span>
+			<view class="nameTime">时间：<span class='nameContent'>{{navItem.btime}}</span>
 			</view>
 			<view class="card-line" style="margin: 10px 0;"></view>
 			<uni-row style="margin: 10px 10px 0 10px;background-color: #00aba1;border-radius: 10px;height: 40px;">
@@ -50,7 +50,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				showLook: '',
 				pageData:[],
 				pageIndex: 1,
@@ -66,21 +66,21 @@
 		onLoad(option) {
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.text = '滞留人员识别情况';
-			this.itemData.index = 100;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.text = '滞留人员识别情况';
+			this.navItem.index = 100;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
 				title: '滞留人员识别情况'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//
 			this.getPageData();
 		},
 		onShow() {
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
@@ -110,7 +110,7 @@
 					page_number: 1,
 					page_size: 999999,
 					uname: "",
-					index_code: this.itemData.index_code,
+					index_code: this.navItem.index_code,
 				}
 				this.showLoading();
 				//2.1.学生普通卡
@@ -137,13 +137,13 @@
 			},
 			getPageData() {
 				let comData = {
-					machid: this.itemData.mach_id, //蓝牙设备ID
+					machid: this.navItem.mach_id, //蓝牙设备ID
 					mtp: 8, //机器类型,8,蓝牙识别
-					btime: this.itemData.btime,
+					btime: this.navItem.btime,
 					timespan:60,
 					page_number: this.pageIndex, //当前页数
 					page_size: 20, //每页记录数
-					index_code: this.itemData.index_code,
+					index_code: this.navItem.index_code,
 				}
 				this.showLoading();
 				//2.19.学校蓝牙设备监测人员

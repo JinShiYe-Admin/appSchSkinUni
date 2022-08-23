@@ -1,65 +1,65 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick" :text='text' :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick" :text='text' :textClick="textClick"></mynavBar>
 		<view v-if="editStatus===0">
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">年级</view>
-				<view class="form-right">{{tabBarItem.grd_name}}</view>
+				<view class="form-right">{{navItem.grd_name}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">班级</view>
-				<view class="form-right">{{tabBarItem.cls_name}}</view>
+				<view class="form-right">{{navItem.cls_name}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">学生</view>
-				<view class="form-right">{{tabBarItem.stu_name}}</view>
+				<view class="form-right">{{navItem.stu_name}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">楼房</view>
-				<view class="form-right">{{tabBarItem.dorm_name}}</view>
+				<view class="form-right">{{navItem.dorm_name}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">楼层</view>
-				<view class="form-right">{{tabBarItem.floor_num}}</view>
+				<view class="form-right">{{navItem.floor_num}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">房间号</view>
-				<view class="form-right">{{tabBarItem.room_name}}</view>
+				<view class="form-right">{{navItem.room_name}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">床位号</view>
-				<view class="form-right">{{tabBarItem.bed_num}}</view>
+				<view class="form-right">{{navItem.bed_num}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">宿舍考勤</view>
-				<view class="form-right">{{tabBarItem.item_name}}</view>
+				<view class="form-right">{{navItem.item_name}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">午/晚休</view>
-				<view class="form-right">{{tabBarItem.rest_code_text}}</view>
+				<view class="form-right">{{navItem.rest_code_text}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">说明</view>
-				<view class="form-right">{{tabBarItem.remark?tabBarItem.remark:'暂无'}}</view>
+				<view class="form-right">{{navItem.remark?navItem.remark:'暂无'}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">记录人</view>
-				<view class="form-right">{{tabBarItem.create_user_name}}</view>
+				<view class="form-right">{{navItem.create_user_name}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">时间</view>
-				<view class="form-right">{{tabBarItem.attendance_date}}</view>
+				<view class="form-right">{{navItem.attendance_date}}</view>
 			</view>
 		</view>
 		<view v-else-if="editStatus===1">  
@@ -192,6 +192,7 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
@@ -200,11 +201,11 @@
 				
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				icon:'',
 				text:'',
-				textClick:this.textClickEvent,
+				textClick:_this.textClickEvent,
 				editStatus:0,//0 展示  1编辑
 				startDate:'2010-01-01',
 				endDate:this.moment().format('YYYY-MM-DD'),
@@ -245,11 +246,12 @@
 			mynavBar
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='宿舍考勤详情'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			
 			if(itemData.delete==1){
@@ -260,13 +262,13 @@
 				this.text='编辑'
 			}
 			console.log("itemData: " + JSON.stringify(itemData));
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
 			 
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -283,35 +285,35 @@
 				}
 			},
 			async textClickEvent(){
-				this.editStatus=1
-				this.icon=''
-				this.text=['取消','保存'],
-				this.textClick=[this.cancel,this.save]
-				if(this.formByDorm.build_floor_list.length===0){
-					await this.getBuildingList();
+				_this.editStatus=1
+				_this.icon=''
+				_this.text=['取消','保存'],
+				_this.textClick=[_this.cancel,_this.save]
+				if(_this.formByDorm.build_floor_list.length===0){
+					await _this.getBuildingList();
 				}
-				if(this.qaList.length===0 || this.attendanceList.length===0){
-					await this.getDict();
+				if(_this.qaList.length===0 || _this.attendanceList.length===0){
+					await _this.getDict();
 				}
-				await this.setDefaultData()
+				await _this.setDefaultData()
 			},
 			setDefaultData(){
 				return new Promise(async (resolve,reject)=>{
 					if(this.current===0){
-						await this.getFloorList(this.tabBarItem.dorm_name);
-						await this.getDormList(this.tabBarItem.dorm_name,this.tabBarItem.floor_num);
+						await this.getFloorList(this.navItem.dorm_name);
+						await this.getDormList(this.navItem.dorm_name,this.navItem.floor_num);
 						this.formByDorm.buildList.map((bItem,index)=>{
-							if(this.tabBarItem.dorm_name==bItem.value){
+							if(this.navItem.dorm_name==bItem.value){
 								this.formByDorm.buildIndex=index
 							}
 						})
 						this.formByDorm.floorList.map((fItem,index)=>{
-							if(this.tabBarItem.floor_num==fItem.value){
+							if(this.navItem.floor_num==fItem.value){
 								this.formByDorm.floorIndex=index
 							}
 						})
 						this.formByDorm.dormList.map((dItem,index)=>{
-							if(this.tabBarItem.room_name==dItem.value){
+							if(this.navItem.room_name==dItem.value){
 								this.formByDorm.dormIndex=index
 							}
 						})
@@ -319,53 +321,53 @@
 							await this.getBedList();
 						}
 						this.formByDorm.bedList.map((bItem,index)=>{
-							if(this.tabBarItem.bed_num==bItem.value){
+							if(this.navItem.bed_num==bItem.value){
 								this.formByDorm.bedIndex=index
 							}
 						})
 						this.attendanceList.map((aItem,index)=>{
-							if(this.tabBarItem.item_name==aItem.value){
+							if(this.navItem.item_name==aItem.value){
 								this.formByDorm.attendanceIndex=index
 							}
 						}) 
 						this.qaList.map((qItem,index)=>{
-							if(this.tabBarItem.rest_code==qItem.value){
+							if(this.navItem.rest_code==qItem.value){
 								this.formByDorm.qaIndex=index
 							}
 						}) 
-						this.formByDorm.time=this.tabBarItem.attendance_date
-						this.formByDorm.comment=this.tabBarItem.remark
+						this.formByDorm.time=this.navItem.attendance_date
+						this.formByDorm.comment=this.navItem.remark
 						resolve()
 					}else if(this.current===1){
-						await this.getCls(this.tabBarItem.grd_code);
-						await this.getStu(this.tabBarItem.grd_code,this.tabBarItem.cls_code);
+						await this.getCls(this.navItem.grd_code);
+						await this.getStu(this.navItem.grd_code,this.navItem.cls_code);
 						this.formByClass.grdList.map((item,index)=>{
-							if(this.tabBarItem.grd_code==item.value){
+							if(this.navItem.grd_code==item.value){
 								this.formByClass.grdIndex=index
 							}
 						})
 						this.formByClass.clsList.map((item,index)=>{
-							if(this.tabBarItem.cls_code==item.value){
+							if(this.navItem.cls_code==item.value){
 								this.formByClass.clsIndex=index
 							}
 						})
 						this.formByClass.stuList.map((item,index)=>{
-							if(this.tabBarItem.stu_code==item.value){
+							if(this.navItem.stu_code==item.value){
 								this.formByClass.stuIndex=index
 							}
 						})
 						this.attendanceList.map((aItem,index)=>{
-							if(this.tabBarItem.item_name==aItem.value){
+							if(this.navItem.item_name==aItem.value){
 								this.formByClass.attendanceIndex=index
 							}
 						}) 
 						this.qaList.map((qItem,index)=>{
-							if(this.tabBarItem.rest_code==qItem.value){
+							if(this.navItem.rest_code==qItem.value){
 								this.formByClass.qaIndex=index
 							}
 						}) 
-						this.formByClass.time=this.tabBarItem.attendance_date
-						this.formByClass.comment=this.tabBarItem.remark
+						this.formByClass.time=this.navItem.attendance_date
+						this.formByClass.comment=this.navItem.remark
 						resolve()
 					}
 					
@@ -393,9 +395,9 @@
 							this.showToast('请选择午/晚休')
 						}else{
 							comData={
-								stu_codes:this.tabBarItem.stu_code,
-								cls_code:this.tabBarItem.cls_code,
-								grd_code:this.tabBarItem.grd_code,
+								stu_codes:this.navItem.stu_code,
+								cls_code:this.navItem.cls_code,
+								grd_code:this.navItem.grd_code,
 								attendance_date:this.formByDorm.time,
 								dorm_name:this.formByDorm.buildList[this.formByDorm.buildIndex].value,
 								floor_num:this.formByDorm.floorList[this.formByDorm.floorIndex].value,
@@ -405,7 +407,7 @@
 								register_type:'room',
 								remark:this.formByDorm.comment,
 								rest_code:this.qaList[this.formByDorm.qaIndex].value,
-								id:this.tabBarItem.id,
+								id:this.navItem.id,
 								index_code:this.index_code
 							}
 							this.postData(comData)
@@ -425,10 +427,10 @@
 							this.showToast('请选择午/晚休')
 						}else{
 							comData={
-								dorm_name:this.tabBarItem.dorm_name,
-								floor_num:this.tabBarItem.floor_num,
-								room_name:this.tabBarItem.room_name,
-								bed_nums:this.tabBarItem.bed_num,
+								dorm_name:this.navItem.dorm_name,
+								floor_num:this.navItem.floor_num,
+								room_name:this.navItem.room_name,
+								bed_nums:this.navItem.bed_num,
 								grd_code:this.formByClass.grdList[this.formByClass.grdIndex].value,
 								cls_code:this.formByClass.clsList[this.formByClass.clsIndex].value,
 								stu_codes:this.formByClass.stuList[this.formByClass.stuIndex].value,
@@ -437,7 +439,7 @@
 								register_type:'room',
 								remark:this.formByClass.comment,
 								rest_code:this.qaList[this.formByClass.qaIndex].value,
-								id:this.tabBarItem.id,
+								id:this.navItem.id,
 								index_code:this.index_code
 							}
 							this.postData(comData)
@@ -498,13 +500,13 @@
 				}
 			},
 			iconClick(){
-				this.$refs.alertDialog.open()
+				_this.$refs.alertDialog.open()
 			},
 			dialogConfirm(){
 				this.showLoading()
 				let url=this.globaData.INTERFACE_DORM + 'dormAttendance/delete'
 				let comData={
-					id: this.tabBarItem.id,
+					id: this.navItem.id,
 					index_code:this.index_code,
 				}
 				this.post(url,comData,response=>{

@@ -22,7 +22,7 @@
 		 <view style="padding:66px 15px 0;">
 			 <uni-list :border="false">
 			 	<uni-list-item :showArrow="item.state=='已交'" clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
-			 		<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
+			 		<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<view style="display: flex;align-items: center;width: 81vw;">
 							<view class="left-title" :class="item.type=='2'?'left-title-zy':item.type=='3'?'left-title-zc':''">{{item.type=='2'?'作业':item.type=='3'?'周测':''}}</view>
 							<view style="display: flex;flex-direction: column;margin-left: 8px;flex: 1;">
@@ -31,7 +31,7 @@
 							</view>
 							<view v-if="item.score !=null" style="width:75px;text-align: right;"><text style="color: #ff6b4b;font-size: 17px;font-weight: 600;margin-right: 3px;">{{item.score}}</text>分</view>
 						</view>
-			 		</text>
+			 		</view>
 			 	</uni-list-item>
 			 </uni-list>
 			 <uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -218,7 +218,7 @@
 				 this.getList()
 			},100)
 			uni.setNavigationBarTitle({title:itemData.text});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -229,7 +229,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

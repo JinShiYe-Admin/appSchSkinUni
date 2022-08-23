@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' text="定位" :textClick="textClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="定位" :textClick="textClick">
 		</mynavBar>
 		<uni-row>
 			<uni-col :span="6" style="min-height: 40px;">
@@ -26,8 +26,10 @@
 				<view class="leftView">开始时间</view>
 			</uni-col>
 			<uni-col :span="18">
-				<picker mode="multiSelector" ref="picker" @change="valueChangeStart" :value="multiIndexStart" :range="multiArray">
-					<view class="uni-input">{{multiArray[0][multiIndexStart[0]]}}:{{multiArray[1][multiIndexStart[1]]}}</view>
+				<picker mode="multiSelector" ref="picker" @change="valueChangeStart" :value="multiIndexStart"
+					:range="multiArray">
+					<view class="uni-input">{{multiArray[0][multiIndexStart[0]]}}:{{multiArray[1][multiIndexStart[1]]}}
+					</view>
 				</picker>
 			</uni-col>
 		</uni-row>
@@ -37,8 +39,10 @@
 				<view class="leftView">结束时间</view>
 			</uni-col>
 			<uni-col :span="18">
-				<picker mode="multiSelector" ref="picker" @change="valueChangeEnd" :value="multiIndexEnd" :range="multiArray">
-					<view class="uni-input">{{multiArray[0][multiIndexEnd[0]]}}:{{multiArray[1][multiIndexEnd[1]]}}</view>
+				<picker mode="multiSelector" ref="picker" @change="valueChangeEnd" :value="multiIndexEnd"
+					:range="multiArray">
+					<view class="uni-input">{{multiArray[0][multiIndexEnd[0]]}}:{{multiArray[1][multiIndexEnd[1]]}}
+					</view>
 				</picker>
 			</uni-col>
 		</uni-row>
@@ -93,7 +97,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				type: '',
 				canClick: true, //防止提交按钮多次点击
 				todayDate: '',
@@ -118,28 +122,30 @@
 			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.index = 100;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.index = 100;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			this.todayDate = this.getNowFormatDate();
 			// 
 			this.getLocation();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			valueChangeStart(e) {
 				this.multiIndexStart = e.detail.value;
-				this.begintime = this.multiArray[0][this.multiIndexStart[0]] + ':' + this.multiArray[1][this.multiIndexStart[1]];
+				this.begintime = this.multiArray[0][this.multiIndexStart[0]] + ':' + this.multiArray[1][this
+					.multiIndexStart[1]
+				];
 				this.$forceUpdate();
 			},
 			valueChangeEnd(e) {
@@ -153,7 +159,7 @@
 						this.showToast('请输入工作地点')
 					} else if (this.workContent == '') {
 						this.showToast('请输入日程内容')
-					} else if(this.compareTime(this.begintime, this.endtime) == 1){
+					} else if (this.compareTime(this.begintime, this.endtime) == 1) {
 						this.showToast("开始时间不能晚于结束时间", "cancel");
 					} else {
 						this.canClick = false;
@@ -185,7 +191,7 @@
 					begin_time: this.begintime, //开始时间
 					end_time: this.endtime, //结束时间
 					op_code: 'add', //
-					index_code: this.itemData.index_code, //
+					index_code: this.navItem.index_code, //
 				}
 				console.log("comData: " + JSON.stringify(comData));
 				this.post(this.globaData.INTERFACE_PROGRAMME + 'note/addNote', comData, (data0, data) => {
@@ -227,7 +233,7 @@
 				this.type = '';
 			},
 			textClick() {
-				this.getLocation();
+				_this.getLocation();
 			},
 			async getLocation() {
 				// #ifdef APP-PLUS
@@ -257,23 +263,23 @@
 						console.log('当前位置的经度：' + res.longitude);
 						console.log('当前位置的纬度：' + res.latitude);
 						//#ifdef APP-PLUS
-						_this.workAddress = (res.address.province?res.address.province:'')
-						+(res.address.city?res.address.city:'')
-						+(res.address.district?res.address.district:'')
-						+(res.address.street?res.address.street:'')
-						+(res.address.streetNum?res.address.streetNum:'')
-						+(res.address.poiName?res.address.poiName:'');
+						_this.workAddress = (res.address.province ? res.address.province : '') +
+							(res.address.city ? res.address.city : '') +
+							(res.address.district ? res.address.district : '') +
+							(res.address.street ? res.address.street : '') +
+							(res.address.streetNum ? res.address.streetNum : '') +
+							(res.address.poiName ? res.address.poiName : '');
 						//#endif
-						
+
 						_this.longitude = res.longitude
 						_this.latitude = res.latitude
 					},
 					fail() {
 						// #ifdef H5
-							_this.showToast('请开启位置服务')
+						_this.showToast('请开启位置服务')
 						// #endif
 						// #ifdef APP-PLUS
-							_this.openGps();
+						_this.openGps();
 						// #endif
 						console.log("获取位置失败");
 					},

@@ -33,12 +33,12 @@
 		},
 		onLoad() {
 			uni.setNavigationBarTitle({title: '关于教宝校园'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

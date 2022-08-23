@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed">
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
 				activeColor="#00CFBD"></uni-segmented-control>
@@ -36,7 +36,7 @@
 				</m-steps>
 				<view class="uni-loadmore" v-if="semFlag0Data.showLoadMore">{{semFlag0Data.loadMoreText}}</view>
 			</view>
-			<view v-if="semFlag == 1">
+			<view v-else-if="semFlag == 1">
 				<m-steps v-for="(item, index) in semFlag1Data.sem1List" :item='item' :key="index" :index='index'>
 					<view slot="dateTop" style="width: 100px;text-align: center;font-size: 12px;color: #808080;">
 						{{item.exam_date.split(' ')[0]}}
@@ -65,7 +65,7 @@
 				</m-steps>
 				<view class="uni-loadmore" v-if="semFlag1Data.showLoadMore">{{semFlag1Data.loadMoreText}}</view>
 			</view>
-			<view v-if="semFlag == 2">
+			<view v-else-if="semFlag == 2">
 				<my-swiperPage :allValue="semFlag2Data.subList" :showBackColor="true" @swiperPagechange='changeSwiper'></my-swiperPage>
 				<h4 class="spaceLine">本科知识点概况</h4>
 				<view class="charts-box">
@@ -135,7 +135,7 @@
 					</uni-list-item>
 				</uni-list>
 			</view>
-			<view v-if="semFlag == 3">
+			<view v-else-if="semFlag == 3">
 				<my-swiperPage :allValue="semFlag3Data.subList" :showBackColor="true" @swiperPagechange='changeSwiper'></my-swiperPage>
 				<view class="mui-row">
 					<h4 class="spaceLine">错题数量及趋势</h4>
@@ -208,7 +208,7 @@
 				</uni-list>
 			</view>
 		</view>
-		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
+		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 
@@ -222,7 +222,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {},
+				navItem: {},
 				pageSize: 10,
 				semValuesArray: ['单科成绩', '全科成绩', '知识点分析', '错题本'],
 				dateEndTime: '',
@@ -287,16 +287,16 @@
 				_this.tabbar = util.getMenu();
 				for (var i = 0; i < _this.tabbar.length; i++) {
 					let tempM = _this.tabbar[i];
-					if(tempM.access == _this.tabBarItem.access){
-						_this.tabBarItem = tempM;
+					if(tempM.access == _this.navItem.access){
+						_this.navItem = tempM;
 					}
 				}
 			});
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			console.log('personInfo:' + JSON.stringify(this.personInfo));
-			this.tabBarItem = util.getTabbarMenu();
-			console.log('this.tabBarItem:' + JSON.stringify(this.tabBarItem));
+			this.navItem = util.getTabbarMenu();
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 
 			// 获取科目列表
 			this.getSubList(0, subArray => {
@@ -389,7 +389,7 @@
 			getSubList(flag, callback) {
 				var comData = {
 					user_code: this.personInfo.user_code,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				var tempUrl = 'singleSub/subList';
 				if (flag == 2) {
@@ -408,16 +408,16 @@
 				});
 			},
 			clickSingleScore: function(model) {
-				model.access = this.tabBarItem.access.split('#')[1];
+				model.access = this.navItem.access.split('#')[1];
 				console.log('clickSingleScore:'+JSON.stringify(model));
 				util.openwithData("/pages/student_performance/singleScore", model);
 			},
 			clickSumScore: function(model) {
-				model.access = this.tabBarItem.access.split('#')[1];
+				model.access = this.navItem.access.split('#')[1];
 				util.openwithData("/pages/student_performance/sumScore", model);
 			},
 			clickKnowPointDetail: function(model) { //查看各知识点详情
-				model.access = this.tabBarItem.access.split('#')[1];
+				model.access = this.navItem.access.split('#')[1];
 				model.per_name = this.semFlag2Data.knowData.per_name;
 				model.per_code = this.semFlag2Data.knowData.per_code;
 				model.nowSubject = this.semFlag2Data.nowSubject;
@@ -431,7 +431,7 @@
 				// model.score_rate = tempM.score_rate;
 				// model.id = tempM.book_catalog_id;
 				model.flag = 1;
-				model.access = this.tabBarItem.access.split('#')[1];
+				model.access = this.navItem.access.split('#')[1];
 				model.type = 'low';
 				model.headTitle = '得分率最低的十个知识点';
 				model.bookList = this.semFlag2Data.knowData.low_score_list;
@@ -445,7 +445,7 @@
 				// model.score_rate = tempM.score_rate;
 				// model.id = tempM.book_catalog_id;
 				model.flag = 1;
-				model.access = this.tabBarItem.access.split('#')[1];
+				model.access = this.navItem.access.split('#')[1];
 				model.type = 'height';
 				model.headTitle = '得分率最高的十个知识点';
 				model.bookList = this.semFlag2Data.knowData.high_score_list;
@@ -454,7 +454,7 @@
 				util.openwithData("/pages/student_performance/zhishidianfenxi", model);
 			},
 			clickWrongBookDetail: function(model) { //查看错题详情
-				model.access = this.tabBarItem.access.split('#')[1];
+				model.access = this.navItem.access.split('#')[1];
 				model.per_name = this.semFlag3Data.wrongData.per_name;
 				model.per_code = this.semFlag3Data.wrongData.per_code;
 				model.nowSubject = this.semFlag3Data.nowSubject;
@@ -468,7 +468,7 @@
 				// model.name = tempM.name;
 				// model.id = tempM.book_catalog_id;
 				model.flag = 2;
-				model.access = this.tabBarItem.access.split('#')[1];
+				model.access = this.navItem.access.split('#')[1];
 				model.headTitle = '知识点错题榜';
 				model.bookList = this.semFlag3Data.wrongData.error_point_list;
 				model.bookIndex = index;
@@ -481,7 +481,7 @@
 				// model.name = tempM.paper_name;
 				// model.id = tempM.paper_id;
 				model.flag = 3;
-				model.access = this.tabBarItem.access.split('#')[1];
+				model.access = this.navItem.access.split('#')[1];
 				model.headTitle = '考试/作业错题榜';
 				model.bookList = this.semFlag3Data.wrongData.error_task_list;
 				model.bookIndex = index;
@@ -555,7 +555,7 @@
 					sub_code: this.semFlag0Data.nowSubject.sub_code,
 					page_number: this.semFlag0Data.pageIndex,
 					page_size: this.pageSize,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_STUSCORE + 'singleSub/page', comData, (data0, data) => {
@@ -583,7 +583,7 @@
 					user_code: this.personInfo.user_code,
 					page_number: this.semFlag1Data.pageIndex,
 					page_size: this.pageSize,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_STUSCORE + 'fullSub/page', comData, (data0, data) => {
@@ -610,7 +610,7 @@
 				let comData = {
 					user_code: this.personInfo.user_code,
 					sub_code: this.semFlag2Data.nowSubject.sub_code,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_STUSCORE + 'point/subOverview', comData, (data0, data) => {
@@ -629,7 +629,7 @@
 				let comData = {
 					user_code: this.personInfo.user_code,
 					sub_code: this.semFlag3Data.nowSubject.sub_code,
-					index_code: this.tabBarItem.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_STUSCORE + 'errorBook/queryTrends', comData, (data0, data) => {

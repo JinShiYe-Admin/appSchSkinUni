@@ -1,13 +1,13 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' :text="rightName" :textClick="textClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text="rightName" :textClick="textClick">
 		</mynavBar>
 		<view v-if="detailModel.InfoUploadCloseStatus == 1&&detailModel.InfoUploadStatus==1">
 			<input maxlength="10" type="text" v-model="tag"
 				style="float: right;border: 1px solid gainsboro;margin: 5px 10px 0 0;font-size: 14px;width: 150px;height: 35px;padding-left: 5px;"
 				placeholder="请输入我的标签" />
 		</view>
-		<view v-if="itemData.flag==1||detailModel.InfoUploadCloseStatus == 2||detailModel.InfoUploadStatus==2">
+		<view v-if="navItem.flag==1||detailModel.InfoUploadCloseStatus == 2||detailModel.InfoUploadStatus==2">
 			<button @click="saveTag()" type="default" class="down-btn mini-btn"
 				style="float: right;margin-right: 10px;margin-top: 10px;background: #00CFBD;border-color: #00CFBD;color: white;"
 				size="mini">保存</button>
@@ -29,7 +29,7 @@
 					@click="checkEnc(extraFile)">附件{{index+1}}</a>
 			</view>
 		</view>
-		<view v-if="itemData.flag == 0||detailModel.InfoCollectStatus !=4">
+		<view v-if="navItem.flag == 0||detailModel.InfoCollectStatus !=4">
 			<view v-if="detailModel.InfoUploadCloseStatus == 1">
 				<view class="" style="height: 10px;background-color: #f2f2f2;"></view>
 				<view v-if="detailModel.InfoUploadContent.length > 0"
@@ -55,7 +55,9 @@
 				</view>
 			</view>
 		</view>
-		<view v-if="detailModel.UploadEncAddrShow&&detailModel.UploadEncAddrShow.length>0&&detailModel.InfoUploadCloseStatus == 1" style="margin-top: 15px;">
+		<view
+			v-if="detailModel.UploadEncAddrShow&&detailModel.UploadEncAddrShow.length>0&&detailModel.InfoUploadCloseStatus == 1"
+			style="margin-top: 15px;">
 			<view v-for="(extraFile,index) in detailModel.UploadEncAddrShow" :key='index'>
 				<view class="encName" v-show="extraFile">附件:
 					<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
@@ -66,9 +68,10 @@
 				</view>
 			</view>
 		</view>
-		<view v-if="itemData.flag == 0&&detailModel.InfoUploadCloseStatus == 1&&detailModel.UploadEncAddrShow.length==0" class="uni-flex uni-row form-view choose-file">
+		<view v-if="navItem.flag == 0&&detailModel.InfoUploadCloseStatus == 1&&detailModel.UploadEncAddrShow.length==0"
+			class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">附件<view class="file-des">
-					{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
+					{{`(最多可选择${showMaxCount}张照片${wxTips?wxTips:''})`}}
 				</view>
 			</view>
 			<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile'
@@ -89,8 +92,10 @@
 						<view class="rightView">
 							<a class="biaoti0 title">{{replyModel.ReceiveManName}}</a>
 							<!-- :class="replyModel.InfoUploadCloseStatus==1?closeBtn:openBtn" -->
-							<button v-if="detailModel.InfoCollectStatus !=4" @click="openCloseUpload(replyModel)" type="default" class="down-btn mini-btn"
-								style="float: right;margin-right: 10px;margin-top: 10px;color: white;" :style="replyModel.InfoUploadCloseStatus==1?'background: orangered;border-color: orangered;':'background: #00CFBD;border-color: #00CFBD;'"
+							<button v-if="detailModel.InfoCollectStatus !=4" @click="openCloseUpload(replyModel)"
+								type="default" class="down-btn mini-btn"
+								style="float: right;margin-right: 10px;margin-top: 10px;color: white;"
+								:style="replyModel.InfoUploadCloseStatus==1?'background: orangered;border-color: orangered;':'background: #00CFBD;border-color: #00CFBD;'"
 								size="mini">{{replyModel.InfoUploadCloseStatusName}}</button>
 						</view>
 					</view>
@@ -118,7 +123,8 @@
 								</uni-col>
 							</uni-row>
 							<a class="biaoti0 title">{{replyModel.UploadContent}}</a>
-							<view v-if="replyModel.UploadEncAddrShow&&replyModel.UploadEncAddrShow.length>0" style="margin-top: 15px;margin-left: -15px;">
+							<view v-if="replyModel.UploadEncAddrShow&&replyModel.UploadEncAddrShow.length>0"
+								style="margin-top: 15px;margin-left: -15px;">
 								<view v-for="(extraFile,indexEnc) in replyModel.UploadEncAddrShow" :key='indexEnc'>
 									<view class="encName" v-show="extraFile">附件:
 										<a class="" style="font-size: 13px;color: #3c9bfe;margin-left: 10px;"
@@ -127,10 +133,13 @@
 								</view>
 							</view>
 							<view>
-								<button v-if="detailModel.InfoCollectStatus !=4" @click="openCloseUpload(replyModel)" type="default" class="down-btn mini-btn"
-									style="float: right;margin-right: 10px;margin-top: 10px;color: white;"  :style="replyModel.InfoUploadCloseStatus==1?'background: orangered;border-color: orangered;':'background: #00CFBD;border-color: #00CFBD;'"
+								<button v-if="detailModel.InfoCollectStatus !=4" @click="openCloseUpload(replyModel)"
+									type="default" class="down-btn mini-btn"
+									style="float: right;margin-right: 10px;margin-top: 10px;color: white;"
+									:style="replyModel.InfoUploadCloseStatus==1?'background: orangered;border-color: orangered;':'background: #00CFBD;border-color: #00CFBD;'"
 									size="mini">{{replyModel.InfoUploadCloseStatusName}}</button>
-								<button v-if="detailModel.InfoCollectStatus !=4&&replyModel.InfoUploadCloseStatus!=2" @click="backUpload(replyModel)" type="default" class="down-btn mini-btn"
+								<button v-if="detailModel.InfoCollectStatus !=4&&replyModel.InfoUploadCloseStatus!=2"
+									@click="backUpload(replyModel)" type="default" class="down-btn mini-btn"
 									style="float: right;margin-top: 10px;background: orangered;border-color: orangered;color: white;margin-right: 10px;"
 									size="mini">退回</button>
 							</view>
@@ -164,7 +173,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				rightFlag: 0, //右上角是否显示，0不显示，1撤销，2关闭
 				rightName: '', //右上角显示名称
 				tag: '', //我的标签
@@ -175,8 +184,8 @@
 				},
 				canSub: true, //
 				content: '',
-				openCloseModel:{},
-				backupModel:{},
+				openCloseModel: {},
+				backupModel: {},
 				// 附件上传相关👇
 				control: true, //是否显示上传 + 按钮 一般用于显示
 				deleteBtn: true, //是否显示删除 按钮 一般用于显示
@@ -187,7 +196,7 @@
 				imgList: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
 				imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
 				wxTips: '',
-				deleteImg:[],//需要删除的附件
+				deleteImg: [], //需要删除的附件
 			}
 		},
 		components: {
@@ -197,14 +206,14 @@
 		onLoad(option) {
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.index = 100;
-			this.itemData.text = '资料收集详情';
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.index = 100;
+			this.navItem.text = '资料收集详情';
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
 				title: '资料收集详情'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = "";
 			this.wxTips = ',微信端不支持多选'; //如果是H5，需要提示该内容
 			var isPageHide = false;
@@ -219,13 +228,13 @@
 			//#endif
 			//获取详情
 			this.getNoticeByReceiveId_sendId_Detail();
-			
+
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			deleteUploadEnc(url) {
 				this.deleteImg.push(url);
@@ -254,49 +263,49 @@
 				this.showLoading('正在上传文件...');
 				cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PV_NAME, this.QN_OA_ZLSJ, (encName,
 					encAddrStr) => {
-						this.hideLoading();
-						console.log("encAddrStr: " + JSON.stringify(encAddrStr));
-						console.log("names: " + JSON.stringify(encName));
-						this.submitData(encName, encAddrStr);
-					});
+					this.hideLoading();
+					console.log("encAddrStr: " + JSON.stringify(encAddrStr));
+					console.log("names: " + JSON.stringify(encName));
+					this.submitData(encName, encAddrStr);
+				});
 			},
 			//附件上传相关👆
 			submitData(encNameStr, encAddrStr) {
 				console.log('encNameStr:' + JSON.stringify(encNameStr));
 				console.log('encAddrStr:' + JSON.stringify(encAddrStr));
 				this.showLoading()
-				let encNameTemp,encAddrTemp;
-				if (encNameStr.length>0) {
+				let encNameTemp, encAddrTemp;
+				if (encNameStr.length > 0) {
 					encNameTemp = encNameStr.join('|');
 					encAddrTemp = encAddrStr.join('|');
-				}else{
+				} else {
 					encNameTemp = this.detailModel.UploadEncName.join('|');
 					encAddrTemp = this.detailModel.UploadEncAddr.join('|');
 				}
 				var tempData1 = {
-					infoCollectId: this.itemData.InfoCollectId, //信息收集ID
+					infoCollectId: this.navItem.InfoCollectId, //信息收集ID
 					receiveManId: this.personInfo.user_code, //上交人ID
 					content: this.content, //备注
 					encName: encNameTemp, //附件名称
 					encAddr: encAddrTemp, //附件地址
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				}
-				console.log('tempData1:'+JSON.stringify(tempData1));
+				console.log('tempData1:' + JSON.stringify(tempData1));
 				//28.回复通知公告
 				this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectUpload', tempData1, (data0, data) => {
 					this.canSub = true;
 					this.hideLoading();
 					if (data.code == 0) {
-						if(this.deleteImg.length>0){
+						if (this.deleteImg.length > 0) {
 							cloudFileUtil.qiniuDelete(this.deleteImg, (data) => {
 								console.log('七牛:' + JSON.stringify(data));
 							});
 						}
 						this.content = '';
-						this.imgNames= [];
-						this.imgList= [];
-						this.imgFiles= [];
+						this.imgNames = [];
+						this.imgList = [];
+						this.imgFiles = [];
 						this.showToast('成功');
 						this.getNoticeByReceiveId_sendId_Detail();
 					} else {
@@ -305,10 +314,10 @@
 				});
 			},
 			textClick() {
-				console.log('textClicktextClick');
+				
 			},
 			checkEnc: function(tempUrl) {
-				console.log('tempUrl:'+tempUrl);
+				console.log('tempUrl:' + tempUrl);
 				util.openFile(tempUrl);
 			},
 			saveTag: function() {
@@ -317,11 +326,11 @@
 					var comData = {
 						infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
 						tag: this.tag, //标签
-						index_code: this.itemData.access.split('#')[1],
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					var url = '';
-					if (this.itemData.flag == 1) { //我发送的
+					if (this.navItem.flag == 1) { //我发送的
 						url = this.globaData.INTERFACE_OA + 'infoCollect/doSetSendInfoCollectTag';
 					} else { //接收的
 						comData.receiveManId = this.personInfo.user_code; //阅读人ID
@@ -348,7 +357,7 @@
 						infoCollectId: this.detailModel.InfoCollectId, //通知ID
 						receiveManId: this.personInfo.user_code, //阅读人ID
 						tag: this.tag, //标签
-						index_code: this.itemData.access.split('#')[1],
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					//68.修改接收的信息收集标签
@@ -367,7 +376,7 @@
 					this.showToast("备注不能超过50字");
 					return;
 				}
-				if (this.imgList.length == 0&&this.detailModel.UploadEncAddrShow.length==0) {
+				if (this.imgList.length == 0 && this.detailModel.UploadEncAddrShow.length == 0) {
 					this.showToast("请先选择附件");
 					return;
 				}
@@ -399,49 +408,52 @@
 					infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
 					receiveManId: this.openCloseModel.ReceiveManId, //上交人ID
 					operType: tempFlag, //操作，1 打开2 被关闭
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				};
 				this.showLoading();
 				//66.打开/关闭某人信息收集
-				this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectUploadOper', comData0, (data0, data) => {
-					this.hideLoading();
-					if (data.code == 0) {
-						this.showToast("成功");
-						this.getNoticeByReceiveId_sendId_Detail();
-					}
-				});
-			},
-			closechexiao(){
-				this.$refs.chexiaoguanbiPopup.close();
-			},
-			confirmchexiao(value){
-				this.$refs.chexiaoguanbiPopup.close();
-				if(this.rightFlag == 1){
-					var comData0 = {
-						infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
-						index_code: this.itemData.access.split('#')[1],
-						op_code: 'index',
-					};
-					this.showLoading();
-					//
-					this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectUndo', comData0, (data0, data) => {
+				this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectUploadOper', comData0, (data0,
+					data) => {
 						this.hideLoading();
 						if (data.code == 0) {
 							this.showToast("成功");
 							this.getNoticeByReceiveId_sendId_Detail();
 						}
 					});
-				}else{
+			},
+			closechexiao() {
+				this.$refs.chexiaoguanbiPopup.close();
+			},
+			confirmchexiao(value) {
+				this.$refs.chexiaoguanbiPopup.close();
+				if (this.rightFlag == 1) {
 					var comData0 = {
 						infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
-						isClose:'2',//关闭状态,1 打开2 关闭
-						index_code: this.itemData.access.split('#')[1],
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index',
 					};
 					this.showLoading();
 					//
-					this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectClose', comData0, (data0, data) => {
+					this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectUndo', comData0, (data0,
+					data) => {
+						this.hideLoading();
+						if (data.code == 0) {
+							this.showToast("成功");
+							this.getNoticeByReceiveId_sendId_Detail();
+						}
+					});
+				} else {
+					var comData0 = {
+						infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
+						isClose: '2', //关闭状态,1 打开2 关闭
+						index_code: this.navItem.access.split('#')[1],
+						op_code: 'index',
+					};
+					this.showLoading();
+					//
+					this.post(this.globaData.INTERFACE_OA + 'infoCollect/doSetInfoCollectClose', comData0, (data0,
+					data) => {
 						this.hideLoading();
 						if (data.code == 0) {
 							this.showToast("成功");
@@ -458,7 +470,7 @@
 				var comData0 = {
 					infoCollectId: this.detailModel.InfoCollectId, //信息收集ID
 					receiveManId: this.backupModel.ReceiveManId, //上交人ID
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				};
 				this.showLoading();
@@ -480,17 +492,17 @@
 				this.showLoading();
 				var comData0 = {};
 				var url;
-				if (this.itemData.flag == 0) { //72.通过信息收集接收表ID获取信息收集
+				if (this.navItem.flag == 0) { //72.通过信息收集接收表ID获取信息收集
 					comData0 = {
-						infoUploadId: this.itemData.InfoCollectManId, //信息收集接收表ID
-						index_code: this.itemData.access.split('#')[1],
+						infoUploadId: this.navItem.InfoCollectManId, //信息收集接收表ID
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					url = this.globaData.INTERFACE_OA + 'infoCollect/getInfoCollectByReceiveId';
 				} else { //71.通过信息收集ID获取信息收集
 					comData0 = {
-						infoCollectId: this.itemData.InfoCollectId, //信息收集ID
-						index_code: this.itemData.access.split('#')[1],
+						infoCollectId: this.navItem.InfoCollectId, //信息收集ID
+						index_code: this.navItem.access.split('#')[1],
 						op_code: 'index'
 					}
 					url = this.globaData.INTERFACE_OA + 'infoCollect/getInfoCollectById';
@@ -510,13 +522,13 @@
 							data.data.UploadEncName = data.data.UploadEncName.split("|");
 							data.data.UploadEncAddr = data.data.UploadEncAddr.split("|");
 							data.data.UploadEncAddrShow = data.data.UploadEncAddr;
-						}else{
+						} else {
 							data.data.UploadEncName = [];
 							data.data.UploadEncAddr = [];
 							data.data.UploadEncAddrShow = [];
 						}
 						//如果是接收的，判断是否右上角有功能
-						if (this.itemData.flag == 1) {
+						if (this.navItem.flag == 1) {
 							for (var i = 0; i < data.data.noUploadList.length; i++) {
 								var tempM = data.data.noUploadList[i];
 								if (tempM.InfoUploadCloseStatus == 1) {
@@ -573,7 +585,7 @@
 								console.log('this.detailModel00:' + JSON.stringify(this.detailModel));
 							});
 						}
-						if (this.detailModel.UploadEncAddrShow&&this.detailModel.UploadEncAddrShow.length>0) {
+						if (this.detailModel.UploadEncAddrShow && this.detailModel.UploadEncAddrShow.length > 0) {
 							var getDownToken = {
 								appId: this.globaData.QN_APPID, //int 必填 项目id
 								appKey: this.globaData.QN_APPKEY,
@@ -593,7 +605,7 @@
 								console.log('this.detailModel11:' + JSON.stringify(this.detailModel));
 							});
 						}
-						if(this.itemData.flag == 1){
+						if (this.navItem.flag == 1) {
 							for (var i = 0; i < this.detailModel.uploadedList.length; i++) {
 								var tempM = this.detailModel.uploadedList[i];
 								if (tempM.UploadEncAddrShow) {
@@ -604,7 +616,7 @@
 									}
 									var getDownTokenUrl = this.QNGETDOWNTOKENFILE;
 									this.showLoading();
-									cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data,index) => {
+									cloudFileUtil.getQNDownToken(getDownTokenUrl, getDownToken, (data, index) => {
 										this.hideLoading();
 										console.log('七牛下载token ' + JSON.stringify(data));
 										var tempArr = [];
@@ -612,8 +624,9 @@
 											var tempM = data.Data[a];
 											tempArr.push(tempM.Value);
 										}
-										this.$set(this.detailModel.uploadedList[index],'UploadEncAddrShow',tempArr);
-									},i);
+										this.$set(this.detailModel.uploadedList[index],
+											'UploadEncAddrShow', tempArr);
+									}, i);
 								}
 							}
 						}
@@ -641,7 +654,7 @@
 		font-size: 18px;
 		color: #000;
 	}
-	
+
 	.title {
 		height: 100%;
 		float: left;
@@ -677,21 +690,23 @@
 	.uni-input-placeholder {
 		padding-left: 5px;
 	}
+
 	.uni-input-input {
-	    padding-left: 5px;
+		padding-left: 5px;
 	}
-	
+
 	.peopleImg {
 		width: 40px;
 		height: 40px;
 		border-radius: 50%;
 	}
-	
+
 	.rightView {
 		margin-left: 10px;
 		float: left;
 		width: calc(100% - 50px);
 	}
+
 	.nameTime {
 		font-size: 13px;
 		color: gray;

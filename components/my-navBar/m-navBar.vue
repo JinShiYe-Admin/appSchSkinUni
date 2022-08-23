@@ -1,18 +1,21 @@
 <template>
 	<view>
-		<u-navbar-my :title='navItem.text' :titleIcon='navItem.titleIcon?navItem.titleIcon:""' :titleClick="$props.titleClick" :backFlag='navItem.index' :backImg="personInfo.img_url" :custom-back="clickLeftImg">
+		<u-navbar-my :title='navItem.text' :titleIcon='navItem.titleIcon?navItem.titleIcon:""'
+			:titleClick="$props.titleClick" :backFlag='navItem.index' :backImg="personInfo.img_url"
+			@customBack="clickLeftImg">
 			<view v-if="icon || text" slot="right" style="display: flex;flex-direction: row;">
-				<template v-if="typeof icon ==='string'">
+				<template v-if="iconType() ==='string'">
 					<view v-if="icon" style="margin: 0 8px;"><uni-icons :type="icon.value?icon.value:icon" :size="icon.style?icon.style.fontSize:18" :color="icon.style?icon.style.color:'#FFFFFF'" @click="$props.iconClick"></uni-icons></view>
 				</template>
-				<template v-else-if="typeof icon === 'object'">
+				<template v-else-if="iconType() === 'object'">
 					<view v-for="(item,index) in icon" :key='item' style="margin: 0 8px;"><uni-icons :type="item.value?item.value:item" :size="item.style?item.style.fontSize:18" :color="item.style?item.style.color:'#FFFFFF'" @click="$props.iconClick[index]"></uni-icons></view>
 				</template>
-				<template v-if="typeof text ==='string'">
+				<template v-if="textType() ==='string'">
 					<view style="margin: 0 8px;" :style="{'color':(text.style?text.style.color:'#FFFFFF'),'font-size':(text.style?text.style.fontSize:'15px')}" @click="$props.textClick">{{text.value?text.value:text}}</view>
 				</template>
-				<template v-else-if="typeof text === 'object'">
-					<view v-for="(item,index) in text" :key='item' style="margin: 0 8px;" :style="{'color':(item.style?item.style.color:'#FFFFFF'),'font-size':(item.style?item.style.fontSize+'px':'15px')}" @click="$props.textClick[index]">{{item.value?item.value:item}}</view>
+				<template v-else-if="textType() === 'object'">
+					<!-- <view v-for="(item,index) in text" :key='item' style="margin: 0 8px;" :style="{'color':(item.style?item.style.color:'#FFFFFF'),'font-size':(item.style?item.style.fontSize+'px':'15px')}" @click="$props.textClick[index]">{{item.value?item.value:item}}</view> -->
+					<view v-for="(item,index) in text" :key='item' style="margin: 0 8px;" :style="{'color':(item.style?item.style.color:'#FFFFFF'),'font-size':(item.style?item.style.fontSize+'px':'15px')}" @click="textClickRight(index)">{{item.value?item.value:item}}</view>
 				</template>
 			</view>
 		</u-navbar-my>
@@ -25,17 +28,19 @@
 				<view style="text-align: center;margin-top: 10px;">{{personInfo.user_name}}</view>
 				<view style="height: 15px;background-color: #DCDFE6;margin-top: 30px;"></view>
 				<uni-list>
-					<!-- <uni-list-item @click="gotoMyData()" title="我的资料" link to=''></uni-list-item>
-					<uni-list-item @click="gotoGrades()" title="学习成绩" link to=''></uni-list-item> -->
-					<uni-list-item @click="gotoModifyPswd()" title="修改密码" link to='' style="height: 45px;align-items: center;"></uni-list-item>
-					<uni-list-item @click="zhuxiao()" title="注销账号" link to='' style="height: 45px;align-items: center;"></uni-list-item>
-					<uni-list-item @click="yinsi()" title="用户隐私政策" link to='' style="height: 45px;align-items: center;"></uni-list-item>
-					<uni-list-item @click="about()" title="关于教宝校园" link to='' style="height: 45px;align-items: center;"></uni-list-item>
+					<uni-list-item @click="gotoModifyPswd()" title="修改密码" link to=''
+						style="height: 45px;align-items: center;"></uni-list-item>
+					<uni-list-item @click="zhuxiao()" title="注销账号" link to='' style="height: 45px;align-items: center;">
+					</uni-list-item>
+					<uni-list-item @click="yinsi()" title="用户隐私政策" link to='' style="height: 45px;align-items: center;">
+					</uni-list-item>
+					<uni-list-item @click="about()" title="关于教宝校园" link to='' style="height: 45px;align-items: center;">
+					</uni-list-item>
 				</uni-list>
 				<view v-if="personInfo.backFlag == 1" class="uni-padding-wrap uni-common-mt">
 					<button @click="tuichu()" type="warn">退出登录</button>
 				</view>
-				<view v-if="personInfo.backFlag == 2"  class="uni-padding-wrap uni-common-mt">
+				<view v-if="personInfo.backFlag == 2" class="uni-padding-wrap uni-common-mt">
 					<button @click="unReg()" type="warn">解除绑定</button>
 				</view>
 			</scroll-view>
@@ -59,8 +64,8 @@
 					return {
 						img_url: '',
 						user_name: '',
-						backFlag:0,//1退出登录，2解除绑定
-						rightObj:'',//右侧对象
+						backFlag: 0, //1退出登录，2解除绑定
+						rightObj: '', //右侧对象
 					}
 				}
 			},
@@ -73,52 +78,62 @@
 					}
 				}
 			},
-			icon:{
-				type:[Array,Object,String],
-				default(){
+			icon: {
+				type: [Array, Object, String],
+				default () {
 					return ''
 				}
 			},
-			iconClick:{
-				type:[Array,Object,Function],
-				default(){
+			iconClick: {
+				type: [Array, Object, Function],
+				default () {
 					return {}
 				}
 			},
-			text:{
-				type:[Array,Object,String],
-				default(){
+			text: {
+				type: [Array, Object, String],
+				default () {
 					return null
 				}
 			},
-			textClick:{
-				type:[Array,Object,Function],
-				default(){
+			textClick: {
+				type: [Array, Object, Function],
+				default () {
 					return {}
 				}
 			},
-			titleClick:{
-				type:Function,
-				default:()=>{}
-			}
+			titleClick: {
+				type: Function,
+				default: () => {}
+			},
+			index: {
+				type: String,
+				default: ""
+			},
 		},
 		methods: {
-			unReg:function(){
+			iconType:function(){
+				return typeof this.icon
+			},
+			textType:function(){
+				return typeof this.text
+			},
+			unReg: function() {
 				var personal = util.getPersonal();
 				//不需要加密的数据 
 				var comData2 = {
 					platform_code: this.globaData.PLATFORMCODE, //平台代码
 					app_code: this.globaData.APPCODE, //应用系统代码
-					index_code:'index',
+					index_code: 'index',
 					unit_code: personal.unit_code, //单位代码，如应用系统需限制本单位用户才允许登录，则传入单位代码，否则传“-1”
-					access_token:personal.access_token,
-					op_user_code:personal.user_code,//用户代码
-					thuser_code:personal.openid,//第三方用户代码或账号
-					thuser_fromcode:this.globaData.THIRD_FORMCODE,//第三方平台,微信:WX;支付宝:ZFB
+					access_token: personal.access_token,
+					op_user_code: personal.user_code, //用户代码
+					thuser_code: personal.openid, //第三方用户代码或账号
+					thuser_fromcode: this.globaData.THIRD_FORMCODE, //第三方平台,微信:WX;支付宝:ZFB
 				};
 				this.showLoading();
 				//2.8.第三方账号解绑
-				this.post(this.globaData.INTERFACE_HR_SKIN + 'unregister/thuserunreg', comData2, (data0,data2) => {
+				this.post(this.globaData.INTERFACE_HR_SKIN + 'unregister/thuserunreg', comData2, (data0, data2) => {
 					if (data2.code == 0) {
 						this.hideLoading();
 						util.setPersonal({});
@@ -138,38 +153,51 @@
 				this.$refs.showPersonInfo.close();
 				util.openwithData('/pages/more/headImg');
 			},
+			textClickRight:function(index){
+				this.$emit("textClickRight",index);
+			},
 			clickLeftImg() {
 				if (this.navItem.index == 0) {
 					this.$refs.showPersonInfo.open();
 				} else if (this.navItem.index > 4 && this.navItem.index < 100) {
-					uni.switchTab({url: '/pages/more/index'});
-				}else if(this.navItem.index === 100){
+					uni.switchTab({
+						url: '/pages/more/index'
+					});
+				} else if (this.navItem.index === 100) {
 					uni.$emit("clickLeft");
-					// #ifdef H5
-						const pages = getCurrentPages()
-						if (pages.length > 1) {
-							if(this.navItem.delta){
-								uni.navigateBack({delta:this.navItem.delta})
-								return
-							}else{
-								uni.navigateBack({delta:1})
-								return;
-							}
-						}else{
-							//使用vue-router返回上一级
-							let a = this.$router.go(-1)
+					// #ifndef APP-PLUS
+					const pages = getCurrentPages()
+					if (pages.length > 1) {
+						if (this.navItem.delta) {
+							uni.navigateBack({
+								delta: this.navItem.delta
+							})
+							return
+						} else {
+							uni.navigateBack({
+								delta: 1
+							})
 							return;
 						}
+					} else {
+						//使用vue-router返回上一级
+						let a = this.$router.go(-1)
+						return;
+					}
 					// #endif
 					// #ifdef APP-PLUS
-						if(this.navItem){
-							uni.navigateBack({delta:this.navItem.delta})
-							return
-						}else{
-							uni.navigateBack({delta:1})
-							return;
-						}
-						
+					if (this.navItem) {
+						uni.navigateBack({
+							delta: this.navItem.delta
+						})
+						return
+					} else {
+						uni.navigateBack({
+							delta: 1
+						})
+						return;
+					}
+
 					// #endif
 					// this.$router.go(-1)
 				}
@@ -217,7 +245,7 @@
 				this.post(this.globaData.INTERFACE_HR_SKIN + 'unregister', comData0, (data0, data) => {
 					this.hideLoading();
 					//#ifdef APP
-						igexinTool.initGeXin().unbindAlias(personal.user_code)
+					igexinTool.initGeXin().unbindAlias(personal.user_code)
 					//#endif
 					if (data.code == 0) {
 						this.showToast(data.msg);
@@ -246,7 +274,7 @@
 					this.post(this.globaData.INTERFACE_SSO_SKIN + 'session/removeSession', comData0, data => {
 						this.hideLoading();
 						//#ifdef APP
-							igexinTool.initGeXin().unbindAlias(personal.user_code)
+						igexinTool.initGeXin().unbindAlias(personal.user_code)
 						//#endif
 						util.setPersonal({});
 						this.$refs.showPersonInfo.close();

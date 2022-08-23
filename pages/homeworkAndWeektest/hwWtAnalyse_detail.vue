@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed">
-			<view style="font-size: 14px;text-align: center;padding-top: 5px;">{{itemData.name}}</view>
-			<my-segmented-control ref='segmCon' :current="semFlag" :values="itemData.childList" @clickItem="clickSeg"
+			<view style="font-size: 14px;text-align: center;padding-top: 5px;">{{navItem.name}}</view>
+			<my-segmented-control ref='segmCon' :current="semFlag" :values="navItem.childList" @clickItem="clickSeg"
 				styleType="text" activeColor="#00CFBD"></my-segmented-control>
 		</view>
 		<view class="content" style="margin-top: 65px;">
@@ -11,7 +11,7 @@
 				<view class="example-body">
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;"
 						v-for="(model,index) in semFlag0Data.dataModel.cls_score_list" :key="index">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">{{model.cls_name}}</view>
 							<view class="card-line" style="margin-left: -10px;"></view>
 							<uni-row style="">
@@ -40,11 +40,11 @@
 									</view>
 								</uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-card>
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;"
 						v-if="semFlag0Data.dataModel.cls_list&&semFlag0Data.dataModel.cls_list.length>0">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-line"></view>
 							<uni-row style="font-size: 13px;margin-top: 7px;margin-bottom: 7px;">
 								<uni-col style="" :span="10">
@@ -81,7 +81,7 @@
 								:key="index" style="margin: 5px -12px 0 -12px;">
 								<view @click="toHomeWorkQueryDetail(model)">
 									<uni-col style="" :span="3">
-										<p class="stuScoreDetail">{{++index}}</p>
+										<p class="stuScoreDetail">{{index+1}}</p>
 										<view class="card-line" style="margin-left: 10px;"></view>
 									</uni-col>
 									<uni-col style="" :span="7">
@@ -102,14 +102,14 @@
 							</uni-row>
 							<view v-if="semFlag0Data.dataModel.cls_list[semFlag0Data.clsIndex].stuArray.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 				</view>
 			</view>
 			<view v-if="semFlag == 1">
 				<view class="example-body">
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">作业概况</view>
 							<view class="card-line" style="margin-left: -10px;"></view>
 							<uni-row style="">
@@ -149,10 +149,10 @@
 							</uni-row>
 							<view v-if="semFlag1Data.generalList.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">低得分率小题</view>
 							<view class="card-line"></view>
 							<view style="margin-top: 15px;margin-left: 10px;">
@@ -165,10 +165,10 @@
 									</uni-grid-item>
 								</uni-grid>
 							</view>
-						</text>
+						</view>
 					</uni-card>
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">高得分率小题</view>
 							<view class="card-line"></view>
 							<view style="margin-top: 15px;margin-left: 10px;">
@@ -181,10 +181,10 @@
 									</uni-grid-item>
 								</uni-grid>
 							</view>
-						</text>
+						</view>
 					</uni-card>
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">各题详情</view>
 							<uni-row style="margin: 10px -12px 0 -12px;background-color: #e5e3e3;height: 40px;">
 								<uni-col style="" :span="3">
@@ -228,14 +228,14 @@
 							</uni-row>
 							<view v-if="semFlag1Data.list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 				</view>
 			</view>
 			<view v-if="semFlag == 2">
 				<view class="example-body">
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">低得分率知识点</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag2Data.bad_list"
@@ -265,10 +265,10 @@
 							</uni-list>
 							<view v-if="semFlag2Data.bad_list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">高得分率知识点</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag2Data.good_list"
@@ -298,12 +298,12 @@
 							</uni-list>
 							<view v-if="semFlag2Data.good_list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 					<view class="card-title" style="margin-top: 10px;">各知识点详情</view>
 					<uni-card isShadow :isFull="true" style="margin-top: 5px;"
 						v-for="(model,index) in semFlag2Data.list" :key="index">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title" style="text-align: center;">{{model.knowledge_name}}</view>
 							<view class="card-line"></view>
 							<uni-row style="margin: 5px -12px 0 -12px;">
@@ -330,14 +330,14 @@
 									</uni-col>
 								</view>
 							</uni-row>
-						</text>
+						</view>
 					</uni-card>
 				</view>
 			</view>
 			<view v-if="semFlag == 3">
 				<view class="example-body">
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">低得分率题型</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag3Data.bad_list"
@@ -367,10 +367,10 @@
 							</uni-list>
 							<view v-if="semFlag3Data.bad_list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 					<uni-card isShadow :isFull="true" style="margin-top: 10px;">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">高得分率题型</view>
 							<uni-list>
 								<uni-list-item :border="false" v-for="(model,index) in semFlag3Data.good_list"
@@ -400,12 +400,12 @@
 							</uni-list>
 							<view v-if="semFlag3Data.good_list.length==0"
 								style="text-align: center;font-size: 14px;margin-top: 5px;">暂无</view>
-						</text>
+						</view>
 					</uni-card>
 					<view class="card-title" style="margin-top: 10px;">题型详情</view>
 					<uni-card isShadow :isFull="true" style="margin-top: 5px;"
 						v-for="(model,index) in semFlag3Data.list" :key="index">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title" style="text-align: center;">{{model.question_type_name}}</view>
 							<view class="card-line"></view>
 							<uni-row style="margin: 5px -12px 0 -12px;">
@@ -432,7 +432,7 @@
 									</uni-col>
 								</view>
 							</uni-row>
-						</text>
+						</view>
 					</uni-card>
 				</view>
 			</view>
@@ -449,7 +449,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				pageSize: 20,
 				semFlag: 0, //点击的seg索引
 				semFlag0Data: { //
@@ -495,12 +495,12 @@
 			}, {
 				name: '题型分析'
 			}];
-			this.itemData = tempM;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = tempM;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//1.196.上交情况与作业成绩
@@ -513,7 +513,7 @@
 				duration: 0
 			});
 			// #endif
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
@@ -529,9 +529,9 @@
 				}
 			},
 			toHomeWorkQueryDetail(model) {
-				model.access = this.itemData.access;
-				model.create_time = this.itemData.exam_date;
-				model.name = this.itemData.name;
+				model.access = this.navItem.access;
+				model.create_time = this.navItem.exam_date;
+				model.name = this.navItem.name;
 				model.text = '成绩详情';
 				model.id = model.result_id;
 				model.flag = 1; //0班级，1学生
@@ -539,16 +539,16 @@
 				util.openwithData("/pages/homeworkAndWeektest/stuStatistics_stuDetail", model);
 			},
 			toDetailPageKnowPoint(model) {
-				model.access = this.itemData.access.split('#')[1];
-				model.id = this.itemData.id;
+				model.access = this.navItem.access.split('#')[1];
+				model.id = this.navItem.id;
 				model.text = '试题分析';
 				console.log('model:' + JSON.stringify(model));
 				util.openwithData("/pages/homeworkAndWeektest/hwWtAnalyse_analyse", model);
 			},
 			toAnalyseDetail(model){
-				model.index_code = this.itemData.access.split('#')[1];
+				model.index_code = this.navItem.access.split('#')[1];
 				model.text = '知识点分析';
-				model.id = this.itemData.id;
+				model.id = this.navItem.id;
 				model.paper_question_number = model.question_numbers;
 				model.flag = 3;//0班级，1学生
 				console.log('model:'+JSON.stringify(model));
@@ -594,8 +594,8 @@
 			//1.196.上交情况与作业成绩
 			homeWorkQueryDetail() {
 				var comData = {
-					id: this.itemData.id,
-					index_code: this.itemData.access.split('#')[1]
+					id: this.navItem.id,
+					index_code: this.navItem.access.split('#')[1]
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'homeWorkQuery/detail', comData, (data0, data) => {
@@ -675,8 +675,8 @@
 			//1.199.作业概况
 			getGeneraQueAnalysis() {
 				var comData = {
-					id: this.itemData.id,
-					index_code: this.itemData.access.split('#')[1]
+					id: this.navItem.id,
+					index_code: this.navItem.access.split('#')[1]
 				}
 				this.showLoading();
 				// 1.199.作业概况
@@ -753,8 +753,8 @@
 				});
 
 				var comData1 = {
-					id: this.itemData.id,
-					index_code: this.itemData.access.split('#')[1]
+					id: this.navItem.id,
+					index_code: this.navItem.access.split('#')[1]
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'homeWorkQuery/queAnalysis', comData1, (data0,
@@ -772,8 +772,8 @@
 			//1.210.题型分析
 			getHomeWorkQueryKnowledge() {
 				var comData = {
-					id: this.itemData.id,
-					index_code: this.itemData.access.split('#')[1]
+					id: this.navItem.id,
+					index_code: this.navItem.access.split('#')[1]
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'homeWorkQuery/knowledge', comData, (data0,
@@ -861,8 +861,8 @@
 			//1.204.题型分析
 			getHomeWorkQueryQuestionType() {
 				var comData = {
-					id: this.itemData.id,
-					index_code: this.itemData.access.split('#')[1]
+					id: this.navItem.id,
+					index_code: this.navItem.access.split('#')[1]
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'homeWorkQuery/questionType', comData, (data0,

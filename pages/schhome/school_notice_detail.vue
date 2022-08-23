@@ -134,12 +134,12 @@
 				 this.getStudentFromHR()
 			},100)
 			uni.setNavigationBarTitle({title:'通知详情'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

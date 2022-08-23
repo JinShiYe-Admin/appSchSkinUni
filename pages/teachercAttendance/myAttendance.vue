@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<uni-row style="height: 35px;display: flex;align-items: center;">
 				<uni-col class="mini-date" :span="8">
@@ -13,7 +13,7 @@
 		<view style="padding-top: 37px;">
 			<uni-list :border="false">
 				<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text">
+					<view slot="body" class="slot-box slot-text">
 						<uni-row>
 							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">时间：</view><view class="detail-text">{{item.attend_time}}</view></uni-col>
 							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">地点：</view><view class="detail-text">{{item.attend_addr}}</view></uni-col>
@@ -21,7 +21,7 @@
 							<uni-col :span="24" style="display: flex;align-items: baseline;"><view class="title-text">结果：</view><view class="detail-text">{{item.attend_resultName}}</view></uni-col>
 							<uni-col :span="24" v-if="item.attend_pic.length>0" style="display: flex;align-items: baseline;"><view class="title-text">附件：</view><view class="detail-text" style="color: #00CFBD;" @click="perviewImg(item.attend_pic)">点击查看打卡图片</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -33,6 +33,7 @@
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
+	let _this;
 	export default {
 		data() {
 			return {
@@ -40,7 +41,7 @@
 				personInfo: {},
 				icon:'',
 				add:false,//add按钮权限
-				tabBarItem: {},
+				navItem: {},
 				pageSize:15,
 				pageobj0:{
 					loadFlag:0,//0 刷新 1加载更多
@@ -65,14 +66,13 @@
 		},
 		methods: {
 			iconClick(){
-				let that=this
-				util.openwithData('/pages/teachercAttendance/add_attendance',{index_code:this.index_code},{
+				util.openwithData('/pages/teachercAttendance/add_attendance',{index_code:_this.index_code},{
 					refreshList(data){//子页面调用父页面需要的方法
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getList0()
+						_this.showLoading()
+						_this.pageobj0.loadFlag=0
+						_this.pageobj0.canload=true
+						_this.pageobj0.page_number=1
+						_this.getList0()
 					}
 				})
 			},
@@ -149,10 +149,11 @@
 			},
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
@@ -164,7 +165,7 @@
 				 })
 				 this.getList0()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -192,7 +193,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

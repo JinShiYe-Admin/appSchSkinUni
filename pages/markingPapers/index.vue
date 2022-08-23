@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
-		<view v-if="tabBarItem.childList&&tabBarItem.childList.length>0" style="padding-top: 10px;">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
+		<view v-if="navItem.childList&&navItem.childList.length>0" style="padding-top: 10px;">
 			<uni-grid :column="4" :showBorder='false' :square="false" :highlight="false">
-				<uni-grid-item v-for="(chilItem, chiilIndex) in tabBarItem.childList" :index="chiilIndex"
+				<uni-grid-item v-for="(chilItem, chiilIndex) in navItem.childList" :index="chiilIndex"
 					:key="chiilIndex">
 					<view class="grid-item-box" @click="clickItem(chilItem)">
 						<image :src="chilItem.icon" class="moreImg" mode="aspectFill" />
@@ -12,7 +12,7 @@
 				</uni-grid-item>
 			</uni-grid>
 		</view>
-		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
+		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 
@@ -25,7 +25,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {}
+				navItem: {}
 			}
 		},
 		components: {
@@ -49,16 +49,16 @@
 				_this.tabbar = util.getMenu();
 				for (var i = 0; i < _this.tabbar.length; i++) {
 					let tempM = _this.tabbar[i];
-					if(tempM.access == _this.tabBarItem.access){
-						_this.tabBarItem = tempM;
+					if(tempM.access == _this.navItem.access){
+						_this.navItem = tempM;
 					}
 				}
 			});
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			console.log('personInfo:' + JSON.stringify(this.personInfo));
-			this.tabBarItem = util.getTabbarMenu();
-			console.log('this.tabBarItem:' + JSON.stringify(this.tabBarItem));
+			this.navItem = util.getTabbarMenu();
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 		}
 	}
 </script>

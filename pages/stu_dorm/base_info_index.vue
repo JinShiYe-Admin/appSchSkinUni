@@ -4,10 +4,10 @@
 			<uni-row>
 				<uni-col :span="24"><view class="title-text">{{total.dorm_name}}</view></uni-col>
 				<template  v-for="(item,index) in total.list">
-					<uni-col :key="index+Math.random()" :span="4"><view class="detail-text" style="margin-top: 5px;">{{item.stu_sex_text}}</view></uni-col>
-					<uni-col :key="index+Math.random()" :span="6"><view class="detail-text center" style="margin-top: 5px;">层数:{{item.floor_nums}}</view></uni-col>
-					<uni-col :key="index+Math.random()" :span="7"><view class="detail-text center" style="margin-top: 5px;">房间数:{{item.room_nums}}</view></uni-col>
-					<uni-col :key="index+Math.random()" :span="7"><view class="detail-text center" style="margin-top: 5px;">床位数:{{item.bed_nums}}</view></uni-col>
+					<uni-col :span="4"><view class="detail-text" style="margin-top: 5px;">{{item.stu_sex_text}}</view></uni-col>
+					<uni-col :span="6"><view class="detail-text center" style="margin-top: 5px;">层数:{{item.floor_nums}}</view></uni-col>
+					<uni-col :span="7"><view class="detail-text center" style="margin-top: 5px;">房间数:{{item.room_nums}}</view></uni-col>
+					<uni-col :span="7"><view class="detail-text center" style="margin-top: 5px;">床位数:{{item.bed_nums}}</view></uni-col>
 				</template>
 			</uni-row>
 		</view>
@@ -15,17 +15,17 @@
 		 <view style="padding:5px 15px;">
 			 <uni-list :border="false">
 			 	<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pageArray" :border="true">
-			 		<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
+			 		<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 			 			<uni-row>
 			 				<uni-col :span="24"><view class="title-text2">楼房名:{{item.dorm_name}}</view></uni-col>
 			 				<template  v-for="(item2,index2) in item.list">
-			 					<uni-col :key="index2+Math.random()" :span="4"><view class="detail-text" style="margin-top: 5px;">{{item2.stu_sex_text}}</view></uni-col>
-			 					<uni-col :key="index2+Math.random()" :span="6"><view class="detail-text center" style="margin-top: 5px;">层数:{{item2.floor_nums}}</view></uni-col>
-			 					<uni-col :key="index2+Math.random()" :span="7"><view class="detail-text center" style="margin-top: 5px;">房间数:{{item2.room_nums}}</view></uni-col>
-			 					<uni-col :key="index2+Math.random()" :span="7"><view class="detail-text center" style="margin-top: 5px;">床位数:{{item2.bed_nums}}</view></uni-col>
+			 					<uni-col :span="4"><view class="detail-text" style="margin-top: 5px;">{{item2.stu_sex_text}}</view></uni-col>
+			 					<uni-col :span="6"><view class="detail-text center" style="margin-top: 5px;">层数:{{item2.floor_nums}}</view></uni-col>
+			 					<uni-col :span="7"><view class="detail-text center" style="margin-top: 5px;">房间数:{{item2.room_nums}}</view></uni-col>
+			 					<uni-col :span="7"><view class="detail-text center" style="margin-top: 5px;">床位数:{{item2.bed_nums}}</view></uni-col>
 			 				</template>
 			 			</uni-row>
-			 		</text>
+			 		</view>
 			 	</uni-list-item>
 			 </uni-list>
 		 </view>
@@ -76,7 +76,7 @@
 				 this.getList()
 			},100)
 			uni.setNavigationBarTitle({title:itemData.text});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -87,7 +87,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

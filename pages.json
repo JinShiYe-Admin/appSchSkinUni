@@ -77,7 +77,7 @@
 		}, {
 			"path": "pages/more/headImg",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "账号信息",
 				"enablePullDownRefresh": false
 			}
 		}, {
@@ -585,15 +585,7 @@
 				}
 			}
 
-		}, {
-			"path": "pages/stu_behavior/class_behavior_detail",
-			"style": {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
+		},{
 			"path": "pages/stu_behavior/class_behavior_detail",
 			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
@@ -619,14 +611,6 @@
 
 		}, {
 			"path": "pages/stu_behavior/extra_behavior_detail",
-			"style": {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "pages/stu_behavior/stu_talk_detail",
 			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTitleText": "",
@@ -3008,6 +2992,55 @@
             }
             
         }
+        ,{
+            "path" : "pages/stuHealthMsgTeacher/index",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    //     ,{
+    //         "path" : "pages/stuHealthMsg/index",
+    //         "style" :                                                                                    
+    //         {
+				// "navigationStyle": "custom", // 隐藏系统导航栏
+    //             "navigationBarTitleText": "",
+    //             "enablePullDownRefresh": false
+    //         }
+            
+    //     }
+        ,{
+            "path" : "pages/stuHealthMsg/stuHealthMsgUploadIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stuHealthMsg/stuHealthMsgNotesIndex",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stuHealthMsgTeacher/index1",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {
@@ -3037,6 +3070,19 @@
 				"pagePath": "pages/more/index"
 			},
 			{
+				"pagePath": "pages/homeworkAndWeektest/index"
+			},
+			{
+				"pagePath": "pages/studentTemperature/index"
+			},
+			{
+				"pagePath": "pages/stu_comment/index"
+			},
+			{
+				"pagePath": "pages/stu_behavior/index"
+			}
+			,
+			{
 				"pagePath": "pages/leave/stuLeaveIndex"
 			},
 			{
@@ -3055,16 +3101,10 @@
 				"pagePath": "pages/parents_attendance/index"
 			},
 			{
-				"pagePath": "pages/stu_behavior/index"
-			},
-			{
 				"pagePath": "pages/oa/index"
 			},
 			{
 				"pagePath": "pages/schapp_work/index"
-			},
-			{
-				"pagePath": "pages/stu_comment/index"
 			},
 			{
 				"pagePath": "pages/stu_actionComment/index"
@@ -3100,16 +3140,16 @@
 				"pagePath": "pages/stuLocationPath/index"
 			},
 			{
-				"pagePath": "pages/homeworkAndWeektest/index"
-			},
-			{
 				"pagePath": "pages/homeworkAndWeekTest_stu/index"
 			},
 			{
-				"pagePath": "pages/studentTemperature/index"
+				"pagePath": "pages/costMs/index"
 			},
 			{
-				"pagePath": "pages/costMs/index"
+				"pagePath": "pages/stuHealthMsgTeacher/index"
+			},
+			{
+				"pagePath": "pages/stuHealthMsg/stuHealthMsgUploadIndex"
 			}
 		]
 	}

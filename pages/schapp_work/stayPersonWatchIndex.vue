@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<view style="display: flex;">
 				<picker style="flex: 1;" @change="locationTypeClick" :value="locationTypeIndex"
@@ -45,7 +45,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {},
+				navItem: {},
 				pageSize: 15,
 				pageobj0: {
 					loadFlag: 0, //0 刷新 1加载更多
@@ -59,7 +59,7 @@
 					canload: true, //是否加载更多
 				},
 				btime: '',
-				timeFun:'',
+				timeFun: '',
 				deviceList: [], //设备位置数组
 				//顶部筛选框相关内容
 				locationTypeIndex: 0,
@@ -166,15 +166,15 @@
 			_this = this;
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = util.getPageData(options);
-			this.tabBarItem.index = 100;
-			this.index_code = this.tabBarItem.access.split("#")[1];
+			this.navItem = util.getPageData(options);
+			this.navItem.index = 100;
+			this.index_code = this.navItem.access.split("#")[1];
 			// 108.定位监测设备列表
 			this.getDeviceList();
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
-			uni.$on('clickLeft',(data) =>{
+			uni.$on('clickLeft', (data) => {
 				console.log('clearInterval');
 				clearInterval(this.timeFun);
 			})
@@ -203,10 +203,12 @@
 				duration: 0
 			});
 			// #endif
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
-			this.timeFun = setInterval(function(){_this.getDeviceList();},60000);
+			this.timeFun = setInterval(function() {
+				_this.getDeviceList();
+			}, 60000);
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5

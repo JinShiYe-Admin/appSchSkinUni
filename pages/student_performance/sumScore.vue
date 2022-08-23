@@ -2,13 +2,16 @@
 	<view>
 		<!-- #ifdef H5 -->
 		<view class="tabs-fixed">
-		<!-- #endif -->
-		<!-- #ifdef APP -->
-		<view class="tabs-fixed" style="top: 0px;">
-		<!-- #endif -->
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
+		<!-- #endif -->
+		<!-- #ifdef APP -->
+		<view class="tabs-fixed" style="top: 0px;">
+			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
+				activeColor="#00CFBD"></uni-segmented-control>
+		</view>
+		<!-- #endif -->
 		<view class="content" style="margin-top: 60px;">
 			<h4 class="examName">{{itemData.name}}</h4>
 			<view v-if="semFlag == 0">
@@ -61,7 +64,8 @@
 				</view>
 				<view style="padding: 10px;">
 					<uni-grid :column="2" :square="false" :highlight="false">
-						<uni-grid-item v-for="(item, index) in semFlag0Data.child_paper_list" :key="index" style="margin-top: -1px;">
+						<uni-grid-item v-for="(item, index) in semFlag0Data.child_paper_list" :key="index"
+							style="margin-top: -1px;">
 							<view class="grid-item-box fenxiBox">
 								<text class="text"><span style="color: #333333;">{{item.sub_name}}：</span><span
 										style="color: red;">{{item.stu_score}}
@@ -73,34 +77,41 @@
 				<h4 class="spaceLine">总分趋势</h4>
 				<p class="spaceLineName">历次考试成绩趋势如下：</p>
 				<view class="charts-box" style="margin-top: 10px;">
-					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.chengjiQs" background="none" />
+					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.chengjiQs"
+						background="none" />
 				</view>
 				<h4 class="spaceLine">排名趋势</h4>
 				<p class="spaceLineName">历次考试排名趋势如下：</p>
 				<view class="charts-box" style="margin-top: 10px;">
-					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.paimingQs" background="none" />
+					<qiun-data-charts :opts="{dataLabel:false}" type="demotype" :chartData="semFlag0Data.paimingQs"
+						background="none" />
 				</view>
 			</view>
-			<view v-if="semFlag == 1">
+			<view v-else-if="semFlag == 1">
 				<view style="margin-top: 20px;">
 					<span class="goodBadSub" style="background:  #f86a6a;">优势学科</span>
-					<span v-if="semFlag1Data.pros_sub_names ==null" style="margin-left: 10px;font-size: 13px;">暂无</span>
+					<span v-if="semFlag1Data.pros_sub_names ==null"
+						style="margin-left: 10px;font-size: 13px;">暂无</span>
 					<span style="margin-left: 10px;font-size: 13px;">{{semFlag1Data.pros_sub_names}}</span>
 				</view>
 				<view style="margin-top: 20px;">
 					<span class="goodBadSub" style="background: #43cf7c;">劣势学科</span>
-					<span v-if="semFlag1Data.cons_sub_names ==null" style="margin-left: 10px;font-size: 13px;">暂无</span>
+					<span v-if="semFlag1Data.cons_sub_names ==null"
+						style="margin-left: 10px;font-size: 13px;">暂无</span>
 					<span style="margin-left: 10px;font-size: 13px;">{{semFlag1Data.cons_sub_names}}</span>
 				</view>
 				<view class="charts-box">
 					<!-- <qiun-data-charts type="radar" :opts="{legend:{position: 'bottom'},extra:{radar:{border:true}}}"
 						:chartData="semFlag1Data.radarChartDetail" /> -->
-					<qiun-data-charts type="radar" :opts="{legend:{position: 'bottom'},extra:{radar:{gridType:'circle'}}}" :chartData="semFlag1Data.radarChartDetail"/>
+					<qiun-data-charts type="radar"
+						:opts="{legend:{position: 'bottom'},extra:{radar:{gridType:'circle'}}}"
+						:chartData="semFlag1Data.radarChartDetail" />
 				</view>
 				<view style="margin-left: 20px;margin-top: 10px;font-size: 14px;">各科标准分：</view>
 				<view style="padding: 10px;">
 					<uni-grid :column="2" :square="false" :highlight="false" style="">
-						<uni-grid-item v-for="(item, index) in semFlag1Data.list" :key="index" style="margin-top: -1px;">
+						<uni-grid-item v-for="(item, index) in semFlag1Data.list" :key="index"
+							style="margin-top: -1px;">
 							<view class="grid-item-box fenxiBox">
 								<text class="text"><span
 										style="color: #333333;">{{item.sub_name}}：</span><span>{{item.standard_score}}</span></text>
@@ -110,7 +121,7 @@
 				</view>
 				<div style="margin-left: 20px;font-size: 13px;padding-bottom: 20px;">注：优劣学科将各科分值转化为标准分后再进行比较。</div>
 			</view>
-			<view v-if="semFlag == 2">
+			<view v-else-if="semFlag == 2">
 				<button
 					style="float: right;margin-right: 20px;background: #43cf7c;border-color: #43cf7c;color: white;margin-top: 10px;"
 					class="mini-btn" @click="yaoqing()" size="mini">邀请</button>
@@ -124,25 +135,26 @@
 						type='error' style="" size="small"></uni-badge></button>
 				<br>
 				<h4 class="spaceLine" style='margin-top: 30px;'>PK榜</h4>
-					<uni-row style="background: #e7e3e3;">
-						<uni-col :span="3" style="height: 18px;">
-							<p class="scoreDetail">次序</p>
-						</uni-col>
-						<uni-col :span="4">
-							<p class="scoreDetail">对手</p>
-						</uni-col>
-						<uni-col :span="4">
-							<p class="scoreDetail">总分</p>
-						</uni-col>
-						<uni-col :span="9">
-							<p class="scoreDetail">各科</p>
-						</uni-col>
-						<uni-col :span="4">
-							<p class="scoreDetail"> </p>
-						</uni-col>
-					</uni-row>
-					<uni-row v-for="(item,index) in semFlag2Data.pk_list" :key='index' style="background: #e1faeb;margin-top: 5px;">
-						<view @click="toDetailPage(item)">
+				<uni-row style="background: #e7e3e3;">
+					<uni-col :span="3" style="height: 18px;">
+						<p class="scoreDetail">次序</p>
+					</uni-col>
+					<uni-col :span="4">
+						<p class="scoreDetail">对手</p>
+					</uni-col>
+					<uni-col :span="4">
+						<p class="scoreDetail">总分</p>
+					</uni-col>
+					<uni-col :span="9">
+						<p class="scoreDetail">各科</p>
+					</uni-col>
+					<uni-col :span="4">
+						<p class="scoreDetail"> </p>
+					</uni-col>
+				</uni-row>
+				<uni-row v-for="(item,index) in semFlag2Data.pk_list" :key='index'
+					style="background: #e1faeb;margin-top: 5px;">
+					<view @click="toDetailPage(item)">
 						<uni-col :span="3" style="height: 18px;">
 							<p class="scoreDetail">{{index+1}}</p>
 						</uni-col>
@@ -150,9 +162,15 @@
 							<p class="scoreDetail">{{item.pk_user_name}}</p>
 						</uni-col>
 						<uni-col :span="4">
-							<view v-if="item.my_score==item.pk_user_score" style="color: #FDD60C;font-size: 20px;font-weight: 900;text-align: center;margin-top: 5px;">平</view>
-							<view v-if="item.my_score>item.pk_user_score" style="color: #008080;font-size: 20px;font-weight: 900;text-align: center;margin-top: 5px;">胜</view>
-							<view v-if="item.my_score<item.pk_user_score" style="color: red;font-size: 20px;font-weight: 900;text-align: center;margin-top: 5px;">败</view>
+							<view v-if="item.my_score==item.pk_user_score"
+								style="color: #FDD60C;font-size: 20px;font-weight: 900;text-align: center;margin-top: 5px;">
+								平</view>
+							<view v-else-if="item.my_score>item.pk_user_score"
+								style="color: #008080;font-size: 20px;font-weight: 900;text-align: center;margin-top: 5px;">
+								胜</view>
+							<view v-else-if="item.my_score<item.pk_user_score"
+								style="color: red;font-size: 20px;font-weight: 900;text-align: center;margin-top: 5px;">
+								败</view>
 						</uni-col>
 						<uni-col :span="9">
 							<view style="text-align: center;margin-top: 5px;">
@@ -165,8 +183,8 @@
 							<image style="width: 15px;height: 15px;margin-top: 10px;margin-left: 10px;"
 								src="/static/images/student_performance//search.png"></image>
 						</uni-col>
-						</view>
-					</uni-row>
+					</view>
+				</uni-row>
 			</view>
 		</view>
 	</view>
@@ -222,17 +240,17 @@
 			uni.setNavigationBarTitle({
 				title: '全科成绩'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 1.9.全科总分及排名趋势
 			this.getSumScoreOrder();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			clickSeg: function(e) {
 				if (this.semFlag != e.currentIndex) {
@@ -391,7 +409,16 @@
 							tempArray1.push(tempM.standard_score);
 							tempArray2.push(tempM.avg);
 						}
-						this.semFlag1Data.radarChartDetail = {"categories":tempArray0,"series":[{"name":"分数","data":tempArray1},{"name":"平均分","data":tempArray2}]};
+						this.semFlag1Data.radarChartDetail = {
+							"categories": tempArray0,
+							"series": [{
+								"name": "分数",
+								"data": tempArray1
+							}, {
+								"name": "平均分",
+								"data": tempArray2
+							}]
+						};
 					} else {
 						this.showToast(data.msg);
 					}
@@ -417,7 +444,7 @@
 							tempM.pkc = 0; //败
 							for (var b = 0; b < tempM.sub_score_list.length; b++) {
 								var tempN = tempM.sub_score_list[b];
-								if(tempN.pk_user_score==null){
+								if (tempN.pk_user_score == null) {
 									tempN.pk_user_score = 0;
 								}
 								if (tempN.my_score == tempN.pk_user_score) {

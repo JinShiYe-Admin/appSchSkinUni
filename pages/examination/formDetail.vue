@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view style="padding: 15px;">
 			<uni-row>
 				<uni-col :span="12">
@@ -55,7 +55,7 @@
 						<qiun-data-charts v-if="controlIndex===1" type="ring" :animation="false" :chartData="chartData1" background="none" @getIndex="getIndexB"/><!-- 饼图-->
 						<uni-list v-if="controlIndex===2" :border="false" style="margin-top: 10px;">
 							<uni-list-item :key="index" v-for="(model,index) in zgfDetail.list" :border="true">
-								<text slot="body" class="slot-box slot-text">
+								<view slot="body" class="slot-box slot-text">
 									<uni-row  style="width: 100vw;padding: 0 15px;">
 										<uni-col :span="6"><view class="detail-text">{{model.stu_name}}</view></uni-col>
 										<uni-col :span="6"><view class="detail-text">{{model.cls_name}}</view></uni-col>
@@ -68,7 +68,7 @@
 											<image class="zgf-ul" v-else-if="index==4" src='../../static/images/schapp_examination/5.png'></image>
 										</uni-col>
 									</uni-row>
-								</text>
+								</view>
 							</uni-list-item>
 						</uni-list>
 						<qiun-data-charts v-if="controlIndex===3" type="ring" :animation="false" :chartData="chartData3" background="none"/><!-- 饼图-->
@@ -91,7 +91,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem:{},
+				navItem:{},
 				controlIndex:0,
 				selectType: '', ////查询类型 qk 全科考情 dk 单科考情 第一次进入页面默认为qk
 				titleName: '',
@@ -168,27 +168,27 @@
 			},
 			getIndexZ(e){//柱状图点击事件
 			  let item=this.pjfList[e.currentIndex.index]
-			  item.id=this.tabBarItem.id
-			  item.name=this.tabBarItem.name
+			  item.id=this.navItem.id
+			  item.name=this.navItem.name
 			  item.index_code=this.index_code
-			  item.selectType=this.tabBarItem.selectType
-			  item.sub_code=this.tabBarItem.sub_code
+			  item.selectType=this.navItem.selectType
+			  item.sub_code=this.navItem.sub_code
 			  util.openwithData('/pages/examination/formDetailAvg',item)
 			},
 			getIndexB(e){//饼图点击事件
 			  let item=this.zfdList[e.currentIndex]
-			  item.id=this.tabBarItem.id
+			  item.id=this.navItem.id
 			  item.fsd_code = item.name;
-			  item.newname=this.tabBarItem.name
+			  item.newname=this.navItem.name
 			  item.index_code=this.index_code
-			  item.selectType=this.tabBarItem.selectType
-			  item.cls_code = this.tabBarItem.cls_code;
-			  item.sub_code=this.tabBarItem.sub_code
+			  item.selectType=this.navItem.selectType
+			  item.cls_code = this.navItem.cls_code;
+			  item.sub_code=this.navItem.sub_code
 			  util.openwithData('/pages/examination/formDetailSec',item)
 			},
 			getDetail() {//获取tab详情数据
 				let comData = {
-					id: this.tabBarItem.id, //考试id
+					id: this.navItem.id, //考试id
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_EXAMINATION+'detail',comData,response=>{
@@ -199,7 +199,7 @@
 			},
 			getPjfDetail() {//平均分详情
 				let comData = {
-					id: this.tabBarItem.id, //考试id
+					id: this.navItem.id, //考试id
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_EXAMINATION+'clsAvgScore',comData,response=>{
@@ -226,7 +226,7 @@
 			},
 			getZfdDetail() {//分数段详情
 				let comData = {
-					id: this.tabBarItem.id, //考试id
+					id: this.navItem.id, //考试id
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_EXAMINATION+'scoreSection',comData,response=>{
@@ -253,7 +253,7 @@
 			},
 			getZgfDetail() {//最高分详情
 				let comData = {
-					id: this.tabBarItem.id, //考试id
+					id: this.navItem.id, //考试id
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_EXAMINATION+'stuScore',comData,response=>{
@@ -264,7 +264,7 @@
 			},
 			getSxlDetail() {//上线率详情
 				let comData = {
-					id: this.tabBarItem.id, //考试id
+					id: this.navItem.id, //考试id
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_EXAMINATION+'passRate',comData,response=>{
@@ -289,7 +289,7 @@
 			},
 			getJtbDetail() {//进退比详情
 				let comData = {
-					id: this.tabBarItem.id, //考试id
+					id: this.navItem.id, //考试id
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_EXAMINATION+'rankingStep',comData,response=>{
@@ -321,7 +321,7 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='详情'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			this.selectType=itemData.selectType
 			setTimeout(()=>{
@@ -335,7 +335,7 @@
 				}
 				this.getJtbDetail()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -346,7 +346,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

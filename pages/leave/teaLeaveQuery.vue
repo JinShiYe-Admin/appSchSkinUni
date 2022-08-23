@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed">
 			<uni-row>
 				<uni-col :span="8">
@@ -28,14 +28,14 @@
 			<view style="padding-top: 85px;">
 				<uni-list :border="false">
 					<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
+						<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 							<uni-row>
 								<uni-col :span="24"><view class="title-text">{{item.comment?item.comment:'暂无内容'}}</view></uni-col>
 								<uni-col :span="24"><view class="detail-text">{{item.begintime}} ~ {{item.endtime}}</view></uni-col>
 								<uni-col :span="20"><view class="detail-text">{{item.grd_name}} {{item.cls_name}}&ensp;{{item.stu_name}}</view></uni-col>
 								<uni-col :span="4" style="display: flex;align-items: center;justify-content:flex-end;"><view class="detail-text leaveType">{{item.item_code=='sickLeave'?'病假':item.item_code=='absenceLeave'?'事假':''}}</view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 				<uni-load-more :status="pageobj1.status" :icon-size="17" :content-text="pageobj1.contentText" />
@@ -245,13 +245,13 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.title=itemData.name
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
 				this.showLoading()
 				this.getGrd()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -280,7 +280,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

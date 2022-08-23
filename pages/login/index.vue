@@ -113,11 +113,10 @@
 						});
 					} else {
 						if (this.globaData.EnvKey == 5) {
+							//#ifdef APP-H5
 							console.log('页面url:' + window.location.href);
 							var tempUrl = window.location.href;
 							console.log('tempUrl0:' + tempUrl);
-							// var tempUrl1 = tempUrl.replace('index', 'registerIndex');
-							// console.log('tempUrl1:' + tempUrl1);
 							var tempArray = tempUrl.split('/');
 							console.log('tempArray:' + JSON.stringify(tempArray));
 							var appid = '';
@@ -131,6 +130,7 @@
 							console.log('tempGo:' + tempGo);
 							// 向服务器传递appid、返回URL
 							location.replace(tempGo);
+							//#endif 
 						} else {
 							this.showInput = 2;
 						}
@@ -149,6 +149,7 @@
 							this.login();
 						}
 					} else {
+						//#ifdef APP-H5
 						console.log('页面url:' + window.location.href);
 						var tempUrl = window.location.href;
 						console.log('tempUrl0:' + tempUrl);
@@ -167,6 +168,7 @@
 						console.log('tempGo:' + tempGo);
 						// 向服务器传递appid、返回URL
 						location.replace(tempGo);
+						//#endif 
 					}
 				} else {
 					this.showToast('请输入正确的密码');
@@ -303,6 +305,26 @@
 													var tempArrayM = tempA.slice(4);
 													util.setMenuMore(tempArrayM);
 													tempA = tempA.slice(0, 4);
+													
+													let tempAAA = '';
+													//#ifdef H5
+													var tempUrl = window.location.href;
+													console.log('getPageArray.tempUrl:' + tempUrl);
+													var tempArr = tempUrl.split('/');
+													console.log('tempArr:' + JSON.stringify(tempArr));
+													let urlFlag = 0;
+													for (var a = 0; a < tempArr.length; a++) {
+														if (tempArr[a].indexOf("wx") != -1) {
+															urlFlag = a;
+														}
+													}
+													urlFlag = urlFlag + 2;
+													let tempUrl1 = [];
+													for (var a = 0; a < urlFlag; a++) {
+														tempUrl1.push(tempArr[a]);
+													}
+													tempAAA = tempUrl1.join('/');
+													//#endif 
 													tempA.push({
 														text: "更多",
 														index: 4,
@@ -310,9 +332,9 @@
 														isDot: false,
 														customIcon: false,
 														pagePath: "/pages/more/index",
-														iconPath: '../../static/tabbar/more.png',
-														selectedIconPath: '../../static/tabbar/more_select.png',
-														img_href: "../../img/schapp_work/kaoqin_tab.png",
+														iconPath: tempAAA +'/static/tabbar/more.png',
+														selectedIconPath: tempAAA +'/static/tabbar/more_select.png',
+														img_href: "@/img/schapp_work/kaoqin_tab.png",
 														url: 'schappUni_CoursePractice',
 														childList: []
 													});
@@ -476,6 +498,7 @@
 				}
 			},
 			getUrlParam(name) {
+				//#ifdef APP-H5
 				var search = window.location.href;
 				console.log('search:'+search);
 				var pattern = new RegExp("[?&]" + name + "\=([^&]+)", "g");
@@ -493,6 +516,7 @@
 					}
 				}
 				return items;
+				//#endif 
 			},
 		},
 		onLoad: function() {

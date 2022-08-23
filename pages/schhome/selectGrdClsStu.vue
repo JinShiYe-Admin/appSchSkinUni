@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<template v-if="dataFlag===1">
 			<scroll-view class="select-scroll" scroll-y="true">
 				<uni-list class="uni-list" :border="false">
@@ -73,11 +73,12 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				dataFlag:1,//1选择年级 2选择班级 3 选择学生
 				index_code:'',
 				selectDatas:[],
@@ -161,25 +162,25 @@
 				this.$forceUpdate();
 			},
 			textClick(){
-				const eventChannel = this.getOpenerEventChannel()
-				if(this.dataFlag===1){
-					eventChannel.emit('refreshSetPeople', {data: this.grdList.filter(item=>item.checked)});
+				const eventChannel = _this.getOpenerEventChannel()
+				if(_this.dataFlag===1){
+					eventChannel.emit('refreshSetPeople', {data: _this.grdList.filter(item=>item.checked)});
 					uni.navigateBack();
-				}else if(this.dataFlag===2){
-					let grdList=this.grdList.filter(clsItem=>clsItem.clsList)
-					let newList=this.deepClone(grdList)
+				}else if(_this.dataFlag===2){
+					let grdList=_this.grdList.filter(clsItem=>clsItem.clsList)
+					let newList=_this.deepClone(grdList)
 					let list=newList.filter(grdItem=>(grdItem.clsList=grdItem.clsList.filter(clsItem=>clsItem.checked)).length>0)
-					this.selectDatas.map(grditem=>{
+					_this.selectDatas.map(grditem=>{
 						if(!grditem.clicked){
 							list.push(grditem)
 						}
 					})
-					let newLists=list.sort(this.compare("value",1));
+					let newLists=list.sort(_this.compare("value",1));
 					eventChannel.emit('refreshSetPeople', {data: newLists});
 					uni.navigateBack();
-				}else if(this.dataFlag===3){
-					let grdList=this.grdList.filter(clsItem=>clsItem.clsList)
-					let newList=this.deepClone(grdList)
+				}else if(_this.dataFlag===3){
+					let grdList=_this.grdList.filter(clsItem=>clsItem.clsList)
+					let newList=_this.deepClone(grdList)
 					let list=newList.filter(grdItem=>(grdItem.clsList=grdItem.clsList.filter(clsItem=>{
 						clsItem.stuList=clsItem.stuList&&clsItem.stuList.filter(stuItem=>stuItem.checked)
 						if(clsItem.stuList && clsItem.stuList.length>0){
@@ -188,7 +189,7 @@
 					})).length>0)
 					console.log("当前选中的数据: " + JSON.stringify(list));
 					if(list.length===0){
-						this.selectDatas.map(grditem=>{
+						_this.selectDatas.map(grditem=>{
 							if(!grditem.clicked){
 								list.push(grditem)
 							}else{
@@ -205,7 +206,7 @@
 						})
 					}else{
 						list.map(listItem=>{
-							this.selectDatas.map(grditem=>{
+							_this.selectDatas.map(grditem=>{
 								if(!grditem.clicked){
 									list.push(grditem)
 								}else{
@@ -220,8 +221,8 @@
 							})
 						})
 					}
-					let newLists=list.sort(this.compare("value",1));
-					console.log("之前选中的数据: " + JSON.stringify(this.selectDatas));
+					let newLists=list.sort(_this.compare("value",1));
+					console.log("之前选中的数据: " + JSON.stringify(_this.selectDatas));
 					console.log("最终的数据: " + JSON.stringify(newLists));
 					eventChannel.emit('refreshSetPeople', {data: newLists});
 					uni.navigateBack();
@@ -531,10 +532,11 @@
 			},
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			console.log("itemData: " + JSON.stringify(itemData));
 			this.dataFlag=itemData.dataFlag
 			if(itemData.dataFlag===1){
@@ -551,12 +553,12 @@
 				this.showLoading()
 				this.getGrdDataArray()
 			}, 100);
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

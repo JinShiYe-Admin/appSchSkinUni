@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :text="navText" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text="navText" :textClick="textClick"></mynavBar>
 		<view v-if="detailData.id" style="margin-top: 5px;">
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left" style="width: 190px;">单号：{{detailData.apply_code}}</view>
@@ -11,11 +11,11 @@
 				</view>
 			</view>
 			<view class="line"></view>
-			<view v-if="tabBarItem.flag == 1" class="uni-flex uni-row form-view">
+			<view v-if="navItem.flag == 1" class="uni-flex uni-row form-view">
 				<view class="form-left">申请人</view>
 				<view class="form-right">{{detailData.apply_man_name}}</view>
 			</view>
-			<view v-if="tabBarItem.flag == 1" class="line"></view>
+			<view v-if="navItem.flag == 1" class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">申请时间</view>
 				<view class="form-right">{{detailData.apply_time}}</view>
@@ -113,7 +113,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				detailData:{},
 				navText:'',
 				isDel:0,//是否撤销
@@ -129,10 +129,10 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='报销申请单详情'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			console.log("itemData: " + JSON.stringify(itemData));
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 			// 21.通过ID获取报销申请
@@ -145,7 +145,7 @@
 			})
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -164,7 +164,7 @@
 				})
 			},
 			textClick(){
-				this.$refs.popupDel.open()
+				_this.$refs.popupDel.open()
 			},
 			closeDel() {
 				this.$refs.popupDel.close();
@@ -173,7 +173,7 @@
 				this.$refs.popupDel.close();
 				let comData = {
 					index_code: this.index_code,
-					id: this.tabBarItem.id, //任务id
+					id: this.navItem.id, //任务id
 				}
 				this.showLoading();
 				//18.撤销报销申请
@@ -194,7 +194,7 @@
 			getDetail(){
 				let comData = {
 					index_code: this.index_code,
-					id: this.tabBarItem.id, //任务id
+					id: this.navItem.id, //任务id
 				}
 				this.showLoading();
 				//21.通过ID获取报销申请
@@ -230,7 +230,7 @@
 							var model = data.data.copy_mans[i];
 							data.data.copy_mansArray.push(model.copy_man_name);
 						}
-						if(this.tabBarItem.flag == 0&&data.data.status == 1&&data.data.progress == 1){
+						if(this.navItem.flag == 0&&data.data.status == 1&&data.data.progress == 1){
 							this.navText = '撤销'
 						}else{
 							this.navText = ''

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' text="确定" :textClick="textClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick">
 		</mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">报销类型</view>
@@ -34,7 +34,7 @@
 		<view v-if="accountList.length==0" style="font-size: 13px;color: #939393;margin: 5px 0 0 10px;">请添加报销明细</view>
 		<view v-else-if="accountList.length>0" v-for="(accountModel,index) in accountList" :key='index'>
 			<uni-card isShadow>
-				<text class="content-box-text" @click.stop="editAccount(accountModel,index)">
+				<view class="content-box-text" @click.stop="editAccount(accountModel,index)">
 					<uni-row style=''>
 						<uni-col :span="10" style="font-size: 13px;">
 							￥{{accountModel.eff}}
@@ -56,7 +56,7 @@
 							</view>
 						</uni-col>
 					</uni-row>
-				</text>
+				</view>
 			</uni-card>
 		</view>
 		<view class="double-line"></view>
@@ -151,7 +151,7 @@
 				</uni-row>
 				<view class="uni-flex uni-row form-view choose-file">
 					<view class="choose-file-text">附件<view class="file-des">
-							{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
+							{{`(最多可选择${showMaxCount}张照片${wxTips?wxTips:''})`}}
 						</view>
 					</view>
 					<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile'
@@ -181,7 +181,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				showSelectPeople: '',
 				sendFlag:0,
 				title: '',
@@ -225,14 +225,14 @@
 			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.text = '新建报销申请';
-			this.itemData.index = 100;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.text = '新建报销申请';
+			this.navItem.index = 100;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
 				title: '新建报销申请'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = "";
 			this.wxTips = ',微信端不支持多选'; //如果是H5，需要提示该内容
 			//#endif
@@ -244,7 +244,7 @@
 				flow_status:1,//流程状态，0 全部，1 有效,2 无效
 				page_number:1,
 				page_size:0,
-				index_code: this.itemData.index_code,
+				index_code: this.navItem.index_code,
 			}
 			this.post(this.globaData.INTERFACE_COSTMS + 'flow/getWorkFlow', tempData, (data0, data) => {
 				this.hideLoading();
@@ -264,7 +264,7 @@
 				type_name:'',
 				page_number:1,
 				page_size:0,
-				index_code: this.itemData.index_code,
+				index_code: this.navItem.index_code,
 			}
 			this.post(this.globaData.INTERFACE_COSTMS + 'accountType/getAccountTypes', tempData1, (data0, data) => {
 				this.hideLoading();
@@ -276,7 +276,7 @@
 			});
 		},
 		onShow() {
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
@@ -465,7 +465,7 @@
 					account_type:this.selectAccountTypeArray[this.selectAccountTypeIndex].id,
 					apply_man_code: this.personInfo.user_code, //申请人Code
 					apply_man_name: this.personInfo.user_name, //申请人姓名
-					index_code: this.itemData.index_code,
+					index_code: this.navItem.index_code,
 				}
 				console.log('tempData:' + JSON.stringify(tempData));
 				// 17.新增报销申请
@@ -482,36 +482,36 @@
 				});
 			},
 			textClick() {
-				if(this.selectAccountTypeIndex==-1){
-					this.showToast('请选择报销类型');
+				if(_this.selectAccountTypeIndex==-1){
+					_this.showToast('请选择报销类型');
 					return;
 				}
-				if (this.content.length == 0) {
-					this.showToast("请输入申请事由");
+				if (_this.content.length == 0) {
+					_this.showToast("请输入申请事由");
 					return;
 				}
-				if (this.content.length > 50) {
-					this.showToast("申请事由不能超过50字");
+				if (_this.content.length > 50) {
+					_this.showToast("申请事由不能超过50字");
 					return;
 				}
-				if(this.accountList.length == 0){
-					this.showToast('请添加报销明细');
+				if(_this.accountList.length == 0){
+					_this.showToast('请添加报销明细');
 					return;
 				}
-				if (this.selectPeople.length == 0) {
-					this.showToast("请选择接收人");
+				if (_this.selectPeople.length == 0) {
+					_this.showToast("请选择接收人");
 					return;
 				}
-				if (this.sendFlag == 0) {
-					this.sendFlag = 1;
-					this.upLoadImg(0);
+				if (_this.sendFlag == 0) {
+					_this.sendFlag = 1;
+					_this.upLoadImg(0);
 				}
 			},
 			selectPeopleFun(flag) {
 				console.log('selectPeopleFunselectPeopleFunselectPeopleFun');
 				var data = {
 					// needOrder: 1, //需要按照选择人的顺便给值，无全选、反选
-					access: 'schapp#'+this.itemData.index_code,
+					access: 'schapp#'+this.navItem.index_code,
 				}
 				if(flag == 0){
 					data.needOrder = 1;
@@ -547,7 +547,7 @@
 					//9.通过ID获取流程审批人
 					var tempData = {
 						id: model.id, //流程ID
-						index_code: this.itemData.index_code,
+						index_code: this.navItem.index_code,
 					}
 					this.showLoading();
 					this.post(this.globaData.INTERFACE_COSTMS + 'flow/getWorkFlowListById', tempData, (data0, data) => {

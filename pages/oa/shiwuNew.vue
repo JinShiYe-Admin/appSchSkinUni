@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' text="确定" :textClick="textClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick">
 		</mynavBar>
 		<view class="titleTemp">标题</view>
 		<input maxlength="50" type="text" v-model="title" class="rightView" style="margin-top: 10px;"
@@ -12,7 +12,7 @@
 
 		<view class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">附件<view class="file-des">
-					{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}
+					{{`(最多可选择${showMaxCount}张照片${wxTips?wxTips:''})`}}
 				</view>
 			</view>
 			<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile'
@@ -54,7 +54,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				showSelectPeople: '',
 				title: '',
 				content: '',
@@ -83,25 +83,25 @@
 			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.text = '新建事务';
-			this.itemData.index = 100;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.text = '新建事务';
+			this.navItem.index = 100;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
 				title: '新建事务'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = "";
 			this.wxTips = ',微信端不支持多选'; //如果是H5，需要提示该内容
 			//#endif
 			//
 			this.getSmsConfig();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			selectSms() {
 				this.smsSend = !this.smsSend;
@@ -110,7 +110,7 @@
 				let comData = {
 					msg_type: this.OA_MSG_SMS.AFFAIR.MSG_TYPE,
 					sch_code: this.personInfo.unit_code,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'smsConf/getConf', comData, response => {
@@ -144,7 +144,7 @@
 					status: 1,
 					keyword: '',
 					type: 2, //1敏感词 2拒绝词
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'smsWords/page', comData, response => {
 					console.log("responseaaa: " + JSON.stringify(response));
@@ -230,7 +230,7 @@
 					receiveManCodes: codes, //接收人账号
 					receiveManPics: pics, //接收人头像
 					receiveManNames: names, //接收人姓名
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 					op_code: 'add'
 
 				}
@@ -285,7 +285,7 @@
 								sch_code: this.personInfo.unit_code,
 								sch_name: this.personInfo.unit_name,
 								list: touser,
-								index_code: this.itemData.access.split('#')[1],
+								index_code: this.navItem.access.split('#')[1],
 							}
 							this.post(this.globaData.INTERFACE_HR_SUB + 'smsRecord/save', comData, (data0,
 								datas) => {
@@ -302,7 +302,7 @@
 										checkUser: '', //审核人代码
 										checkUserTname: '', //审核人姓名
 										checkUserUnit: '', //审核人单位
-										index_code: this.itemData.access.split('#')[1],
+										index_code: this.navItem.access.split('#')[1],
 									}
 									this.post(this.globaData.INTERFACE_OA +
 										'cooperateNotice/doSetSms4Notice',
@@ -328,63 +328,63 @@
 				});
 			},
 			textClick() {
-				if (this.title.trim().length == 0 || this.content.trim().length == 0) {
-					this.showToast("请填写具体内容后再发布");
+				if (_this.title.trim().length == 0 || _this.content.trim().length == 0) {
+					_this.showToast("请填写具体内容后再发布");
 					// sendFlag = 0;
 					return;
 				}
-				if (this.title.length > 50) {
-					this.showToast("标题不能超过50字");
+				if (_this.title.length > 50) {
+					_this.showToast("标题不能超过50字");
 					// sendFlag = 0;
 					return;
 				}
-				if (this.content.length > 300) {
-					this.showToast("内容不能超过300字");
+				if (_this.content.length > 300) {
+					_this.showToast("内容不能超过300字");
 					// sendFlag = 0;
 					return;
 				}
 				//先判断有没有勾选短信按钮，如果勾选，判断内容是否有敏感词
-				if (this.smsSend) {
+				if (_this.smsSend) {
 					let showToast = false;
 					let words = [];
-					let tempTitle = this.title.replace(/\n/g, '');
+					let tempTitle = _this.title.replace(/\n/g, '');
 					tempTitle = tempTitle.replace(' ', '');
-					for (var i = 0; i < this.smsWords.length; i++) {
-						let word = this.smsWords[i].word;
+					for (var i = 0; i < _this.smsWords.length; i++) {
+						let word = _this.smsWords[i].word;
 						if (tempTitle.indexOf(word) !== -1) {
 							showToast = true;
 							words.push(word);
 						}
 					}
-					let comment = this.content.replace(/\n/g, '');
+					let comment = _this.content.replace(/\n/g, '');
 					comment = comment.replace(' ', '');
-					for (var i = 0; i < this.smsWords.length; i++) {
-						let word = this.smsWords[i].word;
+					for (var i = 0; i < _this.smsWords.length; i++) {
+						let word = _this.smsWords[i].word;
 						if (comment.indexOf(word) !== -1) {
 							showToast = true;
 							words.push(word);
 						}
 					}
 					if (showToast) {
-						this.showToast('含有禁止使用的关键词	‘' + words.join("/") + '’	请编辑后再尝试发送')
-						this.hideLoading();
+						_this.showToast('含有禁止使用的关键词	‘' + words.join("/") + '’	请编辑后再尝试发送')
+						_this.hideLoading();
 						sendFlag = 0;
 						return 0
 					}
 				}
 
-				if (this.selectPeople.length == 0) {
-					this.showToast("请选择接收人");
+				if (_this.selectPeople.length == 0) {
+					_this.showToast("请选择接收人");
 					// sendFlag = 0;
 					return;
 				}
-				this.upLoadImg();
+				_this.upLoadImg();
 			},
 			selectPeopleFun() {
 				var data = {
 					flag: 1, //1 事务
 					needOrder: 0,
-					access: this.itemData.access,
+					access: this.navItem.access,
 					selectPeople: this.selectPeople
 				}
 				if (this.smsConfig.serviced) {

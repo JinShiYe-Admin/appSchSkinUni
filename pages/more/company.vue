@@ -13,12 +13,12 @@
 		},
 		onLoad() {
 			uni.setNavigationBarTitle({title: '公司介绍'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

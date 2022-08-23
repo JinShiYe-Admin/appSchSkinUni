@@ -29,16 +29,16 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.AnnouncementTitle
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			this.getPageDetail();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			getPageDetail() {
 				var comData = {
@@ -83,6 +83,14 @@
 		font-size: 12px;
 		color: #999;
 	}
-	::v-deep table {border-spacing: 0px; max-width: 100%;}
-	::v-deep td { border:1px solid; border-width: 1px;}
+
+	::v-deep table {
+		border-spacing: 0px;
+		max-width: 100%;
+	}
+
+	::v-deep td {
+		border: 1px solid;
+		border-width: 1px;
+	}
 </style>

@@ -12,7 +12,7 @@
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable @click="toDetails(model)" :key="index" v-for="(model,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
+					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">访客:{{model.visitors}}</view></uni-col>
 							<uni-col :span="15"><view class="detail-text">访问宿舍:{{model.room_name}}</view></uni-col>
@@ -22,7 +22,7 @@
 							<uni-col :span="12"><view class="detail-text" style="text-align: right;" v-if="model.leave_code=='Y'">{{model.leave_date}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text" style="text-align: right;" v-if="model.leave_code=='N'">{{model.visit_date}}</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -125,7 +125,7 @@
 				 this.getList0();
 			},100)
 			uni.setNavigationBarTitle({title:itemData.text});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -153,7 +153,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

@@ -1,19 +1,21 @@
 <template>
 	<view>
 		<uni-list>
-			<uni-list-item v-for="(model,index) in pageArray" :key='index' direction='column' clickable @click="clickItem(model)">
+			<uni-list-item v-for="(model,index) in pageArray" :key='index' direction='column' clickable
+				@click="clickItem(model)">
 				<view slot="body">
 					<view style="float: left;">
-						<image class="peopleImg" :src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
+						<image class="peopleImg"
+							:src="model.SendManPic?model.SendManPic:'http://www.108800.com/user.jpg'"></image>
 					</view>
 					<view class="rightView">
 						<view class="title">{{model.LetterName}}</view>
 						<uni-row class="nameTime">
 							<uni-col :span="12">
-								{{model.SendManName}}
+								<view style="font-size: 12px;">{{model.SendManName}}</view>
 							</uni-col>
 							<uni-col :span="12">
-								{{model.SendTime}}
+								<view style="font-size: 12px;">{{model.SendTime}}</view>
 							</uni-col>
 						</uni-row>
 					</view>
@@ -47,26 +49,26 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//79.获取某人接收的通知单列表
 			this.getPageList();
 		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
 			// #ifdef H5
-				uni.pageScrollTo({
-					scrollTop: this.scrollLength,
-					duration: 0
-				});
+			uni.pageScrollTo({
+				scrollTop: this.scrollLength,
+				duration: 0
+			});
 			// #endif
-						//#ifndef APP-PLUS
-							document.title=""
-						//#endif
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
-				this.scrollLength=e.scrollTop
+			this.scrollLength = e.scrollTop
 			// #endif
 		},
 		onReachBottom() {
@@ -112,7 +114,7 @@
 					this.pageIndex++;
 					this.total_page = data.total_page;
 					if (this.flagRef == 0) {
-						if(data.list.length==0){
+						if (data.list.length == 0) {
 							this.showToast('暂无数据');
 						}
 						this.pageArray = [].concat(data.list);
@@ -132,22 +134,22 @@
 		height: 40px;
 		border-radius: 50%;
 	}
-	
-	.rightView{
+
+	.rightView {
 		margin-left: 10px;
 		float: left;
 		width: calc(100% - 50px);
 	}
-	
-	.title{
+
+	.title {
 		font-size: 13px;
-		word-break:break-all;
+		word-break: break-all;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-	
-	.nameTime{
+
+	.nameTime {
 		margin-top: 5px;
 		font-size: 13px;
 		color: gray;

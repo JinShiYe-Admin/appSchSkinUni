@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">入库物品</view>
 			<input class="uni-input form-right" @click="addItem"  v-model="formData.itemCode"  placeholder="点击选择入库物品" disabled/>
@@ -46,12 +46,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				canSub:true,
 				canInput:true,
 				formData: {
@@ -73,18 +74,19 @@
 			mynavBar,
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='新建归还入库'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -138,21 +140,21 @@
 				}
 			},
 			textClick(){//发送请假信息
-				let formData=this.formData;
+				let formData=_this.formData;
 				console.log("formData: " + JSON.stringify(formData));
 				if(formData.itemCode=='' ||formData.itemType=='' ||formData.itemProp=='' 
 				||formData.itemName=='' ||formData.itemBrand=='' ||formData.itemModel=='' ){
-					this.showToast('请先选择入库物品')
+					_this.showToast('请先选择入库物品')
 				}else if(formData.returnManName==''){
-					this.showToast('请输入归还人姓名')
+					_this.showToast('请输入归还人姓名')
 				}else if(formData.inNum==''){
-					this.showToast('请输入入库数量')
+					_this.showToast('请输入入库数量')
 				}else if(formData.note==''){
-					this.showToast('请输入备注')
+					_this.showToast('请输入备注')
 				}else{
-					if(this.canSub){
-						this.canSub=false
-						this.submitData();
+					if(_this.canSub){
+						_this.canSub=false
+						_this.submitData();
 					}
 				}
 			},

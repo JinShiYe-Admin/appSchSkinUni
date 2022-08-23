@@ -41,23 +41,24 @@
 		},
 		onLoad(option) {
 			_this = this;
-			uni.setNavigationBarTitle({title: '账号信息'});
-			//#ifndef APP-PLUS
-				document.title=""
+			// uni.setNavigationBarTitle({title: '账号信息'});
+			//#ifdef H5
+			document.title=""
 			//#endif
 			this.tabbar = util.getMenu();
 			let tempInfo = util.getPersonal();
-			console.log('tempInfo:' + JSON.stringify(this.tempInfo));
+			
 			if(this.isPoneAvailable(tempInfo.login_name)) {
 				tempInfo.peoplePhone = tempInfo.login_name;
 			}else{
 				tempInfo.peoplePhone = '暂无手机号';
 			}
 			this.personInfo = tempInfo;
+			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 		},
 		onShow(){
-			//#ifndef APP-PLUS
-				document.title=""
+			//#ifdef H5
+			document.title=""
 			//#endif
 		},
 		methods: {

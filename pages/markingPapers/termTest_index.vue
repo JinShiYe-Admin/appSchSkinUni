@@ -1,7 +1,8 @@
 <template>
 	<view>
 		<uni-list>
-			<uni-list-item v-for="(item,index) in pageArray" :title="`${item.name}${item.custom_name}`" :ellipsis="2" link @click="clickLi(item)" :key='index'>
+			<uni-list-item v-for="(item,index) in pageArray" :title="`${item.name}${item.custom_name}`" :ellipsis="2"
+				link @click="clickLi(item)" :key='index'>
 				<template slot="header">
 					<span v-if="item.status == 1" class="readClass1">未阅</span>
 					<span v-else-if="item.status == 2" class="readClass2">阅卷中</span>
@@ -37,31 +38,31 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			this.getPageList();
 		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-		// #ifdef APP-PLUS
-		plus.navigator.setFullscreen(false);
-		plus.screen.lockOrientation('portrait-primary');
-		//显示状态栏 
-		// #endif
-		
-			// #ifdef H5
-				uni.pageScrollTo({
-					scrollTop: this.scrollLength,
-					duration: 0
-				});
+		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
+			// #ifdef APP-PLUS
+			plus.navigator.setFullscreen(false);
+			plus.screen.lockOrientation('portrait-primary');
+			//显示状态栏 
 			// #endif
-						//#ifndef APP-PLUS
-							document.title=""
-						//#endif
+
+			// #ifdef H5
+			uni.pageScrollTo({
+				scrollTop: this.scrollLength,
+				duration: 0
+			});
+			// #endif
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
-				this.scrollLength=e.scrollTop
+			this.scrollLength = e.scrollTop
 			// #endif
 		},
 		onReachBottom() {
@@ -82,9 +83,9 @@
 			this.getPageList();
 		},
 		methods: {
-			clickLi(model){
+			clickLi(model) {
 				model.access = this.itemData.access;
-				console.log('clickLi:'+JSON.stringify(model));
+				console.log('clickLi:' + JSON.stringify(model));
 				if (model.status == 3) {
 					util.openwithData("/pages/markingPapers/markScore", model);
 				} else {
@@ -110,7 +111,7 @@
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'termTest/page', comData, (data) => {
 					for (var i = 0; i < data.list.length; i++) {
 						var tempM = data.list[i];
-						if(tempM.custom_name == null){
+						if (tempM.custom_name == null) {
 							tempM.custom_name = '';
 						}
 					}
@@ -118,7 +119,7 @@
 					this.pageIndex++;
 					this.total_page = data.total_page;
 					if (this.flagRef == 0) {
-						if(data.list.length==0){
+						if (data.list.length == 0) {
 							this.showToast('暂无数据');
 						}
 						this.pageArray = [].concat(data.list);

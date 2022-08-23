@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon='icon' :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon='icon' :iconClick="iconClick"></mynavBar>
 		<view class="tabs-fixed"  style="background-color: #FFFFFF;">
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
@@ -21,14 +21,14 @@
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
+					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text tow-line">内容: {{item.remark}}</view></uni-col>
 							<uni-col :span="17"><view class="detail-text">撰写人:{{item.create_user_name}}</view></uni-col>
 							<uni-col :span="7"><view class="detail-text" style="text-align: right;">{{item.create_time}}</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -45,7 +45,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {},
+				navItem: {},
 				icon:'',
 				pageSize:15,
 				pageobj0:{
@@ -77,32 +77,30 @@
 		},
 		methods: {
 			toDetails:function(item){
-				item.index_code=this.index_code
-				let that=this
+				item.index_code=_this.index_code
 				util.openwithData('/pages/stu_comment/stu_comment_detail',item,{
 					refreshDetail(data){//子页面调用父页面需要的方法
-						that.showLoading()
-						that.pageobj0.loadFlag=0
-						that.pageobj0.canload=true
-						that.pageobj0.page_number=1
-						that.getList0()
+						_this.showLoading()
+						_this.pageobj0.loadFlag=0
+						_this.pageobj0.canload=true
+						_this.pageobj0.page_number=1
+						_this.getList0()
 					}
 				})
 			},
 			iconClick(){
-				let that=this
-				if(this.grdArray.length==0){
-					this.showToast('无法获取年级数据，不能进行添加操作')
-				}else if(this.clsArray.length==0){
-					this.showToast('无法获取班级数据，不能进行添加操作')
+				if(_this.grdArray.length==0){
+					_this.showToast('无法获取年级数据，不能进行添加操作')
+				}else if(_this.clsArray.length==0){
+					_this.showToast('无法获取班级数据，不能进行添加操作')
 				}else{
-					util.openwithData('/pages/stu_comment/stu_comment_add',{index_code:this.index_code},{
+					util.openwithData('/pages/stu_comment/stu_comment_add',{index_code:_this.index_code},{
 						refreshList(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj0.loadFlag=0
-							that.pageobj0.canload=true
-							that.pageobj0.page_number=1
-							that.getList0()
+							_this.showLoading()
+							_this.pageobj0.loadFlag=0
+							_this.pageobj0.canload=true
+							_this.pageobj0.page_number=1
+							_this.getList0()
 						}
 					})
 				}
@@ -298,8 +296,8 @@
 			})
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = util.getPageData(option);
-			this.index_code=this.tabBarItem.access.split("#")[1]
+			this.navItem = util.getPageData(option);
+			this.index_code=this.navItem.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
 				 this.getPermissionByPosition('add',this.index_code,result=>{
@@ -311,7 +309,7 @@
 				 this.getGrd()
 				 this.getDictList()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -339,7 +337,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

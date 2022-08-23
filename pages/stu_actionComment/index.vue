@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed">
 			<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#00cfbd" @clickItem="onClickItem" />
 		</view>
@@ -45,7 +45,7 @@
 			<view v-if="current === 1">
 				<uni-list :border="false">
 					<uni-list-item :key="index" v-for="(item,index) in pagedata1" :border="true">
-						<text slot="body" class="slot-box slot-text">
+						<view slot="body" class="slot-box slot-text">
 							<uni-row>
 								<uni-col style="display: flex;align-items: center;">
 									<uni-col v-if="item.remark_type=='termRemark'" :span="5"><view class="u-order-title1" style="background: #FF6666;margin-left: 0px;">{{item.remark_type_txt}}</view></uni-col><!-- 期评 -->
@@ -57,13 +57,13 @@
 								<uni-col :span="24" style="text-align: right;"><view class="u-order-time">{{item.create_user_name}}</view></uni-col>
 								<uni-col :span="24" style="text-align: right;"><view class="u-order-time">{{item.create_time}}</view></uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-list-item>
 				</uni-list>
 				<uni-load-more :status="pageobj1.status" :icon-size="17" :content-text="pageobj1.contentText" />
 			</view>
 		</view>
-		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
+		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 
@@ -79,7 +79,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {},
+				navItem: {},
 				items: ['行为与谈话', '教师评语'],
 				current: 0,
 				pageSize0:15,
@@ -233,25 +233,25 @@
 				_this.tabbar = util.getMenu();
 				for (var i = 0; i < _this.tabbar.length; i++) {
 					let tempM = _this.tabbar[i];
-					if(tempM.access == _this.tabBarItem.access){
-						_this.tabBarItem = tempM;
+					if(tempM.access == _this.navItem.access){
+						_this.navItem = tempM;
 					}
 				}
 			});
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = util.getTabbarMenu();
-			this.index_code=this.tabBarItem.access.split("#")[1]
+			this.navItem = util.getTabbarMenu();
+			this.index_code=this.navItem.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
 				 this.getList0()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

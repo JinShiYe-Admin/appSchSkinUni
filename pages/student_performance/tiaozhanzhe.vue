@@ -1,12 +1,12 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<uni-list>
 			<uni-list-item :border="false" v-for="(item,index) in tiaozhanzhe" :key='index' direction='column'>
 				<view slot="body">
 					<view style="display: flex;flex-direction: row;align-items: center;justify-content: space-between;">
 						<view style="display: flex;flex-direction: row;">
-							<view style="text-align: center;width: 30px;">{{++index}}</view>
+							<view style="text-align: center;width: 30px;">{{index+1}}</view>
 							<view style="text-align: center;width: 65px;">{{item.cls_name}}</view>
 							<view style="text-align: center;width: 75px;">{{item.user_name}}</view>
 						</view>
@@ -32,7 +32,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				pkFlag: 0,
 				tiaozhanzhe: [],
 			}
@@ -40,17 +40,17 @@
 		onLoad(option) {
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.text = '挑战者';
-			this.itemData.index = 100;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.text = '挑战者';
+			this.navItem.index = 100;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
-			this.tiaozhanzhe = [].concat(this.itemData.list);
+			this.tiaozhanzhe = [].concat(this.navItem.list);
 			uni.$on('clickLeft', (data) => {
 				if (this.pkFlag > 0) {
 					let eventChannel = this.getOpenerEventChannel();
@@ -58,11 +58,11 @@
 				}
 			})
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		components: {
 			mynavBar
 		},
@@ -70,7 +70,7 @@
 			pkOrNo(model, flag) {
 				let comData = {
 					id: model.id,
-					index_code: this.itemData.access,
+					index_code: this.navItem.access,
 					status: flag, //1接受，2免战
 				}
 				this.showLoading();

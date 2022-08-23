@@ -2,13 +2,16 @@
 	<view>
 		<!-- #ifdef H5 -->
 		<view class="tabs-fixed">
-		<!-- #endif -->
-		<!-- #ifdef APP -->
-		<view class="tabs-fixed" style="top: 0px;">
-		<!-- #endif -->
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
+		<!-- #endif -->
+		<!-- #ifdef APP -->
+		<view class="tabs-fixed" style="top: 0px;">
+			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
+				activeColor="#00CFBD"></uni-segmented-control>
+		</view>
+		<!-- #endif -->
 		<view class="content" style="margin-top: 60px;">
 			<view v-if="semFlag == 0">
 				<div>
@@ -17,22 +20,26 @@
 						style="position: absolute;right: 10px;width: 30px;height: 30px;margin-top: -25px;"></image>
 				</div>
 				<view style="margin-top: 10px;">
-					<view style="height: 22px;width: 2px;background: #00baad;float: left;margin: 10px 5px 0 10px;"></view>
-					<view style="text-align: center;color: gray;font-size: 15px;">当前错题数量：<span style="color: red;font-size: 25px;">{{pointModel.questionIdList.length}}</span>题</view>
+					<view style="height: 22px;width: 2px;background: #00baad;float: left;margin: 10px 5px 0 10px;">
+					</view>
+					<view style="text-align: center;color: gray;font-size: 15px;">当前错题数量：<span
+							style="color: red;font-size: 25px;">{{pointModel.questionIdList.length}}</span>题</view>
 				</view>
 				<br>
 				<uni-row style="display: flex;align-items: center;">
-				
+
 				</uni-row>
 				<view v-for="(item,index) in pointModel.questionDetailList" :key='index'>
 					<h4 class="spaceLine">考题{{index+1}}</h4>
 					<view style="padding: 0 10px;margin-top: 15px;">
 						<view>
-							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;">
+							</view>
 							<view style="font-size: 14px;color: gray;">当前题目信息</view>
 						</view>
 						<view style="margin: 10px 0 0 15px;font-size: 14px;">
-							<view style="margin-top: 10px;word-break: break-all;color: gray;">试题来源: {{item.task_name}}</view>
+							<view style="margin-top: 10px;word-break: break-all;color: gray;">试题来源: {{item.task_name}}
+							</view>
 							<view style="margin-top: 10px;color: gray;">本题分值: {{item.question_score}}分</view>
 							<view style="margin-top: 10px;color: gray;">年级均分: {{item.grd_avg_score}}分</view>
 							<view style="margin-top: 10px;color: gray;">我的得分: {{item.stu_score}}分</view>
@@ -40,7 +47,8 @@
 					</view>
 					<view style="padding: 0 10px;margin-top: 15px;">
 						<view>
-							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;">
+							</view>
 							<view style="font-size: 14px;color: gray;">题目</view>
 						</view>
 						<view style="margin-top: 10px;font-size: 14px;">
@@ -48,13 +56,15 @@
 							<view class="rich" v-if="item.content.length>0" style="font-size: 14px;color: #666;"
 								v-html="item.content"></view>
 							<view v-for="(item,indexOp) in item.option" :key='indexOp'>
-								<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;" v-html="item"></p>
+								<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;" v-html="item">
+								</p>
 							</view>
 						</view>
 					</view>
 					<view style="padding: 0 10px;margin-top: 15px;">
 						<view>
-							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;">
+							</view>
 							<view style="font-size: 14px;color: gray;">我的答案</view>
 						</view>
 						<view style="margin-top: 10px;">
@@ -69,7 +79,8 @@
 					</view>
 					<view style="padding: 0 10px;margin-top: 15px;">
 						<view>
-							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;">
+							</view>
 							<view style="font-size: 14px;color: gray;">标准答案</view>
 						</view>
 						<view style="margin-top: 10px;font-size: 14px;color: gray;margin-bottom: 10px;">
@@ -78,29 +89,33 @@
 					</view>
 				</view>
 			</view>
-			<view v-if="semFlag == 1">
+			<view v-else-if="semFlag == 1">
 				<div>
 					<h4 class="examName">{{chapterModel.nowChapter.name}}</h4>
 					<image src="/static/images/student_performance/change.png" @click="changeKnowPoint(1)"
 						style="position: absolute;right: 10px;width: 30px;height: 30px;margin-top: -25px;"></image>
 				</div>
 				<view style="margin-top: 10px;">
-					<view style="height: 22px;width: 2px;background: #00baad;float: left;margin: 10px 5px 0 10px;"></view>
-					<view style="text-align: center;color: gray;font-size: 15px;">当前错题数量：<span style="color: red;font-size: 25px;">{{chapterModel.questionIdList.length}}</span>题</view>
+					<view style="height: 22px;width: 2px;background: #00baad;float: left;margin: 10px 5px 0 10px;">
+					</view>
+					<view style="text-align: center;color: gray;font-size: 15px;">当前错题数量：<span
+							style="color: red;font-size: 25px;">{{chapterModel.questionIdList.length}}</span>题</view>
 				</view>
 				<br>
 				<uni-row style="display: flex;align-items: center;">
-				
+
 				</uni-row>
 				<view v-for="(item,index) in chapterModel.questionDetailList" :key='index'>
 					<h4 class="spaceLine">考题{{index+1}}</h4>
 					<view style="padding: 0 10px;margin-top: 15px;">
 						<view>
-							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;">
+							</view>
 							<view style="font-size: 14px;color: gray;">当前题目信息</view>
 						</view>
 						<view style="margin: 10px 0 0 15px;font-size: 14px;">
-							<view style="margin-top: 10px;word-break: break-all;color: gray;">试题来源: {{item.task_name}}</view>
+							<view style="margin-top: 10px;word-break: break-all;color: gray;">试题来源: {{item.task_name}}
+							</view>
 							<view style="margin-top: 10px;color: gray;">本题分值: {{item.question_score}}分</view>
 							<view style="margin-top: 10px;color: gray;">年级均分: {{item.grd_avg_score}}分</view>
 							<view style="margin-top: 10px;color: gray;">我的得分: {{item.stu_score}}分</view>
@@ -108,7 +123,8 @@
 					</view>
 					<view style="padding: 0 10px;margin-top: 15px;">
 						<view>
-							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;">
+							</view>
 							<view style="font-size: 14px;color: gray;">题目</view>
 						</view>
 						<view style="margin-top: 10px;font-size: 14px;">
@@ -116,13 +132,15 @@
 							<view class="rich" v-if="item.content.length>0" style="font-size: 14px;color: #666;"
 								v-html="item.content"></view>
 							<view v-for="(item,indexOp) in item.option" :key='indexOp'>
-								<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;" v-html="item"></p>
+								<p style="font-size: 14px;color: #666;margin-left: 15px;margin-top: 5px;" v-html="item">
+								</p>
 							</view>
 						</view>
 					</view>
 					<view style="padding: 0 10px;margin-top: 15px;">
 						<view>
-							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;">
+							</view>
 							<view style="font-size: 14px;color: gray;">我的答案</view>
 						</view>
 						<view style="margin-top: 10px;">
@@ -137,7 +155,8 @@
 					</view>
 					<view style="padding: 0 10px;margin-top: 15px;">
 						<view>
-							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+							<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;">
+							</view>
 							<view style="font-size: 14px;color: gray;">标准答案</view>
 						</view>
 						<view style="margin-top: 10px;font-size: 14px;color: gray;margin-bottom: 10px;">
@@ -184,27 +203,27 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 
 			// 获取知识点目录
-			this.getPointList(0, (tempList)=> {
-				console.log('tempList:'+JSON.stringify(tempList));
+			this.getPointList(0, (tempList) => {
+				console.log('tempList:' + JSON.stringify(tempList));
 				_this.pointModel.pointList = [].concat(tempList);
 				// 找到第一个可用目录
-				_this.getFirstPoint(tempList, (model)=> {
+				_this.getFirstPoint(tempList, (model) => {
 					_this.pointModel.nowPoint = model;
 					// 获取知识点详情
 					_this.getKnowPointDetail();
 				});
 			});
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			changeKnowPoint(tag) {
 				this.itemData.flag = 1; //错题
@@ -390,11 +409,12 @@
 		margin-left: 20px;
 		margin-right: 20px;
 	}
-	::v-deep img{
+
+	::v-deep img {
 		max-width: 100%;
 	}
-	
-	::v-deep p{
+
+	::v-deep p {
 		word-break: break-all;
 	}
 </style>

@@ -36,7 +36,7 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.AnnouncementTitle
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			var isPageHide = false;
 			window.addEventListener('pageshow', function() {
@@ -53,14 +53,14 @@
 			//#endif
 			this.getPageDetail();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			checkEnc: function(tempUrl) {
-				console.log('tempUrl:'+tempUrl);
+				console.log('tempUrl:' + tempUrl);
 				util.openFile(tempUrl);
 			},
 			getPageDetail() {

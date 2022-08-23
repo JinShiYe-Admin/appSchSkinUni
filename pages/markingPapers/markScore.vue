@@ -49,7 +49,8 @@
 				学生得分详情</p>
 			<view style="height: 0.5px;background-color: #00cfbd;margin: 5px 28px 0px 15px;"></view>
 			<uni-list>
-				<uni-list-item showArrow clickable :key="index" v-for="(model,index) in nowScoreList" style="font-size: 14px;" @click="clickLi(model)">
+				<uni-list-item showArrow clickable :key="index" v-for="(model,index) in nowScoreList"
+					style="font-size: 14px;" @click="clickLi(model)">
 					<view slot="body" class="">
 						<uni-row>
 							<view style="margin-left: 0px;">
@@ -127,17 +128,17 @@
 			uni.setNavigationBarTitle({
 				title: '成绩查看'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//1.8.阅卷成绩统计
 			this.getPageList();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			ontabtap(e) {
 				let index = e.target.dataset.current || e.currentTarget.dataset.current;
@@ -257,10 +258,12 @@
 		font-size: 14px;
 		color: #505050;
 	}
+
 	.uni-list::before {
-	    height: 0px !important;
+		height: 0px !important;
 	}
+
 	.uni-list--border-top {
-	    height: 0px !important;
+		height: 0px !important;
 	}
 </style>

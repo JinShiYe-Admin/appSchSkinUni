@@ -116,7 +116,7 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 
@@ -133,17 +133,17 @@
 				});
 			});
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			changeKnowPoint() {
 				this.itemData.flag = 0; //知识点
 				util.openwithData("/pages/student_performance/zhishidian_change", this.itemData, {
 					changeZSD(data) { //子页面调用父页面需要的方法
-						console.log('changeZSDchangeZSD:'+JSON.stringify(data));
+						console.log('changeZSDchangeZSD:' + JSON.stringify(data));
 						if (data.id != _this.nowPoint.id) {
 							_this.nowPoint = data;
 							// 获取知识点详情
@@ -304,12 +304,12 @@
 		margin-left: 20px;
 		margin-right: 20px;
 	}
-	
-	::v-deep img{
+
+	::v-deep img {
 		max-width: 100%;
 	}
-	
-	::v-deep p{
+
+	::v-deep p {
 		word-break: break-all;
 	}
 </style>

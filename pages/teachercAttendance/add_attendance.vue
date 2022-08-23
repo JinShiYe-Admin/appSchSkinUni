@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="location-filled" :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' icon="location-filled" :iconClick="iconClick"></mynavBar>
 		<!-- <view class="uni-flex uni-row form-view">
 			<view class="form-left">考勤地点</view>
 			<input class="uni-input form-right"  :value="workAddress"  placeholder="点击右上角按钮获取考勤地点" disabled/>
@@ -15,7 +15,7 @@
 		</uni-row>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view choose-file">
-			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${this.showMaxCount}张照片${this.wxTips?this.wxTips:''})`}}</view></view>
+			<view class="choose-file-text">附件<view class="file-des">{{`(最多可选择${showMaxCount}张照片${wxTips?wxTips:''})`}}</view></view>
 			<g-upload ref='gUpload' :sourceType="['camera']" :mode="imgList" :control='control' :deleteBtn='deleteBtn' @chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum" :showMaxCount="showMaxCount"></g-upload>
 		</view>
 		<view class="line"></view>
@@ -49,7 +49,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				canSub:true,
 				type: '',
 				workAddress: '',
@@ -80,18 +80,18 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='新增考勤'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			let that =this
 			setTimeout(()=>{
 				that.getLocation();
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -110,7 +110,7 @@
 				// 	this.canSub=false
 				// 	this.upLoadImg();
 				// }
-				this.getLocation();
+				_this.getLocation();
 			},
 			async getLocation() {
 				// #ifdef APP-PLUS

@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
-		<view v-if="tabBarItem.childList.length>0" style="padding-top: 10px;">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
+		<view v-if="navItem.childList.length>0" style="padding-top: 10px;">
 			<uni-grid v-if="updataNoReadeCut" :column="4" :showBorder='false' :square="false" :highlight="false">
-				<uni-grid-item v-for="(chilItem, chilIndex) in tabBarItem.childList" :index="chilIndex"
+				<uni-grid-item v-for="(chilItem, chilIndex) in navItem.childList" :index="chilIndex"
 					:key="chilIndex">
 					<uni-badge v-if="chilItem.noReadCut>0" :text='chilItem.noReadCut' type='error' size="small" style="margin-left: 50px;z-index: 99;"></uni-badge>
 					<view v-show="chilItem.noReadCut==0" style="height: 20px;"></view>
@@ -14,7 +14,7 @@
 				</uni-grid-item>
 			</uni-grid>
 		</view>
-		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
+		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 
@@ -27,7 +27,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {},
+				navItem: {},
 				updataNoReadeCut:true
 			}
 		},
@@ -48,17 +48,17 @@
 			// 获取未读数
 			getUnReadCntFun() {
 				let tempCount = 0;
-				for (var a = 0; a < this.tabBarItem.childList.length; a++) {
-					var tempM0 = this.tabBarItem.childList[a];
+				for (var a = 0; a < this.navItem.childList.length; a++) {
+					var tempM0 = this.navItem.childList[a];
 					if (tempM0.redspot_url != null && tempM0.redspot_url.length > 0) {
 						// 获取未读数
 						util.getUnReadCut(tempM0.access, tempM0.redspot_url, (data) => {
 							tempCount = tempCount+data[0].dotnum;
 							this.setTabbarCount(tempCount);
-							for (var b = 0; b < this.tabBarItem.childList.length; b++) {
-								var tempM1 = this.tabBarItem.childList[b];
+							for (var b = 0; b < this.navItem.childList.length; b++) {
+								var tempM1 = this.navItem.childList[b];
 								if (tempM1.access == data[0].access) {
-									this.$set(this.tabBarItem.childList[b],'noReadCut',data[0].dotnum);
+									this.$set(this.navItem.childList[b],'noReadCut',data[0].dotnum);
 									this.updataNoReadeCut = false;
 									this.updataNoReadeCut = true;
 								}
@@ -71,7 +71,7 @@
 				let tempNumber = 0;
 				for (var i = 0; i < this.tabbar.length; i++) {
 					let tempM = this.tabbar[i];
-					if(tempM.access == this.tabBarItem.access){
+					if(tempM.access == this.navItem.access){
 						this.$set(this.tabbar[i],'count',tempCount);
 					}
 					tempNumber = tempNumber + tempM.count;
@@ -95,17 +95,17 @@
 				_this.tabbar = util.getMenu();
 				for (var i = 0; i < _this.tabbar.length; i++) {
 					let tempM = _this.tabbar[i];
-					if(tempM.access == _this.tabBarItem.access){
-						_this.tabBarItem = tempM;
+					if(tempM.access == _this.navItem.access){
+						_this.navItem = tempM;
 					}
 				}
-				console.log('_this.tabBarItem:'+JSON.stringify(_this.tabBarItem));
+				console.log('_this.navItem:'+JSON.stringify(_this.navItem));
 			});
 			this.tabbar = util.getMenu();
 			// console.log('this.tabbar:'+JSON.stringify(this.tabbar));
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = util.getTabbarMenu();
-			console.log('this.tabBarItem:'+JSON.stringify(this.tabBarItem));
+			this.navItem = util.getTabbarMenu();
+			console.log('this.navItem:'+JSON.stringify(this.navItem));
 			// 获取未读数
 			this.getUnReadCntFun();
 		}

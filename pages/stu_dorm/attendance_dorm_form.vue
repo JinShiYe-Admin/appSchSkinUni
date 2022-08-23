@@ -19,14 +19,14 @@
 		<view style="padding-top:44px;">
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable @click="toDetails(model)" :key="index" v-for="(model,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
+					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
 						<view class="title-text">{{model.grd_name}} {{model.cls_name}}</view>
 						<uni-row>
-							<uni-col :key='index' :span="8" v-for="(item,index) in model.subList">
+							<uni-col :key='index2' :span="8" v-for="(item,index2) in model.subList">
 								<view class="detail-text">{{item.name}}:{{item.value}} 次</view>
 							</uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -201,7 +201,7 @@
 				 this.getGrd()
 			},100)
 			uni.setNavigationBarTitle({title:'宿舍考勤报表'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -229,7 +229,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

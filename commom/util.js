@@ -329,12 +329,23 @@ function openwithData(url, data = {}, _events = {}) {
  */
 function getPageData(option) {
 	try {
-		return JSON.parse(option.pagedata)
+		var tempM0 = decodeURIComponent(option.pagedata);
+		var tempM1 = JSON.parse(tempM0);
+		// console.log('tempM11:'+JSON.stringify(tempM1));
+		if(tempM1.index){
+			// console.log('getPageData11111111');
+		}else{
+			// console.log('getPageData2222222');
+			tempM1.index = 1;
+		}
+		// console.log('tempM12:'+JSON.stringify(tempM1));
+		return tempM1;
+		// return JSON.parse(decodeURIComponent(option.pagedata))
+		// return option.pagedata && JSON.parse(option.pagedata)
 	} catch (e) {
 		console.log(e);
 		return {}
 	}
-
 }
 
 // 打开附件
@@ -477,7 +488,7 @@ function getUnReadCut(index_code, url, callback) {
 
 function getPageArray() {
 	let tempAAA = '';
-	//#ifndef APP-PLUS
+	//#ifdef H5
 	var tempUrl = window.location.href;
 	console.log('getPageArray.tempUrl:' + tempUrl);
 	var tempArr = tempUrl.split('/');
@@ -737,7 +748,7 @@ function getPageArray() {
 				pagePath: "/pages/schapp_work/stayPersonWatchIndex",
 				url: 'schapp_Work_StayPersonWatch',
 				noReadCut: 0
-			},{
+			}, {
 				name: '请假记录',
 				icon: tempAAA + '/static/images/schapp_work/qingjiajilu.png',
 				pagePath: "/pages/schapp_work/qingjiaIndex",
@@ -1249,6 +1260,32 @@ function getPageArray() {
 				url: 'schapp_CostMs_Account_Approve',
 				noReadCut: 0
 			}]
+		},
+		{
+			name: "健康上报", //学生健康信息上报 家长、学生端
+			pagePath: "/pages/stuHealthMsg/stuHealthMsgUploadIndex",
+			pagePath1: "/pages/stuHealthMsg/stuHealthMsgUploadIndex1",
+			iconPath: tempAAA + '/static/tabbar/stuHealthMsg.png',
+			selectedIconPath: tempAAA + '/static/tabbar/stuHealthMsg_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/images/stuHealthMsg/stuHealthMsgUpload.png",
+			url: 'schapp_StuHealthMsg',
+			childList: []
+		},
+		{
+			name: "健康上报", //学生健康信息上报 教师端
+			pagePath: "/pages/stuHealthMsgTeacher/index",
+			pagePath1: "/pages/stuHealthMsgTeacher/index1",
+			iconPath: tempAAA + '/static/tabbar/stuHealthMsg.png',
+			selectedIconPath: tempAAA + '/static/tabbar/stuHealthMsg_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/stuHealthMsg_select.png",
+			url: 'schapp_StuHealthMsgTeacher_info',
+			childList: []
 		}
 	];
 	return tempArray;
@@ -1283,6 +1320,6 @@ module.exports = {
 	getPushCut: getPushCut,
 	setPushCut: setPushCut,
 	setPushCutMore: setPushCutMore,
-	ArrayUnique:ArrayUnique
-	
+	ArrayUnique: ArrayUnique
+
 }

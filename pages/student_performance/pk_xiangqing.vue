@@ -42,9 +42,12 @@
 		</view>
 		<h4 class="spaceLine" style='margin-top: 15px;'>各科</h4>
 		<view style="text-align: center;font-weight: 900;">
-			<span style="color: red;font-size: 25px;">{{itemData.pkb}}</span><span style="color: red;font-size: 27px;">胜</span>
-			<span style="color: #FDD60C;font-size: 25px;">{{itemData.pka}}</span><span style="color: #FDD60C;font-size: 27px;">平</span>
-			<span style="color: #008080;font-size: 25px;">{{itemData.pkc}}</span><span style="color: #008080;font-size: 27px;">败</span>
+			<span style="color: red;font-size: 25px;">{{itemData.pkb}}</span><span
+				style="color: red;font-size: 27px;">胜</span>
+			<span style="color: #FDD60C;font-size: 25px;">{{itemData.pka}}</span><span
+				style="color: #FDD60C;font-size: 27px;">平</span>
+			<span style="color: #008080;font-size: 25px;">{{itemData.pkc}}</span><span
+				style="color: #008080;font-size: 27px;">败</span>
 			</div>
 		</view>
 		<view style="height: 2px;background-color: #B5E9E5;margin: 10px 10px 0 10px;"></view>
@@ -54,7 +57,7 @@
 					<view style="width: 10px;height: 10px;"></view>
 				</uni-col>
 				<uni-col :span="6">
-					 <view style="font-size: 13px;text-align: center;color: #DB5050;">我的成绩</view>
+					<view style="font-size: 13px;text-align: center;color: #DB5050;">我的成绩</view>
 				</uni-col>
 				<uni-col :span="2">
 					<view style="width: 10px;height: 10px;"></view>
@@ -71,7 +74,7 @@
 					<view style="font-size: 13px;">{{item.sub_name}}</view>
 				</uni-col>
 				<uni-col :span="6">
-					 <view style="font-size: 13px;text-align: center;color: #DB5050;">{{item.my_score}}</view>
+					<view style="font-size: 13px;text-align: center;color: #DB5050;">{{item.my_score}}</view>
 				</uni-col>
 				<uni-col :span="2">
 					<view style="font-size: 13px;">vs</view>
@@ -115,17 +118,17 @@
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 
 			this.getUserInfo();
 		},
-		onShow(){
-					//#ifndef APP-PLUS
-						document.title=""
-					//#endif
-				},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		methods: {
 			getUserInfo() {
 				let comData = {
@@ -165,7 +168,7 @@
 		font-size: 14px;
 		color: #505050;
 	}
-	
+
 	/* 班级、年级排名边框 */
 	.scoreOrderBorder {
 		width: 60px;
@@ -178,7 +181,7 @@
 		line-height: 60px;
 		vertical-align: middle;
 	}
-	
+
 	/* 班级、年级排名 */
 	.scoreOrder {
 		color: red;
@@ -193,7 +196,7 @@
 		width: 60px;
 		height: 60px;
 	}
-	
+
 	/* 班级、年级排名名字 */
 	.scoreOrderName {
 		font-size: 13px !important;
@@ -201,7 +204,7 @@
 		width: 100%;
 		text-align: center;
 	}
-	
+
 	.subResult {
 		width: 20px;
 		height: 20px;

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view  v-if="detailData.grd_name || detailData.cls_name ||  detailData.stu_name">
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">请假申请人</view>
@@ -81,7 +81,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				detailData: {
 					cls_name:"",
@@ -111,32 +111,32 @@
 			getLeaveDetail(){
 				let url=this.globaData.STULEAVE_API + 'apply/getLeaveByItem'
 				let comData={
-					grd_code:this.tabBarItem.grd_code,
-					grd_name:this.tabBarItem.grd_name,
-					cls_code:this.tabBarItem.cls_code,
-					cls_name:this.tabBarItem.class_name,
-					stu_code:this.tabBarItem.stu_code,
-					stu_name:this.tabBarItem.stu_name,
-					begin_time:this.tabBarItem.begintime,
-					end_time:this.tabBarItem.endtime,
-					apply_time:this.getApply_time(this.tabBarItem.begintime,this.tabBarItem.endtime),
-					in_out_permission_code:this.tabBarItem.in_out_permission_code,
-					item_code:this.tabBarItem.item_code,
-					comment:this.tabBarItem.comment?this.tabBarItem.comment:'',
-					create_user_name:this.tabBarItem.create_user_name,
+					grd_code:this.navItem.grd_code,
+					grd_name:this.navItem.grd_name,
+					cls_code:this.navItem.cls_code,
+					cls_name:this.navItem.class_name,
+					stu_code:this.navItem.stu_code,
+					stu_name:this.navItem.stu_name,
+					begin_time:this.navItem.begintime,
+					end_time:this.navItem.endtime,
+					apply_time:this.getApply_time(this.navItem.begintime,this.navItem.endtime),
+					in_out_permission_code:this.navItem.in_out_permission_code,
+					item_code:this.navItem.item_code,
+					comment:this.navItem.comment?this.navItem.comment:'',
+					create_user_name:this.navItem.create_user_name,
 					index_code:this.index_code,
 				}
 				this.post(url,comData,leave=>{
 					this.hideLoading()
 					if(JSON.stringify(leave)=='{}'){
 						 console.log("responseaaa: " + JSON.stringify(leave));
-						this.detailData.cls_name=this.tabBarItem.class_name
-						this.detailData.apply_time=this.getApply_time(this.tabBarItem.begintime,this.tabBarItem.endtime)
-						this.detailData.begin_time=this.tabBarItem.begintime
-						this.detailData.end_time=this.tabBarItem.endtime
-						this.detailData.comment=this.tabBarItem.comment
-						this.detailData.item_code=this.tabBarItem.item_code
-						this.detailData.in_out_permission_code=this.tabBarItem.in_out_permission_code
+						this.detailData.cls_name=this.navItem.class_name
+						this.detailData.apply_time=this.getApply_time(this.navItem.begintime,this.navItem.endtime)
+						this.detailData.begin_time=this.navItem.begintime
+						this.detailData.end_time=this.navItem.endtime
+						this.detailData.comment=this.navItem.comment
+						this.detailData.item_code=this.navItem.item_code
+						this.detailData.in_out_permission_code=this.navItem.in_out_permission_code
 					}else{
 						let approveList=leave.approve_list
 						if(approveList){
@@ -213,18 +213,18 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='请假详情'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading()
 				this.getLeaveDetail()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

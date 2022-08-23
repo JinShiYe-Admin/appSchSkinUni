@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed">
 			<view style="font-size: 14px;text-align: center;padding-top: 10px;">{{yearList[yearIndex].year_name}}
 				{{termList[termIndex].term_name}} {{grdArray[grdIndex].name}} {{clsArray[clsIndex].name}}
@@ -16,7 +16,7 @@
 				</view>
 				<view slot="content" class="viewNode" style="min-height: 50px;">
 					<uni-card isShadow :isFull="true" style="">
-						<text class="content-box-text">
+						<view class="content-box-text">
 							<view class="card-title">{{item.name}}</view>
 							<view class="card-line" style="margin-left: -10px;"></view>
 							<view style="font-size: 13px;margin-top: 5px;">科目：{{item.sub_name}}</view>
@@ -26,7 +26,7 @@
 								<button style="width: 100px;" type="default" size="mini"
 									@click="gotoDetail(item)">查看分析</button>
 							</view>
-						</text>
+						</view>
 					</uni-card>
 				</view>
 			</m-steps>
@@ -95,7 +95,7 @@
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				pageSize: 20,
 				pageIndex: 1,
 				total_page: 0,
@@ -152,12 +152,12 @@
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			let tempM = util.getPageData(option);
 			tempM.index = 100;
-			this.itemData = tempM;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = tempM;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//获取学年
@@ -174,7 +174,7 @@
 				duration: 0
 			});
 			// #endif
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
@@ -202,7 +202,7 @@
 		},
 		methods: {
 			gotoDetail(model) {
-				model.access = this.itemData.access;
+				model.access = this.navItem.access;
 				model.year_code = this.yearList[this.yearIndex].year_code;
 				model.term_code = this.termList[this.termIndex].term_code;
 				model.grd_code = this.grdArray[this.grdIndex].value;
@@ -258,7 +258,7 @@
 			},
 			getYear() { //获取学年
 				let comData = {
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'year', comData, response => {
@@ -274,7 +274,7 @@
 				let comData = {
 					page_number: -1,
 					page_size: 1,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_BASESUB + 'SysTermP', comData, response => {
@@ -291,7 +291,7 @@
 					op_code: 'index',
 					get_grd: true,
 					all_grd: true,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
@@ -316,7 +316,7 @@
 					grd_code: this.grdArray[this.grdIndexTemp].value,
 					get_cls: true,
 					all_cls: true,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
@@ -342,7 +342,7 @@
 					cls_code: this.clsArrayTemp[this.clsIndex].value,
 					get_sub: true,
 					all_sub: true,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
@@ -371,7 +371,7 @@
 					sub_code: this.subArray[this.subIndex].value,
 					page_size: this.pageSize, //每页记录数
 					page_number: this.pageIndex, //当前页数
-					index_code: this.itemData.access.split('#')[1]
+					index_code: this.navItem.access.split('#')[1]
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'homeWorkQuery/page', comData, (data0, data) => {

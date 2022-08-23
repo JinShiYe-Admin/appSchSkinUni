@@ -142,7 +142,7 @@
 			// uni.setNavigationBarTitle({
 			// 	title: this.itemData.name
 			// });
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			//1.189.获取任务题组及题型信息
@@ -157,7 +157,7 @@
 			}
 		},
 		onShow() {
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},

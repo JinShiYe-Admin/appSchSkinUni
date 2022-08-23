@@ -23,14 +23,14 @@
 		<view style="padding:37px 15px 0px;">
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable @click="toDetails(model)" :key="index" v-for="(model,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
+					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
 						<uni-row>
 							<uni-col :span="15"><view class="detail-text">楼层:{{model.dorm_name}} {{model.floor_num}}层 {{model.room_name}}室</view></uni-col>
 							<uni-col :span="9"><view class="detail-text">居住性别:{{model.stu_sex_text}}</view></uni-col>
 							<uni-col :span="15"><view class="detail-text">床位数:{{model.bed_nums}}</view></uni-col>
 							<uni-col :span="9"><view class="detail-text">已住人数:{{model.stu_nums}}</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 		</view>
@@ -202,7 +202,7 @@
 				 this.getDorm()
 			},100)
 			uni.setNavigationBarTitle({title:itemData.text});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -230,7 +230,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

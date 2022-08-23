@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<uni-notice-bar :single="true" text="第一步:请选择考勤信息!" />
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
@@ -61,7 +61,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				time:'',//发生日期
 				grdIndex:-1,
@@ -88,19 +88,19 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='课堂点名登记'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			setTimeout(()=>{
 				this.showLoading();
 				this.getGrd();
 				this.getClassAttendanceDict();
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

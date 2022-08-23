@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<scroll-view class="select-scroll" scroll-y="true" >
 			<uni-list class="uni-list" :border="false">
 				<checkbox-group >
-					<label class="uni-list-cell uni-list-cell-pd" v-for="(item,index) in bedList" :key="index+Math.random()" @click="userClick(item)">
+					<label class="uni-list-cell uni-list-cell-pd" v-for="(item,index) in bedList" :key="index" @click="userClick(item)">
 						<view>
 							<checkbox style="transform:scale(0.7)" color="#00CFBD" :value="String(item.value)"  :checked="item.checked" />
 						</view>
@@ -19,31 +19,33 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				bedList:[],
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 			}
 		},
 		components: {
 			mynavBar
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='选择床位'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.bedList=itemData.bedList
 			console.log("itemData.bedList: " + JSON.stringify(itemData.bedList));
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -53,8 +55,8 @@
 			},
 			textClick(){
 				let checkTec=[]
-				const eventChannel = this.getOpenerEventChannel()
-				eventChannel.emit('refreshSetPeople', {data: this.bedList});
+				const eventChannel = _this.getOpenerEventChannel()
+				eventChannel.emit('refreshSetPeople', {data: _this.bedList});
 				uni.navigateBack();
 			},
 		}

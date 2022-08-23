@@ -14,14 +14,14 @@
 		 <view style="padding:28px 0 0;">
 			 <uni-list :border="false">
 			 	<uni-list-item showArrow :key="index" v-for="(item,index) in pageArray" :border="true">
-			 		<text slot="body" style="padding: 0 30px;flex: 1;" @click="toDetails(item)">
+			 		<view slot="body" style="padding: 0 30px;flex: 1;" @click="toDetails(item)">
 			 			<uni-row>
 							<uni-col :span="12"><view class="detail-text" style="margin-top: 5px;">楼层名:{{item.floor_num}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text" style="margin-top: 5px;">居住性别:{{item.stu_sex_text}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text" style="margin-top: 5px;">房间数:{{item.room_nums}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text" style="margin-top: 5px;">床位数:{{item.bed_nums}}</view></uni-col>
 			 			</uni-row>
-			 		</text>
+			 		</view>
 			 	</uni-list-item>
 			 </uni-list>
 		 </view>
@@ -93,7 +93,7 @@
 				 this.getList()
 			},100)
 			uni.setNavigationBarTitle({title:itemData.dorm_name});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -104,7 +104,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

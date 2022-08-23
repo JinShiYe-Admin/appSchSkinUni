@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick"></mynavBar>
 		<uni-row>
 			<uni-col :span="11" style="border-right: 1px solid rgba(238,238,238,.5);">
 				<scroll-view class="select-scroll" scroll-y="true" >
@@ -35,12 +35,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				oneDptSelectPeoples:[],//单个部门内选择的人员，用于切换部门时，将选择的人员合并到总的选择人员中
 				selectPeoples:new Map(),
 				leftList:[],
@@ -52,11 +53,12 @@
 			mynavBar
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='选择抄送人'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			let selectPeoples=itemData.selectPeoples;
 			let copy_map=new Map();
@@ -68,12 +70,12 @@
 				this.showLoading()
 				this.getDpt()
 			},10)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -98,10 +100,10 @@
 			},
 			textClick(){
 				let checkTec=[]
-				this.selectPeoples.forEach((value,key)=>{
+				_this.selectPeoples.forEach((value,key)=>{
 					checkTec.push({text:value.text,value:value.value})
 				})
-				const eventChannel = this.getOpenerEventChannel()
+				const eventChannel = _this.getOpenerEventChannel()
 				eventChannel.emit('setPeople', {data: checkTec});
 				uni.navigateBack();
 			},

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
 		<view v-if="detailData.grd_name || detailData.cls_name ||  detailData.stu_name">
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">行为详情</view>
@@ -51,12 +51,13 @@
 	// 七牛上传相关
 	 import gUpload from "@/components/g-upload/g-upload.vue"
 	 import cloudFileUtil from '../../commom/uploadFiles/CloudFileUtil.js';
+	 let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				detailData:{
 					cls_name:"",
 					item_code:"",
@@ -93,12 +94,13 @@
 			 gUpload
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			console.log(itemData);
 			itemData.index=100
 			itemData.text=itemData.title
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.detailData = itemData;
 			this.index_code=itemData.index_code
 			console.log("itemData: " + JSON.stringify(itemData));
@@ -117,18 +119,18 @@
 			if(itemData.canDelete){
 				this.icon='trash'
 			}
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		methods: {
 			iconClick(){
-				this.$refs.alertDialog.open()
+				_this.$refs.alertDialog.open()
 			},
 			dialogConfirm(){
 				this.showLoading()

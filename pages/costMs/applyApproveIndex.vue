@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed" style="background: white;">
 			<uni-row>
 				<uni-col :span="6">
@@ -15,7 +15,7 @@
 			<view class="example-body">
 				<view v-for="(model,index) in pagedata" :key='index'>
 					<uni-card isShadow>
-						<text class="content-box-text" @click="clickItem(model,0)">
+						<view class="content-box-text" @click="clickItem(model,0)">
 							<uni-row style=''>
 								<uni-col :span="16" style="font-size: 15px;font-weight: bold;">
 									{{model.apply_code}}
@@ -42,7 +42,7 @@
 									<button v-if="model.status == 2" class="mini-btn" type="default" size="mini" style="margin-left: 5px;background: #F0AD4E;color: white;" @click.stop="clickSem0Item(model,2)">退回</button>
 								</uni-col>
 							</uni-row>
-						</text>
+						</view>
 					</uni-card>
 				</view>
 			</view>
@@ -64,7 +64,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				pageSize:15,
 				pagedata:[],
 				flagRef: 0, //0刷新1加载更多
@@ -200,12 +200,12 @@
 			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(options);
-			this.itemData.index = 100;
-			this.index_code=this.itemData.access.split("#")[1]
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(options);
+			this.navItem.index = 100;
+			this.index_code=this.navItem.access.split("#")[1]
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			this.getList0();
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -233,7 +233,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

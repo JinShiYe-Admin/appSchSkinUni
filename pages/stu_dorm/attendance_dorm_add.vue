@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<uni-notice-bar :single="true" text="第一步:请选择宿舍信息!" />
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼房</view>
@@ -57,7 +57,7 @@
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				
 				
 				time:'',//发生日期
@@ -90,8 +90,8 @@
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='宿舍点名登记'
-			this.tabBarItem = itemData;
-			console.log('this.tabBarItem:'+JSON.stringify(this.tabBarItem));
+			this.navItem = itemData;
+			console.log('this.navItem:'+JSON.stringify(this.navItem));
 			this.index_code=itemData.index_code
 			let that =this
 			setTimeout(function() {
@@ -99,12 +99,12 @@
 				that.getBuildingList();
 				that.getDict();
 			}, 100);
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

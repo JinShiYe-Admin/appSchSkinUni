@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<mynavBar v-if="add" ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
-		<mynavBar v-else ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' ></mynavBar>
+		<mynavBar v-if="add" ref="mynavBar" :navItem='navItem' :personInfo='personInfo' icon="plusempty" :iconClick="iconClick"></mynavBar>
+		<mynavBar v-else ref="mynavBar" :navItem='navItem' :personInfo='personInfo' ></mynavBar>
 		<view class="tabs-fixed">
 			<uni-row>
 				<uni-col :span="8">
@@ -25,13 +25,13 @@
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
+					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text"><view class='leaveType'>{{item.item_txt}}</view>{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
 							<uni-col :span="16"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>
 							<uni-col :span="8"><view class="detail-text" style="text-align: right;">{{item.behavior_time}}</view></uni-col>
 						</uni-row>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -42,13 +42,14 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
 				add:false,//add按钮权限
-				tabBarItem: {},
+				navItem: {},
 				pageSize:15,
 				pageobj0:{
 					loadFlag:0,//0 刷新 1加载更多
@@ -76,21 +77,20 @@
 		},
 		methods: {
 			iconClick(){
-				let that=this
-				if(this.grdArray.length==0){
-					this.showToast('无法获取年级数据，不能进行添加操作')
-				}else if(this.clsArray.length==0){
-					this.showToast('无法获取班级数据，不能进行添加操作')
-				}else if(this.xwArray.length==0){
-					this.showToast('无法获取行为细项数据，不能进行添加操作')
+				if(_this.grdArray.length==0){
+					_this.showToast('无法获取年级数据，不能进行添加操作')
+				}else if(_this.clsArray.length==0){
+					_this.showToast('无法获取班级数据，不能进行添加操作')
+				}else if(_this.xwArray.length==0){
+					_this.showToast('无法获取行为细项数据，不能进行添加操作')
 				}else {
-					util.openwithData('/pages/stu_behavior/extra_behavior_add',{index_code:this.index_code},{
+					util.openwithData('/pages/stu_behavior/extra_behavior_add',{index_code:_this.index_code},{
 						refreshExtBehavior(data){//子页面调用父页面需要的方法
-							that.showLoading()
-							that.pageobj0.loadFlag=0
-							that.pageobj0.canload=true
-							that.pageobj0.page_number=1
-							that.getList0()
+							_this.showLoading()
+							_this.pageobj0.loadFlag=0
+							_this.pageobj0.canload=true
+							_this.pageobj0.page_number=1
+							_this.getList0()
 						}
 					})
 				}
@@ -241,10 +241,11 @@
 			}
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
@@ -255,7 +256,7 @@
 				 this.getGrd()
 				 this.getXw()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -283,7 +284,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

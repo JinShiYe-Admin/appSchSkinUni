@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
-		<view v-if="tabBarItem.childList.length>0">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
+		<view v-if="navItem.childList.length>0">
 			<uni-section v-if="baseinfo_icons.length>0" title="基本信息" type="line"></uni-section>
 			<uni-grid :column="4" :showBorder='false' :square="false" :highlight="false">
 				<uni-grid-item v-for="(chilItem, chiilIndex) in baseinfo_icons" :index="chiilIndex" :key="chiilIndex">
@@ -30,7 +30,7 @@
 				</uni-grid-item>
 			</uni-grid>
 		</view>
-		<u-tabbar-my v-if='tabBarItem.index<5' :list="tabbar"></u-tabbar-my>
+		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
 
@@ -43,7 +43,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {},
+				navItem: {},
 				baseinfo_icons:[],
 				select_icons:[],
 				daily_icons:[]
@@ -69,18 +69,18 @@
 				_this.tabbar = util.getMenu();
 				for (var i = 0; i < _this.tabbar.length; i++) {
 					let tempM = _this.tabbar[i];
-					if(tempM.access == _this.tabBarItem.access){
-						_this.tabBarItem = tempM;
+					if(tempM.access == _this.navItem.access){
+						_this.navItem = tempM;
 					}
 				}
 			});
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = util.getTabbarMenu();
-			let list=this.tabBarItem.childList
+			this.navItem = util.getTabbarMenu();
+			let list=this.navItem.childList
 			let that =this
 			setTimeout(function() {
-				let list=that.tabBarItem.childList
+				let list=that.navItem.childList
 				list.map(function(item){
 					if('schapp_Dorm_Info'==item.url){
 						that.baseinfo_icons.push(item)

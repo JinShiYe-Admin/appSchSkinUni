@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' text="查看批阅" :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="查看批阅" :textClick="textClick"></mynavBar>
 		<view style="padding:8px 15px 0;">
-			<view class="title">{{tabBarItem.name}}</view>
+			<view class="title">{{navItem.name}}</view>
 			<view style="font-size: 12px;text-align: right;color: #808080;margin-top: 5px;">
-				{{tabBarItem.create_time}}
+				{{navItem.create_time}}
 			</view>
 		</view>
 		<view class="line"></view>
@@ -41,12 +41,13 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
 				personInfo: {},
-				tabBarItem: {},
+				navItem: {},
 				score:{},
 				scoreOpts:{},
 				scoreList:[],
@@ -58,14 +59,14 @@
 		},
 		methods: {
 			textClick(){
-				console.log("this.merge_file_path: " + JSON.stringify(this.merge_file_path));
+				console.log("this.merge_file_path: " + JSON.stringify(_this.merge_file_path));
 				uni.previewImage({
-					urls: this.merge_file_path,
+					urls: _this.merge_file_path,
 				});
 			},
 			getById(){//获取页面数据
 				let comData={
-					id: this.tabBarItem.id, 
+					id: this.navItem.id, 
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS+'taskResult/getById',comData,response=>{
@@ -75,7 +76,7 @@
 			},
 			getTaskResultDetail(){//获取页面数据
 				let comData={
-					result_id: this.tabBarItem.id, //每页记录数
+					result_id: this.navItem.id, //每页记录数
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS+'taskResultDetail',comData,response=>{
@@ -85,11 +86,12 @@
 			}
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			const itemData = util.getPageData(options);
 			itemData.index=100
 			itemData.text='作业与周测成绩'
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code=itemData.index_code
 			let that = this
 			setTimeout(function() {
@@ -98,7 +100,7 @@
 				that.getById();
 				that.getTaskResultDetail();
 			}, 500);
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

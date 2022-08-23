@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo'></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			 <uni-row>
 				<uni-col :span="8" >
@@ -14,7 +14,7 @@
 		<view style="padding-top: 40px;" >
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
-					<text slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
+					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<view style="display: flex;">
 							<view class="icons-text" :class="item.msg_type=='1-1'?'icons-text-school':
 								item.msg_type=='1-2'?'icons-text-grade':
@@ -42,7 +42,7 @@
 								</view>
 							</view>
 						</view>
-					</text>
+					</view>
 				</uni-list-item>
 			</uni-list>
 			<uni-load-more :status="pageobj0.status" :icon-size="17" :content-text="pageobj0.contentText" />
@@ -59,7 +59,7 @@
 			return {
 				personInfo: {},
 				tabbar: [],
-				tabBarItem: {},
+				navItem: {},
 				index_code:'',
 				//顶部筛选框相关内容
 				typeIndex:0,
@@ -160,13 +160,13 @@
 			})
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = util.getPageData(option);
-			this.index_code=this.tabBarItem.access.split("#")[1]
+			this.navItem = util.getPageData(option);
+			this.index_code=this.navItem.access.split("#")[1]
 			setTimeout(()=>{
 				 this.showLoading()
 				 this.getList0()
 			},100)
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
@@ -194,7 +194,7 @@
 					duration: 0
 				});
 			// #endif
-				//#ifndef APP-PLUS
+				//#ifdef H5
 					document.title=""
 				//#endif
 		},

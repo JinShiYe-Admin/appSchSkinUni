@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='tabBarItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick">
 		</mynavBar>
 		<view class="tabs-fixed" style="background: white;">
 			<uni-row>
@@ -73,8 +73,7 @@
 									:span="3">
 									{{item.morning}}
 								</uni-col>
-								<uni-col
-									:class="item.afternoon>=37.2||item.afternoon<=36?'rowTiwenRed':'rowTiwenBlack'"
+								<uni-col :class="item.afternoon>=37.2||item.afternoon<=36?'rowTiwenRed':'rowTiwenBlack'"
 									:span="3">
 									{{item.afternoon}}
 								</uni-col>
@@ -184,8 +183,8 @@
 			</view>
 		</uni-popup>
 		<uni-popup ref="popup" type="dialog">
-			<uni-popup-dialog title="确定删除?" content="确定删除这条记录吗？" :duration="2000"
-				:before-close="true" @close="closeDel" @confirm="confirmDel"></uni-popup-dialog>
+			<uni-popup-dialog title="确定删除?" content="确定删除这条记录吗？" :duration="2000" :before-close="true" @close="closeDel"
+				@confirm="confirmDel"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -195,11 +194,12 @@
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	import sofarPicker from '@/components/term-picker/term-picker.vue';
 	import tSlide from "@/components/t-slide/t-slide.nvue"
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code: '',
-				tabBarItem: {},
+				navItem: {},
 				total_row: 0,
 				pageSize: 15,
 				pageobj0: {
@@ -286,7 +286,7 @@
 				if (this.delete) {
 					this.delModel = data;
 					this.$refs.popup.open();
-				}else{
+				} else {
 					this.showToast('没有删除权限');
 				}
 			},
@@ -311,7 +311,11 @@
 				if (flag == 0) {
 					this.$refs.popupSelect.close();
 				} else {
-					if((this.amTiWen&&this.amTiWen.length>0&&this.amTiWen<35)||(this.pmTiWen&&this.pmTiWen.length>0&&this.pmTiWen<35)||(this.nightTiWen&&this.nightTiWen.length>0&&this.nightTiWen<35)||(this.amTiWen&&this.amTiWen.length>0&&this.amTiWen>42)||(this.pmTiWen&&this.pmTiWen.length>0&&this.pmTiWen>42)||(this.nightTiWen&&this.nightTiWen.length>0&&this.nightTiWen>42)){
+					if ((this.amTiWen && this.amTiWen.length > 0 && this.amTiWen < 35) || (this.pmTiWen && this.pmTiWen
+							.length > 0 && this.pmTiWen < 35) || (this.nightTiWen && this.nightTiWen.length > 0 && this
+							.nightTiWen < 35) || (this.amTiWen && this.amTiWen.length > 0 && this.amTiWen > 42) || (this
+							.pmTiWen && this.pmTiWen.length > 0 && this.pmTiWen > 42) || (this.nightTiWen && this
+							.nightTiWen.length > 0 && this.nightTiWen > 42)) {
 						this.showToast('请输入35°-42°体温');
 						return;
 					}
@@ -354,15 +358,15 @@
 				}
 			},
 			iconClick() {
-				this.editModel = {};
-				this.dataRangeFlag = 1;
-				this.amTiWen = '';
-				this.pmTiWen = '';
-				this.nightTiWen = '';
+				_this.editModel = {};
+				_this.dataRangeFlag = 1;
+				_this.amTiWen = '';
+				_this.pmTiWen = '';
+				_this.nightTiWen = '';
 				// if(this.grdArrayAddEdit.length == 0){
-				this.getGrd();
+				_this.getGrd();
 				// }
-				this.$refs.popupSelect.open();
+				_this.$refs.popupSelect.open();
 			},
 			showTimePick() {
 				this.pickerVisable = true;
@@ -631,12 +635,13 @@
 			}
 		},
 		onLoad(options) {
+			_this = this;
 			const itemData = util.getPageData(options);
 			this.index_code = itemData.access.split('#')[1]
 			itemData.index = 100
 			console.log("itemData: " + JSON.stringify(itemData));
 			this.personInfo = util.getPersonal();
-			this.tabBarItem = itemData;
+			this.navItem = itemData;
 			this.index_code = itemData.access.split("#")[1];
 			let end_month = this.moment().format('YYYY-MM-DD')
 			// let start_month = this.moment().subtract(12, 'M').format('YYYY-MM-DD');
@@ -665,7 +670,7 @@
 			uni.setNavigationBarTitle({
 				title: itemData.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
@@ -693,7 +698,7 @@
 				duration: 0
 			});
 			// #endif
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 		},
@@ -801,18 +806,22 @@
 		margin-left: 10px;
 		font-size: 14px;
 	}
-	
-	.t-wrap{
-	    padding: 0 0upx;
-	    .t-conten{
-	        display: flex;
-	        flex-direction:row !important;
-	        padding: 10upx 0;
-	        .image{
-	            width:400upx;
-	            height:100upx;
-	            margin-right: 10upx;
-	        }
-	    }
+
+	.t-wrap {
+		padding: 0 0upx;
+
+	}
+
+	.t-conten {
+		display: flex;
+		flex-direction: row !important;
+		padding: 10upx 0;
+
+	}
+
+	.image {
+		width: 400upx;
+		height: 100upx;
+		margin-right: 10upx;
 	}
 </style>

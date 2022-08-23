@@ -50,12 +50,12 @@
 			this.tabBarItem = itemData.item;
 			this.index_code=itemData.index_code
 			uni.setNavigationBarTitle({title:'库存详情'});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},
 		onShow(){
-			//#ifndef APP-PLUS
+			//#ifdef H5
 				document.title=""
 			//#endif
 		},

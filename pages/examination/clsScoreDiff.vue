@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='itemData' :personInfo='personInfo' icon="settings" :iconClick="icoClick">
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' icon="settings" :iconClick="icoClick">
 		</mynavBar>
 		<uni-drawer ref="showRight" mode="right" :mask-click="true" :width='280' @change='changeDrawer'>
 			<scroll-view style="height: 100%;" scroll-y="true">
@@ -27,7 +27,8 @@
 				</view>
 				<view>
 					<uni-data-checkbox style="margin-left: 20px;" mode="list" icon="left" :multiple="true"
-						v-model="selectParperTempIdList" :localdata="fullPaperTempList" selectedColor='#00CFBD'  min="1" max="10"></uni-data-checkbox>
+						v-model="selectParperTempIdList" :localdata="fullPaperTempList" selectedColor='#00CFBD' min="1"
+						max="10"></uni-data-checkbox>
 				</view>
 				<view class="button-sp-area" style="padding-top: 10px;padding-bottom: 10px;">
 					<button class="mini-btn" type="default" size="mini" @click="sure(0)">取消</button>
@@ -74,7 +75,7 @@
 						<view style="font-size: 15px;font-weight: bold;margin-top: 5px;">{{model.cls_name}}
 							{{model.stu_name}}
 						</view>
-						<view v-for="(showModel,index) in model.childrenShow" :key='index'
+						<view v-for="(showModel,index2) in model.childrenShow" :key='index2'
 							style="border: 1px solid #66c1bb;margin-top: 10px;">
 							<view
 								style="height: 20px;background-color: #66c1bb;margin: 0px 0 0 0;font-size: 13px;color: white;padding-left: 10px;">
@@ -105,7 +106,7 @@
 					<view style="height: 10px;background-color: #e5e5e5;margin-top: 5px;"></view>
 				</view>
 			</view>
-			<view v-if="semFlag == 1">
+			<view v-else-if="semFlag == 1">
 				<picker v-if="sem1Data.subList.length>0" @change="bindPickerYfll" value="subIndex"
 					:range="sem1Data.subList" range-key="text">
 					<view class="uni-input" style="text-align: center;">{{sem1Data.subList[sem1Data.subIndex].text}}
@@ -119,11 +120,11 @@
 				</view>
 				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">各指标变化趋势(人数)</view>
 				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 10px 15px;width: 145px;"></view>
-				<view  v-if="sem1Data.chartQs.series&&sem1Data.chartQs.series.length>0" class="charts-box">
+				<view v-if="sem1Data.chartQs.series&&sem1Data.chartQs.series.length>0" class="charts-box">
 					<qiun-data-charts type="demotype" :chartData="sem1Data.chartQs" background="none" />
 				</view>
 			</view>
-			<view v-if="semFlag == 2">
+			<view v-else-if="semFlag == 2">
 				<picker v-if="sem2Data.subList.length>0" @change="bindPickerFsd" value="subIndex"
 					:range="sem2Data.subList" range-key="text">
 					<view class="uni-input" style="text-align: center;">{{sem2Data.subList[sem2Data.subIndex].text}}
@@ -136,7 +137,7 @@
 					<qiun-data-charts type="demotype" :chartData="sem2Data.chartFsd" background="none" />
 				</view>
 			</view>
-			<view v-if="semFlag == 3">
+			<view v-else-if="semFlag == 3">
 				<view style="font-size: 15px;font-weight: bold;margin-left: 15px;margin-top: 10px;">上线率变化趋势(人数)</view>
 				<view style="height: 2px;background-color: #00cfbd;margin: 2px 0 10px 15px;width: 145px;"></view>
 				<view v-if="sem3Data.chartSxl.series&&sem3Data.chartSxl.series.length>0" class="charts-box">
@@ -150,11 +151,12 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				personInfo: {},
-				itemData: {},
+				navItem: {},
 				semValuesArray: ['历次成绩', '一分两率', '分数段', '上线率'],
 				semFlag: 0, //点击的seg索引
 				sem0Data: { //历次成绩
@@ -171,7 +173,7 @@
 				sem2Data: {
 					subList: [],
 					subValue: {},
-					subIndex:0,
+					subIndex: 0,
 					scoreList: [],
 					chartFsd: {}
 				},
@@ -197,53 +199,54 @@
 			mynavBar,
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
-			this.itemData = util.getPageData(option);
-			this.itemData.index = 100;
-			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.navItem = util.getPageData(option);
+			this.navItem.index = 100;
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
-				title: this.itemData.text
+				title: this.navItem.text
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 获取数据范围授权：年级
 			this.getGrdList();
 		},
-		onShow(){//解决IOS端列表进详情返回后不能定位到点击位置的问题
+		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
 			// #ifdef H5
-				uni.pageScrollTo({
-					scrollTop: this.scrollLength,
-					duration: 0
-				});
+			uni.pageScrollTo({
+				scrollTop: this.scrollLength,
+				duration: 0
+			});
 			// #endif
-						//#ifndef APP-PLUS
-							document.title=""
-						//#endif
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
-				this.scrollLength=e.scrollTop
+			this.scrollLength = e.scrollTop
 			// #endif
 		},
 		methods: {
 			changeDrawer(e) {
-				if(e == false){
+				if (e == false) {
 					this.sure(0);
 				}
 				console.log('e:', e);
 			},
 			icoClick() {
 				console.log('icoClickicoClickicoClickicoClick');
-				this.$refs.popup.close();
-				this.$refs.showRight.open();
+				_this.$refs.popup.close();
+				_this.$refs.showRight.open();
 			},
-			bindPickerGrd(e){
+			bindPickerGrd(e) {
 				this.grdTempIndex = e.target.value;
 				this.getClsList(this.grdList[this.grdTempIndex].value);
 			},
-			bindPickerCls(e){
+			bindPickerCls(e) {
 				this.clsTempIndex = e.target.value;
 				//1.17.考情分析-班级成绩趋势-考试范围
 				this.getFullPaperList(1);
@@ -354,7 +357,7 @@
 				//1.26.考情分析-班级成绩趋势-一分两率趋势
 				this.getTwoRateList();
 			},
-			bindPickerFsd(e){
+			bindPickerFsd(e) {
 				this.sem2Data.subIndex = e.target.value;
 				this.sem2Data.subValue = this.sem2Data.subList[this.sem2Data.subIndex];
 				//1.27.考情分析-班级成绩趋势-分数段趋势
@@ -366,7 +369,7 @@
 					op_code: 'index',
 					get_grd: true,
 					all_grd: false,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, (data0, data) => {
@@ -404,7 +407,7 @@
 					grd_code: grd_code ? grd_code : '-1',
 					get_cls: true,
 					all_cls: true,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', params, (data0, data) => {
 					if (data.code == 0) {
@@ -449,7 +452,7 @@
 					get_sub: true,
 					grd_code: this.grdList[this.grdTempIndex].value,
 					cls_code: this.clsList[this.clsTempIndex].value,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, (data0, data) => {
 					if (data.code == 0) {
@@ -489,7 +492,7 @@
 				let comData = {
 					grd_code: this.grdList[this.grdTempIndex].value,
 					cls_codes: this.clsTempList[this.clsTempIndex].value,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'paper/getFullPaperList', comData, (data0, data) => {
 					this.hideLoading();
@@ -533,7 +536,7 @@
 					cls_codes: this.clsList[this.clsIndex].value,
 					paper_ids: this.selectParperIdList.join(','),
 					sub_code: '',
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'clsTrend/scoreList', comData, (data0, data) => {
 					this.hideLoading();
@@ -591,7 +594,7 @@
 					cls_codes: this.clsList[this.clsIndex].value,
 					paper_ids: this.selectParperIdList.join(','),
 					sub_code: this.sem1Data.subValue.value,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				if (comData.sub_code == '-1') {
 					comData.sub_code = '';
@@ -640,7 +643,7 @@
 							categories: tempNameArray,
 							series: tempSecArray
 						}
-						console.log('this.sem1Data.chartQs:'+JSON.stringify(this.sem1Data.chartQs));
+						console.log('this.sem1Data.chartQs:' + JSON.stringify(this.sem1Data.chartQs));
 					} else {
 						this.showToast(data.msg);
 					}
@@ -653,7 +656,7 @@
 					cls_codes: this.clsList[this.clsIndex].value,
 					paper_ids: this.selectParperIdList.join(','),
 					sub_code: this.sem2Data.subValue.value,
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				if (comData.sub_code == '-1') {
 					comData.sub_code = '';
@@ -695,7 +698,7 @@
 					cls_codes: this.clsList[this.clsIndex].value,
 					paper_ids: this.selectParperIdList.join(','),
 					sub_code: '',
-					index_code: this.itemData.access.split('#')[1],
+					index_code: this.navItem.access.split('#')[1],
 				}
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'clsTrend/passRateList', comData, (data0, data) => {
 					this.hideLoading();

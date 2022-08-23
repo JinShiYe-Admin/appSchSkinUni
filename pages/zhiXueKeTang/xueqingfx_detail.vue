@@ -2,7 +2,8 @@
 	<view>
 		<view style="text-align: center;margin: 10px;font-size: 14px;">历次练习得分曲线</view>
 		<view v-if="chartDefen.series&&chartDefen.series.length>0" class="charts-box">
-			<qiun-data-charts type="demotype" :opts="{dataLabel:false,yAxis:{data:[{max:100,min:0}]}}" :chartData="chartDefen" background="none" />
+			<qiun-data-charts type="demotype" :opts="{dataLabel:false,yAxis:{data:[{max:100,min:0}]}}"
+				:chartData="chartDefen" background="none" />
 		</view>
 		<view style="text-align: center;margin: 10px;font-size: 14px;">薄弱知识点</view>
 		<uni-list style="margin-top: -1px;">
@@ -16,7 +17,9 @@
 							均分：{{Math.round(item.avg_score)}}
 						</uni-col>
 						<uni-col :span="8">
-							<span style='color: white;background: #00CFBD;padding: 3px 10px;border-radius: 3px;font-size: 12px;' @click="clickItem(item)">练习</span>
+							<span
+								style='color: white;background: #00CFBD;padding: 3px 10px;border-radius: 3px;font-size: 12px;'
+								@click="clickItem(item)">练习</span>
 						</uni-col>
 					</uni-row>
 				</view>
@@ -45,9 +48,9 @@
 			this.itemData = util.getPageData(option);
 			console.log('this.itemData:' + JSON.stringify(this.itemData));
 			uni.setNavigationBarTitle({
-				title: this.itemData.subname+'科目 学情分析'
+				title: this.itemData.subname + '科目 学情分析'
 			});
-			//#ifndef APP-PLUS
+			//#ifdef H5
 			document.title = ""
 			//#endif
 			// 
@@ -60,9 +63,9 @@
 				duration: 0
 			});
 			// #endif
-						//#ifndef APP-PLUS
-							document.title=""
-						//#endif
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		onPageScroll(e) { //nvue暂不支持滚动监听，可用bindingx代替
 			// #ifdef H5
@@ -75,7 +78,7 @@
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_ZXKT + "/analysis/subDetail", {
 					sub_code: this.itemData.subcode,
-					per_code: this.itemData.percode||"",
+					per_code: this.itemData.percode || "",
 					index_code: this.itemData.access.split('#')[1],
 					user_code: this.personInfo.user_code,
 				}, (res0, res) => {
@@ -86,8 +89,14 @@
 						this.failCatalogInfo = res.data.fail_catalog_info;
 						// 
 						var tempNameArray = [];
-						var tempM0 = {'name':'平均分','data':[]};
-						var tempM1 = {'name':'考试分值','data':[]};
+						var tempM0 = {
+							'name': '平均分',
+							'data': []
+						};
+						var tempM1 = {
+							'name': '考试分值',
+							'data': []
+						};
 						for (var a = 0; a < res.data.sub_scores.length; a++) {
 							var tempM = res.data.sub_scores[a];
 							tempNameArray.push('');
@@ -96,9 +105,9 @@
 						}
 						this.chartDefen = {
 							categories: tempNameArray,
-							series: [tempM0,tempM1]
+							series: [tempM0, tempM1]
 						}
-						console.log('this.chartDefen:'+JSON.stringify(this.chartDefen));
+						console.log('this.chartDefen:' + JSON.stringify(this.chartDefen));
 					} else {
 						this.showToast(res.msg);
 					}
@@ -110,27 +119,27 @@
 				// model.catalog_id = model.book_catalog_id;
 				// model.title = model.name;
 				// util.openwithData("/pages/zhiXueKeTang/zujuancs_testing", model);
-				let comData={
-						catalog_id: model.book_catalog_id,
-						user_code:this.personInfo.user_code,
-						index_code:this.itemData.access.split('#')[1],
-					}
-					this.showLoading()
-					this.post(this.globaData.INTERFACE_ZXKT+'/test/createPaper',comData,response=>{
-						console.log("responseaaa: " + JSON.stringify(response));
-						this.hideLoading()
-						if(response.questions && response.questions.length>0){
-							let item={
-								index_code:this.itemData.access.split('#')[1],
-								data:response,
-								catalogId:model.book_catalog_id,
-								title:this.itemData.name,
-							}
-							util.openwithData('/pages/zhiXueKeTang/zujuancs_testing',item,{})
-						}else{
-							this.showToast('暂无题目')
+				let comData = {
+					catalog_id: model.book_catalog_id,
+					user_code: this.personInfo.user_code,
+					index_code: this.itemData.access.split('#')[1],
+				}
+				this.showLoading()
+				this.post(this.globaData.INTERFACE_ZXKT + '/test/createPaper', comData, response => {
+					console.log("responseaaa: " + JSON.stringify(response));
+					this.hideLoading()
+					if (response.questions && response.questions.length > 0) {
+						let item = {
+							index_code: this.itemData.access.split('#')[1],
+							data: response,
+							catalogId: model.book_catalog_id,
+							title: this.itemData.name,
 						}
-					})
+						util.openwithData('/pages/zhiXueKeTang/zujuancs_testing', item, {})
+					} else {
+						this.showToast('暂无题目')
+					}
+				})
 			}
 		}
 	}
@@ -145,6 +154,7 @@
 		padding: 0px 5px;
 		margin-right: 5px;
 	}
+
 	.bad {
 		color: #DB4848;
 		border-color: #DB4848;
