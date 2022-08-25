@@ -10,7 +10,7 @@
 		<view class="line"></view>
 		<view class="viewText">*学生：</view>
 		<view style="background: #e5e5e5;margin: 2px 20px;padding: 4px;text-align: center;font-size: 13px;">
-			{{personInfo.grd_name}} {{personInfo.cls_name}} {{personInfo.stu_name}}
+			{{grd_name}} {{cls_name}} {{stu_name}}
 		</view>
 		<view class="viewText">*本人当天健康码截图</view>
 		<image mode="scaleToFill" style="margin-top: 20px;" :src="healthImgUrl" @click="checkEnc(healthImgUrl)" class="pageImg"></image>
@@ -22,6 +22,8 @@
 		<image mode="scaleToFill" style="margin-top: 20px;" :src="itineraryImgUrl" @click="checkEnc(itineraryImgUrl)" class="pageImg"></image>
 		<view class="shibieView">
 			<p style='padding-top: 20px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
+			<p style='margin-top: 15px;' :style="{color:healthColorStr}">{{healthResult}}</p>
+			<p style='margin-top: 15px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryCity}}</p>
 		</view>
 		<view class="viewText" style="margin-top: 30px;">*本人是否有发热/咳嗽/流涕/咽疼等症状？</view>
 		<radio-group @change="radioChange0" style="margin-top: 5px;">
@@ -140,7 +142,12 @@
 				itineraryImgUrl: '',
 				noteImgUrl:'',
 				noteImgName:'',
-				signImgUrl:''
+				signImgUrl:'',
+				grd_name:'',
+				cls_name:'',
+				stu_name:'',
+				healthResult:'',
+				itineraryCity:''
 			}
 		},
 		components: {
@@ -189,6 +196,11 @@
 					data) => {
 					this.hideLoading();
 					if (data.code == 0) {
+						this.grd_name = data.data.grd_name;
+						this.cls_name = data.data.cls_name;
+						this.stu_name = data.data.stu_name;
+						this.healthResult = data.data.nucleic;
+						this.itineraryCity = data.data.itinerary_card_via_city;
 						this.curDate = data.data.date;
 						this.content = data.data.note;
 						this.itineraryTime = data.data.itinerary_card_time;

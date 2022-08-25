@@ -20,8 +20,9 @@
 			</g-upload>
 			<view class="shibieView">
 				<p v-if="healthColor.length==0" style='margin-top: 30px;color: red;'>请添加健康码</p>
-				<p v-if="healthColor.length>0" style='margin-top: 30px;font-size: 16px;' :style="{color:healthColorStr}">{{healthColorChar}}</p>
-				<p v-if="healthColor.length>0" style='margin-top: 20px;' :style="{color:healthColorStr}">{{healthTime}}</p>
+				<p v-if="healthColor.length>0" style='margin-top: 20px;font-size: 16px;' :style="{color:healthColorStr}">{{healthColorChar}}</p>
+				<p v-if="healthColor.length>0" style='margin-top: 15px;' :style="{color:healthColorStr}">{{healthResult}}</p>
+				<p v-if="healthColor.length>0" style='margin-top: 15px;' :style="{color:healthColorStr}">{{healthTime}}</p>
 			</view>
 		</view>
 		<view class="viewText">*本人当天行程码截图</view>
@@ -33,6 +34,7 @@
 			<view class="shibieView">
 				<p v-if="itineraryColor.length==0" style='margin-top: 30px;color: red;'>请添加行程码</p>
 				<p v-if="itineraryColor.length>0" style='margin-top: 20px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
+				<p v-if="itineraryColor.length>0" style='margin-top: 20px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryCity}}</p>
 			</view>
 		</view>
 		<view class="viewText">*本人是否有发热/咳嗽/流涕/咽疼等症状？</view>
@@ -152,11 +154,13 @@
 				healthColor: '',
 				healthColorStr: '',
 				healthColorChar:'',
+				healthResult: '',
 				healthImgUrl: '',
 				itineraryTime: '',
 				itineraryColor: '',
 				itineraryColorStr: '',
 				itineraryColorChar:'',
+				itineraryCity:'',
 				itineraryImgUrl: '',
 				noteImgUrl:'',
 				noteImgName:''
@@ -180,7 +184,6 @@
 			var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
 			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
-
 
 			//#ifdef H5
 			document.title = ""
@@ -272,10 +275,10 @@
 				}
 			},
 			// 2.3.获取健康码信息
-			getHealthCodeInfo(base64) {
+			getHealthCodeInfo() {
 				var comData = {
 					index_code: _this.index_code,
-					base64: base64 //图片转base64字符串
+					url: this.healthImgUrl //
 				}
 				this.showLoading();
 				// 2.3.获取健康码信息
@@ -285,6 +288,7 @@
 					if (data.code == 0) {
 						this.healthTime = data.data.health_code_time;
 						this.healthColor = data.data.health_code_color;
+						this.healthResult = data.data.nucleic;
 						if (data.data.health_code_color == 'g') {
 							this.healthColorStr = 'green';
 							this.healthColorChar = '绿码';
@@ -295,23 +299,17 @@
 							this.healthColorStr = 'red';
 							this.healthColorChar = '红码';
 						}
-						cloudFileUtil.uploadFiles(this, '1', this.imgList0, this.QN_PB_NAME, this.QN_JKSB_JKM, (encName,
-							encAddrStr) => {
-							this.hideLoading();
-							console.log("encAddrStr: " + JSON.stringify(encAddrStr));
-							console.log("names: " + JSON.stringify(encName));
-							this.healthImgUrl = encAddrStr[0];
-						});
 					} else {
+						this.healthImgUrl = '';
 						this.showToast(data.msg);
 					}
 				});
 			},
 			// 2.4.获取行程卡信息
-			getItineraryCardInfo(base64) {
+			getItineraryCardInfo() {
 				var comData = {
 					index_code: _this.index_code,
-					base64: base64 //图片转base64字符串
+					url: this.itineraryImgUrl //
 				}
 				this.showLoading();
 				// 2.4.获取行程卡信息
@@ -321,6 +319,7 @@
 					if (data.code == 0) {
 						this.itineraryTime = data.data.itinerary_card_time;
 						this.itineraryColor = data.data.itinerary_card_color;
+						this.itineraryCity = data.data.itinerary_card_via_city;
 						if (data.data.itinerary_card_color == 'g') {
 							this.itineraryColorStr = 'green';
 							this.itineraryColorChar = '七天内未到过中高风险地区';
@@ -331,13 +330,6 @@
 							this.itineraryColorStr = 'red';
 							this.itineraryColorChar = '七天未到过中高风险地区';
 						}
-						cloudFileUtil.uploadFiles(this, '1', this.imgList1, this.QN_PB_NAME, this.QN_JKSB_XXM, (encName,
-							encAddrStr) => {
-							this.hideLoading();
-							console.log("encAddrStr: " + JSON.stringify(encAddrStr));
-							console.log("names: " + JSON.stringify(encName));
-							this.itineraryImgUrl = encAddrStr[0];
-						});
 					} else {
 						this.showToast(data.msg);
 					}
@@ -366,22 +358,58 @@
 					}
 				});
 			},
+			// uploadImg(tempUrl,flag){
+			// 	var comData = {
+			// 		index_code: _this.index_code,
+			// 		file: tempUrl //
+			// 	}
+			// 	this.showLoading();
+			// 	// 2.2.文件上传接口
+			// 	this.post(this.globaData.INTERFACE_HEALTH_DATA + 'admin/asset/upload', comData, (data0,
+			// 		data) => {
+			// 		this.hideLoading();
+			// 		if (data.code == 0) {
+						
+			// 		} else {
+			// 			this.showToast(data.msg);
+			// 		}
+			// 	});
+			// },
 			//附件上传相关👇
 			chooseFile0(list, v, f) {
 				this.imgList0 = list
 				this.imgFiles0 = this.imgFiles0.concat(f)
 				this.maxCount0 = this.showMaxCount0 - list.length
-				this.imageUrl2Base64(list[0]).then((base64) => {
-					this.getHealthCodeInfo(base64);
+				console.log("list: " + JSON.stringify(list));
+				console.log("v: " + JSON.stringify(v));
+				console.log("f: " + JSON.stringify(f));
+				cloudFileUtil.uploadFiles(this, '1', this.imgList0, this.QN_PB_NAME, this.QN_JKSB_JKM, (encName,
+					encAddrStr) => {
+					this.hideLoading();
+					console.log("encAddrStr: " + JSON.stringify(encAddrStr));
+					console.log("names: " + JSON.stringify(encName));
+					this.healthImgUrl = encAddrStr[0];
+					this.getHealthCodeInfo();
 				});
+				// this.uploadImg(list[0],0);
+				// this.imageUrl2Base64(list[0]).then((base64) => {
+				// 	this.getHealthCodeInfo(base64);
+				// });
 			},
 			chooseFile1(list, v, f) {
 				this.imgList1 = list
 				this.imgFiles1 = this.imgFiles1.concat(f)
 				this.maxCount1 = this.showMaxCount1 - list.length
-				this.imageUrl2Base64(list[0]).then((base64) => {
-					this.getItineraryCardInfo(base64);
+				cloudFileUtil.uploadFiles(this, '1', this.imgList1, this.QN_PB_NAME, this.QN_JKSB_XXM, (encName,
+					encAddrStr) => {
+					this.hideLoading();
+					this.itineraryImgUrl = encAddrStr[0];
+					this.getItineraryCardInfo();
 				});
+				// this.uploadImg(list[0],1);
+				// this.imageUrl2Base64(list[0]).then((base64) => {
+				// 	this.getItineraryCardInfo(base64);
+				// });
 			},
 			chooseFile2(list, v, f) {
 				this.imgList2 = list
@@ -402,6 +430,10 @@
 				this.imgNames0.splice(eq, 1); //删除文件名
 				this.maxCount0 = this.showMaxCount0 - list.length
 				this.healthImgUrl = '';
+				this.healthColor = '';
+				cloudFileUtil.qiniuDelete(this.imgList0, (data) => {
+					console.log('七牛:' + JSON.stringify(data));
+				});
 			},
 			imgDelete1(list, eq, fileeq) {
 				this.imgList1 = list
@@ -409,6 +441,10 @@
 				this.imgNames1.splice(eq, 1); //删除文件名
 				this.maxCount1 = this.showMaxCount1 - list.length
 				this.itineraryImgUrl = '';
+				this.itineraryColor = '';
+				cloudFileUtil.qiniuDelete(this.imgList1, (data) => {
+					console.log('七牛:' + JSON.stringify(data));
+				});
 			},
 			imgDelete2(list, eq, fileeq) {
 				this.imgList2 = list

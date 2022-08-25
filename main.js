@@ -69,7 +69,7 @@ switch (EnvKey) {
 		GLOBALDATA.PARENTS_ATTENDANCE = 'https://develop309.108800.com/stukq/api/app/'; //学生考勤家长端（阮)、行为与评语
 		GLOBALDATA.INTERFACE_MARKINGPAPERS = 'https://develop309.108800.com/stuzysubapi/api/admin/'; //考务--作业与周测，（蒙)
 		GLOBALDATA.STULEAVE_API = 'https://develop309.108800.com/stuleavesubapi/sub/api/'; //学生请假系统(孔)
-		GLOBALDATA.INTERFACE_TWJK_TEA = 'https://develop309.108800.com/stustatsubapi/api/'; //学生每日体温监控（农）
+		GLOBALDATA.INTERFACE_TWJK_TEA = 'https://developgx.108800.com:8443/stustatsubapi/api/'; //学生每日体温监控（农）
 		GLOBALDATA.INTERFACE_COSTMS = 'https://develop309.108800.com/cmsubapi/sub/api/'; //费用管理（孔）
 		GLOBALDATA.INTERFACE_HEALTH_DATA = 'https://developgx.108800.com:8443/stuhealth/api/'; //健康数据（蒙）
 
