@@ -14,12 +14,15 @@
 			<button class="uni-flex-item" :class="isReport ? '' : 'active'" @click="changeReport(false)">未上报</button>
 		</view>
 		
-		<view class="uni-flex uni-pa-4">
+		<view class="uni-flex uni-pa-4" v-if="reportItems.length > 0">
 			<uni-grid :column="3" :showBorder="false" :highlight="true" @change="onTouchGrid">
 				<uni-grid-item class="grid-item-box" v-for="(item, index) in reportItems" :index="index" :key="index">
 					<text class="grid-item-text" :class="item.id ? 'grid-item-text-success' : ''">{{ item.stu_name }}</text>
 				</uni-grid-item>
 			</uni-grid>
+		</view>
+		<view class="uni-pa-4" v-else>
+			<p v-if="!loading" class="uni-center uni-text-gray">暂无数据</p>
 		</view>
 	</view>
 </template>
@@ -38,6 +41,7 @@
 				curDate:'',
 				items: [],
 				isReport: true,
+				loading: true,
 			}
 		},
 		components: {
@@ -63,9 +67,7 @@
 			this.personInfo = util.getPersonal();
 			// index1界面用这个
 			this.navItem = util.getPageData(option);
-			// index界面用这个
-			// this.navItem = util.getTabbarMenu();
-			this.index_code = this.navItem.access.split("#")[1]
+			this.index_code = this.navItem.access.split("#")[1];
 			var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
 			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
@@ -79,11 +81,12 @@
 		},
 		methods: {
 			fetch() {
+				this.loading = true;
 				this.showLoading();
 				this.post(
 					this.globaData.INTERFACE_HEALTH_DATA + 'healthReport/clsStatisticsDetail',
 					{
-						date: this.datetime,
+						date: this.navItem.datetime,
 						cls_code: this.navItem.cls_code,
 						index_code: this.index_code
 					},
@@ -92,6 +95,7 @@
 						this.items = list;
 						this.isReport = true;
 						this.hideLoading();
+						this.loading = false;
 					}
 				);
 			},

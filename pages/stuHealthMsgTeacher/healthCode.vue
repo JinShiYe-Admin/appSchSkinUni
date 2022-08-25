@@ -61,6 +61,8 @@
 				datetime: '',
 				items: [],
 				codeColor: 'r',
+				grd_code: '',
+				cls_code: '',
 				pagination: {
 					current: 1,
 					total: 0,
@@ -86,15 +88,15 @@
 			// index界面用这个
 			// this.navItem = util.getTabbarMenu();
 			this.index_code = this.navItem.access.split("#")[1];
+			// 设置日期
+			this.datetime = this.navItem.datetime;
+			this.grd_code = this.navItem.grd_code;
+			this.cls_code = this.navItem.cls_code;
 			var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
 			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
 		},
 		mounted() {
-			// 设置日期
-			const date = new Date();
-			const curdate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-			this.datetime = curdate;
 			this.fetch();
 			
 			document.title = '健康码异常情况';
@@ -111,8 +113,8 @@
 					{
 						date: this.datetime,
 						sch_code: this.personInfo.sch_code,
-						grd_codes: '12',
-						cls_codes: '17',
+						grd_codes: this.grd_code,
+						cls_codes: this.cls_code,
 						index_code: this.index_code,
 						page_number: this.pagination.current,
 						page_size: this.pagination.pageSize,
@@ -149,12 +151,12 @@
 			},
 			onTableRowTouch(item) {
 				if (item) {
-					// util.openwithData('/pages/stuHealthMsgTeacher/reportDetail', {
-					// 	...this.navItem,
-					// 	cls_code: item.cls_code,
-					// 	cls_name: item.cls_name,
-					// 	datetime: this.datetime,
-					// }, {});
+					util.openwithData('/pages/stuHealthMsgTeacher/stuHealthMsgNotesDetail', {
+						...this.navItem,
+						cls_code: item.cls_code,
+						cls_name: item.cls_name,
+						datetime: this.datetime,
+					});
 				} else {
 					console.error('item not found.');
 				}
