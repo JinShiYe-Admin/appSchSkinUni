@@ -102,7 +102,7 @@
 				}
 				this.showLoading();
 				//2.5.学生上报记录
-				this.post(this.globaData.INTERFACE_STUHEALTH + 'healthReport/stuReportLog', comData, (data) => {
+				this.post(this.globaData.INTERFACE_HEALTH_DATA + 'healthReport/stuReportLog', comData, (data) => {
 					this.hideLoading();
 					this.pageIndex++;
 					this.total_page = data.total_page;

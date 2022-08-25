@@ -185,7 +185,7 @@
 				}
 				this.showLoading();
 				// 2.6.根据id获取上报记录
-				this.post(this.globaData.INTERFACE_STUHEALTH + 'healthReport/getById', comData, (data0,
+				this.post(this.globaData.INTERFACE_HEALTH_DATA + 'healthReport/getById', comData, (data0,
 					data) => {
 					this.hideLoading();
 					if (data.code == 0) {

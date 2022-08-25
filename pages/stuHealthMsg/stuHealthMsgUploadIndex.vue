@@ -257,7 +257,7 @@
 						}
 						_this.showLoading();
 						// 2.2.保存
-						_this.post(_this.globaData.INTERFACE_STUHEALTH + 'healthReport/save', comData, (data0,
+						_this.post(_this.globaData.INTERFACE_HEALTH_DATA + 'healthReport/save', comData, (data0,
 							data) => {
 							_this.hideLoading();
 							if (data.code == 0) {
@@ -279,7 +279,7 @@
 				}
 				this.showLoading();
 				// 2.3.获取健康码信息
-				this.post(this.globaData.INTERFACE_STUHEALTH + 'healthReport/getHealthCodeInfo', comData, (data0,
+				this.post(this.globaData.INTERFACE_HEALTH_DATA + 'healthReport/getHealthCodeInfo', comData, (data0,
 					data) => {
 					this.hideLoading();
 					if (data.code == 0) {
@@ -315,7 +315,7 @@
 				}
 				this.showLoading();
 				// 2.4.获取行程卡信息
-				this.post(this.globaData.INTERFACE_STUHEALTH + 'healthReport/getItineraryCardInfo', comData, (data0,
+				this.post(this.globaData.INTERFACE_HEALTH_DATA + 'healthReport/getItineraryCardInfo', comData, (data0,
 					data) => {
 					this.hideLoading();
 					if (data.code == 0) {
