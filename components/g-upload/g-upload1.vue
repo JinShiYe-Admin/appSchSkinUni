@@ -14,7 +14,7 @@
 </template>
 
 <script>
-	import compress from '@/components/MarsXHChang-CavansCompressImg/compress.vue'
+	import compress from '@/components/MarsXHChang-CavansCompressImg/compress1.vue'
 	export default {
 		props: {
 			//是否显示上传控件
@@ -169,7 +169,7 @@
 				})
 			},
 			// getBase64Image(img) {
-			// 	console.log('12345678900000000')
+			// 	console.log('12345678900000001')
 			// 	var canvas = document.createElement("canvas");
 			// 	canvas.width = img.width;
 			// 	canvas.height = img.height;

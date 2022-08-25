@@ -404,6 +404,59 @@ var uploadIDCardHeadImge = function uploadIDCardHeadImge(type, fileName, base64S
 	});
 }
 
+// 上传base64图片
+var uploadBase64Imge = function uploadBase64Imge(type, fileName, base64Str,mainSp,uploadSp, callback, ecallback) {
+	// console.log('uploadBase64Imge');
+	var getToken = {
+		type: type, //str 必填 获取上传token的类型。0上传需要生成缩略图的文件；1上传文件
+		QNFileName: fileName, //str 必填 存放到七牛的文件名
+		appId: Vue.prototype.globaData.QN_APPID, //int 必填 项目id
+		appKey: Vue.prototype.globaData.QN_APPKEY,
+		mainSpace: mainSp, //str 必填 私有空间或公有空间
+		uploadSpace: uploadSp, //str 必填  上传的空间
+	}
+	// console.log('getToken:' + JSON.stringify(getToken));
+	getQNUpToken(null, Vue.prototype.QNGETUPLOADTOKEN, getToken, function(data) {
+		// console.log('getQNUpToken111:' + JSON.stringify(data));
+		let QNUptoken = data.data; //token数据
+		// console.log('七牛上传token:' + JSON.stringify(QNUptoken));
+		if (QNUptoken.Status == 0) { //失败
+			uni.showToast('获取上传凭证失败 ' + QNUptoken.Message);
+			// console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
+			uni.hideLoading();
+		} else {
+			// console.log("上传的Token:" + QNUptoken.Data.Token);
+			// console.log("上传的Domain:" + QNUptoken.Data.Domain);
+			// console.log("上传的base64Str:"+base64Str);
+			let pic = base64Str;
+			let url = Vue.prototype.QN_URL+'putb64/-1/key/' + encode(QNUptoken.Data.Key);
+			uni.request({
+				url: url,
+				method: 'POST',
+				data: pic,
+				header: {
+					ContentType: "application/octet-stream",
+					Authorization: "UpToken " + QNUptoken.Data.Token
+				},
+				success: (uploadFileRes) => {
+					// console.log(uploadFileRes.data);
+					let responseUrl = QNUptoken.Data.Domain + uploadFileRes.data.key;
+					callback(responseUrl);
+				},
+				fail: (e) => {
+					// console.log(e);
+					uni.showToast('七牛信息上传失败！');
+					ecallback()
+				}
+			});
+		}
+	}, function(xhr, type, errorThrown) {
+		uni.hideLoading();
+		uni.showToast('请求上传凭证失败 ' + type);
+		//console.log('### ERROR ### 请求上传凭证失败' + type);
+	});
+}
+
 // 上传音频文件
 var uploadAudio = function uploadAudio(type, fileName, audioUrl, callback, ecallback) {
 	// console.log('uploadAudio');
@@ -773,9 +826,11 @@ var uploadFiles = function(that, type, files, mainSpace, uploadSpace, callback) 
 										index].Key
 									domains.push(domain)
 									if (domains.length === newImgList.length) {
-										let endNames = that.imgNames.concat(names)
+										// let endNames = that.imgNames.concat(names)
+										let endNames = [].concat(names)
 										domains.sort();
 										let endUrls = imgUrls.concat(domains)
+										// callback(endNames, endUrls)
 										callback(endNames, endUrls)
 										that.hideLoading();
 									}
@@ -797,7 +852,8 @@ var uploadFiles = function(that, type, files, mainSpace, uploadSpace, callback) 
 			// }//---2
 		);
 	} else {
-		callback(that.imgNames, imgUrls)
+		// callback(that.imgNames, imgUrls)
+		callback(names, imgUrls)
 	}
 }
 var _uploadFiles = function(that, fPath, token, key, uploadCompletedCallBack) {
@@ -1014,6 +1070,7 @@ module.exports = {
 	uploadFiles: uploadFiles,
 	getQNDownToken: getQNDownToken,
 	uploadIDCardHeadImge: uploadIDCardHeadImge,
+	uploadBase64Imge:uploadBase64Imge,
 	uploadAudio: uploadAudio,
 	qiniuDelete: qiniuDelete,
 }

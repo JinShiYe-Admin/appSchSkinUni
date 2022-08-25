@@ -1,0 +1,288 @@
+<template>
+	<view>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'>
+		</mynavBar>
+		<view style="font-size: 16px;text-align: center;margin-top: 20px;">{{curDate}}健康上报</view>
+		<view style="padding:15px 5px 0;">
+			<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+			<view style="font-size: 14px;color: gray;">个人健康信息</view>
+		</view>
+		<view class="line"></view>
+		<view class="viewText">*学生：</view>
+		<view style="background: #e5e5e5;margin: 2px 20px;padding: 4px;text-align: center;font-size: 13px;">
+			{{personInfo.grd_name}} {{personInfo.cls_name}} {{personInfo.stu_name}}
+		</view>
+		<view class="viewText">*本人当天健康码截图</view>
+		<image mode="scaleToFill" style="margin-top: 20px;" :src="healthImgUrl" @click="checkEnc(healthImgUrl)" class="pageImg"></image>
+		<view class="shibieView">
+			<p style='padding-top: 20px;font-size: 16px;' :style="{color:healthColorStr}">{{healthColorChar}}</p>
+			<p style='margin-top: 20px;' :style="{color:healthColorStr}">{{healthTime}}</p>
+		</view>
+		<view class="viewText" style="margin-top: 30px;">*本人当天行程码截图</view>
+		<image mode="scaleToFill" style="margin-top: 20px;" :src="itineraryImgUrl" @click="checkEnc(itineraryImgUrl)" class="pageImg"></image>
+		<view class="shibieView">
+			<p style='padding-top: 20px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
+		</view>
+		<view class="viewText" style="margin-top: 30px;">*本人是否有发热/咳嗽/流涕/咽疼等症状？</view>
+		<radio-group @change="radioChange0" style="margin-top: 5px;">
+			<label class="radio pageRadio">
+				<radio value="false" disabled :checked="false == selfRadio" color="#00baad" style="transform:scale(0.7)" />没有
+			</label>
+			<label class="radio pageRadio">
+				<radio value="true" disabled :checked="true == selfRadio" color="#00baad" style="transform:scale(0.7)" />有
+			</label>
+		</radio-group>
+		<view style="padding:15px 5px 0;">
+			<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+			<view style="font-size: 14px;color: gray;">同住人健康信息</view>
+		</view>
+		<view class="line"></view>
+		<view class="viewText">*同住人中是否有新冠疫情感染者？</view>
+		<radio-group @change="radioChange1" style="margin-top: 5px;">
+			<label class="radio pageRadio">
+				<radio value="false" disabled :checked="false == otherRadio0" color="#00baad" style="transform:scale(0.7)" />没有
+			</label>
+			<label class="radio pageRadio">
+				<radio value="true" disabled :checked="true == otherRadio0" color="#00baad" style="transform:scale(0.7)" />有
+			</label>
+		</radio-group>
+		<view class="viewText">*14天内是否有同住人到过中高风险地区？</view>
+		<radio-group @change="radioChange2" style="margin-top: 5px;">
+			<label class="radio pageRadio">
+				<radio value="false" disabled :checked="false == otherRadio1" color="#00baad" style="transform:scale(0.7)" />没有
+			</label>
+			<label class="radio pageRadio">
+				<radio value="true" disabled :checked="true == otherRadio1" color="#00baad" style="transform:scale(0.7)" />有
+			</label>
+		</radio-group>
+		<view class="viewText">*同住人是否有发热/咳嗽/流涕/咽疼等症状？</view>
+		<radio-group @change="radioChange3" style="margin-top: 5px;">
+			<label class="radio pageRadio">
+				<radio value="false" disabled :checked="false == otherRadio2" color="#00baad" style="transform:scale(0.7)" />没有
+			</label>
+			<label class="radio pageRadio">
+				<radio value="true" disabled :checked="true == otherRadio2" color="#00baad" style="transform:scale(0.7)" />有
+			</label>
+		</radio-group>
+		<view style="padding:15px 5px 0;">
+			<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+			<view style="font-size: 14px;color: gray;">特殊情况</view>
+		</view>
+		<view class="line"></view>
+		<view class="viewText">如有特殊情况请填写并上传相关截图，若无特殊情况则不填写。</view>
+		<textarea disabled maxlength="100" v-model="content" class="rightView"
+			style="height: 80px;margin-top: 10px;padding-top: 5px;margin-bottom: 10px;" placeholder="限100字内"></textarea>
+		<image v-if="noteImgUrl.length>0" mode="scaleToFill" :src="noteImgUrl" @click="checkEnc(noteImgUrl)" class="pageImg"></image>
+		<view style="padding:15px 5px 0;">
+			<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
+			<view style="font-size: 14px;color: gray;">承诺签字</view>
+		</view>
+		<view class="line"></view>
+		<view class="viewText">*本人同意授权以上信息给学校并确认信息无误。</view>
+		<view style="border: 1rpx dashed #555555;margin: 10px;">
+			<!-- <Signature ref="sig" v-model="signContent"></Signature> -->
+			<image mode="widthFix" :src="signImgUrl" style="width: 100%;" class="signImg"></image>
+		</view>
+		<view style="height: 20px;"></view>
+	</view>
+</template>
+
+<script>
+	import util from '../../commom/util.js';
+	import mynavBar from '@/components/my-navBar/m-navBar';
+	import Signature from '@/components/sin-signature/sin-signature.vue'
+	// 七牛上传相关
+	import gUpload from "@/components/g-upload/g-upload.vue"
+	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
+	let _this;
+	export default {
+		data() {
+			return {
+				personInfo: {},
+				navItem: {},
+				curDate: '',
+				// 附件上传相关👇
+				control: true, //是否显示上传 + 按钮 一般用于显示
+				deleteBtn: true, //是否显示删除 按钮 一般用于显示
+				maxCount0: 1, //单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数 
+				showMaxCount0: 1, //单次上传最大数量
+				columnNum0: 3, //每行显示的图片数量
+				maxCount1: 1, //单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数
+				showMaxCount1: 1, //单次上传最大数量
+				columnNum1: 3, //每行显示的图片数量
+				maxCount2: 1, //单次选择最大数量,初始值应该是:maxCount=showMaxCount-imgList.length 该值是可变值，需要根据已选择或服务器回传的图片数量做计算，得到下次进入图片选择控件时允许选择图片的最大数
+				showMaxCount2: 1, //单次上传最大数量
+				columnNum2: 3, //每行显示的图片数量
+				imgNames0: [], //服务器回传的图片名称
+				imgNames1: [], //服务器回传的图片名称
+				imgNames2: [], //服务器回传的图片名称
+				imgList0: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
+				imgList1: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
+				imgList2: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
+				imgFiles0: [], //选择的文件对象，用于上传时获取文件名  不需要改动
+				imgFiles1: [], //选择的文件对象，用于上传时获取文件名  不需要改动
+				imgFiles2: [], //选择的文件对象，用于上传时获取文件名  不需要改动
+				selfRadio: false,
+				otherRadio0: false,
+				otherRadio1: false,
+				otherRadio2: false,
+				content: '',
+				signContent: '',
+				healthTime: '',
+				healthColor: '',
+				healthColorStr: '',
+				healthColorChar:'',
+				healthImgUrl: '',
+				itineraryTime: '',
+				itineraryColor: '',
+				itineraryColorStr: '',
+				itineraryColorChar:'',
+				itineraryImgUrl: '',
+				noteImgUrl:'',
+				noteImgName:'',
+				signImgUrl:''
+			}
+		},
+		components: {
+			mynavBar,
+			gUpload,
+			Signature
+		},
+		onLoad(option) {
+			_this = this;
+			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
+			uni.$on('updateHeadImg', function(data) {
+				_this.$refs.mynavBar.upLoadImg();
+			});
+			this.personInfo = util.getPersonal();
+			this.navItem = util.getPageData(option);
+			this.navItem.text = '上报详情';
+			this.navItem.index = 100;
+			// var tempDate = new Date();
+			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
+			// this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+			this.getDetailById();
+
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
+		methods: {
+			checkEnc: function(tempUrl) {
+				console.log('tempUrl:' + tempUrl);
+				util.openFile(tempUrl);
+			},
+			// 2.6.根据id获取上报记录
+			getDetailById() {
+				var comData = {
+					index_code: this.navItem.access,
+					id: this.navItem.id //
+				}
+				this.showLoading();
+				// 2.6.根据id获取上报记录
+				this.post(this.globaData.INTERFACE_HEALTH_DATA + 'healthReport/getById', comData, (data0,
+					data) => {
+					this.hideLoading();
+					if (data.code == 0) {
+						this.curDate = data.data.date;
+						this.content = data.data.note;
+						this.itineraryTime = data.data.itinerary_card_time;
+						this.healthImgUrl = data.data.health_code_img_url;
+						this.signImgUrl = data.data.sign_img;
+						if (data.data.note_img_list&&data.data.note_img_list.length>0) {
+							this.noteImgUrl = data.data.note_img_list[0].url;
+						}
+						this.healthTime = data.data.health_code_time;
+						this.selfRadio = data.data.is_unusual;
+						this.otherRadio0 = data.data.roomy_is_infect;
+						this.otherRadio1 = data.data.roomy_is_14_high_risk;
+						this.otherRadio2 = data.data.roomy_is_unusual;
+						this.itineraryImgUrl = data.data.itinerary_card_img_url;
+						if (data.data.health_code_color == 'g') {
+							this.healthColorStr = 'green';
+							this.healthColorChar = '绿码';
+						} else if (data.data.health_code_color == 'y') {
+							this.healthColorStr = 'yellow';
+							this.healthColorChar = '黄码';
+						} else if (data.data.health_code_color == 'r') {
+							this.healthColorStr = 'red';
+							this.healthColorChar = '红码';
+						}
+						if (data.data.itinerary_card_color == 'g') {
+							this.itineraryColorStr = 'green';
+							this.itineraryColorChar = '七天内未到过中高风险地区';
+						} else if (data.data.itinerary_card_color == 'y') {
+							this.itineraryColorStr = 'yellow';
+							this.itineraryColorChar = '七天内未到过中高风险地区';
+						} else if (data.data.itinerary_card_color == 'r') {
+							this.itineraryColorStr = 'red';
+							this.itineraryColorChar = '七天未到过中高风险地区';
+						}
+					} else {
+						this.showToast(data.msg);
+					}
+				});
+			}
+		}
+	}
+</script>
+
+<style>
+	.line {
+		height: 1px;
+		background-color: #e5e5e5;
+		margin: 5px;
+	}
+
+	.viewText {
+		font-size: 13px;
+		color: gray;
+		margin-left: 20px;
+		margin-top: 10px;
+	}
+
+	.pageRadio {
+		margin-left: 40px;
+		font-size: 14px;
+	}
+
+	.rightView {
+		border: 1px solid gainsboro;
+		font-size: 14px;
+		width: calc(100% - 50px);
+		height: 35px;
+		padding: 3px;
+		margin-left: 20px;
+	}
+
+	.uploadView {
+		width: 70px;
+		background: #00baad;
+		color: white;
+		padding: 5px;
+		text-align: center;
+		margin-top: 30px;
+		margin-bottom: 30px;
+		margin-left: calc((100% - 70px)/2);
+	}
+
+	.shibieView {
+		background: #e5e5e5;
+		text-align: center;
+		font-size: 13px;
+		width: 160px;
+		height: 100px;
+		margin-top: -100px;
+		margin-left: 150px;
+	}
+	
+	.pageImg{
+		width: 100px;height: 100px;
+		margin: 5px 0 0 20px;
+	}
+</style>
