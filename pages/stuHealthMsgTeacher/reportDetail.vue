@@ -106,7 +106,16 @@
 				this.navItem.datetime = date;
 			},
 			onTouchGrid(event) {
-				console.log(event);
+				const { index } = event.detail
+				const id = this.reportItems[index].id;
+				if (id) {
+					util.openwithData('/pages/stuHealthMsg/stuHealthMsgNotesDetail', {
+						id: id,
+						access: this.index_code,
+					});
+				} else {
+					console.error('id is null.');
+				}
 			}
 		}
 	}

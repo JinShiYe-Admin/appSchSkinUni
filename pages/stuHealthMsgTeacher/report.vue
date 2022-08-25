@@ -86,6 +86,10 @@
 			uni.setNavigationBarTitle({
 				title:'上报情况',
 			});
+			
+			this.$nextTick(() => {
+				document.querySelector('table').style.minWidth = '100%';
+			});
 		},
 		methods: {
 			fetch() {

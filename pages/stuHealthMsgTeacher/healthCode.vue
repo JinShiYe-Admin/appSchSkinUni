@@ -104,6 +104,10 @@
 			uni.setNavigationBarTitle({
 				title:'健康码异常情况',
 			});
+			
+			this.$nextTick(() => {
+				document.querySelector('table').style.minWidth = '100%';
+			});
 		},
 		methods: {
 			fetch() {
@@ -151,11 +155,9 @@
 			},
 			onTableRowTouch(item) {
 				if (item) {
-					util.openwithData('/pages/stuHealthMsgTeacher/stuHealthMsgNotesDetail', {
-						...this.navItem,
-						cls_code: item.cls_code,
-						cls_name: item.cls_name,
-						datetime: this.datetime,
+					util.openwithData('/pages/stuHealthMsg/stuHealthMsgNotesDetail', {
+						id: item.id,
+						access: this.index_code,
 					});
 				} else {
 					console.error('item not found.');

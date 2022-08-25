@@ -12,17 +12,17 @@
 		<view class="uni-pa-4">
 			<uni-table class="uni-mb-4" border stripe emptyText="暂无数据">
 				<uni-tr>
-					<uni-th style="width: 20%" align="center">年级</uni-th>
-					<uni-th style="width: 20%" align="center">班级</uni-th>
+					<uni-th style="width: 30%" align="center">年级</uni-th>
+					<uni-th style="width: 30%" align="center">班级</uni-th>
 					<uni-th style="width: 40%" align="center">学生</uni-th>
-					<uni-th style="width: 20%" align="center">特殊情况</uni-th>
+					<!-- <uni-th style="width: 20%" align="center">特殊情况</uni-th> -->
 				</uni-tr>
 				
 				<uni-tr v-for="(item, index) in items" :item="item" ref="rows">
 					<uni-td align="center">{{ item.grd_name }}</uni-td>
 					<uni-td align="center">{{ item.cls_name }}</uni-td>
 					<uni-td align="center">{{ item.stu_name }}</uni-td>
-					<uni-td align="center">{{ item.note }}</uni-td>
+					<!-- <uni-td align="center">{{ item.note }}</uni-td> -->
 				</uni-tr>
 			</uni-table>
 			
@@ -92,6 +92,10 @@
 			uni.setNavigationBarTitle({
 				title:'特殊情况',
 			});
+			
+			this.$nextTick(() => {
+				document.querySelector('table').style.minWidth = '100%';
+			});
 		},
 		methods: {
 			fetch() {
@@ -135,12 +139,10 @@
 			},
 			onTableRowTouch(item) {
 				if (item) {
-					// util.openwithData('/pages/stuHealthMsgTeacher/reportDetail', {
-					// 	...this.navItem,
-					// 	cls_code: item.cls_code,
-					// 	cls_name: item.cls_name,
-					// 	datetime: this.datetime,
-					// }, {});
+					util.openwithData('/pages/stuHealthMsg/stuHealthMsgNotesDetail', {
+						id: item.id,
+						access: this.index_code,
+					});
 				} else {
 					console.error('item not found.');
 				}

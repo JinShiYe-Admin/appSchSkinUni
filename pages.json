@@ -3078,6 +3078,15 @@
             
         }
 		,{
+		    "path" : "pages/stuHealthMsgTeacher/itineraryCard",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+		,{
 		    "path" : "pages/stuHealthMsgTeacher/unusual",
 		    "style" :                                                                                    
 		    {
