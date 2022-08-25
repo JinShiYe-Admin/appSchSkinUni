@@ -71,6 +71,7 @@ switch (EnvKey) {
 		GLOBALDATA.STULEAVE_API = 'https://develop309.108800.com/stuleavesubapi/sub/api/'; //学生请假系统(孔)
 		GLOBALDATA.INTERFACE_TWJK_TEA = 'https://develop309.108800.com/stustatsubapi/api/'; //学生每日体温监控（农）
 		GLOBALDATA.INTERFACE_COSTMS = 'https://develop309.108800.com/cmsubapi/sub/api/'; //费用管理（孔）
+		GLOBALDATA.INTERFACE_HEALTH_DATA = 'https://developgx.108800.com:8443/stuhealth/api/'; //健康数据（蒙）
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
