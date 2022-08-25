@@ -319,12 +319,13 @@
 				}
 			},
 			clickItem(url) {
+				const curGrd = this.grdArray[this.grdIndex]
 				const curCls = this.clsArray[this.clsIndex]
-				if(curCls) {
+				if(curGrd&&curCls) {
 					util.openwithData('/pages/stuHealthMsgTeacher/'+url,{
 						...this.navItem,
+						grd_code: curGrd.value==='-1'?'':curGrd.value,
 						cls_code: curCls.value==='-1'?'':curCls.value,
-						cls_name: curCls.text,
 						datetime: this.date,
 					})
 				}

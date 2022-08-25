@@ -319,16 +319,18 @@
 				}
 			},
 			clickItem(url) {
+				const curGrd = this.grdArray[this.grdIndex]
 				const curCls = this.clsArray[this.clsIndex]
-				if(curCls) {
-					util.openwithData('/pages/stuHealthMsgTeacher/'+url,{
+				if(curGrd && curCls) {
+					util.openwithData('/pages/stuHealthMsgTeacher/' + url , {
 						...this.navItem,
-						cls_code: curCls.value==='-1'?'':curCls.value,
-						cls_name: curCls.text,
+						grd_code: curGrd.value === '-1' ? '' : curGrd.value,
+						cls_code: curCls.value === '-1' ? '' : curCls.value,
 						datetime: this.date,
 					})
 				}
 			}
+
 		}
 	}
 </script>
