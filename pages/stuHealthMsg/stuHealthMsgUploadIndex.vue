@@ -186,7 +186,15 @@
 			this.index_code = this.navItem.access.split("#")[1]
 			var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
-			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+			var tempMoth = tempDate.getMonth() + 1;
+			if (tempMoth<10) {
+				tempMoth = '0'+tempMoth;
+			}
+			var tempDay = tempDate.getDate();
+			if (tempDay<10) {
+				tempDay = '0'+tempDay;
+			}
+			this.curDate = tempDate.getFullYear() + '-' + tempMoth + '-' + tempDay;
 
 			//#ifdef H5
 			document.title = ""
