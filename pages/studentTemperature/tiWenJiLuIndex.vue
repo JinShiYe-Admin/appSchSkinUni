@@ -59,7 +59,8 @@
 			<view class="t-wrap">
 				<t-slide ref="slide" @del="delRow" @itemClick="clickRow">
 					<template v-slot:default="{item}">
-						<view class="t-conten">
+						<!-- <view class="t-conten"> -->
+						<view class="">
 							<uni-row>
 								<uni-col class="rowName" :span="7">
 									<view style="margin-top: -10px;">{{item.stu_name}}</view>

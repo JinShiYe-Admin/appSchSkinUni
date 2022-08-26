@@ -2,7 +2,7 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		
-		<uni-grid :column="2" :showBorder="false"  :square="false" style="padding: 0.5rem 0;">
+		<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false" style="padding: 0.5rem 0;">
 			<uni-grid-item>
 				<uni-datetime-picker class="healthmsg-date-picker" type="date" :end="curDate" :clear-icon="false" 
 					:value="date" @change="dateChange"/>
@@ -25,96 +25,96 @@
 			</uni-grid-item>
 		</uni-grid>
 		
-		<uni-title type="h3" :title="curGrdClsText" align="center" style="margin-top: 20px;"></uni-title>
+		<uni-title type="h1" :title="curGrdClsText" align="center" style="margin-top: 20px;"></uni-title>
 		
-		<uni-card is-shadow @click="clickItem('report')">
-			<uni-title type="h4" title="上报情况" align="left"></uni-title>
-			<uni-grid :column="2" :showBorder="false"  :square="false">
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('report')">
+			<uni-title type="h3" title="上报情况" align="left"></uni-title>
+			<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="已上报" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.num_of_reported" color="#18bc37" align="center"></uni-title>
+					<uni-title color="#666" title="已上报" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #18bc37;">{{pageData.num_of_reported}}</text>
 				</uni-grid-item>
 				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="未上报" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.num_of_no_reported" color="#f3a73f" align="center"></uni-title>
+					<uni-title color="#666" title="未上报" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.num_of_no_reported}}</text>
 				</uni-grid-item>
 			</uni-grid>
 		</uni-card>
 		
-		<uni-card is-shadow @click="clickItem('healthCode')">
-			<uni-title type="h4" title="健康码" align="left"></uni-title>
-			<uni-grid :column="3" :showBorder="false"  :square="false">
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('healthCode')">
+			<uni-title type="h3" title="健康码" align="left"></uni-title>
+			<uni-grid :column="3" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="绿码" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.code_g" color="#18bc37" align="center"></uni-title>
+					<uni-title color="#666" title="绿码" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #18bc37;">{{pageData.code_g}}</text>
 				</uni-grid-item>
 				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="黄码" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.code_y" color="#f3a73f" align="center"></uni-title>
+					<uni-title color="#666" title="黄码" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.code_y}}</text>
 				</uni-grid-item>
 				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="红码" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.code_r" color="#e43d33" align="center"></uni-title>
-				</uni-grid-item>
-			</uni-grid>
-		</uni-card>
-		
-		<uni-card is-shadow @click="clickItem('itineraryCard')">
-			<uni-title type="h4" title="行程卡" align="left"></uni-title>
-			<uni-grid :column="3" :showBorder="false"  :square="false">
-				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="绿色" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.card_g" color="#18bc37" align="center"></uni-title>
-				</uni-grid-item>
-				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="黄色" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.card_y" color="#f3a73f" align="center"></uni-title>
-				</uni-grid-item>
-				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="红色" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.card_r" color="#e43d33" align="center"></uni-title>
+					<uni-title color="#666" title="红码" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #e43d33;">{{pageData.code_r}}</text>
 				</uni-grid-item>
 			</uni-grid>
 		</uni-card>
 		
-		<uni-card is-shadow @click="clickItem('unusual')">
-			<uni-title type="h4" title="发烧/咳嗽/流涕/咽疼" align="left"></uni-title>
-			<uni-grid :column="2" :showBorder="false"  :square="false">
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('itineraryCard')">
+			<uni-title type="h3" title="行程卡" align="left"></uni-title>
+			<uni-grid :column="3" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="没有" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.is_unusual0" color="#18bc37" align="center"></uni-title>
+					<uni-title color="#666" title="绿色" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #18bc37;">{{pageData.card_g}}</text>
 				</uni-grid-item>
 				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="有" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.is_unusual1" color="#f3a73f" align="center"></uni-title>
-				</uni-grid-item>
-			</uni-grid>
-		</uni-card>
-		
-		<uni-card is-shadow @click="clickItem('roomyUnusual')">
-			<uni-title type="h4" title="同住人异常" align="left"></uni-title>
-			<uni-grid :column="2" :showBorder="false"  :square="false">
-				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="没有" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.roomy_is_unusual0" color="#18bc37" align="center"></uni-title>
+					<uni-title color="#666" title="黄色" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.card_y}}</text>
 				</uni-grid-item>
 				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="有" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.roomy_is_unusual1" color="#f3a73f" align="center"></uni-title>
+					<uni-title color="#666" title="红色" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #e43d33;">{{pageData.card_r}}</text>
 				</uni-grid-item>
 			</uni-grid>
 		</uni-card>
 		
-		<uni-card is-shadow @click="clickItem('note')">
-			<uni-title type="h4" title="特殊情况" align="left"></uni-title>
-			<uni-grid :column="2" :showBorder="false"  :square="false">
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('unusual')">
+			<uni-title type="h3" title="发烧/咳嗽/流涕/咽疼" align="left"></uni-title>
+			<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="没有" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.special0" color="#18bc37" align="center"></uni-title>
+					<uni-title color="#666" title="没有" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #18bc37;">{{pageData.is_unusual0}}</text>
 				</uni-grid-item>
 				<uni-grid-item>
-					<uni-title type="h4" color="#666" title="有" align="center"></uni-title>
-					<uni-title type="h1" :title="pageData.special1" color="#f3a73f" align="center"></uni-title>
+					<uni-title color="#666" title="有" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.is_unusual1}}</text>
+				</uni-grid-item>
+			</uni-grid>
+		</uni-card>
+		
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('roomyUnusual')">
+			<uni-title type="h3" title="同住人异常" align="left"></uni-title>
+			<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false">
+				<uni-grid-item>
+					<uni-title color="#666" title="没有" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #18bc37;">{{pageData.roomy_is_unusual0}}</text>
+				</uni-grid-item>
+				<uni-grid-item>
+					<uni-title color="#666" title="有" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.roomy_is_unusual1}}</text>
+				</uni-grid-item>
+			</uni-grid>
+		</uni-card>
+		
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('note')">
+			<uni-title type="h3" title="特殊情况" align="left"></uni-title>
+			<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false">
+				<uni-grid-item>
+					<uni-title color="#666" title="没有" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #18bc37;">{{pageData.special0}}</text>
+				</uni-grid-item>
+				<uni-grid-item>
+					<uni-title color="#666" title="有" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.special1}}</text>
 				</uni-grid-item>
 			</uni-grid>
 		</uni-card>
@@ -200,9 +200,10 @@
 			// index界面用这个
 			this.navItem = util.getTabbarMenu();
 			this.index_code=this.navItem.access.split("#")[1]
-			var tempDate = new Date();
+			// var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
-			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+			// this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+			this.curDate = this.moment().format('YYYY-MM-DD');
 			this.date = this.curDate;
 
 			this.getGrd();
@@ -319,16 +320,18 @@
 				}
 			},
 			clickItem(url) {
+				const curGrd = this.grdArray[this.grdIndex]
 				const curCls = this.clsArray[this.clsIndex]
-				if(curCls) {
-					util.openwithData('/pages/stuHealthMsgTeacher/'+url,{
+				if(curGrd && curCls) {
+					util.openwithData('/pages/stuHealthMsgTeacher/' + url , {
 						...this.navItem,
-						cls_code: curCls.value==='-1'?'':curCls.value,
-						cls_name: curCls.text,
+						grd_code: curGrd.value === '-1' ? '' : curGrd.value,
+						cls_code: curCls.value === '-1' ? '' : curCls.value,
 						datetime: this.date,
 					})
 				}
 			}
+
 		}
 	}
 </script>
@@ -337,7 +340,12 @@
 	.healthmsg-date-picker {
 		padding: 0 0.5rem;
 	}
-	.healthmsg-card-item {
+	.healthmsg-card:active {
+		background-color: #f1f1f1;
+	}
+	.healthmsg-item-num {
+		font-size: 2rem;
 		text-align: center;
+		padding: 0 0.5rem 0.5rem;
 	}
 </style>

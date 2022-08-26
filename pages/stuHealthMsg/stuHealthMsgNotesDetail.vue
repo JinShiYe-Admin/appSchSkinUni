@@ -10,18 +10,20 @@
 		<view class="line"></view>
 		<view class="viewText">*学生：</view>
 		<view style="background: #e5e5e5;margin: 2px 20px;padding: 4px;text-align: center;font-size: 13px;">
-			{{personInfo.grd_name}} {{personInfo.cls_name}} {{personInfo.stu_name}}
+			{{grd_name}} {{cls_name}} {{stu_name}}
 		</view>
 		<view class="viewText">*本人当天健康码截图</view>
 		<image mode="scaleToFill" style="margin-top: 20px;" :src="healthImgUrl" @click="checkEnc(healthImgUrl)" class="pageImg"></image>
 		<view class="shibieView">
-			<p style='padding-top: 20px;font-size: 16px;' :style="{color:healthColorStr}">{{healthColorChar}}</p>
-			<p style='margin-top: 20px;' :style="{color:healthColorStr}">{{healthTime}}</p>
+			<p style='padding-top: 10px;font-size: 18px;' :style="{color:healthColorStr}">{{healthColorChar}}</p>
+			<p style='margin-top: 10px;' :style="{color:healthColorStr}">{{healthResult}}</p>
+			<p style='margin-top: 10px;' :style="{color:healthColorStr}">{{healthTime}}</p>
 		</view>
 		<view class="viewText" style="margin-top: 30px;">*本人当天行程码截图</view>
 		<image mode="scaleToFill" style="margin-top: 20px;" :src="itineraryImgUrl" @click="checkEnc(itineraryImgUrl)" class="pageImg"></image>
 		<view class="shibieView">
-			<p style='padding-top: 20px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
+			<p style='padding-top: 20px;font-size: 18px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
+			<p style='font-size: 14px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryCity}}</p>
 		</view>
 		<view class="viewText" style="margin-top: 30px;">*本人是否有发热/咳嗽/流涕/咽疼等症状？</view>
 		<radio-group @change="radioChange0" style="margin-top: 5px;">
@@ -79,7 +81,7 @@
 		</view>
 		<view class="line"></view>
 		<view class="viewText">*本人同意授权以上信息给学校并确认信息无误。</view>
-		<view style="border: 1rpx dashed #555555;margin: 10px;">
+		<view style="border: 1rpx dashed #555555;margin: 10px 20px;">
 			<!-- <Signature ref="sig" v-model="signContent"></Signature> -->
 			<image mode="widthFix" :src="signImgUrl" style="width: 100%;" class="signImg"></image>
 		</view>
@@ -140,7 +142,12 @@
 				itineraryImgUrl: '',
 				noteImgUrl:'',
 				noteImgName:'',
-				signImgUrl:''
+				signImgUrl:'',
+				grd_name:'',
+				cls_name:'',
+				stu_name:'',
+				healthResult:'',
+				itineraryCity:''
 			}
 		},
 		components: {
@@ -189,6 +196,11 @@
 					data) => {
 					this.hideLoading();
 					if (data.code == 0) {
+						this.grd_name = data.data.grd_name;
+						this.cls_name = data.data.cls_name;
+						this.stu_name = data.data.stu_name;
+						this.healthResult = data.data.nucleic;
+						this.itineraryCity = data.data.itinerary_card_via_city;
 						this.curDate = data.data.date;
 						this.content = data.data.note;
 						this.itineraryTime = data.data.itinerary_card_time;
@@ -204,24 +216,24 @@
 						this.otherRadio2 = data.data.roomy_is_unusual;
 						this.itineraryImgUrl = data.data.itinerary_card_img_url;
 						if (data.data.health_code_color == 'g') {
-							this.healthColorStr = 'green';
+							this.healthColorStr = '#5ba669';
 							this.healthColorChar = '绿码';
 						} else if (data.data.health_code_color == 'y') {
-							this.healthColorStr = 'yellow';
+							this.healthColorStr = '#f2b71f';
 							this.healthColorChar = '黄码';
 						} else if (data.data.health_code_color == 'r') {
-							this.healthColorStr = 'red';
+							this.healthColorStr = '#e61a23';
 							this.healthColorChar = '红码';
 						}
 						if (data.data.itinerary_card_color == 'g') {
-							this.itineraryColorStr = 'green';
-							this.itineraryColorChar = '七天内未到过中高风险地区';
+							this.itineraryColorStr = '#5ba669';
+							this.itineraryColorChar = '绿色';
 						} else if (data.data.itinerary_card_color == 'y') {
-							this.itineraryColorStr = 'yellow';
-							this.itineraryColorChar = '七天内未到过中高风险地区';
+							this.itineraryColorStr = '#f2b71f';
+							this.itineraryColorChar = '黄色';
 						} else if (data.data.itinerary_card_color == 'r') {
-							this.itineraryColorStr = 'red';
-							this.itineraryColorChar = '七天未到过中高风险地区';
+							this.itineraryColorStr = '#e61a23';
+							this.itineraryColorChar = '红色';
 						}
 					} else {
 						this.showToast(data.msg);
