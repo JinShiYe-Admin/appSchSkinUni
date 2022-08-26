@@ -15,15 +15,15 @@
 		<view class="viewText">*本人当天健康码截图</view>
 		<image mode="scaleToFill" style="margin-top: 20px;" :src="healthImgUrl" @click="checkEnc(healthImgUrl)" class="pageImg"></image>
 		<view class="shibieView">
-			<p style='padding-top: 10px;font-size: 16px;' :style="{color:healthColorStr}">{{healthColorChar}}</p>
+			<p style='padding-top: 10px;font-size: 18px;' :style="{color:healthColorStr}">{{healthColorChar}}</p>
 			<p style='margin-top: 10px;' :style="{color:healthColorStr}">{{healthResult}}</p>
 			<p style='margin-top: 10px;' :style="{color:healthColorStr}">{{healthTime}}</p>
 		</view>
 		<view class="viewText" style="margin-top: 30px;">*本人当天行程码截图</view>
 		<image mode="scaleToFill" style="margin-top: 20px;" :src="itineraryImgUrl" @click="checkEnc(itineraryImgUrl)" class="pageImg"></image>
 		<view class="shibieView">
-			<p style='padding-top: 20px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
-			<p style='margin-top: 10px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryCity}}</p>
+			<p style='padding-top: 20px;font-size: 18px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
+			<p style='font-size: 14px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryCity}}</p>
 		</view>
 		<view class="viewText" style="margin-top: 30px;">*本人是否有发热/咳嗽/流涕/咽疼等症状？</view>
 		<radio-group @change="radioChange0" style="margin-top: 5px;">

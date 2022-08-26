@@ -139,8 +139,11 @@
 				console.log('this.showInput:' + this.showInput);
 			},
 			sure: function() {
+				console.log('1111111');
 				if (this.pagePswd == 'jsy@123654') {
+					console.log('11111112');
 					if (this.APPORWECHAT == 1) {
+						console.log('11111113');
 						this.showInput = 1;
 						var tempInfo = util.getPersonal();
 						if (tempInfo.userName0) {
@@ -149,7 +152,7 @@
 							this.login();
 						}
 					} else {
-						//#ifdef APP-H5
+						//#ifdef H5
 						console.log('页面url:' + window.location.href);
 						var tempUrl = window.location.href;
 						console.log('tempUrl0:' + tempUrl);
