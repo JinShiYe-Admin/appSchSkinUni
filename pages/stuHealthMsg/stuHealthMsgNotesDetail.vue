@@ -81,7 +81,7 @@
 		</view>
 		<view class="line"></view>
 		<view class="viewText">*本人同意授权以上信息给学校并确认信息无误。</view>
-		<view style="border: 1rpx dashed #555555;margin: 10px;">
+		<view style="border: 1rpx dashed #555555;margin: 10px 20px;">
 			<!-- <Signature ref="sig" v-model="signContent"></Signature> -->
 			<image mode="widthFix" :src="signImgUrl" style="width: 100%;" class="signImg"></image>
 		</view>
