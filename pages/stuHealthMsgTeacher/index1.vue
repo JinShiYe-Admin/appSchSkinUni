@@ -27,9 +27,9 @@
 		
 		<uni-title type="h3" :title="curGrdClsText" align="center" style="margin-top: 20px;"></uni-title>
 		
-		<uni-card is-shadow @click="clickItem('report')">
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('report')">
 			<uni-title type="h4" title="上报情况" align="left"></uni-title>
-			<uni-grid :column="2" :showBorder="false"  :square="false">
+			<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
 					<uni-title type="h4" color="#666" title="已上报" align="center"></uni-title>
 					<uni-title type="h1" :title="pageData.num_of_reported" color="#18bc37" align="center"></uni-title>
@@ -41,9 +41,9 @@
 			</uni-grid>
 		</uni-card>
 		
-		<uni-card is-shadow @click="clickItem('healthCode')">
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('healthCode')">
 			<uni-title type="h4" title="健康码" align="left"></uni-title>
-			<uni-grid :column="3" :showBorder="false"  :square="false">
+			<uni-grid :column="3" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
 					<uni-title type="h4" color="#666" title="绿码" align="center"></uni-title>
 					<uni-title type="h1" :title="pageData.code_g" color="#18bc37" align="center"></uni-title>
@@ -59,9 +59,9 @@
 			</uni-grid>
 		</uni-card>
 		
-		<uni-card is-shadow @click="clickItem('itineraryCard')">
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('itineraryCard')">
 			<uni-title type="h4" title="行程卡" align="left"></uni-title>
-			<uni-grid :column="3" :showBorder="false"  :square="false">
+			<uni-grid :column="3" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
 					<uni-title type="h4" color="#666" title="绿色" align="center"></uni-title>
 					<uni-title type="h1" :title="pageData.card_g" color="#18bc37" align="center"></uni-title>
@@ -77,9 +77,9 @@
 			</uni-grid>
 		</uni-card>
 		
-		<uni-card is-shadow @click="clickItem('unusual')">
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('unusual')">
 			<uni-title type="h4" title="发烧/咳嗽/流涕/咽疼" align="left"></uni-title>
-			<uni-grid :column="2" :showBorder="false"  :square="false">
+			<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
 					<uni-title type="h4" color="#666" title="没有" align="center"></uni-title>
 					<uni-title type="h1" :title="pageData.is_unusual0" color="#18bc37" align="center"></uni-title>
@@ -91,9 +91,9 @@
 			</uni-grid>
 		</uni-card>
 		
-		<uni-card is-shadow @click="clickItem('roomyUnusual')">
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('roomyUnusual')">
 			<uni-title type="h4" title="同住人异常" align="left"></uni-title>
-			<uni-grid :column="2" :showBorder="false"  :square="false">
+			<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
 					<uni-title type="h4" color="#666" title="没有" align="center"></uni-title>
 					<uni-title type="h1" :title="pageData.roomy_is_unusual0" color="#18bc37" align="center"></uni-title>
@@ -105,9 +105,9 @@
 			</uni-grid>
 		</uni-card>
 		
-		<uni-card is-shadow @click="clickItem('note')">
+		<uni-card class="healthmsg-card" is-shadow @click="clickItem('note')">
 			<uni-title type="h4" title="特殊情况" align="left"></uni-title>
-			<uni-grid :column="2" :showBorder="false"  :square="false">
+			<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
 					<uni-title type="h4" color="#666" title="没有" align="center"></uni-title>
 					<uni-title type="h1" :title="pageData.special0" color="#18bc37" align="center"></uni-title>
@@ -339,7 +339,7 @@
 	.healthmsg-date-picker {
 		padding: 0 0.5rem;
 	}
-	.healthmsg-card-item {
-		text-align: center;
+	.healthmsg-card:active {
+		background-color: #f1f1f1;
 	}
 </style>
