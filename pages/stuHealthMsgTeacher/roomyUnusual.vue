@@ -20,18 +20,18 @@
 				class="uni-flex-item"
 				:class="status === 'roomy_is_14_high_risk' ? 'active' : ''"
 				@click="onStatusChange('roomy_is_14_high_risk')"
-				title="到过中高风险地区"
-			>到过中高风险地区</button>
+				title="中高风险"
+			>中高风险</button>
 			<button
 				class="uni-flex-item"
 				:class="status === 'roomy_is_unusual' ? 'active' : ''"
 				@click="onStatusChange('roomy_is_unusual')"
-				title="发热/咳嗽/流涕/咽疼"
-			>发热/咳嗽...</button>
+				title="发热..."
+			>发热...</button>
 		</view>
 		
 		<view class="uni-pa-4">
-			<uni-table class="uni-mb-4" border stripe emptyText="暂无数据">
+			<!-- <uni-table class="uni-mb-4" border stripe emptyText="暂无数据">
 				<uni-tr>
 					<uni-th style="width: 30%" align="center">年级</uni-th>
 					<uni-th style="width: 30%" align="center">班级</uni-th>
@@ -50,7 +50,21 @@
 				:value="pagination.current"
 				:pageSize="pagination.pageSize"
 				@change="onPageChange"
-			/>
+			/> -->
+			
+			<uni-list :border="false">
+				<uni-list-item showArrow clickable :key="index" v-for="(item, index) in items" :border="true" @click="toDetail(item)">
+					<view style="width: 100%" slot="body">
+						<uni-row>
+							<uni-col :span="7">{{ item.grd_name }}</uni-col>
+							<uni-col :span="7">{{ item.cls_name }}</uni-col>
+							<uni-col :span="10">{{ item.stu_name }}</uni-col>
+						</uni-row>
+					</view>
+				</uni-list-item>
+			</uni-list>
+			
+			<uni-load-more :status="page.more" :content-text="page.contentText"></uni-load-more>
 		</view>
 	</view>
 </template>
@@ -72,10 +86,18 @@
 				status: 'roomy_is_infect',
 				grd_code: '',
 				cls_code: '',
-				pagination: {
+				page: {
 					current: 1,
 					total: 0,
-					pageSize: 10,
+					pageSize: 20,
+					loadFlag: 0,
+					status: 'more',
+					canload:true,
+					contentText: {
+						contentdown: '',
+						contentrefresh: '加载中',
+						contentnomore: '',
+					},
 				}
 			}
 		},
@@ -112,10 +134,6 @@
 			uni.setNavigationBarTitle({
 				title:'同住人异常情况',
 			});
-			
-			this.$nextTick(() => {
-				document.querySelector('table').style.minWidth = '100%';
-			});
 		},
 		methods: {
 			fetch() {
@@ -128,40 +146,54 @@
 						grd_codes: this.grd_code,
 						cls_codes: this.cls_code,
 						index_code: this.index_code,
-						page_number: this.pagination.current,
-						page_size: this.pagination.pageSize,
+						page_number: this.page.current,
+						page_size: this.page.pageSize,
 						[this.status]: true,
 					},
 					(data) => {
-						const { list = [], total_row, page_number } = data;
-						this.items = list;
-						this.pagination.total = total_row;
+						setTimeout(() => {
+							uni.stopPullDownRefresh();
+						}, 1000);
 						
-						// 设置表格行点击事件
-						this.$nextTick(() => {
-							const { rows = [] } = this.$refs;
-							rows.forEach((row => {
-								row.$el.addEventListener('click', (event) => {
-									event.stopPropagation();
-									const { item } = row.$attrs
-									this.onTableRowTouch(item);
-								});
-							}));
-						});
+						if (data !== null) {
+							this.page.total = data.total_page;
+							if (this.page.loadFlag === 0){
+								this.items = [].concat(data.list);
+							} else {
+								this.items = this.items.concat(data.list);
+							}
+							if (this.page.current >= data.total_page) {
+								this.page.status = 'noMore';
+								this.page.canload = false;
+							} else {
+								this.page.status = 'more';
+							}
+						} else {
+							this.items = [];
+							this.showToast('暂无数据');
+							this.page.status = 'noMore';
+							this.page.canload = false;
+						}
 						
 						this.hideLoading();
 					}
 				);
 			},
 			onDateChange(date) {
+				this.page.loadFlag = 0;
+				this.page.canload = true;
+				this.page.page_number = 1;
 				this.datetime = date;
 				this.fetch();
 			},
 			onStatusChange(status) {
+				this.page.loadFlag = 0;
+				this.page.canload = true;
+				this.page.page_number = 1;
 				this.status = status;
 				this.fetch();
 			},
-			onTableRowTouch(item) {
+			toDetail(item) {
 				if (item) {
 					util.openwithData('/pages/stuHealthMsg/stuHealthMsgNotesDetail', {
 						id: item.id,
@@ -171,10 +203,45 @@
 					console.error('item not found.');
 				}
 			},
-			onPageChange(event) {
-				this.pagination.current = event.current;
+			onPullDownRefresh() {
+				this.page.loadFlag = 0;
+				this.page.canload = true;
+				this.page.page_number = 1;
 				this.fetch();
-			}
+				setTimeout(() => {
+					uni.stopPullDownRefresh();
+				}, 5000);
+			},
+			onReachBottom() {
+				if (this.page.canload) {
+					this.page.loadFlag = 1;
+					this.page.status = 'loading';
+					this.page.current = this.page.current + 1;
+					this.fetch()
+				} else {
+					if (this.page.current >= this.page.total) {
+						this.showToast('没有更多数据了!');
+						return;
+					}
+				}
+			},
+			onPageScroll(e) {
+				// #ifdef H5
+				this.scrollLength = e.scrollTop
+				// #endif
+			},
+			onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
+				// #ifdef H5
+				uni.pageScrollTo({
+					scrollTop: this.scrollLength,
+					duration: 0
+				});
+				// #endif
+				
+				//#ifdef H5
+				document.title = ""
+				//#endif
+			},
 		}
 	}
 </script>

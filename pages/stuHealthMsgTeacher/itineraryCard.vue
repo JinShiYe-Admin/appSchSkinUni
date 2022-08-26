@@ -15,7 +15,7 @@
 		</view>
 		
 		<view class="uni-pa-4">
-			<uni-table class="uni-mb-4" border stripe emptyText="暂无数据">
+			<!-- <uni-table class="uni-mb-4" border stripe emptyText="暂无数据">
 				<uni-tr>
 					<uni-th style="width: 20%" align="center">年级</uni-th>
 					<uni-th style="width: 20%" align="center">班级</uni-th>
@@ -41,7 +41,25 @@
 				:value="pagination.current"
 				:pageSize="pagination.pageSize"
 				@change="onPageChange"
-			/>
+			/> -->
+			
+			<uni-list :border="false">
+				<uni-list-item showArrow clickable :key="index" v-for="(item, index) in items" :border="true" @click="toDetail(item)">
+					<view style="width: 100%" slot="body">
+						<uni-row>
+							<uni-col :span="4">{{ item.grd_name }}</uni-col>
+							<uni-col :span="6">{{ item.cls_name }}</uni-col>
+							<uni-col :span="10">{{ item.stu_name }}</uni-col>
+							<uni-col :span="4">
+								<text class="uni-error" v-if="item.health_code_color === 'r'">红色</text>
+								<text class="uni-warning" v-if="item.health_code_color === 'y'">黄色</text>
+							</uni-col>
+						</uni-row>
+					</view>
+				</uni-list-item>
+				
+				<uni-load-more :status="page.more" :content-text="page.contentText"></uni-load-more>
+			</uni-list>
 		</view>
 	</view>
 </template>
@@ -63,10 +81,18 @@
 				codeColor: 'r',
 				grd_code: '',
 				cls_code: '',
-				pagination: {
+				page: {
 					current: 1,
 					total: 0,
-					pageSize: 10,
+					pageSize: 20,
+					loadFlag: 0,
+					status: 'more',
+					canload:true,
+					contentText: {
+						contentdown: '',
+						contentrefresh: '加载中',
+						contentnomore: '',
+					},
 				}
 			}
 		},
@@ -103,10 +129,6 @@
 			uni.setNavigationBarTitle({
 				title:'行程卡异常情况',
 			});
-			
-			this.$nextTick(() => {
-				document.querySelector('table').style.minWidth = '100%';
-			});
 		},
 		methods: {
 			fetch() {
@@ -119,40 +141,56 @@
 						grd_codes: this.grd_code,
 						cls_codes: this.cls_code,
 						index_code: this.index_code,
-						page_number: this.pagination.current,
-						page_size: this.pagination.pageSize,
+						page_number: this.page.current,
+						page_size: this.page.pageSize,
 						itinerary_card_color: this.codeColor,
 					},
 					(data) => {
-						const { list = [], total_row, page_number } = data;
-						this.items = list;
-						this.pagination.total = total_row;
+						setTimeout(() => {
+							uni.stopPullDownRefresh();
+						}, 1000);
 						
-						// 设置表格行点击事件
-						this.$nextTick(() => {
-							const { rows = [] } = this.$refs;
-							rows.forEach((row => {
-								row.$el.addEventListener('click', (event) => {
-									event.stopPropagation();
-									const { item } = row.$attrs;
-									this.onTableRowTouch(item);
-								});
-							}));
-						});
+						const { list = [] } = data;
+						
+						if (data !== null) {
+							this.page.total = data.total_page;
+							if (this.page.loadFlag === 0){
+								this.items = [].concat(data.list);
+							} else {
+								this.items = this.items.concat(data.list);
+							}
+							if (this.page.current >= data.total_page) {
+								this.page.status = 'noMore';
+								this.page.canload = false
+							} else {
+								this.page.status = 'more';
+							}
+						} else {
+							this.items = [];
+							this.showToast('暂无数据');
+							this.page.status = 'noMore';
+							this.page.canload = false;
+						}
 						
 						this.hideLoading();
 					}
 				);
 			},
 			onDateChange(date) {
+				this.page.loadFlag = 0;
+				this.page.canload = true;
+				this.page.page_number = 1;
 				this.datetime = date;
 				this.fetch();
 			},
 			onColorChange(color) {
+				this.page.loadFlag = 0;
+				this.page.canload = true;
+				this.page.page_number = 1;
 				this.codeColor = color;
 				this.fetch();
 			},
-			onTableRowTouch(item) {
+			toDetail(item) {
 				if (item) {
 					util.openwithData('/pages/stuHealthMsg/stuHealthMsgNotesDetail', {
 						id: item.id,
@@ -162,10 +200,45 @@
 					console.error('item not found.');
 				}
 			},
-			onPageChange(event) {
-				this.pagination.current = event.current;
+			onPullDownRefresh() {
+				this.page.loadFlag = 0;
+				this.page.canload = true;
+				this.page.page_number = 1;
 				this.fetch();
-			}
+				setTimeout(() => {
+					uni.stopPullDownRefresh();
+				}, 5000);
+			},
+			onReachBottom() {
+				if (this.page.canload) {
+					this.page.loadFlag = 1;
+					this.page.status = 'loading';
+					this.page.current = this.page.current + 1;
+					this.fetch()
+				} else {
+					if (this.page.current >= this.page.total) {
+						this.showToast('没有更多数据了!');
+						return;
+					}
+				}
+			},
+			onPageScroll(e) {
+				// #ifdef H5
+				this.scrollLength = e.scrollTop
+				// #endif
+			},
+			onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
+				// #ifdef H5
+				uni.pageScrollTo({
+					scrollTop: this.scrollLength,
+					duration: 0
+				});
+				// #endif
+				
+				//#ifdef H5
+				document.title = ""
+				//#endif
+			},
 		}
 	}
 </script>
@@ -184,9 +257,16 @@
 			}
 			
 			&.active {
-				color: $uni-color-primary;
-				border-bottom: 4px solid $uni-color-primary;
+				color: $app-color-primary;
+				border-bottom: 4px solid $app-color-primary;
 			}
 		}
+	}
+	
+	.uni-col {
+		padding: 4px 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 </style>
