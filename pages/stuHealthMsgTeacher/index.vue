@@ -2,7 +2,7 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		
-		<uni-grid :column="2" :showBorder="false"  :square="false" style="padding: 0.5rem 0;">
+		<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false" style="padding: 0.5rem 0;">
 			<uni-grid-item>
 				<uni-datetime-picker class="healthmsg-date-picker" type="date" :end="curDate" :clear-icon="false" 
 					:value="date" @change="dateChange"/>
@@ -200,9 +200,10 @@
 			// index界面用这个
 			this.navItem = util.getTabbarMenu();
 			this.index_code=this.navItem.access.split("#")[1]
-			var tempDate = new Date();
+			// var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
-			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+			// this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+			this.curDate = this.moment().format('YYYY-MM-DD');
 			this.date = this.curDate;
 
 			this.getGrd();
