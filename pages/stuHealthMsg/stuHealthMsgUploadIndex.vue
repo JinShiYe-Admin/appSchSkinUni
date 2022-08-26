@@ -20,9 +20,9 @@
 			</g-upload>
 			<view class="shibieView">
 				<p v-if="healthColor.length==0" style='margin-top: 30px;color: red;'>请添加健康码</p>
-				<p v-if="healthColor.length>0" style='margin-top: 20px;font-size: 16px;' :style="{color:healthColorStr}">{{healthColorChar}}</p>
-				<p v-if="healthColor.length>0" style='margin-top: 15px;' :style="{color:healthColorStr}">{{healthResult}}</p>
-				<p v-if="healthColor.length>0" style='margin-top: 15px;' :style="{color:healthColorStr}">{{healthTime}}</p>
+				<p v-if="healthColor.length>0" style='margin-top: 10px;font-size: 16px;' :style="{color:healthColorStr}">{{healthColorChar}}</p>
+				<p v-if="healthColor.length>0" style='margin-top: 10px;' :style="{color:healthColorStr}">{{healthResult}}</p>
+				<p v-if="healthColor.length>0" style='margin-top: 10px;' :style="{color:healthColorStr}">{{healthTime}}</p>
 			</view>
 		</view>
 		<view class="viewText">*本人当天行程码截图</view>
@@ -33,8 +33,8 @@
 			</g-upload1>
 			<view class="shibieView">
 				<p v-if="itineraryColor.length==0" style='margin-top: 30px;color: red;'>请添加行程码</p>
-				<p v-if="itineraryColor.length>0" style='margin-top: 20px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
-				<p v-if="itineraryColor.length>0" style='margin-top: 20px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryCity}}</p>
+				<p v-if="itineraryColor.length>0" style='margin-top: 7px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
+				<p v-if="itineraryColor.length>0" style='margin-top: 5px;font-size: 14px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryCity}}</p>
 			</view>
 		</view>
 		<view class="viewText">*本人是否有发热/咳嗽/流涕/咽疼等症状？</view>
@@ -247,9 +247,11 @@
 							health_code_img_url:_this.healthImgUrl,
 							health_code_color:_this.healthColor,
 							health_code_time:_this.healthTime,
+							nucleic:_this.healthResult,
 							itinerary_card_img_url:_this.itineraryImgUrl,
 							itinerary_card_color:_this.itineraryColor,
 							itinerary_card_time:_this.itineraryTime,
+							itinerary_card_via_city:_this.itineraryCity,
 							is_unusual:_this.selfRadio,
 							roomy_is_infect:_this.otherRadio0,
 							roomy_is_14_high_risk:_this.otherRadio1,
@@ -290,13 +292,13 @@
 						this.healthColor = data.data.health_code_color;
 						this.healthResult = data.data.nucleic;
 						if (data.data.health_code_color == 'g') {
-							this.healthColorStr = 'green';
+							this.healthColorStr = '#5ba669';
 							this.healthColorChar = '绿码';
 						} else if (data.data.health_code_color == 'y') {
-							this.healthColorStr = 'yellow';
+							this.healthColorStr = '#f2b71f';
 							this.healthColorChar = '黄码';
 						} else if (data.data.health_code_color == 'r') {
-							this.healthColorStr = 'red';
+							this.healthColorStr = '#e61a23';
 							this.healthColorChar = '红码';
 						}
 					} else {
@@ -321,14 +323,14 @@
 						this.itineraryColor = data.data.itinerary_card_color;
 						this.itineraryCity = data.data.itinerary_card_via_city;
 						if (data.data.itinerary_card_color == 'g') {
-							this.itineraryColorStr = 'green';
-							this.itineraryColorChar = '七天内未到过中高风险地区';
+							this.itineraryColorStr = '#5ba669';
+							this.itineraryColorChar = '绿色';
 						} else if (data.data.itinerary_card_color == 'y') {
-							this.itineraryColorStr = 'yellow';
-							this.itineraryColorChar = '七天内未到过中高风险地区';
+							this.itineraryColorStr = '#f2b71f';
+							this.itineraryColorChar = '黄色';
 						} else if (data.data.itinerary_card_color == 'r') {
-							this.itineraryColorStr = 'red';
-							this.itineraryColorChar = '七天未到过中高风险地区';
+							this.itineraryColorStr = '#e61a23';
+							this.itineraryColorChar = '红色';
 						}
 					} else {
 						this.showToast(data.msg);
