@@ -20,7 +20,7 @@
 			</g-upload>
 			<view class="shibieView">
 				<p v-if="healthColor.length==0" style='margin-top: 30px;color: red;'>请添加健康码</p>
-				<p v-if="healthColor.length>0" style='margin-top: 10px;font-size: 16px;' :style="{color:healthColorStr}">{{healthColorChar}}</p>
+				<p v-if="healthColor.length>0" style='margin-top: 10px;font-size: 18px;' :style="{color:healthColorStr}">{{healthColorChar}}</p>
 				<p v-if="healthColor.length>0" style='margin-top: 10px;' :style="{color:healthColorStr}">{{healthResult}}</p>
 				<p v-if="healthColor.length>0" style='margin-top: 10px;' :style="{color:healthColorStr}">{{healthTime}}</p>
 			</view>
@@ -33,7 +33,7 @@
 			</g-upload1>
 			<view class="shibieView">
 				<p v-if="itineraryColor.length==0" style='margin-top: 30px;color: red;'>请添加行程码</p>
-				<p v-if="itineraryColor.length>0" style='margin-top: 7px;font-size: 16px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
+				<p v-if="itineraryColor.length>0" style='margin-top: 7px;font-size: 18px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
 				<p v-if="itineraryColor.length>0" style='margin-top: 5px;font-size: 14px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryCity}}</p>
 			</view>
 		</view>
@@ -179,6 +179,9 @@
 			});
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
+			// index1界面用这个
+			// this.navItem = util.getPageData(option);
+			// index界面用这个
 			this.navItem = util.getTabbarMenu();
 			this.index_code = this.navItem.access.split("#")[1]
 			var tempDate = new Date();
@@ -288,18 +291,30 @@
 					data) => {
 					this.hideLoading();
 					if (data.code == 0) {
-						this.healthTime = data.data.health_code_time;
-						this.healthColor = data.data.health_code_color;
-						this.healthResult = data.data.nucleic;
-						if (data.data.health_code_color == 'g') {
-							this.healthColorStr = '#5ba669';
-							this.healthColorChar = '绿码';
-						} else if (data.data.health_code_color == 'y') {
-							this.healthColorStr = '#f2b71f';
-							this.healthColorChar = '黄码';
-						} else if (data.data.health_code_color == 'r') {
-							this.healthColorStr = '#e61a23';
-							this.healthColorChar = '红码';
+						if (data.data.health_code_time) {
+							this.healthTime = data.data.health_code_time;
+						} else{
+							this.healthTime = '';
+						}
+						if (data.data.health_code_color) {
+							this.healthColor = data.data.health_code_color;
+							if (data.data.health_code_color == 'g') {
+								this.healthColorStr = '#5ba669';
+								this.healthColorChar = '绿码';
+							} else if (data.data.health_code_color == 'y') {
+								this.healthColorStr = '#f2b71f';
+								this.healthColorChar = '黄码';
+							} else if (data.data.health_code_color == 'r') {
+								this.healthColorStr = '#e61a23';
+								this.healthColorChar = '红码';
+							}
+						} else{
+							this.healthColor = '';
+						}
+						if (data.data.nucleic) {
+							this.healthResult = data.data.nucleic;
+						} else{
+							this.healthResult = '';
 						}
 					} else {
 						this.healthImgUrl = '';
@@ -319,18 +334,30 @@
 					data) => {
 					this.hideLoading();
 					if (data.code == 0) {
-						this.itineraryTime = data.data.itinerary_card_time;
-						this.itineraryColor = data.data.itinerary_card_color;
-						this.itineraryCity = data.data.itinerary_card_via_city;
-						if (data.data.itinerary_card_color == 'g') {
-							this.itineraryColorStr = '#5ba669';
-							this.itineraryColorChar = '绿色';
-						} else if (data.data.itinerary_card_color == 'y') {
-							this.itineraryColorStr = '#f2b71f';
-							this.itineraryColorChar = '黄色';
-						} else if (data.data.itinerary_card_color == 'r') {
-							this.itineraryColorStr = '#e61a23';
-							this.itineraryColorChar = '红色';
+						if (data.data.itinerary_card_time) {
+							this.itineraryTime = data.data.itinerary_card_time;
+						} else{
+							this.itineraryTime = '';
+						}
+						if (data.data.itinerary_card_color) {
+							this.itineraryColor = data.data.itinerary_card_color;
+							if (data.data.itinerary_card_color == 'g') {
+								this.itineraryColorStr = '#5ba669';
+								this.itineraryColorChar = '绿色';
+							} else if (data.data.itinerary_card_color == 'y') {
+								this.itineraryColorStr = '#f2b71f';
+								this.itineraryColorChar = '黄色';
+							} else if (data.data.itinerary_card_color == 'r') {
+								this.itineraryColorStr = '#e61a23';
+								this.itineraryColorChar = '红色';
+							}
+						} else{
+							this.itineraryColor = '';
+						}
+						if (data.data.itinerary_card_via_city) {
+							this.itineraryCity = data.data.itinerary_card_via_city;
+						} else{
+							this.itineraryCity = '';
 						}
 					} else {
 						this.showToast(data.msg);
@@ -433,9 +460,9 @@
 				this.maxCount0 = this.showMaxCount0 - list.length
 				this.healthImgUrl = '';
 				this.healthColor = '';
-				cloudFileUtil.qiniuDelete(this.imgList0, (data) => {
-					console.log('七牛:' + JSON.stringify(data));
-				});
+				// cloudFileUtil.qiniuDelete(this.imgList0, (data) => {
+				// 	console.log('七牛:' + JSON.stringify(data));
+				// });
 			},
 			imgDelete1(list, eq, fileeq) {
 				this.imgList1 = list
@@ -444,9 +471,9 @@
 				this.maxCount1 = this.showMaxCount1 - list.length
 				this.itineraryImgUrl = '';
 				this.itineraryColor = '';
-				cloudFileUtil.qiniuDelete(this.imgList1, (data) => {
-					console.log('七牛:' + JSON.stringify(data));
-				});
+				// cloudFileUtil.qiniuDelete(this.imgList1, (data) => {
+				// 	console.log('七牛:' + JSON.stringify(data));
+				// });
 			},
 			imgDelete2(list, eq, fileeq) {
 				this.imgList2 = list

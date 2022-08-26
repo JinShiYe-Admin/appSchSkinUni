@@ -10,7 +10,7 @@
 					<view class="rightView">
 						<uni-row class="nameTime">
 							<uni-col :span="12">
-								<view style="font-size: 12px;">{{model.date}}健康上报</view>
+								<view style="font-size: 14px;">{{model.date}}健康上报</view>
 							</uni-col>
 							<uni-col :span="12">
 								<view style="font-size: 12px;text-align: right;">{{model.create_time}}</view>
