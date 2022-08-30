@@ -93,14 +93,18 @@
 		
 		<uni-card class="healthmsg-card" is-shadow @click="clickItem('roomyUnusual')">
 			<uni-title type="h3" title="同住人异常" align="left"></uni-title>
-			<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false">
+			<uni-grid :column="3" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
-					<uni-title color="#666" title="没有" align="center"></uni-title>
-					<text class="healthmsg-item-num" style="color: #18bc37;">{{pageData.roomy_is_unusual0}}</text>
+					<uni-title color="#666" title="健康码异常" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.roomy_code_unusual}}</text>
 				</uni-grid-item>
 				<uni-grid-item>
-					<uni-title color="#666" title="有" align="center"></uni-title>
-					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.roomy_is_unusual1}}</text>
+					<uni-title color="#666" title="行程卡异常" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.roomy_card_unusual}}</text>
+				</uni-grid-item>
+				<uni-grid-item>
+					<uni-title color="#666" title="发热等症状" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.roomy_is_unusual}}</text>
 				</uni-grid-item>
 			</uni-grid>
 		</uni-card>
