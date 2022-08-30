@@ -135,8 +135,8 @@
 			}
 			
 			&.active {
-				color: $uni-color-primary;
-				border-bottom: 4px solid $uni-color-primary;
+				color: $app-color-primary;
+				border-bottom: 4px solid $app-color-primary;
 			}
 		}
 	}
