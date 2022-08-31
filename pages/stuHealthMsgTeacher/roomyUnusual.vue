@@ -145,10 +145,10 @@
 		mounted() {
 			this.fetch();
 			
-			document.title = '同住人异常情况';
+			document.title = '同住人异常';
 			
 			uni.setNavigationBarTitle({
-				title:'同住人异常情况',
+				title:'同住人异常',
 			});
 		},
 		methods: {
