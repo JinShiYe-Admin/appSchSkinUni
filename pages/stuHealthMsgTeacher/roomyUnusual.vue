@@ -12,53 +12,51 @@
 		<view class="uni-flex uni-pa-4 button-group">
 			<button
 				class="uni-flex-item"
-				:class="status === 'roomy_is_infect' ? 'active' : ''"
-				@click="onStatusChange('roomy_is_infect')"
-				title="感染"
-			>感染</button>
+				:class="status === 'health_code_color' ? 'active' : ''"
+				@click="onStatusChange('health_code_color')"
+				title="健康码"
+			>健康码</button>
 			<button
 				class="uni-flex-item"
-				:class="status === 'roomy_is_14_high_risk' ? 'active' : ''"
-				@click="onStatusChange('roomy_is_14_high_risk')"
-				title="中高风险"
-			>中高风险</button>
+				:class="status === 'is_risky' ? 'active' : ''"
+				@click="onStatusChange('is_risky')"
+				title="行程卡"
+			>行程卡</button>
 			<button
 				class="uni-flex-item"
-				:class="status === 'roomy_is_unusual' ? 'active' : ''"
-				@click="onStatusChange('roomy_is_unusual')"
+				:class="status === 'is_unusual' ? 'active' : ''"
+				@click="onStatusChange('is_unusual')"
 				title="发热..."
 			>发热...</button>
 		</view>
 		
 		<view class="uni-pa-4">
-			<!-- <uni-table class="uni-mb-4" border stripe emptyText="暂无数据">
-				<uni-tr>
-					<uni-th style="width: 30%" align="center">年级</uni-th>
-					<uni-th style="width: 30%" align="center">班级</uni-th>
-					<uni-th style="width: 40%" align="center">学生</uni-th>
-				</uni-tr>
-				
-				<uni-tr v-for="(item, index) in items" :item="item" ref="rows">
-					<uni-td align="center">{{ item.grd_name }}</uni-td>
-					<uni-td align="center">{{ item.cls_name }}</uni-td>
-					<uni-td align="center">{{ item.stu_name }}</uni-td>
-				</uni-tr>
-			</uni-table>
-			
-			<uni-pagination
-				:total="pagination.total"
-				:value="pagination.current"
-				:pageSize="pagination.pageSize"
-				@change="onPageChange"
-			/> -->
-			
 			<uni-list :border="false">
-				<uni-list-item showArrow clickable :key="index" v-for="(item, index) in items" :border="true" @click="toDetail(item)">
+				<uni-list-item clickable :key="index" v-for="(item, index) in items" :border="true" @click="toDetail(item)">
 					<view style="width: 100%" slot="body">
 						<uni-row>
-							<uni-col :span="7">{{ item.grd_name }}</uni-col>
-							<uni-col :span="7">{{ item.cls_name }}</uni-col>
-							<uni-col :span="10">{{ item.stu_name }}</uni-col>
+							<uni-col class="uni-center" :span="status.startsWith('is_') ? 7 : 5">{{ item.grd_name }}</uni-col>
+							<uni-col class="uni-center" :span="status.startsWith('is_') ? 7 : 5">{{ item.cls_name }}</uni-col>
+							<uni-col class="uni-center" :span="status.startsWith('is_') ? 10 : 8">{{ item.stu_name }}</uni-col>
+							
+							<uni-col
+								class="uni-center"
+								:span="6"
+								:class="item.health_code_color === 'r'
+									? 'uni-error'
+									: item.health_code_color === 'y'
+										? 'uni-warning'
+										: 'uni-success'"
+								v-if="status === 'health_code_color'"
+							>
+								{{ item.health_code_color === 'r'
+									?'红码'
+									: item.health_code_color === 'y'
+										? '黄码'
+										: '绿码'
+								}}
+							</uni-col>
+							
 						</uni-row>
 					</view>
 				</uni-list-item>
@@ -83,7 +81,7 @@
 				curDate:'',
 				datetime: '',
 				items: [],
-				status: 'roomy_is_infect',
+				status: 'health_code_color',
 				grd_code: '',
 				cls_code: '',
 				page: {
@@ -129,17 +127,23 @@
 		mounted() {
 			this.fetch();
 			
-			document.title = '同住人异常情况';
+			document.title = '同住人异常';
 			
 			uni.setNavigationBarTitle({
-				title:'同住人异常情况',
+				title:'同住人异常',
 			});
 		},
 		methods: {
 			fetch() {
+				let statusValue;
+				if (this.status === 'health_code_color') {
+					statusValue = 'r,y'
+				} else if (this.status === 'is_unusual' || this.status === 'is_risky') {
+					statusValue = '1';
+				}
 				this.showLoading();
 				this.post(
-					this.globaData.INTERFACE_HEALTH_DATA + 'healthReport/page',
+					this.globaData.INTERFACE_HEALTH_DATA + 'healthReportRoomy/page',
 					{
 						date: this.datetime,
 						sch_code: this.personInfo.sch_code,
@@ -148,7 +152,7 @@
 						index_code: this.index_code,
 						page_number: this.page.current,
 						page_size: this.page.pageSize,
-						[this.status]: true,
+						[this.status]: statusValue,
 					},
 					(data) => {
 						setTimeout(() => {
@@ -187,6 +191,7 @@
 				this.fetch();
 			},
 			onStatusChange(status) {
+				this.items = [];
 				this.page.loadFlag = 0;
 				this.page.canload = true;
 				this.page.page_number = 1;
@@ -230,7 +235,7 @@
 				this.scrollLength = e.scrollTop
 				// #endif
 			},
-			onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
+			onShow() {
 				// #ifdef H5
 				uni.pageScrollTo({
 					scrollTop: this.scrollLength,
@@ -264,9 +269,16 @@
 			}
 			
 			&.active {
-				color: $uni-color-primary;
-				border-bottom: 4px solid $uni-color-primary;
+				color: $app-color-primary;
+				border-bottom: 4px solid $app-color-primary;
 			}
 		}
+	}
+	
+	.uni-col {
+		padding: 4px 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 </style>

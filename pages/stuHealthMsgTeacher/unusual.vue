@@ -39,9 +39,9 @@
 				<uni-list-item showArrow clickable :key="index" v-for="(item, index) in items" :border="true" @click="toDetail(item)">
 					<view style="width: 100%" slot="body">
 						<uni-row>
-							<uni-col :span="6">{{ item.grd_name }}</uni-col>
-							<uni-col :span="6">{{ item.cls_name }}</uni-col>
-							<uni-col :span="12">{{ item.stu_name }}</uni-col>
+							<uni-col class="uni-center" :span="7">{{ item.grd_name }}</uni-col>
+							<uni-col class="uni-center" :span="7">{{ item.cls_name }}</uni-col>
+							<uni-col class="uni-center" :span="10">{{ item.stu_name }}</uni-col>
 						</uni-row>
 					</view>
 				</uni-list-item>

@@ -47,13 +47,9 @@
 				<uni-list-item showArrow clickable :key="index" v-for="(item, index) in items" :border="true" @click="toDetail(item)">
 					<view style="width: 100%" slot="body">
 						<uni-row>
-							<uni-col :span="4">{{ item.grd_name }}</uni-col>
-							<uni-col :span="6">{{ item.cls_name }}</uni-col>
-							<uni-col :span="10">{{ item.stu_name }}</uni-col>
-							<uni-col :span="4">
-								<text class="uni-error" v-if="item.health_code_color === 'r'">红码</text>
-								<text class="uni-warning" v-if="item.health_code_color === 'y'">黄码</text>
-							</uni-col>
+							<uni-col class="uni-center" :span="7">{{ item.grd_name }}</uni-col>
+							<uni-col class="uni-center" :span="7">{{ item.cls_name }}</uni-col>
+							<uni-col class="uni-center" :span="10">{{ item.stu_name }}</uni-col>
 						</uni-row>
 					</view>
 				</uni-list-item>
@@ -120,10 +116,10 @@
 		mounted() {
 			this.fetch();
 			
-			document.title = '健康码异常情况';
+			document.title = '健康码异常学生';
 			
 			uni.setNavigationBarTitle({
-				title:'健康码异常情况',
+				title:'健康码异常学生',
 			});
 		},
 		methods: {

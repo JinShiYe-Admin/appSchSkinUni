@@ -219,4 +219,11 @@
 
 <style lang="scss">
 	@import '@/uni_modules/uni-scss';
+	
+	.uni-col {
+		padding: 4px 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 </style>
