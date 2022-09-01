@@ -9,40 +9,7 @@
 			/>
 		</view>
 		
-		<view class="uni-flex uni-pa-4 button-group">
-			<button class="uni-flex-item" :class="codeColor === 'r' ? 'active' : ''" @click="onColorChange('r')">红色</button>
-			<button class="uni-flex-item" :class="codeColor === 'y' ? 'active' : ''" @click="onColorChange('y')">黄色</button>
-		</view>
-		
 		<view class="uni-pa-4">
-			<!-- <uni-table class="uni-mb-4" border stripe emptyText="暂无数据">
-				<uni-tr>
-					<uni-th style="width: 20%" align="center">年级</uni-th>
-					<uni-th style="width: 20%" align="center">班级</uni-th>
-					<uni-th style="width: 40%" align="center">学生</uni-th>
-					<uni-th style="width: 20%" align="center">行程卡</uni-th>
-				</uni-tr>
-				
-				<uni-tr v-for="(item, index) in items" :item="item" ref="rows">
-					<uni-td align="center">{{ item.grd_name }}</uni-td>
-					<uni-td align="center">{{ item.cls_name }}</uni-td>
-					<uni-td align="center">{{ item.stu_name }}</uni-td>
-					<uni-td align="center" v-if="item.itinerary_card_color === 'r'">
-						<text class="uni-error">红色</text>
-					</uni-td>
-					<uni-td align="center" v-if="item.itinerary_card_color === 'y'">
-						<text class="uni-warning">黄色</text>
-					</uni-td>
-				</uni-tr>
-			</uni-table>
-			
-			<uni-pagination
-				:total="pagination.total"
-				:value="pagination.current"
-				:pageSize="pagination.pageSize"
-				@change="onPageChange"
-			/> -->
-			
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable :key="index" v-for="(item, index) in items" :border="true" @click="toDetail(item)">
 					<view style="width: 100%" slot="body">
@@ -50,10 +17,6 @@
 							<uni-col class="uni-center" :span="7">{{ item.grd_name }}</uni-col>
 							<uni-col class="uni-center" :span="7">{{ item.cls_name }}</uni-col>
 							<uni-col class="uni-center" :span="10">{{ item.stu_name }}</uni-col>
-							<!-- <uni-col :span="4">
-								<text class="uni-error" v-if="item.health_code_color === 'r'">红色</text>
-								<text class="uni-warning" v-if="item.health_code_color === 'y'">黄色</text>
-							</uni-col> -->
 						</uni-row>
 					</view>
 				</uni-list-item>
@@ -78,7 +41,6 @@
 				curDate:'',
 				datetime: '',
 				items: [],
-				codeColor: 'r',
 				grd_code: '',
 				cls_code: '',
 				page: {
@@ -143,7 +105,7 @@
 						index_code: this.index_code,
 						page_number: this.page.current,
 						page_size: this.page.pageSize,
-						itinerary_card_color: this.codeColor,
+						is_risky: '1',
 					},
 					(data) => {
 						setTimeout(() => {
@@ -181,13 +143,6 @@
 				this.page.canload = true;
 				this.page.page_number = 1;
 				this.datetime = date;
-				this.fetch();
-			},
-			onColorChange(color) {
-				this.page.loadFlag = 0;
-				this.page.canload = true;
-				this.page.page_number = 1;
-				this.codeColor = color;
 				this.fetch();
 			},
 			toDetail(item) {

@@ -18,8 +18,8 @@
 			>健康码</button>
 			<button
 				class="uni-flex-item"
-				:class="status === 'itinerary_card_color' ? 'active' : ''"
-				@click="onStatusChange('itinerary_card_color')"
+				:class="status === 'is_risky' ? 'active' : ''"
+				@click="onStatusChange('is_risky')"
 				title="行程卡"
 			>行程卡</button>
 			<button
@@ -35,9 +35,9 @@
 				<uni-list-item clickable :key="index" v-for="(item, index) in items" :border="true" @click="toDetail(item)">
 					<view style="width: 100%" slot="body">
 						<uni-row>
-							<uni-col class="uni-center" :span="status === 'is_unusual' ? 7 : 5">{{ item.grd_name }}</uni-col>
-							<uni-col class="uni-center" :span="status === 'is_unusual' ? 7 : 5">{{ item.cls_name }}</uni-col>
-							<uni-col class="uni-center" :span="status === 'is_unusual' ? 10 : 8">{{ item.stu_name }}</uni-col>
+							<uni-col class="uni-center" :span="status.startsWith('is_') ? 7 : 5">{{ item.grd_name }}</uni-col>
+							<uni-col class="uni-center" :span="status.startsWith('is_') ? 7 : 5">{{ item.cls_name }}</uni-col>
+							<uni-col class="uni-center" :span="status.startsWith('is_') ? 10 : 8">{{ item.stu_name }}</uni-col>
 							
 							<uni-col
 								class="uni-center"
@@ -54,24 +54,6 @@
 									: item.health_code_color === 'y'
 										? '黄码'
 										: '绿码'
-								}}
-							</uni-col>
-							
-							<uni-col
-								class="uni-center"
-								:span="6"
-								:class="item.itinerary_card_color === 'r'
-									? 'uni-error'
-									: item.itinerary_card_color === 'y'
-										? 'uni-warning'
-										: 'uni-success'"
-								v-if="status === 'itinerary_card_color'"
-							>
-								{{ item.itinerary_card_color === 'r'
-									?'红色'
-									: item.itinerary_card_color === 'y'
-										? '黄色'
-										: '绿色'
 								}}
 							</uni-col>
 							
@@ -154,9 +136,9 @@
 		methods: {
 			fetch() {
 				let statusValue;
-				if (this.status === 'health_code_color' || this.status === 'itinerary_card_color') {
+				if (this.status === 'health_code_color') {
 					statusValue = 'r,y'
-				} else if (this.status === 'is_unusual') {
+				} else if (this.status === 'is_unusual' || this.status === 'is_risky') {
 					statusValue = '1';
 				}
 				this.showLoading();
