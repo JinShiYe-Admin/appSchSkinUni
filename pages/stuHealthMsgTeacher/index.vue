@@ -61,18 +61,14 @@
 		
 		<uni-card class="healthmsg-card" is-shadow @click="clickItem('itineraryCard')">
 			<uni-title type="h3" title="行程卡" align="left"></uni-title>
-			<uni-grid :column="3" :showBorder="false"  :square="false" :highlight="false">
+			<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false">
 				<uni-grid-item>
-					<uni-title color="#666" title="绿色" align="center"></uni-title>
-					<text class="healthmsg-item-num" style="color: #18bc37;">{{pageData.card_g}}</text>
+					<uni-title color="#666" title="正常" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #18bc37;">{{pageData.card_risky0}}</text>
 				</uni-grid-item>
 				<uni-grid-item>
-					<uni-title color="#666" title="黄色" align="center"></uni-title>
-					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.card_y}}</text>
-				</uni-grid-item>
-				<uni-grid-item>
-					<uni-title color="#666" title="红色" align="center"></uni-title>
-					<text class="healthmsg-item-num" style="color: #e43d33;">{{pageData.card_r}}</text>
+					<uni-title color="#666" title="异常" align="center"></uni-title>
+					<text class="healthmsg-item-num" style="color: #f3a73f;">{{pageData.card_risky1}}</text>
 				</uni-grid-item>
 			</uni-grid>
 		</uni-card>
