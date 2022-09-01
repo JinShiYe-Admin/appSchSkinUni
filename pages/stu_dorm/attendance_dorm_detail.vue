@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick" :text='text' :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick" :text='text' @textClickRight="textClickRight"></mynavBar>
 		<view v-if="editStatus===0">
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">年级</view>
@@ -205,7 +205,7 @@
 				
 				icon:'',
 				text:'',
-				textClick:_this.textClickEvent,
+				// textClick:_this.textClickEvent,
 				editStatus:0,//0 展示  1编辑
 				startDate:'2010-01-01',
 				endDate:this.moment().format('YYYY-MM-DD'),
@@ -259,7 +259,7 @@
 			}
 			
 			if(itemData.edit==1){
-				this.text='编辑'
+				this.text=['编辑']
 			}
 			console.log("itemData: " + JSON.stringify(itemData));
 			//#ifdef H5
@@ -284,19 +284,41 @@
 					  }
 				}
 			},
-			async textClickEvent(){
-				_this.editStatus=1
-				_this.icon=''
-				_this.text=['取消','保存'],
-				_this.textClick=[_this.cancel,_this.save]
-				if(_this.formByDorm.build_floor_list.length===0){
-					await _this.getBuildingList();
+			textClickRight(data) {
+				console.log('textClickRight')
+				if (_this.text.length==1) {
+					_this.editStatus=1
+					_this.icon=''
+					_this.text=['取消','保存'];
+					// _this.textClick=[_this.cancel,_this.save]
+					if(_this.formByDorm.build_floor_list.length===0){
+						_this.getBuildingList();
+					}
+					if(_this.qaList.length===0 || _this.attendanceList.length===0){
+						_this.getDict();
+					}
+					_this.setDefaultData()
+				} else{
+					if (data == 0) {
+						_this.cancel();
+					} else if (data == 1) {
+						_this.save();
+					}
 				}
-				if(_this.qaList.length===0 || _this.attendanceList.length===0){
-					await _this.getDict();
-				}
-				await _this.setDefaultData()
 			},
+			// async textClickEvent(){
+			// 	_this.editStatus=1
+			// 	_this.icon=''
+			// 	_this.text=['取消','保存'],
+			// 	_this.textClick=[_this.cancel,_this.save]
+			// 	if(_this.formByDorm.build_floor_list.length===0){
+			// 		await _this.getBuildingList();
+			// 	}
+			// 	if(_this.qaList.length===0 || _this.attendanceList.length===0){
+			// 		await _this.getDict();
+			// 	}
+			// 	await _this.setDefaultData()
+			// },
 			setDefaultData(){
 				return new Promise(async (resolve,reject)=>{
 					if(this.current===0){
@@ -463,9 +485,9 @@
 				})
 			},
 			cancel(){
-				this.text='编辑'
+				this.text=['编辑']
 				this.icon='trash'
-				this.textClick=this.textClickEvent
+				// this.textClick=this.textClickEvent
 				this.editStatus=0
 				this.current=0
 				this.reserFormData();
@@ -526,7 +548,7 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-					    console.log("responseaaa: " + JSON.stringify(response));
+					    // console.log("responseaaa: " + JSON.stringify(response));
 						let grds = response.grd_list;
 						let grdList=[];
 						grds.map(function(currentValue) {
@@ -552,9 +574,9 @@
 						get_cls:true,
 						index_code:this.index_code,
 					}
-					console.log("comDataaaaaaaaaaa: " + JSON.stringify(comData));
+					// console.log("comDataaaaaaaaaaa: " + JSON.stringify(comData));
 					this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-						console.log("responseaaa: " + JSON.stringify(response));
+						// console.log("responseaaa: " + JSON.stringify(response));
 						let clss = response.cls_list;
 						let clssList=[];
 						clss.map(function(currentValue) {
@@ -582,7 +604,7 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-						console.log("responseaaa: " + JSON.stringify(response));
+						// console.log("responseaaa: " + JSON.stringify(response));
 						let stu = response.stu_list;
 						let stuList=[];
 						stu.map(function(currentValue) {
@@ -606,10 +628,10 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_DORM+'dorm/queryDorm',comData,response=>{
-						console.log("responseaaa: " + JSON.stringify(response));
+						// console.log("responseaaa: " + JSON.stringify(response));
 						let list =response.list
 						if(list.length>0){
-							 this.build_floor_list=list
+							 this.formByDorm.build_floor_list=list
 							 let buildingList=[]
 							 list.map(function(item){
 								 let obj={}
@@ -627,7 +649,7 @@
 			},
 			getFloorList(building){//根据宿舍楼号获取楼层
 				return new Promise((resolve, reject)=>{
-					let list=this.build_floor_list
+					let list=this.formByDorm.build_floor_list
 					let floorList=[]
 					list.map(function(item){
 					  if(building==item.value){
@@ -652,7 +674,7 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_DORM+'dorm/queryRoom',comData,response=>{
-						console.log("responseaaa: " + JSON.stringify(response));
+						// console.log("responseaaa: " + JSON.stringify(response));
 						this.formByDorm.dormList=response.list
 						resolve()
 					})
@@ -670,7 +692,7 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_DORM+'dormAttendance/getDict',comData,response=>{
-						console.log("responseaaa: " + JSON.stringify(response));
+						// console.log("responseaaa: " + JSON.stringify(response));
 						this.hideLoading()
 						this.attendanceList=response.item_array
 						// this.attendanceList=[{text:'晚休缺勤',value:'晚休缺勤'}]

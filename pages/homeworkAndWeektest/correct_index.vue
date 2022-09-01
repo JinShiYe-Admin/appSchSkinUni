@@ -271,9 +271,13 @@
 				this.semFlag0Data.clickModel = model;
 			},
 			clickSem1Item(model) {
-				model.access = this.navItem.access;
+				var tempM = {
+					id:model.id,
+					access:this.navItem.access
+				}
+				// model.access = this.navItem.access;
 				console.log('clickLi:' + JSON.stringify(model));
-				util.openwithData("/pages/homeworkAndWeektest/correct_correctHP", model);
+				util.openwithData("/pages/homeworkAndWeektest/correct_correctHP", tempM);
 			},
 			closeStart() {
 				this.$refs.popupStart.close();

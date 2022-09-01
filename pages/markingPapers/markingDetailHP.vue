@@ -407,13 +407,13 @@
 				uni.navigateBack();
 			},
 			usePED() {
-				//#ifndef APP-PLUS
-				this.$refs.groupH5Pop.activeF();
-				//#endif
 				uni.pageScrollTo({
 					scrollTop: 0,
 					duration: 0
 				});
+				//#ifndef APP-PLUS
+				this.$refs.groupH5Pop.activeF();
+				//#endif
 				this.showNav = false;
 				console.log('usePEDusePED');
 				this.ped = new imageInfo(this.imgSrc, this.saveFn);

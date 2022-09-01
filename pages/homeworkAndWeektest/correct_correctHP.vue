@@ -346,16 +346,16 @@
 				uni.navigateBack();
 			},
 			usePED() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				});
 				//#ifndef APP-PLUS
 				this.$refs.groupH5Pop.activeF();
 				//#endif
 				//#ifdef APP-PLUS
 				this.$refs.feituiSelect.hideOptions && this.$refs.feituiSelect.hideOptions()
 				//#endif
-				uni.pageScrollTo({
-					scrollTop: 0,
-					duration: 0
-				});
 				this.showNav = false;
 				console.log('usePEDusePED');
 				this.ped = new imageInfo(this.imgSrc, this.saveFn);

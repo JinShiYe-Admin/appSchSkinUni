@@ -113,7 +113,7 @@
 						});
 					} else {
 						if (this.globaData.EnvKey == 5) {
-							//#ifdef APP-H5
+							//#ifdef H5
 							console.log('页面url:' + window.location.href);
 							var tempUrl = window.location.href;
 							console.log('tempUrl0:' + tempUrl);
@@ -501,7 +501,7 @@
 				}
 			},
 			getUrlParam(name) {
-				//#ifdef APP-H5
+				//#ifdef H5
 				var search = window.location.href;
 				console.log('search:'+search);
 				var pattern = new RegExp("[?&]" + name + "\=([^&]+)", "g");
