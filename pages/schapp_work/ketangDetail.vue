@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick" :text='text' :textClick="textClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick" :text='text' @textClickRight="textClickRight"></mynavBar>
 		<view v-if="editStatus===0">
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">年级</view>
@@ -149,7 +149,7 @@
 				},
 				icon:'',
 				text:'',
-				textClick:this.textClickEvent,
+				// textClick:this.textClickEvent,
 				editStatus:0,//0 展示  1编辑
 				
 				stuIndex:-1,
@@ -205,7 +205,7 @@
 			}
 			
 			if(itemData.edit==1){
-				this.text='编辑'
+				this.text=['编辑']
 			}
 			//#ifdef H5
 				document.title=""
@@ -227,26 +227,41 @@
 			iconClick(){
 				_this.$refs.alertDialog.open()
 			},
-			textClickEvent(){
-				console.log('修改');
-				_this.editStatus=1
-				_this.icon=''
-				_this.text=['取消','保存'],
-				_this.textClick=[_this.cancel,_this.save]
-				console.log(_this.stuList);
-				_this.stuList.map((stuItem,index)=>{
-					if(stuItem.value==_this.navItem.stu_code){
-						_this.stuIndex=index
+			textClickRight(data) {
+				console.log('textClickRight')
+				if (_this.text.length==1) {
+					console.log('修改');
+					_this.editStatus=1
+					_this.icon=''
+					_this.text=['取消','保存'],
+					// _this.textClick=[_this.cancel,_this.save]
+					console.log(_this.stuList);
+					_this.stuList.map((stuItem,index)=>{
+						if(stuItem.value==_this.navItem.stu_code){
+							_this.stuIndex=index
+						}
+					})
+				} else{
+					if (data == 0) {
+						_this.cancel();
+					} else if (data == 1) {
+						_this.save();
 					}
-				})
-				// let attendanceList=this.leaveDict.concat(this.attendanceDict)
-				// attendanceList.map((item,index)=>{
-				// 	if(item.value==this.navItem.item_code){
-				// 		this.attendanceIndex=index
-				// 	}
-				// })
-				// this.attendanceList=attendanceList
+				}
 			},
+			// textClickEvent(){
+			// 	console.log('修改');
+			// 	_this.editStatus=1
+			// 	_this.icon=''
+			// 	_this.text=['取消','保存'],
+			// 	_this.textClick=[_this.cancel,_this.save]
+			// 	console.log(_this.stuList);
+			// 	_this.stuList.map((stuItem,index)=>{
+			// 		if(stuItem.value==_this.navItem.stu_code){
+			// 			_this.stuIndex=index
+			// 		}
+			// 	})
+			// },
 			save(){
 				if(this.canSub){
 					this.canSub=false
@@ -282,9 +297,9 @@
 				}
 			},
 			cancel(){
-				this.text='编辑'
+				this.text=['编辑']
 				this.icon='trash'
-				this.textClick=this.textClickEvent
+				// this.textClick=this.textClickEvent
 				this.editStatus=0
 			},
 			dialogConfirm(){

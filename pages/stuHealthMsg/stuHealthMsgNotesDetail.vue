@@ -22,11 +22,12 @@
 		<view class="viewText" style="margin-top: 30px;">*本人当天行程码截图</view>
 		<image mode="scaleToFill" style="margin-top: 20px;" :src="itineraryImgUrl" @click="checkEnc(itineraryImgUrl)" class="pageImg"></image>
 		<view class="shibieView">
-			<p style='padding-top: 20px;font-size: 18px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryColorChar}}</p>
-			<p style='font-size: 14px;padding: 10px;' :style="{color:itineraryColorStr}">{{itineraryCity}}</p>
+			<p style='margin-top: 0px;font-size: 14px;padding: 10px;'>七天内途径中高风险地区：</p>
+			<p v-if="itineraryRiskyArea==null" style='margin-top: 0px;font-size: 14px;padding: 10px;'>无</p>
+			<p v-if="itineraryRiskyArea" style='margin-top: 0px;font-size: 14px;padding: 10px;'>{{itineraryRiskyArea}}</p>
 		</view>
 		<view class="viewText" style="margin-top: 30px;">*本人是否有发热/咳嗽/流涕/咽疼等症状？</view>
-		<radio-group @change="radioChange0" style="margin-top: 5px;">
+		<radio-group style="margin-top: 5px;">
 			<label class="radio pageRadio">
 				<radio value="false" disabled :checked="false == selfRadio" color="#00baad" style="transform:scale(0.7)" />没有
 			</label>
@@ -39,33 +40,38 @@
 			<view style="font-size: 14px;color: gray;">同住人健康信息</view>
 		</view>
 		<view class="line"></view>
-		<view class="viewText">*同住人中是否有新冠疫情感染者？</view>
-		<radio-group @change="radioChange1" style="margin-top: 5px;">
-			<label class="radio pageRadio">
-				<radio value="false" disabled :checked="false == otherRadio0" color="#00baad" style="transform:scale(0.7)" />没有
-			</label>
-			<label class="radio pageRadio">
-				<radio value="true" disabled :checked="true == otherRadio0" color="#00baad" style="transform:scale(0.7)" />有
-			</label>
-		</radio-group>
-		<view class="viewText">*14天内是否有同住人到过中高风险地区？</view>
-		<radio-group @change="radioChange2" style="margin-top: 5px;">
-			<label class="radio pageRadio">
-				<radio value="false" disabled :checked="false == otherRadio1" color="#00baad" style="transform:scale(0.7)" />没有
-			</label>
-			<label class="radio pageRadio">
-				<radio value="true" disabled :checked="true == otherRadio1" color="#00baad" style="transform:scale(0.7)" />有
-			</label>
-		</radio-group>
-		<view class="viewText">*同住人是否有发热/咳嗽/流涕/咽疼等症状？</view>
-		<radio-group @change="radioChange3" style="margin-top: 5px;">
-			<label class="radio pageRadio">
-				<radio value="false" disabled :checked="false == otherRadio2" color="#00baad" style="transform:scale(0.7)" />没有
-			</label>
-			<label class="radio pageRadio">
-				<radio value="true" disabled :checked="true == otherRadio2" color="#00baad" style="transform:scale(0.7)" />有
-			</label>
-		</radio-group>
+		<view v-if="otherList.length ==0" style="text-align: center;margin-top: 10px;font-size: 14px;color: chocolate;">
+			没有同住人</view>
+		<view v-for="(item,index) in otherList" :key="index">
+			<view class='otherIndex'>同住人{{index+1}}</view>
+			<view class="viewText">*同住人{{index+1}}姓名：</view>
+			<view style="background: #e5e5e5;margin: 2px 20px;padding: 4px;text-align: center;font-size: 13px;">
+				{{item.name}}
+			</view>
+			<view class="viewText">*同住人{{index+1}}当天健康码截图</view>
+			<image mode="scaleToFill" style="margin-top: 20px;" :src="item.healthImgUrl" @click="checkEnc(item.healthImgUrl)" class="pageImg"></image>
+			<view class="shibieView">
+				<p style='padding-top: 10px;font-size: 18px;' :style="{color:item.healthColorStr}">{{item.healthColorChar}}</p>
+				<p style='margin-top: 10px;' :style="{color:item.healthColorStr}">{{item.healthResult}}</p>
+				<p style='margin-top: 10px;' :style="{color:item.healthColorStr}">{{item.healthTime}}</p>
+			</view>
+			<view class="viewText">*同住人{{index+1}}当天行程码截图</view>
+			<image mode="scaleToFill" style="margin-top: 20px;" :src="item.itineraryImgUrl" @click="checkEnc(item.itineraryImgUrl)" class="pageImg"></image>
+			<view class="shibieView">
+				<p style='margin-top: 0px;font-size: 14px;padding: 10px;'>七天内途径中高风险地区：</p>
+				<p v-if="item.itineraryRiskyArea==null||item.itineraryRiskyArea.length==0" style='margin-top: 0px;font-size: 14px;padding: 10px;'>无</p>
+				<p v-if="item.itineraryRiskyArea" style='margin-top: 0px;font-size: 14px;padding: 10px;'>{{item.itineraryRiskyArea}}</p>
+			</view>
+			<view class="viewText">*同住人{{index+1}}是否有发热/咳嗽/流涕/咽疼等症状？</view>
+			<radio-group style="margin-top: 5px;">
+				<label class="radio pageRadio">
+					<radio value="false" disabled :checked="false == item.otherRadio" color="#00baad" style="transform:scale(0.7)" />没有
+				</label>
+				<label class="radio pageRadio">
+					<radio value="true" disabled :checked="true == item.otherRadio" color="#00baad" style="transform:scale(0.7)" />有
+				</label>
+			</radio-group>
+		</view>
 		<view style="padding:15px 5px 0;">
 			<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
 			<view style="font-size: 14px;color: gray;">特殊情况</view>
@@ -125,28 +131,24 @@
 				imgFiles1: [], //选择的文件对象，用于上传时获取文件名  不需要改动
 				imgFiles2: [], //选择的文件对象，用于上传时获取文件名  不需要改动
 				selfRadio: false,
-				otherRadio0: false,
-				otherRadio1: false,
-				otherRadio2: false,
 				content: '',
 				signContent: '',
 				healthTime: '',
 				healthColor: '',
 				healthColorStr: '',
-				healthColorChar:'',
+				healthColorChar: '',
+				healthResult: '',
 				healthImgUrl: '',
-				itineraryTime: '',
-				itineraryColor: '',
-				itineraryColorStr: '',
-				itineraryColorChar:'',
+				itineraryRiskyArea: '',
 				itineraryImgUrl: '',
-				noteImgUrl:'',
-				noteImgName:'',
+				noteImgUrl: '',
+				noteImgName: '',
+				otherList: [], //同住人列表
+				
 				signImgUrl:'',
 				grd_name:'',
 				cls_name:'',
 				stu_name:'',
-				healthResult:'',
 				itineraryCity:''
 			}
 		},
@@ -206,14 +208,12 @@
 						this.itineraryTime = data.data.itinerary_card_time;
 						this.healthImgUrl = data.data.health_code_img_url;
 						this.signImgUrl = data.data.sign_img;
+						this.itineraryRiskyArea = data.data.risky_area;
 						if (data.data.note_img_list&&data.data.note_img_list.length>0) {
 							this.noteImgUrl = data.data.note_img_list[0].url;
 						}
 						this.healthTime = data.data.health_code_time;
 						this.selfRadio = data.data.is_unusual;
-						this.otherRadio0 = data.data.roomy_is_infect;
-						this.otherRadio1 = data.data.roomy_is_14_high_risk;
-						this.otherRadio2 = data.data.roomy_is_unusual;
 						this.itineraryImgUrl = data.data.itinerary_card_img_url;
 						if (data.data.health_code_color == 'g') {
 							this.healthColorStr = '#5ba669';
@@ -225,15 +225,29 @@
 							this.healthColorStr = '#e61a23';
 							this.healthColorChar = '红码';
 						}
-						if (data.data.itinerary_card_color == 'g') {
-							this.itineraryColorStr = '#5ba669';
-							this.itineraryColorChar = '绿色';
-						} else if (data.data.itinerary_card_color == 'y') {
-							this.itineraryColorStr = '#f2b71f';
-							this.itineraryColorChar = '黄色';
-						} else if (data.data.itinerary_card_color == 'r') {
-							this.itineraryColorStr = '#e61a23';
-							this.itineraryColorChar = '红色';
+						for (var i = 0; i < data.data.room_list.length; i++) {
+							var tempM = data.data.room_list[i];
+							var tempR = {
+								name:tempM.name,
+								relation:tempM.relation,
+								healthImgUrl:tempM.health_code_img_url,
+								healthTime:tempM.health_code_time,
+								healthResult:tempM.nucleic,
+								itineraryImgUrl:tempM.itinerary_card_img_url,
+								itineraryRiskyArea:tempM.risky_area,
+								otherRadio:tempM.is_unusual,
+							}
+							if (tempM.health_code_color == 'g') {
+								tempR.healthColorStr = '#5ba669';
+								tempR.healthColorChar = '绿码';
+							} else if (tempM.health_code_color == 'y') {
+								tempR.healthColorStr = '#f2b71f';
+								tempR.healthColorChar = '黄码';
+							} else if (tempM.health_code_color == 'r') {
+								tempR.healthColorStr = '#e61a23';
+								tempR.healthColorChar = '红码';
+							}
+							this.otherList.push(tempR);
 						}
 					} else {
 						this.showToast(data.msg);
@@ -287,14 +301,24 @@
 		background: #e5e5e5;
 		text-align: center;
 		font-size: 13px;
-		width: 160px;
+		width: 200px;
 		height: 100px;
 		margin-top: -100px;
-		margin-left: 150px;
+		margin-left: 140px;
 	}
 	
 	.pageImg{
 		width: 100px;height: 100px;
 		margin: 5px 0 0 20px;
+	}
+	.otherIndex {
+		text-align: center;
+		border: 1px solid #00baad;
+		width: 60px;
+		margin-left: calc((100% - 60px)/2);
+		margin-top: 20px;
+		padding: 2px 5px;
+		font-size: 14px;
+		background: #caf3f0;
 	}
 </style>

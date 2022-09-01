@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon='icon' :iconClick="iconClick"></mynavBar>
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon='icon' @iconClickRight="iconClickRight"></mynavBar>
 		<view class="tabs-fixed">
 			<uni-row>
 				<uni-col :span="12">
@@ -36,10 +36,12 @@
 <script>
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
+	let _this;
 	export default {
 		data() {
 			return {
 				index_code:'',
+				personInfo:{},
 				navItem: {},
 				pageSize:15,
 				pageobj0:{
@@ -62,7 +64,7 @@
 				
 				
 				icon:['list'],
-				iconClick:[_this.formClick],
+				// iconClick:[_this.formClick],
 			}
 		},
 		components: {
@@ -88,6 +90,13 @@
 					 this.pageobj0.canload=true
 					 this.pageobj0.page_number=1
 					 this.getList0();
+				}
+			},
+			iconClickRight(data) {
+				if (data == 0) {
+					_this.formClick();
+				} else if (data == 1) {
+					_this.addClick();
 				}
 			},
 			formClick(){
@@ -221,7 +230,7 @@
 				 		 this.add=result[0]
 						 if(result[0]){
 							 this.icon.push('plusempty')
-							 this.iconClick.push(this.addClick)
+							 // this.iconClick.push(this.addClick)
 						 }
 				 		 this.hideLoading();
 				 	 })

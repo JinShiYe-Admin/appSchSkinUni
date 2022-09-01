@@ -175,6 +175,18 @@
 				//1.8.阅卷成绩统计
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'taskResult/clsAnalysis', comData, data => {
 					this.hideLoading();
+					for (var i = 0; i < data.list.length; i++) {
+						var tempM = data.list[i];
+						if (tempM.max_score == null) {
+							tempM.max_score = '0.0';
+						}
+						if (tempM.min_score == null) {
+							tempM.min_score = '0.0';
+						}
+						if (tempM.avg_score == null) {
+							tempM.avg_score = '0.0';
+						}
+					}
 					this.classList = [].concat(data.list);
 					if (data.list && data.list.length > 0) {
 						this.classIndex = 0;
@@ -193,6 +205,18 @@
 				//1.9.学生得分列表
 				this.post(this.globaData.INTERFACE_MARKINGPAPERS + 'taskResult/scoreList', comData, data => {
 					this.hideLoading();
+					for (var i = 0; i < data.list.length; i++) {
+						var tempM = data.list[i];
+						if (tempM.object_score == null) {
+							tempM.object_score = '0.0';
+						}
+						if (tempM.subject_score == null) {
+							tempM.subject_score = '0.0';
+						}
+						if (tempM.total_score == null) {
+							tempM.total_score = '0.0';
+						}
+					}
 					this.scoreList = [].concat(data.list);
 					// 获取当前班级对应的学生得分列表
 					this.getNowStuScore();

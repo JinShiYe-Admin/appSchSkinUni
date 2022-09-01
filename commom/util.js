@@ -312,6 +312,7 @@ function getBroswerId() {
 function openwithData(url, data = {}, _events = {}) {
 	uni.navigateTo({
 		url: url + '?pagedata=' + encodeURIComponent(JSON.stringify(data)),
+		// url: url + '?pagedata=' + encodeURI(JSON.stringify(data)),
 		animationType: 'pop-in',
 		events: {
 			..._events
@@ -330,6 +331,7 @@ function openwithData(url, data = {}, _events = {}) {
 function getPageData(option) {
 	try {
 		var tempM0 = decodeURIComponent(option.pagedata);
+		// var tempM0 = decodeURI(option.pagedata);
 		var tempM1 = JSON.parse(tempM0);
 		// console.log('tempM11:'+JSON.stringify(tempM1));
 		if(tempM1.index){
@@ -1179,7 +1181,7 @@ function getPageArray() {
 				name: '拍照上交',
 				icon: tempAAA + '/static/images/homeworkAndWeektest/stu/takingPicture.png',
 				pagePath: "/pages/homeworkAndWeekTest_stu/takingPictureIndex",
-				url: 'schapp_HomeWorkStu_TakingPicture',
+				url: '',//schapp_HomeWorkStu_TakingPicture
 				noReadCut: 0
 			}, {
 				name: '作业/周测成绩',

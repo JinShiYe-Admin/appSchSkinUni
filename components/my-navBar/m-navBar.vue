@@ -8,7 +8,8 @@
 					<view v-if="icon" style="margin: 0 8px;"><uni-icons :type="icon.value?icon.value:icon" :size="icon.style?icon.style.fontSize:18" :color="icon.style?icon.style.color:'#FFFFFF'" @click="$props.iconClick"></uni-icons></view>
 				</template>
 				<template v-else-if="iconType() === 'object'">
-					<view v-for="(item,index) in icon" :key='item' style="margin: 0 8px;"><uni-icons :type="item.value?item.value:item" :size="item.style?item.style.fontSize:18" :color="item.style?item.style.color:'#FFFFFF'" @click="$props.iconClick[index]"></uni-icons></view>
+					<!-- <view v-for="(item,index) in icon" :key='item' style="margin: 0 8px;"><uni-icons :type="item.value?item.value:item" :size="item.style?item.style.fontSize:18" :color="item.style?item.style.color:'#FFFFFF'" @click="$props.iconClick[index]"></uni-icons></view> -->
+					<view v-for="(item,index) in icon" :key='item' style="margin: 0 8px;"><uni-icons :type="item.value?item.value:item" :size="item.style?item.style.fontSize:18" :color="item.style?item.style.color:'#FFFFFF'" @click="iconClickRight(index)"></uni-icons></view>
 				</template>
 				<template v-if="textType() ==='string'">
 					<view style="margin: 0 8px;" :style="{'color':(text.style?text.style.color:'#FFFFFF'),'font-size':(text.style?text.style.fontSize:'15px')}" @click="$props.textClick">{{text.value?text.value:text}}</view>
@@ -155,6 +156,9 @@
 			},
 			textClickRight:function(index){
 				this.$emit("textClickRight",index);
+			},
+			iconClickRight:function(index){
+				this.$emit("iconClickRight",index);
 			},
 			clickLeftImg() {
 				if (this.navItem.index == 0) {

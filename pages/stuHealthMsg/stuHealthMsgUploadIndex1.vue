@@ -134,7 +134,7 @@
 			<Signature ref="sig" v-model="signContent"></Signature>
 		</view>
 		<view class="uploadView" @click="submit()">上报</view>
-		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
+		<!-- <u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my> -->
 	</view>
 </template>
 
@@ -227,7 +227,7 @@
 			gUpload,
 			Signature
 		},
-		onLoad(options) {
+		onLoad(option) {
 			_this = this;
 			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
 			uni.$on('updateHeadImg', function(data) {
@@ -236,9 +236,9 @@
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			// index1界面用这个
-			// this.navItem = util.getPageData(option);
+			this.navItem = util.getPageData(option);
 			// index界面用这个
-			this.navItem = util.getTabbarMenu();
+			// this.navItem = util.getTabbarMenu();
 			this.index_code = this.navItem.access.split("#")[1]
 			var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天

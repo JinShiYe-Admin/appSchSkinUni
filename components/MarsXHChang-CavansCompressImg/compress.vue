@@ -1,11 +1,23 @@
 <template>
 	<view class="compress">
-		<canvas :style="{ width: canvasSize.width, height: canvasSize.height }" canvas-id="myCanvas"></canvas>
+		<canvas :style="{ width: canvasSize.width, height: canvasSize.height }" :canvas-id=tempID></canvas>
 	</view>
 </template>
 
 <script>
 	export default {
+		props: {
+			//上传控件的索引，一个页面有多个上传时用
+			uploadIndex: {
+				type: [Number, String],
+				default: 0
+			},
+		},
+		computed: {
+			tempID() {
+				return 'myCanvas'+this.uploadIndex;	
+			}
+		},
 		data() {
 			return {
 				canvasSize: {
@@ -56,10 +68,9 @@
 						width: `${width}rpx`,
 						height: `${height}rpx`
 					});
-					
 					// Vue.nextTick 回调在 App 有异常，则使用 setTimeout 等待DOM更新
 					setTimeout(() => {
-						const ctx = uni.createCanvasContext('myCanvas', this);
+						const ctx = uni.createCanvasContext(this.tempID, this);
 						ctx.clearRect(0,0,width, height)
 						ctx.drawImage(info.path, 0, 0, uni.upx2px(width), uni.upx2px(height));
 						ctx.draw(false, () => {
@@ -70,7 +81,7 @@
 								height: uni.upx2px(height),
 								destWidth: width,
 								destHeight: height,
-								canvasId: 'myCanvas',
+								canvasId: this.tempID,
 								fileType: params.fileType || 'jpg',
 								quality: params.quality || 0.7,
 								success: (res) => {

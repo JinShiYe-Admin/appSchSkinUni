@@ -258,7 +258,7 @@
 	 .title-text{
 		 display: flex;
 		 align-items: center;
-	 	width: 80vw;
+	 	width: 60vw;
 		color: #5C5C5C;
 	 	overflow: hidden;
 	 	text-overflow: ellipsis;
@@ -267,6 +267,7 @@
 	 
 	 .detail-text{
 	 	color: #939393;
+		width: 30vw;
 	 	font-size: 12px;
 	 	margin: 3px 0;
 	 }

@@ -9,7 +9,7 @@
 			<view class="itemImg uploadControl">+</view>
 		</view>
 		<view class="clear"></view>
-		<compress ref="compress" />
+		<compress ref="compress" :uploadIndex="uploadIndex" />
 	</view>
 </template>
 
@@ -55,7 +55,12 @@
 				default: function() {
 					return []
 				}
-			}
+			},
+			//上传控件的索引，一个页面有多个上传时用
+			uploadIndex: {
+				type: [Number, String],
+				default: 0
+			},
 		},
 		data() {
 			return {
@@ -118,7 +123,7 @@
 										this.showList.push(item);
 									})
 									console.log("tempFiles: ", tempFiles);
-									this.$emit("chooseFile", this.showList, tempFilePaths, tempFiles);
+									this.$emit("chooseFile", this.showList, tempFilePaths, tempFiles,this.uploadIndex);
 								}
 							})
 						}
@@ -137,7 +142,7 @@
 										this.showList.push(item);
 									})
 									console.log("tempFiles: ", tempFiles);
-									this.$emit("chooseFile", this.showList, tempFilePaths, tempFiles);
+									this.$emit("chooseFile", this.showList, tempFilePaths, tempFiles,this.uploadIndex);
 								}
 							})
 						}
@@ -197,7 +202,7 @@
 				let deleteImg = this.showList;
 				deleteImg.splice(eq, 1); //删除临时路径
 				let fileeq = eq - this.modeLength
-				this.$emit("imgDelete", deleteImg, eq, fileeq)
+				this.$emit("imgDelete", deleteImg, eq, fileeq,this.uploadIndex)
 			},
 			// 预览图片
 			previewImage(eq) {
