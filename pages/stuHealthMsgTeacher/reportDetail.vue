@@ -49,7 +49,9 @@
 		},
 		computed: {
 			reportItems() {
-				return this.items.filter((e => this.isReport ? e.id : e.id === null));	
+				return this.items
+					.filter((e => this.isReport ? e.id : e.id === null))
+					.sort((a, b) => a.stu_name.localeCompare(b.stu_name));
 			}
 		},
 		watch: {
