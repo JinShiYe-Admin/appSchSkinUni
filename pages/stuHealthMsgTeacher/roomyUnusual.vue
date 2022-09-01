@@ -201,7 +201,7 @@
 			toDetail(item) {
 				if (item) {
 					util.openwithData('/pages/stuHealthMsg/stuHealthMsgNotesDetail', {
-						id: item.id,
+						id: item.health_report_id,
 						access: this.index_code,
 					});
 				} else {
