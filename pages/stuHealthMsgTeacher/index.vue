@@ -118,7 +118,7 @@
 				</uni-grid-item>
 			</uni-grid>
 		</uni-card>
-		
+		<!-- index界面保留，index1界面屏蔽 -->
 		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
