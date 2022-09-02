@@ -11,23 +11,13 @@
 		
 		<view class="uni-flex uni-pa-4 button-group">
 			<button
+				v-for="item in status.list"
 				class="uni-flex-item"
-				:class="status === 'health_code_color' ? 'active' : ''"
-				@click="onStatusChange('health_code_color')"
-				title="健康码"
-			>健康码</button>
-			<button
-				class="uni-flex-item"
-				:class="status === 'is_risky' ? 'active' : ''"
-				@click="onStatusChange('is_risky')"
-				title="行程卡"
-			>行程卡</button>
-			<button
-				class="uni-flex-item"
-				:class="status === 'is_unusual' ? 'active' : ''"
-				@click="onStatusChange('is_unusual')"
-				title="发热..."
-			>发热...</button>
+				:class="status.current === item.key ? 'active' : ''"
+				@click="onStatusChange(item.key)"
+			>
+				{{item.title}}
+			</button>
 		</view>
 		
 		<view class="uni-pa-4">
@@ -35,28 +25,9 @@
 				<uni-list-item clickable :key="index" v-for="(item, index) in items" :border="true" @click="toDetail(item)">
 					<view style="width: 100%" slot="body">
 						<uni-row>
-							<uni-col class="uni-center" :span="status.startsWith('is_') ? 7 : 5">{{ item.grd_name }}</uni-col>
-							<uni-col class="uni-center" :span="status.startsWith('is_') ? 7 : 5">{{ item.cls_name }}</uni-col>
-							<uni-col class="uni-center" :span="status.startsWith('is_') ? 10 : 8">{{ item.stu_name }}</uni-col>
-							
-							<uni-col
-								class="uni-center"
-								:span="6"
-								:class="item.health_code_color === 'r'
-									? 'uni-error'
-									: item.health_code_color === 'y'
-										? 'uni-warning'
-										: 'uni-success'"
-								v-if="status === 'health_code_color'"
-							>
-								{{ item.health_code_color === 'r'
-									?'红码'
-									: item.health_code_color === 'y'
-										? '黄码'
-										: '绿码'
-								}}
-							</uni-col>
-							
+							<uni-col class="uni-center" :span="7">{{ item.grd_name }}</uni-col>
+							<uni-col class="uni-center" :span="7">{{ item.cls_name }}</uni-col>
+							<uni-col class="uni-center" :span="10">{{ item.stu_name }}</uni-col>
 						</uni-row>
 					</view>
 				</uni-list-item>
@@ -81,7 +52,23 @@
 				curDate:'',
 				datetime: '',
 				items: [],
-				status: 'health_code_color',
+				status: {
+					current: 'roomy_code',
+					list: [
+						{
+							title: '健康码异常',
+							key: 'roomy_code',
+						},
+						{
+							title: '行程卡异常',
+							key: 'roomy_card',
+						},
+						{
+							title: '发烧...',
+							key: 'roomy_is_unusual',
+						}
+					]
+				},
 				grd_code: '',
 				cls_code: '',
 				page: {
@@ -135,15 +122,9 @@
 		},
 		methods: {
 			fetch() {
-				let statusValue;
-				if (this.status === 'health_code_color') {
-					statusValue = 'r,y'
-				} else if (this.status === 'is_unusual' || this.status === 'is_risky') {
-					statusValue = '1';
-				}
 				this.showLoading();
 				this.post(
-					this.globaData.INTERFACE_HEALTH_DATA + 'healthReportRoomy/page',
+					this.globaData.INTERFACE_HEALTH_DATA + 'healthReport/page',
 					{
 						date: this.datetime,
 						sch_code: this.personInfo.sch_code,
@@ -152,7 +133,7 @@
 						index_code: this.index_code,
 						page_number: this.page.current,
 						page_size: this.page.pageSize,
-						[this.status]: statusValue,
+						[this.status.current]: '1',
 					},
 					(data) => {
 						setTimeout(() => {
@@ -195,13 +176,13 @@
 				this.page.loadFlag = 0;
 				this.page.canload = true;
 				this.page.page_number = 1;
-				this.status = status;
+				this.status.current = status;
 				this.fetch();
 			},
 			toDetail(item) {
 				if (item) {
 					util.openwithData('/pages/stuHealthMsg/stuHealthMsgNotesDetail', {
-						id: item.health_report_id,
+						id: item.id,
 						access: this.index_code,
 					});
 				} else {
