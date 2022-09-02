@@ -134,6 +134,7 @@
 			<Signature ref="sig" v-model="signContent"></Signature>
 		</view>
 		<view class="uploadView" @click="submit()">上报</view>
+		<view style="height: 30px;"></view>
 		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
@@ -227,7 +228,7 @@
 			gUpload,
 			Signature
 		},
-		onLoad(options) {
+		onLoad(option) {
 			_this = this;
 			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
 			uni.$on('updateHeadImg', function(data) {
@@ -317,11 +318,20 @@
 			submit() {
 				var tempFlag = 0;
 				var relationList = [];
-				console.log('this.otherList:'+JSON.stringify(this.otherList));
+				// console.log('this.otherList:'+JSON.stringify(this.otherList));
 				for (var i = 0; i < this.otherList.length; i++) {
 					var tempM = this.otherList[i];
-					if (tempM.healthColor.length == 0 || tempM.itineraryImgUrl.length == 0) {
+					if (tempM.healthColor.length == 0 ) {
 						tempFlag = 1;
+						this.showToast('请选择同住人'+(i+1)+'正确的健康码');
+						break;
+						return;
+					}
+					if (tempM.itineraryImgUrl.length == 0) {
+						tempFlag = 1;
+						this.showToast('请选择同住人'+(i+1)+'正确的行程码');
+						break;
+						return;
 					}
 					var tempR = {
 						name:tempM.name,
@@ -337,11 +347,11 @@
 					relationList.push(tempR);
 				}
 				if (this.healthColor.length == 0) {
-					this.showToast('请先选择正确的健康码');
+					this.showToast('请选择本人正确的健康码');
 				} else if (this.itineraryImgUrl.length == 0) {
-					this.showToast('请先选择正确的行程码');
+					this.showToast('请选择本人正确的行程码');
 				} else if (tempFlag > 0) {
-					this.showToast('请选择正确的同住人健康码或行程码');
+					// this.showToast('请选择同住人正确的健康码或行程码');
 				} else if (this.signContent.length == 0) {
 					this.showToast('请签名');
 				} else {
@@ -835,7 +845,7 @@
 		padding: 5px;
 		text-align: center;
 		margin-top: 30px;
-		margin-bottom: 30px;
+		/* margin-bottom: 30px; */
 		margin-left: calc((100% - 70px)/2);
 	}
 
