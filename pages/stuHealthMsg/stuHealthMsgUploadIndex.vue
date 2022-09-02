@@ -135,6 +135,7 @@
 		</view>
 		<view class="uploadView" @click="submit()">上报</view>
 		<view style="height: 30px;"></view>
+		<!-- index界面保留，index1界面屏蔽 -->
 		<u-tabbar-my v-if='navItem.index<5' :list="tabbar"></u-tabbar-my>
 	</view>
 </template>
@@ -760,48 +761,51 @@
 				this.otherList[index].imgFiles0.splice(fileeq, 1); //删除临时路径
 				this.otherList[index].imgNames0.splice(eq, 1); //删除文件名
 				this.otherList[index].maxCount0 = this.otherList[index].showMaxCount0 - list.length
+				cloudFileUtil.qiniuDelete([this.otherList[index].healthImgUrl], (data) => {
+					console.log('七牛:' + JSON.stringify(data));
+				});
 				this.otherList[index].healthImgUrl = '';
 				this.otherList[index].healthColor = '';
-				// cloudFileUtil.qiniuDelete(this.imgList0, (data) => {
-				// 	console.log('七牛:' + JSON.stringify(data));
-				// });
 			},
 			imgDeleteOther1(list, eq, fileeq, index) {
 				this.otherList[index].imgList1 = list
 				this.otherList[index].imgFiles1.splice(fileeq, 1); //删除临时路径
 				this.otherList[index].imgNames1.splice(eq, 1); //删除文件名
 				this.otherList[index].maxCount1 = this.otherList[index].showMaxCount1 - list.length
+				cloudFileUtil.qiniuDelete([this.otherList[index].itineraryImgUrl], (data) => {
+					console.log('七牛:' + JSON.stringify(data));
+				});
 				this.otherList[index].itineraryImgUrl = '';
-				// cloudFileUtil.qiniuDelete(this.imgList0, (data) => {
-				// 	console.log('七牛:' + JSON.stringify(data));
-				// });
 			},
 			imgDelete0(list, eq, fileeq) {
 				this.imgList0 = list
 				this.imgFiles0.splice(fileeq, 1); //删除临时路径
 				this.imgNames0.splice(eq, 1); //删除文件名
 				this.maxCount0 = this.showMaxCount0 - list.length
+				cloudFileUtil.qiniuDelete([this.healthImgUrl], (data) => {
+					console.log('七牛:' + JSON.stringify(data));
+				});
 				this.healthImgUrl = '';
 				this.healthColor = '';
-				// cloudFileUtil.qiniuDelete(this.imgList0, (data) => {
-				// 	console.log('七牛:' + JSON.stringify(data));
-				// });
 			},
 			imgDelete1(list, eq, fileeq) {
 				this.imgList1 = list
 				this.imgFiles1.splice(fileeq, 1); //删除临时路径
 				this.imgNames1.splice(eq, 1); //删除文件名
 				this.maxCount1 = this.showMaxCount1 - list.length
+				cloudFileUtil.qiniuDelete([this.itineraryImgUrl], (data) => {
+					console.log('七牛:' + JSON.stringify(data));
+				});
 				this.itineraryImgUrl = '';
-				// cloudFileUtil.qiniuDelete(this.imgList1, (data) => {
-				// 	console.log('七牛:' + JSON.stringify(data));
-				// });
 			},
 			imgDelete2(list, eq, fileeq) {
 				this.imgList2 = list
 				this.imgFiles2.splice(fileeq, 1); //删除临时路径
 				this.imgNames2.splice(eq, 1); //删除文件名
 				this.maxCount2 = this.showMaxCount2 - list.length
+				cloudFileUtil.qiniuDelete([this.noteImgUrl], (data) => {
+					console.log('七牛:' + JSON.stringify(data));
+				});
 				this.noteImgUrl = '';
 				this.noteImgName = '';
 			},

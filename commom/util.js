@@ -106,7 +106,7 @@ function setPushCut(tempMenu, access, num, sendCount0, sendCount1) {
 			let tempNumber = 0;
 			for (var i = 0; i < tempMenu.length; i++) {
 				let tempM1 = tempMenu[i];
-				tempNumber = tempNumber + tempM.count;
+				tempNumber = tempNumber + tempM1.count;
 			}
 			// #ifdef APP-PLUS
 			plus.runtime.setBadgeNumber(tempNumber);
@@ -334,7 +334,7 @@ function getPageData(option) {
 		// var tempM0 = decodeURI(option.pagedata);
 		var tempM1 = JSON.parse(tempM0);
 		// console.log('tempM11:'+JSON.stringify(tempM1));
-		if(tempM1.index){
+		if(tempM1.index>=0){
 			// console.log('getPageData11111111');
 		}else{
 			// console.log('getPageData2222222');
@@ -509,7 +509,8 @@ function getPageArray() {
 	tempAAA = tempUrl1.join('/');
 	//#endif 
 	console.log('tempAAA:' + tempAAA);
-	let tempArray = [{
+	let tempArray = [
+		{
 			// 非凸起按钮未激活的图标，可以是uView内置图标名或自定义扩展图标库的图标
 			// 或者png图标的【绝对路径】，建议尺寸为80px * 80px
 			// 如果是中间凸起的按钮，只能使用图片，且建议为120px * 120px的png图片

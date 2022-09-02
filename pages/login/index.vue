@@ -486,9 +486,15 @@
 						// console.log('tempArray:' + JSON.stringify(tempArray));
 						util.getPushCut();
 						if (tempArray.length > 0) {
-							uni.switchTab({
-								url: tempArray[0].pagePath
-							});
+							var tempStr = JSON.stringify(tempArray[0]);
+							var tempVal = tempStr.indexOf('stuHealthMsg')==-1?false:true;
+							if (tempArray.length==1&&tempVal) {
+								util.openwithData(tempArray[0].pagePath1, tempArray[0]);
+							} else{
+								uni.switchTab({
+									url: tempArray[0].pagePath
+								});
+							}
 							// #ifdef APP-PLUS
 								// 注册消息推送服务
 								igexinTool.initGeXin().bindAlias(tempData.user_code);
