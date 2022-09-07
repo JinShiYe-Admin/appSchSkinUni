@@ -116,8 +116,6 @@
 		mounted() {
 			this.fetch();
 			
-			document.title = '健康码异常学生';
-			
 			uni.setNavigationBarTitle({
 				title:'健康码异常学生',
 			});

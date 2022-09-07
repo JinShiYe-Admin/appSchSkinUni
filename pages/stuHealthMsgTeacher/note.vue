@@ -107,8 +107,6 @@
 		mounted() {
 			this.fetch();
 			
-			document.title = '特殊情况';
-			
 			uni.setNavigationBarTitle({
 				title:'特殊情况',
 			});

@@ -114,8 +114,6 @@
 		mounted() {
 			this.fetch();
 			
-			document.title = '同住人异常';
-			
 			uni.setNavigationBarTitle({
 				title:'同住人异常',
 			});
