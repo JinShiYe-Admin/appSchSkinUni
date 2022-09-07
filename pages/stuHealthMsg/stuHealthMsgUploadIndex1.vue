@@ -6,11 +6,14 @@
 		<view style="padding:15px 5px 0;">
 			<view style="height: 22px;width: 2px;background: #00baad;float: left;margin-right: 5px;"></view>
 			<view style="font-size: 14px;color: gray;">个人健康信息</view>
+			<p v-if='stuList.length>1' @click='changeStu()' class='otherEdit'>切换学生<uni-icons type="staff-filled" color="#00CFBD" size="18">
+				</uni-icons>
+			</p>
 		</view>
 		<view class="line"></view>
 		<view class="viewText">*学生：</view>
 		<view style="background: #e5e5e5;margin: 2px 20px;padding: 4px;text-align: center;font-size: 13px;">
-			{{personInfo.grd_name}} {{personInfo.cls_name}} {{personInfo.stu_name}}
+			{{stuModel.grd_name}} {{stuModel.cls_name}} {{stuModel.stu_name}}
 		</view>
 		<view class="viewText">*本人当天健康码截图(请勿上传下载的健康码)</view>
 		<view class="uni-flex uni-row form-view choose-file">
@@ -221,7 +224,9 @@
 					healthImgUrl: '',
 					itineraryRiskyArea: '',
 					itineraryImgUrl: '',
-				}
+				},
+				stuList:[],
+				stuModel:{},
 			}
 		},
 		components: {
@@ -253,13 +258,29 @@
 				tempDay = '0' + tempDay;
 			}
 			this.curDate = tempDate.getFullYear() + '-' + tempMoth + '-' + tempDay;
-			// 2.16.学生同住人列表
-			this.getRoomyList();
+			
 			//2.2.获取百度接口授权
 			this.getBaiduAuth();
 			//#ifdef H5
 			document.title = ""
 			//#endif
+			if (this.personInfo.type_code == 'YHLX0004') {
+				// 获取学生列表
+				this.getStuList();
+			}else{
+				this.stuModel = {
+					sch_code:this.personInfo.sch_code,
+					sch_name:this.personInfo.sch_name,
+					grd_code:this.personInfo.grd_code,
+					grd_name:this.personInfo.grd_name,
+					cls_code:this.personInfo.cls_code,
+					cls_name:this.personInfo.cls_name,
+					stu_code:this.personInfo.stu_code,
+					stu_name:this.personInfo.stu_name,
+				}
+				// 2.16.学生同住人列表
+				this.getRoomyList();
+			}
 		},
 		onShow() {
 			//#ifdef H5
@@ -270,7 +291,69 @@
 			setIndex(index) {
 				return 'jkm' + index;
 			},
+			// 获取学生列表
+			getStuList() {
+				var comData = {
+					index_code: 'index',
+					par_code: this.personInfo.user_code //
+				}
+				this.showLoading();
+				// 
+				this.post(this.globaData.INTERFACE_HR_SUB + 'stu/getStuInfoByParCode2Phone', comData, (data0,
+					data) => {
+					this.hideLoading();
+					if (data.code == 0) {
+						this.stuList = data.data.list;
+						if (this.stuList.length>0) {
+							this.stuModel = this.stuList[0];
+							if (this.personInfo.type_code == 'YHLX0004') {
+								// 2.16.学生同住人列表
+								this.getRoomyList();
+							}
+						}
+					} else {
+						this.showToast(data.msg);
+					}
+				});
+			},
+			changeStu(){
+				var tempM = {
+					stuModel:this.stuModel,
+					access:this.navItem.access,
+				}
+				util.openwithData("/pages/stuHealthMsg/changeStu", tempM, {
+					refreshChangeStu(data) { //子页面调用父页面需要的方法
+						console.log('refreshChangeStu:' + JSON.stringify(data));
+						_this.stuModel = data.data;
+						_this.imgNames0 = [];
+						_this.imgNames1 = [];
+						_this.imgNames2 = [];
+						_this.imgList0 = [];
+						_this.imgList1 = [];
+						_this.imgList2 = [];
+						_this.imgFiles0 = [];
+						_this.imgFiles1 = [];
+						_this.imgFiles2 = [];
+						_this.selfRadio = false;
+						_this.content = '';
+						_this.signContent = '';
+						_this.healthTime = '';
+						_this.healthColor = '';
+						_this.healthColorStr = '';
+						_this.healthColorChar = '';
+						_this.healthResult = '';
+						_this.healthImgUrl = '';
+						_this.itineraryRiskyArea = '';
+						_this.itineraryImgUrl = '';
+						_this.noteImgUrl = '';
+						_this.noteImgName = '';
+						// 2.16.学生同住人列表
+						_this.getRoomyList();
+					}
+				});
+			},
 			editOther() {
+				_this.navItem.stuModel = _this.stuModel;
 				util.openwithData("/pages/stuHealthMsg/roomyList", _this.navItem, {
 					refreshOtherList(data) { //子页面调用父页面需要的方法
 						console.log('refreshOtherList:' + JSON.stringify(data));
@@ -313,7 +396,8 @@
 			},
 			textClick() {
 				util.openwithData('/pages/stuHealthMsg/stuHealthMsgNotesIndex', {
-					index_code: _this.index_code
+					index_code: _this.index_code,
+					stuModel:_this.stuModel,
 				});
 			},
 			submit() {
@@ -372,14 +456,14 @@
 						}
 						var comData = {
 							index_code: _this.index_code,
-							sch_code: _this.personInfo.sch_code,
-							sch_name: _this.personInfo.sch_name,
-							grd_code: _this.personInfo.grd_code,
-							grd_name: _this.personInfo.grd_name,
-							cls_code: _this.personInfo.cls_code,
-							cls_name: _this.personInfo.cls_name,
-							stu_code: _this.personInfo.stu_code,
-							stu_name: _this.personInfo.stu_name,
+							sch_code: _this.stuModel.sch_code,
+							sch_name: _this.stuModel.sch_name,
+							grd_code: _this.stuModel.grd_code,
+							grd_name: _this.stuModel.grd_name,
+							cls_code: _this.stuModel.cls_code,
+							cls_name: _this.stuModel.cls_name,
+							stu_code: _this.stuModel.stu_code,
+							stu_name: _this.stuModel.stu_name,
 							date: _this.curDate,
 							health_code_img_url: _this.healthImgUrl,
 							health_code_color: _this.healthColor,
@@ -430,7 +514,7 @@
 			getRoomyList() {
 				var comData = {
 					index_code: _this.index_code,
-					stu_code: this.personInfo.stu_code //
+					stu_code: _this.stuModel.stu_code //
 				}
 				this.showLoading();
 				// 2.16.学生同住人列表

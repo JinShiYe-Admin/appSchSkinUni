@@ -27,11 +27,12 @@
 						style="width: 100px;height: 100px;border-radius: 50%;margin-top: 50px;"></image>
 				</view>
 				<view style="text-align: center;margin-top: 10px;">{{personInfo.user_name}}</view>
+				<!-- <view v-if="personInfo.type_code=='YHLX0004'" class="uploadView" @click="changeStu()">切换学生</view> -->
 				<view style="height: 15px;background-color: #DCDFE6;margin-top: 30px;"></view>
 				<uni-list>
 					<uni-list-item @click="gotoModifyPswd()" title="修改密码" link to=''
 						style="height: 45px;align-items: center;"></uni-list-item>
-					<uni-list-item @click="zhuxiao()" title="注销账号" link to='' style="height: 45px;align-items: center;">
+					<uni-list-item v-if="personInfo.backFlag == 1" @click="zhuxiao()" title="注销账号" link to='' style="height: 45px;align-items: center;">
 					</uni-list-item>
 					<uni-list-item @click="yinsi()" title="用户隐私政策" link to='' style="height: 45px;align-items: center;">
 					</uni-list-item>
@@ -42,13 +43,21 @@
 					<button @click="tuichu()" type="warn">退出登录</button>
 				</view>
 				<view v-if="personInfo.backFlag == 2" class="uni-padding-wrap uni-common-mt">
-					<button @click="unReg()" type="warn">解除绑定</button>
+					<button @click="unReg()" type="warn">解绑退出</button>
 				</view>
 			</scroll-view>
 		</uni-drawer>
 		<uni-popup ref="popup" type="dialog">
 			<uni-popup-dialog title="确定注销?" content="注销后账号将不可使用，与账号相关的数据也会一并删除，确定注销吗？" :duration="2000"
 				:before-close="true" @close="close" @confirm="confirm"></uni-popup-dialog>
+		</uni-popup>
+		<uni-popup ref="popupUnReg" type="dialog">
+			<uni-popup-dialog title="确定解绑退出?" content="解绑退出后下次登录需输入姓名及手机号码进行绑定！您确认要解绑退出吗？" :duration="2000"
+				:before-close="true" @close="closeUnReg()" @confirm="confirmUnReg()"></uni-popup-dialog>
+		</uni-popup>
+		<uni-popup ref="popupOut" type="dialog">
+			<uni-popup-dialog title="确定退出?" content="您确认要退出登录吗？" :duration="2000"
+				:before-close="true" @close="closeOut()" @confirm="confirmOut()"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -113,6 +122,24 @@
 			},
 		},
 		methods: {
+			changeStu(){
+				var personal = util.getPersonal();
+				var comData = {
+					index_code: 'index',
+					par_code: personal.user_code //
+				}
+				this.showLoading();
+				// 
+				this.post(this.globaData.INTERFACE_HR_SUB + 'stu/getStuInfoByParCode2Phone', comData, (data0,
+					data) => {
+					this.hideLoading();
+					if (data.code == 0) {
+						
+					} else {
+						this.showToast(data.msg);
+					}
+				});
+			},
 			iconType:function(){
 				return typeof this.icon
 			},
@@ -120,32 +147,8 @@
 				return typeof this.text
 			},
 			unReg: function() {
-				var personal = util.getPersonal();
-				//不需要加密的数据 
-				var comData2 = {
-					platform_code: this.globaData.PLATFORMCODE, //平台代码
-					app_code: this.globaData.APPCODE, //应用系统代码
-					index_code: 'index',
-					unit_code: personal.unit_code, //单位代码，如应用系统需限制本单位用户才允许登录，则传入单位代码，否则传“-1”
-					access_token: personal.access_token,
-					op_user_code: personal.user_code, //用户代码
-					thuser_code: personal.openid, //第三方用户代码或账号
-					thuser_fromcode: this.globaData.THIRD_FORMCODE, //第三方平台,微信:WX;支付宝:ZFB
-				};
-				this.showLoading();
-				//2.8.第三方账号解绑
-				this.post(this.globaData.INTERFACE_HR_SKIN + 'unregister/thuserunreg', comData2, (data0, data2) => {
-					if (data2.code == 0) {
-						this.hideLoading();
-						util.setPersonal({});
-						this.$refs.showPersonInfo.close();
-						uni.reLaunch({
-							url: '/pages/login/index'
-						});
-					} else {
-						this.showToast(data2.msg);
-					}
-				});
+				this.$refs.showPersonInfo.close();
+				this.$refs.popupUnReg.open();
 			},
 			upLoadImg: function() {
 				this.$set(this.personInfo, 'img_url', util.getPersonal().img_url);
@@ -262,7 +265,43 @@
 					}
 				});
 			},
-			tuichu() {
+			closeUnReg() {
+				this.$refs.popupUnReg.close();
+			},
+			confirmUnReg(value) {
+				this.$refs.popupUnReg.close();
+				var personal = util.getPersonal();
+				//不需要加密的数据 
+				var comData2 = {
+					platform_code: this.globaData.PLATFORMCODE, //平台代码
+					app_code: this.globaData.APPCODE, //应用系统代码
+					index_code: 'index',
+					unit_code: personal.unit_code, //单位代码，如应用系统需限制本单位用户才允许登录，则传入单位代码，否则传“-1”
+					access_token: personal.access_token,
+					op_user_code: personal.user_code, //用户代码
+					thuser_code: personal.openid, //第三方用户代码或账号
+					thuser_fromcode: this.globaData.THIRD_FORMCODE, //第三方平台,微信:WX;支付宝:ZFB
+				};
+				this.showLoading();
+				//2.8.第三方账号解绑
+				this.post(this.globaData.INTERFACE_HR_SKIN + 'unregister/thuserunreg', comData2, (data0, data2) => {
+					if (data2.code == 0) {
+						this.hideLoading();
+						util.setPersonal({});
+						this.$refs.showPersonInfo.close();
+						uni.reLaunch({
+							url: '/pages/login/index'
+						});
+					} else {
+						this.showToast(data2.msg);
+					}
+				});
+			},
+			closeOut() {
+				this.$refs.popupOut.close();
+			},
+			confirmOut(value) {
+				this.$refs.popupOut.close();
 				var personal = util.getPersonal();
 				if (personal) { //多次点击按钮，personal为null
 					console.log("personal: " + JSON.stringify(personal));
@@ -287,10 +326,27 @@
 						});
 					});
 				}
+			},
+			tuichu() {
+				this.$refs.showPersonInfo.close();
+				this.$refs.popupOut.open();
 			}
 		}
 	}
 </script>
 
 <style>
+	.uploadView {
+		width: 70px;
+		background: white;
+		color: #00baad;
+		padding: 5px;
+		text-align: center;
+		margin-top: 30px;
+		/* margin-bottom: 30px; */
+		margin-left: calc((100% - 80px)/2);
+		border-radius: 6px;
+		border: 1px solid #00baad;
+		font-size: 14px;
+	}
 </style>

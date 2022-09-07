@@ -386,7 +386,7 @@
 			"path": "pages/login/indexWX",
 			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-				"navigationBarTitleText": "注册",
+				// "navigationBarTitleText": "注册",
 				"enablePullDownRefresh": false
 			}
 
@@ -3124,6 +3124,16 @@
         }
         ,{
             "path" : "pages/stuHealthMsg/roomyList",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stuHealthMsg/changeStu",
             "style" :                                                                                    
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
