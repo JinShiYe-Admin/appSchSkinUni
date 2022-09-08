@@ -82,11 +82,13 @@
 			var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
 			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+		
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		mounted() {
 			this.fetch();
-			
-			document.title = '行程卡异常学生';
 			
 			uni.setNavigationBarTitle({
 				title:'行程卡异常学生',

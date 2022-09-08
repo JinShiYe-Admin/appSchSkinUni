@@ -81,7 +81,6 @@
 			}
 		},
 		mounted() {
-			document.title = "上报情况";
 			
 			uni.setNavigationBarTitle({
 				title:'上报情况',

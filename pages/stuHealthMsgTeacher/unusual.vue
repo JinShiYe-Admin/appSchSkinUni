@@ -111,8 +111,6 @@
 		mounted() {
 			this.fetch();
 			
-			document.title = '发热/咳嗽/流涕/咽疼人员';
-			
 			uni.setNavigationBarTitle({
 				title:'发热/咳嗽/流涕/咽疼人员',
 			});

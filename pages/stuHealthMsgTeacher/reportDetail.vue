@@ -75,7 +75,6 @@
 			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
 		},
 		mounted() {
-			document.title = this.navItem.cls_name + ' 上报情况';
 			
 			uni.setNavigationBarTitle({
 				title: this.navItem.cls_name + ' 上报情况',
