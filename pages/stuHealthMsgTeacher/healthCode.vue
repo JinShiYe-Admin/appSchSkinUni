@@ -62,7 +62,7 @@
 
 <script>
 	import util from '../../commom/util.js';
-	import mynavBar from '@/components/my-navBar/m-navBar';
+	// import mynavBar from '@/components/my-navBar/m-navBar';
 	let _this;
 	
 	export default {
@@ -95,14 +95,14 @@
 		computed: {
 		},
 		components: {
-			mynavBar
+			// mynavBar
 		},
 		onLoad(option) {
 			_this = this;
 			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
-			uni.$on('updateHeadImg', function(data) {
-				_this.$refs.mynavBar.upLoadImg();
-			});
+			// uni.$on('updateHeadImg', function(data) {
+			// 	_this.$refs.mynavBar.upLoadImg();
+			// });
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			this.navItem = util.getPageData(option);
@@ -112,13 +112,54 @@
 			this.cls_code = this.navItem.cls_code;
 			var tempDate = new Date();
 			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
-		},
-		mounted() {
-			this.fetch();
-			
 			uni.setNavigationBarTitle({
 				title:'健康码异常学生',
 			});
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
+		mounted() {
+			this.fetch();
+		},
+		onPullDownRefresh() {
+			this.page.loadFlag = 0;
+			this.page.canload = true;
+			this.page.page_number = 1;
+			this.fetch();
+			setTimeout(() => {
+				uni.stopPullDownRefresh();
+			}, 5000);
+		},
+		onReachBottom() {
+			if (this.page.canload) {
+				this.page.loadFlag = 1;
+				this.page.status = 'loading';
+				this.page.current = this.page.current + 1;
+				this.fetch()
+			} else {
+				if (this.page.current >= this.page.total) {
+					this.showToast('没有更多数据了!');
+					return;
+				}
+			}
+		},
+		onPageScroll(e) {
+			// #ifdef H5
+			this.scrollLength = e.scrollTop
+			// #endif
+		},
+		onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
+			// #ifdef H5
+			uni.pageScrollTo({
+				scrollTop: this.scrollLength,
+				duration: 0
+			});
+			// #endif
+			
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		methods: {
 			fetch() {
@@ -188,45 +229,7 @@
 					console.error('item not found.');
 				}
 			},
-			onPullDownRefresh() {
-				this.page.loadFlag = 0;
-				this.page.canload = true;
-				this.page.page_number = 1;
-				this.fetch();
-				setTimeout(() => {
-					uni.stopPullDownRefresh();
-				}, 5000);
-			},
-			onReachBottom() {
-				if (this.page.canload) {
-					this.page.loadFlag = 1;
-					this.page.status = 'loading';
-					this.page.current = this.page.current + 1;
-					this.fetch()
-				} else {
-					if (this.page.current >= this.page.total) {
-						this.showToast('没有更多数据了!');
-						return;
-					}
-				}
-			},
-			onPageScroll(e) {
-				// #ifdef H5
-				this.scrollLength = e.scrollTop
-				// #endif
-			},
-			onShow() { //解决IOS端列表进详情返回后不能定位到点击位置的问题
-				// #ifdef H5
-				uni.pageScrollTo({
-					scrollTop: this.scrollLength,
-					duration: 0
-				});
-				// #endif
-				
-				//#ifdef H5
-				document.title = ""
-				//#endif
-			},
+			
 		}
 	}
 </script>

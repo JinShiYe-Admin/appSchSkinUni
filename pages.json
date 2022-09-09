@@ -3073,7 +3073,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"0px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"0px"
+                	}
+                }
             }
             
         }
@@ -3082,7 +3094,19 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
+		        "enablePullDownRefresh": true,
+		        "app-plus": {
+		        	"pullToRefresh": {
+		        		"support": true,
+		        		"style": "circle",
+		        		"offset":"0px"
+		        	}
+		        },
+		        "h5":{
+		        	"pullToRefresh":{
+		        		"offset":"0px"
+		        	}
+		        }
 		    }
 		    
 		}
@@ -3091,7 +3115,19 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
+		        "enablePullDownRefresh": true,
+		        "app-plus": {
+		        	"pullToRefresh": {
+		        		"support": true,
+		        		"style": "circle",
+		        		"offset":"0px"
+		        	}
+		        },
+		        "h5":{
+		        	"pullToRefresh":{
+		        		"offset":"0px"
+		        	}
+		        }
 		    }
 		    
 		}
@@ -3100,7 +3136,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"0px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"0px"
+                	}
+                }
             }
             
         }
@@ -3109,7 +3157,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"0px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"0px"
+                	}
+                }
             }
         }
         ,{

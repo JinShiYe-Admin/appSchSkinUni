@@ -35,7 +35,7 @@
 
 <script>
 	import util from '../../commom/util.js';
-	import mynavBar from '@/components/my-navBar/m-navBar';
+	// import mynavBar from '@/components/my-navBar/m-navBar';
 	let _this;
 	
 	export default {
@@ -52,14 +52,14 @@
 			}
 		},
 		components: {
-			mynavBar
+			// mynavBar
 		},
 		onLoad(option) {
 			_this = this;
 			// 添加监听，如果修改了头像，将左上角和个人中心的也对应修改
-			uni.$on('updateHeadImg', function(data) {
-				_this.$refs.mynavBar.upLoadImg();
-			});
+			// uni.$on('updateHeadImg', function(data) {
+			// 	_this.$refs.mynavBar.upLoadImg();
+			// });
 			this.tabbar = util.getMenu();
 			this.personInfo = util.getPersonal();
 			// index1界面用这个
@@ -74,18 +74,24 @@
 			var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
 			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+			uni.setNavigationBarTitle({
+				title:'上报情况',
+			});
+			//#ifdef H5
+			document.title = ""
+			//#endif
 		},
 		watch: {
 			datetime() {
 				this.fetch();
 			}
 		},
+		onShow() {
+			//#ifdef H5
+			document.title = ""
+			//#endif
+		},
 		mounted() {
-			
-			uni.setNavigationBarTitle({
-				title:'上报情况',
-			});
-			
 			this.$nextTick(() => {
 				document.querySelector('table').style.minWidth = '100%';
 			});
