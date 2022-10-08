@@ -9,7 +9,7 @@
 			/>
 		</view>
 		
-		<view class="uni-pa-4">
+		<!-- <view class="uni-pa-4">
 			<uni-table border stripe emptyText="暂无数据">
 				<uni-tr>
 					<uni-th align="center">年级</uni-th>
@@ -29,6 +29,25 @@
 					</uni-td>
 				</uni-tr>
 			</uni-table>
+		</view> -->
+		
+		<view class="uni-pa-4">
+			<uni-list :border="false">
+				<uni-list-item :showArrow="false" clickable :key="index" v-for="(item, index) in items" :border="true" @click="toDetail(item)">
+					<view style="width: 100%" slot="body">
+						<uni-row>
+							<uni-col class="uni-center" :span="6">{{ item.grd_name }}</uni-col>
+							<uni-col class="uni-center" :span="6">{{ item.cls_name }}</uni-col>
+							<uni-col class="uni-center" :span="12" style="display: flex; justify-content: space-around;">
+								<text class="uni-success">已报：{{item.num_of_reported}}</text>
+								<text class="uni-warning">未报：{{item.num_of_no_reported}}</text>
+							</uni-col>
+						</uni-row>
+					</view>
+				</uni-list-item>
+				
+				<!-- <uni-load-more :status="page.more" :content-text="page.contentText"></uni-load-more> -->
+			</uni-list>
 		</view>
 	</view>
 </template>
@@ -111,19 +130,6 @@
 					(data) => {
 						const { list = [] } = data;
 						this.items = list;
-						
-						// 设置表格行点击事件
-						this.$nextTick(() => {
-							const { rows = [] } = this.$refs;
-							rows.forEach((row => {
-								row.$el.addEventListener('click', (event) => {
-									event.stopPropagation();
-									const { item } = row.$attrs
-									this.onTableRowTouch(item);
-								});
-							}));
-						});
-						
 						this.hideLoading();
 					}
 				);
@@ -131,7 +137,7 @@
 			onDateChange(date) {
 				this.datetime = date;
 			},
-			onTableRowTouch(item) {
+			toDetail(item) {
 				if (item) {
 					util.openwithData('/pages/stuHealthMsgTeacher/reportDetail', {
 						...this.navItem,
