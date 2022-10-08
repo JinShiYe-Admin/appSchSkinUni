@@ -73,12 +73,16 @@
 			var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
 			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
-		},
-		mounted() {
-			
+		
+			//#ifdef H5
+			document.title = ""
+			//#endif
+					
 			uni.setNavigationBarTitle({
 				title: this.navItem.cls_name + ' 上报情况',
 			});
+		},
+		mounted() {
 		},
 		methods: {
 			fetch() {

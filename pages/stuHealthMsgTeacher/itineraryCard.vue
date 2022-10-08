@@ -86,13 +86,13 @@
 			//#ifdef H5
 			document.title = ""
 			//#endif
-		},
-		mounted() {
-			this.fetch();
 			
 			uni.setNavigationBarTitle({
 				title:'行程卡异常学生',
 			});
+		},
+		mounted() {
+			this.fetch();
 		},
 		methods: {
 			fetch() {

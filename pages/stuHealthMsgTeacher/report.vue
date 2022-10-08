@@ -74,6 +74,14 @@
 			var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
 			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+		
+			//#ifdef H5
+			document.title = ""
+			//#endif
+					
+			uni.setNavigationBarTitle({
+				title:'上报情况',
+			});
 		},
 		watch: {
 			datetime() {
@@ -81,11 +89,6 @@
 			}
 		},
 		mounted() {
-			
-			uni.setNavigationBarTitle({
-				title:'上报情况',
-			});
-			
 			this.$nextTick(() => {
 				document.querySelector('table').style.minWidth = '100%';
 			});

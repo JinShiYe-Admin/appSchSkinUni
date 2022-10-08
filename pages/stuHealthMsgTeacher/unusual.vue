@@ -107,13 +107,17 @@
 			var tempDate = new Date();
 			// var preDate = new Date(tempDate.getTime() - 24 * 60 * 60 * 1000); //前一天
 			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
-		},
-		mounted() {
-			this.fetch();
+			
+			//#ifdef H5
+			document.title = ""
+			//#endif
 			
 			uni.setNavigationBarTitle({
 				title:'发热/咳嗽/流涕/咽疼人员',
 			});
+		},
+		mounted() {
+			this.fetch();
 		},
 		methods: {
 			fetch() {

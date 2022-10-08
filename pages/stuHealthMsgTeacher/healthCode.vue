@@ -112,13 +112,17 @@
 			this.cls_code = this.navItem.cls_code;
 			var tempDate = new Date();
 			this.curDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
-		},
-		mounted() {
-			this.fetch();
+		
+			//#ifdef H5
+			document.title = ""
+			//#endif
 			
 			uni.setNavigationBarTitle({
 				title:'健康码异常学生',
 			});
+		},
+		mounted() {
+			this.fetch();
 		},
 		methods: {
 			fetch() {
