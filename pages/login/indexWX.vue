@@ -1,83 +1,91 @@
 <template>
 	<view>
-		<view
-			style="background-color: #F2F2F2;height: 30px;padding-left: 15px;padding-top: 5px;color: brown;font-size: 13px;">
-			注意：请输入系统中已登记的用户相关信息</view>
-		<view class="uni-list">
-			<view class="uni-list-cell" style="height: 50px;">
-				<view class="uni-list-cell-left">
-					用户类型
+		<view v-show="showFlag >0">
+			<view
+				style="background-color: #F2F2F2;height: 30px;padding-left: 15px;padding-top: 5px;color: brown;font-size: 13px;">
+				注意：已在学校登记相关信息的人员才能注册。</view>
+			<view class="uni-list">
+				<view class="uni-list-cell" style="height: 50px;">
+					<view class="uni-list-cell-left">
+						您的身份
+					</view>
+					<view v-if="utypeArray.length>0" class="uni-list-cell-db" style="margin-left: 10px;">
+						<picker @change="changeSelectType" :disabled="disabledFlag==0?false:true" :value="utype_index"
+							:range="utypeArray" range-key="type_name">
+							<view class="uni-input">{{utypeArray[utype_index].type_name}}
+								<uni-icons type="arrowdown" size="20" style="font-size: 15px;margin-left: 30px;">
+								</uni-icons>
+							</view>
+						</picker>
+					</view>
 				</view>
-				<view v-if="utypeArray.length>0" class="uni-list-cell-db" style="margin-left: 10px;">
-					<picker @change="changeSelectType" :disabled="disabledFlag==0?false:true" :value="utype_index"
-						:range="utypeArray" range-key="type_name">
-						<view class="uni-input">{{utypeArray[utype_index].type_name}}</view>
-					</picker>
+				<view class="uni-list-cell">
+					<view class="uni-list-cell-left" style="width: 80px;">
+						{{typeStr0}}姓名
+					</view>
+					<view class="uni-list-cell-db">
+						<input :disabled="disabledFlag==0?false:true" v-model="userName" style="height: 50px;"
+							maxlength="10" type="text" placeholder="请输入姓名" />
+					</view>
+				</view>
+				<view class="uni-list-cell">
+					<view class="uni-list-cell-left" style="width: 80px;">
+						{{typeStr1}}电话
+					</view>
+					<view class="uni-list-cell-db">
+						<input :disabled="disabledFlag==0?false:true" v-model="userPhone" style="height: 50px;"
+							type="number" maxlength="11" placeholder="请输入电话" />
+					</view>
+				</view>
+				<view class="uni-list-cell">
+					<view class="uni-list-cell-left" style="width: 80px;">
+						短信验证码
+					</view>
+					<view class="uni-list-cell-db">
+						<input :disabled="disabledFlag==2?true:false" v-model="yanzm"
+							style="height: 50px;float: left;width: 120px;" type="number" maxlength="6"
+							placeholder="请输入验证码" />
+						<button v-if="yanZMTime==60" :disabled="disabledFlag==2?true:false" @click="getYanzm"
+							style="float: left;height: 36px;font-size: 15px;margin-top: 7px;"
+							:class="disabledFlag==2?'btnDis1':'btnDis0'" class="mini-btn">获取验证码</button>
+						<button v-if="yanZMTime<60" :disabled="yanZMTime<60?true:false"
+							style="float: left;height: 36px;font-size: 15px;margin-top: 7px;"
+							class="mini-btn">{{yanZMTime}}秒后重新获取</button>
+					</view>
 				</view>
 			</view>
-			<view class="uni-list-cell">
-				<view class="uni-list-cell-left" style="width: 80px;">
-					用户姓名
-				</view>
-				<view class="uni-list-cell-db">
-					<input :disabled="disabledFlag==0?false:true" v-model="userName" style="height: 50px;"
-						maxlength="10" type="text" placeholder="请输入姓名" />
-				</view>
+			<view class="button-sp-area" style="text-align: center;margin-top: 20px;">
+				<button v-if="disabledFlag==1" :disabled="disabledFlag==1?false:true" @click="searchInfo"
+					class="btnDis0" size="mini">查询</button>
+				<button v-if="disabledFlag!=1" :disabled="disabledFlag==1?false:true" @click="searchInfo"
+					size="mini">查询</button>
+				<button @click="clearInput" style="background: #00CFBD;margin-left: 20px;color: white;" class="mini-btn"
+					size="mini">清空</button>
 			</view>
-			<view class="uni-list-cell">
-				<view class="uni-list-cell-left" style="width: 80px;">
-					用户电话
-				</view>
-				<view class="uni-list-cell-db">
-					<input :disabled="disabledFlag==0?false:true" v-model="userPhone" style="height: 50px;"
-						type="number" maxlength="11" placeholder="请输入电话" />
-				</view>
-			</view>
-			<view class="uni-list-cell">
-				<view class="uni-list-cell-left" style="width: 80px;">
-					短信验证码
-				</view>
-				<view class="uni-list-cell-db">
-					<input :disabled="disabledFlag==2?true:false" v-model="yanzm"
-						style="height: 50px;float: left;width: 120px;" type="number" maxlength="6"
-						placeholder="请输入验证码" />
-					<button v-if="yanZMTime==60" :disabled="disabledFlag==2?true:false" @click="getYanzm"
-						style="float: left;height: 36px;font-size: 15px;margin-top: 7px;"
-						:class="disabledFlag==2?'btnDis1':'btnDis0'" class="mini-btn">获取验证码</button>
-					<button v-if="yanZMTime<60" :disabled="yanZMTime<60?true:false"
-						style="float: left;height: 36px;font-size: 15px;margin-top: 7px;"
-						class="mini-btn">{{yanZMTime}}秒后重新获取</button>
-				</view>
-			</view>
-		</view>
-		<view class="button-sp-area" style="text-align: center;margin-top: 20px;">
-			<button v-if="disabledFlag==1" :disabled="disabledFlag==1?false:true" @click="searchInfo" class="btnDis0"
-				size="mini">查询</button>
-			<button v-if="disabledFlag!=1" :disabled="disabledFlag==1?false:true" @click="searchInfo"
-				size="mini">查询</button>
-			<button @click="clearInput" style="background: #00CFBD;margin-left: 20px;color: white;" class="mini-btn"
-				size="mini">清空</button>
-		</view>
-		<view style="margin-top: 10px;" class="uni-list">
-			<view class="uni-list-cell" v-for="(item, index) in userList" :key="item.id">
-				<view class="uni-list-cell-pd" style="width: 60%;">
-					{{item.user_info}}
-				</view>
-				<view class="uni-list-cell-db" style="width: 40%;">
-					<button v-if="item.status==0||item.status==1" @click="tapItem(item)"
-						style="background: #00CFBD;margin-left: 20px;color: white;" class="mini-btn"
-						size="mini">注册</button>
-					<!-- <button v-if="item.status==1" @click="tapItem(item)"
+			<view style="margin-top: 10px;" class="uni-list">
+				<view class="uni-list-cell" v-for="(item, index) in userList" :key="item.id">
+					<view class="uni-list-cell-pd" style="width: 60%;">
+						{{item.user_info}}
+					</view>
+					<view class="uni-list-cell-db" style="width: 40%;">
+						<button v-if="item.status==0||item.status==1" @click="tapItem(item)"
+							style="background: #00CFBD;margin-left: 20px;color: white;" class="mini-btn"
+							size="mini">注册</button>
+						<!-- <button v-if="item.status==1" @click="tapItem(item)"
 						style="background: #00CFBD;margin-left: 20px;color: white;" class="mini-btn"
 						size="mini">注册</button> -->
-					<p v-if="item.status==2" class="mui-pull-right" style="color: red;margin-top: 5px;">账号已停用</p>
-					<p v-if="item.status==3" class="mui-pull-right" style="color: red;margin-top: 5px;">账号已屏蔽</p>
+						<p v-if="item.status==2" class="mui-pull-right" style="color: red;margin-top: 5px;">账号已停用</p>
+						<p v-if="item.status==3" class="mui-pull-right" style="color: red;margin-top: 5px;">账号已屏蔽</p>
+					</view>
 				</view>
 			</view>
 		</view>
 		<uni-popup ref="popup" type="dialog">
 			<uni-popup-dialog title="确定解绑?" content="当前用户账号信息不正常，是否进行解绑？" :duration="2000" :before-close="true"
 				@close="close" @confirm="confirm"></uni-popup-dialog>
+		</uni-popup>
+		<uni-popup ref="popupTishi" type="dialog">
+			<uni-popup-dialog title="提示" content="账号未授权，请联系管理员！" @close="closeTishi" @confirm="confirmTishi"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -102,6 +110,9 @@
 				clearFlag: 0,
 				userList: [],
 				yanzmStart: '',
+				typeStr0: '',
+				typeStr1: '',
+				showFlag: 0,
 			}
 		},
 		onLoad(option) {
@@ -124,8 +135,26 @@
 			} else {
 				this.showToast('没有获取到用户信息');
 			}
+			uni.setNavigationBarTitle({
+				title: ''
+			});
+			//#ifdef H5
+			document.title = "";
+			//#endif
 		},
 		methods: {
+			setTypeStr() {
+				if (this.utypeArray[this.utype_index].type_code == 'YHLX0003') {
+					this.typeStr0 = '老师';
+					this.typeStr1 = '老师';
+				} else if (this.utypeArray[this.utype_index].type_code == 'YHLX0004') {
+					this.typeStr0 = '学生';
+					this.typeStr1 = '家长';
+				} else if (this.utypeArray[this.utype_index].type_code == 'YHLX0005') {
+					this.typeStr0 = '学生';
+					this.typeStr1 = '家长';
+				}
+			},
 			clearInput: function() {
 				this.utype_index = 0;
 				this.userName = '';
@@ -223,6 +252,7 @@
 			changeSelectType: function(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value);
 				this.utype_index = e.target.value;
+				this.setTypeStr();
 			},
 			getUrlParam(name) {
 				var search = window.location.href;
@@ -243,6 +273,11 @@
 				return items;
 			},
 			getThuserstat() {
+				this.showFlag = 0;
+				// uni.setNavigationBarTitle({
+				// 	title: ''
+				// });
+				// document.title = "";
 				var comData0 = {
 					platform_code: this.globaData.PLATFORMCODE, //平台代码
 					app_code: this.globaData.APPCODE, //应用系统代码
@@ -260,6 +295,10 @@
 					if (data.code == '0000') {
 						if (data.data == '-1') {
 							this.showFlag = 1;
+							// uni.setNavigationBarTitle({
+							// 	title: '注册'
+							// });
+							// document.title = "注册";
 							//用户注册获取可选用户类型列表
 							this.getUserType();
 						} else if (data.data == '-2') {
@@ -271,6 +310,12 @@
 						this.showToast(data.msg);
 					}
 				});
+			},
+			closeTishi(){
+				this.$refs.popupTishi.close();
+			},
+			confirmTishi(){
+				this.$refs.popupTishi.close();
 			},
 			close() {
 				this.$refs.popup.close();
@@ -314,7 +359,7 @@
 								// utils.mOpenWithData("../../html/login/index.html", {});
 								// util.openwithData('/pages/login/index');
 								uni.redirectTo({
-								    url: '/pages/login/index'
+									url: '/pages/login/index'
 								});
 							} else {
 								this.showToast(data2.msg);
@@ -417,7 +462,8 @@
 							if (data4.code == '0000') {
 								if (data4.data.list.length > 0) {
 									var tempA = [];
-									for (var i = 0; i < data4.data.list[0].childList.length; i++) { //一级菜单循环
+									for (var i = 0; i < data4.data.list[0].childList
+										.length; i++) { //一级菜单循环
 										var web_first_item = data4.data.list[0].childList[i];
 										for (var a = 0; a < this.pageArray.length; a++) {
 											var local_first_item = this.pageArray[a];
@@ -574,10 +620,28 @@
 				delete tempData['user'];
 				// store.set(this.globaData.PERSONALINFO, tempData);
 				util.setPersonal(tempData);
+				// var tempArray = util.getMenu();
+				// uni.switchTab({
+				// 	url: tempArray[0].pagePath
+				// });
+
 				var tempArray = util.getMenu();
-				uni.switchTab({
-					url: tempArray[0].pagePath
-				});
+				console.log('tempArray:' + JSON.stringify(tempArray));
+				util.getPushCut();
+				if (tempArray.length > 0) {
+					var tempStr = JSON.stringify(tempArray[0]);
+					var tempVal = tempStr.indexOf('stuHealthMsg') == -1 ? false : true;
+					if (tempArray.length == 1 && tempVal) {
+						util.openwithData(tempArray[0].pagePath1, tempArray[0]);
+					} else {
+						uni.switchTab({
+							url: tempArray[0].pagePath
+						});
+					}
+				} else {
+					this.$refs.popupTishi.open();
+					// this.showToast('账号未授权，请联系管理员！');
+				}
 			},
 			unRegister(data1) {
 				//不需要加密的数据 
@@ -598,7 +662,7 @@
 					if (data2.code == 0) {
 						// util.openwithData('/pages/login/index');
 						uni.redirectTo({
-						    url: '/pages/login/index'
+							url: '/pages/login/index'
 						});
 					} else {
 						this.showToast(data2.msg);
@@ -619,6 +683,7 @@
 					if (data.code == 0) {
 						this.utypeArray = [].concat(data.data);
 						this.utype_index = 0;
+						this.setTypeStr();
 					} else {
 						this.showToast(data.msg);
 					}

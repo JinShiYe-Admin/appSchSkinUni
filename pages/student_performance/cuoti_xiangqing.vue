@@ -1,17 +1,9 @@
 <template>
 	<view>
-		<!-- #ifdef H5 -->
 		<view class="tabs-fixed">
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
-		<!-- #endif -->
-		<!-- #ifdef APP -->
-		<view class="tabs-fixed" style="top: 0px;">
-			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
-				activeColor="#00CFBD"></uni-segmented-control>
-		</view>
-		<!-- #endif -->
 		<view class="content" style="margin-top: 60px;">
 			<view v-if="semFlag == 0">
 				<div>
@@ -294,7 +286,11 @@
 				this.post(this.globaData.INTERFACE_STUSCORE + 'errorBook/catalogs', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
-						callback(data.data.list[0].catalog_list);
+						if (data.data.list.length==0) {
+							this.showToast('目录为空');
+						}else{
+							callback(data.data.list[0].catalog_list);
+						}
 					} else {
 						this.showToast(data.msg);
 					}
@@ -416,5 +412,13 @@
 
 	::v-deep p {
 		word-break: break-all;
+	}
+	.tabs-fixed{
+		/* #ifdef H5 */
+		top: 40px;
+		/* #endif */
+		/* #ifndef H5 */
+		top: 0px;
+		/* #endif */
 	}
 </style>

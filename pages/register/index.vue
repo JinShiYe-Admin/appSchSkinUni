@@ -1,9 +1,24 @@
 <template>
 	<view>
 		<view class="uni-list">
+			<view
+				style="background-color: #F2F2F2;height: 30px;padding-left: 15px;padding-top: 5px;color: brown;font-size: 13px;">
+				注意：已在学校登记相关信息的人员才能注册。</view>
+			<view class="uni-list-cell" style="height: 50px;">
+				<view class="uni-list-cell-left">
+					您的身份
+				</view>
+				<view v-if="utypeArray.length>0" class="uni-list-cell-db" style="margin-left: 10px;">
+					<picker @change="changeSelectType" :disabled="disabledFlag==0?false:true" :value="utype_index"
+						:range="utypeArray" range-key="type_name">
+						<view class="uni-input">{{utypeArray[utype_index].type_name}}
+						<uni-icons type="arrowdown" size="20" style="font-size: 15px;margin-left: 30px;"></uni-icons></view>
+					</picker>
+				</view>
+			</view>
 			<view class="uni-list-cell">
 				<view class="uni-list-cell-left" style="width: 80px;">
-					用户姓名
+					{{typeStr0}}姓名
 				</view>
 				<view class="uni-list-cell-db">
 					<input :disabled="disabledFlag==0?false:true" v-model="userName" style="height: 50px;"
@@ -12,7 +27,7 @@
 			</view>
 			<view class="uni-list-cell">
 				<view class="uni-list-cell-left" style="width: 80px;">
-					用户电话
+					{{typeStr1}}电话
 				</view>
 				<view class="uni-list-cell-db">
 					<input :disabled="disabledFlag==0?false:true" v-model="userPhone" style="height: 50px;"
@@ -82,13 +97,15 @@
 				clearFlag: 0,
 				userList: [],
 				yanzmStart: '',
+				typeStr0:'',
+				typeStr1:'',
 			}
 		},
 
 		onLoad: function() {
 			_this = this;
 			util.setPersonal({});
-			// this.getUserType();
+			this.getUserType();
 			uni.setNavigationBarTitle({title: '查询资料'});
 			//#ifdef H5
 				document.title=""
@@ -100,6 +117,43 @@
 			//#endif
 		},
 		methods: {
+			changeSelectType: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value);
+				this.utype_index = e.target.value;
+				this.setTypeStr();
+			},
+			getUserType() {
+				var comData0 = {
+					platform_code: this.globaData.PLATFORMCODE, //平台代码
+					app_code: this.globaData.APPCODE, //应用系统代码
+					unit_code: this.globaData.UNITCODE
+				};
+				this.showLoading();
+				//发送网络请求，data为网络返回值
+				this.post(this.globaData.INTERFACE_SUP_HR + 'login/getPlatformUserTypeList', comData0, (data0, data) => {
+					this.hideLoading();
+					console.log('getPlatformUserTypeList:' + JSON.stringify(data));
+					if (data.code == 0) {
+						this.utypeArray = [].concat(data.data);
+						this.utype_index = 0;
+						this.setTypeStr();
+					} else {
+						this.showToast(data.msg);
+					}
+				});
+			},
+			setTypeStr(){
+				if (this.utypeArray[this.utype_index].type_code == 'YHLX0003') {
+					this.typeStr0 = '老师';
+					this.typeStr1 = '老师';
+				} else if (this.utypeArray[this.utype_index].type_code == 'YHLX0004'){
+					this.typeStr0 = '学生';
+					this.typeStr1 = '家长';
+				}else if (this.utypeArray[this.utype_index].type_code == 'YHLX0005'){
+					this.typeStr0 = '学生';
+					this.typeStr1 = '家长';
+				}
+			},
 			clearInput: function() {
 				this.utype_index = 0;
 				this.userName = '';
@@ -121,7 +175,8 @@
 					var comData0 = {
 						platform_code: this.globaData.PLATFORMCODE, //平台代码
 						app_code: this.globaData.APPCODE, //应用系统代码
-						user_type: '', //用户类型
+						// user_type: '', //用户类型
+						user_type: this.utypeArray[this.utype_index].type_code, //用户类型
 						user_name: this.userName, //姓名，注册老师的时候输入老师的姓名，注册学生和家长时输入学生姓名
 						phone: this.userPhone, //电话，注册老师的时候输入老师的姓名，注册学生和家长时输入家长电话
 						msg_token: this.msg_token, //短信验证授权码
@@ -156,7 +211,8 @@
 					var comData0 = {
 						platform_code: this.globaData.PLATFORMCODE, //平台代码
 						app_code: this.globaData.APPCODE, //应用系统代码
-						user_type: '', //
+						// user_type: '', //
+						user_type: this.utypeArray[this.utype_index].type_code, //用户类型
 						user_name: this.userName, //姓名，注册老师的时候输入老师的姓名，注册学生和家长时输入学生姓名
 						phone: this.userPhone //电话，注册老师的时候输入老师的姓名，注册学生和家长时输入家长电话
 					};

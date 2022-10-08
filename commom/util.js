@@ -1265,6 +1265,19 @@ function getPageArray() {
 			}]
 		},
 		{
+			name: "量化考评", //量化考评
+			pagePath: "/pages/evaluationRecord/index",
+			pagePath1: "/pages/evaluationRecord/index1",
+			iconPath: tempAAA + '/static/tabbar/evaluationRecord.png',
+			selectedIconPath: tempAAA + '/static/tabbar/evaluationRecord_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/evaluationRecord_img.png",
+			url: 'schapp_EvaluationRecord',
+			childList: []
+		},
+		{
 			name: "健康上报", //学生健康信息上报 家长、学生端
 			pagePath: "/pages/stuHealthMsg/stuHealthMsgUploadIndex",
 			pagePath1: "/pages/stuHealthMsg/stuHealthMsgUploadIndex1",
@@ -1273,7 +1286,7 @@ function getPageArray() {
 			count: 0,
 			isDot: false,
 			customIcon: false,
-			img_href: tempAAA + "/static/images/stuHealthMsg/stuHealthMsgUpload.png",
+			img_href: tempAAA + "/static/tabbar/stuHealthMsg_select.png",
 			url: 'schapp_StuHealthMsg',
 			childList: []
 		},
@@ -1288,6 +1301,19 @@ function getPageArray() {
 			customIcon: false,
 			img_href: tempAAA + "/static/tabbar/stuHealthMsg_select.png",
 			url: 'schapp_StuHealthMsgTeacher_info',
+			childList: []
+		},
+		{
+			name: "宿舍考勤", //宿舍考勤 家长、学生端
+			pagePath: "/pages/dormAttendance/index",
+			pagePath1: "/pages/dormAttendance/index1",
+			iconPath: tempAAA + '/static/tabbar/dormAttendance.png',
+			selectedIconPath: tempAAA + '/static/tabbar/dormAttendance_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/dormAttendance_img.png",
+			url: 'schapp_DormAttendance',
 			childList: []
 		}
 	];

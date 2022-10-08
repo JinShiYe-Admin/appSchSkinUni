@@ -112,7 +112,7 @@
 							url: '/pages/login/indexWX?openid=' + openid
 						});
 					} else {
-						if (this.globaData.EnvKey == 5) {
+						// if (this.globaData.EnvKey == 5) {
 							//#ifdef H5
 							console.log('页面url:' + window.location.href);
 							var tempUrl = window.location.href;
@@ -125,15 +125,16 @@
 									appid = tempArray[a];
 								}
 							}
+							// appid = 'wxf9b41cac260dd423';
 							let tempGo = 'https://jsypay.jiaobaowang.net/jsypaym/wxpay/ThdGetOpenid.ashx?appid=' + appid +
 								'&returi=' + encodeURIComponent(tempUrl);
 							console.log('tempGo:' + tempGo);
 							// 向服务器传递appid、返回URL
 							location.replace(tempGo);
 							//#endif 
-						} else {
-							this.showInput = 2;
-						}
+						// } else {
+						// 	this.showInput = 2;
+						// }
 					}
 				}
 				console.log('this.showInput:' + this.showInput);
@@ -166,6 +167,7 @@
 								appid = tempArray[a];
 							}
 						}
+						// appid = 'wxf9b41cac260dd423';
 						let tempGo = 'https://jsypay.jiaobaowang.net/jsypaym/wxpay/ThdGetOpenid.ashx?appid=' + appid +
 							'&returi=' + encodeURIComponent(tempUrl);
 						console.log('tempGo:' + tempGo);
@@ -483,7 +485,7 @@
 						console.log("跳转页面吧");
 						// this.jsonData = tempData;
 						var tempArray = util.getMenu();
-						// console.log('tempArray:' + JSON.stringify(tempArray));
+						console.log('tempArray:' + JSON.stringify(tempArray));
 						util.getPushCut();
 						if (tempArray.length > 0) {
 							var tempStr = JSON.stringify(tempArray[0]);
@@ -501,7 +503,7 @@
 							// #endif
 							console.log('我绑定了我的别名');
 						} else {
-							this.showToast('当前系统没有可用菜单');
+							this.showToast('账号未授权，请联系管理员！');
 						}
 					}
 				}

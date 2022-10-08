@@ -165,7 +165,8 @@
 							app_code: this.globaData.APPCODE, //应用系统代码
 							index_code: 'index', //页面权限符
 							user_code: this.curPage.user_code, //用户代码
-							user_type: '', //用户类型
+							// user_type: '', //用户类型
+							user_type: this.curPage.user_type, //用户类型
 							user_name: this.curPage.user_name, //姓名
 							phone: this.curPage.phone, //电话
 							password: md5.hex_md5(this.PWD_ENCRYPTION + this.confirmpassword), //密码,秘钥+密码再MD5加密

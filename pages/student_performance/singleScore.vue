@@ -1,17 +1,9 @@
 <template>
 	<view>
-		<!-- #ifdef H5 -->
 		<view class="tabs-fixed">
 			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
 				activeColor="#00CFBD"></uni-segmented-control>
 		</view>
-		<!-- #endif -->
-		<!-- #ifdef APP -->
-		<view class="tabs-fixed" style="top: 0px;">
-			<uni-segmented-control :current="semFlag" :values="semValuesArray" @clickItem="clickSeg" styleType="button"
-				activeColor="#00CFBD"></uni-segmented-control>
-		</view>
-		<!-- #endif -->
 		<view class="content" style="margin-top: 60px;">
 			<h4 class="examName">{{itemData.name}}</h4>
 			<view v-if="semFlag == 0">
@@ -719,5 +711,13 @@
 		justify-content: center;
 		font-size: 13px;
 		word-break: break-all;
+	}
+	.tabs-fixed{
+		/* #ifdef H5 */
+		top: 40px;
+		/* #endif */
+		/* #ifndef H5 */
+		top: 0px;
+		/* #endif */
 	}
 </style>

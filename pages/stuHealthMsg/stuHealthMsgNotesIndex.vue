@@ -37,6 +37,7 @@
 				flagRef: 0, //是刷新0，还是加载更多1
 				loadMoreText: "加载中...",
 				showLoadMore: false,
+				stuModel:{},
 			}
 		},
 		onLoad(option) {
@@ -45,6 +46,7 @@
 			this.itemData = util.getPageData(option);
 			this.itemData.text = '上报记录';
 			console.log('this.itemData:' + JSON.stringify(this.itemData));
+			this.stuModel = this.itemData.stuModel;
 			uni.setNavigationBarTitle({
 				title: this.itemData.text
 			});
@@ -95,7 +97,7 @@
 			},
 			getPageList() {
 				var comData = {
-					stu_code: this.personInfo.stu_code, //
+					stu_code: this.stuModel.stu_code, //
 					page_number: this.pageIndex, //当前页数
 					page_size: '20', //每页记录数
 					index_code:  this.itemData.index_code

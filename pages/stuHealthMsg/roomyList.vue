@@ -93,6 +93,7 @@
 					text: '朋友',
 					value: 5
 				}],
+				stuModel:{},
 			}
 		},
 		components: {
@@ -106,11 +107,12 @@
 			this.navItem = util.getPageData(option);
 			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			this.navItem.text = '同住人管理';
+			this.navItem.name = '同住人管理';
 			this.navItem.index = 100;
-			this.index_code = this.navItem.access.split("#")[1]
+			this.index_code = this.navItem.access.split("#")[1];
+			this.stuModel = this.navItem.stuModel;
 			//#ifdef H5
 			document.title = "";
-			this.wxTips = ',微信端不支持多选'; //如果是H5，需要提示该内容
 			//#endif
 			// 2.16.学生同住人列表
 			this.getRoomyList();
@@ -168,7 +170,7 @@
 					} else{
 						var comData = {
 							index_code: _this.index_code,
-							stu_code: this.personInfo.stu_code, //
+							stu_code: this.stuModel.stu_code, //
 							name:this.editModel.otherName,
 							relation:this.relationList[this.editModel.relationIndex].text
 						}
@@ -219,7 +221,7 @@
 			getRoomyList() {
 				var comData = {
 					index_code: _this.index_code,
-					stu_code: this.personInfo.stu_code //
+					stu_code: this.stuModel.stu_code //
 				}
 				this.showLoading();
 				// 2.16.学生同住人列表

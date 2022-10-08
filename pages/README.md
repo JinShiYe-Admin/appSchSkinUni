@@ -187,3 +187,6 @@ zhiXueKeTang|智学课堂|zhao|廖建鹏|开发|文档完成
 homeworkAndWeekTest_stu|作业与周测 学生|liu|蒙士阅|开发|文档完成
 homeworkAndWeekTest|作业与周测 教师|zhao|蒙士阅|开发|文档完成
 stuLocationPath|学生轨迹|zhao|顾 孔|开发|文档完成
+stuHealthMsg|健康上报、家长学生端|zhao|顾 蒙|正式|文档完成
+stuHealthMsgTeacher|健康上报|zhao|顾 蒙|正式|文档完成
+evaluationRecord|量化考评|zhao|顾 孔|开发|

@@ -386,7 +386,7 @@
 			"path": "pages/login/indexWX",
 			"style": {
 				"navigationStyle": "custom", // 隐藏系统导航栏
-				"navigationBarTitleText": "注册",
+				// "navigationBarTitleText": "注册",
 				"enablePullDownRefresh": false
 			}
 
@@ -3027,7 +3027,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"0px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"0px"
+                	}
+                }
             }
             
         }
@@ -3073,7 +3085,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"0px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"0px"
+                	}
+                }
             }
             
         }
@@ -3082,7 +3106,19 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
+		        "enablePullDownRefresh": true,
+		        "app-plus": {
+		        	"pullToRefresh": {
+		        		"support": true,
+		        		"style": "circle",
+		        		"offset":"0px"
+		        	}
+		        },
+		        "h5":{
+		        	"pullToRefresh":{
+		        		"offset":"0px"
+		        	}
+		        }
 		    }
 		    
 		}
@@ -3091,7 +3127,19 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
+		        "enablePullDownRefresh": true,
+		        "app-plus": {
+		        	"pullToRefresh": {
+		        		"support": true,
+		        		"style": "circle",
+		        		"offset":"0px"
+		        	}
+		        },
+		        "h5":{
+		        	"pullToRefresh":{
+		        		"offset":"0px"
+		        	}
+		        }
 		    }
 		    
 		}
@@ -3100,7 +3148,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"0px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"0px"
+                	}
+                }
             }
             
         }
@@ -3109,7 +3169,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"0px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"0px"
+                	}
+                }
             }
         }
         ,{
@@ -3129,6 +3201,144 @@
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/stuHealthMsg/changeStu",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluationRecord/index",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluationRecord/index1",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluationRecord/add",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluationRecord/evaluationDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluationRecord/clsDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluationRecord/stuDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/dormAttendance/index",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/dormAttendance/index1",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
             }
             
         }
@@ -3241,6 +3451,12 @@
 			},
 			{
 				"pagePath": "pages/stuHealthMsg/stuHealthMsgUploadIndex"
+			},
+			{
+				"pagePath": "pages/evaluationRecord/index"
+			},
+			{
+				"pagePath": "pages/dormAttendance/index"
 			}
 		]
 	}

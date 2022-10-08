@@ -62,7 +62,7 @@
 				<view class="form-right">{{navItem.attendance_date}}</view>
 			</view>
 		</view>
-		<view v-else-if="editStatus===1">  
+		<view v-else-if="editStatus===1">
 			<view class="tabs-fixed">
 				<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#00cfbd" @clickItem="onClickItem" />
 			</view>
@@ -284,7 +284,7 @@
 					  }
 				}
 			},
-			textClickRight(data) {
+			async textClickRight(data) {
 				console.log('textClickRight')
 				if (_this.text.length==1) {
 					_this.editStatus=1
@@ -292,17 +292,17 @@
 					_this.text=['取消','保存'];
 					// _this.textClick=[_this.cancel,_this.save]
 					if(_this.formByDorm.build_floor_list.length===0){
-						_this.getBuildingList();
+						await _this.getBuildingList();
 					}
 					if(_this.qaList.length===0 || _this.attendanceList.length===0){
-						_this.getDict();
+						await _this.getDict();
 					}
-					_this.setDefaultData()
+					await _this.setDefaultData()
 				} else{
 					if (data == 0) {
-						_this.cancel();
+						await _this.cancel();
 					} else if (data == 1) {
-						_this.save();
+						await _this.save();
 					}
 				}
 			},
@@ -864,8 +864,8 @@
 		/* #ifdef H5 */
 		margin: 44px 0 2px;
 		/* #endif */
-		/* #ifdef APP-PLUS */
-		margin: 0px 0 2px;
+		/* #ifndef H5 */
+		margin: 50px 0 2px;
 		/* #endif */
 	}
 	
@@ -899,5 +899,13 @@
 		font-size: 13px;
 		height: 80px;
 		padding: 5px;
+	}
+	.tabs-fixed {
+		/* #ifdef H5 */
+		top: 44px;
+		/* #endif */
+		/* #ifndef H5 */
+		top: 70px;
+		/* #endif */
 	}
 </style>
