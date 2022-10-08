@@ -3027,7 +3027,19 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset":"0px"
+                	}
+                },
+                "h5":{
+                	"pullToRefresh":{
+                		"offset":"0px"
+                	}
+                }
             }
             
         }
@@ -3202,6 +3214,134 @@
             }
             
         }
+        ,{
+            "path" : "pages/evaluationRecord/index",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluationRecord/index1",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluationRecord/add",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluationRecord/evaluationDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluationRecord/clsDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluationRecord/stuDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/dormAttendance/index",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/dormAttendance/index1",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
     ],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {
@@ -3311,6 +3451,12 @@
 			},
 			{
 				"pagePath": "pages/stuHealthMsg/stuHealthMsgUploadIndex"
+			},
+			{
+				"pagePath": "pages/evaluationRecord/index"
+			},
+			{
+				"pagePath": "pages/dormAttendance/index"
 			}
 		]
 	}

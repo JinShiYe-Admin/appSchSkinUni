@@ -578,7 +578,7 @@
 		top: 40px;
 		/* #endif */
 		/* #ifndef H5 */
-		top: 60px;
+		top: 0px;
 		/* #endif */
 	}
 </style>

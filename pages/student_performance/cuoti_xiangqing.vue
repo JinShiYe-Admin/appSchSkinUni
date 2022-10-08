@@ -286,7 +286,11 @@
 				this.post(this.globaData.INTERFACE_STUSCORE + 'errorBook/catalogs', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
-						callback(data.data.list[0].catalog_list);
+						if (data.data.list.length==0) {
+							this.showToast('目录为空');
+						}else{
+							callback(data.data.list[0].catalog_list);
+						}
 					} else {
 						this.showToast(data.msg);
 					}
@@ -414,7 +418,7 @@
 		top: 40px;
 		/* #endif */
 		/* #ifndef H5 */
-		top: 60px;
+		top: 0px;
 		/* #endif */
 	}
 </style>

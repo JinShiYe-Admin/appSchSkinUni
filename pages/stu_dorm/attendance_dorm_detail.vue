@@ -864,8 +864,8 @@
 		/* #ifdef H5 */
 		margin: 44px 0 2px;
 		/* #endif */
-		/* #ifdef APP-PLUS */
-		margin: 0px 0 2px;
+		/* #ifndef H5 */
+		margin: 50px 0 2px;
 		/* #endif */
 	}
 	
