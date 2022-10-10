@@ -2,7 +2,18 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :text='rightText' :textClick="textClick">
 		</mynavBar>
-		<uni-swipe-action>
+		<view class="tabs-fixed" style="background-color: #FFFFFF;">
+			<view style="display: flex;">
+				<picker style="flex: 1;"  @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
+					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="grdArray[grdIndex].text" ></uni-easyinput-select>
+				</picker>
+				<picker style="flex: 1;"  @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
+					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="clsArray[clsIndex].text" ></uni-easyinput-select>
+				</picker>
+			</view>
+			<view class="select-line"></view>
+		</view>
+		<uni-swipe-action style="padding-top: 40px;">
 			<uni-swipe-action-item v-for="(item,index) in pageArray" :disabled="deleteFlag" :right-options="options" @click="onClick(index)">
 				<uni-list-item showArrow clickable :border="true">
 					<view slot="body" class="slot-box slot-text" @click.stop="clickItem(item)">
@@ -56,6 +67,11 @@
 					}
 				}],
 				delIndex:0,
+				//顶部筛选框相关内容
+				grdIndex:0,
+				clsIndex:0,
+				grdArray: [{text:'',value:'-1'}],
+				clsArray: [{text:'',value:'-1'}],
 			}
 		},
 		components: {
@@ -85,8 +101,9 @@
 					}
 				})
 			}, 100);
+			this.getGrd()
 			// 28.量化考评-列表
-			this.getPageList();
+			// this.getPageList();
 			//#ifdef H5
 			document.title = ""
 			//#endif
@@ -117,6 +134,85 @@
 			this.getPageList();
 		},
 		methods: {
+			grdClick:function(e){
+				if(this.grdIndex!==e.detail.value){
+					 this.grdIndex=e.detail.value
+					 this.clsIndex=0;
+					 this.clsArray=[{text:'',value:'-1'}];
+					 this.showLoading()
+					 this.loadMoreText = "加载中..."
+					 this.flagRef = 0;
+					 this.pageIndex = 1;
+					 this.getCls();
+				}
+			},
+			clsClick:function(e){
+				if(this.clsIndex!==e.detail.value){
+					 this.clsIndex=e.detail.value;
+					 this.showLoading()
+					 this.loadMoreText = "加载中..."
+					 this.flagRef = 0;
+					 this.pageIndex = 1;
+					 this.getPageList();
+				}
+			},
+			getGrd(){//获取年级
+				let comData={
+					op_code:'index',
+					get_grd:true,
+					all_grd: true,
+					index_code:this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+				    console.log("responseaaa: " + JSON.stringify(response));
+					this.hideLoading()
+					let grds = response.grd_list;
+					let grdArray=[];
+					grds.map(function(currentValue) {
+						let name=currentValue.name.indexOf('全部')==-1?currentValue.name:'全部年级';
+						let obj = {};
+						obj.value = currentValue.value;
+						obj.text = name;
+						grdArray.push(obj)
+					})
+					if(grdArray.length>0 ){
+						this.grdArray=grdArray;
+						this.getCls();
+					}else{ 
+						this.grdArray=[];
+						this.showToast('无数据授权 无法获取年级');
+					}
+				})
+			},
+			getCls(){//获取班级
+				let comData={
+					op_code:'index',
+					grd_code:this.grdArray[this.grdIndex].value,
+					get_cls:true,
+					all_cls:true,
+					index_code:this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+				    console.log("responseaaa: " + JSON.stringify(response));
+					this.hideLoading()
+					let clss = response.cls_list;
+					let clsArray=[];
+					clss.map(function(currentValue) {
+						let obj = {};
+						let name=currentValue.name.indexOf('全部')==-1?currentValue.name:'全部班级';
+						obj.value = currentValue.value;
+						obj.text = name;
+						clsArray.push(obj)
+					})
+					if(clsArray.length>0 ){
+						this.clsArray=clsArray;
+						this.getPageList();
+					}else{
+						this.clsArray=[];
+						this.showToast('无数据授权 无法获取班级');
+					}
+				})
+			},
 			onClick(index) {
 				this.delIndex = index;
 				//点击选项按钮时触发事件	
@@ -144,13 +240,19 @@
 				});
 			},
 			textClick() {
-				util.openwithData("/pages/evaluationRecord/add", _this.navItem, {
-					refreshEvaluationIndex() { //子页面调用父页面需要的方法
-						_this.flagRef = 0;
-						_this.pageIndex = 1;
-						_this.getPageList();
-					}
-				});
+				if(_this.grdArray.length==0){
+					_this.showToast('无法获取年级数据，不能进行添加操作')
+				}else if(_this.clsArray.length==0){
+					_this.showToast('无法获取班级数据，不能进行添加操作')
+				}else {
+					util.openwithData("/pages/evaluationRecord/add", _this.navItem, {
+						refreshEvaluationIndex() { //子页面调用父页面需要的方法
+							_this.flagRef = 0;
+							_this.pageIndex = 1;
+							_this.getPageList();
+						}
+					});
+				}
 			},
 			clickItem(model) {
 				model.index_code = _this.index_code;
@@ -162,8 +264,8 @@
 					index_code: _this.index_code,
 					page_number: this.pageIndex, //当前页数
 					page_size: '20', //每页记录数
-					cls_code: '-1',
-					grd_code: '-1',
+					grd_code: this.grdArray[this.grdIndex].value,
+					cls_code: this.clsArray[this.clsIndex].value,
 				}
 				this.showLoading();
 				// 28.量化考评-列表
@@ -198,6 +300,12 @@
 </script>
 
 <style>
+	.select-line{
+		height: 2px;
+		background-color: #00CFBD;
+		margin: 0 -15px;
+	}
+	
 	.leftView {
 		width: 40px;
 		height: 40px;
