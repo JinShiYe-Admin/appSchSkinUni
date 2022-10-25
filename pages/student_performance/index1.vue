@@ -68,7 +68,7 @@
 			<view v-else-if="semFlag == 2">
 				<my-swiperPage :allValue="semFlag2Data.subList" :showBackColor="true" @swiperPagechange='changeSwiper'></my-swiperPage>
 				<h4 class="spaceLine">本科知识点概况</h4>
-				<view class="charts-box">
+				<view class="charts-box" v-if="semFlag2Data.zhishidianShow.title">
 				  <qiun-data-charts type="arcbar" :opts="semFlag2Data.zhishidianShow" :chartData="semFlag2Data.zhishidianDFL"/>
 				</view>
 				<view style="text-align: center;">
@@ -87,7 +87,7 @@
 					</uni-grid-item>
 				</uni-grid>
 				<view style="text-align: center;margin-top: 10px;">
-					<span @click="clickKnowPointDetail"
+					<span @click="clickKnowPointDetail" v-if="semFlag2Data.nowSubject.sub_code"
 						style="background: #00CFBD;padding: 5px 25px;font-size: 14px;color:#fff;border-radius: 30px;">查看知识点详情</span>
 				</view>
 				<h4 class="spaceLine" style="background-color: #F86A6A;color: #fff;margin-top: 20px;">得分率最低的十个知识点</h4>
@@ -142,22 +142,22 @@
 					<view style="text-align: right;font-size: 13px;margin-top: 10px;margin-right: 15px;">
 						错题总数：{{semFlag3Data.wrongData.total_num}}道
 					</view>
-					<view class="charts-box" style="margin-top: -20px;">
+					<view class="charts-box" style="margin-top: -20px;" v-if="semFlag3Data.sumCountQs.series">
 					  <qiun-data-charts type="pie" :chartData="semFlag3Data.sumCountQs"/>
 					</view>
 					<view style="text-align: center;margin-top: 20px;">
-						<span @click="clickWrongBookDetail"
+						<span @click="clickWrongBookDetail" v-if="semFlag3Data.nowSubject.sub_code"
 							style="background: #00CFBD;padding: 10px 50px;font-size: 14px;color:#fff;border-radius: 30px;margin-bottom: 15px !important;">查看错题</span>
 					</view>
 				</view>
 				<view class="line"></view>
 				<h4 style="margin-top: 15px;font-size: 14px;font-weight: normal;margin-left: 10px;">历次考试错题数量趋势如下：</h4>
-				<view class="charts-box" style="margin-top: 10px;">
+				<view class="charts-box" style="margin-top: 10px;" v-if="semFlag3Data.kaoshiQs.categories">
 					<qiun-data-charts type="demotype" :chartData="semFlag3Data.kaoshiQs" background="none" />
 				</view>
 				<view class="line" style="margin-top: 10px;"></view>
 				<h4 style="margin-top: 20px;font-size: 14px;font-weight: normal;margin-left: 10px;">历次作业错题数量趋势如下：</h4>
-				<view class="charts-box" style="margin-top: 10px;">
+				<view class="charts-box" style="margin-top: 10px;" v-if="semFlag3Data.zuoyeQs.categories">
 					<qiun-data-charts type="demotype" :chartData="semFlag3Data.zuoyeQs" background="none" />
 				</view>
 				<h4 class="spaceLine" style="background-color: #F86A6A;color: #fff;margin-top: 5px;">知识点错题榜</h4>
@@ -491,9 +491,11 @@
 								this.semFlag0Data.subList = [].concat(subArray);
 								if (subArray.length > 0) {
 									this.semFlag0Data.nowSubject = subArray[0];
+									// 获取单科成绩列表
+									this.getSingleSubScore();
+								}else{
+									this.showToast('暂无数据');
 								}
-								// 获取单科成绩列表
-								this.getSingleSubScore();
 							});
 						}
 					} else if (this.semFlag == 1) {
@@ -512,9 +514,11 @@
 								this.semFlag2Data.subList = [].concat(subArray);
 								if (subArray.length > 0) {
 									this.semFlag2Data.nowSubject = subArray[0];
+									// 获取知识点分析
+									this.getKnowPoint();
+								}else{
+									this.showToast('暂无数据');
 								}
-								// 获取知识点分析
-								this.getKnowPoint();
 							});
 						}
 					} else if (this.semFlag == 3) {
@@ -528,9 +532,11 @@
 								this.semFlag3Data.subList = [].concat(subArray);
 								if (subArray.length > 0) {
 									this.semFlag3Data.nowSubject = subArray[0];
+									// 获取知识点分析
+									this.getWrongBook();
+								}else{
+									this.showToast('暂无数据');
 								}
-								// 获取知识点分析
-								this.getWrongBook();
 							});
 						}
 					}

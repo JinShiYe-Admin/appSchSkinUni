@@ -98,6 +98,7 @@
 				console.log('clickItem:' + JSON.stringify(model));
 				if (this.itemData.type == 1) {
 					util.openwithData("/pages/oa/gonggaoDetail", model);
+					// util.openwithData("/pages/oa/temp0", model);
 				} else if (this.itemData.type == 2) {
 					util.openwithData("/pages/oa/zhouchengDetail", model);
 				} else if (this.itemData.type == 3) {
