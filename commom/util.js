@@ -1315,7 +1315,67 @@ function getPageArray() {
 			img_href: tempAAA + "/static/tabbar/dormAttendance_img.png",
 			url: 'schapp_DormAttendance',
 			childList: []
-		}
+		},
+		{
+			name: "学生综合素质", //学生综合素质 学生家长端
+			pagePath: "/pages/mixedAblStu/index",
+			iconPath: tempAAA + '/static/tabbar/mixedAblStu.png',
+			selectedIconPath: tempAAA + '/static/tabbar/mixedAblStu_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/mixedAblStu_img.png",
+			url: 'schapp_MixedAblStu',
+			childList: [{
+				name: '报告填写',
+				icon: tempAAA + '/static/images/mixedAblStu/add.png',
+				pagePath: "/pages/mixedAblStu/add",
+				url: 'schapp_MixedAblStu_Add',
+				noReadCut: 0
+			}, {
+				name: '学生手册',
+				icon: tempAAA + '/static/images/mixedAblStu/manual.png',
+				pagePath: "/pages/mixedAblStu/manual",
+				url: 'schapp_MixedAblStu_Manual',
+				noReadCut: 0
+			}, {
+				name: '学生画像',
+				icon: tempAAA + '/static/images/mixedAblStu/portrait.png',
+				pagePath: "/pages/mixedAblStu/portrait",
+				url: 'schapp_MixedAblStu_Portrait',
+				noReadCut: 0
+			}, {
+				name: '学生期末总结',
+				icon: tempAAA + '/static/images/mixedAblStu/summary.png',
+				pagePath: "/pages/mixedAblStu/summary",
+				url: 'schapp_MixedAblStu_Summary',
+				noReadCut: 0
+			}]
+		},
+		{
+			name: "学生综合素质", //学生综合素质 教师端
+			pagePath: "/pages/mixedAblTea/index",
+			iconPath: tempAAA + '/static/tabbar/mixedAblStu.png',
+			selectedIconPath: tempAAA + '/static/tabbar/mixedAblStu_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/mixedAblStu_img.png",
+			url: 'schapp_MixedAblTea',
+			childList: [{
+				name: '学生手册',
+				icon: tempAAA + '/static/images/mixedAblTea/manual.png',
+				pagePath: "/pages/mixedAblTea/manual",
+				url: 'schapp_MixedAblStu_Manual',
+				noReadCut: 0
+			}, {
+				name: '学生画像',
+				icon: tempAAA + '/static/images/mixedAblTea/portrait.png',
+				pagePath: "/pages/mixedAblTea/portrait",
+				url: 'schapp_MixedAblStu_Portrait',
+				noReadCut: 0
+			}]
+		},
 	];
 	return tempArray;
 }
