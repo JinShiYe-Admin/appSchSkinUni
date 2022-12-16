@@ -73,6 +73,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_COSTMS = 'https://develop309.108800.com/cmsubapi/sub/api/'; //费用管理（孔）
 		GLOBALDATA.INTERFACE_HEALTH_DATA = 'https://developgx.108800.com:8443/stuhealth/api/'; //健康数据（蒙）
 		GLOBALDATA.INTERFACE_LHKP = 'https://develop309.108800.com/stuxwsubapi/evaluation/'; //量化考评（孔) 
+		GLOBALDATA.INTERFACE_ZHSZ = 'https://developgx.108800.com:8443/stuqualitysubapi/api/mixedAbl/'; //综合素质（农) 
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
@@ -114,6 +115,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_COSTMS = 'https://test.108800.com/cmsubapi/sub/api/'; //费用管理（孔）
 		GLOBALDATA.INTERFACE_HEALTH_DATA = 'https://test.108800.com/stuhealth/api/'; //健康数据（蒙）
 		GLOBALDATA.INTERFACE_LHKP = 'https://test.108800.com/stuxwsubapi/evaluation/'; //量化考评（孔) 
+		GLOBALDATA.INTERFACE_ZHSZ = 'https://test.108800.com/stuqualitysubapi/api/mixedAbl/'; //综合素质（农) 
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
@@ -155,6 +157,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_COSTMS = 'https://apps.108800.com/cmsubapi/sub/api/'; //费用管理（孔）
 		GLOBALDATA.INTERFACE_HEALTH_DATA = 'https://apps.108800.com/stuhealth/api/';//学生健康上报
 		GLOBALDATA.INTERFACE_LHKP = 'https://apps.108800.com/stuxwsubapi/evaluation/'; //量化考评（孔) 
+		GLOBALDATA.INTERFACE_ZHSZ = 'https://apps.108800.com/stuqualitysubapi/api/mixedAbl/'; //综合素质（农) 
 		
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 17; //七牛appid

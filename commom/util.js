@@ -1329,7 +1329,7 @@ function getPageArray() {
 			childList: [{
 				name: '报告填写',
 				icon: tempAAA + '/static/images/mixedAblStu/add.png',
-				pagePath: "/pages/mixedAblStu/add",
+				pagePath: "/pages/mixedAblStu/reportList",
 				url: 'schapp_MixedAblStu_Add',
 				noReadCut: 0
 			}, {
@@ -1366,13 +1366,13 @@ function getPageArray() {
 				name: '学生手册',
 				icon: tempAAA + '/static/images/mixedAblTea/manual.png',
 				pagePath: "/pages/mixedAblTea/manual",
-				url: 'schapp_MixedAblStu_Manual',
+				url: 'schapp_MixedAblTea_Manual',
 				noReadCut: 0
 			}, {
 				name: '学生画像',
 				icon: tempAAA + '/static/images/mixedAblTea/portrait.png',
 				pagePath: "/pages/mixedAblTea/portrait",
-				url: 'schapp_MixedAblStu_Portrait',
+				url: 'schapp_MixedAblTea_Portrait',
 				noReadCut: 0
 			}]
 		},

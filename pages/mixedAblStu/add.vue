@@ -97,8 +97,8 @@
 					page_number:this.pageIndex,
 					index_code: this.index_code,
 				}
-				// 22.获取报销审批列表
-				this.post(this.globaData.INTERFACE_COSTMS + 'accountApply/getAccountApproves', comData, (data0, data) => {
+				// 列表查询报告填写记录
+				this.post(this.globaData.INTERFACE_ZHSZ + 'stu/reportList', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
 						for (var i = 0; i < data.data.list.length; i++) {

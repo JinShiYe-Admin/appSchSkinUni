@@ -13,8 +13,8 @@
 									<uni-card >
 										<view v-if="item.student_behavior_id!=null"><!-- 行为项目文本不为空说明有行为记录 -->
 											<view class="u-order-time">{{item.order_time}}</view>
-											<view class="u-order-title">{{item.item_txt}}</view>
-											<view class="u-order-time">{{item.behavior_time}}</view>
+											<a class="u-order-title">{{item.item_txt}}</a>
+											<view style="" class="u-order-time">{{item.behavior_time}}</view>
 											<view class="u-order-time">{{item.day}} {{item.class_node}} {{item.sub_name}}</view>
 											<view class="u-order-detail">{{item.comment}}</view>
 											<template v-if="item.bimgs.length>0">
@@ -25,7 +25,7 @@
 											<view class="u-order-right-txt"><view class="u-order-right">记</view>{{item.behavior_recorder}}</view>
 										</view>
 										<view v-if="item.id!=null"><!-- 谈话文本不为空说明有谈话记录 -->
-											<view class="u-order-title2">谈话</view>
+											<a class="u-order-title2">谈话</a>
 											<view class="u-order-time">{{item.chat_time&&item.chat_time.split(' ')[0]}}</view>
 											<view class="u-order-detail">{{item.chat_detail}}</view>
 											<template v-if="item.aimgs.length>0">
@@ -48,9 +48,9 @@
 						<view slot="body" class="slot-box slot-text">
 							<uni-row>
 								<uni-col style="display: flex;align-items: center;">
-									<uni-col v-if="item.remark_type=='termRemark'" :span="5"><view class="u-order-title1" style="background: #FF6666;margin-left: 0px;">{{item.remark_type_txt}}</view></uni-col><!-- 期评 -->
-									<uni-col v-if="item.remark_type=='monthRemark'" :span="5"><view class="u-order-title1" style="background: #5BBA5B;margin-left: 0px;">{{item.remark_type_txt}}</view></uni-col><!-- 月评 -->
-									<uni-col v-if="item.remark_type=='weekRemark'" :span="5"><view class="u-order-title1" style="background: #00CFBD;margin-left: 0px;">{{item.remark_type_txt}}</view></uni-col><!-- 周评 -->
+									<uni-col v-if="item.remark_type=='termRemark'" :span="5"><a class="u-order-title1" style="background: #FF6666;margin-left: 0px;">{{item.remark_type_txt}}</a></uni-col><!-- 期评 -->
+									<uni-col v-if="item.remark_type=='monthRemark'" :span="5"><a class="u-order-title1" style="background: #5BBA5B;margin-left: 0px;">{{item.remark_type_txt}}</a></uni-col><!-- 月评 -->
+									<uni-col v-if="item.remark_type=='weekRemark'" :span="5"><a class="u-order-title1" style="background: #00CFBD;margin-left: 0px;">{{item.remark_type_txt}}</a></uni-col><!-- 周评 -->
 									<uni-col :span="19"><view class="u-order-time">{{item.year}} 学年 {{item.term_name}}</view></uni-col>
 								</uni-col>
 								<uni-col :span="19" :offset="5"><view class="u-order-detail">{{item.remark}}</view></uni-col>
@@ -334,7 +334,8 @@
 	.u-order-time {
 		color: rgba(144,144,144);
 		font-size: 26rpx;
-	}
+		margin-top: 5px;
+		margin-bottom: 5px;}
 	.u-order-detail{
 		color: rgba(144,144,144);
 		font-size:26rpx;
@@ -376,17 +377,18 @@
 		justify-content: flex-end;
 	}
 	.u-order-title,.u-order-title1,.u-order-title2 {
-		margin: 5px 0;
+		/* margin: 5px 0; */
 		font-size: 13px;
 		height: 30px !important;
-		width: 70px;
+		/* width: 70px; */
 		text-align: center;
 		background: #ff9900;
 		border-radius: 5px;
 		color: white;
-		display: flex;
+		padding: 4px 20px;
+		/* display: flex;
 		align-items: center;
-		justify-content: space-around;
+		justify-content: space-around; */
 	}
 	.u-order-title1{
 		height:25px !important;
