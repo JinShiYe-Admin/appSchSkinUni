@@ -238,6 +238,8 @@ Vue.prototype.QN_CWGL_BX = "cwgl/baoxiao/"; //报销
 Vue.prototype.QN_JKSB_JKM = "jksb/jkm/"; //健康码
 Vue.prototype.QN_JKSB_XXM = "jksb/xcm/"; //行程码
 Vue.prototype.QN_JKSB_NOTE = "jksb/note/"; //特殊情况图片
+// 学生综合素质
+Vue.prototype.QN_XSZHSZ = "xszhsz/sign/"; //
 
 //----------家校互动短信配置---------start
 Vue.prototype.MSG_SMS = {

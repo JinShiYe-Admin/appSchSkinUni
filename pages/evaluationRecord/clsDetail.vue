@@ -156,6 +156,7 @@
 						data: tempArr1
 					}]
 				}
+				console.log('this.chartSxl:' + JSON.stringify(this.chartSxl));
 			}
 		}
 	}

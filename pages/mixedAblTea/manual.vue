@@ -38,7 +38,8 @@
 						<uni-row>
 							<uni-col :span='8' v-for="model in item.mod_array">
 								<view style='font-size: 14px;margin: 2px 0;'>
-									{{model.name}}：<span style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
+									{{model.name}}：<span
+										style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
 								</view>
 							</uni-col>
 						</uni-row>
@@ -50,13 +51,15 @@
 						<uni-row>
 							<uni-col :span='8' v-for="model in item.mod_array">
 								<view style='font-size: 14px;margin: 2px 0;'>
-									{{model.name}}：<span style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
+									{{model.name}}：<span
+										style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
 								</view>
 							</uni-col>
 						</uni-row>
-						<view style='font-weight: 600;margin-bottom: 5px;font-size: 16px;margin-top: 10px;'>综合性评语：</view>
-						<!-- <view style='font-size: 14px;text-indent:30px;'>{{item.mod_data.remark}}</view> -->
-						<view class='detail-text' style="text-indent:30px;">{{item.mod_data.remark}}</view>
+						<view style='font-weight: 600;margin-bottom: 5px;font-size: 16px;margin-top: 10px;'>综合性评语：
+						</view>
+						<view v-if="item.mod_data.remark&&item.mod_data.remark.length>0" class='detail-text' style="text-indent:30px;">{{item.mod_data.remark}}</view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
 					</uni-card>
 				</view>
 				<view v-if="item.mod_code == '1003'">
@@ -66,10 +69,13 @@
 							<uni-col :span='8' v-for="model in item.mod_array">
 								<view style="margin: 0 5px;">
 									<view style="font-size: 14px;text-align: center;">
-										<span style='font-size: 25px;font-weight: 600;color: #bd3124;'>{{model.name1}}</span>
+										<span
+											style='font-size: 25px;font-weight: 600;color: #bd3124;'>{{model.name1}}</span>
 										/{{model.name2}}学时
 									</view>
-									<view style="font-size: 15px;font-weight: 600;text-align: center;">{{model.name0}}</view>
+									<view style="font-size: 15px;font-weight: 600;text-align: center;height: 35px;">
+										{{model.name0}}
+									</view>
 								</view>
 							</uni-col>
 						</uni-row>
@@ -78,40 +84,86 @@
 				<view v-if="item.mod_code == '1005'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;'>{{item.mod_name}}</view>
-						<view v-if="item.mod_data.award&&item.mod_data.award.length>0" class='detail-text'>{{item.mod_data.award}}</view>
+						<view v-if="item.mod_data.award&&item.mod_data.award.length>0" class='detail-text'>
+							{{item.mod_data.award}}
+						</view>
 						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
 					</uni-card>
 				</view>
 				<view v-if="item.mod_code == '1006'">
-					<uni-card>
+					<uni-card isShadow>
 						<view style='font-weight: 600;'>{{item.mod_name}}</view>
-						<view v-if="item.mod_data.self_eval&&item.mod_data.self_eval.length>0" class='detail-text'>{{item.mod_data.self_eval}}</view>
+						<view v-if="item.mod_data.self_eval&&item.mod_data.self_eval.length>0" class='detail-text'>
+							{{item.mod_data.self_eval}}
+						</view>
 						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
 					</uni-card>
 				</view>
 				<view v-if="item.mod_code == '1004'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;'>{{item.mod_name}}</view>
-						<view v-if="item.mod_data.hobbies&&item.mod_data.hobbies.length>0" class='detail-text'>{{item.mod_data.hobbies}}</view>
+						<view v-if="item.mod_data.hobbies&&item.mod_data.hobbies.length>0" class='detail-text'>
+							{{item.mod_data.hobbies}}
+						</view>
 						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
 					</uni-card>
 				</view>
 				<view v-if="item.mod_code == '1008'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;'>{{item.mod_name}}</view>
-						<view v-if="item.mod_data.tch_eval&&item.mod_data.tch_eval.length>0" class='detail-text'>{{item.mod_data.tch_eval}}</view>
+						<view v-if="item.mod_data.tch_eval&&item.mod_data.tch_eval.length>0" class='detail-text'>
+							{{item.mod_data.tch_eval}}
+						</view>
 						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
 					</uni-card>
 				</view>
 				<view v-if="item.mod_code == '1007'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;'>{{item.mod_name}}</view>
-						<view v-if="item.mod_data.fam_eval&&item.mod_data.fam_eval.length>0" class='detail-text'>{{item.mod_data.fam_eval}}</view>
+						<view v-if="item.mod_data.fam_eval&&item.mod_data.fam_eval.length>0" class='detail-text'>
+							{{item.mod_data.fam_eval}}
+						</view>
 						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
 					</uni-card>
 				</view>
-				<view style="height: 5px;"></view>
+				<view v-if="item.mod_code == '1009'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.content" class="lTitle">参加的项目和内容：</view>
+						<view class='detail-text' style="">{{item.mod_data.content}}</view>
+						<view v-if="item.mod_data.time_place" class="lTitle">时间和地点：</view>
+						<view class='detail-text' style="">{{item.mod_data.time_place}}</view>
+						<view v-if="item.mod_data.hours" class="lTitle">累计时长：<span style='color: #939393;'>{{item.mod_data.hours}}小时</span></view>
+						<view v-if="item.mod_data.certifier" class="lTitle">证明人：<span style='color: #939393;'>{{item.mod_data.certifier}}</span></view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+					</uni-card>
+				</view>
+				<view v-if="item.mod_code == '1010'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.achievement&&item.mod_data.achievement.length>0" class='detail-text'>{{item.mod_data.achievement}}</view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+					</uni-card>
+				</view>
+				<view v-if="item.mod_code == '1011'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.attendance" class="lTitle">各级运动会参与情况：</view>
+						<view class='detail-text' style="">{{item.mod_data.attendance}}</view>
+						<view v-if="item.mod_data.interest" class="lTitle">掌握较好的或感兴趣的体育项目：</view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+						<view class='detail-text' style="">{{item.mod_data.interest}}</view>
+					</uni-card>
+				</view>
+				<view v-if="item.mod_code == '1012'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.other&&item.mod_data.other.length>0" class='detail-text'>{{item.mod_data.other}}</view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+					</uni-card>
+				</view>
 			</view>
+			<view style="height: 5px;"></view>
 		</view>
 	</view>
 </template>
@@ -140,14 +192,8 @@
 					text: '',
 					value: ''
 				}],
-				stuArray: [{
-					text: '',
-					value: ''
-				}],
-				pjArray: [{
-					text: '',
-					value: ''
-				}],
+				stuArray: [],
+				pjArray: [],
 				listArray: '',
 			}
 		},
@@ -180,7 +226,7 @@
 			stuClick: function(e) {
 				if (this.stuIndex !== e.detail.value) {
 					this.stuIndex = e.detail.value
-					if (this.pjArray.length>0) {
+					if (this.pjArray.length > 0) {
 						this.showLoading();
 						this.getList0();
 					}
@@ -189,7 +235,7 @@
 			pjClick: function(e) {
 				if (this.pjIndex !== e.detail.value) {
 					this.pjIndex = e.detail.value;
-					if (this.stuArray.length>0) {
+					if (this.stuArray.length > 0) {
 						this.showLoading()
 						this.getList0();
 					}
@@ -203,7 +249,7 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
-					console.log("responseaaa: " + JSON.stringify(response));
+					// console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let grds = response.grd_list;
 					let grdArray = [];
@@ -231,8 +277,9 @@
 					all_cls: false,
 					index_code: this.index_code,
 				}
+				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
-					console.log("responseaaa: " + JSON.stringify(response));
+					// console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let clss = response.cls_list;
 					let clsArray = [];
@@ -246,7 +293,7 @@
 					if (clsArray.length > 0) {
 						this.clsArray = clsArray;
 						this.getStu();
-						this.getPj();
+						// this.getPj();
 					} else {
 						this.clsArray = [];
 						this.showToast('无数据授权 无法获取班级');
@@ -276,8 +323,10 @@
 					})
 					if (stuArray.length > 0) {
 						this.stuArray = stuArray;
-						if (this.pjArray.length>0) {
+						if (this.pjArray.length > 0) {
 							this.getList0();
+						} else {
+							this.getPj();
 						}
 					} else {
 						this.stuArray = [];
@@ -285,7 +334,7 @@
 					}
 				})
 			},
-			getPj() {//1.2.列表查询综合素质评价 
+			getPj() { //1.2.列表查询综合素质评价 
 				let comData = {
 					grd_code: this.grdArray[this.grdIndex].value,
 					cls_code: this.clsArray[this.clsIndex].value,
@@ -297,11 +346,13 @@
 					this.hideLoading();
 					if (data.code == 0) {
 						this.pjArray = data.data.list;
-						if (data.data.list.length ==0) {
+						if (data.data.list.length == 0) {
 							this.showToast('当前年级班级暂无评价');
-						} else{
-							if (this.stuArray.length>0) {
+						} else {
+							if (this.stuArray.length > 0) {
 								this.getList0();
+							} else {
+								this.showToast('暂没有能选择的学生');
 							}
 						}
 					} else {
@@ -323,199 +374,167 @@
 							var tempM = data.data.mod_list[i];
 							if (tempM.mod_code == '1001') {
 								var tempArr = [];
-								if (tempM.mod_data.maths) {
-									var tempS = {
-										name:'数学',
-										value:tempM.mod_data.maths
-									}
-									tempArr.push(tempS);
+								var tempS = {
+									name: '数学',
+									value: tempM.mod_data.maths && tempM.mod_data.maths.length > 0 ? tempM
+										.mod_data.maths : '-'
 								}
-								if (tempM.mod_data.ch_skill) {
-									var tempS = {
-										name:'化学技能',
-										value:tempM.mod_data.ch_skill
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '化学技能',
+									value: tempM.mod_data.ch_skill && tempM.mod_data.ch_skill.length > 0 ?
+										tempM.mod_data.ch_skill : '-'
 								}
-								if (tempM.mod_data.political) {
-									var tempS = {
-										name:'政治',
-										value:tempM.mod_data.political
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '政治',
+									value: tempM.mod_data.political && tempM.mod_data.political.length > 0 ?
+										tempM.mod_data.political : '-'
 								}
-								if (tempM.mod_data.chinese) {
-									var tempS = {
-										name:'语文',
-										value:tempM.mod_data.chinese
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '语文',
+									value: tempM.mod_data.chinese && tempM.mod_data.chinese.length > 0 ? tempM
+										.mod_data.chinese : '-'
 								}
-								if (tempM.mod_data.computer) {
-									var tempS = {
-										name:'信息技术',
-										value:tempM.mod_data.computer
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '音乐',
+									value: tempM.mod_data.music && tempM.mod_data.music.length > 0 ? tempM
+										.mod_data.music : '-'
 								}
-								if (tempM.mod_data.music) {
-									var tempS = {
-										name:'音乐',
-										value:tempM.mod_data.music
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '地理',
+									value: tempM.mod_data.geography && tempM.mod_data.geography.length > 0 ?
+										tempM.mod_data.geography : '-'
 								}
-								if (tempM.mod_data.geography) {
-									var tempS = {
-										name:'地理',
-										value:tempM.mod_data.geography
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '物理',
+									value: tempM.mod_data.physics && tempM.mod_data.physics.length > 0 ? tempM
+										.mod_data.physics : '-'
 								}
-								if (tempM.mod_data.physics) {
-									var tempS = {
-										name:'物理',
-										value:tempM.mod_data.physics
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '英语',
+									value: tempM.mod_data.english && tempM.mod_data.english.length > 0 ? tempM
+										.mod_data.english : '-'
 								}
-								if (tempM.mod_data.english) {
-									var tempS = {
-										name:'英语',
-										value:tempM.mod_data.english
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '物理技能',
+									value: tempM.mod_data.p_skill && tempM.mod_data.p_skill.length > 0 ? tempM
+										.mod_data.p_skill : '-'
 								}
-								if (tempM.mod_data.p_skill) {
-									var tempS = {
-										name:'物理技能',
-										value:tempM.mod_data.p_skill
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '化学',
+									value: tempM.mod_data.chemistry && tempM.mod_data.chemistry.length > 0 ?
+										tempM.mod_data.chemistry : '-'
 								}
-								if (tempM.mod_data.chemistry) {
-									var tempS = {
-										name:'化学',
-										value:tempM.mod_data.chemistry
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '美术',
+									value: tempM.mod_data.art && tempM.mod_data.art.length > 0 ? tempM.mod_data
+										.art : '-'
 								}
-								if (tempM.mod_data.art) {
-									var tempS = {
-										name:'美术',
-										value:tempM.mod_data.art
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '生物',
+									value: tempM.mod_data.biology && tempM.mod_data.biology.length > 0 ? tempM
+										.mod_data.biology : '-'
 								}
-								if (tempM.mod_data.biology) {
-									var tempS = {
-										name:'生物',
-										value:tempM.mod_data.biology
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '生物技能',
+									value: tempM.mod_data.biol_skill && tempM.mod_data.biol_skill.length > 0 ?
+										tempM.mod_data.biol_skill : '-'
 								}
-								if (tempM.mod_data.biol_skill) {
-									var tempS = {
-										name:'生物技能',
-										value:tempM.mod_data.biol_skill
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '历史',
+									value: tempM.mod_data.history && tempM.mod_data.history.length > 0 ? tempM
+										.mod_data.history : '-'
 								}
-								if (tempM.mod_data.history) {
-									var tempS = {
-										name:'历史',
-										value:tempM.mod_data.history
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '体育',
+									value: tempM.mod_data.pe && tempM.mod_data.pe.length > 0 ? tempM.mod_data
+										.pe : '-'
 								}
-								if (tempM.mod_data.pe) {
-									var tempS = {
-										name:'体育',
-										value:tempM.mod_data.pe
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '当地课程',
+									value: tempM.mod_data.location && tempM.mod_data.location.length > 0 ?
+										tempM.mod_data.location : '-'
 								}
-								if (tempM.mod_data.location) {
-									var tempS = {
-										name:'当地课程',
-										value:tempM.mod_data.location
-									}
-									tempArr.push(tempS);
-								}
+								tempArr.push(tempS);
 								tempM.mod_array = tempArr;
 							}
 							if (tempM.mod_code == '1002') {
 								var tempArr = [];
-								if (tempM.mod_data.learning) {
-									var tempS = {
-										name:'学习能力',
-										value:tempM.mod_data.learning
-									}
-									tempArr.push(tempS);
+								var tempS = {
+									name: '身心健康',
+									value: tempM.mod_data.quality && tempM.mod_data.quality.length > 0 ? tempM
+										.mod_data.quality : '-'
 								}
-								if (tempM.mod_data.moral) {
-									var tempS = {
-										name:'道德品质',
-										value:tempM.mod_data.moral
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '思想品德',
+									value: tempM.mod_data.moral && tempM.mod_data.moral.length > 0 ?
+										tempM.mod_data.moral : '-'
 								}
-								if (tempM.mod_data.communication) {
-									var tempS = {
-										name:'交流合作',
-										value:tempM.mod_data.communication
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '艺术素养',
+									value: tempM.mod_data.appreciation && tempM.mod_data.appreciation.length >
+										0 ? tempM.mod_data.appreciation : '-'
 								}
-								if (tempM.mod_data.appreciation) {
-									var tempS = {
-										name:'审美评价',
-										value:tempM.mod_data.appreciation
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '学业水平',
+									value: tempM.mod_data.learning && tempM.mod_data.learning.length > 0 ?
+										tempM.mod_data.learning : '-'
 								}
-								if (tempM.mod_data.quality) {
-									var tempS = {
-										name:'公民素养',
-										value:tempM.mod_data.quality
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+								tempS = {
+									name: '社会实践',
+									value: tempM.mod_data.practice && tempM.mod_data.practice.length > 0 ?
+										tempM.mod_data.practice : '-'
 								}
-								if (tempM.mod_data.sport) {
-									var tempS = {
-										name:'运动健康',
-										value:tempM.mod_data.sport
-									}
-									tempArr.push(tempS);
-								}
+								tempArr.push(tempS);
 								tempM.mod_array = tempArr;
 							}
 							if (tempM.mod_code == '1003') {
 								var tempArr = [];
-								if (tempM.mod_data.study_lv) {
-									var tempS = {
-										name0:'研究性学习',
-										name1:tempM.mod_data.study_lv,
-										name2:tempM.mod_data.study_hours
-									}
-									tempArr.push(tempS);
+								var tempS = {
+									name0: '研究性学习',
+									name1:tempM.mod_data.study_lv&&tempM.mod_data.study_lv.length>0?tempM.mod_data.study_lv:'-',
+									name2:tempM.mod_data.study_hours&&tempM.mod_data.study_hours.length>0?tempM.mod_data.study_hours:'-'
 								}
-								if (tempM.mod_data.prac_lv) {
-									var tempS = {
-										name0:'社会实践与社区服务',
-										name1:tempM.mod_data.prac_lv,
-										name2:tempM.mod_data.prac_hours
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+
+								tempS = {
+									name0: '社会实践与社区服务',
+									name1:tempM.mod_data.prac_lv&&tempM.mod_data.prac_lv.length>0?tempM.mod_data.prac_lv:'-',
+									name2:tempM.mod_data.prac_hours&&tempM.mod_data.prac_hours.length>0?tempM.mod_data.prac_hours:'-'
 								}
-								if (tempM.mod_data.labour_lv) {
-									var tempS = {
-										name0:'劳动技术',
-										name1:tempM.mod_data.labour_lv,
-										name2:tempM.mod_data.labour_hours
-									}
-									tempArr.push(tempS);
+								tempArr.push(tempS);
+
+								tempS = {
+									name0: '劳动技术',
+									name1:tempM.mod_data.labour_lv&&tempM.mod_data.labour_lv.length>0?tempM.mod_data.labour_lv:'-',
+									name2:tempM.mod_data.labour_hours&&tempM.mod_data.labour_hours.length>0?tempM.mod_data.labour_hours:'-'
 								}
+								tempArr.push(tempS);
+								
+								tempS = {
+									name0:'信息技术',
+									name1:tempM.mod_data.computer_lv&&tempM.mod_data.computer_lv.length>0?tempM.mod_data.computer_lv:'-',
+									name2:tempM.mod_data.computer_hours&&tempM.mod_data.computer_hours.length>0?tempM.mod_data.computer_hours:'-'
+								}
+								tempArr.push(tempS);
 								tempM.mod_array = tempArr;
 							}
 						}
@@ -580,6 +599,10 @@
 		flex: 1;
 		font-size: 14px;
 		margin-right: 10px;
+	}
+	
+	.lTitle{
+		font-weight: 600;margin-bottom: 5px;font-size: 14px;margin-top: 10px;
 	}
 
 	.line {

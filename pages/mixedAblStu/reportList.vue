@@ -4,6 +4,7 @@
 		<view style="">
 			<view class="example-body">
 				<view v-for="(model,index) in pagedata" :key='index'>
+					<!-- <uni-card isShadow  v-if="model.stu_fill == 0"> -->
 					<uni-card isShadow>
 						<view class="title-text">
 							<view v-if="model.eval_type == 1" class='otherIndex'>期评</view>
@@ -13,9 +14,9 @@
 						<view style="font-size: 13px;color: #101010;margin-top: 3px;">创建人：{{model.create_user_name}}
 							<span style='margin-left: 30px;'>创建时间：{{model.create_time}}</span>
 						</view>
-						<view v-if="model.stu_fill == 0" style="text-align: center;margin-top: 10px;">
+						<view style="text-align: center;margin-top: 10px;">
 							<button style="width: 150px;border: 1px solid #00baad;color: #00baad;" type="default" size="mini"
-								@click="gotoDetail(item)">去填写</button>
+								@click="gotoAdd(model)">去填写</button>
 						</view>
 					</uni-card>
 				</view>
@@ -42,12 +43,12 @@
 			mynavBar
 		},
 		methods: {
-			clickItem(model) {
-				model.index_code = this.index_code;
-				util.openwithData('/pages/costMs/accountApproveDetail', model, {
-					refreshAccApproveIndexList(data) { //子页面调用父页面需要的方法
-						_this.showLoading();
-						_this.getList0();
+			gotoAdd(model) {
+				model.index_code = _this.index_code;
+				util.openwithData('/pages/mixedAblStu/add', model, {
+					refreshMixedAblStuList(data) { //子页面调用父页面需要的方法
+						// _this.showLoading();
+						// _this.getList0();
 					}
 				});
 			},
@@ -56,27 +57,11 @@
 					stu_code: this.personInfo.stu_code, //
 					index_code: this.index_code,
 				}
+				this.showLoading();
 				// 列表查询报告填写记录
 				this.post(this.globaData.INTERFACE_ZHSZ + 'stu/reportList', comData, (data0, data) => {
 					this.hideLoading();
 					if (data.code == 0) {
-						// for (var i = 0; i < data.data.list.length; i++) {
-						// 	let tempM = data.data.list[i];
-						// 	if(tempM.status == 1){
-						// 		tempM.statusStr = '预览';
-						// 	}else if(tempM.status == 2){
-						// 		tempM.statusStr = '待批';
-						// 	}else if(tempM.status == 3){
-						// 		tempM.statusStr = '已批';
-						// 	}
-						// 	if(tempM.progress == 1){
-						// 		tempM.progressStr = '新建';
-						// 	}else if(tempM.progress == 2){
-						// 		tempM.progressStr = '审批中';
-						// 	}else if(tempM.progress == 3){
-						// 		tempM.progressStr = '审毕';
-						// 	}
-						// }
 						this.pagedata = [].concat(data.data.list);
 						if (data.data.list.length == 0) {
 							this.showToast('暂无数据');

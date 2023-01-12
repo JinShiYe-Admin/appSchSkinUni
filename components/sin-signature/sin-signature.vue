@@ -1,7 +1,7 @@
 <template>
 	<view class="signature-wrap">
 		<view class="img-wrap" @tap="showSignature()" @touchstart="touchSignature()">
-			<image :src="absPrevView" mode="scaleToFill"></image>
+			<image :src="absPrevView" mode="scaleToFill" style="height: 150px;"></image>
 		</view>
 		<view v-if="!disabled" v-show="show" class="signature-contain">
 			<view class="signature-main" style="z-index: 3000;">

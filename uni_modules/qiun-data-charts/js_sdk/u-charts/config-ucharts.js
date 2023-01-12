@@ -54,10 +54,38 @@ const cfu = {
   "option":{},
   //下面是自定义format配置，因除H5端外的其他端无法通过props传递函数，只能通过此属性对应下标的方式来替换
   "formatter":{
+	  "yAxisDemo0":function(val, index, opts){
+	  	// console.log('val:'+val)
+	  	if (val == 0) {
+	  		return 'D';
+	  	} else if (val == 1) {
+	  		return 'C';
+	  	}else if (val == 2) {
+	  		return 'B';
+	  	}else if (val == 3) {
+	  		return 'A';
+	  	}else{
+	  		return 'D';
+	  	}
+	  },
     "yAxisDemo1":function(val, index, opts){return val+'元'},
     "yAxisDemo2":function(val, index, opts){return val.toFixed(2)},
     "xAxisDemo1":function(val, index, opts){return val+'年';},
     "xAxisDemo2":function(val, index, opts){return formatDateTime(val,'h:m')},
+	"seriesDemo0":function(val, index, series, opts){
+		console.log('val:'+val)
+		if (val == 0) {
+			return 'D';
+		} else if (val == 1) {
+			return 'C';
+		}else if (val == 2) {
+			return 'B';
+		}else if (val == 3) {
+			return 'A';
+		}else{
+			return 'D';
+		}
+	},
     "seriesDemo1":function(val, index, series, opts){return val+'元'},
     "tooltipDemo1":function(item, category, index, opts){
       if(index==0){
@@ -123,12 +151,12 @@ const cfu = {
       "lineHeight": 25,
 		},
 		"title": {
-			"name": "",
+			"name": "收益率",
 			"fontSize": 15,
 			"color": "#666666"
 		},
 		"subtitle": {
-			"name": "",
+			"name": "70%",
 			"fontSize": 25,
 			"color": "#7cb5ec"
 		},
@@ -251,7 +279,8 @@ const cfu = {
 		"extra": {
 			"line": {
 				"type": "straight",
-				"width": 2
+				"width": 2,
+        "activeType": "hollow"
 			},
 		}
 	},
@@ -278,7 +307,8 @@ const cfu = {
   	"extra": {
   		"line": {
   			"type": "curve",
-  			"width": 2
+  			"width": 2,
+        "activeType": "hollow"
   		},
   	}
   },
@@ -308,7 +338,8 @@ const cfu = {
   			"opacity": 0.2,
   			"addLine": true,
   			"width": 2,
-  			"gradient": true
+  			"gradient": true,
+        "activeType": "hollow"
   		},
   	}
   },
@@ -396,7 +427,8 @@ const cfu = {
 				"opacity": 0.2,
 				"addLine": true,
 				"width": 2,
-				"gradient": false
+				"gradient": false,
+        "activeType": "hollow"
 			},
 		}
 	},
@@ -416,7 +448,8 @@ const cfu = {
 				"gridColor": "#CCCCCC",
 				"gridCount": 3,
 				"opacity": 0.2,
-				"max": 200
+				"max": 200,
+				"labelShow": true
 			},
 		}
 	},
