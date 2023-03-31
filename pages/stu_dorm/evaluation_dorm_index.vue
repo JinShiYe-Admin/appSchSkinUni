@@ -3,7 +3,10 @@
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="grdArray[grdIndex].text" ></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{grdArray[grdIndex].text}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 				<view class="mini-date" style="flex: 1;">
 					<dy-Date :childValue='begintime' timeType="day" v-on:getData='beginTimeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>

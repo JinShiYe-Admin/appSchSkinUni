@@ -11,14 +11,18 @@
 				 <view class="uni-flex uni-row">
 					<view class="flex-item">
 						<picker  @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
-							<uni-easyinput-select :inputBorder="false" suffixIcon="arrowdown" disabled
-								:value="curGrdText"></uni-easyinput-select>
+							<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+								{{curGrdText}}
+								<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+							</view>
 						</picker>
 					</view>
 					<view class="flex-item">
 						<picker  @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
-							<uni-easyinput-select :inputBorder="false" suffixIcon="arrowdown" disabled
-								:value="curClsText"></uni-easyinput-select>
+							<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+								{{curClsText}}
+								<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+							</view>
 						</picker>
 					</view>
 				</view>

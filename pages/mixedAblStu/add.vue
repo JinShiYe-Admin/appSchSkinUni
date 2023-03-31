@@ -54,8 +54,8 @@
 							{{++index}}.{{item.mod_name}}
 						</view>
 						<view class="modDetail">参加各类学生组织、公益、服务活动的项目和内容：</view>
-						<textarea maxlength="300" v-model="item.mod_data.content" class="rightView" style=""
-							placeholder="请输入,限300字"></textarea>
+						<textarea maxlength="100" v-model="item.mod_data.content" class="rightView" style=""
+							placeholder="请输入,限100字"></textarea>
 						<view class="modDetail">时间和地点：</view>
 						<textarea maxlength="100" v-model="item.mod_data.time_place" class="rightView" style=""
 							placeholder="请输入,限100字"></textarea>

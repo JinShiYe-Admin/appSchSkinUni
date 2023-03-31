@@ -14,8 +14,10 @@
 			<view style="display: flex;">
 				<picker style="flex: 1;" @change="questionClick" :value="questionIndex" :range="questionList"
 					range-key="text">
-					<uni-easyinput-select :inputBorder="false" suffixIcon="arrowdown" disabled
-						:value="questionIndex>=0?questionList[questionIndex].text:'请选择'"></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{questionIndex>=0?questionList[questionIndex].text:'请选择'}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 			</view>
 		</view>

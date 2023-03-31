@@ -3,13 +3,22 @@
 		<view class="tabs-fixed">
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="yearClick" :value="yearIndex" :range="yearArray" range-key="year_name">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="yearIndex>=0?yearArray[yearIndex].year_name:'请选择'" ></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{yearIndex>=0?yearArray[yearIndex].year_name:'请选择'}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 				<picker style="flex: 1;"  @change="semClick" :value="semIndex" :range="semArray" range-key="term_name">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="semIndex>=0?semArray[semIndex].term_name:'请选择'" ></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{semIndex>=0?semArray[semIndex].term_name:'请选择'}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 				<picker style="flex: 1;" @change="subClick" :value="subIndex" :range="subArray" range-key="sub_name">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="subArray[subIndex].sub_name" ></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{subArray[subIndex].sub_name}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 			</view>
 			<view class="select-line"></view>

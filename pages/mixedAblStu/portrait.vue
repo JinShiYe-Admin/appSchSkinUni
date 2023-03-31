@@ -3,7 +3,7 @@
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view style="">
 			<view v-for="item in listArray">
-				<view v-if="item.mod_code == '1002'">
+				<view v-if="item.mod_type == '2'&&item.mod_code == '1002'">
 					<uni-card isShadow>
 						<uni-row>
 							<uni-col :span='8'>
@@ -26,7 +26,7 @@
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
 						<view class="charts-box">
 							<qiun-data-charts type="line"
-								:opts="{dataLabel:false,dataPointShape:false,extra:{line:{type:'curve'}},xAxis:{labelCount:10}}" :chartData="chartSxl1004" />
+								:opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}" :chartData="chartSxl1004" />
 						</view>
 					</uni-card>
 				</view>
@@ -34,7 +34,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
 						<view class="charts-box" style="margin-left: 10px;">
-							<qiun-data-charts type="column" :opts="{dataLabel:false,dataPointShape:false,xAxis:{labelCount:10,rotateLabel:true,}}" :chartData="chartSxl1005" />
+							<qiun-data-charts type="column" :opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}" :chartData="chartSxl1005" />
 						</view>
 					</uni-card>
 				</view>
@@ -42,7 +42,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
 						<view class="charts-box" style="margin-left: 10px;">
-							<qiun-data-charts type="column" :opts="{dataLabel:false,dataPointShape:false,xAxis:{labelCount:10,rotateLabel:true,}}" :chartData="chartSxl1006" />
+							<qiun-data-charts type="column" :opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}" :chartData="chartSxl1006" />
 						</view>
 					</uni-card>
 				</view>
@@ -52,7 +52,7 @@
 						<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
 						<view class="charts-box">
 							<qiun-data-charts type="line"
-								:opts="{dataLabel:false,dataPointShape:false,extra:{line:{type:'curve'}},xAxis:{labelCount:10,rotateLabel:true,},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
+								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve'},tooltip:{showCategory:true}},xAxis:{labelCount:10,rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl1007" />
 						</view>
 					</uni-card>
@@ -63,7 +63,7 @@
 						<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
 						<view class="charts-box">
 							<qiun-data-charts type="line"
-								:opts="{dataLabel:false,dataPointShape:false,extra:{line:{type:'curve'}},xAxis:{labelCount:10,rotateLabel:true,},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
+								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve'},tooltip:{showCategory:true}},xAxis:{labelCount:10,rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl1008" />
 						</view>
 					</uni-card>
@@ -74,7 +74,7 @@
 						<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
 						<view class="charts-box">
 							<qiun-data-charts type="line"
-								:opts="{dataLabel:false,dataPointShape:false,extra:{line:{type:'curve'}},xAxis:{labelCount:10,rotateLabel:true,},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
+								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve'},tooltip:{showCategory:true}},xAxis:{labelCount:10,rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl1009" />
 						</view>
 					</uni-card>
@@ -149,7 +149,7 @@
 				} else if (val == 'D') {
 					return 0;
 				} else {
-					return 0;
+					return null;
 				}
 			},
 			getList0() { //获取页面数据
@@ -165,7 +165,7 @@
 					if (data.code == 0) {
 						for (var i = 0; i < data.data.mod_list.length; i++) {
 							var tempM = data.data.mod_list[i];
-							if (tempM.mod_code == '1002') {
+							if (tempM.mod_type == '2'&&tempM.mod_code == '1002') {
 								if (tempM.mod_data.img_url == null) {
 									tempM.mod_data.img_url = 'https://www.108800.com/user.jpg';
 								}
@@ -190,102 +190,102 @@
 								for (var a = 0; a < tempM.mod_data.list.length; a++) {
 									var tempL = tempM.mod_data.list[a];
 									tempArr99.push('');
-									// tempArr0.push(this.setCharValue(tempL.maths));
-									// tempArr1.push(this.setCharValue(tempL.ch_skill));
-									// tempArr2.push(this.setCharValue(tempL.political));
-									// tempArr3.push(this.setCharValue(tempL.chinese));
-									// tempArr4.push(this.setCharValue(tempL.music));
-									// tempArr5.push(this.setCharValue(tempL.geography));
-									// tempArr6.push(this.setCharValue(tempL.physics));
-									// tempArr7.push(this.setCharValue(tempL.english));
-									// tempArr8.push(this.setCharValue(tempL.p_skill));
-									// tempArr9.push(this.setCharValue(tempL.chemistry));
-									// tempArr10.push(this.setCharValue(tempL.art));
-									// tempArr11.push(this.setCharValue(tempL.biology));
-									// tempArr12.push(this.setCharValue(tempL.biol_skill));
-									// tempArr13.push(this.setCharValue(tempL.history));
-									// tempArr14.push(this.setCharValue(tempL.pe));
-									// tempArr15.push(this.setCharValue(tempL.location));
-									if (tempL.maths) {
-										tempArr0.push(this.setCharValue(tempL.maths));
-									} else{
-										tempArr0.push();
-									}
-									if (tempL.ch_skill) {
-										tempArr1.push(this.setCharValue(tempL.ch_skill));
-									} else{
-										tempArr1.push();
-									}
-									if (tempL.political) {
-										tempArr2.push(this.setCharValue(tempL.political));
-									} else{
-										tempArr2.push();
-									}
-									if (tempL.chinese) {
-										tempArr3.push(this.setCharValue(tempL.chinese));
-									} else{
-										tempArr3.push();
-									}
-									if (tempL.music) {
-										tempArr4.push(this.setCharValue(tempL.music));
-									} else{
-										tempArr4.push();
-									}
-									if (tempL.geography) {
-										tempArr5.push(this.setCharValue(tempL.geography));
-									} else{
-										tempArr5.push();
-									}
-									if (tempL.physics) {
-										tempArr6.push(this.setCharValue(tempL.physics));
-									} else{
-										tempArr6.push();
-									}
-									if (tempL.english) {
-										tempArr7.push(this.setCharValue(tempL.english));
-									} else{
-										tempArr7.push();
-									}
-									if (tempL.p_skill) {
-										tempArr8.push(this.setCharValue(tempL.p_skill));
-									} else{
-										tempArr8.push();
-									}
-									if (tempL.chemistry) {
-										tempArr9.push(this.setCharValue(tempL.chemistry));
-									} else{
-										tempArr9.push();
-									}
-									if (tempL.art) {
-										tempArr10.push(this.setCharValue(tempL.art));
-									} else{
-										tempArr10.push();
-									}
-									if (tempL.biology) {
-										tempArr11.push(this.setCharValue(tempL.biology));
-									} else{
-										tempArr11.push();
-									}
-									if (tempL.biol_skill) {
-										tempArr12.push(this.setCharValue(tempL.biol_skill));
-									} else{
-										tempArr12.push();
-									}
-									if (tempL.history) {
-										tempArr13.push(this.setCharValue(tempL.history));
-									} else{
-										tempArr13.push();
-									}
-									if (tempL.pe) {
-										tempArr14.push(this.setCharValue(tempL.pe));
-									} else{
-										tempArr14.push();
-									}
-									if (tempL.location) {
-										tempArr15.push(this.setCharValue(tempL.location));
-									} else{
-										tempArr15.push();
-									}
+									tempArr0.push(this.setCharValue(tempL.maths));
+									tempArr1.push(this.setCharValue(tempL.ch_skill));
+									tempArr2.push(this.setCharValue(tempL.political));
+									tempArr3.push(this.setCharValue(tempL.chinese));
+									tempArr4.push(this.setCharValue(tempL.music));
+									tempArr5.push(this.setCharValue(tempL.geography));
+									tempArr6.push(this.setCharValue(tempL.physics));
+									tempArr7.push(this.setCharValue(tempL.english));
+									tempArr8.push(this.setCharValue(tempL.p_skill));
+									tempArr9.push(this.setCharValue(tempL.chemistry));
+									tempArr10.push(this.setCharValue(tempL.art));
+									tempArr11.push(this.setCharValue(tempL.biology));
+									tempArr12.push(this.setCharValue(tempL.biol_skill));
+									tempArr13.push(this.setCharValue(tempL.history));
+									tempArr14.push(this.setCharValue(tempL.pe));
+									tempArr15.push(this.setCharValue(tempL.location));
+									// if (tempL.maths) {
+									// 	tempArr0.push(this.setCharValue(tempL.maths));
+									// } else{
+									// 	tempArr0.push();
+									// }
+									// if (tempL.ch_skill) {
+									// 	tempArr1.push(this.setCharValue(tempL.ch_skill));
+									// } else{
+									// 	tempArr1.push();
+									// }
+									// if (tempL.political) {
+									// 	tempArr2.push(this.setCharValue(tempL.political));
+									// } else{
+									// 	tempArr2.push();
+									// }
+									// if (tempL.chinese) {
+									// 	tempArr3.push(this.setCharValue(tempL.chinese));
+									// } else{
+									// 	tempArr3.push();
+									// }
+									// if (tempL.music) {
+									// 	tempArr4.push(this.setCharValue(tempL.music));
+									// } else{
+									// 	tempArr4.push();
+									// }
+									// if (tempL.geography) {
+									// 	tempArr5.push(this.setCharValue(tempL.geography));
+									// } else{
+									// 	tempArr5.push();
+									// }
+									// if (tempL.physics) {
+									// 	tempArr6.push(this.setCharValue(tempL.physics));
+									// } else{
+									// 	tempArr6.push();
+									// }
+									// if (tempL.english) {
+									// 	tempArr7.push(this.setCharValue(tempL.english));
+									// } else{
+									// 	tempArr7.push();
+									// }
+									// if (tempL.p_skill) {
+									// 	tempArr8.push(this.setCharValue(tempL.p_skill));
+									// } else{
+									// 	tempArr8.push();
+									// }
+									// if (tempL.chemistry) {
+									// 	tempArr9.push(this.setCharValue(tempL.chemistry));
+									// } else{
+									// 	tempArr9.push();
+									// }
+									// if (tempL.art) {
+									// 	tempArr10.push(this.setCharValue(tempL.art));
+									// } else{
+									// 	tempArr10.push();
+									// }
+									// if (tempL.biology) {
+									// 	tempArr11.push(this.setCharValue(tempL.biology));
+									// } else{
+									// 	tempArr11.push();
+									// }
+									// if (tempL.biol_skill) {
+									// 	tempArr12.push(this.setCharValue(tempL.biol_skill));
+									// } else{
+									// 	tempArr12.push();
+									// }
+									// if (tempL.history) {
+									// 	tempArr13.push(this.setCharValue(tempL.history));
+									// } else{
+									// 	tempArr13.push();
+									// }
+									// if (tempL.pe) {
+									// 	tempArr14.push(this.setCharValue(tempL.pe));
+									// } else{
+									// 	tempArr14.push();
+									// }
+									// if (tempL.location) {
+									// 	tempArr15.push(this.setCharValue(tempL.location));
+									// } else{
+									// 	tempArr15.push();
+									// }
 								}
 								var tempSum = [{
 									name: "数学",
@@ -366,36 +366,36 @@
 								for (var a = 0; a < tempM.mod_data.list.length; a++) {
 									var tempL = tempM.mod_data.list[a];
 									tempArr99.push('');
-									// tempArr0.push(this.setCharValue(tempL.practice));
-									// tempArr1.push(this.setCharValue(tempL.learning));
-									// tempArr2.push(this.setCharValue(tempL.moral));
-									// tempArr3.push(this.setCharValue(tempL.appreciation));
-									// tempArr4.push(this.setCharValue(tempL.quality));
-									if (tempL.practice) {
-										tempArr0.push(this.setCharValue(tempL.practice));
-									} else{
-										tempArr0.push();
-									}
-									if (tempL.learning) {
-										tempArr1.push(this.setCharValue(tempL.learning));
-									} else{
-										tempArr1.push();
-									}
-									if (tempL.moral) {
-										tempArr2.push(this.setCharValue(tempL.moral));
-									} else{
-										tempArr2.push();
-									}
-									if (tempL.appreciation) {
-										tempArr3.push(this.setCharValue(tempL.appreciation));
-									} else{
-										tempArr3.push();
-									}
-									if (tempL.quality) {
-										tempArr4.push(this.setCharValue(tempL.quality));
-									} else{
-										tempArr4.push();
-									}
+									tempArr0.push(this.setCharValue(tempL.practice));
+									tempArr1.push(this.setCharValue(tempL.learning));
+									tempArr2.push(this.setCharValue(tempL.moral));
+									tempArr3.push(this.setCharValue(tempL.appreciation));
+									tempArr4.push(this.setCharValue(tempL.quality));
+									// if (tempL.practice) {
+									// 	tempArr0.push(this.setCharValue(tempL.practice));
+									// } else{
+									// 	tempArr0.push();
+									// }
+									// if (tempL.learning) {
+									// 	tempArr1.push(this.setCharValue(tempL.learning));
+									// } else{
+									// 	tempArr1.push();
+									// }
+									// if (tempL.moral) {
+									// 	tempArr2.push(this.setCharValue(tempL.moral));
+									// } else{
+									// 	tempArr2.push();
+									// }
+									// if (tempL.appreciation) {
+									// 	tempArr3.push(this.setCharValue(tempL.appreciation));
+									// } else{
+									// 	tempArr3.push();
+									// }
+									// if (tempL.quality) {
+									// 	tempArr4.push(this.setCharValue(tempL.quality));
+									// } else{
+									// 	tempArr4.push();
+									// }
 								}
 								var tempSum = [{
 									name: "社会实践",
@@ -431,30 +431,30 @@
 								for (var a = 0; a < tempM.mod_data.list.length; a++) {
 									var tempL = tempM.mod_data.list[a];
 									tempArr99.push('');
-									// tempArr0.push(this.setCharValue(tempL.prac_lv));
-									// tempArr1.push(this.setCharValue(tempL.labour_lv));
-									// tempArr2.push(this.setCharValue(tempL.study_lv));
-									// tempArr3.push(this.setCharValue(tempL.computer_lv));
-									if (tempL.prac_lv) {
-										tempArr0.push(this.setCharValue(tempL.prac_lv));
-									} else{
-										tempArr0.push();
-									}
-									if (tempL.labour_lv) {
-										tempArr1.push(this.setCharValue(tempL.labour_lv));
-									} else{
-										tempArr1.push();
-									}
-									if (tempL.study_lv) {
-										tempArr2.push(this.setCharValue(tempL.study_lv));
-									} else{
-										tempArr2.push();
-									}
-									if (tempL.computer_lv) {
-										tempArr3.push(this.setCharValue(tempL.computer_lv));
-									} else{
-										tempArr3.push();
-									}
+									tempArr0.push(this.setCharValue(tempL.prac_lv));
+									tempArr1.push(this.setCharValue(tempL.labour_lv));
+									tempArr2.push(this.setCharValue(tempL.study_lv));
+									tempArr3.push(this.setCharValue(tempL.computer_lv));
+									// if (tempL.prac_lv) {
+									// 	tempArr0.push(this.setCharValue(tempL.prac_lv));
+									// } else{
+									// 	tempArr0.push();
+									// }
+									// if (tempL.labour_lv) {
+									// 	tempArr1.push(this.setCharValue(tempL.labour_lv));
+									// } else{
+									// 	tempArr1.push();
+									// }
+									// if (tempL.study_lv) {
+									// 	tempArr2.push(this.setCharValue(tempL.study_lv));
+									// } else{
+									// 	tempArr2.push();
+									// }
+									// if (tempL.computer_lv) {
+									// 	tempArr3.push(this.setCharValue(tempL.computer_lv));
+									// } else{
+									// 	tempArr3.push();
+									// }
 								}
 								var tempSum = [{
 									name: "实践等级",
@@ -564,12 +564,22 @@
 										var tempArr1 = [];
 										for (var a = 0; a < data.data.qbArray.length; a++) {
 											var tempM = data.data.qbArray[a];
-											tempArr0.push(tempM.text);
-											if (data.data.staticArray[tempM.value]) {
-												tempArr1.push(data.data.staticArray[tempM.value]);
-											} else{
+											// tempArr0.push(tempM.text);
+											tempArr0.push('');
+											if (data.data.staticArray.length==0) {
 												tempArr1.push(0);
+											} else{
+												if (data.data.staticArray[0][tempM.value]) {
+													tempArr1.push(data.data.staticArray[0][tempM.value]);
+												} else{
+													tempArr1.push(0);
+												}
 											}
+											// if (data.data.staticArray[tempM.value]) {
+											// 	tempArr1.push(data.data.staticArray[tempM.value]);
+											// } else{
+											// 	tempArr1.push(0);
+											// }
 										}
 										this.chartSxl1006 = {
 											categories: tempArr0,

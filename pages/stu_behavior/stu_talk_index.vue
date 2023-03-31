@@ -6,22 +6,34 @@
 			<uni-row>
 				<uni-col :span="6">
 					<picker class="flex-box" @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="grdArray[grdIndex].text" ></uni-easyinput-select>
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{grdArray[grdIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 				<uni-col :span="6">
 					<picker class="flex-box" @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="clsArray[clsIndex].text" ></uni-easyinput-select>
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{clsArray[clsIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 				<uni-col :span="6">
 					<picker class="flex-box" @change="thClick" :value="thIndex" :range="thArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="thArray[thIndex].text" ></uni-easyinput-select>
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{thArray[thIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 				<uni-col :span="6">
 					<picker class="flex-box" @change="ztClick" :value="ztIndex" :range="ztArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="ztArray[ztIndex].text" ></uni-easyinput-select>
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{ztArray[ztIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 			</uni-row>

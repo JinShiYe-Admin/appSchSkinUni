@@ -4,16 +4,28 @@
 		<view class="tabs-fixed"  style="background-color: #FFFFFF;">
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="grdArray[grdIndex].text" ></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{grdArray[grdIndex].text}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 				<picker style="flex: 1;"  @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="clsArray[clsIndex].text" ></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{clsArray[clsIndex].text}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 				<picker style="flex: 1;"  @change="yearClick" :value="yearIndex" :range="yearArray" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="yearArray[yearIndex].text" ></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{yearArray[yearIndex].text}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 				<picker style="flex: 1;" @change="termClick" :value="termIndex" :range="termArray" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="termArray[termIndex].text" ></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{termArray[termIndex].text}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 			</view>
 			<view class="select-line"></view>

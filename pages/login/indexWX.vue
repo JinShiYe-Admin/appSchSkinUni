@@ -64,13 +64,13 @@
 			</view>
 			<view style="margin-top: 10px;" class="uni-list">
 				<view class="uni-list-cell" v-for="(item, index) in userList" :key="item.id">
-					<view class="uni-list-cell-pd" style="width: 60%;">
-						{{item.user_info}}
+					<view class="uni-list-cell-pd" style="width: 55%;">
+						{{item.user_info}}{{item.status==1?'(账号:'+item.login_name+')':''}}
 					</view>
-					<view class="uni-list-cell-db" style="width: 40%;">
+					<view class="uni-list-cell-db" style="width: 45%;">
 						<button v-if="item.status==0||item.status==1" @click="tapItem(item)"
-							style="background: #00CFBD;margin-left: 20px;color: white;" class="mini-btn"
-							size="mini">注册</button>
+							style="background: #00CFBD;margin-left: 20px;color: white;margin-right: 10px;" class="mini-btn"
+							size="mini">{{item.status==0?'绑定并注册':'绑定'}}</button>
 						<!-- <button v-if="item.status==1" @click="tapItem(item)"
 						style="background: #00CFBD;margin-left: 20px;color: white;" class="mini-btn"
 						size="mini">注册</button> -->
@@ -87,12 +87,47 @@
 		<uni-popup ref="popupTishi" type="dialog">
 			<uni-popup-dialog title="提示" content="账号未授权，请联系管理员！" @close="closeTishi" @confirm="confirmTishi"></uni-popup-dialog>
 		</uni-popup>
+		<uni-popup ref="popup0" type="center" background-color="#fff" style="">
+			<view style="margin-top: 10px;text-align: center;font-size: 16px;color: #000000;margin-bottom: 20px;font-weight: 900;width: 320px;">请输入注册账号及密码</view>
+			<view class="uni-list">
+				<view class="uni-list-cell" style="height: 40px;">
+					<view class="uni-list-cell-left" style="width: 90px;">
+						用户账号
+					</view>
+					<view class="uni-list-cell-db">
+						<input v-model="login_name" maxlength="20" style="height: 40px;" type="text"
+							placeholder="请输入账号" />
+					</view>
+				</view>
+				<view class="uni-list-cell">
+					<view class="uni-list-cell-left" style="width: 90px;">
+						请输入密码
+					</view>
+					<view class="uni-list-cell-db">
+						<input v-model="pswd1" password style="height: 40px;" maxlength="18" type="text" placeholder="请输入密码" />
+					</view>
+				</view>
+				<view class="uni-list-cell">
+					<view class="uni-list-cell-left" style="width: 90px;">
+						请确认密码
+					</view>
+					<view class="uni-list-cell-db">
+						<input v-model="pswd2" password style="height: 40px;" maxlength="18" type="text" placeholder="请确认密码" />
+					</view>
+				</view>
+				<view style="width: 100px;margin: 15px 0 15px 125px;">
+					<button id='idenCodebtn' @click="submit" type="button" class="mui-btn mui-btn-block mui-btn-primary"
+						style="background: #00CFBD;border: 0;height: 36px;font-size: 15px;color: white;">确 定</button>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	import util from '../../commom/util.js'
 	import RSAKey from '../../commom/encrypt/rsa.js'
+	import md5 from '../../commom/encrypt/md5.js';
 	let _this;
 	export default {
 		data() {
@@ -113,6 +148,10 @@
 				typeStr0: '',
 				typeStr1: '',
 				showFlag: 0,
+				login_name:'',
+				pswd1:'',
+				pswd2:'',
+				tapModel:{},
 			}
 		},
 		onLoad(option) {
@@ -246,8 +285,76 @@
 				}
 			},
 			tapItem: function(item) {
-				//2.3.用户注册/第三方账号绑定
-				this.getThuserreg(item);
+				if (item.status == 0) {
+					this.login_name = '';
+					this.pswd1 = '';
+					this.pswd2 = '';
+					this.$refs.popup0.open();
+					this.tapModel = item;
+				} else{
+					//2.3.用户注册/第三方账号绑定
+					this.getThuserreg(item);
+				}
+			},
+			submit: function() { //提交数据
+				if (this.login_name == '') {
+					this.showToast('请输入用户账号');
+				} else if (escape(this.login_name).indexOf("%u") >= 0) {
+					this.showToast('用户账号不能输入汉字');
+				} else if (this.login_name.length > 20 || this.login_name.length < 4) {
+					this.showToast('账号需为4到20个字符');
+				} else if (this.pswd1 == '') {
+					this.showToast('请输入用户密码');
+				} else if (this.pswd2 == '') {
+					this.showToast('请确认密码');
+				} else if (!(this.pswd1 === this.pswd2)) {
+					this.showToast('两次输入的密码不一致');
+				} else if (!this.checkPass(this.pswd2)) {
+					this.showToast('密码需为6到18位数字和字母的组合');
+				} else if (this.pswd2.length > 18 || this.pswd2.length < 6) {
+					this.showToast('密码需为6到18位数字和字母的组合');
+				} else {
+					//2.3.用户注册/第三方账号绑定
+					this.getThuserreg(this.tapModel);
+					// var comData0 = {
+					// 	platform_code: this.globaData.PLATFORMCODE, //平台代码
+					// 	app_code: this.globaData.APPCODE, //应用系统代码
+					// 	index_code: 'index', //页面权限符
+					// 	user_code: this.tapModel.user_code, //用户代码
+					// 	unit_code: this.tapModel.unit_code, //学校代码
+					// 	user_name: this.tapModel.user_name, //姓名
+					// 	login_name: this.login_name, //登录名
+					// 	user_type: this.tapModel.user_type, //
+					// 	phone: this.tapModel.phone, //电话
+					// 	password: this.pswd1.length>0?md5.hex_md5(this.PWD_ENCRYPTION + this.pswd1):'', //密码,秘钥+密码再MD5加密
+					// 	msg_token: this.msg_token,
+					// 	msg: this.yanzm,
+					// 	// thuser_code: this.openid, //第三方用户代码或账号
+					// 	// thuser_fromcode: this.globaData.THIRD_FORMCODE, //第三方平台,微信:WX;支付宝:ZFB
+					// 	access_token: '',
+					// }
+					// console.log('register:'+JSON.stringify(comData0));
+					// this.showLoading();
+					//发送网络请求，data为网络返回值
+					// this.post(this.globaData.INTERFACE_HR_SKIN + 'register', comData0, (data0, data) => {
+					// 	this.hideLoading();
+					// 	if (data.code == '0000') {
+					// 		//2.3.用户注册/第三方账号绑定
+					// 		this.getThuserreg(this.tapModel);
+					// 	} else {
+					// 		this.showToast(data.msg);
+					// 	}
+					// });
+				}
+			},
+			//判断字符串是否为数字和字母组合
+			checkPass(password) {
+				var re = /^(?!([a-zA-Z]+|\d+)$)[a-zA-Z\d]{6,20}$/g;
+				if (!re.test(password)) {
+					return false;
+				} else {
+					return true;
+				}
 			},
 			changeSelectType: function(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value);
@@ -698,16 +805,17 @@
 					user_code: userModel.user_code, //用户代码
 					unit_code: userModel.unit_code, //学校代码
 					user_name: userModel.user_name, //姓名
-					login_name: '', //登录名
+					login_name: this.login_name, //登录名
 					user_type: userModel.user_type, //
 					phone: userModel.phone, //电话
-					password: '', //密码,秘钥+密码再MD5加密
+					password: this.pswd1.length>0?md5.hex_md5(this.PWD_ENCRYPTION + this.pswd1):'', //密码,秘钥+密码再MD5加密
 					msg_token: this.msg_token,
 					msg: this.yanzm,
 					thuser_code: this.openid, //第三方用户代码或账号
 					thuser_fromcode: this.globaData.THIRD_FORMCODE, //第三方平台,微信:WX;支付宝:ZFB
 					access_token: '',
-				};
+				}
+				console.log('register:'+JSON.stringify(comData0));
 				this.showLoading();
 				//发送网络请求，data为网络返回值
 				this.post(this.globaData.INTERFACE_HR_SKIN + 'register', comData0, (data0, data) => {

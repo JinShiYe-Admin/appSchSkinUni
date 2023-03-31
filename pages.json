@@ -3438,6 +3438,274 @@
             {
 				"navigationStyle": "custom", // 隐藏系统导航栏
                 "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/oa/selectPeople1",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/record",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/report",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/index",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/record_list",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/record_detail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/record_add1",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/record_add2",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/report_add",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/report_detail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/check",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/check_list",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"pullToRefresh": {
+                		"support": true,
+                		"style": "circle",
+                		"offset": "76px"
+                	}
+                },
+                "h5": {
+                	"pullToRefresh": {
+                		"offset": "44px"
+                	}
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/bjlhkp/check_on",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/khfw/index",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/khfw/rollCall",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/khfw/rollCall1",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/khfw/rollCall2",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/khfw/teaClassHour",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/khfw/teaClassHourDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/khfw/stuClassHour",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/khfw/stuClassHourDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/khfw/teaSign",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
             
@@ -3563,6 +3831,12 @@
 			},
 			{
 				"pagePath": "pages/mixedAblTea/index"
+			},
+			{
+				"pagePath": "pages/bjlhkp/index"
+			},
+			{
+				"pagePath": "pages/khfw/index"
 			}
 		]
 	}

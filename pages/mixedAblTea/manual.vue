@@ -4,27 +4,35 @@
 		<view class="tabs-fixed">
 			<uni-row>
 				<uni-col :span="8">
-					<picker class="flex-box" @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
-						<uni-easyinput-select :inputBorder="false" suffixIcon="arrowdown" disabled
-							:value="grdArray[grdIndex].text"></uni-easyinput-select>
+					<picker v-if="grdArray.length>0" class="flex-box" @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{grdArray[grdIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 				<uni-col :span="8">
-					<picker class="flex-box" @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
-						<uni-easyinput-select :inputBorder="false" suffixIcon="arrowdown" disabled
-							:value="clsArray[clsIndex].text"></uni-easyinput-select>
+					<picker v-if="clsArray.length>0" class="flex-box" @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{clsArray[clsIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 				<uni-col :span="8">
-					<picker class="flex-box" @change="stuClick" :value="stuIndex" :range="stuArray" range-key="text">
-						<uni-easyinput-select :inputBorder="false" suffixIcon="arrowdown" disabled
-							:value="stuArray[stuIndex].text"></uni-easyinput-select>
+					<picker v-if="stuArray.length>0" class="flex-box" @change="stuClick" :value="stuIndex" :range="stuArray" range-key="text">
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{stuArray[stuIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 				<uni-col :span="24">
-					<picker class="flex-box" @change="pjClick" :value="pjIndex" :range="pjArray" range-key="name">
-						<uni-easyinput-select :inputBorder="false" suffixIcon="arrowdown" disabled
-							:value="pjArray[pjIndex].name"></uni-easyinput-select>
+					<picker v-if="pjArray.length>0" class="flex-box" @change="pjClick" :value="pjIndex" :range="pjArray" range-key="name">
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{pjArray[pjIndex].name}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 			</uni-row>
@@ -36,7 +44,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array">
+							<uni-col :span='8' v-for="model in item.mod_array" :key="model.value">
 								<view style='font-size: 14px;margin: 2px 0;'>
 									{{model.name}}：<span
 										style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
@@ -49,7 +57,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array">
+							<uni-col :span='8' v-for="model in item.mod_array" :key="model.value">
 								<view style='font-size: 14px;margin: 2px 0;'>
 									{{model.name}}：<span
 										style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
@@ -66,7 +74,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array">
+							<uni-col :span='8' v-for="model in item.mod_array" :key="model.value">
 								<view style="margin: 0 5px;">
 									<view style="font-size: 14px;text-align: center;">
 										<span
@@ -184,14 +192,8 @@
 				clsIndex: 0,
 				stuIndex: 0,
 				pjIndex: 0,
-				grdArray: [{
-					text: '',
-					value: ''
-				}],
-				clsArray: [{
-					text: '',
-					value: ''
-				}],
+				grdArray: [],
+				clsArray: [],
 				stuArray: [],
 				pjArray: [],
 				listArray: '',
@@ -206,21 +208,26 @@
 					this.grdIndex = e.detail.value
 					this.clsIndex = 0
 					this.stuIndex = 0
+					this.pjIndex = 0
 					this.showLoading();
+					this.clsArray = [];
 					this.stuArray = [];
 					this.pjArray = [];
 					this.getCls();
+					this.listArray = [];
 				}
 			},
 			clsClick: function(e) {
 				if (this.clsIndex !== e.detail.value) {
 					this.clsIndex = e.detail.value
 					this.stuIndex = 0
+					this.pjIndex = 0
 					this.stuArray = [];
 					this.pjArray = [];
 					this.showLoading()
 					this.getStu();
 					this.getPj();
+					this.listArray = [];
 				}
 			},
 			stuClick: function(e) {
@@ -228,7 +235,10 @@
 					this.stuIndex = e.detail.value
 					if (this.pjArray.length > 0) {
 						this.showLoading();
+						this.listArray = [];
 						this.getList0();
+					}else{
+						this.showToast('当前年级班级暂无评价');
 					}
 				}
 			},
@@ -237,6 +247,7 @@
 					this.pjIndex = e.detail.value;
 					if (this.stuArray.length > 0) {
 						this.showLoading()
+						this.listArray = [];
 						this.getList0();
 					}
 				}
@@ -265,6 +276,7 @@
 						this.getCls();
 					} else {
 						this.grdArray = [];
+						this.listArray = [];
 						this.showToast('无数据授权 无法获取年级');
 					}
 				})
@@ -296,6 +308,7 @@
 						// this.getPj();
 					} else {
 						this.clsArray = [];
+						this.listArray = [];
 						this.showToast('无数据授权 无法获取班级');
 					}
 				})
@@ -324,12 +337,16 @@
 					if (stuArray.length > 0) {
 						this.stuArray = stuArray;
 						if (this.pjArray.length > 0) {
+						// if (this.pjArray[this.pjIndex].name.length>0) {
+							console.log('1111111')
 							this.getList0();
 						} else {
+							console.log('222222222')
 							this.getPj();
 						}
 					} else {
 						this.stuArray = [];
+						this.listArray = [];
 						this.showToast('无数据授权 无法获取学生');
 					}
 				})
@@ -347,6 +364,7 @@
 					if (data.code == 0) {
 						this.pjArray = data.data.list;
 						if (data.data.list.length == 0) {
+							this.listArray = [];
 							this.showToast('当前年级班级暂无评价');
 						} else {
 							if (this.stuArray.length > 0) {
@@ -361,6 +379,9 @@
 				})
 			},
 			getList0() { //获取页面数据
+				if(this.pjArray[this.pjIndex].name.length==0){
+					return;
+				}
 				let comData = {
 					mixed_abl_id: this.pjArray[this.pjIndex].id,
 					stu_code: this.stuArray[this.stuIndex].value,

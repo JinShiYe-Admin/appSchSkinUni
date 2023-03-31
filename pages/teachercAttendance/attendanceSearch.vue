@@ -3,7 +3,10 @@
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<view style="display: flex;">
 				<picker style="flex: 1;"  @change="dptClick" :value="dptIndex" :range="dptArray" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="dptArray[dptIndex].text" ></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{dptArray[dptIndex].text}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 				<view class="mini-date" style="flex: 1;">
 					<dy-Date :childValue='endDate' timeType="day" v-on:getData='timeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>

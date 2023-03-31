@@ -145,7 +145,7 @@
 				} else if (escape(this.uaccount).indexOf("%u") >= 0) {
 					this.showToast('用户账号不能输入汉字');
 				} else if (this.uaccount.length > 20 || this.uaccount.length < 4) {
-					this.showToast('字符长度不能超过');
+					this.showToast('账号需为4到20个字符');
 				} else if (this.upassword == '') {
 					this.showToast('请输入用户密码');
 				} else if (this.confirmpassword == '') {
@@ -153,7 +153,7 @@
 				} else if (!(this.upassword === this.confirmpassword)) {
 					this.showToast('两次输入的密码不一致');
 				} else if (!checkPass(this.confirmpassword)) {
-					this.showToast('密码需为数字和字母的组合');
+					this.showToast('密码需为6到18位数字和字母的组合');
 				} else if (this.confirmpassword.length > 18 || this.confirmpassword.length < 6) {
 					this.showToast('密码需为6到18位数字和字母的组合');
 				} else {

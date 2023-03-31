@@ -2,8 +2,8 @@
     "name" : "教宝校园",
     "appid" : "__UNI__720E42A",
     "description" : "",
-    "versionName" : "1.0.9",
-    "versionCode" : 109,
+    "versionName" : "1.0.15",
+    "versionCode" : 1015,
     "transformPx" : false,
     "networkTimeout" : {
         /*全局网络请求超时时间*/
@@ -35,7 +35,8 @@
             "VideoPlayer" : {},
             "Webview-x5" : {},
             "Geolocation" : {},
-            "Push" : {}
+            "Push" : {},
+            "Camera" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -151,7 +152,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "touristappid",
+        "appid" : "wx56855b232afb64e4",
         "setting" : {
             "urlCheck" : false,
             "minified" : true

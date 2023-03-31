@@ -59,6 +59,7 @@
 				title: '',
 				content: '',
 				selectPeople: [],
+				idsArray:[],
 				smsConfig: {}, //短信配置
 				smsWords: [], //拒绝关键字
 				smsShow: false, //是否显示发送短信按钮
@@ -72,7 +73,8 @@
 				imgNames: [], //服务器回传的图片名称
 				imgList: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
 				imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
-				wxTips: ''
+				wxTips: '',
+				uid_stat:1,
 			}
 		},
 		components: {
@@ -129,6 +131,7 @@
 						})
 						this.smsShow = send;
 						this.smsConfig = response;
+						this.uid_stat = response.uid_stat;
 						this.getSmsWords();
 					} else {
 						this.smsShow = false
@@ -382,16 +385,19 @@
 					flag: 1, //1 事务
 					needOrder: 0,
 					access: this.navItem.access,
-					selectPeople: this.selectPeople
+					selectPeople: this.selectPeople,
+					idsArray:this.idsArray,
+					uid_stat:this.uid_stat
 				}
 				if (this.smsConfig.serviced) {
 					data.serviced = this.smsConfig.serviced;
 				} else {
 					data.serviced = 99;
 				}
-				util.openwithData("/pages/oa/selectPeople", data, {
+				util.openwithData("/pages/oa/selectPeople1", data, {
 					refreshSetPeople(data) { //子页面调用父页面需要的方法
 						_this.selectPeople = data.data;
+						_this.idsArray = data.idsArray;
 						var tempPeople = [];
 						for (var i = 0; i < _this.selectPeople.length; i++) {
 							var tempModel = _this.selectPeople[i];

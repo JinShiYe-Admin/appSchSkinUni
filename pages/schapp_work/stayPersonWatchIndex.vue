@@ -5,8 +5,10 @@
 			<view style="display: flex;">
 				<picker style="flex: 1;" @change="locationTypeClick" :value="locationTypeIndex"
 					:range="locationTypeArray" range-key="text">
-					<uni-easyinput-select :inputBorder="false" suffixIcon="arrowdown" disabled
-						:value="locationTypeArray[locationTypeIndex].text"></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{locationTypeArray[locationTypeIndex].text}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 			</view>
 			<view class="select-line"></view>

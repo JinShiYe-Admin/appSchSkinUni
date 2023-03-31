@@ -4,7 +4,10 @@
 			 <uni-row>
 				<uni-col :span="8" >
 					<picker @change="floorClick" :value="floorIndex" :range="floorArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="floorArray[floorIndex].text" ></uni-easyinput-select>
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{floorArray[floorIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 			 </uni-row>

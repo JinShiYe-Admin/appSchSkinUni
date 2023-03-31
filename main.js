@@ -60,6 +60,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_STUXWSUB = 'https://develop309.108800.com/stuxwsubapi/behavior/'; //学生行为（阮) 
 		GLOBALDATA.INTERFACE_STUPYSUB = 'https://develop309.108800.com/stuxwsubapi/comment/'; //学生评语（阮)
 		GLOBALDATA.INTERFACE_DORM = 'https://develop309.108800.com/stusssubapi/api/app/'; //学生宿舍（阮)
+		GLOBALDATA.INTERFACE_DORM1 = 'https://develop309.108800.com/stusssubapi/api/'; //学生宿舍（阮)
 		GLOBALDATA.INTERFACE_DORM_ATTENDANCE_ADVANCETIME = 3; //学生宿舍 宿舍点名模块考勤记录时间提前量 单位：分钟
 		GLOBALDATA.INTERFACE_STUSCORE = 'https://developgx.108800.com:8443/stuzy/api/stuScore/'; //学生成绩（蒙)
 		GLOBALDATA.INTERFACE_ZXKT = "https://developgx.108800.com:8443/resstudysubapi/api"; //智学课堂（廖）
@@ -74,6 +75,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_HEALTH_DATA = 'https://developgx.108800.com:8443/stuhealth/api/'; //健康数据（蒙）
 		GLOBALDATA.INTERFACE_LHKP = 'https://develop309.108800.com/stuxwsubapi/evaluation/'; //量化考评（孔) 
 		GLOBALDATA.INTERFACE_ZHSZ = 'https://developgx.108800.com:8443/stuqualitysubapi/api/mixedAbl/'; //综合素质（农) 
+		GLOBALDATA.INTERFACE_BJLHKP = 'https://developgx.108800.com:8443/clskpsubapi/api/'; //学生量化考评（蒙) 
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
@@ -102,6 +104,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_STUXWSUB = 'https://test.108800.com/stuxwsubapi/behavior/'; //学生行为（阮) 
 		GLOBALDATA.INTERFACE_STUPYSUB = 'https://test.108800.com/stuxwsubapi/comment/'; //学生评语（阮)
 		GLOBALDATA.INTERFACE_DORM = 'https://test.108800.com/stusssubapi/api/app/'; //学生宿舍（阮)
+		GLOBALDATA.INTERFACE_DORM1 = 'https://test.108800.com/stusssubapi/api/'; //学生宿舍（阮)
 		GLOBALDATA.INTERFACE_DORM_ATTENDANCE_ADVANCETIME = 3; //学生宿舍 宿舍点名模块考勤记录时间提前量 单位：分钟
 		GLOBALDATA.INTERFACE_STUSCORE = 'https://test.108800.com/stuzy/api/stuScore/'; //学生成绩（蒙)
 		GLOBALDATA.INTERFACE_ZXKT = "https://test.108800.com/resstudysubapi/api"; //智学课堂（廖）
@@ -116,6 +119,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_HEALTH_DATA = 'https://test.108800.com/stuhealth/api/'; //健康数据（蒙）
 		GLOBALDATA.INTERFACE_LHKP = 'https://test.108800.com/stuxwsubapi/evaluation/'; //量化考评（孔) 
 		GLOBALDATA.INTERFACE_ZHSZ = 'https://test.108800.com/stuqualitysubapi/api/mixedAbl/'; //综合素质（农) 
+		GLOBALDATA.INTERFACE_BJLHKP = 'https://test.108800.com/clskpsubapi/api/'; //学生量化考评（蒙) 
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
@@ -144,6 +148,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_STUXWSUB = 'https://apps.108800.com/stuxwsubapi/behavior/'; //学生行为（阮) 
 		GLOBALDATA.INTERFACE_STUPYSUB = 'https://apps.108800.com/stuxwsubapi/comment/'; //学生评语（阮)
 		GLOBALDATA.INTERFACE_DORM = 'https://apps.108800.com/stusssubapi/api/app/'; //学生宿舍（阮)
+		GLOBALDATA.INTERFACE_DORM1 = 'https://apps.108800.com/stusssubapi/api/'; //学生宿舍（阮)
 		GLOBALDATA.INTERFACE_DORM_ATTENDANCE_ADVANCETIME = 3; //学生宿舍 宿舍点名模块考勤记录时间提前量 单位：分钟
 		GLOBALDATA.INTERFACE_STUSCORE = 'https://apps.108800.com/stuzy/api/stuScore/'; //学生成绩（蒙)
 		GLOBALDATA.INTERFACE_ZXKT = "https://res.108800.com/resstudysubapi/api"; //智学课堂（廖）
@@ -158,6 +163,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_HEALTH_DATA = 'https://apps.108800.com/stuhealth/api/';//学生健康上报
 		GLOBALDATA.INTERFACE_LHKP = 'https://apps.108800.com/stuxwsubapi/evaluation/'; //量化考评（孔) 
 		GLOBALDATA.INTERFACE_ZHSZ = 'https://apps.108800.com/stuqualitysubapi/api/mixedAbl/'; //综合素质（农) 
+		GLOBALDATA.INTERFACE_BJLHKP = 'https://apps.108800.com/clskpsubapi/api/'; //学生量化考评（蒙) 
 		
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 17; //七牛appid
@@ -240,6 +246,8 @@ Vue.prototype.QN_JKSB_XXM = "jksb/xcm/"; //行程码
 Vue.prototype.QN_JKSB_NOTE = "jksb/note/"; //特殊情况图片
 // 学生综合素质
 Vue.prototype.QN_XSZHSZ = "xszhsz/sign/"; //
+// 班级量化考评
+Vue.prototype.QN_BJLHKP = "bjlhkp/jilu/"; //
 
 //----------家校互动短信配置---------start
 Vue.prototype.MSG_SMS = {

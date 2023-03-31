@@ -1376,6 +1376,71 @@ function getPageArray() {
 				noReadCut: 0
 			}]
 		},
+		{
+			name: "班级量化考评", //班级量化考评 教师端
+			pagePath: "/pages/bjlhkp/index",
+			iconPath: tempAAA + '/static/tabbar/evaluationRecord.png',
+			selectedIconPath: tempAAA + '/static/tabbar/evaluationRecord_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/bjlhkp_img.png",
+			url: 'schapp_bjlhkp',
+			childList: [{
+				name: '评比记录',
+				icon: tempAAA + '/static/images/zhiXueKeTang/zujuanceshi.png',
+				pagePath: "/pages/bjlhkp/record",
+				url: 'schapp_bjlhkp_record',
+				noReadCut: 0
+			}, {
+				name: '评比审核',
+				icon: tempAAA + '/static/images/zhiXueKeTang/xueqingfenxi.png',
+				pagePath: "/pages/bjlhkp/check",
+				url: 'schapp_bjlhkp_check',
+				noReadCut: 0
+			},{
+				name: '评比报告',
+				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				pagePath: "/pages/bjlhkp/report",
+				url: 'schapp_bjlhkp_report',
+				noReadCut: 0
+			}]
+		},{
+			name: "课后服务", //课后服务
+			pagePath: "/pages/khfw/index",
+			iconPath: tempAAA + '/static/tabbar/evaluationRecord.png',
+			selectedIconPath: tempAAA + '/static/tabbar/evaluationRecord_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/bjlhkp_img.png",
+			url: 'schapp_khfw',
+			childList: [{
+				name: '教师上课签到',
+				icon: tempAAA + '/static/images/zhiXueKeTang/zujuanceshi.png',
+				pagePath: "/pages/khfw/teaSign",
+				url: 'schapp_khfw_teaSign',
+				noReadCut: 0
+			}, {
+				name: '学生上课点名',
+				icon: tempAAA + '/static/images/zhiXueKeTang/xueqingfenxi.png',
+				pagePath: "/pages/khfw/rollCall",
+				url: 'schapp_khfw_rollCall',
+				noReadCut: 0
+			},{
+				name: '教师课时统计',
+				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				pagePath: "/pages/khfw/teaClassHour",
+				url: 'schapp_khfw_teaClassHour',
+				noReadCut: 0
+			},{
+				name: '学生课时统计',
+				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				pagePath: "/pages/khfw/stuClassHour",
+				url: 'schapp_khfw_stuClassHour',
+				noReadCut: 0
+			}]
+		},
 	];
 	return tempArray;
 }

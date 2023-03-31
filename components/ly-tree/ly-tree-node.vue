@@ -328,7 +328,8 @@
 	}
 
 	.ly-tree-node__label {
-		font-size: 26rpx;
+		/* font-size: 26rpx; */
+		font-size: 15px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
@@ -412,6 +413,7 @@
 		
 	}
 	.ly-tree-node__label_noLast{
-		
+		font-weight: 900;
+		font-size: 16px;
 	}
 </style>

@@ -5,6 +5,10 @@
 			<view class="form-left">年级</view>
 			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
 				<input class="uni-input form-right"  :value="grdIndex>=0?grdList[grdIndex].text:''"  placeholder="请选择" disabled/>
+				<!-- <view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+					{{grdIndex>=0?grdList[grdIndex].text:'请选择'}}
+					<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+				</view> -->
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>

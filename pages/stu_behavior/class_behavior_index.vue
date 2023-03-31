@@ -6,22 +6,34 @@
 			<uni-row>
 				<uni-col :span="6">
 					<picker class="flex-box" @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="grdArray[grdIndex].text" ></uni-easyinput-select>
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{grdArray[grdIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 				<uni-col :span="6">
 					<picker class="flex-box" @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="clsArray[clsIndex].text" ></uni-easyinput-select>
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{clsArray[clsIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 				<uni-col :span="6">
 					<picker class="flex-box" @change="xwClick" :value="xwIndex" :range="xwArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="xwArray[xwIndex].text" ></uni-easyinput-select>
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{xwArray[xwIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 				<uni-col :span="6">
 					<picker class="flex-box" @change="kmClick" :value="kmIndex" :range="kmArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="kmArray[kmIndex].text" ></uni-easyinput-select>
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{kmArray[kmIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 			</uni-row>

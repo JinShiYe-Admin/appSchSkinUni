@@ -11,8 +11,8 @@
 							<view v-else class='otherIndex'>毕业评</view>
 							<span style='margin-left: 5px;'>{{model.name}}</span>
 						</view>
-						<view style="font-size: 13px;color: #101010;margin-top: 3px;">创建人：{{model.create_user_name}}
-							<span style='margin-left: 30px;'>创建时间：{{model.create_time}}</span>
+						<view style="font-size: 12px;color: #101010;margin-top: 5px;">创建人：{{model.create_user_name}}
+							<span style='margin-left: 30px;'>时间：{{model.create_time.split(' ')[0]}}</span>
 						</view>
 						<view style="text-align: center;margin-top: 10px;">
 							<button style="width: 150px;border: 1px solid #00baad;color: #00baad;" type="default" size="mini"

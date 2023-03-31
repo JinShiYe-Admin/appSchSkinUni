@@ -5,12 +5,18 @@
 			<uni-row>
 				<uni-col :span="12">
 					<picker class="flex-box" @change="fdClick" :value="fdIndex" :range="fdArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="fdArray[fdIndex].text" ></uni-easyinput-select>
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{fdArray[fdIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 				<uni-col :span="12">
 					<picker class="flex-box" @change="kcClick" :value="kcIndex" :range="kcArray" range-key="text">
-						<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="kcArray[kcIndex].text" ></uni-easyinput-select>
+						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+							{{kcArray[kcIndex].text}}
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+						</view>
 					</picker>
 				</uni-col>
 			</uni-row>

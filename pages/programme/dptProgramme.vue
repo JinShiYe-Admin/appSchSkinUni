@@ -4,10 +4,16 @@
 		<view class="tabs-fixed" style="background-color: #FFFFFF;">
 			<view style="display: flex;margin-right: 5px;">
 				<picker style="flex: 1;"  @change="dptClick" :value="dptIndex" :range="dptList" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="dptList[dptIndex].text" ></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{dptList[dptIndex].text}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 				<picker style="flex: 1;"  @change="userClick" :value="userIndex" :range="userList" range-key="text">
-					<uni-easyinput-select  :inputBorder="false" suffixIcon="arrowdown" disabled :value="userList[userIndex].text" ></uni-easyinput-select>
+					<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
+						{{userList[userIndex].text}}
+						<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+					</view>
 				</picker>
 				<view class="mini-date" style="flex: 1;">
 					<dy-Date :childValue='endDate' timeType="day" v-on:getData='timeSelect' :minSelect='startDate' :maxSelect='endDate'></dy-Date>

@@ -112,7 +112,8 @@
 				imgNames: [], //服务器回传的图片名称
 				imgList: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
 				imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
-				wxTips: ''
+				wxTips: '',
+				uid_stat:1,
 			}
 		},
 		components: {
@@ -193,6 +194,7 @@
 						})
 						this.smsShow = send;
 						this.smsConfig = response;
+						this.uid_stat = response.uid_stat;
 						this.getSmsWords();
 					} else {
 						this.smsShow = false
@@ -474,14 +476,15 @@
 					// flag: 1, //1 事务
 					needOrder: 1, //需要按照选择人的顺便给值，无全选、反选
 					access: this.navItem.access,
-					selectPeople: []
+					selectPeople: [],
+					uid_stat:this.uid_stat
 				}
 				if (this.smsConfig.serviced) {
 					data.serviced = this.smsConfig.serviced;
 				} else {
 					data.serviced = 99;
 				}
-				util.openwithData("/pages/oa/selectPeople", data, {
+				util.openwithData("/pages/oa/selectPeople1", data, {
 					refreshSetPeople(data) { //子页面调用父页面需要的方法
 						for (var i = 0; i < data.data.length; i++) {
 							var tempModel = data.data[i];
