@@ -116,7 +116,7 @@
 		</uni-row>
 		<view style="height: 50px;margin-top: 10px;">
 			<button class="mini-btn submitBtn" type="default" size="mini"
-				style="background-color: #049f95;border-color: #049f95;color: #ffffff;" @click="submitBtn()">审核</button>
+				style="background-color: #049f95;border-color: #049f95;color: #ffffff;height: 40px;padding-top: 5px;" @click="submitBtn()">审核</button>
 		</view>
 	</view>
 </template>

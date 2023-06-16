@@ -15,12 +15,12 @@
 			<view class="select-line"></view>
 		</view>
 		<view style="padding-top: 44px;">
-			<view v-for="item in listArray">
+			<view v-for="(item,index) in listArray" :key="index">
 				<view v-if="item.mod_code == '1001'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.value">
+							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
 								<view style='font-size: 14px;margin: 2px 0;'>
 									{{model.name}}：<span style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
 								</view>
@@ -32,7 +32,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.value">
+							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
 								<view style='font-size: 14px;margin: 2px 0;'>
 									{{model.name}}：<span style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
 								</view>
@@ -46,7 +46,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.value">
+							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
 								<view style="margin: 0 5px;">
 									<view style="font-size: 14px;text-align: center;">
 										<span style='font-size: 25px;font-weight: 600;color: #bd3124;'>{{model.name1}}</span>
@@ -215,6 +215,7 @@
 										tempArr.push(tempS);
 									}
 									if (tempM.mod_data.ch_skill) {
+										console.log('tempM.mod_data.ch_skill:'+tempM.mod_data.ch_skill)
 										var tempS = {
 											name:'化学技能',
 											value:tempM.mod_data.ch_skill
@@ -485,6 +486,7 @@
 		color: #939393;
 		font-size: 13px;
 		margin: 3px 0;
+		word-break: break-all;
 	}
 
 	.leaveType {

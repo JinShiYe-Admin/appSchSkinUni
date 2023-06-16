@@ -296,9 +296,9 @@
 			},
 			popSure(flag) {
 				if (flag == 0) {
-					this.stuArrayTemp = this.stuArray;
+					this.stuArrayTemp = JSON.parse(JSON.stringify(this.stuArray));
 				} else {
-					this.stuArray = this.stuArrayTemp;
+					this.stuArray = JSON.parse(JSON.stringify(this.stuArrayTemp));
 					var tempStu = [];
 					for (var i = 0; i < this.stuArray.length; i++) {
 						var tempM = this.stuArray[i];
@@ -498,8 +498,8 @@
 					// stuArray = stuArray.sort((a, b) => a.text.localeCompare(b.text))
 					this.stuStr = '';
 					if (stuArray.length > 0) {
-						this.stuArray = stuArray;
-						this.stuArrayTemp = stuArray;
+						this.stuArray = JSON.parse(JSON.stringify(stuArray));
+						this.stuArrayTemp = JSON.parse(JSON.stringify(stuArray));
 					} else {
 						this.stuArray = [];
 						this.stuArrayTemp = [];

@@ -2,7 +2,7 @@
 	<view class="imglistbx">
 		<view :class="['imglistItem',columnNum==3?'column3':'column4']" v-for="(item,index) in showList" :key='index'>
 			<image :src="item" class="itemImg" @click="previewImage(index)" mode="aspectFill"></image>
-			<icon size="18" type="cancel" class="cancelBtn" @click="deleteImg(index)" v-if="deleteBtn"></icon>
+			<icon size="25" type="cancel" class="cancelBtn" @click="deleteImg(index)" v-if="deleteBtn"></icon>
 		</view>
 		<!-- 上传控件 -->
 		<view :class="['imglistItem',columnNum==3?'column3':'column4']" @click="chooseImg" v-if="control&&showControl">
@@ -22,7 +22,7 @@
 				type: Boolean,
 				default: true
 			},
-			//是否显示上删除按钮
+			//是否显示删除按钮
 			deleteBtn: {
 				type: Boolean,
 				default: true

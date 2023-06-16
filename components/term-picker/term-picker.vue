@@ -185,7 +185,8 @@
 					this.maskClick()
 				} else {
 					uni.showToast({
-						title: '时间范围不正确！',
+						// title: '时间范围不正确！',
+						title: '时间不能超过当前日期！',
 						icon: 'none'
 					})
 				}

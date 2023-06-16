@@ -54,35 +54,37 @@
 		</view>
 		<uni-popup ref="popup" type="bottom" background-color="#fff" style="">
 			<view style="margin-top: 10px;text-align: center;font-size: 16px;color: #000000;">请选择年级和班级</view>
-			<view style="margin-left: 10px;font-size: 14px;color: 7f7f7f;">年级：</view>
-			<view style="margin: 20px 10px;">
-				<uni-grid :column="3">
-					<uni-grid-item v-for="(item, index) in grdArray" :key="index" style="height: 50px;">
-						<view class="grid-item-box gridBox" style="padding-top: 10px;" @click='grdSelect(item, index)'
-							:style="index==grdIndexTemp?'background-color: #2c96bd;color: #ffffff;':''">
-							{{item.text}}
-						</view>
-					</uni-grid-item>
-				</uni-grid>
-			</view>
-			<view style="margin-left: 10px;font-size: 14px;color: 7f7f7f;">班级：</view>
-			<view style="margin: 20px 10px;">
-				<uni-grid :column="4">
-					<uni-grid-item v-for="(item, index) in clsArrayTemp" :key="index" style="height: 40px;">
-						<view class="grid-item-box gridBox" @click='clsSelect(item, index)'
-							:style="index==clsIndexTemp?'background-color: #2c96bd;color: #ffffff;':''">
-							{{item.text}}
-						</view>
-					</uni-grid-item>
-				</uni-grid>
-			</view>
-			<view style="height: 50px;margin: 20px 0;">
-				<button class="mini-btn" type="default" size="mini"
-					style="background-color: #049f95;border-color: #049f95;color: #ffffff;"
-					@click="popSure(1)">确定</button>
-				<button class="mini-btn" style="margin-left: 50px;" type="default" size="mini"
-					@click="popSure(0)">取消</button>
-			</view>
+			<scroll-view scroll-y="true" style="max-height: 500px;">
+				<view style="margin-left: 10px;font-size: 14px;color: 7f7f7f;">年级：</view>
+				<view style="margin: 20px 10px;">
+					<uni-grid :column="3">
+						<uni-grid-item v-for="(item, index) in grdArray" :key="index" style="height: 50px;">
+							<view class="grid-item-box gridBox" style="padding-top: 10px;" @click='grdSelect(item, index)'
+								:style="index==grdIndexTemp?'background-color: #2c96bd;color: #ffffff;':''">
+								{{item.text}}
+							</view>
+						</uni-grid-item>
+					</uni-grid>
+				</view>
+				<view style="margin-left: 10px;font-size: 14px;color: 7f7f7f;">班级：</view>
+				<view style="margin: 20px 10px;">
+					<uni-grid :column="4">
+						<uni-grid-item v-for="(item, index) in clsArrayTemp" :key="index" style="height: 40px;">
+							<view class="grid-item-box gridBox" @click='clsSelect(item, index)'
+								:style="index==clsIndexTemp?'background-color: #2c96bd;color: #ffffff;':''">
+								{{item.text}}
+							</view>
+						</uni-grid-item>
+					</uni-grid>
+				</view>
+				<view style="height: 50px;margin: 20px 0;">
+					<button class="mini-btn" type="default" size="mini"
+						style="background-color: #049f95;border-color: #049f95;color: #ffffff;"
+						@click="popSure(1)">确定</button>
+					<button class="mini-btn" style="margin-left: 50px;" type="default" size="mini"
+						@click="popSure(0)">取消</button>
+				</view>
+			</scroll-view>
 		</uni-popup>
 	</view>
 </template>
@@ -175,11 +177,11 @@
 				this.$refs.popup.close();
 				if (flag == 0) {
 					this.grdIndexTemp = this.grdIndex;
-					this.clsArrayTemp = this.clsArray;
+					this.clsArrayTemp = JSON.parse(JSON.stringify(this.clsArray));
 					this.clsIndexTemp = this.clsIndex;
 				} else {
 					this.grdIndex = this.grdIndexTemp;
-					this.clsArray = this.clsArrayTemp;
+					this.clsArray = JSON.parse(JSON.stringify(this.clsArrayTemp));
 					this.clsIndex = this.clsIndexTemp;
 					this.showLoading()
 					this.pageobj0.loadFlag = 0
@@ -292,10 +294,10 @@
 						clsArray.push(obj)
 					})
 					if (clsArray.length > 0) {
-						this.clsArrayTemp = clsArray;
+						this.clsArrayTemp = JSON.parse(JSON.stringify(clsArray));
 						this.clsIndexTemp = 0;
 						if (flag == 0) {
-							this.clsArray = clsArray;
+							this.clsArray = JSON.parse(JSON.stringify(clsArray));
 							this.grdClsStr = this.grdArray[this.grdIndex].text + this.clsArray[this.clsIndex].text;
 							this.getList0();
 						}

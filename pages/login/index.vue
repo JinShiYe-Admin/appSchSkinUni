@@ -78,7 +78,7 @@
 		},
 		methods: {
 			popupState(e) { //e->false取消 true确认
-				console.log('popupState:' + e);
+				// console.log('popupState:' + e);
 				if(e){
 					uni.setStorageSync('yinsi',1);
 					this.showYinsi = false;
@@ -102,7 +102,7 @@
 					}
 				} else {
 					let openid = this.getUrlParam('openid');
-					console.log('openid111111:' + openid);
+					// console.log('openid111111:' + openid);
 					if (openid) {
 						let tempM = {
 							openid: openid
@@ -114,11 +114,11 @@
 					} else {
 						// if (this.globaData.EnvKey == 5) {
 							//#ifdef H5
-							console.log('页面url:' + window.location.href);
+							// console.log('页面url:' + window.location.href);
 							var tempUrl = window.location.href;
-							console.log('tempUrl0:' + tempUrl);
+							// console.log('tempUrl0:' + tempUrl);
 							var tempArray = tempUrl.split('/');
-							console.log('tempArray:' + JSON.stringify(tempArray));
+							// console.log('tempArray:' + JSON.stringify(tempArray));
 							var appid = '';
 							for (var a = 0; a < tempArray.length; a++) {
 								if (tempArray[a].indexOf("wx") != -1) {
@@ -128,7 +128,7 @@
 							// appid = 'wxf9b41cac260dd423';
 							let tempGo = 'https://jsypay.jiaobaowang.net/jsypaym/wxpay/ThdGetOpenid.ashx?appid=' + appid +
 								'&returi=' + encodeURIComponent(tempUrl);
-							console.log('tempGo:' + tempGo);
+							// console.log('tempGo:' + tempGo);
 							// 向服务器传递appid、返回URL
 							location.replace(tempGo);
 							//#endif 
@@ -137,14 +137,14 @@
 						// }
 					}
 				}
-				console.log('this.showInput:' + this.showInput);
+				// console.log('this.showInput:' + this.showInput);
 			},
 			sure: function() {
-				console.log('1111111');
+				// console.log('1111111');
 				if (this.pagePswd == 'jsy@123654') {
-					console.log('11111112');
+					// console.log('11111112');
 					if (this.APPORWECHAT == 1) {
-						console.log('11111113');
+						// console.log('11111113');
 						this.showInput = 1;
 						var tempInfo = util.getPersonal();
 						if (tempInfo.userName0) {
@@ -154,13 +154,13 @@
 						}
 					} else {
 						//#ifdef H5
-						console.log('页面url:' + window.location.href);
+						// console.log('页面url:' + window.location.href);
 						var tempUrl = window.location.href;
-						console.log('tempUrl0:' + tempUrl);
+						// console.log('tempUrl0:' + tempUrl);
 						// var tempUrl1 = tempUrl.replace('index', 'indexWX');
 						// console.log('tempUrl1:' + tempUrl1);
 						var tempArray = tempUrl.split('/');
-						console.log('tempArray:' + JSON.stringify(tempArray));
+						// console.log('tempArray:' + JSON.stringify(tempArray));
 						var appid = '';
 						for (var a = 0; a < tempArray.length; a++) {
 							if (tempArray[a].indexOf("wx") != -1) {
@@ -170,7 +170,7 @@
 						// appid = 'wxf9b41cac260dd423';
 						let tempGo = 'https://jsypay.jiaobaowang.net/jsypaym/wxpay/ThdGetOpenid.ashx?appid=' + appid +
 							'&returi=' + encodeURIComponent(tempUrl);
-						console.log('tempGo:' + tempGo);
+						// console.log('tempGo:' + tempGo);
 						// 向服务器传递appid、返回URL
 						location.replace(tempGo);
 						//#endif 
@@ -180,13 +180,13 @@
 				}
 			},
 			clickLeft: function() {
-				console.log('clickLeft');
+				// console.log('clickLeft');
 			},
 			zhuce: function() {
 				util.openwithData('/pages/register/index');
 			},
 			login: function() {
-				console.log('login');
+				// console.log('login');
 				if (this.uname.length <= 0 || this.passw.length <= 0) {
 					this.showToast('账号或密码不能为空');
 					return;
@@ -203,10 +203,10 @@
 						webid: broswerId, //浏览器识别码,防不同浏览器登录同一应用互串,验证码校检用（web用浏览器类型加版本，app用操作系统+版本））
 						shaketype: '1', //
 					};
-					console.log('response.comData:' + JSON.stringify(comData));
+					// console.log('response.comData:' + JSON.stringify(comData));
 					this.post(this.globaData.INTERFACE_SSO_SKIN + 'login/getEncryptKey', comData, (response0,
 						response) => {
-						console.log('response:' + JSON.stringify(response));
+						// console.log('response:' + JSON.stringify(response));
 						if (response.code === '0000') {
 							let data = response.data
 							let ConsultPublicKey = {
@@ -247,7 +247,7 @@
 								};
 								this.post(this.globaData.INTERFACE_SSO_SKIN + 'acl/menu',
 									comData4, (data0, data4) => {
-										console.log("data4: " + JSON.stringify(data4));
+										// console.log("data4: " + JSON.stringify(data4));
 										if (data4.code == 0) {
 											if (data4.data.list.length > 0) {
 												var tempA = [];
@@ -305,7 +305,7 @@
 													let tempM = tempA[i];
 													tempM.index = i;
 												}
-												console.log('tempA:' + JSON.stringify(tempA));
+												// console.log('tempA:' + JSON.stringify(tempA));
 												if (tempA.length > 5) {
 													var tempArrayM = tempA.slice(4);
 													util.setMenuMore(tempArrayM);
@@ -314,9 +314,9 @@
 													let tempAAA = '';
 													//#ifdef H5
 													var tempUrl = window.location.href;
-													console.log('getPageArray.tempUrl:' + tempUrl);
+													// console.log('getPageArray.tempUrl:' + tempUrl);
 													var tempArr = tempUrl.split('/');
-													console.log('tempArr:' + JSON.stringify(tempArr));
+													// console.log('tempArr:' + JSON.stringify(tempArr));
 													let urlFlag = 0;
 													for (var a = 0; a < tempArr.length; a++) {
 														if (tempArr[a].indexOf("wx") != -1) {
@@ -346,7 +346,7 @@
 												} else {
 													util.setMenuMore([]);
 												}
-												console.log('tempA:' + JSON.stringify(tempA));
+												// console.log('tempA:' + JSON.stringify(tempA));
 												this.showArray = [].concat(tempA);
 												util.setMenu(this.showArray);
 												if (this.showArray.length > 0) {
@@ -354,7 +354,7 @@
 												}
 												//跳转界面
 												tempFlag++;
-												console.log('tempFlag02:' + tempFlag);
+												// console.log('tempFlag02:' + tempFlag);
 												if (tempFlag == 3) {
 													this.gotoPage();
 												}
@@ -383,7 +383,7 @@
 											tempPerInfo.hrImg_url = data3.data.user_img;
 											util.setPersonal(tempPerInfo);
 											tempFlag++;
-											console.log('tempFlag01:' + tempFlag);
+											// console.log('tempFlag01:' + tempFlag);
 											if (tempFlag == 3) {
 												//跳转界面
 												this.gotoPage();
@@ -402,7 +402,7 @@
 									user_code: data1.data.user.user_code,
 									index_code: 'index',
 									access_token: data1.data.access_token //用户令牌
-								};
+								}
 								//1.42.根据用户类型及代码查询教师/学生信息
 								this.post(this.globaData.INTERFACE_HR_SUB +
 									'user/getUserInfoByTypeAndCode', comData5, (
@@ -426,10 +426,11 @@
 													tempPerInfo.grd_code = data5.data.grd_code;
 													tempPerInfo.stu_name = data5.data.stu_name;
 													tempPerInfo.stu_code = data5.data.stu_code;
+													tempPerInfo.stu_img = data5.data.img_url&&data5.data.img_url.length>0?data5.data.img_url:'https://www.108800.com/user.jpg';
 												}
 												util.setPersonal(tempPerInfo);
 												tempFlag++;
-												console.log('tempFlag02:' + tempFlag);
+												// console.log('tempFlag02:' + tempFlag);
 												if (tempFlag == 3) {
 													//跳转界面
 													this.gotoPage();
@@ -470,7 +471,7 @@
 				tempData.passWord0 = this.passw;
 				tempData.backFlag = this.APPORWECHAT;
 				delete tempData['user'];
-				console.log('new tempData:' + JSON.stringify(tempData));
+				// console.log('new tempData:' + JSON.stringify(tempData));
 				util.setPersonal(tempData)
 				if ('111111a' == '123456') {
 					var tempModel = {
@@ -482,10 +483,10 @@
 						// util.hrefSessionStorage('../../html/login/index2.html', {});
 					} else {
 						// util.hrefSessionStorage('../../html/login/index.html', {});
-						console.log("跳转页面吧");
+						// console.log("跳转页面吧");
 						// this.jsonData = tempData;
 						var tempArray = util.getMenu();
-						console.log('tempArray:' + JSON.stringify(tempArray));
+						// console.log('tempArray:' + JSON.stringify(tempArray));
 						util.getPushCut();
 						if (tempArray.length > 0) {
 							var tempStr = JSON.stringify(tempArray[0]);
@@ -501,7 +502,7 @@
 								// 注册消息推送服务
 								igexinTool.initGeXin().bindAlias(tempData.user_code);
 							// #endif
-							console.log('我绑定了我的别名');
+							// console.log('我绑定了我的别名');
 						} else {
 							this.showToast('账号未授权，请联系管理员！');
 						}
@@ -511,7 +512,7 @@
 			getUrlParam(name) {
 				//#ifdef H5
 				var search = window.location.href;
-				console.log('search:'+search);
+				// console.log('search:'+search);
 				var pattern = new RegExp("[?&]" + name + "\=([^&]+)", "g");
 				var matcher = pattern.exec(search);
 				var items = null;
@@ -533,7 +534,7 @@
 		onLoad: function() {
 			// 判断是否同意隐私政策
 			let yinsiShow = uni.getStorageSync('yinsi');
-			console.log('yinsiShow:'+yinsiShow);
+			// console.log('yinsiShow:'+yinsiShow);
 			if(yinsiShow==1){
 				this.tongyiYinsi();
 			}else{

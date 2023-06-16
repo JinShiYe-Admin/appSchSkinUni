@@ -3,11 +3,11 @@
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick">
 		</mynavBar>
 		<view class="titleTemp">标题</view>
-		<input maxlength="50" type="text" v-model="title" class="rightView" style="margin-top: 10px;"
+		<input maxlength="30" type="text" v-model="title" class="rightView" style="margin-top: 10px;"
 			placeholder="请输入标题" />
 		<br>
 		<view class="titleTemp">内容</view>
-		<textarea maxlength="300" v-model="content" class="rightView"
+		<textarea maxlength="220" v-model="content" class="rightView"
 			style="height: 80px;margin-top: 10px;padding-top: 5px;margin-bottom: 10px;" placeholder="请输入内容"></textarea>
 
 		<view class="uni-flex uni-row form-view choose-file">
@@ -307,7 +307,8 @@
 				var tempData = {
 					schoolId: this.personInfo.unit_code, //学校ID
 					applyTitle: this.title, //标题
-					applyContent: this.content.replace(/\n/g, '<br>'), //内容
+					// applyContent: this.content.replace(/\n/g, '<br>'), //内容
+					applyContent: this.content, //内容
 					applyEncName: encNameTemp, //附件名称
 					applyEncAddr: encAddrTemp, //附件地址
 					smsSync: tempSms, //是否短信同步
@@ -358,7 +359,7 @@
 							} else if (this.smsConfig.content_type == 'tc') {
 								tempContent = '【' + this.title + '】' + this.content;
 							}
-							tempContent = tempContent.replace(/\n/g, '');
+							// tempContent = tempContent.replace(/\n/g, '');
 							tempContent = tempContent.replace(' ', '');
 							var comData = {
 								send_unit_code: this.personInfo.unit_code,
@@ -424,13 +425,13 @@
 					// sendFlag = 0;
 					return;
 				}
-				if (_this.title.length > 50) {
-					_this.showToast("标题不能超过50字");
+				if (_this.title.length > 30) {
+					_this.showToast("标题不能超过30字");
 					// sendFlag = 0;
 					return;
 				}
-				if (_this.content.length > 300) {
-					_this.showToast("内容不能超过300字");
+				if (_this.content.length > 220) {
+					_this.showToast("内容不能超过220字");
 					// sendFlag = 0;
 					return;
 				}
@@ -438,7 +439,8 @@
 				if (_this.smsSend) {
 					let showToast = false;
 					let words = [];
-					let tempTitle = _this.title.replace(/\n/g, '');
+					// let tempTitle = _this.title.replace(/\n/g, '');
+					let tempTitle = _this.title;
 					tempTitle = tempTitle.replace(' ', '');
 					for (var i = 0; i < _this.smsWords.length; i++) {
 						let word = _this.smsWords[i].word;
@@ -447,7 +449,8 @@
 							words.push(word);
 						}
 					}
-					let comment = _this.content.replace(/\n/g, '');
+					// let comment = _this.content.replace(/\n/g, '');
+					let comment = _this.content;
 					comment = comment.replace(' ', '');
 					for (var i = 0; i < _this.smsWords.length; i++) {
 						let word = _this.smsWords[i].word;

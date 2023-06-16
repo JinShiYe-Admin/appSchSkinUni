@@ -5,7 +5,7 @@
 		</view>
 		<view v-if="!disabled" v-show="show" class="signature-contain">
 			<view class="signature-main" style="z-index: 3000;">
-				<view class="signature-title"><text v-for="t in titles">{{t}}</text></view>
+				<view class="signature-title"><text v-for="(t,index) in titles" :key="index">{{t}}</text></view>
 				<canvas disable-scroll="true" class="signature" :class="cid" canvas-id="cvs" @touchstart="touchstart"
 					@touchmove="touchmove" @touchend="touchend"></canvas>
 				<view class="signature-btns">

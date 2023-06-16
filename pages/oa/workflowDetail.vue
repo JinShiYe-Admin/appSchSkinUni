@@ -307,7 +307,7 @@
 													tempContent = '【' + this.detailModel.ApplyTitle + '】' +
 														this.detailModel.ApplyContent;
 												}
-												tempContent = tempContent.replace(/\n/g, '');
+												// tempContent = tempContent.replace(/\n/g, '');
 												tempContent = tempContent.replace(' ', '');
 												var comData = {
 													send_unit_code: this.personInfo.unit_code,

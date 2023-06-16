@@ -454,9 +454,9 @@
 			},
 			popSureStu(flag) {
 				if (flag == 0) {
-					this.stuArrayTemp = this.stuArray;
+					this.stuArrayTemp = JSON.parse(JSON.stringify(this.stuArray));
 				} else {
-					this.stuArray = this.stuArrayTemp;
+					this.stuArray = JSON.parse(JSON.stringify(this.stuArrayTemp));
 					var tempStu = [];
 					for (var i = 0; i < this.stuArray.length; i++) {
 						var tempM = this.stuArray[i];
@@ -510,8 +510,8 @@
 					this.roomIndex = index;
 					this.roomStr = this.roomArray[this.roomIndex].text;
 					this.bedStr = '';
-					this.bedArray = this.roomArray[this.roomIndex].bed_array;
-					this.bedArrayTemp = this.roomArray[this.roomIndex].bed_array;
+					this.bedArray = JSON.parse(JSON.stringify(this.roomArray[this.roomIndex].bed_array));
+					this.bedArrayTemp = JSON.parse(JSON.stringify(this.roomArray[this.roomIndex].bed_array));
 					this.getDormStuList();
 				}
 				this.$refs.popup7.close();
@@ -528,9 +528,9 @@
 			},
 			popSureBed(flag) {
 				if (flag == 0) {
-					this.bedArrayTemp = this.bedArray;
+					this.bedArrayTemp = JSON.parse(JSON.stringify(this.bedArray));
 				} else {
-					this.bedArray = this.bedArrayTemp;
+					this.bedArray = JSON.parse(JSON.stringify(this.bedArrayTemp));
 					var tempStu = [];
 					for (var i = 0; i < this.bedArray.length; i++) {
 						var tempM = this.bedArray[i];
@@ -730,8 +730,8 @@
 					// stuArray = stuArray.sort((a, b) => a.text.localeCompare(b.text))
 					this.stuStr = '';
 					if (stuArray.length > 0) {
-						this.stuArray = stuArray;
-						this.stuArrayTemp = stuArray;
+						this.stuArray = JSON.parse(JSON.stringify(stuArray));
+						this.stuArrayTemp = JSON.parse(JSON.stringify(stuArray));
 					} else {
 						this.stuArray = [];
 						this.stuArrayTemp = [];
@@ -821,8 +821,8 @@
 							}
 							this.roomArray = data.data.list;
 							this.roomStr = this.roomArray[this.roomIndex].text;
-							this.bedArray = this.roomArray[this.roomIndex].bed_array;
-							this.bedArrayTemp = this.roomArray[this.roomIndex].bed_array;
+							this.bedArray = JSON.parse(JSON.stringify(this.roomArray[this.roomIndex].bed_array));
+							this.bedArrayTemp = JSON.parse(JSON.stringify(this.roomArray[this.roomIndex].bed_array));
 							this.getDormStuList();
 						} else {
 							this.roomArray = [];
@@ -869,8 +869,8 @@
 							}
 							tempArray.push(tempStu);
 						}
-						this.bedArray = tempArray;
-						this.bedArrayTemp = tempArray;
+						this.bedArray = JSON.parse(JSON.stringify(tempArray));
+						this.bedArrayTemp = JSON.parse(JSON.stringify(tempArray));
 					} else {
 						this.showToast(data.msg);
 					}

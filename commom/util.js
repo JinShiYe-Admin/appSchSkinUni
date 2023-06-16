@@ -24,7 +24,7 @@ function getPushCut() {
 		}
 	}
 	var tempMoreMenu = this.getMenuMore();
-	console.log('tempMoreMenu:' + JSON.stringify(tempMoreMenu));
+	// console.log('tempMoreMenu:' + JSON.stringify(tempMoreMenu));
 	let sendMoreCount0 = 0;
 	let sendMoreCount1 = 0;
 	for (var i = 0; i < tempMoreMenu.length; i++) {
@@ -58,7 +58,7 @@ function setPushCutMore(tempMenu, access, num, sendCount0, sendCount1) {
 		tempModel.count = tempCount;
 	}
 	if (sendCount0 == sendCount1) {
-		console.log('tempMenu:' + JSON.stringify(tempMenu));
+		// console.log('tempMenu:' + JSON.stringify(tempMenu));
 		let tempCount = 0;
 		for (var i = 0; i < tempMenu.length; i++) {
 			let tempM1 = tempMenu[i];
@@ -138,10 +138,19 @@ function getDptTree(dptList) {
 	return val
 }
 
+// 根据姓名排序
+function sortTable(list, key) {
+	list.sort(function(a, b) {
+		return a[key].localeCompare(b[key]) // key 就是需要排序的属性
+	});
+	return list;
+}
+
 /**
  * 数组排序
  * @param {Object} propertyName key 字段名
  * @param {Object} order  1从小到大  正序  0从大到小 倒序
+ * array.sort(util.compare('value', 1));
  */
 function compare(propertyName, order) {
 	return function(object1, object2) {
@@ -172,6 +181,7 @@ function compare(propertyName, order) {
 //给数组去重
 // array，要去重的数组
 // key，要根据哪个字段去重
+// var tempArr1 = util.ArrayUnique(tempArr1, 'user_code');
 function ArrayUnique(array, key) {
 	var arr = array;
 	var n = [arr[0]];
@@ -334,9 +344,9 @@ function getPageData(option) {
 		// var tempM0 = decodeURI(option.pagedata);
 		var tempM1 = JSON.parse(tempM0);
 		// console.log('tempM11:'+JSON.stringify(tempM1));
-		if(tempM1.index>=0){
+		if (tempM1.index >= 0) {
 			// console.log('getPageData11111111');
-		}else{
+		} else {
 			// console.log('getPageData2222222');
 			tempM1.index = 1;
 		}
@@ -363,7 +373,7 @@ function openFile(fileUrl) {
 				filePath: filePath,
 				success: function(res) {
 					uni.hideLoading();
-					console.log('打开文档成功');
+					// console.log('打开文档成功');
 				},
 				fail() {
 					uni.hideLoading();
@@ -376,7 +386,7 @@ function openFile(fileUrl) {
 	});
 	// #endif
 	// #ifndef APP-PLUS
-	console.log('urlStr:' + urlStr)
+	// console.log('urlStr:' + urlStr)
 	var tempArr0 = urlStr.split('?');
 	var urlStrTemp = tempArr0[0];
 	var tempArr = urlStrTemp.split('.');
@@ -395,10 +405,10 @@ function openFile(fileUrl) {
 					title: '已复制该附件链接，请在系统浏览器中粘贴并打开',
 					duration: 3000,
 				})
-				console.log('uniCopy-success');
+				// console.log('uniCopy-success');
 			},
 			error: (e) => {
-				console.log('uniCopy-error');
+				// console.log('uniCopy-error');
 			}
 		})
 	}
@@ -449,7 +459,7 @@ function getPermissionByPosition(op_codes, index_code, callback) {
 		access_token: personal.access_token //用户令牌
 	};
 	Vue.prototype.post(Vue.prototype.globaData.INTERFACE_SSO_SUB + 'acl/permissionByPosition', comData, response => {
-		console.log("response: ", response);
+		// console.log("response: ", response);
 		let ins = op_codes.split(",");
 		let outs = response.result.split(",");
 		let result = []
@@ -458,7 +468,7 @@ function getPermissionByPosition(op_codes, index_code, callback) {
 		})
 		callback(result)
 	}, error => {
-		console.log("error: ", error);
+		// console.log("error: ", error);
 		let ins = op_codes.split(",");
 		let result = []
 		ins.map((initem, index) => {
@@ -483,18 +493,70 @@ function getUnReadCut(index_code, url, callback) {
 	Vue.prototype.post(url, comData, response => {
 		callback(response.list);
 	}, error => {
-		console.log("error: ", error);
+		// console.log("error: ", error);
 		callback([]);
 	})
+}
+
+//  JS获取一周日期，传输日期（data）格式  年月日（xxxx-xx-xx)
+function getWeekDataList(data) {
+	//根据日期获取本周周一~周日的年-月-日
+	var weekList = [];
+	var date = new Date(data);
+	//判断本日期是否为周日，获取本周一日期
+	if(date.getDay()=="0"){
+		date.setDate(date.getDate() -6);
+	}else {
+		date.setDate(date.getDate() - date.getDay() + 1);
+	}
+	var myDate=date.getDate();
+	var myMonth=date.getMonth() + 1;
+	if(date.getDate()<10){
+		myDate= '0'+ myDate;
+	}
+	if(date.getMonth() + 1<10){
+		myMonth='0'+myMonth;
+	}
+	weekList.push(date.getFullYear() + "-" + myMonth+ "-" + myDate);
+	// 获取周二以后日期
+	for(var i=0;i<6;i++) {
+		date.setDate(date.getDate() + 1);
+		myDate=date.getDate();
+		myMonth=date.getMonth() + 1;
+		if(date.getDate()<10){
+			myDate= '0'+ myDate;
+		}
+		if(date.getMonth() + 1<10){
+			myMonth='0'+myMonth;
+		}
+		weekList.push(date.getFullYear() + "-" + myMonth+ "-" +myDate);
+	}
+	// console.log(weekList);
+	return weekList
+}
+
+
+function getDiffDay(date_1, date_2) {
+  // 计算两个日期之间的差值
+  let totalDays,diffDate
+  let myDate_1 = Date.parse(date_1)
+  let myDate_2 = Date.parse(date_2)
+  // 将两个日期都转换为毫秒格式，然后做差
+  diffDate = Math.abs(myDate_1 - myDate_2) // 取相差毫秒数的绝对值
+ 
+  totalDays = Math.floor(diffDate / (1000 * 3600 * 24)) // 向下取整
+  // console.log(totalDays)    
+ 
+  return totalDays    // 相差的天数
 }
 
 function getPageArray() {
 	let tempAAA = '';
 	//#ifdef H5
 	var tempUrl = window.location.href;
-	console.log('getPageArray.tempUrl:' + tempUrl);
+	// console.log('getPageArray.tempUrl:' + tempUrl);
 	var tempArr = tempUrl.split('/');
-	console.log('tempArr:' + JSON.stringify(tempArr));
+	// console.log('tempArr:' + JSON.stringify(tempArr));
 	let urlFlag = 0;
 	for (var a = 0; a < tempArr.length; a++) {
 		if (tempArr[a].indexOf("wx") != -1) {
@@ -508,9 +570,8 @@ function getPageArray() {
 	}
 	tempAAA = tempUrl1.join('/');
 	//#endif 
-	console.log('tempAAA:' + tempAAA);
-	let tempArray = [
-		{
+	// console.log('tempAAA:' + tempAAA);
+	let tempArray = [{
 			// 非凸起按钮未激活的图标，可以是uView内置图标名或自定义扩展图标库的图标
 			// 或者png图标的【绝对路径】，建议尺寸为80px * 80px
 			// 如果是中间凸起的按钮，只能使用图片，且建议为120px * 120px的png图片
@@ -535,6 +596,32 @@ function getPageArray() {
 			url: 'schapp_stuLeave',
 			childList: []
 		}, {
+			iconPath: tempAAA + "/static/tabbar/stuLeave.png",
+			selectedIconPath: tempAAA + "/static/tabbar/stuLeave_select.png",
+			text: '请假', //请假
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			midButton: false,
+			pagePath: '/pages/leave1/index',
+			pagePath1: '/pages/leave1/index1',
+			img_href: tempAAA + "/static/tabbar/stuLeave_img.png",
+			url: 'schapp_stuLeave1',
+			childList: []
+		}, {
+			iconPath: tempAAA + "/static/tabbar/stuLeave.png",
+			selectedIconPath: tempAAA + "/static/tabbar/stuLeave_select.png",
+			text: '学生请假审批', //学生请假审批
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			midButton: false,
+			pagePath: '/pages/stuLeave1Check/index',
+			pagePath1: '/pages/stuLeave1Check/index1',
+			img_href: tempAAA + "/static/tabbar/stuLeave_img.png",
+			url: 'schapp_stuLeave1Check',
+			childList: []
+		},{
 			text: "家长代请假", //家长代请假
 			pagePath: "/pages/leave/parLeaveIndex",
 			pagePath1: "/pages/leave/parLeaveIndex1",
@@ -1182,7 +1269,7 @@ function getPageArray() {
 				name: '拍照上交',
 				icon: tempAAA + '/static/images/homeworkAndWeektest/stu/takingPicture.png',
 				pagePath: "/pages/homeworkAndWeekTest_stu/takingPictureIndex",
-				url: '',//schapp_HomeWorkStu_TakingPicture
+				url: '', //schapp_HomeWorkStu_TakingPicture
 				noReadCut: 0
 			}, {
 				name: '作业/周测成绩',
@@ -1319,58 +1406,78 @@ function getPageArray() {
 		{
 			name: "学生综合素质", //学生综合素质 学生家长端
 			pagePath: "/pages/mixedAblStu/index",
-			iconPath: tempAAA + '/static/tabbar/mixedAblStu.png',
-			selectedIconPath: tempAAA + '/static/tabbar/mixedAblStu_select.png',
+			iconPath: tempAAA + '/static/tabbar/dormAttendance.png',
+			selectedIconPath: tempAAA + '/static/tabbar/dormAttendance_select.png',
 			count: 0,
 			isDot: false,
 			customIcon: false,
 			img_href: tempAAA + "/static/tabbar/mixedAblStu_img.png",
 			url: 'schapp_MixedAblStu',
 			childList: [{
+				name: '成长档案',
+				icon: tempAAA + '/static/images/mixedAbl/chengzhangdangan.png',
+				pagePath: "/pages/mixedAblStu/growthPortfolio",
+				url: 'schapp_MixedAblStu_growthPortfolio',
+				noReadCut: 0
+			},{
 				name: '报告填写',
-				icon: tempAAA + '/static/images/mixedAblStu/add.png',
+				icon: tempAAA + '/static/images/costMs/feiyongshenpi.png',
 				pagePath: "/pages/mixedAblStu/reportList",
 				url: 'schapp_MixedAblStu_Add',
 				noReadCut: 0
 			}, {
 				name: '学生手册',
-				icon: tempAAA + '/static/images/mixedAblStu/manual.png',
+				icon: tempAAA + '/static/images/costMs/feiyongbaoxiao.png',
 				pagePath: "/pages/mixedAblStu/manual",
 				url: 'schapp_MixedAblStu_Manual',
 				noReadCut: 0
 			}, {
 				name: '学生画像',
-				icon: tempAAA + '/static/images/mixedAblStu/portrait.png',
+				icon: tempAAA + '/static/images/studentTemperature/jiankongbaogao.png',
 				pagePath: "/pages/mixedAblStu/portrait",
 				url: 'schapp_MixedAblStu_Portrait',
 				noReadCut: 0
-			}, {
-				name: '学生期末总结',
-				icon: tempAAA + '/static/images/mixedAblStu/summary.png',
-				pagePath: "/pages/mixedAblStu/summary",
-				url: 'schapp_MixedAblStu_Summary',
-				noReadCut: 0
-			}]
+			}, 
+			// {
+			// 	name: '学生期末总结',
+			// 	icon: tempAAA + '/static/images/costMs/baoxiaoshenpi.png',
+			// 	pagePath: "/pages/mixedAblStu/summary",
+			// 	url: 'schapp_MixedAblStu_Summary',
+			// 	noReadCut: 0
+			// },
+			]
 		},
 		{
 			name: "学生综合素质", //学生综合素质 教师端
 			pagePath: "/pages/mixedAblTea/index",
-			iconPath: tempAAA + '/static/tabbar/mixedAblStu.png',
-			selectedIconPath: tempAAA + '/static/tabbar/mixedAblStu_select.png',
+			iconPath: tempAAA + '/static/tabbar/dormAttendance.png',
+			selectedIconPath: tempAAA + '/static/tabbar/dormAttendance_select.png',
 			count: 0,
 			isDot: false,
 			customIcon: false,
 			img_href: tempAAA + "/static/tabbar/mixedAblStu_img.png",
 			url: 'schapp_MixedAblTea',
 			childList: [{
+				name: '学生评价',
+				icon: tempAAA + '/static/images/mixedAbl/xueshengpingjia.png',
+				pagePath: "/pages/mixedAblTea/stuEvaluate",
+				url: 'schapp_MixedAblTea_stuEvaluate',
+				noReadCut: 0
+			}, {
+				name: '成长档案',
+				icon: tempAAA + '/static/images/mixedAbl/chengzhangdangan.png',
+				pagePath: "/pages/mixedAblTea/growthPortfolio",
+				url: 'schapp_MixedAblTea_growthPortfolio',
+				noReadCut: 0
+			}, {
 				name: '学生手册',
-				icon: tempAAA + '/static/images/mixedAblTea/manual.png',
+				icon: tempAAA + '/static/images/costMs/feiyongbaoxiao.png',
 				pagePath: "/pages/mixedAblTea/manual",
 				url: 'schapp_MixedAblTea_Manual',
 				noReadCut: 0
 			}, {
 				name: '学生画像',
-				icon: tempAAA + '/static/images/mixedAblTea/portrait.png',
+				icon: tempAAA + '/static/images/costMs/baoxiaoshenpi.png',
 				pagePath: "/pages/mixedAblTea/portrait",
 				url: 'schapp_MixedAblTea_Portrait',
 				noReadCut: 0
@@ -1398,14 +1505,14 @@ function getPageArray() {
 				pagePath: "/pages/bjlhkp/check",
 				url: 'schapp_bjlhkp_check',
 				noReadCut: 0
-			},{
+			}, {
 				name: '评比报告',
 				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
 				pagePath: "/pages/bjlhkp/report",
 				url: 'schapp_bjlhkp_report',
 				noReadCut: 0
 			}]
-		},{
+		}, {
 			name: "课后服务", //课后服务
 			pagePath: "/pages/khfw/index",
 			iconPath: tempAAA + '/static/tabbar/evaluationRecord.png',
@@ -1427,19 +1534,130 @@ function getPageArray() {
 				pagePath: "/pages/khfw/rollCall",
 				url: 'schapp_khfw_rollCall',
 				noReadCut: 0
-			},{
+			}, {
 				name: '教师课时统计',
 				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
 				pagePath: "/pages/khfw/teaClassHour",
 				url: 'schapp_khfw_teaClassHour',
 				noReadCut: 0
-			},{
+			}, {
 				name: '学生课时统计',
 				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
 				pagePath: "/pages/khfw/stuClassHour",
 				url: 'schapp_khfw_stuClassHour',
 				noReadCut: 0
+			},{
+				name: '实际课程情况',
+				icon: tempAAA + '/static/images/zhiXueKeTang/zujuanceshi.png',
+				pagePath: "/pages/khfw/practicalCourses",
+				url: 'schapp_khfw_practicalCourses',
+				noReadCut: 0
+			}, {
+				name: '临时调课',
+				icon: tempAAA + '/static/images/zhiXueKeTang/xueqingfenxi.png',
+				pagePath: "/pages/khfw/tempChangeClass",
+				url: 'schapp_khfw_tempChangeClass',
+				noReadCut: 0
+			}, {
+				name: '学生请假审批',
+				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				pagePath: "/pages/khfw/stuLeaveCheck",
+				url: 'schapp_khfw_stuLeaveCheck',
+				noReadCut: 0
 			}]
+		},{
+			name: "教师请假调课", //教师请假调课
+			pagePath: "/pages/qjtk/index",
+			iconPath: tempAAA + '/static/tabbar/evaluationRecord.png',
+			selectedIconPath: tempAAA + '/static/tabbar/evaluationRecord_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/bjlhkp_img.png",
+			url: 'schapp_qjtk',
+			childList: [{
+				name: '教师请假申请',
+				icon: tempAAA + '/static/images/zhiXueKeTang/xueqingfenxi.png',
+				pagePath: "/pages/khfw/teaLeaveApply",
+				url: 'schapp_khfw_teaLeaveApply',
+				noReadCut: 0
+			}, {
+				name: '教师调课申请',
+				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				pagePath: "/pages/khfw/teaChangeClassApply",
+				url: 'schapp_khfw_teaChangeClassApply',
+				noReadCut: 0
+			}, {
+				name: '教师请假审批',
+				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				pagePath: "/pages/khfw/teaLeaveCheck",
+				url: 'schapp_khfw_teaLeaveCheck',
+				noReadCut: 0
+			},{
+				name: '教师调课审批',
+				icon: tempAAA + '/static/images/zhiXueKeTang/zujuanceshi.png',
+				pagePath: "/pages/khfw/teaChangeClassCheck",
+				url: 'schapp_khfw_teaChangeClassCheck',
+				noReadCut: 0
+			},]
+		},{
+			name: "作业", //作业
+			pagePath: "/pages/hmwkStu/index",
+			pagePath1: "/pages/hmwkStu/index1",
+			iconPath: tempAAA + '/static/tabbar/evaluationRecord.png',
+			selectedIconPath: tempAAA + '/static/tabbar/evaluationRecord_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/evaluationRecord_img.png",
+			url: 'schapp_hmwkStu',
+			childList: []
+		},{
+			name: "学生作业", //学生作业
+			pagePath: "/pages/hmwkTec/index",
+			iconPath: tempAAA + '/static/tabbar/evaluationRecord.png',
+			selectedIconPath: tempAAA + '/static/tabbar/evaluationRecord_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/bjlhkp_img.png",
+			url: 'schapp_hmwkTec',
+			childList: [{
+				name: '作业布置',
+				icon: tempAAA + '/static/images/zhiXueKeTang/xueqingfenxi.png',
+				pagePath: "/pages/hmwkTec/addList",
+				url: 'schapp_hmwkTec_add',
+				noReadCut: 0
+			}, {
+				name: '作业批改',
+				icon: tempAAA + '/static/images/zhiXueKeTang/lishiceshi.png',
+				pagePath: "/pages/hmwkTec/correct",
+				url: 'schapp_hmwkTec_correct',
+				noReadCut: 0
+			}]
+		}, {
+			name: "课后服务", //课后服务--学生家长
+			pagePath: "/pages/khfwStu/index",
+			iconPath: tempAAA + '/static/tabbar/evaluationRecord.png',
+			selectedIconPath: tempAAA + '/static/tabbar/evaluationRecord_select.png',
+			count: 0,
+			isDot: false,
+			customIcon: false,
+			img_href: tempAAA + "/static/tabbar/bjlhkp_img.png",
+			url: 'schapp_khfwStu',
+			childList: [{
+				name: '课时统计',
+				icon: tempAAA + '/static/images/zhiXueKeTang/zujuanceshi.png',
+				pagePath: "/pages/khfwStu/clsTJ",
+				url: 'schapp_khfwStu_clsTJ',
+				noReadCut: 0
+			}, {
+				name: '在线选课',
+				icon: tempAAA + '/static/images/zhiXueKeTang/xueqingfenxi.png',
+				pagePath: "/pages/khfwStu/onlineSelectIndex",
+				url: 'schapp_khfwStu_onlineSelect',
+				noReadCut: 0
+			}],
 		},
 	];
 	return tempArray;
@@ -1474,6 +1692,8 @@ module.exports = {
 	getPushCut: getPushCut,
 	setPushCut: setPushCut,
 	setPushCutMore: setPushCutMore,
-	ArrayUnique: ArrayUnique
-
+	ArrayUnique: ArrayUnique,
+	sortTable:sortTable,
+	getWeekDataList:getWeekDataList,
+	getDiffDay:getDiffDay
 }

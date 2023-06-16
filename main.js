@@ -4,10 +4,11 @@ import {
 	post
 } from 'commom/request/request.js'
 // import uView from 'uni_modules/uview-ui'
-import uView from './third-ui/uview-ui'
+import uView1 from './third-ui/uview-ui'
 import util from './commom/util.js'
 import moment from 'moment'
-Vue.use(uView);
+// Vue.use(uView);
+Vue.use(uView1);
 import {VueJsonp} from 'vue-jsonp'
 Vue.use(VueJsonp);
 //配置项开始
@@ -76,6 +77,9 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_LHKP = 'https://develop309.108800.com/stuxwsubapi/evaluation/'; //量化考评（孔) 
 		GLOBALDATA.INTERFACE_ZHSZ = 'https://developgx.108800.com:8443/stuqualitysubapi/api/mixedAbl/'; //综合素质（农) 
 		GLOBALDATA.INTERFACE_BJLHKP = 'https://developgx.108800.com:8443/clskpsubapi/api/'; //学生量化考评（蒙) 
+		GLOBALDATA.INTERFACE_KHFW = 'https://developgx.108800.com:8443/stuclsservsubapi/api/'; //课后服务（农，廖）
+		GLOBALDATA.INTERFACE_ZHSZM = 'https://developgx.108800.com:8443/stuqualitysubapi/api/'; //综合素质（蒙) 评价、
+		GLOBALDATA.INTERFACE_HMWK = 'https://developgx.108800.com:8443/stuzy/api/'; //作业（蒙)
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
@@ -120,6 +124,9 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_LHKP = 'https://test.108800.com/stuxwsubapi/evaluation/'; //量化考评（孔) 
 		GLOBALDATA.INTERFACE_ZHSZ = 'https://test.108800.com/stuqualitysubapi/api/mixedAbl/'; //综合素质（农) 
 		GLOBALDATA.INTERFACE_BJLHKP = 'https://test.108800.com/clskpsubapi/api/'; //学生量化考评（蒙) 
+		GLOBALDATA.INTERFACE_KHFW = 'https://test.108800.com/stuclsservsubapi/api/'; //课后服务（农）
+		GLOBALDATA.INTERFACE_ZHSZM = 'https://test.108800.com/stuqualitysubapi/api/'; //综合素质（蒙) 评价、
+		GLOBALDATA.INTERFACE_HMWK = 'https://test.108800.com/stuzy/api/'; //作业（蒙)
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
@@ -164,6 +171,9 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_LHKP = 'https://apps.108800.com/stuxwsubapi/evaluation/'; //量化考评（孔) 
 		GLOBALDATA.INTERFACE_ZHSZ = 'https://apps.108800.com/stuqualitysubapi/api/mixedAbl/'; //综合素质（农) 
 		GLOBALDATA.INTERFACE_BJLHKP = 'https://apps.108800.com/clskpsubapi/api/'; //学生量化考评（蒙) 
+		GLOBALDATA.INTERFACE_KHFW = 'https://apps.108800.com/stuclsservsubapi/api/'; //课后服务（农）
+		GLOBALDATA.INTERFACE_ZHSZM = 'https://apps.108800.com/stuqualitysubapi/api/'; //综合素质（蒙) 评价、
+		GLOBALDATA.INTERFACE_HMWK = 'https://apps.108800.com/stuzy/api/'; //作业（蒙)
 		
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 17; //七牛appid
@@ -248,6 +258,16 @@ Vue.prototype.QN_JKSB_NOTE = "jksb/note/"; //特殊情况图片
 Vue.prototype.QN_XSZHSZ = "xszhsz/sign/"; //
 // 班级量化考评
 Vue.prototype.QN_BJLHKP = "bjlhkp/jilu/"; //
+// 课后服务
+Vue.prototype.QN_KHFW = "khfw/qingjia/"; //
+// 课后服务
+Vue.prototype.QN_KHFWSL = "khfw/stuLeave/"; //学生请假
+// 学生综合素质--评价
+Vue.prototype.QN_XSZHSZPJ = "xszhsz/pingjia/"; //
+// 学生作业--教师布置作业
+Vue.prototype.QN_HOMEWORKTEC = "homework/tecPub/"; //
+// 学生作业--学生答案
+Vue.prototype.QN_HOMEWORKSTU = "homework/stuAnswer/"; //
 
 //----------家校互动短信配置---------start
 Vue.prototype.MSG_SMS = {

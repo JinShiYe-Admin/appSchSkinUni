@@ -242,17 +242,20 @@
 				}
 			},
 			clsClick() {
+				this.grdIndexTemp = this.grdIndex;
+				this.clsIndexTemp = this.clsIndex;
+				this.clsArrayTemp = JSON.parse(JSON.stringify(this.clsArray));
 				this.$refs.popup.open()
 			},
 			popSure(flag) {
 				this.$refs.popup.close();
 				if (flag == 0) {
 					this.grdIndexTemp = this.grdIndex;
-					this.clsArrayTemp = this.clsArray;
+					this.clsArrayTemp = JSON.parse(JSON.stringify(this.clsArray));
 					this.clsIndexTemp = this.clsIndex;
 				} else {
 					this.grdIndex = this.grdIndexTemp;
-					this.clsArray = this.clsArrayTemp;
+					this.clsArray = JSON.parse(JSON.stringify(this.clsArrayTemp));
 					this.clsIndex = this.clsIndexTemp;
 					this.showLoading()
 					this.pageobj0.loadFlag = 0
@@ -404,10 +407,10 @@
 						clsArray.push(obj)
 					})
 					if (clsArray.length > 0) {
-						this.clsArrayTemp = clsArray;
+						this.clsArrayTemp = JSON.parse(JSON.stringify(clsArray));
 						this.clsIndexTemp = 0;
 						if (flag == 0) {
-							this.clsArray = clsArray;
+							this.clsArray = JSON.parse(JSON.stringify(clsArray));
 							this.grdClsStr = this.grdArray[this.grdIndex].text + this.clsArray[this.clsIndex].text;
 							this.getList0();
 						}

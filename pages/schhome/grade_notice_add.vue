@@ -3,7 +3,7 @@
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick" :icon="icon" :iconClick="iconClick"></mynavBar>
 		<uni-notice-bar :single="true" :text="SMSText"/>
 		<view class="uni-flex uni-row form-view">
-			<textarea placeholder="请输入通知内容,最多300字" v-model="comment" maxlength="300" style="flex: 1;"></textarea>
+			<textarea placeholder="请输入通知内容,最多260字" v-model="comment" maxlength="260" style="flex: 1;"></textarea>
 		</view>
 		<template v-if="SHOW">
 			<view class="line"></view>
@@ -46,6 +46,7 @@
 					</picker>
 					<uni-icons v-show="delayIcon" type="circle-filled" color="#00CFBD" size="17"></uni-icons>
 				</view>
+				<view style="margin: -5px 10px 5px 10px;font-size: 10px;color: red;">延时发送定义：例如当前时间为12时30分，设置延时“1天1小时30分后发送”，则信息会在第2天14时进行发送。</view>
 			</view>
 		</uni-popup>
 	</view>
@@ -216,7 +217,8 @@
 					if(_this.canSub){
 						_this.canSub=false
 						let comm=_this.comment
-						let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
+						// let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
+						let comment=comm
 						if(_this.SMS){
 							let showToast=false
 							 let words=[]
@@ -242,7 +244,8 @@
 				this.showLoading()
 				let smsFlag=0;
 				let comm=this.comment
-				let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
+				// let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
+				let comment=comm
 				if(this.SIGN){
 					comment+='[发送人：'+ this.personInfo.user_name+']'
 				}

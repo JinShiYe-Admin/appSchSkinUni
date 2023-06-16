@@ -202,12 +202,17 @@
 						response.list.map(item=>{
 							let grdName=[]
 							let push=true;
-							item.tousers.map(titem=>{
-								grdName.map(gitem=>{
-									if(gitem===titem.grd_name){push=false;}
+							if (item.tousers) {
+								item.tousers.map(titem=>{
+									grdName.map(gitem=>{
+										if(gitem===titem.grd_name){push=false;}
+									})
+									if(push){grdName.push(titem.grd_name)}
 								})
-								if(push){grdName.push(titem.grd_name)}
-							})
+							} else{
+								item.tousers = [];
+							}
+							
 							item.grdNames=grdName
 						})
 						if(this.pageobj0.loadFlag===0){

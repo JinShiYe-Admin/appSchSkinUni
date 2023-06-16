@@ -7,7 +7,8 @@
 					<picker class="flex-box" @change="grdClick" :value="grdIndex" :range="grdArray" range-key="text">
 						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
 							{{grdArray[grdIndex].text}}
-							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom"
+								color='#7f7f7f' size="14"></uni-icons>
 						</view>
 					</picker>
 				</uni-col>
@@ -15,7 +16,8 @@
 					<picker class="flex-box" @change="clsClick" :value="clsIndex" :range="clsArray" range-key="text">
 						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
 							{{clsArray[clsIndex].text}}
-							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom"
+								color='#7f7f7f' size="14"></uni-icons>
 						</view>
 					</picker>
 				</uni-col>
@@ -23,7 +25,8 @@
 					<picker class="flex-box" @change="stuClick" :value="stuIndex" :range="stuArray" range-key="text">
 						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
 							{{stuArray[stuIndex].text}}
-							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom"
+								color='#7f7f7f' size="14"></uni-icons>
 						</view>
 					</picker>
 				</uni-col>
@@ -31,7 +34,27 @@
 			<view class="select-line"></view>
 		</view>
 		<view style="padding-top: 44px;">
-			<view v-for="item in listArray">
+			<view v-for="(item,index) in listArray" :key="index">
+				<view v-if="item.mod_type == '1'&&item.mod_code == '1001'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
+						<view class="charts-box">
+							<qiun-data-charts type="line"
+								:opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}"
+								:chartData="chartSxl11001" />
+						</view>
+					</uni-card>
+				</view>
+				<view v-if="item.mod_type == '1'&&item.mod_code == '1002'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
+						<view class="charts-box">
+							<qiun-data-charts type="line"
+								:opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}"
+								:chartData="chartSxl11002" />
+						</view>
+					</uni-card>
+				</view>
 				<view v-if="item.mod_type == '2'&&item.mod_code == '1002'">
 					<uni-card isShadow>
 						<uni-row>
@@ -50,7 +73,26 @@
 						</uni-row>
 					</uni-card>
 				</view>
-				<view v-if="item.mod_code == '1004'">
+				<view v-if="item.mod_type == '1'&&item.mod_code == '1003'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
+						<view class="charts-box">
+							<qiun-data-charts type="line"
+								:opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}"
+								:chartData="chartSxl11003" />
+						</view>
+					</uni-card>
+				</view>
+				<view v-if="item.mod_type == '1'&&item.mod_code == '1004'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.hobbies&&item.mod_data.hobbies.length>0" class='detail-text'>
+							{{item.mod_data.hobbies}}
+						</view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+					</uni-card>
+				</view>
+				<view v-if="item.mod_type == '2'&&item.mod_code == '1004'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
 						<view class="charts-box">
@@ -60,7 +102,7 @@
 						</view>
 					</uni-card>
 				</view>
-				<view v-if="item.mod_code == '1005'">
+				<view v-if="item.mod_type == '2'&&item.mod_code == '1005'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
 						<view class="charts-box" style="margin-left: 10px;">
@@ -70,7 +112,22 @@
 						</view>
 					</uni-card>
 				</view>
-				<view v-if="item.mod_code == '1006'">
+				<view v-if="item.mod_type == '1'&&item.mod_code == '1005'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.award&&item.mod_data.award.length>0" class='detail-text'>{{item.mod_data.award}}</view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+					</uni-card>
+				</view>
+				<view v-if="item.mod_type == '1'&&item.mod_code == '1006'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.self_eval&&item.mod_data.self_eval.length>0" class='detail-text'>{{item.mod_data.self_eval}}</view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+						<image v-if="item.mod_data.self_eval_sign" class="signImg" :src="item.mod_data.self_eval_sign"></image>
+					</uni-card>
+				</view>
+				<view v-if="item.mod_type == '2'&&item.mod_code == '1006'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
 						<view class="" style="">
@@ -80,64 +137,107 @@
 						</view>
 					</uni-card>
 				</view>
-				<view v-if="item.mod_code == '1007'">
+				<!-- <view v-if="item.mod_code == '1007'">
 					<uni-card isShadow>
-						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
-						<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
-						<view class="charts-box">
+						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view> -->
+				<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
+				<!-- <view class="charts-box">
 							<qiun-data-charts type="line"
 								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve',tooltip:{}}},xAxis:{rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl1007" />
-							<!-- <qiun-data-charts type="line" :tooltipShow="false" @getIndex="showMyTooltip1007"
-								:opts="optsTooltip1007" :chartData="chartSxl1007" /> -->
 						</view>
 					</uni-card>
-				</view>
-				
-				<view v-if="item.mod_code == '1008'">
+				</view> -->
+
+				<!-- <view v-if="item.mod_code == '1008'">
 					<uni-card isShadow>
-						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
-						<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
-						<view class="charts-box">
+						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view> -->
+				<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
+				<!-- <view class="charts-box">
 							<qiun-data-charts type="line"
 								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve'},tooltip:{}},xAxis:{labelCount:10,rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl1008" />
-							<!-- <qiun-data-charts type="line" :tooltipShow="false" @getIndex="showMyTooltip1007"
-								:opts="optsTooltip1007" :chartData="chartSxl1008" /> -->
-							<!-- 此处改变的是 seriesTemplate 模板中的默认配置，不必每个series都传smooth:true，将会覆盖:chartData.series 实现更低的代码量 -->
-							<!-- <qiun-data-charts type="line" :opts="{extra:{line:{type:'curve'}}}" :eopts="{seriesTemplate:{smooth:true}}" :chartData="chartSxl1008" :echartsH5="true" :echartsApp="true"/> -->
 						</view>
 					</uni-card>
-				</view>
-				<view v-if="item.mod_code == '1009'">
+				</view> -->
+				<view v-if="item.mod_type == '1'&&item.mod_code == '1008'">
 					<uni-card isShadow>
-						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
-						<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
-						<view class="charts-box">
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.tch_eval&&item.mod_data.tch_eval.length>0" class='detail-text'>
+							{{item.mod_data.tch_eval}}
+						</view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+					</uni-card>
+				</view>
+				<view v-if="item.mod_type == '1'&&item.mod_code == '1009'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.content" class="lTitle">参加的项目和内容：</view>
+						<view class='detail-text' style="">{{item.mod_data.content}}</view>
+						<view v-if="item.mod_data.time_place" class="lTitle">时间和地点：</view>
+						<view class='detail-text' style="">{{item.mod_data.time_place}}</view>
+						<view v-if="item.mod_data.hours" class="lTitle">累计时长：<span
+								style='color: #939393;'>{{item.mod_data.hours}}小时</span></view>
+						<view v-if="item.mod_data.certifier" class="lTitle">证明人：<span
+								style='color: #939393;'>{{item.mod_data.certifier}}</span></view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+					</uni-card>
+				</view>
+				<!-- <view v-if="item.mod_code == '1009'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view> -->
+				<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
+				<!-- <view class="charts-box">
 							<qiun-data-charts type="line"
 								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve'}},xAxis:{labelCount:10,rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl1009" />
-							<!-- <qiun-data-charts type="line" :opts="{extra:{line:{type:'curve'}}}" :eopts="{seriesTemplate:{smooth:true}}" :chartData="chartSxl1009" :echartsH5="true" :echartsApp="true"/> -->
 						</view>
 					</uni-card>
-				</view>
-				<view v-if="item.mod_code == '1010'">
+				</view> -->
+				<!-- <view v-if="item.mod_code == '1010'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
 						<view v-if="item.mod_data.hobbies.length==0" class='detail-text' style="text-align: center;">暂无
 						</view>
 						<view v-if="item.mod_data.hobbies.length>0" class='detail-text'>{{item.mod_data.hobbies}}</view>
 					</uni-card>
-				</view>
-				<view v-if="item.mod_code == '1011'">
+				</view> -->
+				<!-- <view v-if="item.mod_code == '1011'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
 						<view v-if="item.mod_data.award.length==0" class='detail-text' style="text-align: center;">暂无
 						</view>
 						<view v-if="item.mod_data.award.length>0" class='detail-text'>{{item.mod_data.award}}</view>
 					</uni-card>
+				</view> -->
+				<view v-if="item.mod_type == '1'&&item.mod_code == '1010'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.achievement&&item.mod_data.achievement.length>0" class='detail-text'>
+							{{item.mod_data.achievement}}
+						</view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+					</uni-card>
 				</view>
-
+				<view v-if="item.mod_type == '1'&&item.mod_code == '1011'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.attendance" class="lTitle">各级运动会参与情况：</view>
+						<view class='detail-text' style="">{{item.mod_data.attendance}}</view>
+						<view v-if="item.mod_data.interest" class="lTitle">掌握较好的或感兴趣的体育项目：</view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+						<view class='detail-text' style="">{{item.mod_data.interest}}</view>
+					</uni-card>
+				</view>
+				<view v-if="item.mod_type == '1'&&item.mod_code == '1012'">
+					<uni-card isShadow>
+						<view style='font-weight: 600;'>{{item.mod_name}}</view>
+						<view v-if="item.mod_data.other&&item.mod_data.other.length>0" class='detail-text'>
+							{{item.mod_data.other}}
+						</view>
+						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+					</uni-card>
+				</view>
 			</view>
 			<view style="height: 5px;"></view>
 		</view>
@@ -173,35 +273,15 @@
 					value: ''
 				}],
 				listArray: '',
-				chartsDataLine1: {"categories":["2016","2017","2018","2019","2020","2021"],"series":[{"name":"成交量A","data":[35,8,25,37,4,20]},{"name":"成交量B","data":[70,40,65,100,44,68]},{"name":"成交量C","data":[100,80,95,150,112,132]}]},
+				chartSxl11001: {},
+				chartSxl11002: {},
+				chartSxl11003: {},
 				chartSxl1004: {},
 				chartSxl1005: {},
 				chartSxl1006: {},
 				chartSxl1007: {},
 				chartSxl1008: {},
 				chartSxl1009: {},
-				optsTooltip1007: {
-					dataLabel: false,
-					dataPointShape: false,
-					extra: {
-						line: {
-							type: 'curve'
-						}
-					},
-					xAxis: {
-						rotateLabel: true,
-					},
-					yAxis: {
-						data: [{
-							format: 'yAxisDemo0',
-							min: 0,
-							max: 3
-						}],
-						splitNumber: 3
-					}
-				},
-				optsTooltip1008: {},
-				optsTooltip1009: {},
 			}
 		},
 		components: {
@@ -345,40 +425,6 @@
 					return 'D';
 				}
 			},
-			showMyTooltip1007(e) {
-				console.log("获取点击索引事件", e);
-				//拿到canvasId后即e.id，可以通过uCharts.instance[e.id]代表当前的图表实例（除APP端，APP不可在组件外调用uCharts的实例）
-				console.log("获取uCharts实例", uCharts.instance[e.id]);
-				//uCharts.option[e.id]代表当前的图表的opts（除APP端，APP不可在组件外调用uCharts的实例）
-				console.log("uCharts的option", uCharts.option[e.id]);
-				//从option（opts）中获取数据
-				let categories = uCharts.option[e.id].categories;
-				let series = uCharts.option[e.id].series;
-				//e.currentIndex是点击的的点位索引值
-				let index = e.currentIndex
-				.index; //注意v2.1.2版本后，e.currentIndex是对象，而e.currentIndex.index是索引值，如果是时间轴图表，index在多个series的情况下会是数组
-				//自行通过uCharts的实例调用showToolTip方法（APP端不能实现，无法通过renderjs获取到uCharts实例）
-				// #ifndef APP-PLUS
-				//如果需要tooltip换行显示，也可以参照本示例，关闭组件本身的tooltip功能，即:tooltipShow="false"，然后在@getIndex事件中，通过uCharts.instance[e.id].showToolTip()方法来自定义。
-				let textList = [{
-					text: categories[index] + "2022-2023学年上学期高一全部班级学生...",
-					color: null
-				}];
-				for (let i = 0; i < series.length; i++) {
-					textList.push({
-						text: series[i].name + "：" + this.setValue(series[i].data[index]),
-						color: series[i].color
-					})
-				}
-				//changedTouches是点击的坐标值
-				uCharts.instance[e.id].showToolTip({
-					changedTouches: [e.event]
-				}, {
-					index: index,
-					textList: textList
-				});
-				// #endif
-			},
 			getList0() { //获取页面数据
 				let comData = {
 					grd_code: this.grdArray[this.grdIndex].value,
@@ -393,11 +439,11 @@
 						if (data.data.mod_list) {
 							for (var i = 0; i < data.data.mod_list.length; i++) {
 								var tempM = data.data.mod_list[i];
-								if (tempM.mod_type == '2'&&tempM.mod_code == '1002') {
+								if (tempM.mod_type == '2' && tempM.mod_code == '1002') {
 									if (tempM.mod_data.img_url == null) {
 										tempM.mod_data.img_url = 'https://www.108800.com/user.jpg';
 									}
-								} else if (tempM.mod_code == '1007') {
+								} else if (tempM.mod_type == '1' && tempM.mod_code == '1001') {
 									var tempArr99 = [];
 									var tempArr0 = [];
 									var tempArr1 = [];
@@ -501,11 +547,11 @@
 										data: tempArr15,
 										format: 'seriesDemo0'
 									}];
-									this.chartSxl1007 = {
+									this.chartSxl11001 = {
 										categories: tempArr99,
 										series: tempSum
 									}
-								} else if (tempM.mod_code == '1008') {
+								} else if (tempM.mod_type == '1' && tempM.mod_code == '1002') {
 									var tempArr99 = [];
 									var tempArr0 = [];
 									var tempArr1 = [];
@@ -544,11 +590,11 @@
 										data: tempArr4,
 										format: 'seriesDemo0'
 									}];
-									this.chartSxl1008 = {
+									this.chartSxl11002 = {
 										categories: tempArr99,
 										series: tempSum
 									}
-								} else if (tempM.mod_code == '1009') {
+								} else if (tempM.mod_type == '1' && tempM.mod_code == '1003') {
 									var tempArr99 = [];
 									var tempArr0 = [];
 									var tempArr1 = [];
@@ -580,11 +626,198 @@
 										data: tempArr3,
 										format: 'seriesDemo0'
 									}];
-									this.chartSxl1009 = {
+									this.chartSxl11003 = {
 										categories: tempArr99,
 										series: tempSum
 									}
-								} else if (tempM.mod_code == '1004') {
+								} else if (tempM.mod_code == '1007') {
+									// var tempArr99 = [];
+									// var tempArr0 = [];
+									// var tempArr1 = [];
+									// var tempArr2 = [];
+									// var tempArr3 = [];
+									// var tempArr4 = [];
+									// var tempArr5 = [];
+									// var tempArr6 = [];
+									// var tempArr7 = [];
+									// var tempArr8 = [];
+									// var tempArr9 = [];
+									// var tempArr10 = [];
+									// var tempArr11 = [];
+									// var tempArr12 = [];
+									// var tempArr13 = [];
+									// var tempArr14 = [];
+									// var tempArr15 = [];
+									// for (var a = 0; a < tempM.mod_data.list.length; a++) {
+									// 	var tempL = tempM.mod_data.list[a];
+									// 	tempArr99.push('');
+									// 	// tempArr99.push(tempL.name);
+									// 	tempArr0.push(this.setCharValue(tempL.maths));
+									// 	tempArr1.push(this.setCharValue(tempL.ch_skill));
+									// 	tempArr2.push(this.setCharValue(tempL.political));
+									// 	tempArr3.push(this.setCharValue(tempL.chinese));
+									// 	tempArr4.push(this.setCharValue(tempL.music));
+									// 	tempArr5.push(this.setCharValue(tempL.geography));
+									// 	tempArr6.push(this.setCharValue(tempL.physics));
+									// 	tempArr7.push(this.setCharValue(tempL.english));
+									// 	tempArr8.push(this.setCharValue(tempL.p_skill));
+									// 	tempArr9.push(this.setCharValue(tempL.chemistry));
+									// 	tempArr10.push(this.setCharValue(tempL.art));
+									// 	tempArr11.push(this.setCharValue(tempL.biology));
+									// 	tempArr12.push(this.setCharValue(tempL.biol_skill));
+									// 	tempArr13.push(this.setCharValue(tempL.history));
+									// 	tempArr14.push(this.setCharValue(tempL.pe));
+									// 	tempArr15.push(this.setCharValue(tempL.location));
+									// }
+									// var tempSum = [{
+									// 	name: "数学",
+									// 	data: tempArr0,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "化学技能",
+									// 	data: tempArr1,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "政治",
+									// 	data: tempArr2,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "语文",
+									// 	data: tempArr3,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "音乐",
+									// 	data: tempArr4,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "地理",
+									// 	data: tempArr5,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "物理",
+									// 	data: tempArr6,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "英语",
+									// 	data: tempArr7,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "物理技能",
+									// 	data: tempArr8,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "化学",
+									// 	data: tempArr9,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "美术",
+									// 	data: tempArr10,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "生物",
+									// 	data: tempArr11,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "生物技能",
+									// 	data: tempArr12,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "历史",
+									// 	data: tempArr13,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "体育",
+									// 	data: tempArr14,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "当地课程",
+									// 	data: tempArr15,
+									// 	format: 'seriesDemo0'
+									// }];
+									// this.chartSxl1007 = {
+									// 	categories: tempArr99,
+									// 	series: tempSum
+									// }
+								} else if (tempM.mod_code == '1008') {
+									// var tempArr99 = [];
+									// var tempArr0 = [];
+									// var tempArr1 = [];
+									// var tempArr2 = [];
+									// var tempArr3 = [];
+									// var tempArr4 = [];
+									// for (var a = 0; a < tempM.mod_data.list.length; a++) {
+									// 	var tempL = tempM.mod_data.list[a];
+									// 	tempArr99.push('');
+									// 	// tempArr99.push(tempL.name);
+									// 	tempArr0.push(this.setCharValue(tempL.practice));
+									// 	tempArr1.push(this.setCharValue(tempL.learning));
+									// 	tempArr2.push(this.setCharValue(tempL.moral));
+									// 	tempArr3.push(this.setCharValue(tempL.appreciation));
+									// 	tempArr4.push(this.setCharValue(tempL.quality));
+									// }
+									// console.log('tempArr0:' + JSON.stringify(tempArr0));
+									// var tempSum = [{
+									// 	name: "社会实践",
+									// 	data: tempArr0,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "学业水平",
+									// 	data: tempArr1,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "思想品德",
+									// 	data: tempArr2,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "艺术素养",
+									// 	data: tempArr3,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "身心健康",
+									// 	data: tempArr4,
+									// 	format: 'seriesDemo0'
+									// }];
+									// this.chartSxl1008 = {
+									// 	categories: tempArr99,
+									// 	series: tempSum
+									// }
+								} else if (tempM.mod_code == '1009') {
+									// var tempArr99 = [];
+									// var tempArr0 = [];
+									// var tempArr1 = [];
+									// var tempArr2 = [];
+									// var tempArr3 = [];
+									// for (var a = 0; a < tempM.mod_data.list.length; a++) {
+									// 	var tempL = tempM.mod_data.list[a];
+									// 	tempArr99.push('');
+									// 	// tempArr99.push(tempL.name);
+									// 	tempArr0.push(this.setCharValue(tempL.prac_lv));
+									// 	tempArr1.push(this.setCharValue(tempL.labour_lv));
+									// 	tempArr2.push(this.setCharValue(tempL.study_lv));
+									// 	tempArr3.push(this.setCharValue(tempL.computer_lv));
+									// }
+									// var tempSum = [{
+									// 	name: "实践等级",
+									// 	data: tempArr0,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "劳动等级",
+									// 	data: tempArr1,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "学习等级",
+									// 	data: tempArr2,
+									// 	format: 'seriesDemo0'
+									// }, {
+									// 	name: "信息技术等级",
+									// 	data: tempArr3,
+									// 	format: 'seriesDemo0'
+									// }];
+									// this.chartSxl1009 = {
+									// 	categories: tempArr99,
+									// 	series: tempSum
+									// }
+								} else if (tempM.mod_type == '2' && tempM.mod_code == '1004') {
 									var comData = {
 										index_code: this.index_code,
 										stu_code: this.stuArray[this.stuIndex].value,
@@ -613,7 +846,7 @@
 											this.showToast(data.msg);
 										}
 									});
-								} else if (tempM.mod_code == '1005') {
+								} else if (tempM.mod_type == '2' && tempM.mod_code == '1005') {
 									// 
 									let end_month = this.moment().format('YYYY-MM-DD')
 									let start_month = this.moment().subtract(6, 'M').format('YYYY-MM-DD');
@@ -650,7 +883,7 @@
 												this.showToast(data.msg);
 											}
 										});
-								} else if (tempM.mod_code == '1006') {
+								} else if (tempM.mod_type == '2' && tempM.mod_code == '1006') {
 									// 
 									let end_month = this.moment().format('YYYY-MM-DD')
 									let start_month = this.moment().subtract(6, 'M').format('YYYY-MM-DD');
@@ -664,7 +897,8 @@
 									}
 									this.showLoading();
 									// 19.学生行为报表-学生报表
-									this.post(this.globaData.INTERFACE_STUXWSUB + 'Report/statisticsStudentBehavior',
+									this.post(this.globaData.INTERFACE_STUXWSUB +
+										'Report/statisticsStudentBehavior',
 										comData, (data0,
 											data) => {
 											this.hideLoading();
@@ -678,7 +912,9 @@
 														tempArr1.push(0);
 													} else {
 														if (data.data.staticArray[0][tempM.value]) {
-															tempArr1.push(data.data.staticArray[0][tempM.value]);
+															tempArr1.push(data.data.staticArray[0][tempM
+																.value
+															]);
 														} else {
 															tempArr1.push(0);
 														}
@@ -698,7 +934,7 @@
 								}
 							}
 							this.listArray = data.data.mod_list;
-						} else{
+						} else {
 							this.showToast('暂无数据');
 						}
 					} else {
@@ -782,6 +1018,7 @@
 		color: #939393;
 		font-size: 12px;
 		margin: 3px 0;
+		word-break: break-all;
 	}
 
 	.leaveType {
@@ -799,7 +1036,14 @@
 	}
 
 	.charts-box {
-	  width: 100%;
-	  height: 300px;
+		width: 100%;
+		height: 300px;
+	}
+
+	.lTitle {
+		font-weight: 600;
+		margin-bottom: 5px;
+		font-size: 14px;
+		margin-top: 10px;
 	}
 </style>

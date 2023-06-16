@@ -2,7 +2,7 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="uni-flex uni-column" style="margin-top: 10px;">
-			<view v-for="(item,index) in colList" class="columnList" @click="clickItem(index)">{{item}}</view>
+			<view v-for="(item,index) in colList" :key="index" class="columnList" @click="clickItem(index)">{{item}}</view>
 		</view>
 	</view>
 </template>

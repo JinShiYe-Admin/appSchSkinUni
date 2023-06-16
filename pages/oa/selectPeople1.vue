@@ -336,6 +336,9 @@
 							this.hideLoading();
 							if (data1.code == 0) {
 								if (data1.data.list) {
+									// data1.data.list.sort(util.compare('user_name', 1));
+									// data1.data.list.sort(util.compare('user_name', 1));
+									data1.data.list = util.sortTable(data1.data.list,'user_name');
 									this.allPeople = this.allPeople.concat(data1.data.list);
 									for (var a = 0; a < tempDpt.length; a++) {
 										var tempM1 = tempDpt[a];

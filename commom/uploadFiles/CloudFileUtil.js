@@ -8,7 +8,7 @@ import Vue from 'vue'
  * @param {Object} callBack
  */
 var getUpLoadTokens = function(that, data, callBack) {
-	console.log("getUpLoadTokens " + JSON.stringify(data));
+	// console.log("getUpLoadTokens " + JSON.stringify(data));
 	var appId = data.appId; //项目id
 	var desKey = data.appKey; //项目名称
 	var configure = {}; //配置的数据
@@ -58,7 +58,7 @@ var getUpLoadTokens = function(that, data, callBack) {
 		Param: cryption.encryptByDES(desKey, JSON.stringify(params))
 	}
 
-	console.log("参数数据：" + JSON.stringify(configure.options))
+	// console.log("参数数据：" + JSON.stringify(configure.options))
 	//获取token
 	getQNUpTokenWithManage(that, that.QNGETUPLOADTOKEN, configure.options, function(data) {
 		callBack({
@@ -470,7 +470,7 @@ var uploadAudio = function uploadAudio(type, fileName, audioUrl, callback, ecall
 	}
 	// console.log('getToken:' + JSON.stringify(getToken));
 	getQNUpToken(null, Vue.prototype.QNGETUPLOADTOKEN, getToken, function(data) {
-		console.log('getQNUpToken111:' + JSON.stringify(data));
+		// console.log('getQNUpToken111:' + JSON.stringify(data));
 		let QNUptoken = data.data; //token数据
 		// console.log('七牛上传token:' + JSON.stringify(QNUptoken));
 		if (QNUptoken.Status == 0) { //失败
@@ -478,8 +478,8 @@ var uploadAudio = function uploadAudio(type, fileName, audioUrl, callback, ecall
 			//console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
 			uni.hideLoading();
 		} else {
-			console.log("上传的Token:" + QNUptoken.Data.Token);
-			console.log("上传的Domain:" + QNUptoken.Data.Domain);
+			// console.log("上传的Token:" + QNUptoken.Data.Token);
+			// console.log("上传的Domain:" + QNUptoken.Data.Domain);
 			uni.uploadFile({
 				url: Vue.prototype.QN_URL,
 				filePath: audioUrl,
@@ -489,14 +489,14 @@ var uploadAudio = function uploadAudio(type, fileName, audioUrl, callback, ecall
 				},
 				name: 'file',
 				success: (uploadFileRes) => {
-					console.log('uploadFileRes:' + JSON.stringify(uploadFileRes));
+					// console.log('uploadFileRes:' + JSON.stringify(uploadFileRes));
 					let responseUrl = QNUptoken.Data.Domain + JSON.parse(uploadFileRes.data)
 					.key;
 					callback(responseUrl);
 				},
 				fail: (e) => {
-					console.log(e);
-					uni.showToast('文件上传失败，请稍后再试 ');
+					// console.log(e);
+					uni.showToast('文件上传失败0，请稍后再试 ');
 				}
 			});
 		}
@@ -580,8 +580,8 @@ var getIfExist = function(option) {
  * @param {Object} errorCB
  */
 var getQNUpTokenWithManage = function(that, url, data, successCB, errorCB) {
-	console.log('url:' + url);
-	console.log('data:' + JSON.stringify(data));
+	// console.log('url:' + url);
+	// console.log('data:' + JSON.stringify(data));
 	let reuqestTask = uni.request({
 		url: url,
 		timeout: 60000,
@@ -593,7 +593,7 @@ var getQNUpTokenWithManage = function(that, url, data, successCB, errorCB) {
 		},
 		data: data,
 		success: res => { //接口调用成功的回调函数
-			console.log('11111res:' + JSON.stringify(res));
+			// console.log('11111res:' + JSON.stringify(res));
 			if (res.statusCode === 200) {
 				if (res.data.Status === '1') {
 					//服务器返回响应
@@ -606,7 +606,7 @@ var getQNUpTokenWithManage = function(that, url, data, successCB, errorCB) {
 			}
 		},
 		fail: (e) => { //接口调用失败的回调函数  比如跨域了，断网
-			console.log("e: " + JSON.stringify(e));
+			// console.log("e: " + JSON.stringify(e));
 			if (that.canSub) {
 				that.canSub = true
 			}
@@ -701,7 +701,7 @@ var qiniuDelete = function(paths, callBack) {
 		urls: paths //array 必填 需要获取下载token文件的路径
 	}
 	BatchDelete(Vue.prototype.QNGETTOKENDELETE, batchDelete, function(data) {
-			console.log('七牛删除 ' + JSON.stringify(data));
+			// console.log('七牛删除 ' + JSON.stringify(data));
 			// if (data.Status == 1) {
 			// 	mod.pathList = [];
 			// } else {
@@ -710,7 +710,7 @@ var qiniuDelete = function(paths, callBack) {
 			// wd.close();
 		},
 		function(xhr, type, errorThrown) {
-			console.log('### ERROR ### 请求七牛删除失败 ### ' + JSON.stringify(type));
+			// console.log('### ERROR ### 请求七牛删除失败 ### ' + JSON.stringify(type));
 		}
 	);
 }
@@ -747,7 +747,7 @@ var BatchDelete = function(url, data, successCB, errorCB) {
 				},
 				data: configure.options,
 				success: res => { //接口调用成功的回调函数
-					console.log('11111res:' + JSON.stringify(res));
+					// console.log('11111res:' + JSON.stringify(res));
 					// if (res.statusCode === 200) {
 					// 	if (res.data.Status === '1') {
 					// 		//服务器返回响应
@@ -756,7 +756,7 @@ var BatchDelete = function(url, data, successCB, errorCB) {
 					// }
 				},
 				fail: (e) => { //接口调用失败的回调函数  比如跨域了，断网
-					console.log("e: " + JSON.stringify(e));
+					// console.log("e: " + JSON.stringify(e));
 					uni.hideLoading();
 					uni.showToast('网络请求失败')
 				},
@@ -777,18 +777,29 @@ var BatchDelete = function(url, data, successCB, errorCB) {
  * @param {Object} uploadCompletedCallBack 上传完成时的回调
  */
 var uploadFiles = function(that, type, files, mainSpace, uploadSpace, callback) {
+	// console.log("files: " + JSON.stringify(files));
 	let names = []
+	// let newImgList = files.filter(item => {
+	// 	return item.indexOf('blob:') !== -1 ||item.indexOf('_doc:') !== -1 || item.indexOf('file:') !== -1 || item.indexOf('https://') ===
+	// 		-1 || item.indexOf('http://') === -1
+	// }) //过滤服务器已经上传过的文件
+	// let imgUrls = files.filter(item => {
+	// 	return !(item.indexOf('blob:') > -1 ||item.indexOf('_doc:') > -1 || item.indexOf('file:') > -1 || item.indexOf('https://') === -
+	// 		1 || item.indexOf('http://') === -1)
+	// }) //过滤服务器已经上传过的文件
 	let newImgList = files.filter(item => {
-		return item.indexOf('blob:') !== -1 || item.indexOf('file:') !== -1 || item.indexOf('https://') ===
-			-1 || item.indexOf('http://') === -1
+		return item.slice(0,5).indexOf('http')==-1;
 	}) //过滤服务器已经上传过的文件
 	let imgUrls = files.filter(item => {
-		return !(item.indexOf('blob:') > -1 || item.indexOf('file:') > -1 || item.indexOf('https://') === -
-			1 || item.indexOf('http://') === -1)
+		return item.slice(0,5).indexOf('http')!=-1;
 	}) //过滤服务器已经上传过的文件
-	console.log("newImgList: " + JSON.stringify(newImgList));
-	console.log("imgUrls: " + JSON.stringify(imgUrls));
+	// console.log("newImgList: " + JSON.stringify(newImgList));
+	// console.log("imgUrls: " + JSON.stringify(imgUrls));
 	newImgList.map((item, index) => {
+		//如果是H5 文件是blob ，可以用item.name 获取文件名  如果是app-plus ,item是一个String，需要截取字符串，这里不写了
+		names.push(that.moment().format('YYYYMMDDHHmmsss') + '_' + index + '.png')
+	})
+	imgUrls.map((item, index) => {
 		//如果是H5 文件是blob ，可以用item.name 获取文件名  如果是app-plus ,item是一个String，需要截取字符串，这里不写了
 		names.push(that.moment().format('YYYYMMDDHHmmsss') + '_' + index + '.png')
 	})
@@ -806,7 +817,7 @@ var uploadFiles = function(that, type, files, mainSpace, uploadSpace, callback) 
 				// getQNUpToken(that,that.QNGETUPLOADTOKEN,getToken, data=> {//---2
 				let QNUptoken = data.data; //token数据
 				let configure = data.configure; //获取token的配置信息
-				console.log('七牛上传token:' + JSON.stringify(QNUptoken));
+				// console.log('七牛上传token:' + JSON.stringify(QNUptoken));
 				if (QNUptoken.Status == 0) { //失败
 					that.showToast('获取上传凭证失败 ' + QNUptoken.Message);
 					// console.log('### ERROR ### 请求上传凭证失败' + QNUptoken.Message);
@@ -838,7 +849,7 @@ var uploadFiles = function(that, type, files, mainSpace, uploadSpace, callback) 
 									if (that.canSub) {
 										that.canSub = true
 									}
-									that.showToast('文件上传失败，请稍后再试 ');
+									that.showToast('文件上传失败1，请稍后再试 ');
 									that.hideLoading();
 								}
 							});
@@ -877,7 +888,7 @@ var _uploadFiles = function(that, fPath, token, key, uploadCompletedCallBack) {
 			if (that.canSub) {
 				that.canSub = true
 			}
-			that.showToast('文件上传失败，请稍后再试 ');
+			that.showToast('文件上传失败2，请稍后再试 ');
 		}
 	});
 }

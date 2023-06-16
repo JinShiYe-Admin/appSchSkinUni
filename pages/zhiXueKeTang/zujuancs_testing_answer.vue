@@ -12,7 +12,7 @@
 				<view class="question option-box" style="font-size: 13px;">{{ (index+1)+".(单选题) " }}<span
 						style="font-size: 13px;" v-html="questions[index].content"></span></view>
 				<view>
-					<view class="option-item" v-for="(item, k) in transOptions">
+					<view class="option-item" v-for="(item, k) in transOptions" :key="k">
 						<span class="option-label" :class="[answerJudge(k)]">{{k}}</span>
 						<span style='margin-left: 5px;font-size: 13px;word-break: break-all;' v-html="item"></span>
 					</view>

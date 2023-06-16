@@ -190,3 +190,7 @@ stuLocationPath|学生轨迹|zhao|顾 孔|开发|文档完成
 stuHealthMsg|健康上报、家长学生端|zhao|顾 蒙|正式|文档完成
 stuHealthMsgTeacher|健康上报|zhao|顾 蒙|正式|文档完成
 evaluationRecord|量化考评|zhao|顾 孔|开发|
+bjlhkp|班级量化考评
+costMs|费用管理
+khfw|课后服务
+

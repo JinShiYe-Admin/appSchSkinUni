@@ -6,7 +6,7 @@
 				<view style="font-weight: 900;font-size: 18px;text-align: center;margin: 10px 20px;">{{pageData.name}}
 				</view>
 				<view class="modDetail">{{pageData.remark}}</view>
-				<view v-for="(item,index) in pageData.mod_list">
+				<view v-for="(item,index) in pageData.mod_list" :key="index">
 					<view v-if="item.mod_code == '1005'">
 						<view style="font-weight: 900;font-size: 16px;margin: 15px 0 5px 15px;">
 							{{++index}}.{{item.mod_name}}

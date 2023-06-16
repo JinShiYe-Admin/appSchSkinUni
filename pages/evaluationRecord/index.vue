@@ -20,7 +20,7 @@
 			<view class="select-line"></view>
 		</view>
 		<uni-swipe-action style="padding-top: 40px;">
-			<uni-swipe-action-item v-for="(item,index) in pageArray" :disabled="deleteFlag" :right-options="options" @click="onClick(index)">
+			<uni-swipe-action-item v-for="(item,index) in pageArray" :key="index" :disabled="deleteFlag" :right-options="options" @click="onClick(index)">
 				<uni-list-item showArrow clickable :border="true">
 					<view slot="body" class="slot-box slot-text" @click.stop="clickItem(item)">
 						<uni-row>

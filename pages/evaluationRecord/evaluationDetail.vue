@@ -125,9 +125,13 @@
 						})
 						data.data.grade_array.map(function(item) {
 							let name = '';
+							var tempA = 0;
+							if (sum != 0) {
+								tempA = parseFloat(parseFloat(item.value/sum).toFixed(4));
+							}
 							let obj = {
 								// data:parseFloat(item.value/sum).toFixed(4),
-								data:parseFloat(parseFloat(item.value/sum).toFixed(4)),
+								data:tempA,
 								name:item.name+'人数：'+item.value
 							};
 							valueList.push(obj);

@@ -343,6 +343,7 @@
 <style>
 	.healthmsg-date-picker {
 		padding: 0 0.5rem;
+		width: 140px;
 	}
 	.healthmsg-card:active {
 		background-color: #f1f1f1;

@@ -11,7 +11,7 @@
 		
 		<view class="uni-flex uni-pa-4 button-group">
 			<button
-				v-for="item in status.list"
+				v-for="(item,index) in status.list" :key="index"
 				class="uni-flex-item"
 				:class="status.current === item.key ? 'active' : ''"
 				@click="onStatusChange(item.key)"

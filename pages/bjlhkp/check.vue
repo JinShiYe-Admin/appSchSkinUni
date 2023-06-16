@@ -2,7 +2,7 @@
 	<view>
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view v-if="colList.length>0" class="uni-flex uni-column" style="margin-top: 10px;">
-			<view v-for="(item,index) in colList" class="columnList" @click="clickItem(item)">{{item.name}}
+			<view v-for="(item,index) in colList" :key="index" class="columnList" @click="clickItem(item)">{{item.name}}
 			<p class="kpType">审</p>
 			</view>
 		</view>

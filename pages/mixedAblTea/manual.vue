@@ -39,12 +39,12 @@
 			<view class="select-line"></view>
 		</view>
 		<view style="padding-top: 74px;">
-			<view v-for="item in listArray">
+			<view v-for="(item,index) in listArray" :key="index">
 				<view v-if="item.mod_code == '1001'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.value">
+							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
 								<view style='font-size: 14px;margin: 2px 0;'>
 									{{model.name}}：<span
 										style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
@@ -57,7 +57,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.value">
+							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
 								<view style='font-size: 14px;margin: 2px 0;'>
 									{{model.name}}：<span
 										style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
@@ -74,7 +74,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.value">
+							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
 								<view style="margin: 0 5px;">
 									<view style="font-size: 14px;text-align: center;">
 										<span
@@ -105,6 +105,7 @@
 							{{item.mod_data.self_eval}}
 						</view>
 						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+						<image v-if="item.mod_data.self_eval_sign" class="signImg" :src="item.mod_data.self_eval_sign"></image>
 					</uni-card>
 				</view>
 				<view v-if="item.mod_code == '1004'">
@@ -132,6 +133,7 @@
 							{{item.mod_data.fam_eval}}
 						</view>
 						<view v-else style="text-align: center;" class='detail-text'>暂无</view>
+						<image v-if="item.mod_data.self_eval_sign" class="signImg" :src="item.mod_data.self_eval_sign"></image>
 					</uni-card>
 				</view>
 				<view v-if="item.mod_code == '1009'">
@@ -401,12 +403,12 @@
 										.mod_data.maths : '-'
 								}
 								tempArr.push(tempS);
-								tempS = {
-									name: '化学技能',
-									value: tempM.mod_data.ch_skill && tempM.mod_data.ch_skill.length > 0 ?
-										tempM.mod_data.ch_skill : '-'
-								}
-								tempArr.push(tempS);
+								// tempS = {
+								// 	name: '化学技能',
+								// 	value: tempM.mod_data.ch_skill && tempM.mod_data.ch_skill.length > 0 ?
+								// 		tempM.mod_data.ch_skill : '-'
+								// }
+								// tempArr.push(tempS);
 								tempS = {
 									name: '政治',
 									value: tempM.mod_data.political && tempM.mod_data.political.length > 0 ?
@@ -443,12 +445,12 @@
 										.mod_data.english : '-'
 								}
 								tempArr.push(tempS);
-								tempS = {
-									name: '物理技能',
-									value: tempM.mod_data.p_skill && tempM.mod_data.p_skill.length > 0 ? tempM
-										.mod_data.p_skill : '-'
-								}
-								tempArr.push(tempS);
+								// tempS = {
+								// 	name: '物理技能',
+								// 	value: tempM.mod_data.p_skill && tempM.mod_data.p_skill.length > 0 ? tempM
+								// 		.mod_data.p_skill : '-'
+								// }
+								// tempArr.push(tempS);
 								tempS = {
 									name: '化学',
 									value: tempM.mod_data.chemistry && tempM.mod_data.chemistry.length > 0 ?
@@ -645,6 +647,7 @@
 		color: #939393;
 		font-size: 13px;
 		margin: 3px 0;
+		word-break: break-all;
 	}
 
 	.leaveType {
@@ -659,5 +662,15 @@
 
 	.uni-input-input {
 		font-size: 13px;
+	}
+	
+	.signImg{
+		border: 1px solid gainsboro;
+		font-size: 14px;
+		width: 150px;
+		height: 70px;
+		border-radius: 5px;
+		margin-top: 5px;
+		margin-left: calc( 100% - 155px) ;
 	}
 </style>
