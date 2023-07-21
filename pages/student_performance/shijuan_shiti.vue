@@ -130,7 +130,7 @@
 			// 1.7.单科题目详情
 			getQueDetail(sutArray) {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					id: this.examId, //试卷id
 					que_numbers: this.stItem.question_number, //题号
 					index_code: this.access,

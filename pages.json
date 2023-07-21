@@ -4351,6 +4351,166 @@
             }
             
         }
+        ,{
+            "path" : "pages/firstMenu/schManageIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/firstMenu/studentIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/firstMenu/teachingIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/firstMenu/teachingResIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/firstMenu/homeSchIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/firstMenu/schServiceIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/firstMenu/securityIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/firstMenu/healthIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/firstMenu/DataAnalysisIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/more/index1",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/firstMenu/educationIndex",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/more/tecTecAddrList",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/more/stuTecAddrList",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/more/parentsAddrList",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/more/parentsAddrDetail",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/more/clsTimetable",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	//配置项如果有注释，注释内容为官网文档中的 平台差异说明
 	"globalStyle": {
@@ -4378,7 +4538,39 @@
 		"backgroundColor": "#F8F8F8",
 		"list": [{
 				"pagePath": "pages/more/index"
+			},{
+				"pagePath": "pages/more/index1"
 			},
+			{
+				"pagePath": "pages/firstMenu/schManageIndex"
+			},
+			{
+				"pagePath": "pages/firstMenu/studentIndex"
+			},
+			{
+				"pagePath": "pages/firstMenu/teachingIndex"
+			},
+			{
+				"pagePath": "pages/firstMenu/teachingResIndex"
+			},
+			{
+				"pagePath": "pages/firstMenu/homeSchIndex"
+			},
+			{
+				"pagePath": "pages/firstMenu/schServiceIndex"
+			},
+			{
+				"pagePath": "pages/firstMenu/securityIndex"
+			},
+			{
+				"pagePath": "pages/firstMenu/healthIndex"
+			},
+			{
+				"pagePath": "pages/firstMenu/DataAnalysisIndex"
+			}
+			
+			
+			,
 			{
 				"pagePath": "pages/homeworkAndWeektest/index"
 			},
@@ -4390,8 +4582,7 @@
 			},
 			{
 				"pagePath": "pages/stu_behavior/index"
-			}
-			,
+			},
 			{
 				"pagePath": "pages/leave/stuLeaveIndex"
 			},
@@ -4490,6 +4681,9 @@
 			},
 			{
 				"pagePath" :"pages/khfwStu/index"
+			},
+			{
+				"pagePath" :"pages/firstMenu/educationIndex"
 			}
 		]
 	}

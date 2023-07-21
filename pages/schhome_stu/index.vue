@@ -1,19 +1,14 @@
 <template>
 	<view>
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
-		<view class="tabs-fixed" style="background-color: #FFFFFF;">
-			 <uni-row>
-				<uni-col :span="8" >
-					<picker @change="typeClick" :value="typeIndex" :range="typeArray" range-key="text">
-						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
-							{{typeArray[typeIndex].text}}
-							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
-						</view>
-					</picker>
-				</uni-col>
-			 </uni-row>
-			 <view class="select-line"></view>
-		</view>
+		<scroll-view id="tab-bar" class="scroll-h tabs-fixed" :scroll-x="true" :show-scrollbar="false"
+			:scroll-into-view="scrollInto">
+			<view v-for="(tab,index) in typeArray" :key="tab.value" class="uni-tab-item" :id="tab.value" :data-current="index"
+				@click="clickSeg">
+				<text class="uni-tab-item-title"
+					:class="typeIndex==index ? 'uni-tab-item-title-active' : ''">{{tab.name}}</text>
+			</view>
+		</scroll-view>
 		<view style="padding-top: 40px;" >
 			<uni-list :border="false">
 				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
@@ -66,13 +61,14 @@
 				navItem: {},
 				index_code:'',
 				//顶部筛选框相关内容
+				scrollInto: '',
 				typeIndex:0,
 				typeArray: [
 					{text:'全部',value:''},
 					{text:'学校通知',value:this.MSG_SMS.SCHOOL.MSG_TYPE},
 					{text:'年级通知',value:this.MSG_SMS.GRADE.MSG_TYPE},
 					{text:'班级通知',value:this.MSG_SMS.CLASS.MSG_TYPE},
-					{text:'班级作业',value:this.MSG_SMS.HOMEWORK.MSG_TYPE},
+					// {text:'班级作业',value:this.MSG_SMS.HOMEWORK.MSG_TYPE},
 					{text:'个性表现',value:this.MSG_SMS.PERFORMANCE.MSG_TYPE},
 					{text:'成绩通知',value:this.MSG_SMS.SCORE.MSG_TYPE},
 				],
@@ -96,16 +92,22 @@
 			mynavBar,
 		},
 		methods: {
-			typeClick:function(e){
-			 	if(this.typeIndex!==e.detail.value){
-			 		 this.typeIndex=e.detail.value
-			 		 this.showLoading()
-			 		 this.pageobj0.loadFlag=0
-			 		 this.pageobj0.canload=true
-			 		 this.pageobj0.page_number=1
-			 		 this.getList0();
-			 	}
-			 },
+			clickSeg: function(e) {
+				// console.log('clickSeg:'+JSON.stringify(e))
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				});
+				let index = e.target.dataset.current || e.currentTarget.dataset.current;
+				if(this.typeIndex!==index){
+					this.typeIndex=index
+					this.showLoading()
+					this.pageobj0.loadFlag=0
+					this.pageobj0.canload=true
+					this.pageobj0.page_number=1
+					this.getList0();
+				}
+			},
 			getList0(){//获取页面数据
 				let comData={
 					get_unit_code:this.personInfo.unit_code,
@@ -322,5 +324,33 @@
 	 .icons-text.icons-text-score{
 	 	background: #2F4553;
 	 		font-size: 12px;
+	 }
+	 
+	 .scroll-h {
+	 	width: 100%;
+	 	height: 40px;
+	 	background-color: #F0F0F0;
+	 	flex-direction: row;
+	 	white-space: nowrap;
+	 }
+	 
+	 .uni-tab-item {
+	 	display: inline-block;
+	 	flex-wrap: nowrap;
+	 	padding-left: 17px;
+	 	padding-right: 17px;
+	 }
+	 
+	 .uni-tab-item-title {
+	 	color: #555;
+	 	font-size: 15px;
+	 	height: 40px;
+	 	line-height: 40px;
+	 	flex-wrap: nowrap;
+	 	white-space: nowrap;
+	 }
+	 
+	 .uni-tab-item-title-active {
+	 	color: #00CFBD;
 	 }
 </style>

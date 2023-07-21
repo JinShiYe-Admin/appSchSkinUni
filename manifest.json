@@ -2,8 +2,8 @@
     "name" : "教宝校园",
     "appid" : "__UNI__720E42A",
     "description" : "",
-    "versionName" : "1.0.20",
-    "versionCode" : 1020,
+    "versionName" : "1.0.22",
+    "versionCode" : 1022,
     "transformPx" : false,
     "networkTimeout" : {
         /*全局网络请求超时时间*/
@@ -36,7 +36,8 @@
             "Webview-x5" : {},
             "Geolocation" : {},
             "Push" : {},
-            "Camera" : {}
+            "Camera" : {},
+            "Messaging" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -54,10 +55,13 @@
                     "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_SMS\"/>",
                     "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+                    "<uses-permission android:name=\"android.permission.SEND_SMS\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_SMS\"/>"
                 ],
                 "permissionExternalStorage" : {
                     "request" : "always",

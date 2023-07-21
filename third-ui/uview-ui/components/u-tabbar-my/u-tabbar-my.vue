@@ -23,9 +23,9 @@
 						:color="elColor(index)"
 						:custom-prefix="item.customIcon ? 'custom-icon' : 'uicon'"
 					></u-icon>
-					<u-badge style="color: white;" :count="item.count" :is-dot="item.isDot"
-						v-if="item.count"
-						:offset="[-2, getOffsetRight(item.count, item.isDot)]"
+					<u-badge style="color: white;" :count="item.noReadCut" :is-dot="item.isDot"
+						v-if="item.noReadCut"
+						:offset="[-2, getOffsetRight(item.noReadCut, item.isDot)]"
 					></u-badge>
 				</view>
 				<view class="u-tabbar__content__item__text" :style="{

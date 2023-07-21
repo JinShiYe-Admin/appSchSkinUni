@@ -38,7 +38,7 @@
 				</uni-col>
 				<uni-col :span="18">
 					<view class="rowStyleP">
-						{{item.originalCls.addr_list.length>0?item.originalCls.addr_list[0].address:'--'}}
+						{{item.originalCls.addr_list&&item.originalCls.addr_list.length>0?item.originalCls.addr_list[0].address:item.originalCls.cls_name}}
 					</view>
 				</uni-col>
 				<uni-col :span="6">
@@ -124,25 +124,21 @@
 						<uni-col :span="3">
 							<view class="rowStyle" style="border:1px solid transparent"></view>
 						</uni-col>
-						<uni-col :span="3" v-for="(item,index) in tempArr0" :key="index">
-							<view class="rowStyle">{{item}}</view>
-						</uni-col>
+						<view>
+							<uni-col :span="3" v-for="(item,index) in tempArr0" :key="index">
+								<view class="rowStyle">{{item}}</view>
+							</uni-col>
+						</view>
 						<uni-col :span="3">
 							<view class="rowStyle" style="border:1px solid transparent"></view>
 						</uni-col>
-						<uni-col :span="3" v-for="(item,index) in weekArray" :key="index">
-							<view class="rowStyle">{{item}}</view>
-						</uni-col>
+						<view>
+							<uni-col :span="3" v-for="(item,index1) in weekArray" :key="index1">
+								<view class="rowStyle">{{item}}</view>
+							</uni-col>
+						</view>
 						<view style="margin-top: 10px;">
 							<view v-for="(item0,index0) in pageData0" :key="index0">
-								<!-- <uni-col :span="3">
-									<view class="rowClass" style="background: #e1d3be;">
-										<view class="rowStyle">{{item0.name}}</view>
-										<view class="rowStyle">{{item0.start_time.slice(0, 5)}}</view>
-										<view class="rowStyle">-</view>
-										<view class="rowStyle">{{item0.end_time.slice(0, 5)}}</view>
-									</view>
-								</uni-col> -->
 								<uni-col :span="3">
 									<view class="rowClass" style="background: #e1d3be;"
 										:style="{height:(152*item0.child.length-2)+'px'}">
@@ -154,22 +150,6 @@
 										<view class="rowStyle">{{item0.end_time.slice(0, 5)}}</view>
 									</view>
 								</uni-col>
-								<!-- <view v-for="(item1,index1) in item0.child">
-									<uni-col :span="3" v-if="item1.setValue == 1">
-										<view class="rowClass"
-											:style="{background:item1.selectFlag == 1?'#2c96bd':item1.canSelect == 1?'':'#f2f2f2',color:item1.selectFlag == 1||item1.canSelect == 1?'white':''}"
-											@click="clickSign(item1,0)">
-											<view class="rowStyle" style="font-weight: 900;">{{item1.sub_name}}</view>
-											<view class="rowStyle" style="transform: scale(0.9);margin-top: 5px;">
-												{{item1.addr_list.length>0?item1.addr_list[0].address:''}}
-											</view>
-										</view>
-									</uni-col>
-									<uni-col :span="3" v-else>
-										<view class="rowClass" style="background: #f2f2f2;">
-										</view>
-									</uni-col>
-								</view> -->
 								<view v-for="(item1,index1) in item0.child" :key="index1">
 									<view v-for="(item2,index2) in item1.child" :key="index2">
 										<uni-col :span="3" v-if="item2.setValue == 1">
@@ -177,7 +157,7 @@
 												@click="clickSign(item2,0)">
 												<view class="rowStyle" style="font-weight: 900;padding-top: 10px;">{{item2.sub_name}}</view>
 												<view class="rowStyle" style="transform: scale(0.9);margin-top: 5px;">
-													{{item2.addr_list.length>0?item2.addr_list[0].address:''}}
+													{{item2.addr_list&&item2.addr_list.length>0?item2.addr_list[0].address:item2.cls_name}}
 												</view>
 											</view>
 										</uni-col>
@@ -212,25 +192,21 @@
 							<uni-col :span="3">
 								<view class="rowStyle" style="border:1px solid transparent"></view>
 							</uni-col>
-							<uni-col :span="3" v-for="(item,index) in tempArr1" :key="index">
-								<view class="rowStyle">{{item}}</view>
-							</uni-col>
+							<view>
+								<uni-col :span="3" v-for="(item,index) in tempArr1" :key="index">
+									<view class="rowStyle">{{item}}</view>
+								</uni-col>
+							</view>
 							<uni-col :span="3">
 								<view class="rowStyle" style="border:1px solid transparent"></view>
 							</uni-col>
-							<uni-col :span="3" v-for="(item,index) in weekArray" :key="index">
-								<view class="rowStyle">{{item}}</view>
-							</uni-col>
+							<view>
+								<uni-col :span="3" v-for="(item,index1) in weekArray" :key="index1">
+									<view class="rowStyle">{{item}}</view>
+								</uni-col>
+							</view>
 							<view style="margin-top: 10px;">
 								<view v-for="(item0,index0) in pageData1" :key="index0">
-									<!-- <uni-col :span="3">
-										<view class="rowClass" style="background: #e1d3be;">
-											<view class="rowStyle">{{item0.name}}</view>
-											<view class="rowStyle">{{item0.start_time.slice(0, 5)}}</view>
-											<view class="rowStyle">-</view>
-											<view class="rowStyle">{{item0.end_time.slice(0, 5)}}</view>
-										</view>
-									</uni-col> -->
 									<uni-col :span="3">
 										<view class="rowClass" style="background: #e1d3be;"
 											:style="{height:(152*item0.child.length-2)+'px'}">
@@ -242,25 +218,6 @@
 											<view class="rowStyle">{{item0.end_time.slice(0, 5)}}</view>
 										</view>
 									</uni-col>
-									<!-- <view v-for="(item1,index1) in item0.child">
-										<uni-col :span="3" v-if="item1.setValue == 1">
-											<view class="rowClass"
-												:style="{background:item1.selectFlag == 1?'#2c96bd':item1.canSelect == 1?'':'#f2f2f2',color:item1.selectFlag == 1||item1.canSelect == 1?'white':''}"
-												@click="clickSign(item1,1)">
-												<view class="rowStyle" style="font-weight: 900;">{{item1.sub_name}}
-												</view>
-												<view class="rowStyle" style="transform: scale(0.9);margin-top: 5px;">
-													{{item1.addr_list.length>0?item1.addr_list[0].address:''}}
-												</view>
-											</view>
-										</uni-col>
-										<uni-col :span="3" v-else>
-											<view class="rowClass"
-												:style="{background:item1.selectFlag == 1?'#2c96bd':item1.canSelect == 1?'':'#f2f2f2'}"
-												@click="clickSign(item1,1)">
-											</view>
-										</uni-col>
-									</view> -->
 									<view v-for="(item1,index1) in item0.child" :key="index1">
 										<view v-for="(item2,index2) in item1.child" :key="index2">
 											<uni-col :span="3" v-if="item2.setValue == 1">
@@ -268,7 +225,7 @@
 													@click="clickSign(item2,1)">
 													<view class="rowStyle" style="font-weight: 900;padding-top: 10px;">{{item2.sub_name}}</view>
 													<view class="rowStyle" style="transform: scale(0.9);margin-top: 5px;">
-														{{item2.addr_list.length>0?item2.addr_list[0].address:''}}
+														{{item2.addr_list&&item2.addr_list.length>0?item2.addr_list[0].address:item2.cls_name}}
 													</view>
 												</view>
 											</uni-col>
@@ -399,6 +356,7 @@
 				// selectCls1: [], //选择的调课课程id
 				showDate0: [], //原课程的7天日期列表
 				showDate1: [], //调整课程的7天日期列表
+				timeList:[],
 			}
 		},
 		components: {
@@ -417,6 +375,8 @@
 			});
 			// 获取代课老师
 			this.getTeaList();
+			// 
+			this.getTimeList();
 			//#ifdef H5
 			document.title = "";
 			//#endif
@@ -428,6 +388,30 @@
 			//#endif
 		},
 		methods: {
+			getTimeList() {
+				let comData = {
+					index_code: this.navItem.index_code,
+				}
+				this.showLoading();
+				this.post(this.globaData.INTERFACE_WORK + 'ClasstimeSchedule/list', comData, (data0, data) => {
+					this.hideLoading()
+					if (data.code == 0) {
+						for (var i = 0; i < data.data.timeArray.length; i++) {
+							var tempM = data.data.timeArray[i];
+							if (tempM.class_flag == 1) {
+								this.timeList.push({
+									id:tempM.id,
+									name:tempM.id,
+									start_time:tempM.attendance_begintime,
+									end_time:tempM.attendance_endtime,
+								})
+							}
+						}
+					} else {
+						this.showToast(data.msg);
+					}
+				})
+			},
 			teaClick() {
 				if (this.typeFlag == 0) {//0调课，1代课，2停课
 					this.$refs.popup2.open();
@@ -504,14 +488,18 @@
 						old_week_name:tempM.originalCls.week_name,//原课程安排-星期名称
 						old_week_code:tempM.originalCls.week_code,//原课程安排-星期代码
 						old_lesson_time:tempM.originalCls.name,//原课程安排-上课时间
-						old_place:tempM.originalCls.addr_list.length>0?tempM.originalCls.addr_list[0].address:'',//原课程安排-地点
-						old_place_sign_id:tempM.originalCls.addr_list.length>0?tempM.originalCls.addr_list[0].id:'',//原课程安排-地点签到代码
-						old_lesson_sign_id:tempM.originalCls.after_class_sign_id,//原课程安排-课程签到代码
+						old_place:tempM.originalCls.addr_list&&tempM.originalCls.addr_list.length>0?tempM.originalCls.addr_list[0].address:'',//原课程安排-地点
+						old_place_sign_id:tempM.originalCls.addr_list&&tempM.originalCls.addr_list.length>0?tempM.originalCls.addr_list[0].id:'',//原课程安排-地点签到代码
+						old_lesson_sign_id:tempM.originalCls.after_class_sign_id?tempM.originalCls.after_class_sign_id:tempM.originalCls.id,//原课程安排-课程签到代码
 						old_lesson_name:tempM.originalCls.sub_name,//原课程安排-课程名称
 						old_tec_sign_id:tempM.originalCls.id,//原课程安排-教师签到代码
 						old_start_time:tempM.originalCls.start_time,//原课程安排-开始时间
 						old_end_time:tempM.originalCls.end_time,//原课程安排-结束时间
-						old_time_id:tempM.originalCls.after_class_time_id
+						old_time_id:tempM.originalCls.after_class_time_id,
+						old_course_type:tempM.originalCls.course_type//原课程类型
+					}
+					if (tempNow.old_course_type == 1) {
+						tempNow.old_cls_code = tempM.originalCls.cls_code;//原课程班级代码
 					}
 					if (tempM.flag == 0) {
 						tempNow.type = 1;//
@@ -522,13 +510,17 @@
 						tempNow.new_lesson_time = tempM.nowCls.name;//调课安排-上课时间
 						tempNow.new_place = this.addrList[tempM.addrIndex].address;//调课安排-地点
 						tempNow.new_addr_id = this.addrList[tempM.addrIndex].id;//调课安排-地点
-						tempNow.new_lesson_sign_id = tempM.nowCls.after_class_sign_id?tempM.nowCls.after_class_sign_id:'';//调课安排-课程签到代码
+						tempNow.new_lesson_sign_id = tempM.nowCls.after_class_sign_id?tempM.nowCls.after_class_sign_id:tempM.nowCls.id;//调课安排-课程签到代码
 						tempNow.new_lesson_name = tempM.nowCls.sub_name;//调课安排-课程名称
 						tempNow.new_start_time = tempM.nowCls.start_time;//调课安排-开始时间
 						tempNow.new_end_time = tempM.nowCls.end_time;//调课安排-结束时间
 						tempNow.substitute_name = this.teaList0[tempM.teaIndex].tec_name;//代课老师名称
 						tempNow.substitute_code = this.teaList0[tempM.teaIndex].tec_code;//代课老师代码
 						tempNow.new_time_id = tempM.nowCls.timeID?tempM.nowCls.timeID:tempM.nowCls.after_class_time_id;//调课-时间段代码
+						tempNow.new_course_type = tempM.nowCls.course_type;//新课程类型
+						if (tempNow.new_course_type == 1) {
+							tempNow.new_cls_code = tempM.originalCls.cls_code;//新课程班级代码
+						}
 					} else if (tempM.flag == 1) {
 						tempNow.type = 2;//
 						tempNow.type_name = '代课';//
@@ -826,8 +818,10 @@
 								return;
 							}
 						} else {
-							tempArr1 = data.data.time_list;
+							// tempArr1 = data.data.time_list;
+							tempArr1 = this.timeList;
 						}
+						// console.log('tempArr1:'+tempArr1);
 						var tempArr0 = [];
 						for (var i = 0; i < tempArr1.length; i++) {
 							var tempM0 = tempArr1[i];

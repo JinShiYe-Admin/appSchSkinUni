@@ -466,7 +466,7 @@
 			//1.3.单科成绩及排名趋势
 			getSingleScoreOrder() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					id: this.itemData.id,
 					page_number: 1,
 					page_size: 10,
@@ -555,7 +555,7 @@
 			// 1.4.我的答卷
 			getSingleSubAnswer() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					id: this.itemData.id,
 					index_code: this.itemData.access,
 				}
@@ -572,7 +572,7 @@
 			//1.5.单科试卷分析
 			getExamAnalysis() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					id: this.itemData.id,
 					index_code: this.itemData.access,
 				}
@@ -593,7 +593,7 @@
 			// 1.6.单科错题归纳
 			getErrorQue() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					id: this.itemData.id,
 					index_code: this.itemData.access,
 				}

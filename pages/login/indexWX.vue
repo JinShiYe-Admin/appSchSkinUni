@@ -69,8 +69,8 @@
 					</view>
 					<view class="uni-list-cell-db" style="width: 45%;">
 						<button v-if="item.status==0||item.status==1" @click="tapItem(item)"
-							style="background: #00CFBD;margin-left: 20px;color: white;margin-right: 10px;" class="mini-btn"
-							size="mini">{{item.status==0?'绑定并注册':'绑定'}}</button>
+							style="background: #00CFBD;margin-left: 20px;color: white;margin-right: 10px;"
+							class="mini-btn" size="mini">{{item.status==0?'绑定并注册':'绑定'}}</button>
 						<!-- <button v-if="item.status==1" @click="tapItem(item)"
 						style="background: #00CFBD;margin-left: 20px;color: white;" class="mini-btn"
 						size="mini">注册</button> -->
@@ -85,10 +85,13 @@
 				@close="close" @confirm="confirm"></uni-popup-dialog>
 		</uni-popup>
 		<uni-popup ref="popupTishi" type="dialog">
-			<uni-popup-dialog title="提示" content="账号未授权，请联系管理员！" @close="closeTishi" @confirm="confirmTishi"></uni-popup-dialog>
+			<uni-popup-dialog title="提示" content="账号未授权，请联系管理员！" @close="closeTishi"
+				@confirm="confirmTishi"></uni-popup-dialog>
 		</uni-popup>
 		<uni-popup ref="popup0" type="center" background-color="#fff" style="">
-			<view style="margin-top: 10px;text-align: center;font-size: 16px;color: #000000;margin-bottom: 20px;font-weight: 900;width: 320px;">请输入注册账号及密码</view>
+			<view
+				style="margin-top: 10px;text-align: center;font-size: 16px;color: #000000;margin-bottom: 20px;font-weight: 900;width: 320px;">
+				请输入注册账号及密码</view>
 			<view class="uni-list">
 				<view class="uni-list-cell" style="height: 40px;">
 					<view class="uni-list-cell-left" style="width: 90px;">
@@ -104,7 +107,8 @@
 						请输入密码
 					</view>
 					<view class="uni-list-cell-db">
-						<input v-model="pswd1" password style="height: 40px;" maxlength="18" type="text" placeholder="请输入密码" />
+						<input v-model="pswd1" password style="height: 40px;" maxlength="18" type="text"
+							placeholder="请输入密码" />
 					</view>
 				</view>
 				<view class="uni-list-cell">
@@ -112,7 +116,8 @@
 						请确认密码
 					</view>
 					<view class="uni-list-cell-db">
-						<input v-model="pswd2" password style="height: 40px;" maxlength="18" type="text" placeholder="请确认密码" />
+						<input v-model="pswd2" password style="height: 40px;" maxlength="18" type="text"
+							placeholder="请确认密码" />
 					</view>
 				</view>
 				<view style="width: 100px;margin: 15px 0 15px 125px;">
@@ -148,10 +153,10 @@
 				typeStr0: '',
 				typeStr1: '',
 				showFlag: 0,
-				login_name:'',
-				pswd1:'',
-				pswd2:'',
-				tapModel:{},
+				login_name: '',
+				pswd1: '',
+				pswd2: '',
+				tapModel: {},
 			}
 		},
 		onLoad(option) {
@@ -291,7 +296,7 @@
 					this.pswd2 = '';
 					this.$refs.popup0.open();
 					this.tapModel = item;
-				} else{
+				} else {
 					//2.3.用户注册/第三方账号绑定
 					this.getThuserreg(item);
 				}
@@ -418,10 +423,10 @@
 					}
 				});
 			},
-			closeTishi(){
+			closeTishi() {
 				this.$refs.popupTishi.close();
 			},
-			confirmTishi(){
+			confirmTishi() {
 				this.$refs.popupTishi.close();
 			},
 			close() {
@@ -572,34 +577,88 @@
 									for (var i = 0; i < data4.data.list[0].childList
 										.length; i++) { //一级菜单循环
 										var web_first_item = data4.data.list[0].childList[i];
+										// 个人中心菜单
+										if (web_first_item.url == 'schapp_PersonalCenter' || web_first_item
+											.url == 'schapp_StuPersonalCente') {
+											for (var h = 0; h < web_first_item.childList
+												.length; h++) { //二级菜单循环
+												var web_second_item = web_first_item.childList[h];
+												if (web_second_item.url == 'schapp_TeaAddressBook') {
+													tempData.personalCenter0 = 1;
+												} else if (web_second_item.url == 'schapp_AddressBook') {
+													tempData.personalCenter2 = 1;
+													tempData.personalCenter2Access = web_second_item.access
+														.split("#")[1];
+												} else if (web_second_item.url == 'schapp_Curriculum') {
+													tempData.personalCenter1 = 1;
+													tempData.personalCenter1Access = web_second_item.access
+														.split("#")[1];
+												} else if (web_second_item.url == 'schapp_StuCurriculum') {
+													tempData.personalCenter3 = 1;
+													tempData.personalCenter3Access = web_second_item.access
+														.split("#")[1];
+												} else if (web_second_item.url ==
+													'schapp_StuAddressBook') {
+													tempData.personalCenter4 = 1;
+												}
+											}
+											util.setPersonal(tempData);
+										}
 										for (var a = 0; a < this.pageArray.length; a++) {
 											var local_first_item = this.pageArray[a];
 											if (local_first_item.url == web_first_item.url) {
 												local_first_item.text = web_first_item.name;
 												local_first_item.access = web_first_item.access;
 												local_first_item.redspot_url = web_first_item.redspot_url;
-												let childList = []
+												let childList1 = []
 												for (var b = 0; b < web_first_item.childList
 													.length; b++) { //二级菜单循环
 													var web_second_item = web_first_item.childList[b];
-													for (var c = 0; c < local_first_item.childList
-														.length; c++) {
-														var local_second_item = local_first_item.childList[
-															c];
+													for (var c = 0; c < this.pageArray.length; c++) {
+														var local_second_item = this.pageArray[c];
 														if (local_second_item.url == web_second_item.url) {
 															local_second_item.access = web_second_item
 																.access;
 															local_second_item.redspot_url = web_second_item
 																.redspot_url;
-															local_second_item.childList = web_second_item
-																.childList;
 															local_second_item.text = web_second_item.name;
-															childList.push(local_second_item)
+															let childList2 = []
+															for (var d = 0; d < web_second_item.childList
+																.length; d++) { //三级菜单循环
+																var web_thid_item = web_second_item
+																	.childList[d];
+																for (var e = 0; e < this.pageArray
+																	.length; e++) {
+																	var local_thid_item = this.pageArray[
+																	e];
+																	if (local_thid_item.url ==
+																		web_thid_item.url) {
+																		local_thid_item.access =
+																			web_thid_item.access;
+																		local_thid_item.redspot_url =
+																			web_thid_item.redspot_url;
+																		local_thid_item.text =
+																			web_thid_item.name;
+																		local_thid_item.childList =
+																			web_thid_item.childList;
+																		childList2.push(local_thid_item)
+																	}
+																}
+															}
+															local_second_item.childList = childList2;
+															childList1.push(local_second_item)
 														}
 													}
 												}
-												local_first_item.childList = childList
-												tempA.push(local_first_item);
+												if (data1.data.user.type_code == 'YHLX0003') {
+													if (childList1.length > 0) {
+														local_first_item.childList = childList1
+														tempA.push(local_first_item);
+													}
+												} else {
+													local_first_item.childList = childList1
+													tempA.push(local_first_item);
+												}
 											}
 										}
 									}
@@ -607,28 +666,59 @@
 										let tempM = tempA[i];
 										tempM.index = i;
 									}
+									if (tempA.length == 0) {
+										this.showToast('应用系统无权限，请联系管理员');
+										this.unRegister(data1);
+									}
 									console.log('tempA:' + JSON.stringify(tempA));
 									if (tempA.length > 5) {
 										var tempArrayM = tempA.slice(4);
 										util.setMenuMore(tempArrayM);
 										tempA = tempA.slice(0, 4);
+
+										let tempAAA = '';
+										//#ifdef H5
+										var tempUrl = window.location.href;
+										// console.log('getPageArray.tempUrl:' + tempUrl);
+										var tempArr = tempUrl.split('/');
+										// console.log('tempArr:' + JSON.stringify(tempArr));
+										let urlFlag = 0;
+										for (var a = 0; a < tempArr.length; a++) {
+											if (tempArr[a].indexOf("wx") != -1) {
+												urlFlag = a;
+											}
+										}
+										urlFlag = urlFlag + 2;
+										let tempUrl1 = [];
+										for (var a = 0; a < urlFlag; a++) {
+											tempUrl1.push(tempArr[a]);
+										}
+										tempAAA = tempUrl1.join('/');
+										//#endif 
+										var tempPath = ''
+										if (data1.data.user.type_code == 'YHLX0003') {
+											tempPath = "/pages/more/index1";
+										} else {
+											tempPath = "/pages/more/index";
+										}
 										tempA.push({
 											text: "更多",
 											index: 4,
 											count: 0,
 											isDot: false,
 											customIcon: false,
-											pagePath: "/pages/more/index",
-											iconPath: '../../static/tabbar/more.png',
-											selectedIconPath: '../../static/tabbar/more_select.png',
-											img_href: "../../img/schapp_work/kaoqin_tab.png",
+											pagePath: tempPath,
+											iconPath: tempAAA + '/static/tabbar/more.png',
+											selectedIconPath: tempAAA +
+												'/static/tabbar/more_select.png',
+											icon: "@/img/schapp_work/kaoqin_tab.png",
 											url: 'schappUni_CoursePractice',
 											childList: []
 										});
 									} else {
 										util.setMenuMore([]);
 									}
-									console.log('tempA:' + JSON.stringify(tempA));
+									// console.log('tempA:' + JSON.stringify(tempA));
 									this.showArray = [].concat(tempA);
 									util.setMenu(this.showArray);
 									if (this.showArray.length > 0) {
@@ -636,7 +726,7 @@
 									}
 									//跳转界面
 									tempFlag++;
-									console.log('tempFlag02:' + tempFlag);
+									// console.log('tempFlag02:' + tempFlag);
 									if (tempFlag == 3) {
 										this.gotoPage();
 									}
@@ -748,6 +838,7 @@
 				} else {
 					this.$refs.popupTishi.open();
 					// this.showToast('账号未授权，请联系管理员！');
+					// this.unRegister(data1);
 				}
 			},
 			unRegister(data1) {
@@ -808,14 +899,15 @@
 					login_name: this.login_name, //登录名
 					user_type: userModel.user_type, //
 					phone: userModel.phone, //电话
-					password: this.pswd1.length>0?md5.hex_md5(this.PWD_ENCRYPTION + this.pswd1):'', //密码,秘钥+密码再MD5加密
+					password: this.pswd1.length > 0 ? md5.hex_md5(this.PWD_ENCRYPTION + this.pswd1) :
+					'', //密码,秘钥+密码再MD5加密
 					msg_token: this.msg_token,
 					msg: this.yanzm,
 					thuser_code: this.openid, //第三方用户代码或账号
 					thuser_fromcode: this.globaData.THIRD_FORMCODE, //第三方平台,微信:WX;支付宝:ZFB
 					access_token: '',
 				}
-				console.log('register:'+JSON.stringify(comData0));
+				console.log('register:' + JSON.stringify(comData0));
 				this.showLoading();
 				//发送网络请求，data为网络返回值
 				this.post(this.globaData.INTERFACE_HR_SKIN + 'register', comData0, (data0, data) => {

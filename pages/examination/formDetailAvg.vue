@@ -22,8 +22,8 @@
 				<uni-col :span="tabBarItem.selectType =='qk'?8:12">
 					<picker class="flex-box" @change="kcClick" :value="kcIndex" :range="kcArray" range-key="text">
 						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
-							{{kcArray[kcIndex].text}}
-							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+							<view style="margin-right: 30px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{kcArray[kcIndex].text}}</view>
+							<uni-icons style="float: right;margin-right: 10px;margin-top: -15px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
 						</view>
 					</picker>
 				</uni-col>

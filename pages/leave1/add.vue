@@ -16,7 +16,7 @@
 			<view @click="showPop()" class="show-time"><uni-icons type="calendar" color='gainsboro'></uni-icons>{{defaultData.startTime.length>0?defaultData.startTime+' ~ '+defaultData.endTime:'请选择开始时间和结束时间'}}</view>
 			<view class="typeCss" style="margin-top: 20px;"><uni-icons type="star-filled" color='#d9001b'
 					size="10"></uni-icons>请假事由：</view>
-			<textarea style="margin-top: 10px;" maxlength="300" v-model="content" class="rightView" placeholder="请输入"></textarea>
+			<textarea style="margin-top: 10px;" maxlength="200" v-model="content" class="rightView" placeholder="请输入"></textarea>
 			<!-- <view class="typeCss" style="margin-top: 20px;">上传材料：</view> -->
 			<view class="uni-flex uni-row form-view choose-file">
 				<view style="font-size: 14px;margin: -10px 0 10px -10px;">上传材料：<span class="file-des">

@@ -144,7 +144,7 @@
 			},
 			getQueDetail() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					id: this.examId, //试卷id
 					que_numbers: this.zsdItem.question_numbers, //题号
 					index_code: this.access,

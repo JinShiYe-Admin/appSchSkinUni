@@ -291,6 +291,7 @@
 							}
 							// tempContent = tempContent.replace(/\n/g, '');
 							tempContent = tempContent.replace(' ', '');
+							tempContent = tempContent.replace(/&nbsp;/ig, '');
 							var comData = {
 								send_unit_code: this.personInfo.unit_code,
 								send_user: this.personInfo.user_code,

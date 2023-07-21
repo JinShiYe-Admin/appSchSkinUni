@@ -80,11 +80,13 @@
 				this.hmwkImgList.push(this.navItem.files[i].url);
 			}
 			// 获取权限
-			this.getPermissionByPosition('delete', this.navItem.index_code, result => {
-				if (result[0]) {
-					this.rightText = '删除';
-				}
-			})
+			if (this.navItem.send_sms == false) {//没有发送短信
+				this.getPermissionByPosition('delete', this.navItem.index_code, result => {
+					if (result[0]) {
+						this.rightText = '删除';
+					}
+				})
+			}
 			//#ifdef H5
 			document.title = "";
 			//#endif

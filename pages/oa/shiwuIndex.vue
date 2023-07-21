@@ -171,7 +171,7 @@
 				var tempM = this.navItem.childList[i];
 				tempM.noReadCut = 0;
 			}
-			// console.log('this.navItem:' + JSON.stringify(this.navItem));
+			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.setNavigationBarTitle({
 				title: this.navItem.text
 			});

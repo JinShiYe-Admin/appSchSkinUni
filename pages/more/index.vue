@@ -1,6 +1,7 @@
 <template style="background-color: red;">
 	<view class="warp">
-		<uniNavBar title='更多' backgroundColor='#00CFBD' fixed='true' statusBar='true' color='white'></uniNavBar>
+		<!-- <uniNavBar title='更多' backgroundColor='#00CFBD' fixed='true' statusBar='true' color='white'></uniNavBar> -->
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<uni-card style="font-weight: 900;" v-for="(item, index) in tabarMore" :index="index" :key="index">
 			<view>{{item.text}}</view>
 			<view v-if="item.childList.length>0" style="padding-top: 10px;">
@@ -36,7 +37,7 @@
 				<uni-grid :column="4" :showBorder='false' :square="false" :highlight="false">
 					<uni-grid-item>
 						<view class="grid-item-box" @click="clickItemTab(item)">
-							<image :src="item.img_href" class="moreImg" mode="aspectFill" />
+							<image :src="item.icon" class="moreImg" mode="aspectFill" />
 							<text style="margin-top: 10px;font-size: 13px;color: #878787;"
 								class="text">{{ item.text }}</text>
 						</view>
@@ -50,7 +51,8 @@
 
 <script>
 	import util from '../../commom/util.js';
-	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
+	// import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
+	import mynavBar from '@/components/my-navBar/m-navBar';
 	let _this;
 	export default {
 		data() {
@@ -58,6 +60,7 @@
 				personInfo: {},
 				tabbar: [],
 				tabarMore: [],
+				navItem: {},
 			}
 		},
 		methods: {
@@ -88,7 +91,8 @@
 			}
 		},
 		components: {
-			uniNavBar
+			// uniNavBar
+			mynavBar
 		},
 		onLoad(option) {
 			_this = this;
@@ -103,6 +107,11 @@
 				// 	}
 				// }
 			});
+			this.navItem = {
+				text:'更多',
+				index:4
+			};
+			this.personInfo = util.getPersonal();
 			this.tabbar = util.getMenu();
 			this.tabarMore = util.getMenuMore();
 			console.log('this.tabarMore:' + JSON.stringify(this.tabarMore));

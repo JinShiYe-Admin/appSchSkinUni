@@ -36,7 +36,14 @@
 		},
 		methods: {
 			clickItem:function(chilItem){
-				util.openwithData(chilItem.pagePath,chilItem);
+				chilItem.index = 100;
+				var tempPath = ''
+				if (chilItem.pagePath1) {
+					tempPath = chilItem.pagePath1;
+				} else{
+					tempPath = chilItem.pagePath;
+				}
+				util.openwithData(tempPath,chilItem);
 			}
 		},
 		onLoad() {

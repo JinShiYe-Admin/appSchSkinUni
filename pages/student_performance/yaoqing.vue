@@ -131,7 +131,7 @@
 							var tempArr = [];
 							for (var b = 0; b < tempM0.stu_list.length; b++) {
 								var tempM1 = tempM0.stu_list[b];
-								if (tempM1.stu_code != this.personInfo.user_code) {
+								if (tempM1.stu_code != this.personInfo.stu_code) {
 									tempM1.isCheck = false;
 									tempArr.push(tempM1);
 								}
@@ -151,7 +151,7 @@
 					paper_id: this.itemData.id, //试卷id
 					cls_code: sutArray[0].cls_code, //当前用户班级
 					cls_name: sutArray[0].cls_name, //当前用户班级
-					user_code: this.personInfo.user_code, //当前用户代码
+					user_code: this.personInfo.stu_code, //当前用户代码
 					user_name: this.personInfo.user_name, //当前用户名称
 					pk_user_code: sutArray[0].stu[0].stu_code, //对手用户代码
 					pk_user_name: sutArray[0].stu[0].stu_name, //对手用户名称

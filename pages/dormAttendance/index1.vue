@@ -100,7 +100,12 @@
 		methods: {
 			//获取考勤记录
 			getAttendancePage() {
+				let user_code=this.personInfo.user_code;
+				if(this.personInfo.type_code=='YHLX0004'){
+					user_code=this.personInfo.stu_code;
+				}
 				let comData = {
+					stu_code:user_code,
 					page_size: this.pageSize,
 					page_number: this.pageIndex,
 					index_code: this.navItem.access.split('#')[1],

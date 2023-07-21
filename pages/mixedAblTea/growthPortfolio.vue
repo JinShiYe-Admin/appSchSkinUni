@@ -129,12 +129,17 @@
 				this.$refs.popup.open()
 			},
 			popSure(flag) {
-				this.$refs.popup.close();
 				if (flag == 0) {
+					this.$refs.popup.close();
 					this.grdIndexTemp = this.grdIndex;
 					this.clsArrayTemp = JSON.parse(JSON.stringify(this.clsArray));
 					this.clsIndexTemp = this.clsIndex;
 				} else {
+					if (this.clsArrayTemp.length==0) {
+						this.showToast('无对应班级');
+						return;
+					}
+					this.$refs.popup.close();
 					this.grdIndex = this.grdIndexTemp;
 					this.clsArray = JSON.parse(JSON.stringify(this.clsArrayTemp));
 					this.clsIndex = this.clsIndexTemp;

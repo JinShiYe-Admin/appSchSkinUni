@@ -289,7 +289,7 @@
 			// 1.9.全科总分及排名趋势
 			getSumScoreOrder() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					id: this.itemData.id,
 					index_code: this.itemData.access
 				}
@@ -379,7 +379,7 @@
 			// 1.10.全科优劣学科
 			getFullSubAnalysis() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					id: this.itemData.id,
 					index_code: this.itemData.access,
 				}
@@ -419,7 +419,7 @@
 			// 1.11.全科成绩pk
 			getFullSubPK() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					id: this.itemData.id,
 					index_code: this.itemData.access,
 				}

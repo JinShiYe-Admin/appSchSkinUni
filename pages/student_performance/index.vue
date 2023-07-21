@@ -388,7 +388,7 @@
 			// 获取科目列表
 			getSubList(flag, callback) {
 				var comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					index_code: this.navItem.access.split('#')[1],
 				}
 				var tempUrl = 'singleSub/subList';
@@ -557,7 +557,7 @@
 			//获取单科成绩
 			getSingleSubScore() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					sub_code: this.semFlag0Data.nowSubject.sub_code,
 					page_number: this.semFlag0Data.pageIndex,
 					page_size: this.pageSize,
@@ -586,7 +586,7 @@
 			//获取全科成绩
 			getSumSubScore() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					page_number: this.semFlag1Data.pageIndex,
 					page_size: this.pageSize,
 					index_code: this.navItem.access.split('#')[1],
@@ -614,7 +614,7 @@
 			//获取知识点
 			getKnowPoint() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					sub_code: this.semFlag2Data.nowSubject.sub_code,
 					index_code: this.navItem.access.split('#')[1],
 				}
@@ -633,7 +633,7 @@
 			// 获取错题本
 			getWrongBook() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					sub_code: this.semFlag3Data.nowSubject.sub_code,
 					index_code: this.navItem.access.split('#')[1],
 				}

@@ -205,7 +205,7 @@
 			// 获取知识点详情
 			getKnowPointDetail() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					book_catalog_id: this.knowPoints.nowBook.book_catalog_id, //知识点id
 					index_code: this.itemData.access,
 				}
@@ -251,7 +251,7 @@
 			// 1.23.通过知识点找错题列表
 			getCatalogDetail() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					book_catalog_id: this.knowPoints.nowBook.book_catalog_id, //知识点id
 					index_code: this.itemData.access,
 				}
@@ -274,7 +274,7 @@
 			// 1.24.通过考试找错题列表
 			getPaperDetail() {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					paper_id: this.knowPoints.nowBook.paper_id, //
 					index_code: this.itemData.access,
 				}
@@ -297,7 +297,7 @@
 			// 获取题目列表
 			getKnowPointList(list) {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					question_id_list: list, //题目id列表
 					index_code: this.itemData.access,
 				}

@@ -3,7 +3,7 @@
 		<uniNavBar :title='tabBarItem.name' style="font-size: 10px;" left-icon="back" backgroundColor='#00CFBD' fixed='true' statusBar='true' color='white' @clickLeft='clickLeft()'></uniNavBar>
 		<view class="tabs-fixed">
 			<uni-row>
-				<uni-col :span="12">
+				<uni-col :span="10">
 					<picker class="flex-box" @change="fdClick" :value="fdIndex" :range="fdArray" range-key="text">
 						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
 							{{fdArray[fdIndex].text}}
@@ -11,11 +11,11 @@
 						</view>
 					</picker>
 				</uni-col>
-				<uni-col :span="12">
+				<uni-col :span="14">
 					<picker class="flex-box" @change="kcClick" :value="kcIndex" :range="kcArray" range-key="text">
 						<view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
-							{{kcArray[kcIndex].text}}
-							<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
+							<view style="margin-right: 30px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{kcArray[kcIndex].text}}</view>
+							<uni-icons style="float: right;margin-right: 10px;margin-top: -15px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
 						</view>
 					</picker>
 				</uni-col>

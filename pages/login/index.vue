@@ -234,6 +234,14 @@
 								plus.runtime.setBadgeNumber(0);
 								// #endif
 								var tempData = data1.data;
+								tempData.personalCenter0 = 0;
+								tempData.personalCenter1 = 0;
+								tempData.personalCenter1Access = '';
+								tempData.personalCenter2 = 0;
+								tempData.personalCenter2Access = '';
+								tempData.personalCenter3 = 0;
+								tempData.personalCenter3Access = '';
+								tempData.personalCenter4 = 0;
 								util.setPersonal(tempData);
 								var tempFlag = 0;
 								//1.4获取菜单
@@ -251,53 +259,72 @@
 										if (data4.code == 0) {
 											if (data4.data.list.length > 0) {
 												var tempA = [];
-												for (var i = 0; i < data4.data.list[0].childList
-													.length; i++) { //一级菜单循环
-													var web_first_item = data4.data.list[0]
-														.childList[i];
-													for (var a = 0; a < this.pageArray
-														.length; a++) {
+												for (var i = 0; i < data4.data.list[0].childList.length; i++) { //一级菜单循环
+													var web_first_item = data4.data.list[0].childList[i];
+													// 个人中心菜单
+													if (web_first_item.url == 'schapp_PersonalCenter'||web_first_item.url == 'schapp_StuPersonalCente') {
+														for (var h = 0; h < web_first_item.childList.length; h++) { //二级菜单循环
+															var web_second_item = web_first_item.childList[h];
+															if (web_second_item.url == 'schapp_TeaAddressBook') {
+																tempData.personalCenter0 = 1;
+															} else if (web_second_item.url == 'schapp_AddressBook') {
+																tempData.personalCenter2 = 1;
+																tempData.personalCenter2Access = web_second_item.access.split("#")[1];
+															} else if (web_second_item.url == 'schapp_Curriculum') {
+																tempData.personalCenter1 = 1;
+																tempData.personalCenter1Access = web_second_item.access.split("#")[1];
+															} else if (web_second_item.url == 'schapp_StuCurriculum') {
+																tempData.personalCenter3 = 1;
+																tempData.personalCenter3Access = web_second_item.access.split("#")[1];
+															} else if (web_second_item.url == 'schapp_StuAddressBook') {
+																tempData.personalCenter4 = 1;
+															}
+														}
+														util.setPersonal(tempData);
+													}
+													for (var a = 0; a < this.pageArray.length; a++) {
 														var local_first_item = this.pageArray[a];
-														if (local_first_item.url == web_first_item
-															.url) {
-															local_first_item.text = web_first_item
-																.name;
-															local_first_item.access =
-																web_first_item.access;
-															local_first_item.redspot_url =
-																web_first_item.redspot_url;
-															let childList = []
-															for (var b = 0; b < web_first_item
-																.childList.length; b++) { //二级菜单循环
-																var web_second_item =
-																	web_first_item.childList[b];
-																for (var c = 0; c <
-																	local_first_item.childList
-																	.length; c++) {
-																	var local_second_item =
-																		local_first_item.childList[
-																			c];
-																	if (local_second_item.url ==
-																		web_second_item.url) {
-																		local_second_item.access =
-																			web_second_item.access;
-																		local_second_item
-																			.redspot_url =
-																			web_second_item
-																			.redspot_url;
-																		local_second_item
-																			.childList =
-																			web_second_item
-																			.childList;
-																		local_second_item.text =
-																			web_second_item.name;
-																		childList.push(
-																			local_second_item)
+														if (local_first_item.url == web_first_item.url) {
+															local_first_item.text = web_first_item.name;
+															local_first_item.access = web_first_item.access;
+															local_first_item.redspot_url = web_first_item.redspot_url;
+															let childList1 = []
+															for (var b = 0; b < web_first_item.childList.length; b++) { //二级菜单循环
+																var web_second_item = web_first_item.childList[b];
+																for (var c = 0; c < this.pageArray.length; c++) {
+																	var local_second_item = this.pageArray[c];
+																	if (local_second_item.url == web_second_item.url) {
+																		local_second_item.access = web_second_item.access;
+																		local_second_item.redspot_url = web_second_item.redspot_url;
+																		local_second_item.text = web_second_item.name;
+																		let childList2 = []
+																		for (var d = 0; d < web_second_item.childList.length; d++) { //三级菜单循环
+																			var web_thid_item = web_second_item.childList[d];
+																			for (var e = 0; e < this.pageArray.length; e++) {
+																				var local_thid_item = this.pageArray[e];
+																				if (local_thid_item.url == web_thid_item.url) {
+																					local_thid_item.access = web_thid_item.access;
+																					local_thid_item.redspot_url = web_thid_item.redspot_url;
+																					local_thid_item.text = web_thid_item.name;
+																					local_thid_item.childList = web_thid_item.childList;
+																					childList2.push(local_thid_item)
+																				}
+																			}
+																		}
+																		local_second_item.childList = childList2;
+																		childList1.push(local_second_item)
 																	}
 																}
 															}
-															local_first_item.childList = childList
-															tempA.push(local_first_item);
+															if (data1.data.user.type_code == 'YHLX0003') {
+																if (childList1.length>0) {
+																	local_first_item.childList = childList1
+																	tempA.push(local_first_item);
+																}
+															} else{
+																local_first_item.childList = childList1
+																tempA.push(local_first_item);
+															}
 														}
 													}
 												}
@@ -305,7 +332,7 @@
 													let tempM = tempA[i];
 													tempM.index = i;
 												}
-												// console.log('tempA:' + JSON.stringify(tempA));
+												console.log('tempA:' + JSON.stringify(tempA));
 												if (tempA.length > 5) {
 													var tempArrayM = tempA.slice(4);
 													util.setMenuMore(tempArrayM);
@@ -330,16 +357,22 @@
 													}
 													tempAAA = tempUrl1.join('/');
 													//#endif 
+													var tempPath = ''
+													if (data1.data.user.type_code == 'YHLX0003') {
+														tempPath = "/pages/more/index1";
+													} else{
+														tempPath = "/pages/more/index";
+													}
 													tempA.push({
 														text: "更多",
 														index: 4,
 														count: 0,
 														isDot: false,
 														customIcon: false,
-														pagePath: "/pages/more/index",
+														pagePath: tempPath,
 														iconPath: tempAAA +'/static/tabbar/more.png',
 														selectedIconPath: tempAAA +'/static/tabbar/more_select.png',
-														img_href: "@/img/schapp_work/kaoqin_tab.png",
+														icon: "@/img/schapp_work/kaoqin_tab.png",
 														url: 'schappUni_CoursePractice',
 														childList: []
 													});

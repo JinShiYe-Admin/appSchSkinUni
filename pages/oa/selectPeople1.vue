@@ -273,6 +273,7 @@
 					this.hideLoading();
 					if (data.code == 0) {
 						var dptList = data.data.list
+						dptList.sort(util.compare('sort',1));
 						var tempDpt = [];
 						if (this.permissionValue[0]) {
 							tempDpt = [].concat(dptList);

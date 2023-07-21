@@ -299,7 +299,7 @@
 			// 获取题目列表
 			getKnowPointList(list) {
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					question_id_list: list, //题目id列表
 					index_code: this.itemData.access,
 				}
@@ -354,7 +354,7 @@
 					book_catalog_id = this.chapterModel.nowChapter.id;
 				}
 				let comData = {
-					user_code: this.personInfo.user_code,
+					user_code: this.personInfo.stu_code,
 					book_catalog_id: book_catalog_id, //知识点id
 					index_code: this.itemData.access,
 				}
