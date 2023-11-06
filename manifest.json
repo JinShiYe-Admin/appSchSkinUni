@@ -2,8 +2,8 @@
     "name" : "教宝校园",
     "appid" : "__UNI__720E42A",
     "description" : "",
-    "versionName" : "1.0.22",
-    "versionCode" : 1022,
+    "versionName" : "1.0.26",
+    "versionCode" : 1026,
     "transformPx" : false,
     "networkTimeout" : {
         /*全局网络请求超时时间*/
@@ -37,7 +37,8 @@
             "Geolocation" : {},
             "Push" : {},
             "Camera" : {},
-            "Messaging" : {}
+            "Messaging" : {},
+            "Payment" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -105,6 +106,13 @@
                 },
                 "push" : {
                     "unipush" : {}
+                },
+                "payment" : {
+                    "weixin" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appid" : "wx272c9b4a4ac2e9ac",
+                        "UniversalLinks" : ""
+                    }
                 }
             },
             "icons" : {

@@ -93,7 +93,7 @@ const cfu = {
 			return formatDateTime(val, 'h:m')
 		},
 		"seriesDemo0": function(val, index, series, opts) {
-			console.log('val:' + val)
+			// console.log('val:' + val)
 			if (val == 0) {
 				return 'D';
 			} else if (val == 1) {

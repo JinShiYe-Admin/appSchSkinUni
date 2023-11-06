@@ -44,7 +44,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
+							<uni-col :span='12' v-for="(model,index1) in item.mod_array" :key="index1">
 								<view style='font-size: 14px;margin: 2px 0;'>
 									{{model.name}}：<span
 										style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
@@ -57,7 +57,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
+							<uni-col :span='12' v-for="(model,index1) in item.mod_array" :key="index1">
 								<view style='font-size: 14px;margin: 2px 0;'>
 									{{model.name}}：<span
 										style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
@@ -74,7 +74,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
+							<uni-col :span='12' v-for="(model,index1) in item.mod_array" :key="index1">
 								<view style="margin: 0 5px;">
 									<view style="font-size: 14px;text-align: center;">
 										<span
@@ -340,10 +340,10 @@
 						this.stuArray = stuArray;
 						if (this.pjArray.length > 0) {
 						// if (this.pjArray[this.pjIndex].name.length>0) {
-							console.log('1111111')
+							// console.log('1111111')
 							this.getList0();
 						} else {
-							console.log('222222222')
+							// console.log('222222222')
 							this.getPj();
 						}
 					} else {
@@ -357,7 +357,7 @@
 				let comData = {
 					grd_code: this.grdArray[this.grdIndex].value,
 					cls_code: this.clsArray[this.clsIndex].value,
-					status: 2,
+					// status: 2,
 					index_code: this.index_code,
 				}
 				this.showLoading();
@@ -410,7 +410,7 @@
 								// }
 								// tempArr.push(tempS);
 								tempS = {
-									name: '政治',
+									name: '道德与法治',
 									value: tempM.mod_data.political && tempM.mod_data.political.length > 0 ?
 										tempM.mod_data.political : '-'
 								}

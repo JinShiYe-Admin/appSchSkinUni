@@ -1898,6 +1898,28 @@ function getPageArray() {
 			icon: tempAAA + "/static/tabbar/bjlhkp_img.png",
 			url: 'schapp_education',
 			childList: []
+		},{
+			name: "在线缴费", //在线缴费
+			pagePath: '/pages/payStu/index',
+			iconPath: tempAAA + '/static/tabbar/jiaxiaogongyu.png',
+			selectedIconPath: tempAAA + '/static/tabbar/jiaxiaogongyu_select.png',
+			noReadCut: 0,
+			isDot: false,
+			customIcon: false,
+			icon: tempAAA + "/static/tabbar/bjlhkp_img.png",
+			url: 'schapp_PayStu',
+			childList: []
+		},{
+			name: "学生缴费", //学生缴费
+			pagePath: '/pages/payTec/index',
+			iconPath: tempAAA + '/static/tabbar/jiaxiaogongyu.png',
+			selectedIconPath: tempAAA + '/static/tabbar/jiaxiaogongyu_select.png',
+			noReadCut: 0,
+			isDot: false,
+			customIcon: false,
+			icon: tempAAA + "/static/tabbar/bjlhkp_img.png",
+			url: 'schapp_PayTec',
+			childList: []
 		},
 	];
 	return tempArray;

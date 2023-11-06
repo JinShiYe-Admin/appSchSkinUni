@@ -6,9 +6,10 @@
 				<view v-if="item.mod_type == '1'&&item.mod_code == '1001'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
+						<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
 						<view class="charts-box">
 							<qiun-data-charts type="line"
-								:opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}"
+								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve',tooltip:{}}},xAxis:{rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl11001" />
 						</view>
 					</uni-card>
@@ -16,9 +17,10 @@
 				<view v-if="item.mod_type == '1'&&item.mod_code == '1002'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
+						<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
 						<view class="charts-box">
 							<qiun-data-charts type="line"
-								:opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}"
+								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve',tooltip:{}}},xAxis:{rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl11002" />
 						</view>
 					</uni-card>
@@ -44,9 +46,10 @@
 				<view v-if="item.mod_type == '1'&&item.mod_code == '1003'">
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
+						<!-- 需在appSchSkinUni/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js中，添加自定义yAxisDemo0 -->
 						<view class="charts-box">
 							<qiun-data-charts type="line"
-								:opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}"
+								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve',tooltip:{}}},xAxis:{rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl11003" />
 						</view>
 					</uni-card>
@@ -340,7 +343,7 @@
 										data: tempArr1,
 										format: 'seriesDemo0'
 									}, {
-										name: "政治",
+										name: "道德与法治",
 										data: tempArr2,
 										format: 'seriesDemo0'
 									}, {
@@ -752,8 +755,8 @@
 												var tempArr1 = [];
 												for (var a = 0; a < data.data.qbArray.length; a++) {
 													var tempM = data.data.qbArray[a];
-													// tempArr0.push(tempM.text);
-													tempArr0.push('');
+													tempArr0.push(tempM.text);
+													// tempArr0.push('');
 													if (data.data.staticArray.length == 0) {
 														tempArr1.push(0);
 													} else {

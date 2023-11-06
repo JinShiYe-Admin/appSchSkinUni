@@ -23,8 +23,8 @@
 			</view>
 			<view class="typeCss" style="margin-top: 20px;"><uni-icons type="star-filled" color='#d9001b'
 					size="10"></uni-icons>作业内容：</view>
-			<textarea style="margin-top: 10px;" maxlength="260" v-model="content" class="rightView"
-				placeholder="请输入作业内容,最多260字"></textarea>
+			<textarea style="margin-top: 10px;" maxlength="330" v-model="content" class="rightView"
+				placeholder="请输入作业内容,最多330字"></textarea>
 			<view class="typeCss" style="margin-top: 20px;"><uni-icons type="star-filled" color='#d9001b'
 					size="10"></uni-icons>作业对象：</view>
 			<view style="margin: 5px 20px 0 20px;">

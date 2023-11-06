@@ -20,7 +20,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
+							<uni-col :span='12' v-for="(model,index1) in item.mod_array" :key="index1">
 								<view style='font-size: 14px;margin: 2px 0;'>
 									{{model.name}}：<span style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
 								</view>
@@ -32,7 +32,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
+							<uni-col :span='12' v-for="(model,index1) in item.mod_array" :key="index1">
 								<view style='font-size: 14px;margin: 2px 0;'>
 									{{model.name}}：<span style='color: #bd3124;font-weight: 600;font-size: 15px;'>{{model.value}}</span>
 								</view>
@@ -46,7 +46,7 @@
 					<uni-card isShadow>
 						<view style='font-weight: 600;margin-bottom: 5px;'>{{item.mod_name}}</view>
 						<uni-row>
-							<uni-col :span='8' v-for="model in item.mod_array" :key="model.mod_name">
+							<uni-col :span='12' v-for="(model,index1) in item.mod_array" :key="index1">
 								<view style="margin: 0 5px;">
 									<view style="font-size: 14px;text-align: center;">
 										<span style='font-size: 25px;font-weight: 600;color: #bd3124;'>{{model.name1}}</span>
@@ -170,7 +170,7 @@
 					grd_code: this.personInfo.grd_code,
 					cls_code: this.personInfo.cls_code,
 					// eval_type:-1,
-					status: 2,
+					// status: 2,
 					index_code: this.index_code,
 				}
 				this.showLoading();
@@ -224,7 +224,7 @@
 									}
 									if (tempM.mod_data.political) {
 										var tempS = {
-											name:'政治',
+											name:'道德与法治',
 											value:tempM.mod_data.political
 										}
 										tempArr.push(tempS);

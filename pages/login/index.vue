@@ -242,6 +242,8 @@
 								tempData.personalCenter3 = 0;
 								tempData.personalCenter3Access = '';
 								tempData.personalCenter4 = 0;
+								tempData.personalCenter5 = 0;
+								tempData.personalCenter5Access = '';
 								util.setPersonal(tempData);
 								var tempFlag = 0;
 								//1.4获取菜单
@@ -278,6 +280,9 @@
 																tempData.personalCenter3Access = web_second_item.access.split("#")[1];
 															} else if (web_second_item.url == 'schapp_StuAddressBook') {
 																tempData.personalCenter4 = 1;
+															} else if (web_second_item.url == 'schapp_PayStu') {
+																tempData.personalCenter5 = 1;
+																tempData.personalCenter5Access = web_second_item.access.split("#")[1];
 															}
 														}
 														util.setPersonal(tempData);
@@ -506,6 +511,9 @@
 				delete tempData['user'];
 				// console.log('new tempData:' + JSON.stringify(tempData));
 				util.setPersonal(tempData)
+				//#ifdef APP-PLUS
+				update();
+				//#endif
 				if ('111111a' == '123456') {
 					var tempModel = {
 						flag: 1 //0是主动修改密码，1是判断是默认密码，自动让修改

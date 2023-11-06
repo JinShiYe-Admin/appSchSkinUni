@@ -153,7 +153,7 @@
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'smsConf/getConf', comData, response => {
 					this.hideLoading();
-					console.log("responseaaa: " + JSON.stringify(response));
+					// console.log("responseaaa: " + JSON.stringify(response));
 					if (response) {
 						this.smsConfig = response;
 						this.smsFlag = true;
@@ -169,7 +169,7 @@
 					index_code: this.navItem.access.split('#')[1],
 					op_code: 'index'
 				}
-				console.log('tempData1:' + JSON.stringify(tempData1));
+				// console.log('tempData1:' + JSON.stringify(tempData1));
 				//28.回复通知公告
 				this.post(this.globaData.INTERFACE_OA + 'cooperateNotice/doAddNoticeReply', tempData1, (data0, data) => {
 					this.canSub = true;
@@ -207,15 +207,15 @@
 				});
 			},
 			textClick() {
-				console.log('textClick');
+				// console.log('textClick');
 				_this.$refs.popup.open();
 			},
 			checkEnc: function(tempUrl) {
-				console.log('tempUrl:' + tempUrl);
+				// console.log('tempUrl:' + tempUrl);
 				util.openFile(tempUrl);
 			},
 			saveTag: function() {
-				console.log('saveTag');
+				// console.log('saveTag');
 				if (this.tag != this.detailModel.Tag) {
 					//19.修改发送的申请标签
 					var comData = {
@@ -233,7 +233,7 @@
 					}
 					//
 					this.post(url, comData, (data0, data) => {
-						console.log('修改信息收集标签:' + JSON.stringify(data));
+						// console.log('修改信息收集标签:' + JSON.stringify(data));
 						if (data.code == 0 && data.data.Result == 1) {
 							this.showToast("保存成功");
 							this.detailModel.Tag = this.tag;
@@ -244,6 +244,18 @@
 				} else {
 					this.showToast('请勿重复保存标签');
 				}
+			},
+			// 如果发送短信，拼接短信内容
+			checkSmsCont() {
+				var tempContent = '';
+				if (this.smsConfig.content_type == 't') {
+					tempContent = this.detailModel.ApplyTitle;
+				} else if (this.smsConfig.content_type == 'c') {
+					tempContent = this.detailModel.ApplyContent.substr(0, 350);
+				} else if (this.smsConfig.content_type == 'tc') {
+					tempContent = '【' + this.detailModel.ApplyTitle + '】' + this.detailModel.ApplyContent.substr(0, 350 - this.detailModel.ApplyTitle.length - 2);
+				}
+				return tempContent;
 			},
 			replyContent: function(flag) {
 				if (this.content.trim().length == 0) {
@@ -298,17 +310,18 @@
 												}
 												touser.push(obj);
 												// }
-												var tempContent = '';
-												if (this.smsConfig.content_type == 't') {
-													tempContent = this.detailModel.ApplyTitle;
-												} else if (this.smsConfig.content_type == 'c') {
-													tempContent = this.detailModel.ApplyContent;
-												} else if (this.smsConfig.content_type == 'tc') {
-													tempContent = '【' + this.detailModel.ApplyTitle + '】' +
-														this.detailModel.ApplyContent;
-												}
+												var tempContent = this.checkSmsCont();
+												// var tempContent = '';
+												// if (this.smsConfig.content_type == 't') {
+												// 	tempContent = this.detailModel.ApplyTitle;
+												// } else if (this.smsConfig.content_type == 'c') {
+												// 	tempContent = this.detailModel.ApplyContent;
+												// } else if (this.smsConfig.content_type == 'tc') {
+												// 	tempContent = '【' + this.detailModel.ApplyTitle + '】' +
+												// 		this.detailModel.ApplyContent;
+												// }
 												// tempContent = tempContent.replace(/\n/g, '');
-												tempContent = tempContent.replace(' ', '');
+												// tempContent = tempContent.replace(' ', '');
 												var comData = {
 													send_unit_code: this.personInfo.unit_code,
 													send_user: this.detailModel.ApplyManId,

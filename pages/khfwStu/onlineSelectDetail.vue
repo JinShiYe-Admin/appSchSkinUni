@@ -4,7 +4,18 @@
 		</mynavBar>
 		<view style="text-align: center;font-size: 16px;font-weight: 700;margin: 20px;">{{navItem.name}}</view>
 		<view style="font-size: 14px;margin-left: 15px;">
-			{{navItem.status==0?'暂未开始选课':navItem.status==1?'请选择您的课后服务课程':'已选课程'}}</view>
+			{{navItem.status==0?'1、暂未开始选课':navItem.status==1?'1、请选择您的课程类型':'1、您的课程类型'}}</view>
+		<view class="cardLine"></view>
+		<uni-grid :column="4" style="margin: 10px 0;">
+			<uni-grid-item v-for="(item, index) in typeList" :key="index" style="height: 40px;">
+				<view class="grid-item-box gridBox" @click='typeSelect(item)'
+					:style="classType==item.id?'background-color: #2c96bd;color: #ffffff;':''">
+					{{item.sub_type}}
+				</view>
+			</uni-grid-item>
+		</uni-grid>
+		<view style="font-size: 14px;margin-left: 15px;">
+			{{navItem.status==0?'2、暂未开始选课':navItem.status==1?'2、请选择您的课程':'2、您的课程'}}</view>
 		<view class="cardLine"></view>
 		<view v-if="navItem.status==1&&navItem.remark"
 			style="float: right;margin: -20px 15px 0 0;font-size: 14px;color: rgb(44, 150, 189);" @click="showPop()">选课须知</view>
@@ -60,7 +71,7 @@
 		<!-- </uni-card> -->
 		<uni-popup ref="popup" type="center" background-color="#fff" style="min-width: 300px;">
 			<view style="margin-top: 10px;text-align: center;font-size: 16px;color: #000000;">选课须知</view>
-			<view style="margin: 15px 10px;">
+			<view style="margin: 15px 10px;word-break: break-all;">
 				{{navItem.remark}}
 			</view>
 			<view class="popClose" @click="closePop()">关闭</view>
@@ -83,12 +94,24 @@
 				rightText: '',
 				tempArr1: ['一', '二', '三', '四', '五', '六', '日'],
 				pageData: [],
+				classType:'',//课程类型
+				typeList:[],
+				selectWay:0,//选课方式,1-选课程|2-选类型
 			}
 		},
 		components: {
 			mynavBar
 		},
 		methods: {
+			typeSelect(model){
+				if (this.navItem.status==1) {
+					if (this.classType == model.id) {
+					} else{
+						this.classType = model.id;
+						this.getStuSchedule();
+					}
+				}
+			},
 			unique (arr) {
 			  return Array.from(new Set(arr))
 			},
@@ -121,6 +144,7 @@
 					stu_name: this.personInfo.stu_name,
 					// sno: this.personInfo.grd_code,
 					after_class_sub_ids: tempArr.join(','),
+					after_class_type_ids:this.classType,//课程类型id传
 					index_code: this.index_code,
 				}
 				this.hideLoading();
@@ -140,6 +164,9 @@
 				this.$refs.popup.close();
 			},
 			clickSign(model){
+				if (this.selectWay == 2) {
+					return;
+				}
 				// 选课中，非教师安排
 				if (this.navItem.status == 1&&model.data_type!='1') {
 					// console.log('this.pageData:'+JSON.stringify(this.pageData));
@@ -205,6 +232,7 @@
 					id: this.navItem.id,
 					grd_code: this.personInfo.grd_code,
 					stu_code: this.personInfo.stu_code,
+					after_class_type_ids: this.classType,//课程类型id串
 					index_code: this.index_code,
 				}
 				this.hideLoading();
@@ -213,6 +241,16 @@
 					this.hideLoading();
 					if (data.code == 0) {
 						this.selectModel = {};
+						if (this.classType.length==0) {
+							this.typeList = data.data.type_list;
+							for (var i = 0; i < this.typeList.length; i++) {
+								var tempM = this.typeList[i];
+								if (tempM.sel_sign == 1) {
+									this.classType = tempM.id;
+								}
+							}
+							this.selectWay = data.data.select_way;
+						}
 						if (data.data.list.length == 0) {
 							this.showToast('暂无数据');
 							this.pageData = [];
@@ -251,7 +289,11 @@
 									if (tempM0.time_name == tempM2.time_name && tempM2.week_code == tempM1
 										.week_code) {
 										tempM2.setValue = 1;
-										tempM2.selectFlag = 0; //是否点击选中
+										if (this.selectWay == 2) {
+											tempM2.sel_sign = 1; //是否点击选中
+										}else{
+											// tempM2.sel_sign = 0; //是否点击选中
+										}
 										tempM1.child.push(tempM2);
 									}
 								}
@@ -387,5 +429,41 @@
 		padding-top: 10px;
 		border-radius: 5px;
 		margin-left: calc((100% - 100px)/2);
+	}
+	
+	::v-deep .uni-date-x {
+		padding: 0px !important;
+	}
+	
+	::v-deep .uni-grid-item--border {
+		border-bottom: 0px !important;
+		border-right: 0px !important;
+	}
+	
+	::v-deep .uni-grid-item--border-top {
+		border-top: 0px !important;
+	}
+	
+	::v-deep .uni-grid--border {
+		border-left: 0px !important;
+	}
+	
+	.gridBox {
+		height: 40px;
+		background-color: #f2f2f2;
+		text-align: center;
+		padding: 5px 5px 0px;
+		margin: 5px;
+		border-radius: 3px;
+		color: #333333;
+		font-size: 14px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	
+	.gridBoxSelect {
+		background-color: #2c96bd;
+		color: #ffffff;
 	}
 </style>

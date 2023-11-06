@@ -40,7 +40,7 @@
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
 						<view class="charts-box">
 							<qiun-data-charts type="line"
-								:opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}"
+								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve',tooltip:{}}},xAxis:{rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl11001" />
 						</view>
 					</uni-card>
@@ -50,7 +50,7 @@
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
 						<view class="charts-box">
 							<qiun-data-charts type="line"
-								:opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}"
+								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve',tooltip:{}}},xAxis:{rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl11002" />
 						</view>
 					</uni-card>
@@ -78,7 +78,7 @@
 						<view style='font-weight: 600;margin-top: 5px;'>{{item.mod_name}}</view>
 						<view class="charts-box">
 							<qiun-data-charts type="line"
-								:opts="{padding:[20,0,10,0],legend:{show:false,borderWidth:10},extra:{column:{categoryGap:1}},dataLabel:false,dataPointShape:false,xAxis:{disabled:true}}"
+								:opts="{legend:{lineHeight:25,float:'left'},dataLabel:false,dataPointShape:false,extra:{line:{type:'curve',tooltip:{}}},xAxis:{rotateLabel:true,disabled:true},yAxis:{data:[{format:'yAxisDemo0',min:0,max:3}],splitNumber:3}}"
 								:chartData="chartSxl11003" />
 						</view>
 					</uni-card>
@@ -491,7 +491,7 @@
 										data: tempArr1,
 										format: 'seriesDemo0'
 									}, {
-										name: "政治",
+										name: "道德与法治",
 										data: tempArr2,
 										format: 'seriesDemo0'
 									}, {

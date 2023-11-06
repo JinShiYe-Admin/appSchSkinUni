@@ -3,13 +3,12 @@
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick">
 		</mynavBar>
 		<view class="titleTemp">标题</view>
-		<input maxlength="30" type="text" v-model="title" class="rightView" style="margin-top: 10px;"
-			placeholder="请输入标题" />
+		<input maxlength="50" type="text" v-model="title" class="rightView" style="margin-top: 10px;"
+			@input="inputTitle" placeholder="请输入标题" />
 		<br>
 		<view class="titleTemp">内容</view>
-		<textarea maxlength="220" v-model="content" class="rightView"
+		<textarea maxlength="1000" v-model="content" class="rightView" @input="inputContent"
 			style="height: 80px;margin-top: 10px;padding-top: 5px;margin-bottom: 10px;" placeholder="请输入内容"></textarea>
-
 		<view class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">附件<view class="file-des">
 					{{`(最多可选择${showMaxCount}张照片${wxTips?wxTips:''})`}}
@@ -23,6 +22,9 @@
 			style="float: right;margin-right: 10px;font-size: 14px;margin-bottom: 10px;">
 			<checkbox color="#00CFBD" :checked="smsSend" />发送短信
 		</label>
+		<view v-show="smsSend&&showSmsMore==1"
+			style="color: red;font-size: 13px;text-align: right;margin: 35px 15px 10px 0;">当前待发送字符已超出350个，短信可能发送不完整
+		</view>
 		<uni-list>
 			<uni-list-item showArrow direction='column'>
 				<view slot="body">
@@ -72,7 +74,7 @@
 				title: '',
 				content: '',
 				selectPeople: [],
-				idsArray:[],
+				idsArray: [],
 				smsConfig: {}, //短信配置
 				smsWords: [], //拒绝关键字
 				smsShow: false, //是否显示发送短信按钮
@@ -89,7 +91,8 @@
 				imgList: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
 				imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
 				wxTips: '',
-				uid_stat:1,
+				uid_stat: 1,
+				showSmsMore: 0,
 			}
 		},
 		components: {
@@ -126,11 +129,59 @@
 		},
 		methods: {
 			changeLog(e) {
-				console.log('changeLogchangeLog:' + e);
+				// console.log('changeLogchangeLog:' + e);
 				this.collenctionEndTime = e;
+			},
+			inputTitle(e) {
+				this.title = e.detail.value.replace(/\s/g, ' ');
+				if (e.detail.value.length >= 50) {
+					this.showToast("标题输入已达到最大");
+				}
+				this.checkSmsMore();
+			},
+			inputContent(e) {
+				this.content = this.content.replace(/\n/g, 'JSYCOPY');
+				this.content = this.content.replace(/\s/g, ' ');
+				this.content = this.content.replace(/\JSYCOPY/g, '\n');
+				if (e.detail.value.length >= 1000) {
+					this.showToast("内容输入已达到最大");
+				}
+				this.checkSmsMore();
 			},
 			selectSms() {
 				this.smsSend = !this.smsSend;
+				this.checkSmsMore();
+			},
+			// 判断是否显示  短信发送不完整提示
+			checkSmsMore() {
+				this.showSmsMore = 0;
+				if (this.smsSend) {
+					var tempContent = '';
+					if (this.smsConfig.content_type == 't') {
+						tempContent = this.title;
+					} else if (this.smsConfig.content_type == 'c') {
+						tempContent = this.content;
+					} else if (this.smsConfig.content_type == 'tc') {
+						tempContent = '【' + this.title + '】' + this.content;
+					}
+					if (tempContent.length > 350) {
+						this.showSmsMore = 1;
+					} else {
+						this.showSmsMore = 0;
+					}
+				}
+			},
+			// 如果发送短信，拼接短信内容
+			checkSmsCont() {
+				var tempContent = '';
+				if (this.smsConfig.content_type == 't') {
+					tempContent = this.title;
+				} else if (this.smsConfig.content_type == 'c') {
+					tempContent = this.content.substr(0, 350);
+				} else if (this.smsConfig.content_type == 'tc') {
+					tempContent = '【' + this.title + '】' + this.content.substr(0, 350 - this.title.length - 2);
+				}
+				return tempContent;
 			},
 			getSmsConfig() { //获取短信配置
 				let comData = {
@@ -141,7 +192,7 @@
 				this.showLoading();
 				this.post(this.globaData.INTERFACE_HR_SUB + 'smsConf/getConf', comData, response => {
 					this.hideLoading();
-					console.log("responseaaa: " + JSON.stringify(response));
+					// console.log("responseaaa: " + JSON.stringify(response));
 					if (response) {
 						let config_types = response.user_types.split(",");
 						let local_types = this.OA_MSG_SMS.INFOCOLLECT.USER_TYPE.split(",");
@@ -174,7 +225,7 @@
 					index_code: this.navItem.access.split('#')[1],
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'smsWords/page', comData, response => {
-					console.log("responseaaa: " + JSON.stringify(response));
+					// console.log("responseaaa: " + JSON.stringify(response));
 					this.smsWords = response.list;
 					this.hideLoading();
 				})
@@ -196,15 +247,15 @@
 				cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PV_NAME, this.QN_OA_SHIW, (encName,
 					encAddrStr) => {
 					this.hideLoading();
-					console.log("encAddrStr: " + JSON.stringify(encAddrStr));
-					console.log("names: " + JSON.stringify(encName));
+					// console.log("encAddrStr: " + JSON.stringify(encAddrStr));
+					// console.log("names: " + JSON.stringify(encName));
 					this.submitData(encName, encAddrStr);
 				});
 			},
 			//附件上传相关👆
 			submitData(encNameStr, encAddrStr) {
-				console.log('encNameStr:' + JSON.stringify(encNameStr));
-				console.log('encAddrStr:' + JSON.stringify(encAddrStr));
+				// console.log('encNameStr:' + JSON.stringify(encNameStr));
+				// console.log('encAddrStr:' + JSON.stringify(encAddrStr));
 				this.showLoading()
 				let encNameTemp = '';
 				let encAddrTemp = '';
@@ -240,13 +291,15 @@
 				} else {
 					tempSms = 0;
 				}
-				console.log('this.content:' + this.content);
+				// console.log('this.content:' + this.content);
 				this.showLoading();
+				var tempContent = this.content.replace(/\n/g, '<br>');
+				tempContent = tempContent.replace(/ /g, '&nbsp;');
+				tempContent = '<p>' + tempContent + '</p>';
 				var tempData = {
 					schoolId: this.personInfo.unit_code, //学校ID
 					title: this.title, //标题
-					// content: this.content.replace(/\n/g, '<br>'), //内容
-					content: this.content, //内容
+					content: tempContent, //内容
 					encName: encNameTemp, //附件名称
 					encAddr: encAddrTemp, //附件地址
 					smsSync: tempSms, //是否短信同步
@@ -287,17 +340,18 @@
 								}
 								touser.push(obj);
 							}
-							var tempContent = '';
-							if (this.smsConfig.content_type == 't') {
-								tempContent = this.title;
-							} else if (this.smsConfig.content_type == 'c') {
-								tempContent = this.content;
-							} else if (this.smsConfig.content_type == 'tc') {
-								tempContent = '【' + this.title + '】' + this.content;
-							}
+							// var tempContent = '';
+							var tempContent = this.checkSmsCont();
+							// if (this.smsConfig.content_type == 't') {
+							// 	tempContent = this.title;
+							// } else if (this.smsConfig.content_type == 'c') {
+							// 	tempContent = this.content;
+							// } else if (this.smsConfig.content_type == 'tc') {
+							// 	tempContent = '【' + this.title + '】' + this.content;
+							// }
 							// tempContent = tempContent.replace(/\n/g, '');
-							tempContent = tempContent.replace(' ', '');
-							tempContent = tempContent.replace(/&nbsp;/ig, '');
+							// tempContent = tempContent.replace(' ', '');
+							// tempContent = tempContent.replace(/&nbsp;/g, '');
 							var comData = {
 								send_unit_code: this.personInfo.unit_code,
 								send_user: this.personInfo.user_code,
@@ -362,16 +416,16 @@
 					// sendFlag = 0;
 					return;
 				}
-				if (_this.title.length > 30) {
-					_this.showToast("标题不能超过30字");
-					// sendFlag = 0;
-					return;
-				}
-				if (_this.content.length > 220) {
-					_this.showToast("内容不能超过220字");
-					// sendFlag = 0;
-					return;
-				}
+				// if (_this.title.length > 30) {
+				// 	_this.showToast("标题不能超过30字");
+				// 	// sendFlag = 0;
+				// 	return;
+				// }
+				// if (_this.content.length > 220) {
+				// 	_this.showToast("内容不能超过220字");
+				// 	// sendFlag = 0;
+				// 	return;
+				// }
 
 				if (_this.collenctionEndTime == '') {
 					_this.showToast("请选择收集结束时间");
@@ -402,7 +456,7 @@
 					let words = [];
 					// let tempTitle = _this.title.replace(/\n/g, '');
 					let tempTitle = _this.title;
-					tempTitle = tempTitle.replace(' ', '');
+					// tempTitle = tempTitle.replace(' ', '');
 					for (var i = 0; i < _this.smsWords.length; i++) {
 						let word = _this.smsWords[i].word;
 						if (tempTitle.indexOf(word) !== -1) {
@@ -412,7 +466,7 @@
 					}
 					// let comment = _this.content.replace(/\n/g, '');
 					let comment = _this.content;
-					comment = comment.replace(' ', '');
+					// comment = comment.replace(' ', '');
 					for (var i = 0; i < _this.smsWords.length; i++) {
 						let word = _this.smsWords[i].word;
 						if (comment.indexOf(word) !== -1) {
@@ -441,8 +495,8 @@
 					needOrder: 0,
 					access: this.navItem.access,
 					selectPeople: this.selectPeople,
-					idsArray:this.idsArray,
-					uid_stat:this.uid_stat
+					idsArray: this.idsArray,
+					uid_stat: this.uid_stat
 				}
 				if (this.smsConfig.serviced) {
 					data.serviced = this.smsConfig.serviced;

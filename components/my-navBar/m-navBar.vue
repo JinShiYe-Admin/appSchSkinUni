@@ -64,18 +64,23 @@
 					</uni-col>
 				</uni-row>
 				<uni-row v-else style="margin-top: 10px;">
-					<uni-col v-if="personInfo.personalCenter3 == 1" :span="12">
+					<uni-col v-if="personInfo.personalCenter3 == 1" :span="8">
 						<view class="rowStyle" @click="gotoList(3)">
 							<image src="../../static/images/wodekebiao.png" class="rowStyle"></image>
 							<!-- <image src="../../static/tabbar/dormAttendance_select.png" class="rowImg"></image> -->
 							<!-- <view class="rowStr">我的课表</view> -->
 						</view>
 					</uni-col>
-					<uni-col v-if="personInfo.personalCenter4 == 1" :span="12">
+					<uni-col v-if="personInfo.personalCenter4 == 1" :span="8">
 						<view class="rowStyle" @click="gotoList(4)">
 							<image src="../../static/images/jiaoshitongxunlu.png" class="rowStyle"></image>
 							<!-- <image :src="personInfo.img_url" class="rowImg"></image>
 							<view class="rowStr">教师通讯录</view> -->
+						</view>
+					</uni-col>
+					<uni-col v-if="personInfo.personalCenter5 == 1" :span="8">
+						<view class="rowStyle" @click="gotoList(5)">
+							<image src="../../static/images/jiaoshitongxunlu.png" class="rowStyle"></image>
 						</view>
 					</uni-col>
 				</uni-row>
@@ -185,6 +190,8 @@
 					util.openwithData('/pages/more/clsTimetable',{flag:flag});
 				} else if (flag == 4) {
 					util.openwithData('/pages/more/stuTecAddrList');
+				} else if (flag == 5) {
+					util.openwithData('/pages/payStu/index');
 				}
 			},
 			changeStu() {

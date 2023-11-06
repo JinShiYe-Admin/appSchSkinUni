@@ -3,7 +3,7 @@
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="确定" :textClick="textClick" :icon="icon" :iconClick="iconClick"></mynavBar>
 		<uni-notice-bar :single="true" :text="SMSText"/>
 		<view class="uni-flex uni-row form-view">
-			<textarea placeholder="请输入通知内容,最多260字" v-model="comment" maxlength="260" style="flex: 1;"></textarea>
+			<textarea placeholder="请输入通知内容,最多350字" v-model="comment" maxlength="350" style="flex: 1;" @input="inputContent"></textarea>
 		</view>
 		<template v-if="SHOW">
 			<view class="line"></view>
@@ -16,6 +16,9 @@
 				<switch class="form-right" :checked="SIGN" @change="changeSign" color="#00CFBD"/>
 			</view>
 			<view v-if="SMS" class="form-right" style="padding-right:15px;margin-top: 10px;">{{delay_time_str}}</view>
+			<view v-show="SMS&&showSmsMore==1"
+				style="color: red;font-size: 13px;text-align: right;margin: 5px 15px 10px 0;">当前待发送字符已超出350个，短信可能发送不完整
+			</view>
 		</template>
 		<view class="uni-flex uni-row form-view" style="padding:0 10px;margin-top: 10px;">
 			<view class="form-left" style="font-size: 14px;height: 30px;">接收人</view>
@@ -69,6 +72,7 @@
 	export default {
 		data() {
 			return {
+				showSmsMore: 0,
 				index_code:'',
 				personInfo: {},
 				navItem: {},
@@ -243,12 +247,12 @@
 			submitData(){
 				this.showLoading()
 				let smsFlag=0;
-				let comm=this.comment
-				// let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
-				let comment=comm
-				if(this.SIGN){
-					comment+='[发送人：'+ this.personInfo.user_name+']'
-				}
+				// let comm=this.comment
+				// // let comment=comm.replace(/\s+/g, '').replace(/\n/g, '').replace(/\t/g, '').replace(/\r/g, '')
+				// let comment=comm
+				// if(this.SIGN){
+				// 	comment+='[发送人：'+ this.personInfo.user_name+']'
+				// }
 				let delayTime=this.moment().format('YYYY-MM-DD HH:mm:ss')
 				let day=parseInt(this.multiArray[0][this.multiIndex[0]])
 				let hour=parseInt(this.multiArray[1][this.multiIndex[1]])
@@ -278,7 +282,7 @@
 					send_unit_code:this.personInfo.unit_code,
 					send_user:this.personInfo.user_code,
 					send_user_tname:this.personInfo.user_name,
-					msg_content:comment,
+					msg_content:this.checkSmsCont(0),
 					msg_type:this.MSG_SMS.GRADE.MSG_TYPE,
 					send_soure:"schapp#[APP]",
 					tousers:touser,
@@ -293,7 +297,7 @@
 					console.log("response: " + JSON.stringify(response));
 				     if (response.code == 0) {
 						 if(this.SMS){
-							 this.sendSMS(response0,delayTime,comment)
+							 this.sendSMS(response0,delayTime,this.checkSmsCont(1))
 						 }else{
 							 this.hideLoading()
 							 this.showToast(response.msg);
@@ -367,13 +371,53 @@
 			},
 			changeAutoplay(){
 				this.SMS = !this.SMS
+				this.checkSmsMore();
 				this.icon=''
 				if(this.SMS){
 					this.icon='compose'
 				}
 			},
+			inputContent(e) {
+				this.comment = this.comment.replace(/\n/g, 'JSYCOPY');
+				this.comment = this.comment.replace(/\s/g, ' ');
+				this.comment = this.comment.replace(/\JSYCOPY/g, '\n');
+				this.checkSmsMore();
+			},
 			changeSign(){
-				this.SIGN = !this.SIGN
+				this.SIGN = !this.SIGN;
+				this.checkSmsMore();
+			},
+			// 判断是否显示  短信发送不完整提示
+			checkSmsMore() {
+				this.showSmsMore = 0;
+				if (this.SMS) {
+					var tempContent = this.comment;
+					if (this.SIGN && this.SMS) {
+						tempContent += '[' + this.personInfo.user_name + ']'
+					}
+					if (tempContent.length > 350) {
+						this.showSmsMore = 1;
+					} else {
+						this.showSmsMore = 0;
+					}
+				}
+			},
+			// 如果发送短信，拼接短信内容,flag==0,子系统内容，1短信内容
+			checkSmsCont(flag) {
+				var tempContent = '';
+				if (flag == 0) {
+					tempContent = this.comment;
+				}else{
+					var signCount = 0;
+					if (this.SIGN && this.SMS) {
+						signCount = this.personInfo.user_name.length + 2;
+					}
+					tempContent = this.comment.substr(0, 350 - signCount);
+				}
+				if (this.SIGN && this.SMS) {
+					tempContent += '[' + this.personInfo.user_name + ']'
+				}
+				return tempContent;
 			}
 		},
 	}
