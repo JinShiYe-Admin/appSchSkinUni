@@ -3,22 +3,22 @@
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view style="">
 			<view class="example-body">
-				<!-- <view v-for="(model,index) in pageArray" :key='index'> -->
-				<view @click="clickItem()">
-					<uni-card isShadow>
+				<view v-for="(model,index) in pageArray" :key='index'>
+					<uni-card v-if="model.status!=0" isShadow @click="clickItem(model)">
 						<view class="title-text">
-							<view v-if="flagRef == 0" class='otherIndex'>去缴费</view>
+							<view v-if="model.status == 1" class='otherIndex'>去缴费</view>
 							<view v-else class='otherIndex otherIndex1'>已缴费</view>
-							<span style='margin-left: 5px;'>2022-2023学年下学期课后服务缴费</span>
+							<span style='margin-left: 5px;'>{{model.title}}</span>
 						</view>
 						<view style="font-size: 12px;color: #333333;margin-top: 5px;text-align: center;">应缴金额（元）</view>
-						<view style="font-size: 36px;color: #333333;margin-top: 5px;text-align: center;">1833.00</view>
+						<view style="font-size: 36px;color: #333333;margin-top: 5px;text-align: center;">
+							{{model.total_price}}</view>
 					</uni-card>
 				</view>
 				<view style="height: 5px;"></view>
 			</view>
 		</view>
-		<view class="uni-loadmore" v-if="showLoadMore">{{loadMoreText}}</view>
+		<!-- <view class="uni-loadmore" v-if="showLoadMore">{{loadMoreText}}</view> -->
 	</view>
 </template>
 
@@ -49,45 +49,55 @@
 				// util.openwithData('/pages/mixedAblStu/add', model, {
 				// 	refreshMixedAblStuList(data) { //子页面调用父页面需要的方法
 				// 		// _this.showLoading();
-				// 		// _this.getList0();
+				// 		// _this.getPageList();
 				// 	}
 				// });
 				util.openwithData("/pages/payStu/payDetail", model);
 			},
-			getList0() {
+			getPageList() {
 				let comData = {
-					stu_code: this.personInfo.stu_code, //
+					// par_code: this.personInfo.stu_code, //家长代码
+					// stu_code: this.personInfo.stu_code, //学生代码
+					// grd_code: this.personInfo.grd_code, //学生年级代码
+					// cls_code: this.personInfo.cls_code, //学生班级代码
 					index_code: this.index_code,
 				}
+				if (this.personInfo.type_code == 'YHLX0005') {//学生
+					comData.stu_code = this.personInfo.stu_code; //学生代码
+					comData.grd_code = this.personInfo.grd_code; //学生年级代码
+					comData.cls_code = this.personInfo.cls_code; //学生班级代码
+				} else{
+					comData.par_code = this.personInfo.user_code; //家长代码
+				}
 				this.showLoading();
-				// 列表查询报告填写记录
-				this.post(this.globaData.INTERFACE_ZHSZ + 'stu/reportList', comData, (data0, data) => {
+				// 缴费列表
+				this.post(this.globaData.INTERFACE_ONLINEPAY + 'payDetail/stuPayList', comData, (data0, data) => {
 					this.hideLoading();
 					this.pageIndex++;
 					this.total_page = data.total_page;
 					if (this.flagRef == 0) {
-						if (data.list.length == 0) {
+						if (data.data.list.length == 0) {
 							this.showToast('暂无数据');
 						}
-						this.pageArray = [].concat(data.list);
+						this.pageArray = [].concat(data.data.list);
 						uni.stopPullDownRefresh();
 					} else {
-						this.pageArray = this.pageArray.concat(data.list);
+						this.pageArray = this.pageArray.concat(data.data.list);
 					}
 				});
 			},
 		},
-		onReachBottom() {
-			this.flagRef = 1;
-			if (this.total_page < this.pageIndex) {
-				this.loadMoreText = "没有更多数据了!"
-				return;
-			}
-			this.showLoadMore = true;
-			setTimeout(() => {
-				this.getPageList();
-			}, 300);
-		},
+		// onReachBottom() {
+		// 	this.flagRef = 1;
+		// 	if (this.total_page < this.pageIndex) {
+		// 		this.loadMoreText = "没有更多数据了!"
+		// 		return;
+		// 	}
+		// 	this.showLoadMore = true;
+		// 	setTimeout(() => {
+		// 		this.getPageList();
+		// 	}, 300);
+		// },
 		onPullDownRefresh() {
 			this.loadMoreText = "加载中..."
 			this.flagRef = 0;
@@ -100,9 +110,10 @@
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			this.navItem = util.getPageData(options);
 			this.navItem.index = 100;
+			this.navItem.text = '在线缴费';
 			this.index_code = this.personInfo.personalCenter5Access;
 			console.log('this.navItem:' + JSON.stringify(this.navItem));
-			this.getList0();
+			this.getPageList();
 			//#ifdef H5
 			document.title = ""
 			//#endif
@@ -127,40 +138,6 @@
 </script>
 
 <style>
-	.select-line {
-		height: 2px;
-		background-color: #00CFBD;
-		margin: 0 -15px;
-	}
-
-	.card-line {
-		height: 1px;
-		background-color: #e5e5e5;
-		margin-top: 5px;
-		margin-bottom: 5px;
-	}
-
-	.cardPCls {
-		width: 40px !important;
-		height: 18px;
-		background: #04D0BE;
-		color: white;
-		font-size: 12px;
-		text-align: center;
-		padding-top: 0px;
-		margin-top: 3px;
-		float: left;
-	}
-
-	.cardConent {
-		font-size: 13px;
-		word-break: break-all;
-		/* overflow: hidden;
-	 	text-overflow: ellipsis;
-	 	white-space: nowrap; */
-		color: #787878;
-	}
-
 	.otherIndex {
 		text-align: center;
 		border: 1px solid #f59a23;
@@ -170,7 +147,7 @@
 		padding: 2px 5px;
 		font-size: 13px;
 	}
-	
+
 	.otherIndex1 {
 		border: 1px solid #d7d7d7;
 		color: #d7d7d7;
@@ -180,19 +157,10 @@
 		display: flex;
 		align-items: center;
 		/* width: 80vw; */
-		font-weight: 900;font-size: 16px;
+		font-weight: 900;
+		font-size: 16px;
 		/* overflow: hidden;
 	 	text-overflow: ellipsis;
 	 	white-space: nowrap; */
-	}
-
-	.leaveType {
-		font-size: 12px;
-		width: auto;
-		color: #EFAD44;
-		padding: 0px 3px;
-		border-radius: 4px;
-		margin-right: 3px;
-		border: 1px solid #EFAD44;
 	}
 </style>

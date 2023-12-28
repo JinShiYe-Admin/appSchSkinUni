@@ -80,7 +80,7 @@
 					</uni-col>
 					<uni-col v-if="personInfo.personalCenter5 == 1" :span="8">
 						<view class="rowStyle" @click="gotoList(5)">
-							<image src="../../static/images/jiaoshitongxunlu.png" class="rowStyle"></image>
+							<image src="../../static/images/onlinePay.png" class="rowStyle"></image>
 						</view>
 					</uni-col>
 				</uni-row>

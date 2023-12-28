@@ -130,9 +130,9 @@
 		},
 		methods: {
 			gotoSubmit() {
-				console.log('gotoSubmit:' + JSON.stringify(this.pageData.mod_list));
-				console.log('this.signSelf:' + this.signSelf);
-				console.log('this.signHome:' + this.signHome);
+				// console.log('gotoSubmit:' + JSON.stringify(this.pageData.mod_list));
+				// console.log('this.signSelf:' + this.signSelf);
+				// console.log('this.signHome:' + this.signHome);
 				let comData = {
 					index_code: this.navItem.index_code,
 					mixed_abl_id: this.pageData.mixed_abl_id, //综合素质评价id

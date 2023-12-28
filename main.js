@@ -80,6 +80,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_KHFW = 'https://developgx.108800.com:8443/stuclsservsubapi/api/'; //课后服务（农，廖）
 		GLOBALDATA.INTERFACE_ZHSZM = 'https://developgx.108800.com:8443/stuqualitysubapi/api/'; //综合素质（蒙) 评价、
 		GLOBALDATA.INTERFACE_HMWK = 'https://developgx.108800.com:8443/stuzy/api/'; //作业（蒙)
+		GLOBALDATA.INTERFACE_ONLINEPAY = 'https://developgx.108800.com:8443/schpaysubapi/api/'; //在线缴费（廖)
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
@@ -127,6 +128,8 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_KHFW = 'https://test.108800.com/stuclsservsubapi/api/'; //课后服务（农）
 		GLOBALDATA.INTERFACE_ZHSZM = 'https://test.108800.com/stuqualitysubapi/api/'; //综合素质（蒙) 评价、
 		GLOBALDATA.INTERFACE_HMWK = 'https://test.108800.com/stuzy/api/'; //作业（蒙)
+		GLOBALDATA.INTERFACE_ONLINEPAY = 'https://test.108800.com/schpaysubapi/api/'; //在线缴费（廖)
+		
 
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 16; //七牛appid
@@ -174,6 +177,8 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_KHFW = 'https://apps.108800.com/stuclsservsubapi/api/'; //课后服务（农）
 		GLOBALDATA.INTERFACE_ZHSZM = 'https://apps.108800.com/stuqualitysubapi/api/'; //综合素质（蒙) 评价、
 		GLOBALDATA.INTERFACE_HMWK = 'https://apps.108800.com/stuzy/api/'; //作业（蒙)
+		GLOBALDATA.INTERFACE_ONLINEPAY = 'https://apps.108800.com/schpaysubapi/api/'; //在线缴费（廖)
+		
 		
 		GLOBALDATA.THIRD_FORMCODE = 'WX'; //第三方平台
 		GLOBALDATA.QN_APPID = 17; //七牛appid
@@ -190,7 +195,11 @@ switch (EnvKey) {
 		GLOBALDATA.QN_APPKEY = 'oatest1010'; //七牛appkey
 		break;
 }
-
+// 支付
+Vue.prototype.APPID='wx272c9b4a4ac2e9ac';//
+Vue.prototype.WXPAYSERVER='https://jsypay.jiaobaowang.net/jsypaym/wxpay/sys/AppServer.aspx';//微信支付地址
+Vue.prototype.SEARCHPAYSESULT='http://jsypay.jiaobaowang.net/jsypaym/wxpay/sys/PcQRCode.aspx';//获取支付结果的地址
+// 
 Vue.prototype.PRIVACE = 'https://jbsch-pb.108800.com/formal/privacy/jbxyPrivacy.html'; //用户隐私政策地址
 Vue.prototype.QN_PV_NAME = 'jbsch-pv'; //七牛私有空间名
 Vue.prototype.QN_PB_NAME = 'jbsch-pb'; //七牛公有空间名

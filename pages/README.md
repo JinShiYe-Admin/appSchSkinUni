@@ -193,4 +193,8 @@ evaluationRecord|量化考评|zhao|顾 孔|开发|
 bjlhkp|班级量化考评
 costMs|费用管理
 khfw|课后服务
+mixedAblStu|学生综合素质
+mixedAblTea|学生综合素质
+payStu|在线支付，学生家长|廖
+payTec|在线支付，教师|廖
 
