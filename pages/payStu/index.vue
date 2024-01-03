@@ -45,14 +45,11 @@
 		},
 		methods: {
 			clickItem(model) {
-				// model.index_code = _this.index_code;
-				// util.openwithData('/pages/mixedAblStu/add', model, {
-				// 	refreshMixedAblStuList(data) { //子页面调用父页面需要的方法
-				// 		// _this.showLoading();
-				// 		// _this.getPageList();
-				// 	}
-				// });
-				util.openwithData("/pages/payStu/payDetail", model);
+				util.openwithData('/pages/payStu/payDetail', model, {
+					refreshPayStuIndex(data) { //子页面调用父页面需要的方法
+						_this.getPageList();
+					}
+				});
 			},
 			getPageList() {
 				let comData = {
