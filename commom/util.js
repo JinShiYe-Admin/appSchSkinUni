@@ -1278,7 +1278,79 @@ function getPageArray() {
 			icon: tempAAA + '/static/images/teachercAttendance/attendance_form.png',
 			pagePath: "/pages/teachercAttendance/attendanceForm",
 			url: 'schapp_Attendance_Form',
-			noReadCut: 0
+			noReadCut: 0,
+		}, {
+			name: '考勤打卡',
+			icon: tempAAA + '/static/images/teachercAttendance/ClockIn.png',
+			pagePath: "/pages/teachercAttendance/ClockIn",
+			url: 'schapp_Attendance_ClockIn',
+			noReadCut: 0,
+		}, {
+			name: '我的考勤统计',
+			icon: tempAAA + '/static/images/teachercAttendance/PersonalStat.png',
+			pagePath: "/pages/teachercAttendance/PersonalStat",
+			url: 'schapp_Attendance_PersonalStat',
+			noReadCut: 0,
+		}, {
+			name: '考勤日报',
+			icon: tempAAA + '/static/images/teachercAttendance/DailyReport.png',
+			pagePath: "/pages/teachercAttendance/DailyReport",
+			url: 'schapp_Attendance_DailyReport',
+			noReadCut: 0,
+		}, {
+			name: '考勤月报',
+			icon: tempAAA + '/static/images/teachercAttendance/MonthlyReport.png',
+			pagePath: "/pages/teachercAttendance/MonthlyReport",
+			url: 'schapp_Attendance_MonthlyReport',
+			noReadCut: 0,
+		}, {
+			name: '补卡申请',
+			icon: tempAAA + '/static/images/teachercAttendance/ClockApply.png',
+			pagePath: "/pages/teachercAttendance/ClockApply",
+			url: 'schapp_Attendance_ClockApply',
+			noReadCut: 0,
+		}, {
+			name: '出差申请',
+			icon: tempAAA + '/static/images/teachercAttendance/BusinessTripApply.png',
+			pagePath: "/pages/teachercAttendance/BusinessTripApply",
+			url: 'schapp_Attendance_BusinessTripApply',
+			noReadCut: 0,
+		}, {
+			name: '外出申请',
+			icon: tempAAA + '/static/images/teachercAttendance/OutApply.png',
+			pagePath: "/pages/teachercAttendance/OutApply",
+			url: 'schapp_Attendance_OutApply',
+			noReadCut: 0,
+		}, {
+			name: '加班申请',
+			icon: tempAAA + '/static/images/teachercAttendance/WorkApply.png',
+			pagePath: "/pages/teachercAttendance/WorkApply",
+			url: 'schapp_Attendance_WorkApply',
+			noReadCut: 0,
+		}, {
+			name: '补卡审批',
+			icon: tempAAA + '/static/images/teachercAttendance/ClockExamine.png',
+			pagePath: "/pages/teachercAttendance/ClockExamine",
+			url: 'schapp_Attendance_ClockExamine',
+			noReadCut: 0,
+		}, {
+			name: '出差审批',
+			icon: tempAAA + '/static/images/teachercAttendance/BusinessTripExamine.png',
+			pagePath: "/pages/teachercAttendance/BusinessTripExamine",
+			url: 'schapp_Attendance_BusinessTripExamine',
+			noReadCut: 0,
+		}, {
+			name: '外出审批',
+			icon: tempAAA + '/static/images/teachercAttendance/OutExamine.png',
+			pagePath: "/pages/teachercAttendance/OutExamine",
+			url: 'schapp_Attendance_OutExamine',
+			noReadCut: 0,
+		}, {
+			name: '加班审批',
+			icon: tempAAA + '/static/images/teachercAttendance/WorkExamine.png',
+			pagePath: "/pages/teachercAttendance/WorkExamine",
+			url: 'schapp_Attendance_WorkExamine',
+			noReadCut: 0,
 		},
 		{
 			name: "parents_zhixueKeTang", //智学课堂
