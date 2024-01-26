@@ -59,6 +59,7 @@
 				index_code: '',
 				personInfo: {},
 				navItem: {},
+				PayDetailModel:{},
 				pageData: [],
 			}
 		},
@@ -67,6 +68,7 @@
 		},
 		methods: {
 			getPageData() {
+				console.log('11111111111');
 				let comData = {
 					task_id: this.navItem.task_id,
 					index_code: this.index_code,
@@ -85,8 +87,24 @@
 					this.pageData = data.data;
 				});
 			},
+			getPayDetail(){
+				console.log('22222222222');
+				let comData = {
+					task_id: this.navItem.task_id,
+					pay_price:this.navItem.total_price,//支付金额
+					stu_code : this.personInfo.stu_code, //学生代码
+					grd_code : this.personInfo.grd_code, //学生年级代码
+					cls_code : this.personInfo.cls_code, //学生班级代码
+					index_code: this.index_code,
+				}
+				this.showLoading();
+				// 2.3. 生成订单
+				this.post(this.globaData.INTERFACE_ONLINEPAY + 'payDetail/add', comData, (data0, data) => {
+					this.hideLoading();
+					this.PayDetailModel = data.data;
+				});
+			},
 			wxPay(){
-				console.log('wxPaywxPaywxPay');
 				var data0 = {
 					appid:this.APPID,//微信开发平台应用APPID
 					body: this.pageData.title, //商品名称
@@ -97,7 +115,6 @@
 					product_id: this.navItem.task_id.toString(), //商品代码,根据实际情况填写:如套餐填写套餐编码
 					frmtype: "APP" //订购客户端,发起订购的设备:如PC,APP等
 				}
-				console.log('wxPaywxPaywxPay1111111111:'+this.APPID);
 				uni.request({
 					url: this.WXPAYSERVER,
 					method: 'POST',
@@ -105,26 +122,27 @@
 						'content-type': 'application/json; charset=UTF-8'
 					},
 					data: data0,
-					success: res => { //接口调用成功的回调函数
-						console.log('wxPaywxPaywxPay11111111114444444');
-						if (res.statusCode === 200) {
-							// if (res.data.state === 'fail') {
-								
-							// } else {
-							// 	if (res.data.code ==0) {
-							// 		callback(res.data.data, res.data)
-							// 	} else {//比如 ？？？、 不知道了
-							// 		uni.hideLoading()
-							// 		showToast(res.data.msg)
-							// 		if (ecallback) {
-							// 			ecallback(res.data)
-							// 		}
-							// 	}
-							// }
+					success: res0 => { //接口调用成功的回调函数
+						if (res0.statusCode === 200) {
+							console.log('res0:'+JSON.stringify(res0.data));
+							uni.requestPayment({
+							    provider: "wxpay", 
+							    orderInfo: res0.data,
+							    success(res) {
+									_this.hideLoading();
+									_this.showToast('支付成功');
+									const eventChannel = _this.getOpenerEventChannel()
+									eventChannel.emit('refreshPayStuIndex');
+									uni.navigateBack();
+								},
+							    fail(e) {
+									console.log('failfail:'+JSON.stringify(e));
+									_this.showToast('支付失败');
+								}
+							})
 						}
 					}
 				});
-				console.log('wxPaywxPaywxPay11111111112222222');
 			}
 		},
 		onLoad(options) {
@@ -136,7 +154,10 @@
 			this.navItem.text = '在线缴费';
 			this.index_code = this.personInfo.personalCenter5Access;
 			console.log('this.navItem:' + JSON.stringify(this.navItem));
+			
 			this.getPageData();
+			// 生成订单
+			this.getPayDetail();
 			//#ifdef H5
 			document.title = ""
 			//#endif
