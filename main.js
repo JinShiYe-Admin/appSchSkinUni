@@ -58,6 +58,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_WORK = 'https://developgx.108800.com:8443/stukqsubapi/attendance/'; //学生考勤系统接口(孔)
 		GLOBALDATA.INTERFACE_PROGRAMME = 'https://developgx.108800.com:8443/tecrcsubapi/sub/api/'; //日程（孔)
 		GLOBALDATA.INTERFACE_ATTENDAND = 'https://developgx.108800.com:8443/tecgpskqsubapi/sub/api/'; //教师考勤（孔)
+		GLOBALDATA.INTERFACE_TECKQ = 'https://developgx.108800.com:8443/teckqsubapi/api/'; //教师考勤（蒙)
 		GLOBALDATA.INTERFACE_STUXWSUB = 'https://developgx.108800.com:8443/stuxwsubapi/behavior/'; //学生行为（阮) 
 		GLOBALDATA.INTERFACE_STUPYSUB = 'https://developgx.108800.com:8443/stuxwsubapi/comment/'; //学生评语（阮)
 		GLOBALDATA.INTERFACE_DORM = 'https://developgx.108800.com:8443/stusssubapi/api/app/'; //学生宿舍（阮)
@@ -106,6 +107,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_WORK = 'https://test.108800.com/stukqsubapi/attendance/'; //学生考勤系统接口(阮)
 		GLOBALDATA.INTERFACE_PROGRAMME = 'https://test.108800.com/tecrcsubapi/sub/api/'; //日程（孔)
 		GLOBALDATA.INTERFACE_ATTENDAND = 'https://test.108800.com/tecgpskqsubapi/sub/api/'; //教师考勤（孔)
+		GLOBALDATA.INTERFACE_TECKQ = 'https://test.108800.com/teckqsubapi/api/'; //教师考勤（蒙)
 		GLOBALDATA.INTERFACE_STUXWSUB = 'https://test.108800.com/stuxwsubapi/behavior/'; //学生行为（阮) 
 		GLOBALDATA.INTERFACE_STUPYSUB = 'https://test.108800.com/stuxwsubapi/comment/'; //学生评语（阮)
 		GLOBALDATA.INTERFACE_DORM = 'https://test.108800.com/stusssubapi/api/app/'; //学生宿舍（阮)
@@ -155,6 +157,7 @@ switch (EnvKey) {
 		GLOBALDATA.INTERFACE_WORK = 'https://apps.108800.com/stukqsubapi/attendance/'; //学生考勤系统接口(阮)
 		GLOBALDATA.INTERFACE_PROGRAMME = 'https://apps.108800.com/tecrcsubapi/sub/api/'; //日程（孔)
 		GLOBALDATA.INTERFACE_ATTENDAND = 'https://apps.108800.com/tecgpskqsubapi/sub/api/'; //教师考勤（孔)
+		GLOBALDATA.INTERFACE_TECKQ = 'https://apps.108800.com/teckqsubapi/api/'; //教师考勤（蒙)
 		GLOBALDATA.INTERFACE_STUXWSUB = 'https://apps.108800.com/stuxwsubapi/behavior/'; //学生行为（阮) 
 		GLOBALDATA.INTERFACE_STUPYSUB = 'https://apps.108800.com/stuxwsubapi/comment/'; //学生评语（阮)
 		GLOBALDATA.INTERFACE_DORM = 'https://apps.108800.com/stusssubapi/api/app/'; //学生宿舍（阮)
@@ -252,6 +255,7 @@ Vue.prototype.QN_XSXW_KWXW = "xsxw/kwxw/"; //课外行为
 Vue.prototype.QN_XSXW_XSTH = "xsxw/xsth/"; //学生谈话
 // 教师考勤
 Vue.prototype.QN_JSKQ_WDKQ = "jskq/wdkq/"; //我的考勤
+Vue.prototype.QN_JSKQ_KQDK = "jskq/kqdk/"; //考勤打卡
 // 阅卷
 Vue.prototype.QN_MARKINGPAPERS = 'yuejuanApp/markingPapers'; //七牛公有空间名
 // 口语测评
