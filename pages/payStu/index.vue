@@ -6,9 +6,20 @@
 				<view v-for="(model,index) in pageArray" :key='index'>
 					<uni-card v-if="model.status!=0" isShadow @click="clickItem(model)">
 						<view class="title-text">
-							<view v-if="model.status == 1" class='otherIndex'>去缴费</view>
-							<view v-else class='otherIndex otherIndex1'>已缴费</view>
-							<span style='margin-left: 5px;'>{{model.title}}</span>
+							<view style="float: left;height: 40px;width: 60px;margin-top: 10px;">
+								<view v-if="model.status == 1">
+									<view v-if="model.pay_status == 2" class='otherIndex otherIndex1'>已缴费</view>
+									<view v-else-if="model.total_price == 0" class='otherIndex otherIndex2'>免缴</view>
+									<view v-else class='otherIndex'>未缴费</view>
+								</view>
+								<view v-else>
+									<view v-if="model.pay_status == 2" class='otherIndex otherIndex1'>已缴费</view>
+									<view v-else class='otherIndex otherIndex1'>已停止</view>
+								</view>
+							</view>
+							<view class="rightView">
+								<view>{{model.title}}</view>
+							</view>
 						</view>
 						<view style="font-size: 12px;color: #333333;margin-top: 5px;text-align: center;">应缴金额（元）</view>
 						<view style="font-size: 36px;color: #333333;margin-top: 5px;text-align: center;">
@@ -53,10 +64,6 @@
 			},
 			getPageList() {
 				let comData = {
-					// par_code: this.personInfo.stu_code, //家长代码
-					// stu_code: this.personInfo.stu_code, //学生代码
-					// grd_code: this.personInfo.grd_code, //学生年级代码
-					// cls_code: this.personInfo.cls_code, //学生班级代码
 					index_code: this.index_code,
 				}
 				if (this.personInfo.type_code == 'YHLX0005') {//学生
@@ -140,7 +147,7 @@
 		border: 1px solid #f59a23;
 		color: #f59a23;
 		border-radius: 5px;
-		width: 70px;
+		width: 60px !important;
 		padding: 2px 5px;
 		font-size: 13px;
 	}
@@ -149,11 +156,22 @@
 		border: 1px solid #d7d7d7;
 		color: #d7d7d7;
 	}
+	
+	.otherIndex2 {
+		border: 1px solid #70b603;
+		color: #70b603;
+	}
+	
+	.rightView {
+		margin-left: 20px;
+		float: left;
+		width: calc(100% - 70px);
+	}
 
 	.title-text {
 		display: flex;
 		align-items: center;
-		/* width: 80vw; */
+		/* width: calc(100% - 70px); */
 		font-weight: 900;
 		font-size: 16px;
 		/* overflow: hidden;

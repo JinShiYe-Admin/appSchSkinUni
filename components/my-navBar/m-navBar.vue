@@ -424,7 +424,7 @@
 
 	.rowStyle {
 		width: 60px;
-		height: 90px;
+		height: 80px;
 		border-radius: 5px;
 		background: #04938b;
 		margin-left: calc((100% - 60px)/2);
