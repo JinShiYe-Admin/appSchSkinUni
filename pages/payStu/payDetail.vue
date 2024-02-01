@@ -303,14 +303,12 @@
 	}
 
 	.title-text {
-		display: flex;
-		align-items: center;
-		/* width: 80vw; */
+		width: 100%;
 		font-weight: 900;
 		font-size: 16px;
-		/* overflow: hidden;
-	 	text-overflow: ellipsis;
-	 	white-space: nowrap; */
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.leaveType {
