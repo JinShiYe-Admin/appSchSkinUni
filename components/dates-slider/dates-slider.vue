@@ -1,20 +1,21 @@
 <template>
 	<view>
 		<view class="uni-flex uni-row" style="padding: 0.6rem 0.5rem 0.4rem;justify-content: center;text-align: center;align-items: center;">
-			<view  class="flex-item" style="width: 3rem;" @click="changeMonth(-1)">
-				<uni-icons type="left" :size="24" bold></uni-icons>
+			<view  class="flex-item" style="width: 3rem;">
+				<uni-icons type="left" :size="24" bold @click="changeMonth(-1)"></uni-icons>
 			</view>
 			<view class="flex-item" style="width: 7rem;font-size: 18px;font-weight: bold;">
 				<text>{{moment(yearMonth).format("YYYY年M月")}}</text>
 			</view>
-			<view class="flex-item" style="width: 3rem;" @click="changeMonth(1)">
-				<uni-icons type="right" :size="24" bold></uni-icons>
+			<view class="flex-item" style="width: 3rem;">
+				<uni-icons v-if="disabledDates.length===0"  type="right" :size="24" bold @click="changeMonth(1)"></uni-icons>
+				<uni-icons v-else type="right" :size="24" bold color="rgba(0,0,0,.3)"></uni-icons>
 			</view>
 		</view>
 		<scroll-view :scroll-x="true" :show-scrollbar="false" :scroll-left="datesScrollLeft">
-			<view class="uni-flex uni-row month-dates-wrapper">
-				<view  class="flex-item" v-for="(date,i) in monthDates" :key="i">
-					<button size="mini" :type="date===selectedDate?'primary':'default'" :disabled="dateDisabled(date)" @click="handleSelect(date)">
+			<view class="uni-row month-dates-wrapper">
+				<view  class="date-item" v-for="(date,i) in monthDates" :key="i">
+					<button size="mini" :type="date===selectedDate?'primary':'default'" :disabled="disabledDates.indexOf(date)>-1" @click="handleSelect(date)">
 						{{moment(date).format("DD")+'\n'+weekDays[moment(date).day()]}}
 					</button>
 				</view>
@@ -43,11 +44,11 @@
 				require: true,
 			},
 			start: {
-				type: moment.MomentInput,
+				type: String,
 				require: false
 			},
 			end: {
-				type: moment.MomentInput,
+				type: String,
 				require: false
 			}
 		},
@@ -65,10 +66,15 @@
 			}
 			this.getMonthDates();
 		},
+		computed: {
+			disabledDates() {
+				return this.monthDates.filter((date) => (this.end?date>this.end:false)||(this.start?date<this.start:false))
+			}
+		},
 		methods:{
-			dateDisabled(date) {
-				return (this.end?date>this.end:false)||(this.start?date<this.start:false)
-			},
+			// dateDisabled(date) {
+			// 	return (this.end?date>this.end:false)||(this.start?date<this.start:false)
+			// },
 			changeMonth(num) {
 				const cur = moment(this.yearMonth);
 				const newMonth = num>0?cur.add(1,'months'):cur.subtract(1,'months');
@@ -111,11 +117,16 @@
 <style lang="scss">
 	.month-dates-wrapper {
 		padding: 0 8px;
-		.flex-item {
+		white-space: nowrap;
+		.date-item {
+			display: inline-block;
 			margin-right: 8px;
 			uni-button {
+				width: 40px;
+				height: 40px;
 				padding: 4px 12px;
 				line-height: 16px;
+				white-space: break-spaces;
 			}
 		}
 		uni-button[type=primary] {

@@ -1,0 +1,32 @@
+.apply-list-card {
+	margin: 20px 5px 0;
+	font-size: 14px;
+	.header {
+		text-align: right;
+	}
+	.result-box {
+		text-align: center;
+		& > uni-view:first-child {
+			font-size: 24px;
+			font-weight: 500;
+			margin-top: 15px;
+			border-bottom: 2px solid #aaaaaa;
+			width: 100px;
+			margin-left: calc((100% - 100px)/2);
+			& + uni-view {
+				font-size: 12px;
+				text-align: center;
+				margin-top: 5px;
+			}
+		}
+	}
+	.row-box {
+		margin-top: 15px;
+		.uni-col {
+			height: 30px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+}
