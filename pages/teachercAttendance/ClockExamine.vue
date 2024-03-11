@@ -76,7 +76,7 @@
 		},
 		methods: {
 			gotoDetail(item){
-				util.openwithData('/pages/teachercAttendance/applyDetail', {
+				util.openwithData('/pages/teachercAttendance/ApplyDetail', {
 					index_code: this.navItem.access.split("#")[1],
 					type: 0,
 					id: item.id,

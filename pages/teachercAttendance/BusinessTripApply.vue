@@ -33,7 +33,7 @@
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	import moment from 'moment';
 	let _this;
-	const type = "补卡";
+	const type = "出差";
 	export default {
 		data() {
 			return {

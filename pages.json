@@ -4607,7 +4607,7 @@
         	}
         },
         {
-        	"path" : "pages/teachercAttendance/applyAdd",
+        	"path" : "pages/teachercAttendance/ApplyAdd",
         	"style" : 
         	{
 				"navigationStyle": "custom", // 隐藏系统导航栏
@@ -4616,7 +4616,7 @@
         	}
         },
         {
-        	"path" : "pages/teachercAttendance/applyDetail",
+        	"path" : "pages/teachercAttendance/ApplyDetail",
         	"style" : 
         	{
 				"navigationStyle": "custom", // 隐藏系统导航栏
@@ -4643,6 +4643,27 @@
 						"offset": "44px"
 					}
 				}
+        	}
+        },
+        {
+        	"path" : "pages/teachercAttendance/BusinessTripApply",
+        	"style" : 
+        	{
+        		"navigationStyle": "custom", // 隐藏系统导航栏
+        		"navigationBarTitleText": "",
+        		"enablePullDownRefresh": true,
+        		"app-plus": {
+        			"pullToRefresh": {
+        				"support": true,
+        				"style": "circle",
+        				"offset": "76px"
+        			}
+        		},
+        		"h5": {
+        			"pullToRefresh": {
+        				"offset": "44px"
+        			}
+        		}
         	}
         }
     ],
