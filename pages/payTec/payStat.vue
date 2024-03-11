@@ -293,11 +293,11 @@
 							label: '缴费项目',
 							name: 'project_name',
 							align: 'center',
-							width: 200,
+							width: 20,
 							fixed: true
 						})
 						tempCol.push({
-							label: '项目金额（元）',
+							label: '项目金额(元)',
 							name: 'price',
 							align: 'center',
 							width: 200,
@@ -310,49 +310,49 @@
 							fixed: false
 						})
 						tempCol.push({
-							label: '缴费人数（人）',
+							label: '缴费人数(人)',
 							name: 'stu_num',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '缴费金额（元）',
+							label: '缴费金额(元)',
 							name: 'total_price',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '减免人数（人）',
+							label: '减免人数(人)',
 							name: 'deduct_num',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '减免金额（元）',
+							label: '减免金额(元)',
 							name: 'deduct_money',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '应缴费人数（人）',
+							label: '应缴费人数(人)',
 							name: 'pay_stu_num',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '应缴费金额（元）',
+							label: '应缴费金额(元)',
 							name: 'pay_price',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '已缴费人数（人）',
+							label: '已缴费人数(人)',
 							name: 'paid_stu_num',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '已缴费金额（元）',
+							label: '已缴费金额(元)',
 							name: 'paid_price',
 							align: 'center',
 							fixed: false
@@ -406,49 +406,49 @@
 							fixed: true
 						})
 						tempCol.push({
-							label: '缴费人数（人）',
+							label: '缴费人数(人)',
 							name: 'cls_num',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '缴费金额（元）',
+							label: '缴费金额(元)',
 							name: 'total_price',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '减免人数（人）',
+							label: '减免人数(人)',
 							name: 'deduct_num',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '减免金额（元）',
+							label: '减免金额(元)',
 							name: 'deduct_money',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '应缴费人数（人）',
+							label: '应缴费人数(人)',
 							name: 'pay_num',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '应缴费金额（元）',
+							label: '应缴费金额(元)',
 							name: 'pay_price',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '已缴费人数（人）',
+							label: '已缴费人数(人)',
 							name: 'paid_num',
 							align: 'center',
 							fixed: false
 						})
 						tempCol.push({
-							label: '已缴费金额（元）',
+							label: '已缴费金额(元)',
 							name: 'paid_money',
 							align: 'center',
 							fixed: false
@@ -498,7 +498,7 @@
 							fixed: true
 						})
 						tempCol.push({
-							label: '应缴（元）',
+							label: '应缴(元)',
 							name: 'payable_amount',
 							align: 'center',
 							fixed: false

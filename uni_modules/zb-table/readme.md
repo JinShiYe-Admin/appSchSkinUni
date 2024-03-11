@@ -4,11 +4,12 @@
 table 表格 固定表头、固定首列、多列 上拉加载更多、 排序、自适应列宽、多选checkbox、编辑、删除、按钮、合计
 已用于生产环境
 
-## qq群 731805264
-## -- github 永远保持最新，有啥想法的可以提PR,共同开发 [地址](https://github.com/zouzhibin/zb-table)
+微信=》 19550102670 拉进群
+## -- github 第一时间会更新到github，永远保持最新，有啥想法的可以提PR,共同开发 [地址](https://github.com/zouzhibin/zb-ui)
 
 ## 友情链接
-#### vue-admin-perfect —— [企业级、通用型中后台前端解决方案（基于vue3.0+TS+Element-Plus  最新版，同时支持电脑，手机，平板)](https://github.com/zouzhibin/vue-admin-perfect)
+### 在线预览点击 —— [企业级、通用型中后台前端解决方案 ](https://yuanzbz.gitee.io/vue-admin-perfect/#/login?redirect=/home)
+### vue-admin-perfect —— [企业级、通用型中后台前端解决方案（基于vue3.0+TS+Element-Plus  最新版，同时支持电脑，手机，平板)](https://github.com/zouzhibin/vue-admin-perfect)
 
 
 ## table 属性
@@ -39,15 +40,16 @@ done 接收参数为 type ，type为空代表还有数据，可以继续加载�
 ```
 
 ## table 事件
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |是否必须|
-| ------ | ------ | ------ | ------ | ------ |------ |
-| 事件名自定义 | 取决于type类型为operation的 renders参数里面 func 的参数名 | Function |(row,index)=>{} | -- |否 |
-| sort-change | 取决于type类型为operation的 renders参数里面 func 的参数名 | Function |(column,model,index)=>{} | -- |否 |
-| currentChange | 当表格的当前行发生变化的时候会触发该事件，如果要高亮当前行，请打开表格的 highlight属性,this.$refs.table.resetHighlight()清除选中 | Function |(row,index)=>{} | -- |否 |
-| toggleRowSelection | 用于多选表格，切换某一行的选中状态，第一个参数代表选中状态，参数二代表选中的对象 | Function |(selected ,array)=>{} | -- |否 |
-| toggleAllSelection | 用于多选表格，切换所有行的选中状态 ，第一个参数代表选中状态，参数二代表选中的对象| Function |(selected ,array)=>{} | -- |否 |
-| rowClick | 单击某行 ，第一个参数代表选中对象，参数二代表选中的index| Function |(row ,index)=>{} | -- |否 |
-| pullUpLoading | 开启上拉加载后的返回函数，无参数| Function  | -- |-- |否 |
+| 参数 | 说明 | 类型 | 可选值                      | 默认值 |是否必须|
+| ------ | ------ | ------ |--------------------------| ------ |------ |
+| 事件名自定义 | 取决于type类型为operation的 renders参数里面 func 的参数名 | Function | (row,index)=>{}          | -- |否 |
+| sort-change | 取决于type类型为operation的 renders参数里面 func 的参数名 | Function | (column,model,index)=>{} | -- |否 |
+| currentChange | 当表格的当前行发生变化的时候会触发该事件，如果要高亮当前行，请打开表格的 highlight属性,this.$refs.table.resetHighlight()清除选中 | Function | (row,index)=>{}          | -- |否 |
+| toggleRowSelection | 用于多选表格，切换某一行的选中状态，第一个参数代表选中状态，参数二代表选中的对象 | Function | (selected ,array)=>{}    | -- |否 |
+| toggleAllSelection | 用于多选表格，切换所有行的选中状态 ，第一个参数代表选中状态，参数二代表选中的对象| Function | (selected ,array)=>{}    | -- |否 |
+| rowClick | 单击某行 ，第一个参数代表选中对象，参数二代表选中的index| Function | (row ,index)=>{}         | -- |否 |
+| cellClick | 单击单元格 ，当某个单元格被点击时会触发该事件| Function | (row ,index,column)=>{}        | -- |否 |
+| pullUpLoading | 开启上拉加载后的返回函数，无参数| Function  | --                       |-- |否 |
 
 ```
 关闭上拉加载的方式2：this.$refs.zbTable.pullUpCompleteLoading('ok')
