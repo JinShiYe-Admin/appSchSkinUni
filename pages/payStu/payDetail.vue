@@ -3,7 +3,9 @@
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<uni-card isShadow>
 			<view class='title-text' style="display: block;text-align: center;">{{pageData.title}}</view>
-			<view style="font-size: 14px;margin-top: 10px;text-align: center;">{{personInfo.grd_name}}
+			<view v-if="personInfo.type_code == 'YHLX0003'" style="font-size: 14px;margin-top: 10px;text-align: center;">{{navItem.grd_name}}
+				{{navItem.cls_name}} {{navItem.stu_name}}</view>
+			<view v-else style="font-size: 14px;margin-top: 10px;text-align: center;">{{personInfo.grd_name}}
 				{{personInfo.cls_name}} {{personInfo.stu_name}}</view>
 		</uni-card>
 		<uni-card isShadow>
@@ -43,6 +45,7 @@
 				{{pageData.pay_price}}
 			</view>
 			<view v-if="pageData.pay_price==0" class="noMoney">免缴</view>
+			<view v-if="pageData.pay_status == 2&&pageData.pay_price>0" class="noMoney">已缴</view>
 		</uni-card>
 		<view v-if="pageData.pay_user_code&&pageData.pay_user_code==personInfo.user_code">
 			<view v-if="pageData.status == 1&&pageData.pay_status == 0 &&pageData.pay_price>0" class="wxPay"
@@ -61,9 +64,27 @@
 				取消支付
 			</view>
 		</view>
-		<view v-else-if="pageData.status == 1&&pageData.pay_status != 2&&pageData.pay_price>0" class="wxPay" @click="getPayDetailAdd()">
+		<view v-else-if="pageData.status == 1&&pageData.pay_status != 2&&pageData.pay_price>0 && personInfo.type_code != 'YHLX0003'" class="wxPay" @click="getPayDetailAdd()">
 			微信支付
 		</view>
+		<uni-card isShadow v-if="pageData.pay_status == 2&&pageData.pay_price>0">
+			<view class='title-text'>缴费情况</view>
+			<view class="card-line"></view>
+			<uni-row>
+				<uni-col :span="10">
+					<view class="title-text" style="color: #7f7f7f;margin-top: 5px;">已缴费用（元）</view>
+				</uni-col>
+				<uni-col :span="14">
+					<view class="title-text" style="margin-top: 5px;">{{pageData.pay_price}}</view>
+				</uni-col>
+				<uni-col :span="10">
+					<view class="title-text" style="color: #7f7f7f;margin-top: 10px;">缴费时间</view>
+				</uni-col>
+				<uni-col :span="14">
+					<view class="title-text" style="margin-top: 10px;margin-bottom: 10px;">{{pageData.finish_time}}</view>
+				</uni-col>
+			</uni-row>
+		</uni-card>
 		<view style="height: 30px;"></view>
 	</view>
 </template>
@@ -97,8 +118,12 @@
 					comData.stu_code = this.personInfo.stu_code; //学生代码
 					comData.grd_code = this.personInfo.grd_code; //学生年级代码
 					comData.cls_code = this.personInfo.cls_code; //学生班级代码
-				} else {
+				} else if (this.personInfo.type_code == 'YHLX0004'){//家长
 					comData.par_code = this.personInfo.user_code; //家长代码
+				} else if (this.personInfo.type_code == 'YHLX0003'){//老师
+					comData.stu_code = this.navItem.stu_code; //学生代码
+					comData.grd_code = this.navItem.grd_code; //学生年级代码
+					comData.cls_code = this.navItem.cls_code; //学生班级代码
 				}
 				this.showLoading();
 				// 2.2.缴费任务详情 
@@ -236,7 +261,12 @@
 			this.navItem = util.getPageData(options);
 			this.navItem.index = 100;
 			this.navItem.text = '在线缴费';
-			this.index_code = this.personInfo.personalCenter5Access;
+			if (this.personInfo.type_code == 'YHLX0003') {
+				this.index_code = this.navItem.index_code;
+			} else{
+				this.index_code = this.personInfo.personalCenter5Access;
+			}
+			
 			console.log('this.navItem:' + JSON.stringify(this.navItem));
 			uni.getSystemInfo({
 				success(res) {
