@@ -1982,7 +1982,7 @@ function getPageArray() {
 			url: 'schapp_PayStu',
 			childList: []
 		},{
-			name: "学生缴费", //学生缴费
+			name: "学生缴费", //学生缴费，教师端
 			pagePath: '/pages/payTec/index',
 			iconPath: tempAAA + '/static/tabbar/jiaxiaogongyu.png',
 			selectedIconPath: tempAAA + '/static/tabbar/jiaxiaogongyu_select.png',
@@ -1992,6 +1992,12 @@ function getPageArray() {
 			icon: tempAAA + "/static/tabbar/bjlhkp_img.png",
 			url: 'schapp_PayTec',
 			childList: []
+		},{
+			name: '缴费情况',//学生缴费，教师端
+			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			pagePath: "/pages/payTec/index",
+			url: 'schapp_Paydetails',
+			noReadCut: 0
 		},
 	];
 	return tempArray;
