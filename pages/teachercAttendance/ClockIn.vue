@@ -1,27 +1,7 @@
 <template>
 	<view>
-		<view style="height: 88px;">
-			<view class="uni-flex uni-row" style="padding: 0.6rem 0.5rem 0.4rem;justify-content: center;text-align: center;align-items: center;">
-				<view  class="flex-item" style="width: 3rem;" @click="changeMonth(-1)">
-					<uni-icons type="left" :size="24" bold></uni-icons>
-				</view>
-				<view class="flex-item" style="width: 7rem;font-size: 18px;font-weight: bold;">
-					<text>{{moment(yearMonth).format("YYYY年M月")}}</text>
-				</view>
-				<view class="flex-item" style="width: 3rem;" @click="changeMonth(1)">
-					<uni-icons type="right" :size="24" bold></uni-icons>
-				</view>
-			</view>
-			<scroll-view :scroll-x="true" :show-scrollbar="false" :scroll-left="datesScrollLeft">
-				<view class="uni-flex uni-row month-dates-wrapper">
-					<view  class="flex-item" v-for="(date,i) in monthDates" :key="i">
-						<button size="mini" :type="date===selectedDate?'primary':'default'" :disabled="date>today" @click="selectedDate=date">
-							{{moment(date).format("DD")+'\n'+weekDays[moment(date).day()]}}
-						</button>
-					</view>
-				</view>
-			</scroll-view>
-		</view>
+		<dates-slider v-model="selectedDate" :end="today" style="height: 88px;"></dates-slider>
+		
 		<view class="content-scroll" :style="`height:${contentHeiht}px;`">
 			<uni-card style="margin: 5px 0;">
 				<view style="font-size: 12px;">
@@ -75,6 +55,7 @@
 				</view>
 			</uni-card>
 		</view>
+		
 		<view>
 			<uni-popup ref="popup" type="bottom" background-color="#fff">
 				<view class="popup-content">
@@ -106,11 +87,7 @@
 				personInfo: {},
 				navItem: {},
 				today: curDate,
-				yearMonth: curDate, //年、月显示
-				monthDates: [],
-				weekDays: ['日','一','二','三','四','五','六'],
 				selectedDate: curDate,
-				datesScrollLeft: 0,
 				contentHeiht: 600,
 				imgList: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
 				imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
@@ -140,13 +117,13 @@
 			uni.setNavigationBarTitle({
 				title: this.navItem.text
 			});
-			this.getMonthDates();//设置当前日期
+			
+			// 设置滚动条位置
 			this.$nextTick(() => {
 				const windowInfo = uni.getWindowInfo();
-				const curDateNum = moment(this.selectedDate).date();
-				this.datesScrollLeft = curDateNum*48>windowInfo.windowWidth?(curDateNum*48-windowInfo.windowWidth+48):undefined;
 				this.contentHeiht = windowInfo.windowHeight-88;
 			})
+			// 获取数据
 			this.getClockRecord();
 
 			// 获取权限
@@ -176,25 +153,6 @@
 			},
 		},
 		methods: {
-			changeMonth(num) {
-				const cur = moment(this.yearMonth);
-				const newMonth = num>0?cur.add(1,'months'):cur.subtract(1,'months');
-				this.yearMonth = newMonth.format("YYYY-MM-DD");
-				this.getMonthDates()
-			},
-			getMonthDates() {
-				const cur = moment(this.yearMonth);
-				const firstDate = cur.startOf('month').format("YYYY-MM-DD");
-				const endDate = cur.endOf('month').format("YYYY-MM-DD");
-				let dates = [];
-				dates.push(firstDate);
-				let addNum = 1;
-				while (dates[dates.length-1]<endDate){
-					dates.push(moment(firstDate).add(addNum, 'days').format('YYYY-MM-DD'));
-					addNum++;
-				}
-				this.monthDates = dates;
-			},
 			getClockRecord(onlyData=false) {
 				// 获取考勤数据
 				// this.showLoading();
@@ -435,19 +393,6 @@
 </script>
 
 <style lang='scss'>
-	.month-dates-wrapper {
-		padding: 0 8px;
-		.flex-item {
-			margin-right: 8px;
-			uni-button {
-				padding: 4px 12px;
-				line-height: 16px;
-			}
-		}
-		uni-button[type=primary] {
-			background-color: #2c96bd;
-		}
-	}
 	.content-scroll {
 		background-color: #f2f2f2;
 		overflow-y: auto;

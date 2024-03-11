@@ -1,0 +1,45 @@
+.tab-title {
+	margin-top: 20px;
+	text-align: center;
+	& > uni-view {
+		display: inline-block;
+		width: 100px;
+		text-align: center;
+		font-size: 16px;
+		color: #7f7f7f;
+		font-weight: bold;
+		border-bottom: 2px solid #aaaaaa;
+	}
+	.semFlagSelect{
+		color: #008080;
+		border-bottom: 2px solid #008080;
+	}
+}
+
+.examine-card-head {
+	justify-content: space-between;
+	flex-wrap: nowrap;
+	align-items: center;
+	font-size: 14px;
+	& > uni-view:first-child {
+		background-color: #f2efef;
+		border-radius: 3px;
+		padding: 4px 24px;
+		flex-shrink: 1;
+		margin-right: 14px
+	}
+	& > uni-view:first-child + uni-view {
+		flex-shrink: 0;
+	}
+}
+
+.examine-card-row {
+	margin-top: 25px;
+	.uni-col {
+		font-size: 14px;
+		height: 30px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
