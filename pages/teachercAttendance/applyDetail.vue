@@ -5,24 +5,67 @@
 		<uni-card isShadow style="margin: 10px;">
 			<view style="font-size: 16px;font-weight: 900;">申请详情</view>
 			<view class="select-line"></view>
-			<uni-row style="margin-top: 10px;">
-				<uni-col :span="6">
-					<view class="rowStyle">补卡时间：</view>
-				</uni-col>
+			<uni-row v-if="type===0" style="margin-top: 10px;">
+				<uni-col :span="6"><view class="rowStyle">补卡时间：</view></uni-col>
 				<uni-col :span="18">
 					<view class="rowStyle">{{moment(detail.ctime).format('YYYY-MM-DD HH:mm')}} {{attendStatusList[detail.attend_status]}}</view>
 				</uni-col>
-				<uni-col :span="6">
-					<view class="rowStyle">补卡理由：</view>
-				</uni-col>
-				<uni-col :span="18">
-					<view class="rowStyle">{{detail.note}}</view>
-				</uni-col>
+				<uni-col :span="6"><view class="rowStyle">补卡理由：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.note}}</view></uni-col>
 				<uni-col :span="6"><view class="rowStyle">申请时间：</view></uni-col>
 				<uni-col :span="18"><view class="rowStyle">{{detail.create_time}}</view></uni-col>
-				<uni-col :span="6">
-					<view class="rowStyle">照片：</view>
+				<uni-col :span="6"><view class="rowStyle">照片：</view></uni-col>
+				<uni-col :span="18">
+					<uni-grid v-if="detail.files && detail.files.length" :column="3" style="padding-right: 10px;">
+						<uni-grid-item v-for="(item,index) in detail.files" :key="index">
+							<image @click='checkEnc(index)' style="height: 70px;width: 70px;" :src="item.url" mode="">
+							</image>
+						</uni-grid-item>
+					</uni-grid>
 				</uni-col>
+			</uni-row>
+			
+			<uni-row v-if="type===1" style="margin-top: 10px;">
+				<uni-col :span="6"><view class="rowStyle">出差日期：</view></uni-col>
+				<uni-col :span="18">
+					<view class="rowStyle">{{`${moment(detail.begin_date).format('YYYY-MM-DD')} 至 ${moment(detail.end_date).format('YYYY-MM-DD')}`}}</view>
+				</uni-col>
+				<uni-col :span="6"><view class="rowStyle">出差时长：</view></uni-col>
+				<uni-col :span="18">
+					<view class="rowStyle">{{detail.duration ? `${Math.round(detail.duration / 1440)}天` : ''}}</view>
+				</uni-col>
+				<uni-col :span="6"><view class="rowStyle">目的地：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.toplace}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">带队人：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.leader_name}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">随行人员：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.user_names}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">出差人数：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.peoples}} 人</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">出差事由：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.note}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">交通工具：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.tools}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">经费来源：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.funds}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">申请时间：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.create_time}}</view></uni-col>
+			</uni-row>
+			
+			<uni-row v-if="type===2" style="margin-top: 10px;">
+				<uni-col :span="6"><view class="rowStyle">外出时间：</view></uni-col>
+				<uni-col :span="18">
+					<view class="rowStyle">{{`${moment(detail.begin_date).format('YYYY-MM-DD HH:mm')} 至 ${moment(detail.end_date).format('YYYY-MM-DD HH:mm')}`}}</view>
+				</uni-col>
+				<uni-col :span="6"><view class="rowStyle">外出时长：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{timeStr(detail.duration)}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">外出地点：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.toplace}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">外出事由：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.note}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">申请时间：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.create_time}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">照片：</view></uni-col>
 				<uni-col :span="18">
 					<uni-grid v-if="detail.files && detail.files.length" :column="3" style="padding-right: 10px;">
 						<uni-grid-item v-for="(item,index) in detail.files" :key="index">
@@ -81,6 +124,7 @@
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	import moment from 'moment';
+	import timeStrByMinutes from './common/timeStrByMinutes.js';
 	let _this;
 	const typeList = ['补卡','出差','外出','加班'];
 	export default {
@@ -131,6 +175,7 @@
 			//#endif
 		},
 		methods: {
+			timeStr: timeStrByMinutes,
 			closeOut() {
 				this.$refs.popupOut.close();
 			},

@@ -6041,6 +6041,106 @@
         "navigationBarTitleText": "",
         "enablePullDownRefresh": false
       }
+    },
+    {
+    	"path" : "pages/teachercAttendance/BusinessTripExamine",
+    	"style": {
+    	  "navigationStyle": "custom", // 隐藏系统导航栏
+    	  "navigationBarTitleText": "",
+    	  "enablePullDownRefresh": true,
+    	  "app-plus": {
+    	    "pullToRefresh": {
+    	      "support": true,
+    	      "style": "circle",
+    	      "offset": "76px"
+    	    }
+    	  },
+    	  "h5": {
+    	    "pullToRefresh": {
+    	      "offset": "44px"
+    	    }
+    	  }
+    	}
+    },
+    {
+    	"path" : "pages/teachercAttendance/OutApply",
+    	"style": {
+    	  "navigationStyle": "custom", // 隐藏系统导航栏
+    	  "navigationBarTitleText": "",
+    	  "enablePullDownRefresh": true,
+    	  "app-plus": {
+    	    "pullToRefresh": {
+    	      "support": true,
+    	      "style": "circle",
+    	      "offset": "76px"
+    	    }
+    	  },
+    	  "h5": {
+    	    "pullToRefresh": {
+    	      "offset": "44px"
+    	    }
+    	  }
+    	}
+    },
+    {
+    	"path" : "pages/teachercAttendance/OutExamine",
+    	"style": {
+    	  "navigationStyle": "custom", // 隐藏系统导航栏
+    	  "navigationBarTitleText": "",
+    	  "enablePullDownRefresh": true,
+    	  "app-plus": {
+    	    "pullToRefresh": {
+    	      "support": true,
+    	      "style": "circle",
+    	      "offset": "76px"
+    	    }
+    	  },
+    	  "h5": {
+    	    "pullToRefresh": {
+    	      "offset": "44px"
+    	    }
+    	  }
+    	}
+    },
+    {
+    	"path" : "pages/teachercAttendance/WorkExamine",
+    	"style": {
+    	  "navigationStyle": "custom", // 隐藏系统导航栏
+    	  "navigationBarTitleText": "",
+    	  "enablePullDownRefresh": true,
+    	  "app-plus": {
+    	    "pullToRefresh": {
+    	      "support": true,
+    	      "style": "circle",
+    	      "offset": "76px"
+    	    }
+    	  },
+    	  "h5": {
+    	    "pullToRefresh": {
+    	      "offset": "44px"
+    	    }
+    	  }
+    	}
+    },
+    {
+    	"path" : "pages/teachercAttendance/WorkApply",
+    	"style": {
+    	  "navigationStyle": "custom", // 隐藏系统导航栏
+    	  "navigationBarTitleText": "",
+    	  "enablePullDownRefresh": true,
+    	  "app-plus": {
+    	    "pullToRefresh": {
+    	      "support": true,
+    	      "style": "circle",
+    	      "offset": "76px"
+    	    }
+    	  },
+    	  "h5": {
+    	    "pullToRefresh": {
+    	      "offset": "44px"
+    	    }
+    	  }
+    	}
     }
   ],
   //配置项如果有注释，注释内容为官网文档中的 平台差异说明
