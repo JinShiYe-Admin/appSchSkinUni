@@ -24,13 +24,13 @@
 	                      class="item-th"
 	                      :style="[{
 	                              width:`${item.width?item.width:'100'}px`,
-															  flex:index===transColumns.length-1?1:'none',
-															  minWidth:`${item.width?item.width:'100'}px`,
-															  borderRight:`${border?'1px solid #e8e8e8':''}`,
+								  flex:index===transColumns.length-1?1:'none',
+								  minWidth:`${item.width?item.width:'100'}px`,
+								  borderRight:`${border?'1px solid #e8e8e8':''}`,
 
-															  borderTop:`${border?'1px solid #e8e8e8':''}`,
-															  textAlign:item.align||'left'
-														  },getHeaderCellStyle(item,index)]"
+								  borderTop:`${border?'1px solid #e8e8e8':''}`,
+								  textAlign:item.align||'left'
+							  },getHeaderCellStyle(item,index)]"
 	                      v-for="(item,index) in transColumns" :key="index">
                       <template v-if="item.type==='selection'">
                         <view class="checkbox-item">
@@ -81,13 +81,13 @@
 	                     v-for="(item,index) in transData" :key="item.key" >
 	                <view
 	                    :style="[{
-									              width:`${ite.width?ite.width:'100'}px`,
-															  flex:i===transColumns.length-1?1:'none',
-															  minWidth:`${ite.width?ite.width:'100'}px`,
-															  borderRight:`${border?'1px solid #e8e8e8':''}`,
-                                textAlign:ite.align||'left',
-														  },cellStyle&&getCellStyle(item,ite,index,i)]"
-
+							        width:`${ite.width?ite.width:'100'}px`,
+										  flex:i===transColumns.length-1?1:'none',
+										  minWidth:`${ite.width?ite.width:'100'}px`,
+										  borderRight:`${border?'1px solid #e8e8e8':''}`,
+											textAlign:ite.align||'left',
+									  },cellStyle&&getCellStyle(item,ite,index,i)]"
+                      @click="cellClick(item,index,ite)"
 	                    :class="['item-td',stripe?(index % 2) != 0?'odd':'even':'']"
 	                    v-for="(ite,i) in transColumns" :key="i">
 	                  <template  v-if="ite.type==='operation'">
@@ -168,6 +168,7 @@
                   @click.stop="rowClick(item,index)"
                   v-for="(item,index) in fixedLeftColumns" :key="index">
 	            <view
+
 	                :style="{
 	               width:`${item.width?item.width:'100'}px`,
 	               borderRight:`${border?'1px solid #e8e8e8':''}`,
@@ -213,6 +214,7 @@
                     :key="ite.key"
                     style="">
                 <view class='item-td'
+                      @click="cellClick(ite,index,item)"
                       :style="[{
 	                       width:`${item.width?item.width:'100'}px`,
 	                       borderRight:`${border?'1px solid #e8e8e8':''}`,
@@ -324,6 +326,7 @@
                       borderRight:`${border?'1px solid #e8e8e8':''}`,
                       textAlign:ite.align||'left',
                     },getCellStyle(item,ite,index,i)]"
+                    @click="cellClick(item,index,ite)"
                     :class="['item-td', i <fixedLeftColumns.length&&'zb-stick-side',stripe?(index % 2) != 0?'odd':'even':'']"
                     v-for="(ite,i) in transColumns" :key="i">
                   <template  v-if="ite.type==='operation'">
@@ -600,16 +603,26 @@ export default {
           item.key = index
         }
       })
-      if(flag&&this.data.length){
-        let le = this.data.filter(item=>item.checked).length
-        if(le){
-          if(le===this.data.length){
-            this.checkedAll = true
-          }else {
-            this.indeterminate = true
-          }
-        }
-      }
+      if(flag){
+              if(this.data.length){
+                let le = this.data.filter(item=>item.checked).length
+                if(le){
+                  if(le===this.data.length){
+                    this.checkedAll = true
+                  }else {
+                    this.indeterminate = true
+                  }
+                }else {
+                  this.checkedAll = false
+                  this.indeterminate = false
+                  this.selectArr = []
+                }
+              }else {
+                this.checkedAll = false
+                this.indeterminate = false
+                this.selectArr = []
+              }
+            }
       return this.data
     },
     isHighlight(){
@@ -682,8 +695,25 @@ export default {
     //   }).exec();
     // },1000)
   },
+  beforeDestroy(){
+      this.aliTime&&clearTimeout(this.aliTime)
+      this.debounceTime&&clearTimeout(this.debounceTime)
+      this.bodyTime1&&clearTimeout(this.bodyTime1)
+      this.bodyTime&&clearTimeout(this.bodyTime)
+      this.selectArr = []
+      this.indeterminate = false
+      this.checkedAll = false
+  
+    },
   methods: {
-
+	clearSelection(){
+		this.transData.forEach(item=>{
+			item.checked = false
+		})
+		this.selectArr = []
+		this.indeterminate = false
+		this.checkedAll = false
+	},
     formatterAction(row,column,rowIndex,columnIndex){
       if(column.formatter&&typeof this.formatter==='function'){
         return this.formatter(row,column,rowIndex,columnIndex)
@@ -740,6 +770,7 @@ export default {
       // this.pullUpLoading.call(this.$parent)
     },
 	  previewImage(item,url,current){
+		  url = url.split(',')
       let urls = typeof url==='string'?[url]:url
 		  uni.previewImage({
 			  current,
@@ -749,6 +780,9 @@ export default {
     resetHighlight(){
       this.currentRowIndex = null
       this.currentRow = {}
+    },
+    cellClick(row,index,column){
+        this.$emit('cellClick',row,index,column)
     },
     rowClick(row,index){
       if(this.highlight){
