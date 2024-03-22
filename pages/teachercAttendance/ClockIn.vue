@@ -26,7 +26,7 @@
 								<uni-tag :circle="true" size="small" :inverted="true" :text="item.status_cn" :type="item.status===1||item.status===null?undefined:'warning'" />
 							</uni-col>
 							<uni-col :span="5" style="color: #2c96bd;text-align: right;">
-								<view v-if="!(item.status===1||item.status===null)" @click="openManage()">
+								<view v-if="!(item.status===1||item.status===null)" @click="managePopupOpen=true">
 									处理<uni-icons type="right" color="#2c96bd" bold></uni-icons>
 								</view>
 							</uni-col>
@@ -56,17 +56,8 @@
 			</uni-card>
 		</view>
 		
-		<view>
-			<uni-popup ref="popup" type="bottom" background-color="#fff">
-				<view class="popup-content">
-					<view style="font-size: 16px;text-align: center;margin-bottom: 24px;">请选择需要提交的申请</view>
-					<button type="default">补卡</button>
-					<button type="default">请假</button>
-					<button type="default">出差</button>
-					<button type="default">外出</button>
-				</view>
-			</uni-popup>
-		</view>
+		<managePopup :open="managePopupOpen" @change="managePopupChange" :index_code="navItem.access.split('#')[1]"></managePopup>
+		
 	</view>
 </template>
 
@@ -104,10 +95,12 @@
 				latitude: '',
 				longitude: '',
 				address: '',
+				managePopupOpen: false,
 			}
 		},
 		components: {
-			mynavBar
+			mynavBar,
+			managePopup: () => import('./components/manage-popup')
 		},
 		onLoad(option) {
 			_this = this;
@@ -153,6 +146,27 @@
 			},
 		},
 		methods: {
+			goApply(type) {
+				if(type>3) {
+					util.openwithData('/pages/khfw/teaLeaveApply_add', {
+						index_code: this.navItem.access.split("#")[1],
+					}, {
+						refreshPage(data) { //子页面调用父页面需要的方法
+							this.managePopupOpen=false;
+						}
+					})
+				}else{
+					util.openwithData('/pages/teachercAttendance/ApplyAdd', {
+						index_code: this.navItem.access.split("#")[1],
+						type,
+					}, {
+						refreshPage(data) { //子页面调用父页面需要的方法
+							this.managePopupOpen=false;
+						}
+					})
+				}
+				
+			},
 			getClockRecord(onlyData=false) {
 				// 获取考勤数据
 				// this.showLoading();
@@ -246,9 +260,11 @@
 				// this.imgNames.splice(eq, 1); //删除文件名
 				this.maxCount = this.showMaxCount - list.length
 			},
-			openManage() {
-				this.$refs.popup.open()
+			// 打卡处理框
+			managePopupChange(show) {
+				this.managePopupOpen = show;
 			},
+			// 获取位置
 			async getLocation() {
 				// #ifdef APP-PLUS
 				const status = permision.isIOS ? await permision.requestIOS('location') : await permision.requestAndroid('android.permission.ACCESS_FINE_LOCATION');
@@ -424,15 +440,6 @@
 		box-shadow: 0px 0px 8px rgba(0,0,0,.35);
 		&::after {
 			border: none;
-		}
-	}
-	.popup-content {
-		padding: 24px 24px 60px;
-		uni-button {
-			font-size: 14px;
-		}
-		uni-button + uni-button {
-			margin-top: 14px;
 		}
 	}
 </style>

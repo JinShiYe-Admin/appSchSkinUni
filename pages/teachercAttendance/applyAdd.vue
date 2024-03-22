@@ -74,6 +74,29 @@
 					</g-upload>
 				</uni-forms-item>
 			</uni-forms>
+			
+			<uni-forms v-if="type===3" ref="form" :modelValue="formData" :rules="rules" :label-width="100" label-position="top">
+				<uni-forms-item label="加班时间：" name="range" required>
+					<uni-datetime-picker v-model="formData.range" type="datetimerange" :start="moment().add(1,'days').format('YYYY-MM-DD')" rangeSeparator="至" hide-second/>
+					<view class="form-item-info">{{rangeHours}}</view>
+				</uni-forms-item>
+				<uni-forms-item label="加班人员:" name="user_codes" required>
+					<my-selectCheckbox v-model="formData.user_codes" multiple :localdata="userList"></my-selectCheckbox>
+					<view class="form-item-info">{{formData.user_codes.length}} 人</view>
+				</uni-forms-item>
+				<uni-forms-item label="加班原因:" name="note" required>
+					<uni-easyinput type="textarea" v-model="formData.note" placeholder="请输入" :maxlength="300" />
+				</uni-forms-item>
+				<uni-forms-item label="照片:">
+					<view style="margin: -26px 0 12px 42px;">
+						<span class="file-des">{{`(最多可选择${showMaxCount}张照片${wxTips?wxTips:''})`}}</span>
+					</view>
+					<g-upload ref='gUpload' :mode="imgList" :control='control' :deleteBtn='deleteBtn'
+						@chooseFile='chooseFile' @imgDelete='imgDelete' :maxCount="maxCount" :columnNum="columnNum"
+						:showMaxCount="showMaxCount">
+					</g-upload>
+				</uni-forms-item>
+			</uni-forms>
 		</uni-card>
 	</view>
 </template>
@@ -82,6 +105,7 @@
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	import moment from 'moment';
+	import timeStrByMinutes from './common/timeStrByMinutes.js';
 	// 七牛上传相关
 	import gUpload from "@/components/g-upload/g-upload.vue"
 	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
@@ -122,6 +146,13 @@
 		computed: {
 			rangeDays() {
 				return this.formData.range.length>1 ? moment(this.formData.range[1]).startOf('days').diff(moment(this.formData.range[0]).startOf('days'), 'days')+1 : 0
+			},
+			rangeHours() {
+				if(this.formData.range.length>1) {
+					const minutes = moment(this.formData.range[1]).startOf('minutes').diff(moment(this.formData.range[0]).startOf('minutes'), 'minutes')
+					return timeStrByMinutes(minutes)
+				}
+				return '';
 			},
 			leaderList() {
 				const user_codes = this.formData.user_codes || [] 
@@ -164,14 +195,7 @@
 					},
 				}
 			} else if(this.type===1) {
-				// 获取教师列表
-				this.post(this.globaData.INTERFACE_HR_SUB+'tec', {
-					index_code: this.navItem.index_code,
-				}, (data, res) => {
-					if(data&&data.list) {
-						this.tecList = data.list;
-					}
-				})
+				this.getTecList();
 				this.rules = {
 					range: {
 						rules: [{required: true, errorMessage: '请选择出差日期'}]
@@ -198,6 +222,19 @@
 						rules: [{required: true, errorMessage: '请输入外出事由'}]
 					},
 				}
+			} else if(this.type===3) {
+				this.getTecList();
+				this.rules = {
+					range: {
+						rules: [{required: true, errorMessage: '请选择加班时间'}]
+					},
+					user_codes: {
+						rules: [{required: true, errorMessage: '请选择加班人员'}]
+					},
+					note: {
+						rules: [{required: true, errorMessage: '请输入加班原因'}]
+					},
+				}
 			}
 
 			//#ifdef H5
@@ -211,6 +248,16 @@
 			//#endif
 		},
 		methods: {
+			getTecList() {
+				// 获取教师列表
+				this.post(this.globaData.INTERFACE_HR_SUB+'tec', {
+					index_code: this.navItem.index_code,
+				}, (data, res) => {
+					if(data&&data.list) {
+						this.tecList = data.list;
+					}
+				})
+			},
 			textClick() {
 				this.$refs.form.validate().then(values => {
 					// console.log(values)

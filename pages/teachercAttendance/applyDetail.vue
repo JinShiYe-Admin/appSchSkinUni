@@ -76,6 +76,32 @@
 				</uni-col>
 			</uni-row>
 			
+			<uni-row v-if="type===3" style="margin-top: 10px;">
+				<uni-col :span="6"><view class="rowStyle">加班时间：</view></uni-col>
+				<uni-col :span="18">
+					<view class="rowStyle">{{`${moment(detail.begin_date).format('YYYY-MM-DD HH:mm')} 至 ${moment(detail.end_date).format('YYYY-MM-DD HH:mm')}`}}</view>
+				</uni-col>
+				<uni-col :span="6"><view class="rowStyle">加班时长：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{timeStr(detail.duration)}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">加班人员：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.user_names}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">加班人数：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.peoples}} 人</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">加班原因：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.note}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">申请时间：</view></uni-col>
+				<uni-col :span="18"><view class="rowStyle">{{detail.create_time}}</view></uni-col>
+				<uni-col :span="6"><view class="rowStyle">照片：</view></uni-col>
+				<uni-col :span="18">
+					<uni-grid v-if="detail.files && detail.files.length" :column="3" style="padding-right: 10px;">
+						<uni-grid-item v-for="(item,index) in detail.files" :key="index">
+							<image @click='checkEnc(index)' style="height: 70px;width: 70px;" :src="item.url" mode="">
+							</image>
+						</uni-grid-item>
+					</uni-grid>
+				</uni-col>
+			</uni-row>
+			
 			<view style="font-size: 16px;font-weight: 900;margin-top: 20px;">审批情况</view>
 			<view style="float: right;margin-top: -20px;font-size: 12px;">进度：{{detail.passs}}/{{detail.examines}}</view>
 			<view class="select-line"></view>

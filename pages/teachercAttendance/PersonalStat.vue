@@ -14,7 +14,7 @@
 			</view>
 		</view>
 		<view style="padding: 0 20px;">
-			<uni-row class="stat-item">
+			<uni-row class="stat-item" @click.native="goDetail(0, statData.leaves+'小时')">
 				<uni-col :span="6">
 					<text class="stat-item-title">请假</text>
 					<text class="stat-item-unit">（小时）</text>
@@ -24,7 +24,7 @@
 				</uni-col>
 				<uni-col :span="4" class="stat-item-num">{{statData.leaves}}</uni-col>
 			</uni-row>
-			<uni-row class="stat-item">
+			<uni-row class="stat-item" @click.native="goDetail(1, statData.abs+'天')">
 				<uni-col :span="6">
 					<text class="stat-item-title">旷工</text>
 					<text class="stat-item-unit">（天）</text>
@@ -34,7 +34,7 @@
 				</uni-col>
 				<uni-col :span="4" class="stat-item-num">{{statData.abs}}</uni-col>
 			</uni-row>
-			<uni-row class="stat-item">
+			<uni-row class="stat-item" @click.native="goDetail(2, statData.lacks+'次')">
 				<uni-col :span="6">
 					<text class="stat-item-title">缺卡</text>
 					<text class="stat-item-unit">（次）</text>
@@ -44,7 +44,7 @@
 				</uni-col>
 				<uni-col :span="4" class="stat-item-num">{{statData.lacks}}</uni-col>
 			</uni-row>
-			<uni-row class="stat-item">
+			<uni-row class="stat-item" @click.native="goDetail(3, statData.lates+'次')">
 				<uni-col :span="6">
 					<text class="stat-item-title">迟到</text>
 					<text class="stat-item-unit">（次）</text>
@@ -54,7 +54,7 @@
 				</uni-col>
 				<uni-col :span="4" class="stat-item-num">{{statData.lates}}</uni-col>
 			</uni-row>
-			<uni-row class="stat-item">
+			<uni-row class="stat-item" @click.native="goDetail(4, statData.earlys+'次')">
 				<uni-col :span="6">
 					<text class="stat-item-title">早退</text>
 					<text class="stat-item-unit">（次）</text>
@@ -64,7 +64,7 @@
 				</uni-col>
 				<uni-col :span="4" class="stat-item-num">{{statData.earlys}}</uni-col>
 			</uni-row>
-			<uni-row class="stat-item">
+			<uni-row class="stat-item" @click.native="goDetail(5, statData.bizs+'天')">
 				<uni-col :span="6">
 					<text class="stat-item-title">出差</text>
 					<text class="stat-item-unit">（天）</text>
@@ -74,7 +74,7 @@
 				</uni-col>
 				<uni-col :span="4" class="stat-item-num">{{statData.bizs}}</uni-col>
 			</uni-row>
-			<uni-row class="stat-item">
+			<uni-row class="stat-item" @click.native="goDetail(6, statData.outs+'小时')">
 				<uni-col :span="6">
 					<text class="stat-item-title">外出</text>
 					<text class="stat-item-unit">（小时）</text>
@@ -84,7 +84,7 @@
 				</uni-col>
 				<uni-col :span="4" class="stat-item-num">{{statData.outs}}</uni-col>
 			</uni-row>
-			<uni-row class="stat-item">
+			<uni-row class="stat-item" @click.native="goDetail(7, statData.ots+'小时')">
 				<uni-col :span="6">
 					<text class="stat-item-title">加班</text>
 					<text class="stat-item-unit">（小时）</text>
@@ -94,7 +94,7 @@
 				</uni-col>
 				<uni-col :span="4" class="stat-item-num">{{statData.ots}}</uni-col>
 			</uni-row>
-			<uni-row class="stat-item">
+			<uni-row class="stat-item" @click.native="goDetail(8, bkNum+'次')">
 				<uni-col :span="6">
 					<text class="stat-item-title">补卡</text>
 					<text class="stat-item-unit">（次）</text>
@@ -210,6 +210,20 @@
 						title: '请选择时间范围'
 					});
 				}
+			},
+			goDetail(type, total) {
+				util.openwithData('/pages/teachercAttendance/PersonalStatDetail', {
+					index_code: this.navItem.access.split("#")[1],
+					type,
+					total,
+					begin_date: this.range[0],
+					end_date: this.range[1],
+				}, {
+					refreshPage(data) { //子页面调用父页面需要的方法
+						// _this.pageNumber = 1;
+						// _this.getPageList();
+					}
+				})
 			}
 		}
 	}
