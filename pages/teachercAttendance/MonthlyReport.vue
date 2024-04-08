@@ -13,7 +13,7 @@
 					<uni-icons v-else type="right" :size="24" bold color="rgba(0,0,0,.3)"></uni-icons>
 				</view>
 			</view>
-			<scroll-view :scroll-x="true" :show-scrollbar="false" :scroll-left="datesScrollLeft" @scroll="scroll">
+			<scroll-view :scroll-x="true" :show-scrollbar="false" :scroll-left="datesScrollLeft">
 				<view class="uni-row month-dates-wrapper">
 					<view class="month-item" v-for="(month,i) in monthList" :key="i">
 						<button size="mini" :type="selectedYear===year&&month===seletedMonth?'primary':'default'" :disabled="year===curYear&&month>curMonth"  @click="selectMonth(month)">
@@ -40,49 +40,49 @@
 		</uni-row>
 		<view style="padding: 12px;">
 			<uni-grid :column="4" :showBorder="false"  :square="true" :highlight="false">
-				<uni-grid-item>
+				<uni-grid-item @click.native="goDetail(0, '1')">
 					<view class="report-item">
 						<view>{{report.leaves_count}}</view>
 						<view>请假</view>
 					</view>
 				</uni-grid-item>
-				<uni-grid-item>
+				<uni-grid-item @click.native="goDetail(1, '2')">
 					<view class="report-item">
 						<view>{{report.abs_count}}</view>
 						<view>旷工</view>
 					</view>
 				</uni-grid-item>
-				<uni-grid-item>
+				<uni-grid-item @click.native="goDetail(2, '3')">
 					<view class="report-item">
 						<view>{{report.lacks_count}}</view>
 						<view>缺卡</view>
 					</view>
 				</uni-grid-item>
-				<uni-grid-item>
+				<uni-grid-item @click.native="goDetail(3, '4')">
 					<view class="report-item">
 						<view>{{report.lates_count}}</view>
 						<view>迟到</view>
 					</view>
 				</uni-grid-item>
-				<uni-grid-item>
+				<uni-grid-item @click.native="goDetail(4, '5')">
 					<view class="report-item">
 						<view>{{report.earlys_count}}</view>
 						<view>早退</view>
 					</view>
 				</uni-grid-item>
-				<uni-grid-item>
+				<uni-grid-item @click.native="goDetail(5, '6')">
 					<view class="report-item">
 						<view>{{report.bizs_count}}</view>
 						<view>出差</view>
 					</view>
 				</uni-grid-item>
-				<uni-grid-item>
+				<uni-grid-item @click.native="goDetail(6, '7')">
 					<view class="report-item">
 						<view>{{report.outs_count}}</view>
 						<view>外出</view>
 					</view>
 				</uni-grid-item>
-				<uni-grid-item>
+				<uni-grid-item @click.native="goDetail(7, '8')">
 					<view class="report-item">
 						<view>{{report.ots_count}}</view>
 						<view>加班</view>
@@ -190,16 +190,13 @@
 			}
 		},
 		methods: {
-			scroll(e) {
-				this.datesScrollLeft = e.detail.scrollLeft
-			},
 			changeYear(num) {
 				this.year = this.year+num;
 				// 设置滚动条位置
 				this.$nextTick(() => {
 					if(this.selectedYear===this.year) {
 						const windowInfo = uni.getWindowInfo();
-						this.datesScrollLeft = this.seletedMonth*48>windowInfo.windowWidth?(this.seletedMonth*48-windowInfo.windowWidth+48):0;
+						this.datesScrollLeft = this.seletedMonth*48>windowInfo.windowWidth?(this.seletedMonth*48-windowInfo.windowWidth+48):0.1;
 					}else{
 						this.datesScrollLeft = 0;
 					}
@@ -210,6 +207,19 @@
 				this.selectedYear = this.year;
 				this.seletedMonth = month;
 				this.getData(this.year+'-'+(month>10?month:'0'+month))
+			},
+			goDetail(type, kq_status) {
+				util.openwithData('/pages/teachercAttendance/MonthlyReportDetail', {
+					index_code: this.navItem.access.split("#")[1],
+					days: `${this.selectedYear}年${this.seletedMonth}月`,
+					month: this.selectedYear+'-'+(this.seletedMonth>10?this.seletedMonth:'0'+this.seletedMonth),
+					type,
+					kq_status
+				}, {
+					refreshPage(data) { //子页面调用父页面需要的方法
+			
+					}
+				})
 			},
 			getData(month) {
 				this.showLoading();

@@ -1,6 +1,6 @@
 <template>
 	<view style="padding: 20px 15px;">
-		<uni-title type="h2" align="center" :title="reportDate+'考勤日报'"></uni-title>
+		<uni-title type="h2" align="center" :title="reportDate+'考勤月报'"></uni-title>
 		<view class="title">
 			<view class="title-text">{{navItem.text}}</view>
 			<view class="title-info">
@@ -46,7 +46,7 @@
 		},
 		computed: {
 			reportDate() {
-				return this.navItem.days?moment(this.navItem.days).format("YYYY年M月DD日"):""
+				return this.navItem.days?this.navItem.days:""
 			}
 		},
 		components: {
@@ -75,10 +75,10 @@
 		methods: {
 			getData() {
 				this.loading = true;
-				this.post(this.globaData.INTERFACE_TECKQ+'kqStat/dayReportDetail', {
+				this.post(this.globaData.INTERFACE_TECKQ+'kqStat/monthReportDetail', {
 					index_code: this.navItem.index_code,
 					kq_group_id: "-1",
-					days: this.navItem.days,
+					month: this.navItem.month,
 					kq_status: this.navItem.kq_status,
 				}, (data, res) => {
 					this.loading = false;

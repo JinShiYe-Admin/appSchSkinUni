@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view style="padding: 8px 12px;">
-			<uni-datetime-picker v-model="range" type="daterange" rangeSeparator="至" :clear-icon="false" :end="today"/>
+			<uni-datetime-picker v-model="range" type="daterange" rangeSeparator="至" :clear-icon="false" :end="endDay"/>
 		</view>
 		<view class="uni-flex uni-row" style="justify-content: space-around;padding: 24px 24px 32px;">
 			<view class="stat-info">
@@ -130,8 +130,8 @@
 			return {
 				personInfo: {},
 				navItem: {},
-				today: moment().format('YYYY-MM-DD'),
-				range: [moment().subtract(1, 'months').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
+				endDay: moment().subtract(1,'days').format('YYYY-MM-DD'),
+				range: [moment().subtract(1, 'months').format('YYYY-MM-DD'), moment().subtract(1,'days').format('YYYY-MM-DD')],
 				statData: {...statDataDefault},
 				bkNum: 0,
 			}

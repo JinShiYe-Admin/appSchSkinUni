@@ -18,7 +18,7 @@
 				<uni-col :span="18">
 					<uni-grid v-if="detail.files && detail.files.length" :column="3" style="padding-right: 10px;">
 						<uni-grid-item v-for="(item,index) in detail.files" :key="index">
-							<image @click='checkEnc(index)' style="height: 70px;width: 70px;" :src="item.url" mode="">
+							<image @click='checkEnc(index)' style="height: 70px;width: 70px;" :src="item.url+'?imageView2/2/w/200/h/200'" mode="aspectFill">
 							</image>
 						</uni-grid-item>
 					</uni-grid>
@@ -69,7 +69,7 @@
 				<uni-col :span="18">
 					<uni-grid v-if="detail.files && detail.files.length" :column="3" style="padding-right: 10px;">
 						<uni-grid-item v-for="(item,index) in detail.files" :key="index">
-							<image @click='checkEnc(index)' style="height: 70px;width: 70px;" :src="item.url" mode="">
+							<image @click='checkEnc(index)' style="height: 70px;width: 70px;" :src="item.url+'?imageView2/2/w/200/h/200'" mode="aspectFill">
 							</image>
 						</uni-grid-item>
 					</uni-grid>
@@ -95,7 +95,7 @@
 				<uni-col :span="18">
 					<uni-grid v-if="detail.files && detail.files.length" :column="3" style="padding-right: 10px;">
 						<uni-grid-item v-for="(item,index) in detail.files" :key="index">
-							<image @click='checkEnc(index)' style="height: 70px;width: 70px;" :src="item.url" mode="">
+							<image @click='checkEnc(index)' style="height: 70px;width: 70px;" :src="item.url+'?imageView2/2/w/200/h/200'" mode="aspectFill">
 							</image>
 						</uni-grid-item>
 					</uni-grid>
@@ -317,11 +317,12 @@
 		justify-content: center;
 	}
 	::v-deep.check-btn-list .checklist-group .checklist-box.is--tag {
-		width: 120px;
-		padding: 12px;
-		box-sizing: border-box;
-		text-align: center;
+		width: 30%;
 		margin: 0;
+	}
+	::v-deep.check-btn-list .checklist-group .checklist-box.is--tag .checklist-content {
+		justify-content: center;
+		padding: 4px;
 	}
 	::v-deep.check-btn-list .checklist-group .checklist-box.is--tag+.checklist-box {
 		margin-left: 42px;

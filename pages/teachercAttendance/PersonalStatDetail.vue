@@ -11,16 +11,16 @@
 		<uni-table v-if="type===0" emptyText="暂无数据" :loading="loading">
 			<uni-tr>
 				<uni-th align="center">请假起止时间</uni-th>
-				<uni-th align="center">请假时长</uni-th>
+				<!-- <uni-th align="center">请假时长</uni-th> -->
 			</uni-tr>
 			<uni-tr v-for="(item, index) in tableData" :key="index" @click.native="goDetail(0, item)">
 				<uni-td align="center">
 					<view>起：{{moment(item.start_time).format('YYYY-MM-DD HH:mm')}}</view>
 					<view>止：{{moment(item.end_time).format('YYYY-MM-DD HH:mm')}}</view>
 				</uni-td>
-				<uni-td align="center">
+				<!-- <uni-td align="center">
 					{{item.vacation_day}}天
-				</uni-td>
+				</uni-td> -->
 			</uni-tr>
 		</uni-table>
 		
@@ -28,7 +28,7 @@
 			<uni-tr>
 				<uni-th width="45%" align="center">旷工日期</uni-th>
 				<uni-th width="30%" align="center">旷工时长</uni-th>
-				<uni-th width="25%"></uni-th>
+				<!-- <uni-th width="25%"></uni-th> -->
 			</uni-tr>
 			<uni-tr v-for="(item, index) in tableData" :key="index">
 				<uni-td align="center">
@@ -37,24 +37,24 @@
 				<uni-td align="center">
 					{{item.abs}}天
 				</uni-td>
-				<uni-td align="center">
-					<text style="color: #2c96bd;" @click="managePopupOpen=true">处理</text>
-				</uni-td>
+				<!-- <uni-td align="center">
+					<text style="color: #2c96bd;" @click="showManagePopup()">处理</text>
+				</uni-td> -->
 			</uni-tr>
 		</uni-table>
 		
 		<uni-table v-if="type===2" emptyText="暂无数据" :loading="loading">
 			<uni-tr>
 				<uni-th width="70%" align="center">缺卡时间</uni-th>
-				<uni-th width="30%"></uni-th>
+				<!-- <uni-th width="30%"></uni-th> -->
 			</uni-tr>
 			<uni-tr v-for="(item, index) in tableData" :key="index">
 				<uni-td align="center">
 					{{moment(item.ctime).format('YYYY-MM-DD HH:mm 缺卡')}}
 				</uni-td>
-				<uni-td align="center">
-					<text style="color: #2c96bd;" @click="managePopupOpen=true">处理</text>
-				</uni-td>
+				<!-- <uni-td align="center">
+					<text style="color: #2c96bd;" @click="showManagePopup()">处理</text>
+				</uni-td> -->
 			</uni-tr>
 		</uni-table>
 		
@@ -62,7 +62,7 @@
 			<uni-tr>
 				<uni-th width="45%" align="center">考勤/打卡时间</uni-th>
 				<uni-th width="30%" align="center">迟到时长</uni-th>
-				<uni-th width="25%"></uni-th>
+				<!-- <uni-th width="25%"></uni-th> -->
 			</uni-tr>
 			<uni-tr v-for="(item, index) in tableData" :key="index">
 				<uni-td align="center">
@@ -72,9 +72,9 @@
 				<uni-td align="center">
 					{{timeStrByMinutes(moment(item.attend_time).diff(moment(item.ctime), 'minutes'))}}
 				</uni-td>
-				<uni-td align="center">
-					<text style="color: #2c96bd;" @click="managePopupOpen=true">处理</text>
-				</uni-td>
+				<!-- <uni-td align="center">
+					<text style="color: #2c96bd;" @click="showManagePopup()">处理</text>
+				</uni-td> -->
 			</uni-tr>
 		</uni-table>
 		
@@ -82,7 +82,7 @@
 			<uni-tr>
 				<uni-th width="45%" align="center">考勤/打卡时间</uni-th>
 				<uni-th width="30%" align="center">早退时长</uni-th>
-				<uni-th width="25%"></uni-th>
+				<!-- <uni-th width="25%"></uni-th> -->
 			</uni-tr>
 			<uni-tr v-for="(item, index) in tableData" :key="index">
 				<uni-td align="center">
@@ -92,9 +92,9 @@
 				<uni-td align="center">
 					{{timeStrByMinutes(moment(item.ctime).diff(moment(item.attend_time), 'minutes'))}}
 				</uni-td>
-				<uni-td align="center">
-					<text style="color: #2c96bd;" @click="managePopupOpen=true">处理</text>
-				</uni-td>
+				<!-- <uni-td align="center">
+					<text style="color: #2c96bd;" @click="showManagePopup()">处理</text>
+				</uni-td> -->
 			</uni-tr>
 		</uni-table>
 		
@@ -157,7 +157,15 @@
 			</uni-tr>
 		</uni-table>
 		
-		<managePopup :open="managePopupOpen" @change="managePopupChange" :index_code="navItem.index_code"></managePopup>
+		<uni-popup ref="popup" type="bottom" background-color="#fff">
+			<view class="popup-content">
+				<view style="font-size: 16px;text-align: center;margin-bottom: 24px;">请选择需要提交的申请</view>
+				<button type="default" @click="goApply(0)">补卡</button>
+				<button type="default" @click="goApply(1)">出差</button>
+				<button type="default" @click="goApply(2)">外出</button>
+				<button type="default" @click="goApply(4)">请假</button>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -166,7 +174,7 @@
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	import moment from 'moment';
 	import timeStrByMinutes from './common/timeStrByMinutes.js';
-	
+	let _this;
 	const typeNameList = ['请假','旷工','缺卡','迟到','早退','出差','外出','加班','补卡'];
 	export default {
 		data() {
@@ -176,14 +184,13 @@
 				type: -1,
 				loading: false,
 				tableData: [],
-				managePopupOpen: false
 			}
 		},
 		components: {
 			mynavBar,
-			managePopup: () => import('./components/manage-popup')
 		},
 		onLoad(option) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			this.navItem = util.getPageData(option);
 			this.type = this.navItem.type;
@@ -205,8 +212,28 @@
 		},
 		methods: {
 			timeStrByMinutes,
-			managePopupChange(show) {
-				this.managePopupOpen = show;
+			showManagePopup() {
+				this.$refs.popup.open();
+			},
+			goApply(type) {
+				if(type>3) {
+					util.openwithData('/pages/khfw/teaLeaveApply_add', {
+						index_code: this.navItem.index_code,
+					}, {
+						refreshteaLeaveApply(data) { //子页面调用父页面需要的方法
+							_this.$refs.popup.close();
+						}
+					})
+				}else{
+					util.openwithData('/pages/teachercAttendance/ApplyAdd', {
+						index_code: this.navItem.index_code,
+						type,
+					}, {
+						refreshPage(data) { //子页面调用父页面需要的方法
+							_this.$refs.popup.close();
+						}
+					})
+				}
 			},
 			goDetail(type, item) {
 				if(type===0) {
@@ -338,45 +365,15 @@
 </script>
 
 <style lang="scss">
-	.title {
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		border-bottom: 1px solid #d7d7d7;
-		padding: 2px;
-		line-height: 25px;
-		margin-bottom: 4px;
-		.title-text {
-			font-weight: bold;
-			font-size: 16px;
-			margin-right: 12px;
-		}
-		.title-info {
-			display: flex;
-			justify-content: space-between;
-			font-size: 13px;
-			flex-grow: 1;
-			:first-child {
-				margin-right: 5px;
-			}
-		}
-	}
+	@import url('style/statTable.scss');
 	
-	table.uni-table {
-		min-width: unset;
-	}
-	.uni-table {
-		.uni-table-th, .uni-table-td {
-			border: 1px solid #ffffff;
-			border-radius: 5px;
-			color: #333;
-			font-size: 13px;
+	.popup-content {
+		padding: 24px 24px 60px;
+		uni-button {
+			font-size: 14px;
 		}
-		.uni-table-th {
-			background-color: #d7d7d7;
-		}
-		.uni-table-td {
-			background-color: #f2f2f2;
+		uni-button + uni-button {
+			margin-top: 14px;
 		}
 	}
 </style>
