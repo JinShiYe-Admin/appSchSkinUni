@@ -26,6 +26,7 @@
 							{{model.total_price}}</view>
 					</uni-card>
 				</view>
+				<view style="text-align: center;margin-top: 50px;color: gray;font-size: 13px;">暂无数据</view>
 				<view style="height: 5px;"></view>
 			</view>
 		</view>
@@ -79,14 +80,21 @@
 					this.hideLoading();
 					this.pageIndex++;
 					this.total_page = data.total_page;
+					var tempArray = []
+					for (var i = 0; i < data.data.list.length; i++) {
+						var tempM = data.data.list[i];
+						if (tempM.status!=0) {
+							tempArray.push(tempM)
+						}
+					}
 					if (this.flagRef == 0) {
-						if (data.data.list.length == 0) {
+						if (tempArray.length == 0) {
 							this.showToast('暂无数据');
 						}
-						this.pageArray = [].concat(data.data.list);
+						this.pageArray = [].concat(tempArray);
 						uni.stopPullDownRefresh();
 					} else {
-						this.pageArray = this.pageArray.concat(data.data.list);
+						this.pageArray = this.pageArray.concat(tempArray);
 					}
 				});
 			},

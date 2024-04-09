@@ -3,6 +3,7 @@
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		<view class="payTitle">{{navItem.title}}</view>
 		<view style="margin-top: 20px;">
+			<!-- <view class="card-line99"></view> -->
 			<view class="card-line0" :class="[semFlag==0?'semFlagSelect':'']" @click="clickSem(0)">项目统计</view>
 			<view class="card-line0 card-line1" :class="[semFlag==1?'semFlagSelect':'']" @click="clickSem(1)">班级统计
 			</view>
@@ -359,6 +360,14 @@
 						})
 						for (var i = 0; i < data.data.list.length; i++) {
 							var tempM = data.data.list[i];
+							if (tempM.cls_name) {
+								tempM.cls_name = tempM.cls_name.replace('（','(');
+								tempM.cls_name = tempM.cls_name.replace('）',')');
+							}
+							
+						}
+						for (var i = 0; i < data.data.list.length; i++) {
+							var tempM = data.data.list[i];
 							if (tempM.project_name.length > 10) {
 								tempM.project_name = tempM.project_name.substring(0, 10);
 								console.log('tempM.project_name:' + tempM.project_name)
@@ -367,6 +376,10 @@
 							if (tempM.crowd_list) {
 								for (var a = 0; a < tempM.crowd_list.length; a++) {
 									var tempA = tempM.crowd_list[a];
+									if (tempA.cls_name) {
+										tempA.cls_name = tempA.cls_name.replace('（','(');
+										tempA.cls_name = tempA.cls_name.replace('）',')');
+									}
 									tempArray.push(tempA.grd_name + tempA.cls_name);
 								}
 							}
@@ -453,6 +466,14 @@
 							align: 'center',
 							fixed: false
 						})
+						for (var i = 0; i < data.data.list.length; i++) {
+							var tempM = data.data.list[i];
+							if (tempM.cls_name) {
+								tempM.cls_name = tempM.cls_name.replace('（','(');
+								tempM.cls_name = tempM.cls_name.replace('）',')');
+							}
+							
+						}
 						this.columns1 = tempCol;
 						this.dataSource1 = data.data.list;
 					} else {
@@ -488,8 +509,8 @@
 							label: '班级',
 							name: 'cls_name',
 							align: 'center',
-							width: '200',
-							fixed: true
+							// width: 200,
+							fixed: false
 						})
 						tempCol.push({
 							label: '学生',
@@ -511,6 +532,8 @@
 						})
 						for (var i = 0; i < data.data.list.length; i++) {
 							var tempM = data.data.list[i];
+							tempM.cls_name = tempM.cls_name.replace('（','(');
+							tempM.cls_name = tempM.cls_name.replace('）',')');
 							if (tempM.is_free == 1) {
 								tempM.statusStr = '免缴';
 							} else if (tempM.pay_status == 0) {
@@ -556,11 +579,12 @@
 	}
 
 	.card-line0 {
+		height: 28px;
 		text-align: center;
 		font-size: 16px;
 		color: #7f7f7f;
 		font-weight: 500;
-		margin-top: 15px;
+		/* margin-top: 19px; */
 		border-bottom: 2px solid #aaaaaa;
 		width: 120px;
 		margin-left: calc((100% - 360px)/2);
@@ -570,14 +594,14 @@
 		color: #7f7f7f;
 		border-bottom: 2px solid #aaaaaa;
 		margin-left: calc((100% - 360px)/2 + 120px);
-		margin-top: -24px;
+		margin-top: -30px;
 	}
 
 	.card-line2 {
 		color: #7f7f7f;
 		border-bottom: 2px solid #aaaaaa;
 		margin-left: calc((100% - 360px)/2 + 240px);
-		margin-top: -24px;
+		margin-top: -30px;
 	}
 
 	.semFlagSelect {
