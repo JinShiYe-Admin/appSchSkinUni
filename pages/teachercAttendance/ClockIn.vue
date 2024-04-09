@@ -11,25 +11,25 @@
 				<uni-card style="background: #f2f2f2;margin: 6px 0 0;" :border="false">
 					<view v-if="attendData.list&&attendData.list.length" class="attend-list">
 						<uni-row v-for="(item,i) in attendData.list" :key="i" class="attend-list-item">
-							<uni-col :span="7">
+							<uni-col :span="8">
 								<text style="font-weight: bold;margin-right: 12px;">{{item.ctype}}</text>
 								<text style="color: #7f7f7f; font-size: 12px;">{{item.ctime}}</text>
 							</uni-col>
-							<uni-col :span="7" style="text-align: center;">
+							<uni-col :span="8" style="text-align: center;">
 								<view v-if="item.attend_time">
 									<uni-icons type="checkbox-filled" color="#2c96bd"></uni-icons>
 									<text style="display: inline-block;width: 45px;">{{item.attend_time}}</text>
 								</view>
 								<view v-else>{{item.status===null?'':'--'}}</view>
 							</uni-col>
-							<uni-col :span="5" style="text-align: center;">
+							<uni-col :span="7" style="text-align: center;">
 								<uni-tag :circle="true" size="small" :inverted="true" :text="item.status_cn" :type="item.status===1||item.status===null?undefined:'warning'" />
 							</uni-col>
-							<uni-col :span="5" style="color: #2c96bd;text-align: right;">
-								<view v-if="!(item.status===1||item.status===null)" @click="openManage()">
+							<!-- <uni-col :span="5" style="color: #2c96bd;text-align: right;">
+								<view v-if="!(item.status===1||item.status===null)" @click="showManagePopup">
 									处理<uni-icons type="right" color="#2c96bd" bold></uni-icons>
 								</view>
-							</uni-col>
+							</uni-col> -->
 						</uni-row>
 					</view>
 					<view v-else style="text-align: center;">
@@ -56,17 +56,16 @@
 			</uni-card>
 		</view>
 		
-		<view>
-			<uni-popup ref="popup" type="bottom" background-color="#fff">
-				<view class="popup-content">
-					<view style="font-size: 16px;text-align: center;margin-bottom: 24px;">请选择需要提交的申请</view>
-					<button type="default">补卡</button>
-					<button type="default">请假</button>
-					<button type="default">出差</button>
-					<button type="default">外出</button>
-				</view>
-			</uni-popup>
-		</view>
+		<uni-popup ref="popup" type="bottom" background-color="#fff">
+			<view class="popup-content">
+				<view style="font-size: 16px;text-align: center;margin-bottom: 24px;">请选择需要提交的申请</view>
+				<button type="default" @click="goApply(0)">补卡</button>
+				<button type="default" @click="goApply(1)">出差</button>
+				<button type="default" @click="goApply(2)">外出</button>
+				<button type="default" @click="goApply(4)">请假</button>
+			</view>
+		</uni-popup>
+		
 	</view>
 </template>
 
@@ -104,10 +103,11 @@
 				latitude: '',
 				longitude: '',
 				address: '',
+				loading: false,
 			}
 		},
 		components: {
-			mynavBar
+			mynavBar,
 		},
 		onLoad(option) {
 			_this = this;
@@ -118,7 +118,6 @@
 				title: this.navItem.text
 			});
 			
-			// 设置滚动条位置
 			this.$nextTick(() => {
 				const windowInfo = uni.getWindowInfo();
 				this.contentHeiht = windowInfo.windowHeight-88;
@@ -153,6 +152,30 @@
 			},
 		},
 		methods: {
+			showManagePopup() {
+				this.$refs.popup.open();
+			},
+			goApply(type) {
+				if(type>3) {
+					util.openwithData('/pages/khfw/teaLeaveApply_add', {
+						index_code: this.navItem.access.split("#")[1],
+					}, {
+						refreshteaLeaveApply(data) { //子页面调用父页面需要的方法
+							_this.$refs.popup.close();
+						}
+					})
+				}else{
+					util.openwithData('/pages/teachercAttendance/ApplyAdd', {
+						index_code: this.navItem.access.split("#")[1],
+						type,
+					}, {
+						refreshPage(data) { //子页面调用父页面需要的方法
+							_this.$refs.popup.close();
+						}
+					})
+				}
+				
+			},
 			getClockRecord(onlyData=false) {
 				// 获取考勤数据
 				// this.showLoading();
@@ -180,59 +203,68 @@
 			},
 			// 打卡
 			async addrClock() {
-				if(this.latitude&&this.longitude&&this.address) {
-					this.showLoading('打卡中');
-					// 上传图片
-					let imgArray = [];
-					if(this.imgList.length>0){
-						await new Promise((resolve,reject) => {
-							cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PB_NAME, this.QN_JSKQ_KQDK, (encName,
-								encAddrStr) => {
-								if (encName.length > 0) {
-									for (var i = 0; i < encName.length; i++) {
-										imgArray.push({
-											name: encName[i],
-											url: encAddrStr[i],
-										})
-									}
-								}
-								resolve()
-							});
-						})
-					}
-					// gcj02转百度地图坐标bd09
-					const x = this.longitude;
-					const y = this.latitude;
-					const x_pi = 3.14159265358979324 * 3000.0 / 180.0; 
-					const z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
-					const theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
-					const tempLon = z * Math.cos(theta) + 0.0065;
-					const tempLat = z * Math.sin(theta) + 0.006;
-					// console.log(tempLon,tempLat)
-					this.post(this.globaData.INTERFACE_TECKQ+'kqAttend/addrClock', {
-						index_code: this.navItem.access.split("#")[1],
-						user_code: this.personInfo.user_code,
-						latitude: tempLat,
-						longitude: tempLon,
-						address: this.address,
-						files: imgArray
-					}, (data, res) => {
-						// console.log(JSON.stringify(res))
-						this.hideLoading();
-						if(res.state==='ok') {
-							uni.showToast({
-								title: '打卡成功',
-								duration: 1000
-							});
-							this.getClockRecord(true);
-							this.imgFiles = [];
-							this.imgList = [];
-							this.maxCount = 9;
-						}
-					})
-				}else{
-					this.showToast('获取位置失败')
+				if(this.loading) return;
+				this.loading = true;
+				setTimeout(() => {
+					this.loading = false;
+				},1000);
+				this.showLoading('打卡中');
+				//获取地理位置
+			 	const loc = await this.getLocation();
+				if(!loc) {
+					this.showToast('获取位置失败');
+					this.hideLoading();
+					return false
 				}
+				// 上传图片
+				let imgArray = [];
+				if(this.imgList.length>0){
+					await new Promise((resolve,reject) => {
+						cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PB_NAME, this.QN_JSKQ_KQDK, (encName,
+							encAddrStr) => {
+							if (encName.length > 0) {
+								for (var i = 0; i < encName.length; i++) {
+									imgArray.push({
+										name: encName[i],
+										url: encAddrStr[i],
+									})
+								}
+							}
+							resolve();
+						});
+					})
+				}
+				// gcj02转百度地图坐标bd09
+				const x = this.longitude;
+				const y = this.latitude;
+				const x_pi = 3.14159265358979324 * 3000.0 / 180.0; 
+				const z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+				const theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+				const tempLon = z * Math.cos(theta) + 0.0065;
+				const tempLat = z * Math.sin(theta) + 0.006;
+				// 保存打卡记录
+				this.post(this.globaData.INTERFACE_TECKQ+'kqAttend/addrClock', {
+					index_code: this.navItem.access.split("#")[1],
+					user_code: this.personInfo.user_code,
+					latitude: tempLat,
+					longitude: tempLon,
+					address: this.address,
+					files: imgArray
+				}, (data, res) => {
+					// console.log(JSON.stringify(res))
+					this.hideLoading();
+					if(res.state==='ok') {
+						uni.showToast({
+							title: '打卡成功',
+							duration: 1000
+						});
+						this.getClockRecord(true);
+						this.imgFiles = [];
+						this.imgList = [];
+						this.maxCount = 9;
+					}
+				})
+				
 			},
 			//附件上传相关👇
 			chooseFile(list, v, f) {
@@ -246,9 +278,7 @@
 				// this.imgNames.splice(eq, 1); //删除文件名
 				this.maxCount = this.showMaxCount - list.length
 			},
-			openManage() {
-				this.$refs.popup.open()
-			},
+			// 获取位置
 			async getLocation() {
 				// #ifdef APP-PLUS
 				const status = permision.isIOS ? await permision.requestIOS('location') : await permision.requestAndroid('android.permission.ACCESS_FINE_LOCATION');
@@ -306,7 +336,7 @@
 				});
 				// #endif
 
-				uni.getLocation({
+				return new Promise(resolve => uni.getLocation({
 					type: 'gcj02',
 					geocode: true,
 					success: function(res) {
@@ -319,8 +349,9 @@
 						+(res.address.streetNum?res.address.streetNum:'')
 						+(res.address.poiName?res.address.poiName:'');
 						//#endif
-						_this.longitude = res.longitude
-						_this.latitude = res.latitude
+						_this.longitude = res.longitude;
+						_this.latitude = res.latitude;
+						resolve(true);
 					},
 					fail() {
 						// #ifdef H5
@@ -387,6 +418,7 @@
 						//#endif
 					}
 				})
+				)
 			}
 		}
 	}
@@ -426,6 +458,7 @@
 			border: none;
 		}
 	}
+	
 	.popup-content {
 		padding: 24px 24px 60px;
 		uni-button {

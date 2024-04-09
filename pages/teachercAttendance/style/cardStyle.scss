@@ -1,9 +1,6 @@
 .apply-list-card {
 	margin: 20px 5px 0;
 	font-size: 14px;
-	.header {
-		text-align: right;
-	}
 	.result-box {
 		text-align: center;
 		& > uni-view:first-child {
@@ -28,5 +25,9 @@
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
+	}
+	
+	& + .uni-loadmore {
+		margin-top: 15px;
 	}
 }

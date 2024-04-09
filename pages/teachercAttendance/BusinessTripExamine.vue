@@ -1,25 +1,27 @@
 <template>
 	<view style="background: #f2f2f2;">
-		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
-		<uni-card class="apply-list-card" isShadow  @click="gotoDetail(item)" v-for="(item,index) in pageData" :key="index">
-			<uni-row>
-				<uni-col :span="12">
-					<text style="margin-right: 12px;">{{Math.round(item.duration / 1440)}} 天</text>
-					<text>{{item.peoples}} 人</text>
-				</uni-col>
-				<uni-col :span="12" style="text-align: right;">{{item.passs}}/{{item.examines}}</uni-col>
-			</uni-row>
-			<view class="result-box">
-				<view :style="{color:item.status<2?'#aaaaaa':item.status>2?'#d9001b':'#70b603'}">
-					{{item.status<2?'--':item.status>2?'不同意':'同意'}}
+		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
+		<view class="tab-title">
+			<view :class="[isJudge==='0'?'semFlagSelect':'']" @click="changeIsJudge('0')">未审批</view>
+			<view :class="[isJudge==='1'?'semFlagSelect':'']" @click="changeIsJudge('1')">已审批</view>
+		</view>
+		<uni-card isShadow style="margin: 20px 5px 0;" @click="gotoDetail(item)" v-for="(item,index) in pageData" :key="index">
+			<view class="uni-flex uni-row examine-card-head">
+				<view>
+					<text style="margin-right: 7px;">{{item.dpt_name}}</text>
+					<text style="word-break: keep-all;">{{item.create_user_name}}</text>
 				</view>
-				<view>审批意见</view>
+				<view>
+					<text v-if="item.check_status>1" :style="{color: '#70b603'}">已审批</text>
+					<text v-else style="color: #b8741a;">未审批</text>
+				</view>
 			</view>
-			<uni-row class="row-box">
+			<uni-row class="examine-card-row">
 				<uni-col :span="6">出差日期：</uni-col>
-				<uni-col :span="18">
-					{{`${moment(item.begin_date).format('YYYY-MM-DD')} 至 ${moment(item.end_date).format('YYYY-MM-DD')}`}}
-				</uni-col>
+				<uni-col :span="18">{{`${moment(item.begin_date).format('YYYY-MM-DD')} 至 ${moment(item.end_date).format('YYYY-MM-DD')}`}}</uni-col>
+				
+				<uni-col :span="6">出差时长：</uni-col>
+				<uni-col :span="18">{{Math.round(item.duration / 1440)}} 天</uni-col>
 				
 				<uni-col :span="6">出差目的地：</uni-col>
 				<uni-col :span="18">{{item.toplace}}</uni-col>
@@ -30,6 +32,9 @@
 				<uni-col :span="6">随行人员：</uni-col>
 				<uni-col :span="18">{{item.user_names}}</uni-col>
 				
+				<uni-col :span="6">出差人数：</uni-col>
+				<uni-col :span="18">{{item.peoples}} 人</uni-col>
+				
 				<uni-col :span="6">出差事由：</uni-col>
 				<uni-col :span="18">{{item.note}}</uni-col>
 				
@@ -37,6 +42,7 @@
 				<uni-col :span="18">{{item.create_time}}</uni-col>
 			</uni-row>
 		</uni-card>
+		<view style="height: 50px;background: #f2f2f2;"></view>
 		<view class="uni-loadmore">{{loadMoreText}}</view>
 	</view>
 </template>
@@ -52,7 +58,7 @@
 			return {
 				personInfo: {},
 				navItem: {},
-				icon: '',
+				isJudge: "0",
 				pageData: [],
 				pageNumber: 1,
 				pageSize: 10,
@@ -66,22 +72,18 @@
 		onLoad(option) {
 			_this = this;
 			this.personInfo = util.getPersonal();
-			const itemData = util.getPageData(option);
-			itemData.index = 100;
-			this.navItem = itemData;
+			this.navItem = util.getPageData(option);
+			this.navItem.index = 100;
+			uni.setNavigationBarTitle({
+				title: this.navItem.text
+			});
 			
-			this.getPermissionByPosition('add',this.navItem.access.split("#")[1],result=>{
-				if(result[0])
-					this.$nextTick(() => {
-						 this.icon='plusempty'
-					})
-			})
+			this.getList();
 			
-			this.getPageList()
-
 			//#ifdef H5
-				document.title=""
+			document.title = "";
 			//#endif
+			//
 		},
 		onShow() {
 			//#ifdef H5
@@ -89,38 +91,36 @@
 			//#endif
 		},
 		methods: {
-			iconClick(){
-				util.openwithData('/pages/teachercAttendance/ApplyAdd', {
-					index_code: this.navItem.access.split("#")[1],
-					type: 1,
-				}, {
-					refreshPage(data) { //子页面调用父页面需要的方法
-						_this.pageNumber = 1;
-						_this.getPageList();
-					}
-				})
-			},
-			gotoDetail(item) {
+			gotoDetail(item){
 				util.openwithData('/pages/teachercAttendance/ApplyDetail', {
 					index_code: this.navItem.access.split("#")[1],
 					type: 1,
 					id: item.id,
-					allow_del: item.allow_del,
+					is_check: item.check_status<2,
+					examine_rec_id: item.examine_rec_id,
 				}, {
 					refreshPage(data) { //子页面调用父页面需要的方法
 						_this.pageNumber = 1;
-						_this.getPageList();
+						_this.getList();
 					}
 				})
 			},
-			getPageList() {
+			changeIsJudge(flag){
+				if (flag !== this.semFlag) {
+					this.isJudge = flag;
+					this.pageNumber = 1;
+					this.getList();
+				}
+			},
+			getList(){
 				this.showLoading();
-				this.post(this.globaData.INTERFACE_TECKQ+'kqApply/page', {
-					user_code: this.personInfo.user_code,
+				this.post(this.globaData.INTERFACE_TECKQ+'kqApply/checkPage', {
 					index_code: this.navItem.access.split("#")[1],
+					checker_code: this.personInfo.user_code,
 					type,
 					page_number: this.pageNumber,
-					page_size: this.pageSize
+					page_size: this.pageSize,
+					is_judge: this.isJudge
 				}, (data, res) => {
 					this.hideLoading();
 					if(data&&data.list) {
@@ -140,24 +140,24 @@
 					} else {
 						this.showToast(res.msg);
 					}
-				})
+				});
 			},
 		},
 		onReachBottom() {
 			// 加载更多
 			if(this.pageNumber<this.totalPage) {
 				this.pageNumber = this.pageNumber + 1;
-				this.getPageList();
+				this.getList();
 			}
 		},
 		onPullDownRefresh() {
 			// 刷新
 			this.pageNumber = 1;
-			this.getPageList();
-		}
+			this.getList();
+		},
 	}
 </script>
 
 <style lang="scss">
-	@import "style/cardStyle.scss";
+	@import "style/examineList.scss";
 </style>

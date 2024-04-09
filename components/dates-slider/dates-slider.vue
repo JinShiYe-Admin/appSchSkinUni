@@ -12,15 +12,17 @@
 				<uni-icons v-else type="right" :size="24" bold color="rgba(0,0,0,.3)"></uni-icons>
 			</view>
 		</view>
-		<scroll-view :scroll-x="true" :show-scrollbar="false" :scroll-left="datesScrollLeft">
-			<view class="uni-row month-dates-wrapper">
-				<view  class="date-item" v-for="(date,i) in monthDates" :key="i">
-					<button size="mini" :type="date===selectedDate?'primary':'default'" :disabled="disabledDates.indexOf(date)>-1" @click="handleSelect(date)">
-						{{moment(date).format("DD")+'\n'+weekDays[moment(date).day()]}}
-					</button>
+		<view>
+			<scroll-view :scroll-x="true" :show-scrollbar="false" :scroll-left="datesScrollLeft">
+				<view class="uni-row month-dates-wrapper">
+					<view  class="date-item" v-for="(date,i) in monthDates" :key="i">
+						<button size="mini" :type="date===selectedDate?'primary':'default'" :disabled="disabledDates.indexOf(date)>-1" @click="handleSelect(date)">
+							{{moment(date).format("DD")+'\n'+weekDays[moment(date).day()]}}
+						</button>
+					</view>
 				</view>
-			</view>
-		</scroll-view>
+			</scroll-view>
+		</view>
 	</view>
 </template>
 
@@ -34,10 +36,10 @@
 			event: 'change'
 		},
 		props: {
-			defaultDate: {
-				type: moment.MomentInput,
-				require: false
-			},
+			// defaultDate: {
+			// 	type: moment.MomentInput,
+			// 	require: false
+			// },
 			selectedDate: {
 				type: String,
 				default: curDate,
@@ -61,14 +63,30 @@
 			};
 		},
 		mounted() {
-			if(this.defaultDate) {
-				this.yearMonth = moment(this.defaultDate).format("YYYY-MM-DD");
+			if(this.selectedDate) {
+				this.yearMonth = moment(this.selectedDate).format("YYYY-MM-DD");
 			}
 			this.getMonthDates();
 		},
 		computed: {
 			disabledDates() {
 				return this.monthDates.filter((date) => (this.end?date>this.end:false)||(this.start?date<this.start:false))
+			}
+		},
+		watch: {
+			monthDates(dates) {
+				// 设置滚动条位置
+				this.$nextTick(() => {
+					if(dates.indexOf(this.selectedDate)>-1) {
+						const windowInfo = uni.getWindowInfo();
+						const curDateNum = moment(this.selectedDate).date();
+						setTimeout(() => {
+							this.datesScrollLeft = curDateNum*48>windowInfo.windowWidth?(curDateNum*48-windowInfo.windowWidth+48):1;
+						}, 50)
+					}else{
+						this.datesScrollLeft = 0;
+					}
+				})
 			}
 		},
 		methods:{
@@ -94,16 +112,6 @@
 				}
 				this.monthDates = dates;
 				
-				// 设置滚动条位置
-				this.$nextTick(() => {
-					if(dates.indexOf(this.selectedDate)>-1) {
-						const windowInfo = uni.getWindowInfo();
-						const curDateNum = moment(this.selectedDate).date();
-						this.datesScrollLeft = curDateNum*48>windowInfo.windowWidth?(curDateNum*48-windowInfo.windowWidth+48):1;
-					}else{
-						this.datesScrollLeft = 0;
-					}
-				})
 			},
 			handleSelect(date) {
 				if(this.selectedDate!==date) {

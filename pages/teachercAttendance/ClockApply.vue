@@ -1,8 +1,8 @@
 <template>
-	<view>
+	<view style="background: #f2f2f2;">
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' :icon="icon" :iconClick="iconClick"></mynavBar>
 		<uni-card class="apply-list-card" isShadow  @click="gotoDetail(item)" v-for="(item,index) in pageData" :key="index">
-			<view class="header">{{item.passs}}/{{item.examines}}</view>
+			<view style="text-align: right;">{{item.passs}}/{{item.examines}}</view>
 			<view class="result-box">
 				<view :style="{color:item.status<2?'#aaaaaa':item.status>2?'#d9001b':'#70b603'}">
 					{{item.status<2?'--':item.status>2?'不同意':'同意'}}
@@ -21,6 +21,12 @@
 				</uni-col>
 				<uni-col :span="18">
 					{{item.note}}
+				</uni-col>
+				<uni-col :span="6">
+					申请时间：
+				</uni-col>
+				<uni-col :span="18">
+					{{item.create_time}}
 				</uni-col>
 			</uni-row>
 		</uni-card>

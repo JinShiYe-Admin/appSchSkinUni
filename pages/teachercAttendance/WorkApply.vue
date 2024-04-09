@@ -4,7 +4,7 @@
 		<uni-card class="apply-list-card" isShadow  @click="gotoDetail(item)" v-for="(item,index) in pageData" :key="index">
 			<uni-row>
 				<uni-col :span="12">
-					<text style="margin-right: 12px;">{{Math.round(item.duration / 1440)}} 天</text>
+					<text style="margin-right: 12px;">{{timeStr(item.duration)}}</text>
 					<text>{{item.peoples}} 人</text>
 				</uni-col>
 				<uni-col :span="12" style="text-align: right;">{{item.passs}}/{{item.examines}}</uni-col>
@@ -16,21 +16,15 @@
 				<view>审批意见</view>
 			</view>
 			<uni-row class="row-box">
-				<uni-col :span="6">出差日期：</uni-col>
+				<uni-col :span="6">加班时间：</uni-col>
 				<uni-col :span="18">
-					{{`${moment(item.begin_date).format('YYYY-MM-DD')} 至 ${moment(item.end_date).format('YYYY-MM-DD')}`}}
+					{{`${moment(item.begin_date).format('YYYY-MM-DD HH:mm')} 至 ${moment(item.end_date).format('YYYY-MM-DD HH:mm')}`}}
 				</uni-col>
 				
-				<uni-col :span="6">出差目的地：</uni-col>
-				<uni-col :span="18">{{item.toplace}}</uni-col>
-				
-				<uni-col :span="6">带队人：</uni-col>
-				<uni-col :span="18">{{item.leader_name}}</uni-col>
-				
-				<uni-col :span="6">随行人员：</uni-col>
+				<uni-col :span="6">加班人员：</uni-col>
 				<uni-col :span="18">{{item.user_names}}</uni-col>
 				
-				<uni-col :span="6">出差事由：</uni-col>
+				<uni-col :span="6">加班原因：</uni-col>
 				<uni-col :span="18">{{item.note}}</uni-col>
 				
 				<uni-col :span="6">申请时间：</uni-col>
@@ -45,8 +39,9 @@
 	import util from '@/commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	import moment from 'moment';
+	import timeStrByMinutes from './common/timeStrByMinutes.js';
 	let _this;
-	const type = "出差";
+	const type = "加班";
 	export default {
 		data() {
 			return {
@@ -89,10 +84,11 @@
 			//#endif
 		},
 		methods: {
+			timeStr: timeStrByMinutes,
 			iconClick(){
 				util.openwithData('/pages/teachercAttendance/ApplyAdd', {
 					index_code: this.navItem.access.split("#")[1],
-					type: 1,
+					type: 3,
 				}, {
 					refreshPage(data) { //子页面调用父页面需要的方法
 						_this.pageNumber = 1;
@@ -103,7 +99,7 @@
 			gotoDetail(item) {
 				util.openwithData('/pages/teachercAttendance/ApplyDetail', {
 					index_code: this.navItem.access.split("#")[1],
-					type: 1,
+					type: 3,
 					id: item.id,
 					allow_del: item.allow_del,
 				}, {
