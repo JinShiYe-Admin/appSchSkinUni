@@ -93,13 +93,14 @@
 		bizs_count: 0, //出差人数
 	}
 	const yesterday = moment().subtract(1, 'days').format("YYYY-MM-DD")
+	const today = moment().format("YYYY-MM-DD")
 	export default {
 		data() {
 			return {
 				personInfo: {},
 				navItem: {},
-				selectedDate: yesterday,
-				endDate: yesterday,
+				selectedDate: today,
+				endDate: today,
 				report: defaultReport
 			}
 		},

@@ -211,6 +211,7 @@
 				this.showLoading('打卡中');
 				//获取地理位置
 			 	const loc = await this.getLocation();
+				// console.log(JSON.stringify(loc))
 				if(!loc) {
 					this.showToast('获取位置失败');
 					this.hideLoading();
@@ -298,8 +299,8 @@
 						})
 					} else {
 						uni.showModal({
-							content: "需要定位权限",
-							confirmText: "设置",
+							content: "请打开定位服务功能",
+							confirmText: "去设置",
 							success: function(res) {
 								if (res.confirm) {
 									permision.gotoAppSetting();

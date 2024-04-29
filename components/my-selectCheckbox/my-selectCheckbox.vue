@@ -30,8 +30,8 @@
 				</view>
 				<view class="uni-select--mask" v-show="showSelector" @click="toggleSelector" />
 				<view class="uni-select__selector" v-show="showSelector">
-					<view class="uni-popper__arrow"></view>
-					<scroll-view scroll-y="true" class="uni-select__selector-scroll">
+					<!-- <view class="uni-popper__arrow"></view> -->
+					<scroll-view scroll-y="true" class="uni-select__selector-scroll" :style="`max-height: calc(100vh - 168px);`">
 						<view class="uni-select__selector-empty" v-if="filterMixinDatacomResData.length === 0">
 							<span>{{emptyTips}}</span>
 						</view>
@@ -40,7 +40,7 @@
 							v-for="(item,index) in filterMixinDatacomResData" :key="index" @click="change(item)">
 							<span
 								:class="{'uni-select__selector__disabled': item.disable}">{{formatItemName(item)}}</span>
-							<uni-icons v-if="multiple&&currentArr.includes(item[dataValue])" type="checkmarkempty"
+							<uni-icons v-if="multiple?currentArr.includes(item[dataValue]):value===item[dataValue]" type="checkmarkempty"
 								color="#007aff" />
 						</view>
 					</scroll-view>
@@ -150,7 +150,8 @@
 				channels: [],
 				cacheKey: "uni-data-select-lastSelectedValue",
 				placeholderOld: "",
-				currentArr: []
+				currentArr: [],
+				// windowHeight: uni.getSystemInfoSync().windowHeight
 			};
 		},
 		created() {
@@ -607,7 +608,7 @@
 		flex: 1;
 		flex-direction: row;
 		align-items: center;
-		z-index: 2;
+		z-index: 1;
  
 		.tag-calss {
 			font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
@@ -665,21 +666,25 @@
 		/* #ifndef APP-NVUE */
 		box-sizing: border-box;
 		/* #endif */
-		position: absolute;
-		top: calc(100% + 12px);
-		left: 0;
-		width: 100%;
+		// position: absolute;
+		// top: calc(100% + 12px);
+		// left: 0;
+		width: 80%;
 		background-color: #FFFFFF;
 		border: 1px solid #EBEEF5;
 		border-radius: 6px;
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 		z-index: 3;
 		padding: 4px 0;
+		position: fixed;
+		top: calc(50% + 44px);
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
  
 	.uni-select__selector-scroll {
 		/* #ifndef APP-NVUE */
-		max-height: 200px;
+		max-height: 300px;
 		box-sizing: border-box;
 		/* #endif */
 	}
@@ -764,5 +769,6 @@
 		right: 0;
 		left: 0;
 		z-index: 1;
+		background-color: rgba(0, 0, 0, 0.4);
 	}
 </style>
