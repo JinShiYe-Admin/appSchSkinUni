@@ -60,20 +60,21 @@
 		<view v-else-if="editStatus===1">
 			<view class="uni-flex uni-row form-view2">
 				<view class="form-left">年级</view>
-				<input class="uni-input form-right"  :value="detailData.grd_name" disabled/>
-				<!-- <uni-icons size="13" type="arrowdown" color="#808080"></uni-icons> -->
+				<!-- <input class="uni-input form-right"  :value="detailData.grd_name" disabled/> -->
+				<view class="uni-input form-right">{{jcIndex>=0?jcList[jcIndex].text:'请选择'}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view2">
 				<view class="form-left">班级</view>
-				<input class="uni-input form-right"  :value="detailData.class_name" placeholder="请选择" disabled/>
-				<!-- <uni-icons size="13" type="arrowdown" color="#808080"></uni-icons> -->
+				<!-- <input class="uni-input form-right"  :value="detailData.class_name" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{detailData.class_name}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view2">
 				<view class="form-left">姓名</view>
 				<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stuList" range-key="text">
-					<input class="uni-input form-right"  :value="stuIndex>=0?stuList[stuIndex].text:''" placeholder="请选择" disabled/>
+					<!-- <input class="uni-input form-right"  :value="stuIndex>=0?stuList[stuIndex].text:''" placeholder="请选择" disabled/> -->
+					<view class="uni-input form-right">{{stuIndex>=0?stuList[stuIndex].text:'请选择'}}</view>
 				</picker>
 				<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 			</view>
@@ -81,7 +82,8 @@
 			<view class="uni-flex uni-row form-view2">
 				<view class="form-left">考勤情况</view>
 				<picker style="width:100% !important;" mode="selector" @change="attendanceSelect" :value="attendanceIndex" :range="attendanceList" range-key="text">
-					<input class="uni-input form-right"  :value="attendanceIndex>=0?attendanceList[attendanceIndex].text:''" placeholder="请选择" disabled/>
+					<!-- <input class="uni-input form-right"  :value="attendanceIndex>=0?attendanceList[attendanceIndex].text:''" placeholder="请选择" disabled/> -->
+					<view class="uni-input form-right">{{attendanceIndex>=0?attendanceList[attendanceIndex].text:'请选择'}}</view>
 				</picker>
 				<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 			</view>
@@ -95,7 +97,8 @@
 			<view class="uni-flex uni-row form-view2">
 				<view class="form-left">节次</view>
 				<picker style="width:100% !important;" mode="selector" @change="jcSelect" :value="jcIndex" :range="jcList" range-key="text">
-					<input class="uni-input form-right"  :value="jcIndex>=0?jcList[jcIndex].text:''" placeholder="请选择" disabled/>
+					<!-- <input class="uni-input form-right"  :value="jcIndex>=0?jcList[jcIndex].text:''" placeholder="请选择" disabled/> -->
+					<view class="uni-input form-right">{{jcIndex>=0?jcList[jcIndex].text:'请选择'}}</view>
 				</picker>
 				<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 			</view>
@@ -103,7 +106,8 @@
 			<view class="uni-flex uni-row form-view2">
 				<view class="form-left">科目</view>
 				<picker style="width:100% !important;" mode="selector" @change="kmSelect" :value="kmIndex" :range="kmList" range-key="text">
-					<input class="uni-input form-right"  :value="kmIndex>=0?kmList[kmIndex].text:''" placeholder="请选择" disabled/>
+					<!-- <input class="uni-input form-right"  :value="kmIndex>=0?kmList[kmIndex].text:''" placeholder="请选择" disabled/> -->
+					<view class="uni-input form-right">{{kmIndex>=0?kmList[kmIndex].text:'请选择'}}</view>
 				</picker>
 				<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 			</view>
@@ -181,7 +185,7 @@
 			itemData.text='课堂点名详情'
 			this.navItem = itemData;
 			this.index_code=itemData.index_code
-			console.log("itemData: " + JSON.stringify(itemData));
+			// console.log("itemData: " + JSON.stringify(itemData));
 			this.detailData={
 				grd_name:itemData.grd_name,
 				class_name:itemData.class_name,
@@ -228,14 +232,14 @@
 				_this.$refs.alertDialog.open()
 			},
 			textClickRight(data) {
-				console.log('textClickRight')
+				// console.log('textClickRight')
 				if (_this.text.length==1) {
-					console.log('修改');
+					// console.log('修改');
 					_this.editStatus=1
 					_this.icon=''
 					_this.text=['取消','保存'],
 					// _this.textClick=[_this.cancel,_this.save]
-					console.log(_this.stuList);
+					// console.log(_this.stuList);
 					_this.stuList.map((stuItem,index)=>{
 						if(stuItem.value==_this.navItem.stu_code){
 							_this.stuIndex=index
@@ -250,12 +254,12 @@
 				}
 			},
 			// textClickEvent(){
-			// 	console.log('修改');
+			// 	// console.log('修改');
 			// 	_this.editStatus=1
 			// 	_this.icon=''
 			// 	_this.text=['取消','保存'],
 			// 	_this.textClick=[_this.cancel,_this.save]
-			// 	console.log(_this.stuList);
+			// 	// console.log(_this.stuList);
 			// 	_this.stuList.map((stuItem,index)=>{
 			// 		if(stuItem.value==_this.navItem.stu_code){
 			// 			_this.stuIndex=index
@@ -278,7 +282,7 @@
 						id:this.navItem.id,
 						index_code:this.index_code,
 					}
-					console.log("comData: " + JSON.stringify(comData));
+					// console.log("comData: " + JSON.stringify(comData));
 					this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/editSaveData',comData,(response0,response)=>{
 						if (response.code == 0) {
 							 this.hideLoading()
@@ -310,7 +314,7 @@
 					index_code:this.index_code,
 				}
 				this.post(url,comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.showToast('操作成功')
 					this.hideLoading()
 					const eventChannel = this.getOpenerEventChannel()
@@ -363,7 +367,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK+'Common/getEditGrdClsSubStuInfo',comData,response=>{
-				    console.log("StudentAttendance/getDict: " + JSON.stringify(response));
+				    // console.log("StudentAttendance/getDict: " + JSON.stringify(response));
 					this.stuList=response.stuArray
 					this.kmList=response.subArray
 					response.stuArray.map((item,index)=>{
@@ -385,7 +389,7 @@
 			// 		index_code:this.index_code,
 			// 	}
 			// 	this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/getDict',comData,response=>{
-			// 		console.log("responseaaaa: " + JSON.stringify(response));
+			// 		// console.log("responseaaaa: " + JSON.stringify(response));
 			// 		this.hideLoading()
 			// 		this.leaveDict=response.qaArray
 			// 	})
@@ -427,7 +431,7 @@
 			// 		index_code:this.index_code,
 			// 	}
 			// 	this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/getDict',comData,response=>{
-			// 	    console.log("responsesabaa: " + JSON.stringify(response));
+			// 	    // console.log("responsesabaa: " + JSON.stringify(response));
 			// 		this.hideLoading()
 			// 		this.jcList=response.timeArray
 			// 		response.timeArray.map((item,index)=>{

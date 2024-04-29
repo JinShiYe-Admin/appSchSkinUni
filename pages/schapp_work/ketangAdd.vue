@@ -4,8 +4,8 @@
 		<uni-notice-bar :single="true" text="第一步:请选择考勤信息!" />
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
-			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :range="grdList" range-key="text">
-				<input class="uni-input form-right"  :value="grdIndex>=0?grdList[grdIndex].text:''"  placeholder="请选择" disabled/>
+			<picker style="width:100% !important;height: 100%;" mode="selector" @change="grdSelect" :range="grdList" range-key="text">
+				<view class="uni-input form-right">{{grdIndex>=0?grdList[grdIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -13,7 +13,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">班级</view>
 			<picker style="width:100% !important;" mode="selector" @change="clsSelect" :value="clsIndex" :range="clsList" range-key="text">
-				<input class="uni-input form-right"  :value="clsIndex>=0?clsList[clsIndex].text:''" placeholder="请选择" disabled/>
+				<view class="uni-input form-right">{{clsIndex>=0?clsList[clsIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -29,7 +29,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">节次</view>
 			<picker style="width:100% !important;" mode="selector" @change="jcSelect" :value="jcIndex" :range="jcList" range-key="text">
-				<input class="uni-input form-right" :value="jcIndex>=0?jcList[jcIndex].text:''" placeholder="请选择" disabled/>
+				<view class="uni-input form-right">{{jcIndex>=0?jcList[jcIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -37,7 +37,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">科目</view>
 			<picker style="width:100% !important;" mode="selector" @change="kmSelect" :value="kmIndex" :range="kmList" range-key="text">
-				<input class="uni-input form-right"  :value="kmIndex>=0?kmList[kmIndex].text:''" placeholder="请选择" disabled/>
+				<view class="uni-input form-right">{{kmIndex>=0?kmList[kmIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -111,75 +111,156 @@
 			},
 			//1.4.学校年级
 			getGrd(){
+				// let comData={
+				// 	is_finish:0,
+				// 	index_code:this.index_code,
+				// }
+				// this.post(this.globaData.INTERFACE_HR_SUB+'grd',comData,response=>{
+				//     // console.log("responseaaa: " + JSON.stringify(response));
+				// 	let grds = response.list;
+				// 	let grdList=[];
+				// 	grds.map(function(currentValue) {
+				// 		let obj = {};
+				// 		obj.value = currentValue.grd_code;
+				// 		obj.text = currentValue.grd_name;
+				// 		grdList.push(obj)
+				// 	})
+				// 	if(grdList.length>0 ){
+				// 		this.grdList=grdList;
+				// 	}else{
+				// 		this.showToast('获取年级为空');
+				// 	}
+				// })
 				let comData={
-					is_finish:0,
+					op_code:'index',
+					get_grd:true,
+					all_grd: false,
 					index_code:this.index_code,
 				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'grd',comData,response=>{
+				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
 				    console.log("responseaaa: " + JSON.stringify(response));
-					let grds = response.list;
-					let grdList=[];
+					this.hideLoading()
+					let grds = response.grd_list;
+					let grdArray=[];
 					grds.map(function(currentValue) {
+						let name=currentValue.name.indexOf('全部')==-1?currentValue.name:'全部年级';
 						let obj = {};
-						obj.value = currentValue.grd_code;
-						obj.text = currentValue.grd_name;
-						grdList.push(obj)
+						obj.value = currentValue.value;
+						obj.text = name;
+						grdArray.push(obj)
 					})
-					if(grdList.length>0 ){
-						this.grdList=grdList;
+					if(grdArray.length>0 ){
+						this.grdList=grdArray;
+					}else{ 
+						this.grdList=[];
+						this.showToast('无数据授权 无法获取年级');
+					}
+				})
+			},
+			getCls(grd_id){//获取班级
+				let comData={
+					op_code:'index',
+					grd_code:grd_id,
+					get_cls:true,
+					all_cls:false,
+					index_code:this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+				    console.log("responseaaa: " + JSON.stringify(response));
+					this.hideLoading()
+					let clss = response.cls_list;
+					let clsArray=[];
+					clss.map(function(currentValue) {
+						let obj = {};
+						let name=currentValue.name.indexOf('全部')==-1?currentValue.name:'全部班级';
+						obj.value = currentValue.value;
+						obj.text = name;
+						clsArray.push(obj)
+					})
+					if(clsArray.length>0 ){
+						this.clsList=clsArray;
 					}else{
-						this.showToast('获取年级为空');
+						this.clsList=[];
+						this.showToast('无数据授权 无法获取班级');
+					}
+				})
+			},
+			getKm(grd_id,cls_id){//获取科目
+				let comData={
+					op_code:'index',
+					grd_code: grd_id,
+					cls_code: cls_id,
+					get_sub:true,
+					all_sub:false,
+					index_code:this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
+				    console.log("responseaaa: " + JSON.stringify(response));
+					this.hideLoading()
+					let sub = response.sub_list;
+					let subList=[];
+					sub.map(function(currentValue) {
+						let name=currentValue.name.indexOf('全部')==-1?currentValue.name:'全部科目';
+						let obj = {};
+						obj.value = currentValue.value;
+						obj.text = name;
+						subList.push(obj)
+					})
+					if(subList.length>0){
+						this.kmList=subList;
+					}else{
+						 this.showToast('无数据授权 无法获取科目');
 					}
 				})
 			},
 			//1.6.学校班级
-			getCls(grd_id){
-				let comData={
-					grd_codes:grd_id,
-					is_finish:0,
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'cls',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					let clss = response.list;
-					let clssList=[];
-					clss.map(function(currentValue) {
-						let obj = {};
-						obj.value = currentValue.cls_code;
-						obj.text = currentValue.cls_name;
-						clssList.push(obj)
-					})
-					if(clssList.length>0 ){
-						this.clsList=clssList;
-					}else{
-						this.showToast('获取班级为空');
-					}
+			// getCls(grd_id){
+			// 	let comData={
+			// 		grd_codes:grd_id,
+			// 		is_finish:0,
+			// 		index_code:this.index_code,
+			// 	}
+			// 	this.post(this.globaData.INTERFACE_HR_SUB+'cls',comData,response=>{
+			// 	    // console.log("responseaaa: " + JSON.stringify(response));
+			// 		let clss = response.list;
+			// 		let clssList=[];
+			// 		clss.map(function(currentValue) {
+			// 			let obj = {};
+			// 			obj.value = currentValue.cls_code;
+			// 			obj.text = currentValue.cls_name;
+			// 			clssList.push(obj)
+			// 		})
+			// 		if(clssList.length>0 ){
+			// 			this.clsList=clssList;
+			// 		}else{
+			// 			this.showToast('获取班级为空');
+			// 		}
 					
-				})
-			},
-			//1.11.学校科目
-			getKm(grd_id,cls_id){//获取科目
-				let comData={
-					index_code:this.index_code,
-				}
-				this.post(this.globaData.INTERFACE_HR_SUB+'sub',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
-					let sub = response.list;
-					let subList = [];
-					sub.map(function(currentValue) {
-						let obj = {};
-						obj.value = currentValue.sub_code;
-						obj.text = currentValue.sub_name;
-						subList.push(obj)
-					})
-					if (subList.length > 0) {
-						this.kmList = [].concat(subList);
-					} else {
-						this.kmList=[];
-						this.showToast('获取科目为空');
-					}
-				})
-			},
+			// 	})
+			// },
+			// //1.11.学校科目
+			// getKm(grd_id,cls_id){//获取科目
+			// 	let comData={
+			// 		index_code:this.index_code,
+			// 	}
+			// 	this.post(this.globaData.INTERFACE_HR_SUB+'sub',comData,response=>{
+			// 	    // console.log("responseaaa: " + JSON.stringify(response));
+			// 		let sub = response.list;
+			// 		let subList = [];
+			// 		sub.map(function(currentValue) {
+			// 			let obj = {};
+			// 			obj.value = currentValue.sub_code;
+			// 			obj.text = currentValue.sub_name;
+			// 			subList.push(obj)
+			// 		})
+			// 		if (subList.length > 0) {
+			// 			this.kmList = [].concat(subList);
+			// 		} else {
+			// 			this.kmList=[];
+			// 			this.showToast('获取科目为空');
+			// 		}
+			// 	})
+			// },
 			grdSelect(e){
 				if(this.grdList.length>0){
 					if(this.grdIndex!==e.detail.value){
@@ -308,7 +389,7 @@
 						}
 					})
 				})
-				console.log("stuList: " + JSON.stringify(stuList));
+				// console.log("stuList: " + JSON.stringify(stuList));
 				if(this.attendanceDict.length===0){
 					this.showToast('获取考勤常量为空，不能继续添加考勤！')
 					return 0
@@ -364,6 +445,7 @@
 					stu.map(stuItem=>{
 						stuList.push({
 							name:stuItem.stu_name,
+							sno:stuItem.sno,
 							value:stuItem.stu_code,
 							card_id:stuItem.card_no?stuItem.card_no:''
 						})
@@ -390,7 +472,7 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/list',comData,response=>{
-				    console.log("StudentAttendance/list: " + JSON.stringify(response));
+				    // console.log("StudentAttendance/list: " + JSON.stringify(response));
 					if(response.list.length===0){
 						if(callback)callback();
 					}else{
@@ -412,7 +494,7 @@
 						index_code: this.index_code,
 					} 
 					this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/list',comData,response=>{
-						console.log("获取选择日期对应的学生请假数据: " + JSON.stringify(response));
+						// console.log("获取选择日期对应的学生请假数据: " + JSON.stringify(response));
 						
 						res(response.list)
 					})
@@ -474,7 +556,7 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_WORK+'ClasstimeSchedule/list',comData,response=>{
-					    console.log("responsesabaa: " + JSON.stringify(response));
+					    // console.log("responsesabaa: " + JSON.stringify(response));
 						
 						let classDict=response.timeArray
 						let jcList=[]

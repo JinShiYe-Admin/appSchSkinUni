@@ -33,7 +33,7 @@
 				<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
 					<view slot="body" class="slot-box slot-text">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
+							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}{{item.sno!=null&&item.sno.length>0?'（'+item.sno+'）':''}}</view></uni-col>
 							<uni-col :span="18"><view class="detail-text">考勤项目:{{item.item_txt}}</view></uni-col>
 							<uni-col :span="6"><view class="detail-text">星期{{item.day_week}}&ensp;{{item.class_node}}&ensp;{{item.sub_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">考勤说明:{{item.comment}}</view></uni-col>

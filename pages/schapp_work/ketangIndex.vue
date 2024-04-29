@@ -33,7 +33,7 @@
 				<uni-list-item showArrow clickable :key="index" v-for="(item,index) in pagedata" :border="true" @click="toDetails(item)">
 					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
+							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}{{item.sno!=null&&item.sno.length>0?'（'+item.sno+'）':''}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">星期{{item.day_week}}&ensp;{{item.class_node}}&ensp;{{item.sub_name}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">考勤项目:{{item.item_txt}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">说明:{{item.comment}}</view></uni-col>
@@ -141,7 +141,7 @@
 				}
 			},
 			timeSelect(e){
-				console.log(e);
+				// console.log(e);
 				this.time=e
 				this.showLoading()
 				this.pageobj0.loadFlag=0
@@ -157,7 +157,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let grds = response.grd_list;
 					let grdArray=[];
@@ -186,7 +186,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let clss = response.cls_list;
 					let clsArray=[];
@@ -216,7 +216,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let sub = response.sub_list;
 					let subList=[];
@@ -246,7 +246,7 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/list',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
 					}, 1000);

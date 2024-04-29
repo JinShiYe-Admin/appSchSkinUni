@@ -22,23 +22,26 @@
 			</view>
 		</view>
 		<uni-list>
-			<uni-list-item v-for="(item,index) in navItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.card_id?item.card_id:'无卡'" >
+			<uni-list-item v-for="(item,index) in navItem.stuList" :key="index" :ellipsis="1" :title="item.sno!=null&&item.sno.length>0?item.name+'（'+item.sno+'）':item.name" :note="item.card_id?item.card_id:'无卡'" >
 				<template v-slot:footer>
 					<view class="uni-flex uni-row form-view">
 						<template v-if="item.interface">
 							<template v-if="item.disabled">
-								<input class="uni-input form-right"  :value="item.item_txt"  disabled @click="showWarn"/>
+								<!-- <input class="uni-input form-right"  :value="item.item_txt"  disabled @click="showWarn"/> -->
+								<view class="uni-input form-right" @click="showWarn">{{item.item_txt.length>0?item.item_txt:'请选择'}}</view>
 							</template>
 							<template v-else>
 								<picker style="width:120px;" mode="selector" @change="rightSelect2(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
-									<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/>
+									<!-- <input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/> -->
+									<view class="uni-input form-right">{{item.rightIndex>=0?rightList2[item.rightIndex].text:'请选择'}}</view>
 								</picker>
 							</template>
 							<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 						</template>
 						<template v-else>
 							<picker style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :range="rightList" :value="item.rightIndex" range-key="text" >
-								<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList[item.rightIndex].text:''"  placeholder="请选择" disabled/>
+								<!-- <input class="uni-input form-right"  :value="item.rightIndex>=0?rightList[item.rightIndex].text:''"  placeholder="请选择" disabled/> -->
+								<view class="uni-input form-right">{{item.rightIndex>=0?rightList[item.rightIndex].text:'请选择'}}</view>
 							</picker>
 							<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 						</template>
@@ -86,7 +89,7 @@
 			itemData.text='课堂点名登记'
 			this.navItem = itemData;
 			this.index_code=itemData.index_code 
-			console.log("this.navItem: " + JSON.stringify(this.navItem));
+			// console.log("this.navItem: " + JSON.stringify(this.navItem));
 			let rightList = [{text:'已到',value:'*'}].concat(this.navItem.attendanceDict)
 			let rightList2 = [{text:'检测识别',value:'**'}].concat(rightList)
 			this.rightList=rightList
@@ -109,7 +112,7 @@
 					stuItem.interface=true
 				}
 			}) 
-			console.log("stuList: " + JSON.stringify(stuList));
+			// console.log("stuList: " + JSON.stringify(stuList));
 			this.stuList=stuList
 			this.setTotal();
 			//#ifdef H5
@@ -182,9 +185,9 @@
 					endtime: this.navItem.time,
 					index_code: this.index_code,
 				}
-				console.log("comData: " + JSON.stringify(comData));
+				// console.log("comData: " + JSON.stringify(comData));
 				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/deleteList',comData,(response0,response)=>{
-				    console.log("StudentAttendance/deleteList: " + JSON.stringify(response));
+				    // console.log("StudentAttendance/deleteList: " + JSON.stringify(response));
 					if(response.state=='ok'){
 						this.submitData()
 					}else{
@@ -207,10 +210,10 @@
 					list:this.getStuList(),
 					index_code:this.index_code,
 				}
-				console.log("comData: " + JSON.stringify(comData));
+				// console.log("comData: " + JSON.stringify(comData));
 				//113.课堂考勤-按班级新增
 				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/saveList',comData,(response0,response)=>{
-					console.log("responseaaaa: " + JSON.stringify(response));
+					// console.log("responseaaaa: " + JSON.stringify(response));
 					if (response.code == 0) {
 						 this.hideLoading()
 						 this.showToast(response.msg);

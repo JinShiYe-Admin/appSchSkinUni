@@ -4,7 +4,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼房</view>
 			<picker style="width:100% !important;" mode="selector" @change="buildSelect" :value="buildIndex" :range="buildList" range-key="text">
-				<input class="uni-input form-right"  :value="buildIndex>=0?buildList[buildIndex].text:''"  placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="buildIndex>=0?buildList[buildIndex].text:''"  placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{buildIndex>=0?buildList[buildIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -12,7 +13,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼层</view>
 			<picker style="width:100% !important;" mode="selector" @change="floorSelect" :value="floorIndex" :range="floorList" range-key="text">
-				<input class="uni-input form-right"  :value="floorIndex>=0?floorList[floorIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="floorIndex>=0?floorList[floorIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{floorIndex>=0?floorList[floorIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -20,21 +22,24 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">房间</view>
 			<picker style="width:100% !important;" mode="selector" @change="dormSelect" :value="dormIndex" :range="dormList" range-key="text">
-				<input class="uni-input form-right"  :value="dormIndex>=0?dormList[dormIndex].text:''"  placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="dormIndex>=0?dormList[dormIndex].text:''"  placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{dormIndex>=0?dormList[dormIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">床位号</view>
-			<input class="uni-input form-right"  v-model="bedNameList.join(',')" placeholder="请选择" disabled @click="selectBed"/>
+			<!-- <input class="uni-input form-right"  v-model="bedNameList.join(',')" placeholder="请选择" disabled @click="selectBed"/> -->
+			<view class="uni-input form-right" @click="selectBed">{{bedNameList.length>0?bedNameList.join(','):'请选择'}}</view>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">宿舍行为</view>
 			<picker style="width:100% !important;" mode="selector" @change="attendanceSelect" :value="attendanceIndex" :range="attendanceList" range-key="text">
-				<input class="uni-input form-right"  :value="attendanceIndex>=0?attendanceList[attendanceIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="attendanceIndex>=0?attendanceList[attendanceIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{attendanceIndex>=0?attendanceList[attendanceIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -48,7 +53,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">休息时间</view>
 			<picker style="width:100% !important;" mode="selector" @change="restTimeSelect" :value="restTimeIndex" :range="restTimeList" range-key="text">
-				<input class="uni-input form-right"  :value="restTimeIndex>=0?restTimeList[restTimeIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="restTimeIndex>=0?restTimeList[restTimeIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{restTimeIndex>=0?restTimeList[restTimeIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>

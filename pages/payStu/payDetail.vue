@@ -138,8 +138,11 @@
 					task_id: this.navItem.task_id,
 					pay_price: this.navItem.total_price, //支付金额
 					stu_code: this.personInfo.stu_code, //学生代码
+					stu_name:this.personInfo.stu_name, //学生名称
 					grd_code: this.personInfo.grd_code, //学生年级代码
+					cls_name:this.personInfo.cls_name,
 					cls_code: this.personInfo.cls_code, //学生班级代码
+					grd_name:this.personInfo.grd_name,
 					phone_model: this.phoneMsg.brand + ',' + this.phoneMsg.model, //手机型号
 					phone_system: this.phoneMsg.appVersionCode + ',' + this.phoneMsg.osVersion + ',' + this.phoneMsg
 						.platform + ',' + this.phoneMsg.romName + ',' + this.phoneMsg.romVersion, //手机系统

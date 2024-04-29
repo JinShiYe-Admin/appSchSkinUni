@@ -71,7 +71,8 @@
 					<view class="uni-flex uni-row form-view-edit">
 						<view class="form-left">楼房</view>
 						<picker style="width:100% !important;" mode="selector" @change="buildSelect" :value="formByDorm.buildIndex" :range="formByDorm.buildList" range-key="text">
-							<input class="uni-input form-right"  :value="formByDorm.buildIndex>=0?formByDorm.buildList[formByDorm.buildIndex].text:''"  placeholder="请选择" disabled/>
+							<!-- <input class="uni-input form-right"  :value="formByDorm.buildIndex>=0?formByDorm.buildList[formByDorm.buildIndex].text:''"  placeholder="请选择" disabled/> -->
+							<view class="uni-input form-right">{{formByDorm.buildIndex>=0?formByDorm.buildList[formByDorm.buildIndex].text:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
@@ -79,7 +80,8 @@
 					<view class="uni-flex uni-row form-view-edit">
 						<view class="form-left">楼层</view>
 						<picker style="width:100% !important;" mode="selector" @change="floorSelect" :value="formByDorm.floorIndex" :range="formByDorm.floorList" range-key="text">
-							<input class="uni-input form-right"  :value="formByDorm.floorIndex>=0?formByDorm.floorList[formByDorm.floorIndex].text:''" placeholder="请选择" disabled/>
+							<!-- <input class="uni-input form-right"  :value="formByDorm.floorIndex>=0?formByDorm.floorList[formByDorm.floorIndex].text:''" placeholder="请选择" disabled/> -->
+							<view class="uni-input form-right">{{formByDorm.floorIndex>=0?formByDorm.floorList[formByDorm.floorIndex].text:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
@@ -87,7 +89,8 @@
 					<view class="uni-flex uni-row form-view-edit">
 						<view class="form-left">房间</view>
 						<picker style="width:100% !important;" mode="selector" @change="dormSelect" :value="formByDorm.dormIndex" :range="formByDorm.dormList" range-key="text">
-							<input class="uni-input form-right"  :value="formByDorm.dormIndex>=0?formByDorm.dormList[formByDorm.dormIndex].text:''"  placeholder="请选择" disabled/>
+							<!-- <input class="uni-input form-right"  :value="formByDorm.dormIndex>=0?formByDorm.dormList[formByDorm.dormIndex].text:''"  placeholder="请选择" disabled/> -->
+							<view class="uni-input form-right">{{formByDorm.dormIndex>=0?formByDorm.dormList[formByDorm.dormIndex].text:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
@@ -95,7 +98,8 @@
 					<view class="uni-flex uni-row form-view-edit">
 						<view class="form-left">床位号</view>
 						<picker style="width:100% !important;" mode="selector" @change="bedSelect" :value="formByDorm.bedIndex" :range="formByDorm.bedList" range-key="text">
-							<input class="uni-input form-right"  :value="formByDorm.bedIndex>=0?formByDorm.bedList[formByDorm.bedIndex].text:''"  placeholder="请选择" disabled/>
+							<!-- <input class="uni-input form-right"  :value="formByDorm.bedIndex>=0?formByDorm.bedList[formByDorm.bedIndex].text:''"  placeholder="请选择" disabled/> -->
+							<view class="uni-input form-right">{{formByDorm.bedIndex>=0?formByDorm.bedList[formByDorm.bedIndex].text:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
@@ -103,7 +107,8 @@
 					<view class="uni-flex uni-row form-view-edit">
 						<view class="form-left">宿舍考勤</view>
 						<picker style="width:100% !important;" mode="selector" @change="attendanceSelect($event,current)" :value="formByDorm.attendanceIndex" :range="attendanceList" range-key="text">
-							<input class="uni-input form-right"  :value="formByDorm.attendanceIndex>=0?attendanceList[formByDorm.attendanceIndex].text:''" placeholder="请选择" disabled/>
+							<!-- <input class="uni-input form-right"  :value="formByDorm.attendanceIndex>=0?attendanceList[formByDorm.attendanceIndex].text:''" placeholder="请选择" disabled/> -->
+							<view class="uni-input form-right">{{formByDorm.attendanceIndex>=0?attendanceList[formByDorm.attendanceIndex].text:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
@@ -117,7 +122,8 @@
 					<view class="uni-flex uni-row form-view-edit">
 						<view class="form-left">午/晚休</view>
 						<picker style="width:100% !important;" mode="selector" @change="qaSelect($event,current)" :value="formByDorm.qaIndex" :range="qaList" range-key="text">
-							<input class="uni-input form-right"  :value="formByDorm.qaIndex>=0?qaList[formByDorm.qaIndex].text:''" placeholder="请选择" disabled/>
+							<!-- <input class="uni-input form-right"  :value="formByDorm.qaIndex>=0?qaList[formByDorm.qaIndex].text:''" placeholder="请选择" disabled/> -->
+							<view class="uni-input form-right">{{formByDorm.qaIndex>=0?qaList[formByDorm.qaIndex].text:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
@@ -131,7 +137,8 @@
 					<view class="uni-flex uni-row form-view-edit">
 						<view class="form-left">年级</view>
 						<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="formByClass.grdIndex" :range="formByClass.grdList" range-key="text">
-							<input class="uni-input form-right"  :value="formByClass.grdIndex>=0?formByClass.grdList[formByClass.grdIndex].text:''"  placeholder="请选择" disabled/>
+							<!-- <input class="uni-input form-right"  :value="formByClass.grdIndex>=0?formByClass.grdList[formByClass.grdIndex].text:''"  placeholder="请选择" disabled/> -->
+							<view class="uni-input form-right">{{formByClass.grdIndex>=0?formByClass.grdList[formByClass.grdIndex].text:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
@@ -139,15 +146,17 @@
 					<view class="uni-flex uni-row form-view-edit">
 						<view class="form-left">班级</view>
 						<picker style="width:100% !important;" mode="selector" @change="clsSelect" :value="formByClass.clsIndex" :range="formByClass.clsList" range-key="text">
-							<input class="uni-input form-right"  :value="formByClass.clsIndex>=0?formByClass.clsList[formByClass.clsIndex].text:''" placeholder="请选择" disabled/>
+							<!-- <input class="uni-input form-right"  :value="formByClass.clsIndex>=0?formByClass.clsList[formByClass.clsIndex].text:''" placeholder="请选择" disabled/> -->
+							<view class="uni-input form-right">{{formByClass.clsIndex>=0?formByClass.clsList[formByClass.clsIndex].text:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
 					<view class="line"></view>
 					<view class="uni-flex uni-row form-view-edit">
 						<view class="form-left">姓名</view>
-						<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="formByClass.stuIndex" :range="formByClass.stuList" range-key="text">
-							<input class="uni-input form-right"  :value="formByClass.stuIndex>=0?formByClass.stuList[formByClass.stuIndex].text:''" placeholder="请选择" disabled/>
+						<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="formByClass.stuIndex" :range="formByClass.stuList" range-key="showText">
+							<!-- <input class="uni-input form-right"  :value="formByClass.stuIndex>=0?formByClass.stuList[formByClass.stuIndex].text:''" placeholder="请选择" disabled/> -->
+							<view class="uni-input form-right">{{formByClass.stuIndex>=0?formByClass.stuList[formByClass.stuIndex].text:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
@@ -155,7 +164,8 @@
 					<view class="uni-flex uni-row form-view-edit">
 						<view class="form-left">宿舍考勤</view>
 						<picker style="width:100% !important;" mode="selector" @change="attendanceSelect($event,current)" :value="formByClass.attendanceIndex" :range="attendanceList" range-key="text">
-							<input class="uni-input form-right"  :value="formByClass.attendanceIndex>=0?attendanceList[formByClass.attendanceIndex].text:''" placeholder="请选择" disabled/>
+							<!-- <input class="uni-input form-right"  :value="formByClass.attendanceIndex>=0?attendanceList[formByClass.attendanceIndex].text:''" placeholder="请选择" disabled/> -->
+							<view class="uni-input form-right">{{formByClass.attendanceIndex>=0?attendanceList[formByClass.attendanceIndex].text:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
@@ -169,7 +179,8 @@
 					<view class="uni-flex uni-row form-view-edit">
 						<view class="form-left">午/晚休</view>
 						<picker style="width:100% !important;" mode="selector" @change="qaSelect($event,current)" :value="formByClass.qaIndex" :range="qaList" range-key="text">
-							<input class="uni-input form-right"  :value="formByClass.qaIndex>=0?qaList[formByClass.qaIndex].text:''" placeholder="请选择" disabled/>
+							<!-- <input class="uni-input form-right"  :value="formByClass.qaIndex>=0?qaList[formByClass.qaIndex].text:''" placeholder="请选择" disabled/> -->
+							<view class="uni-input form-right">{{formByClass.qaIndex>=0?qaList[formByClass.qaIndex].text:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
@@ -611,6 +622,7 @@
 							let obj = {};
 							obj.value = currentValue.value;
 							obj.text = currentValue.name;
+							obj.showText = currentValue.sno!=null&&currentValue.sno.length>0?currentValue.name+'（'+currentValue.sno+'）':currentValue.name;
 							stuList.push(obj)
 						})
 						if(stuList.length>0 ){

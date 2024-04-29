@@ -4,7 +4,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
 			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
-				<input class="uni-input form-right"  :value="grdIndex>=0?grdList[grdIndex].text:''"  placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="grdIndex>=0?grdList[grdIndex].text:''"  placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{grdIndex>=0?grdList[grdIndex].text:'请选择'}}</view>
 				<!-- <view style="font-size: 13px;color: #7f7f7f;text-align: center;padding: 10px 0;">
 					{{grdIndex>=0?grdList[grdIndex].text:'请选择'}}
 					<uni-icons style="float: right;margin-right: 10px;margin-top: 2px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
@@ -16,21 +17,24 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">班级</view>
 			<picker style="width:100% !important;" mode="selector" @change="clsSelect" :value="clsIndex" :range="clsList" range-key="text">
-				<input class="uni-input form-right"  :value="clsIndex>=0?clsList[clsIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="clsIndex>=0?clsList[clsIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{clsIndex>=0?clsList[clsIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">姓名</view>
-			<input class="uni-input form-right"  v-model="stuNameList.join(',')" placeholder="请选择" disabled @click="selectStu"/>
+			<!-- <input class="uni-input form-right"  v-model="stuNameList.join(',')" placeholder="请选择" disabled @click="selectStu"/> -->
+			<view class="uni-input form-right" @click="selectStu">{{stuNameList.length>0?stuNameList.join(','):'请选择'}}</view>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">行为细项</view>
 			<picker style="width:100% !important;" mode="selector" @change="xwxxSelect" :value="xwxxIndex" :range="xwxxList" range-key="text">
-				<input class="uni-input form-right"  :value="xwxxIndex>=0?xwxxList[xwxxIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="xwxxIndex>=0?xwxxList[xwxxIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{xwxxIndex>=0?xwxxList[xwxxIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -46,7 +50,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">节次</view>
 			<picker style="width:100% !important;" mode="selector" @change="jcSelect" :value="jcIndex" :range="jcList" range-key="text">
-				<input class="uni-input form-right"  :value="jcIndex>=0?jcList[jcIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="jcIndex>=0?jcList[jcIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{jcIndex>=0?jcList[jcIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -54,7 +59,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">科目</view>
 			<picker style="width:100% !important;" mode="selector" @change="kmSelect" :value="kmIndex" :range="kmList" range-key="text">
-				<input class="uni-input form-right"  :value="kmIndex>=0?kmList[kmIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="kmIndex>=0?kmList[kmIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{kmIndex>=0?kmList[kmIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>

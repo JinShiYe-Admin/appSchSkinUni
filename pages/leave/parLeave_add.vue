@@ -4,14 +4,16 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">开始时间</view>
 			<xp-picker mode="ymdhi" ref="beginPicker" history :animation="false" :year-range='[2020,2030]' @confirm="beginTimeSelect"></xp-picker>
-			<input class="uni-input form-right"  v-model="formData.begin_time" placeholder="请选择" disabled @click="beginPicker"/>
+			<!-- <input class="uni-input form-right"  v-model="formData.begin_time" placeholder="请选择" disabled @click="beginPicker"/> -->
+			<view class="uni-input form-right" @click="beginPicker">{{formData.begin_time.length>0?formData.begin_time:'请选择'}}</view>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">结束时间</view>
 			<xp-picker mode="ymdhi" ref="endPicker" history :animation="false" :year-range='[2020,2030]' @confirm="endTimeSelect"></xp-picker>
-			<input class="uni-input form-right"  v-model="formData.end_time" placeholder="请选择" disabled @click="endPicker"/>
+			<!-- <input class="uni-input form-right"  v-model="formData.end_time" placeholder="请选择" disabled @click="endPicker"/> -->
+			<view class="uni-input form-right" @click="endPicker">{{formData.end_time.length>0?formData.end_time:'请选择'}}</view>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
@@ -23,7 +25,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">请假类别</view>
 			<picker style="width:100% !important;" mode="selector" @change="qjlbSelect" :value="qjlbIndex" :range="qjlbList" range-key="text">
-				<input class="uni-input form-right"  :value="qjlbIndex>=0?qjlbList[qjlbIndex].text:''"  placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="qjlbIndex>=0?qjlbList[qjlbIndex].text:''"  placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{qjlbIndex>=0?qjlbList[qjlbIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -31,7 +34,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">出入权限</view>
 			<picker style="width:100% !important;" mode="selector" @change="crqxSelect" :value="crqxIndex" :range="crqxList" range-key="text">
-				<input class="uni-input form-right" :value="crqxIndex>=0?crqxList[crqxIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right" :value="crqxIndex>=0?crqxList[crqxIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{crqxIndex>=0?crqxList[crqxIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -44,7 +48,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">审核人</view>
 			<picker style="width:100% !important;" mode="selector" @change="clsTecSelect" :value="clsTecIndex" :range="clsTecList" range-key="text">
-				<input class="uni-input form-right" :value="clsTecIndex>=0?clsTecList[clsTecIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right" :value="clsTecIndex>=0?clsTecList[clsTecIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{clsTecIndex>=0?clsTecList[clsTecIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>

@@ -27,18 +27,21 @@
 					<view class="uni-flex uni-row form-view">
 						<template v-if="item.interface">
 							<template v-if="item.disabled">
-								<input class="uni-input form-right"  :value="item.item_txt"  disabled @click="showWarn"/>
+								<!-- <input class="uni-input form-right"  :value="item.item_txt"  disabled @click="showWarn"/> -->
+								<view class="uni-input form-right" @click="showWarn">{{item.item_txt}}</view>
 							</template>
 							<template v-else>
 								<picker style="width:120px;" mode="selector" @change="rightSelect2(item,$event)" :value="item.rightIndex" :range="rightList2" range-key="text">
-									<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/>
+									<!-- <input class="uni-input form-right"  :value="item.rightIndex>=0?rightList2[item.rightIndex].text:''"  placeholder="请选择" disabled/> -->
+									<view class="uni-input form-right">{{item.rightIndex>=0?rightList2[item.rightIndex].text:'请选择'}}</view>
 								</picker>
 							</template>
 							<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 						</template>
 						<template v-else>
 							<picker style="width:120px;" mode="selector" @change="rightSelect(item,$event)" :range="rightList" :value="item.rightIndex" range-key="text" >
-								<input class="uni-input form-right"  :value="item.rightIndex>=0?rightList[item.rightIndex].text:''"  placeholder="请选择" disabled/>
+								<!-- <input class="uni-input form-right"  :value="item.rightIndex>=0?rightList[item.rightIndex].text:''"  placeholder="请选择" disabled/> -->
+								<view class="uni-input form-right">{{item.rightIndex>=0?rightList[item.rightIndex].text:'请选择'}}</view>
 							</picker>
 							<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 						</template>

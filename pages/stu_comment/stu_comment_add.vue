@@ -4,7 +4,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
 			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
-				<input class="uni-input form-right" :value="grdIndex>=0?grdList[grdIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right" :value="grdIndex>=0?grdList[grdIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{grdIndex>=0?grdList[grdIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -12,7 +13,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">班级</view>
 			<picker style="width:100% !important;" mode="selector" @change="clsSelect" :value="clsIndex" :range="clsList" range-key="text">
-				<input class="uni-input form-right"  :value="clsIndex>=0?clsList[clsIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="clsIndex>=0?clsList[clsIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{clsIndex>=0?clsList[clsIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -20,7 +22,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">姓名</view>
 			<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stuList" range-key="text">
-				<input class="uni-input form-right"  :value="stuIndex>=0?stuList[stuIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="stuIndex>=0?stuList[stuIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{stuIndex>=0?stuList[stuIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -28,7 +31,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年份</view>
 			<picker style="width:100% !important;" mode="selector" @change="yearSelect" :value="yearIndex" :range="yearList" range-key="text">
-				<input class="uni-input form-right"  :value="yearIndex>=0?yearList[yearIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="yearIndex>=0?yearList[yearIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{yearIndex>=0?yearList[yearIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -36,7 +40,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">学期</view>
 			<picker style="width:100% !important;" mode="selector" @change="termSelect" :value="termIndex" :range="termList" range-key="text">
-				<input class="uni-input form-right"  :value="termIndex>=0?termList[termIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="termIndex>=0?termList[termIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{termIndex>=0?termList[termIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -44,7 +49,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">评语类型</view>
 			<picker style="width:100% !important;" mode="selector" @change="remarkSelect" :value="remarkIndex" :range="remarkList" range-key="text">
-				<input class="uni-input form-right"  :value="remarkIndex>=0?remarkList[remarkIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="remarkIndex>=0?remarkList[remarkIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{remarkIndex>=0?remarkList[remarkIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>

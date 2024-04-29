@@ -37,7 +37,7 @@
 				<uni-list-item  :key="index" v-for="(model,index) in pagedata" :border="true">
 					<view slot="body" class="slot-box slot-text">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text">{{model.grd_name}}&ensp;{{model.cls_name}}&ensp;{{model.stu_name}}</view></uni-col>
+							<uni-col :span="24"><view class="title-text">{{model.grd_name}}&ensp;{{model.cls_name}}&ensp;{{model.stu_name}}{{model.sno!=null&&model.sno.length>0?'（'+model.sno+'）':''}}</view></uni-col>
 							<template v-for="(item,index2) in model.kqxxList">
 								<uni-col :key="index2"  :span="8"><view class="detail-text">{{item.name}}:{{item.value}} 次</view></uni-col>
 							</template>

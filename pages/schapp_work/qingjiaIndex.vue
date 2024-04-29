@@ -33,7 +33,7 @@
 				<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
 					<view slot="body" class="slot-box slot-text">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}</view></uni-col>
+							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}{{item.sno!=null&&item.sno.length>0?'（'+item.sno+'）':''}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">请假类型:{{item.item_txt}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">{{item.begintime}}~{{item.endtime}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text" style="word-break: break-all;word-wrap:break-word;white-space:initial" v-if="item.comment">说明:{{item.comment}}</view></uni-col>

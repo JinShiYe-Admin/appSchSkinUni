@@ -4,7 +4,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">年级</view>
 			<picker style="width:100% !important;" mode="selector" @change="grdSelect" :value="grdIndex" :range="grdList" range-key="text">
-				<input class="uni-input form-right"  :value="grdIndex>=0?grdList[grdIndex].text:''"  placeholder="请选择" disabled/>
+				<view class="uni-input form-right">{{grdIndex>=0?grdList[grdIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -12,15 +12,15 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">班级</view>
 			<picker style="width:100% !important;" mode="selector" @change="clsSelect" :value="clsIndex" :range="clsList" range-key="text">
-				<input class="uni-input form-right"  :value="clsIndex>=0?clsList[clsIndex].text:''" placeholder="请选择" disabled/>
+				<view class="uni-input form-right">{{clsIndex>=0?clsList[clsIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">姓名</view>
-			<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stuList" range-key="text">
-				<input class="uni-input form-right"  :value="stuIndex>=0?stuList[stuIndex].text:''" placeholder="请选择" disabled/>
+			<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stuList" range-key="showText">
+				<view class="uni-input form-right">{{stuIndex>=0?stuList[stuIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -28,7 +28,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">考勤项目</view>
 			<picker style="width:100% !important;" mode="selector" @change="kqlxSelect" :value="kqlxIndex" :range="kqlxList" range-key="text">
-				<input class="uni-input form-right"  :value="kqlxIndex>=0?kqlxList[kqlxIndex].text:''" placeholder="请选择" disabled/>
+				<view class="uni-input form-right">{{kqlxIndex>=0?kqlxList[kqlxIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -36,7 +36,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">出入权限</view>
 			<picker style="width:100% !important;" mode="selector" @change="crqxSelect" :value="crqxIndex" :range="crqxList" range-key="text">
-				<input class="uni-input form-right"  :value="crqxIndex>=0?crqxList[crqxIndex].text:''" placeholder="请选择" disabled/>
+				<view class="uni-input form-right">{{crqxIndex>=0?crqxList[crqxIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -44,14 +44,14 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">开始时间</view>
 			<xp-picker mode="ymdhi" ref="beginTimePicker" history :animation="false" :year-range='[2020,2030]' @confirm="beginTimeSelect"></xp-picker>
-			<input class="uni-input form-right"  v-model="begintime" placeholder="请选择" disabled @click="beginTimePicker"/>
+			<view class="uni-input form-right" @click="beginTimePicker">{{begintime.length>0?begintime:'请选择'}}</view>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">结束时间</view>
 			<xp-picker mode="ymdhi" ref="endTimePicker" history :animation="false" :year-range='[2020,2030]' @confirm="endTimeSelect"></xp-picker>
-			<input class="uni-input form-right"  v-model="endtime" placeholder="请选择" disabled @click="endTimePicker"/>
+			<view class="uni-input form-right" @click="endTimePicker">{{endtime.length>0?endtime:'请选择'}}</view>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
@@ -235,6 +235,7 @@
 						let obj = {};
 						obj.value = currentValue.value;
 						obj.text = currentValue.name;
+						obj.showText = currentValue.sno!=null&&currentValue.sno.length>0?currentValue.name+'（'+currentValue.sno+'）':currentValue.name;
 						stuList.push(obj)
 					})
 					if(stuList.length>0 ){

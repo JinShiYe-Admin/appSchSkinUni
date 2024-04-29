@@ -4,7 +4,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼房</view>
 			<picker style="width:100% !important;" mode="selector" @change="buildSelect" :value="buildIndex" :range="buildList" range-key="text">
-				<input class="uni-input form-right"  :value="buildIndex>=0?buildList[buildIndex].text:''"  placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="buildIndex>=0?buildList[buildIndex].text:''"  placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{buildIndex>=0?buildList[buildIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -12,21 +13,24 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼层</view>
 			<picker style="width:100% !important;" mode="selector" @change="floorSelect" :value="floorIndex" :range="floorList" range-key="text">
-				<input class="uni-input form-right"  :value="floorIndex>=0?floorList[floorIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="floorIndex>=0?floorList[floorIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{floorIndex>=0?floorList[floorIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">房间</view>
-			<input class="uni-input form-right"  v-model="dormNameList.join(',')" placeholder="请选择" disabled @click="selectDorm"/>
+			<!-- <input class="uni-input form-right"  v-model="dormNameList.join(',')" placeholder="请选择" disabled @click="selectDorm"/> -->
+			<view class="uni-input form-right" @click="selectDorm">{{dormNameList.length>0?dormNameList.join(','):'请选择'}}</view>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">卫生</view>
 			<picker style="width:100% !important;" mode="selector" @change="healthSelect" :value="healthIndex" :range="healthList" range-key="text">
-				<input class="uni-input form-right"  :value="healthIndex>=0?healthList[healthIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="healthIndex>=0?healthList[healthIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{healthIndex>=0?healthList[healthIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>

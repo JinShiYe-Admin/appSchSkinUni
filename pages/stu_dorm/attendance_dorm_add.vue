@@ -5,7 +5,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼房</view>
 			<picker style="width:100% !important;" mode="selector" @change="buildSelect" :value="buildIndex" :range="buildList" range-key="text">
-				<input class="uni-input form-right"  :value="buildIndex>=0?buildList[buildIndex].text:''"  placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="buildIndex>=0?buildList[buildIndex].text:''"  placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{buildIndex>=0?buildList[buildIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -13,7 +14,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">楼层</view>
 			<picker style="width:100% !important;" mode="selector" @change="floorSelect" :value="floorIndex" :range="floorList" range-key="text">
-				<input class="uni-input form-right"  :value="floorIndex>=0?floorList[floorIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="floorIndex>=0?floorList[floorIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{floorIndex>=0?floorList[floorIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -21,7 +23,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">房间</view>
 			<picker style="width:100% !important;" mode="selector" @change="dormSelect" :value="dormIndex" :range="dormList" range-key="text">
-				<input class="uni-input form-right"  :value="dormIndex>=0?dormList[dormIndex].text:''"  placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="dormIndex>=0?dormList[dormIndex].text:''"  placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{dormIndex>=0?dormList[dormIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -35,7 +38,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">午/晚休</view>
 			<picker style="width:100% !important;" mode="selector" @change="qaSelect" :value="qaIndex" :range="qaArray" range-key="text">
-				<input class="uni-input form-right"  :value="qaIndex>=0?qaArray[qaIndex].text:''" placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="qaIndex>=0?qaArray[qaIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{qaIndex>=0?qaArray[qaIndex].text:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>

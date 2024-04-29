@@ -8,7 +8,7 @@
 						<view>
 							<checkbox style="transform:scale(0.7)" color="#00CFBD" :value="item.value"  :checked="item.checked" />
 						</view>
-						<view>{{item.text}}</view>
+						<view>{{item.text}}{{item.sno!=null&&item.sno.length>0?'（'+item.sno+'）':''}}</view>
 					</label>
 				</checkbox-group>
 			</uni-list>
