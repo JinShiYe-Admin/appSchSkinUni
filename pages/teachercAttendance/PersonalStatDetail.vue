@@ -45,7 +45,7 @@
 		
 		<uni-table v-if="type===2" emptyText="暂无数据" :loading="loading">
 			<uni-tr>
-				<uni-th width="70%" align="center">缺卡时间</uni-th>
+				<uni-th align="center">缺卡时间</uni-th>
 				<!-- <uni-th width="30%"></uni-th> -->
 			</uni-tr>
 			<uni-tr v-for="(item, index) in tableData" :key="index">
@@ -364,8 +364,8 @@
 	}
 </script>
 
-<style lang="scss">
-	@import url('style/statTable.scss');
+<style lang="scss" scoped>
+	@import 'style/statTable.scss';
 	
 	.popup-content {
 		padding: 24px 24px 60px;

@@ -130,8 +130,8 @@
 			return {
 				personInfo: {},
 				navItem: {},
-				endDay: moment().subtract(1,'days').format('YYYY-MM-DD'),
-				range: [moment().subtract(1, 'months').format('YYYY-MM-DD'), moment().subtract(1,'days').format('YYYY-MM-DD')],
+				endDay: moment().format('YYYY-MM-DD'),
+				range: [moment().subtract(1, 'months').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
 				statData: {...statDataDefault},
 				bkNum: 0,
 			}

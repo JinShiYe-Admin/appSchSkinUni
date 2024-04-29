@@ -92,5 +92,5 @@
 </script>
 
 <style lang="scss">
-	@import url('style/statTable.scss');
+	@import 'style/statTable.scss';
 </style>

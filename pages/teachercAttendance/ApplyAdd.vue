@@ -25,14 +25,15 @@
 			
 			<uni-forms v-if="type===1" ref="form" :modelValue="formData" :rules="rules" :label-width="100" label-position="top">
 				<uni-forms-item label="出差日期:" name="range" required>
-					<uni-datetime-picker type="daterange" v-model="formData.range" :start="moment().add(1,'days').format('YYYY-MM-DD')"  rangeSeparator="至" :clear-icon="false" />
+					<uni-datetime-picker type="daterange" v-model="formData.range"  rangeSeparator="至" :clear-icon="false" />
 					<view class="form-item-info">{{rangeDays}} 天</view>
 				</uni-forms-item>
 				<uni-forms-item label="出差目的地:" name="toplace" required>
 					<uni-easyinput type="text" v-model="formData.toplace" placeholder="请输入" :maxlength="100" />
 				</uni-forms-item>
 				<uni-forms-item label="带队人:" name="leader_code" required>
-					<uni-data-select v-model="formData.leader_code" :localdata="leaderList"></uni-data-select>
+					<!-- <uni-data-select v-model="formData.leader_code" :localdata="leaderList"></uni-data-select> -->
+					<my-selectCheckbox v-model="formData.leader_code" :localdata="leaderList"></my-selectCheckbox>
 				</uni-forms-item>
 				<uni-forms-item label="随行人员:" name="user_codes">
 					<my-selectCheckbox v-model="formData.user_codes" multiple :localdata="userList"></my-selectCheckbox>
@@ -77,7 +78,7 @@
 			
 			<uni-forms v-if="type===3" ref="form" :modelValue="formData" :rules="rules" :label-width="100" label-position="top">
 				<uni-forms-item label="加班时间：" name="range" required>
-					<uni-datetime-picker v-model="formData.range" type="datetimerange" :start="moment().add(1,'days').format('YYYY-MM-DD')" rangeSeparator="至" hide-second/>
+					<uni-datetime-picker v-model="formData.range" type="datetimerange" rangeSeparator="至" hide-second/>
 					<view class="form-item-info">{{rangeHours}}</view>
 				</uni-forms-item>
 				<uni-forms-item label="加班人员:" name="user_codes" required>
@@ -111,6 +112,7 @@
 	import cloudFileUtil from '@/commom/uploadFiles/CloudFileUtil.js';
 	let _this;
 	const typeList = ['补卡','出差','外出','加班'];
+	const attendStatusList = ['缺卡', '', '迟到', '早退']
 	export default {
 		data() {
 			return {
@@ -183,7 +185,7 @@
 					index_code: this.navItem.index_code,
 				}, (data, res) => {
 					if(data&&data.list) {
-						this.replaceAbleList = data.list.map(v => ({value: v.id, text: moment(v.ctime).format("YYYY-MM-DD HH:mm 缺卡")}))
+						this.replaceAbleList = data.list.map(v => ({value: v.id, text: moment(v.ctime).format("YYYY-MM-DD HH:mm "+attendStatusList[v.attend_status])}))
 					}
 				})
 				this.rules = {
