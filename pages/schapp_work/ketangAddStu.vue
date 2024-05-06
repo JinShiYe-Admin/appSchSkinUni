@@ -3,7 +3,7 @@
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo' text="保存" :textClick="textClick"></mynavBar>
 		<uni-notice-bar :single="true" text="第三步:请完善学生考勤情况并保存！" />
 		<view style="padding:0 15px;">
-			<view class="title-text">{{navItem.grd.text}}{{navItem.cls.text}}&ensp;{{navItem.parseTime}}&ensp;{{getWeek()}}&ensp;{{navItem.jc.text}}{{navItem.km.text}}&ensp;课堂考勤</view>
+			<view class="title-text">{{navItem.grd.text}}{{navItem.cls.text}}&ensp;{{navItem.parseTime}}&ensp;{{getWeek()}}&ensp;{{navItem.jc.text}}{{navItem.km?navItem.km.text:''}}&ensp;课堂考勤</view>
 			<view class="title-total">
 				<view class="detail-text-total">班级人数：<view><text style="font-size: 15px;font-weight: 600;">{{bjrs}}</text>人</view></view>
 				<view class="detail-text-total">已到：<view><text style="font-size: 15px;font-weight: 600;">{{yd}}</text>人</view></view>
@@ -22,7 +22,7 @@
 			</view>
 		</view>
 		<uni-list>
-			<uni-list-item v-for="(item,index) in navItem.stuList" :key="index" :ellipsis="1" :title="item.sno!=null&&item.sno.length>0?item.name+'（'+item.sno+'）':item.name" :note="item.card_id?item.card_id:'无卡'" >
+			<uni-list-item v-for="(item,index) in navItem.stuList" :key="index" :ellipsis="1" :title="item.name" :note="item.sno?item.sno:'无学号'" >
 				<template v-slot:footer>
 					<view class="uni-flex uni-row form-view">
 						<template v-if="item.interface">
@@ -204,8 +204,8 @@
 					cls_name:this.navItem.cls.text,
 					attendance_time:this.navItem.time,
 					class_node:this.navItem.jc.value,
-					sub_code:this.navItem.km.value,
-					sub_name:this.navItem.km.text,
+					sub_code:this.navItem.km?this.navItem.km.value:'',
+					sub_name:this.navItem.km?this.navItem.km.text:'',
 					comment:'',
 					list:this.getStuList(),
 					index_code:this.index_code,
