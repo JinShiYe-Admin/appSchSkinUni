@@ -343,10 +343,6 @@
 					_this.showToast('请选择发生日期')
 				}else if(_this.jcIndex==-1){
 					_this.showToast('请选择节次')
-				}else if(_this.kmIndex==-1){
-					_this.showToast('请选择科目')
-				}else if(_this.formData.comment==''){
-					_this.showToast('请输入行为说明')
 				}else{
 					if(_this.canSub){
 						_this.canSub=false
@@ -429,7 +425,7 @@
 					comment: comment,
 					behavior_time: this.formData.time,
 					class_node: this.jcList[this.jcIndex].value,
-					sub_code:this.kmList[this.kmIndex].value,
+					sub_code:this.kmIndex>0?this.kmList[this.kmIndex].value:'',
 					asset_ids:asset_ids,
 					sms_parent_stu_flag:smsFlag,
 					index_code:this.index_code,

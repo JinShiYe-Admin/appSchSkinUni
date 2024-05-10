@@ -279,8 +279,6 @@
 					_this.showToast('请选择开始时间')
 				}else if(_this.endtime==''){
 					_this.showToast('请选择结束时间')
-				}else if(_this.comment==''){
-					_this.showToast('请输入行为说明')
 				}else{
 					if(_this.canSub){
 						_this.canSub=false

@@ -321,9 +321,9 @@
 				if(this.jcIndex==-1){
 					show=false
 				}
-				if(this.kmIndex==-1){
-					show=false
-				}
+				// if(this.kmIndex==-1){
+				// 	show=false
+				// }
 				if(this.time==''){
 					show=false
 				}
@@ -399,7 +399,7 @@
 						grd:this.grdList[this.grdIndex],
 						cls:this.clsList[this.clsIndex],
 						jc:this.jcList[this.jcIndex],
-						km:this.kmList[this.kmIndex],
+						km:this.kmIndex>0?this.kmList[this.kmIndex]:'',
 						time:this.time,
 						attendanceDict:this.attendanceDict,
 						locList:locList,

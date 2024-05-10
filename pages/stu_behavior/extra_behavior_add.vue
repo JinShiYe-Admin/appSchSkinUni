@@ -286,8 +286,6 @@
 					_this.showToast('请选择行为细项')
 				}else if(_this.formData.time==''){
 					_this.showToast('请选择发生日期')
-				}else if(_this.formData.comment==''){
-					_this.showToast('请输入行为说明')
 				}else{
 					if(_this.canSub){
 						_this.canSub=false
