@@ -38,11 +38,11 @@
 				</uni-card>
 			</uni-card>
 			<uni-card v-if="isClock" style="margin: 5px 0;">
-				<view style="margin-bottom: 6px;font-size: 14px;">照片：</view>
-				<view style="margin-bottom: 24px;">
-					<g-upload ref='gUpload' :mode="imgList" :control='true' :deleteBtn='true' @chooseFile='chooseFile'
+				<!-- <view style="margin-bottom: 6px;font-size: 14px;">照片：</view> -->
+				<view style="margin-bottom: 30px;">
+					<!-- <g-upload ref='gUpload' :mode="imgList" :control='true' :deleteBtn='true' @chooseFile='chooseFile'
 						@imgDelete='imgDelete' :maxCount="maxCount" :columnNum="3" :showMaxCount="showMaxCount">
-					</g-upload>
+					</g-upload> -->
 				</view>
 				<view style="margin-bottom: 24px;">
 					<button type="primary" class="clock-btn" @click="addrClock">
