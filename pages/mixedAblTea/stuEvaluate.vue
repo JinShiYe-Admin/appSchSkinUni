@@ -119,7 +119,7 @@
 							let tempM = data.data.list[i];
 							var tempArr = [];
 							for (var a = 0; a < tempM.stus.length; a++) {
-								tempArr.push(tempM.stus[a].stu_name);
+								tempArr.push(tempM.stus[a].sno&&tempM.stus[a].sno.length>0?tempM.stus[a].stu_name+'('+tempM.stus[a].sno+')':tempM.stus[a].stu_name);
 							}
 							tempM.stuStr = tempArr.join('、')
 						}

@@ -38,7 +38,7 @@
 						<uni-row>
 							<uni-col :span="24">
 								<view class="title-text" style="width: 82vw;">
-									{{item.grd_name}}&ensp;{{item.cls_name}}&ensp;{{item.stu_name}}
+									{{item.grd_name}}&ensp;{{item.cls_name}}&ensp;{{item.stu_name}}{{item.sno!=null&&item.sno.length>0?'（'+item.sno+'）':''}}
 								</view>
 							</uni-col>
 							<uni-col :span="24">

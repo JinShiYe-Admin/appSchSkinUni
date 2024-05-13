@@ -11,15 +11,15 @@
 		<uni-card isShadow v-for="(item,index) in pagedata" :key="index">
 			<uni-row
 				style="margin: 0 10px;text-align: center;color: #000000;padding-bottom: 5px;font-size: 14px;">
-				<uni-col :span="8">
-					<view class="rowStyle" style="">{{item.grd_name}}</view>
+				<uni-col :span="24">
+					<view class="rowStyle" style="">{{item.grd_name}}&ensp;&ensp;{{item.cls_name}}&ensp;&ensp;{{item.stu_name}}{{item.sno&&item.sno.length>0?'('+item.sno+')':''}}</view>
 				</uni-col>
-				<uni-col :span="8">
+				<!-- <uni-col :span="8">
 					<view class="rowStyle" style="">{{item.cls_name}}</view>
 				</uni-col>
 				<uni-col :span="8">
 					<view class="rowStyle" style="">{{item.stu_name}}</view>
-				</uni-col>
+				</uni-col> -->
 			</uni-row>
 			<view class="cardLine"></view>
 			<!-- <view class="card-line">{{item.sign_status_cn}}</view> -->

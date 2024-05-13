@@ -13,7 +13,7 @@
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">学生</view>
-			<view class="form-right">{{navItem.stu_name}}</view>
+			<view class="form-right">{{navItem.stu_name}}{{navItem.sno&&navItem.sno.length>0?'('+navItem.sno+')':''}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
@@ -91,7 +91,7 @@
 			itemData.text='行为详情'
 			this.navItem = itemData;
 			this.index_code=itemData.index_code
-			console.log("itemData: " + JSON.stringify(itemData));
+			//console.log("itemData: " + JSON.stringify(itemData));
 			//#ifdef H5
 				document.title=""
 			//#endif
@@ -113,7 +113,7 @@
 					index_code:this.index_code,
 				}
 				this.post(url,comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					this.showToast('操作成功')
 					const eventChannel = this.getOpenerEventChannel()
 					eventChannel.emit('refreshList', {data: 1});

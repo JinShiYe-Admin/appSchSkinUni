@@ -4,7 +4,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">行为详情</view>
 			<view class="form-right">
-				<view style="margin: 5px 0;text-align: left;">{{navItem.grd_name}}&ensp;{{navItem.class_name}}&ensp;{{navItem.stu_name}}</view>
+				<view style="margin: 5px 0;text-align: left;">{{navItem.grd_name}}&ensp;{{navItem.class_name}}&ensp;{{navItem.stu_name}}{{navItem.sno!=null&&navItem.sno.length>0?'（'+navItem.sno+'）':''}}</view>
 				<view style="margin: 5px 0;text-align: left;">{{navItem.behavior_time}}&ensp;&ensp;{{navItem.item_txt}}</view>
 				<view style="margin: 5px 0;text-align: left;">{{navItem.comment}}</view>
 			</view>

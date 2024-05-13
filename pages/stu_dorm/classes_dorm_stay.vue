@@ -22,7 +22,7 @@
 				<uni-list-item :key="index" v-for="(model,index) in pageArray" :border="true">
 					<view slot="body" class="slot-box slot-text">
 						<uni-row>
-							<uni-col :span="24"><view class="detail-text">姓名:{{model.grd_name}} {{model.cls_name}} {{model.stu_name}}</view></uni-col>
+							<uni-col :span="24"><view class="detail-text">姓名:{{model.grd_name}} {{model.cls_name}} {{model.stu_name}}{{model.sno!=null&&model.sno.length>0?'（'+model.sno+'）':''}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">床位号:{{model.bed_num}}</view></uni-col>
 						</uni-row>
 					</view>
@@ -55,7 +55,7 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_DORM+'classDorm/pageRoomDetail',params,response2=>{
-					console.log("response2: " + JSON.stringify(response2));
+					//console.log("response2: " + JSON.stringify(response2));
 					this.hideLoading()
 					this.pageArray=[].concat(response2.list);
 					if (response2.list.length == 0) {
@@ -68,7 +68,7 @@
 			const itemData = util.getPageData(options);
 			this.index_code=itemData.index_code
 			this.itemData=itemData
-			console.log(JSON.stringify(itemData));
+			//console.log(JSON.stringify(itemData));
 			setTimeout(()=>{
 				 this.showLoading()
 				 this.getPage()

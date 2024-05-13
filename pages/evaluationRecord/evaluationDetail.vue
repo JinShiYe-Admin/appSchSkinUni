@@ -40,7 +40,7 @@
 			<uni-row v-for="(model,index) in pageModel.ser_array" :key="index" style="margin: 0px -10px 0 -10px;" :style="{background:(index%2==0?'#EDFCE9':'white')}">
 				<view @click="gotoStuDetail(model)">
 					<uni-col style="" :span="9">
-						<p class="scoreDetail">{{model.stu_name}}</p>
+						<p class="scoreDetail">{{model.stu_name}}{{model.sno!=null&&model.sno.length>0?'（'+model.sno+'）':''}}</p>
 					</uni-col>
 					<uni-col style="" :span="6">
 						<p class="scoreDetail">{{model.total_score}}</p>

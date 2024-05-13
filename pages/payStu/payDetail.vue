@@ -28,7 +28,7 @@
 					<view class="title-text" style="margin-top: 5px;margin-bottom: 10px;">{{model.price}}</view>
 				</uni-col>
 			</uni-row>
-			<uni-row v-if="pageData.deduct_money != 0">
+			<uni-row v-if="parseFloat(pageData.deduct_money) != 0">
 				<uni-col :span="24">
 					<view class="title-text" style="margin-top: 10px;">费用减免:</view>
 				</uni-col>
@@ -44,30 +44,30 @@
 			<view style="font-size: 36px;color: #333333;margin-top: 5px;text-align: center;">
 				{{pageData.pay_price}}
 			</view>
-			<view v-if="pageData.pay_price==0" class="noMoney">免缴</view>
-			<view v-if="pageData.pay_status == 2&&pageData.pay_price>0" class="noMoney">已缴</view>
+			<view v-if="parseFloat(pageData.pay_price)==0" class="noMoney">免缴</view>
+			<view v-if="pageData.pay_status == 2&&parseFloat(pageData.pay_price)>0" class="noMoney">已缴</view>
 		</uni-card>
 		<view v-if="pageData.pay_user_code&&pageData.pay_user_code==personInfo.user_code">
-			<view v-if="pageData.status == 1&&pageData.pay_status == 0 &&pageData.pay_price>0" class="wxPay"
+			<view v-if="pageData.status == 1&&pageData.pay_status == 0 &&parseFloat(pageData.pay_price)>0" class="wxPay"
 				@click="getPayDetailAdd()">
 				微信支付
 			</view>
-			<view v-if="pageData.status == 1&&pageData.pay_status == 1 &&pageData.pay_price>0"
+			<view v-if="pageData.status == 1&&pageData.pay_status == 1 &&parseFloat(pageData.pay_price)>0"
 				style="margin: 10px;font-size: 20px;color: red;font-weight: 700;text-align: center;">上次有缴费未完成，是否继续？
 			</view>
-			<view v-if="pageData.status == 1&&pageData.pay_status == 1 &&pageData.pay_price>0" class="wxPay"
+			<view v-if="pageData.status == 1&&pageData.pay_status == 1 &&parseFloat(pageData.pay_price)>0" class="wxPay"
 				@click="getPayDetailAdd()">
 				继续微信支付
 			</view>
-			<view v-if="pageData.status == 1&&pageData.pay_status == 1 &&pageData.pay_price>0" class="wxPay"
+			<view v-if="pageData.status == 1&&pageData.pay_status == 1 &&parseFloat(pageData.pay_price)>0" class="wxPay"
 				style="margin-top: 15px;background: #d7d7d7;color: #555555;" @click="getPayDelete()">
 				取消支付
 			</view>
 		</view>
-		<view v-else-if="pageData.status == 1&&pageData.pay_status != 2&&pageData.pay_price>0 && personInfo.type_code != 'YHLX0003'" class="wxPay" @click="getPayDetailAdd()">
+		<view v-else-if="pageData.status == 1&&pageData.pay_status != 2&&parseFloat(pageData.pay_price)>0 && personInfo.type_code != 'YHLX0003'" class="wxPay" @click="getPayDetailAdd()">
 			微信支付
 		</view>
-		<uni-card isShadow v-if="pageData.pay_status == 2&&pageData.pay_price>0">
+		<uni-card isShadow v-if="pageData.pay_status == 2&&parseFloat(pageData.pay_price)>0">
 			<view class='title-text'>缴费情况</view>
 			<view class="card-line"></view>
 			<uni-row>
@@ -168,7 +168,7 @@
 					body: this.pageData.title, //商品名称
 					attach: '', //附加描述,最好填写,以区分
 					uid: this.personInfo.user_code, //订购的注册账户
-					total_fee: this.pageData.pay_price * 100, //人民币商品总价,以分为单位
+					total_fee: parseFloat(this.pageData.pay_price) * 100, //人民币商品总价,以分为单位
 					goods_tag: '', //商品标签,商品分类标签,根据实际情况填写
 					product_id: this.navItem.task_id.toString(), //商品代码,根据实际情况填写:如套餐填写套餐编码
 					frmtype: "APP" //订购客户端,发起订购的设备:如PC,APP等

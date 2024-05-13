@@ -44,8 +44,8 @@
 				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
 					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text"><view v-if="item.status!=null" class='leaveType'>{{item.item_txt}}</view>{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}<view v-if="item.status!=null" :class="item.status=='unTalk'?'leaveType1':item.status=='talk'?'leaveType2':item.status=='read'?'leaveType3':''">{{item.status_txt}}</view></view></uni-col>
-							
+							<uni-col :span="24"><view class="title-text"><view v-if="item.status!=null" class='leaveType'>{{item.item_txt}}</view>{{item.grd_name}} {{item.class_name}}<view v-if="item.status!=null" :class="item.status=='unTalk'?'leaveType1':item.status=='talk'?'leaveType2':item.status=='read'?'leaveType3':''">{{item.status_txt}}</view></view></uni-col>
+							<uni-col :span="24"><view class="title-text" style="margin-top: 5px;">{{item.stu_name}}{{item.sno!=null&&item.sno.length>0?'（'+item.sno+'）':''}}</view></uni-col>
 							<template v-if="item.status==null"><!-- 主动谈话 -->
 								<uni-col :span="24"><view class="detail-text">谈话记录:{{item.chat_detail}}</view></uni-col>
 								<uni-col :span="16"><view class="detail-text">记录人:{{item.create_user_name}}</view></uni-col>

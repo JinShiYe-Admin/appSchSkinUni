@@ -20,7 +20,7 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">姓名</view>
 			<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stuList" range-key="showText">
-				<view class="uni-input form-right">{{stuIndex>=0?stuList[stuIndex].text:'请选择'}}</view>
+				<view class="uni-input form-right">{{stuIndex>=0?stuList[stuIndex].showText:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>
@@ -134,7 +134,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'smsConf/getConf',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					if (response && response.user_types) {
 						let config_types=response.user_types.split(",");
 						let local_types=this.STUKQ_MSG_SMS.ASKLEAVE.USER_TYPE.split(",");
@@ -165,7 +165,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'smsWords/page',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					this.WORDS=response.list
 					this.hideLoading()
 				})
@@ -177,7 +177,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					let grds = response.grd_list;
 					let grdList=[];
 					grds.map(function(currentValue) {
@@ -202,7 +202,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					let clss = response.cls_list;
 					let clssList=[];
 					clss.map(function(currentValue) {
@@ -228,7 +228,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					let stu = response.stu_list;
 					let stuList=[];
 					stu.map(function(currentValue) {
@@ -251,7 +251,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/getDict',comData,response=>{
-				    console.log("responseaaaa: " + JSON.stringify(response));
+				    //console.log("responseaaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let kqlxList = [].concat(response.qaArray);
 					let crqxList=[].concat(response.inOutPermissionArray)
@@ -322,7 +322,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK+'LeaveRecord/save',comData,(response0,response)=>{
-					console.log("response: " + JSON.stringify(response));
+					//console.log("response: " + JSON.stringify(response));
 				     if (response.code == 0) {
 						 this.hideLoading()
 						 this.showToast(response.msg);
@@ -390,7 +390,7 @@
 			},
 			beginTimeSelect(e){
 				if(this.endtime){
-					console.log(this.moment(this.endtime).diff(e.value,'minutes'));
+					//console.log(this.moment(this.endtime).diff(e.value,'minutes'));
 					if(this.moment(this.endtime).diff(e.value,'minutes')>=0){
 						this.begintime=e.value
 					}else{

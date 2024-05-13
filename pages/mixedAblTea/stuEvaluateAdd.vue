@@ -32,16 +32,16 @@
 			</uni-col>
 			<uni-col :span="16">
 				<view @click="stuClick()" class="titleRight">
-					{{stuStr.length>0?stuStr:'请选择'}}
+					{{stuStr&&stuStr.length>0?stuStr:'请选择'}}
 					<uni-icons style="margin-left: 20px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
 				</view>
 			</uni-col>
-			<uni-col v-if="subArray.length>0" :span="8">
+			<uni-col v-if="subArray&&subArray.length>0" :span="8">
 				<view class="titleLeft">科目：</view>
 			</uni-col>
-			<uni-col v-if="subArray.length>0" :span="16">
+			<uni-col v-if="subArray&&subArray.length>0" :span="16">
 				<view @click="subClick()" class="titleRight">
-					{{subStr.length>0?subStr:'请选择'}}
+					{{subStr&&subStr.length>0?subStr:'请选择'}}
 					<uni-icons style="margin-left: 20px;" type="bottom" color='#7f7f7f' size="14"></uni-icons>
 				</view>
 			</uni-col>
@@ -124,11 +124,11 @@
 			<view style="margin-top: 10px;text-align: center;font-size: 16px;color: #000000;">请选择学生</view>
 			<view style="margin: 20px 10px;">
 				<scroll-view scroll-y="true" style="max-height: 400px;">
-					<uni-grid :column="4">
+					<uni-grid :column="2">
 						<uni-grid-item v-for="(item, index) in stuArrayTemp" :key="index" style="height: 40px;">
 							<view class="grid-item-box gridBox" @click='stuSelect(item, index)'
 								:style="item.selectFlag==1?'background-color: #2c96bd;color: #ffffff;':''">
-								{{item.text}}
+								{{item.text}}{{item.sno&&item.sno.length>0?'('+item.sno+')':''}}
 							</view>
 						</uni-grid-item>
 					</uni-grid>
@@ -290,7 +290,7 @@
 					for (var i = 0; i < this.stuArray.length; i++) {
 						var tempM = this.stuArray[i];
 						if (tempM.selectFlag == 1) {
-							tempStu.push(tempM.text);
+							tempStu.push(tempM.sno.length>0?tempM.text+'('+tempM.sno+')':tempM.text);
 						}
 					}
 					this.stuStr = tempStu.join(',');
@@ -420,6 +420,7 @@
 						let obj = {};
 						let name = currentValue.name.indexOf('全部') == -1 ? currentValue.name : '全部学生';
 						obj.value = currentValue.value;
+						obj.sno = currentValue.sno;
 						obj.text = name;
 						obj.selectFlag = 0;
 						stuArray.push(obj)

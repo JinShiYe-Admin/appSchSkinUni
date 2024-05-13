@@ -14,7 +14,7 @@
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">姓名</view>
-				<view class="form-right">{{detailData.stu_name}}</view>
+				<view class="form-right">{{detailData.stu_name}}{{'('+detailData.sno+')'}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
@@ -23,12 +23,12 @@
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
-				<view class="form-left">考勤情况</view>
+				<view class="form-left">考勤项目</view>
 				<view class="form-right">{{detailData.item_txt}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
-				<view class="form-left">考勤说明</view>
+				<view class="form-left">说明</view>
 				<view class="form-right"  style="text-align: left;">{{detailData.comment}}</view>
 			</view>
 			<view class="line"></view>
@@ -72,15 +72,15 @@
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view2">
 				<view class="form-left">姓名</view>
-				<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stuList" range-key="text">
+				<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="stuIndex" :range="stuList" range-key="showText">
 					<!-- <input class="uni-input form-right"  :value="stuIndex>=0?stuList[stuIndex].text:''" placeholder="请选择" disabled/> -->
-					<view class="uni-input form-right">{{stuIndex>=0?stuList[stuIndex].text:'请选择'}}</view>
+					<view class="uni-input form-right">{{stuIndex>=0?stuList[stuIndex].text+(stuList[stuIndex].sno.length>0?'('+stuList[stuIndex].sno+')':''):'请选择'}}</view>
 				</picker>
 				<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view2">
-				<view class="form-left">考勤情况</view>
+				<view class="form-left">考勤项目</view>
 				<picker style="width:100% !important;" mode="selector" @change="attendanceSelect" :value="attendanceIndex" :range="attendanceList" range-key="text">
 					<!-- <input class="uni-input form-right"  :value="attendanceIndex>=0?attendanceList[attendanceIndex].text:''" placeholder="请选择" disabled/> -->
 					<view class="uni-input form-right">{{attendanceIndex>=0?attendanceList[attendanceIndex].text:'请选择'}}</view>
@@ -105,11 +105,11 @@
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view2">
 				<view class="form-left">科目</view>
-				<picker style="width:100% !important;" mode="selector" @change="kmSelect" :value="kmIndex" :range="kmList" range-key="text">
-					<!-- <input class="uni-input form-right"  :value="kmIndex>=0?kmList[kmIndex].text:''" placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{detailData.sub_name}}</view>
+				<!-- <picker style="width:100% !important;" mode="selector" @change="kmSelect" :value="kmIndex" :range="kmList" range-key="text">
 					<view class="uni-input form-right">{{kmIndex>=0?kmList[kmIndex].text:'请选择'}}</view>
-				</picker>
-				<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
+				</picker> -->
+				<!-- <uni-icons size="13" type="arrowdown" color="#808080"></uni-icons> -->
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view2">
@@ -149,7 +149,8 @@
 					create_user_name:"",
 					item_txt:"",
 					attendance_type:"",
-					id:''
+					id:'',
+					sno:''
 				},
 				icon:'',
 				text:'',
@@ -200,7 +201,8 @@
 				create_user_name:itemData.create_user_name,
 				item_txt:itemData.item_txt,
 				attendance_type:itemData.attendance_type,
-				id:itemData.id
+				id:itemData.id,
+				sno:itemData.sno
 			}
 			this.time=itemData.attendance_time
 			this.comment=itemData.comment
@@ -277,7 +279,7 @@
 						stu_ids:this.stuList[this.stuIndex].value,
 						item_code:this.attendanceList[this.attendanceIndex].value,
 						class_node:this.jcList[this.jcIndex].value,
-						sub_code:this.kmList[this.kmIndex].value,
+						sub_code:this.kmIndex>=0?this.kmList[this.kmIndex].value:'',
 						comment:this.comment,
 						id:this.navItem.id,
 						index_code:this.index_code,
@@ -368,6 +370,10 @@
 				}
 				this.post(this.globaData.INTERFACE_WORK+'Common/getEditGrdClsSubStuInfo',comData,response=>{
 				    // console.log("StudentAttendance/getDict: " + JSON.stringify(response));
+					for (var i = 0; i < response.stuArray.length; i++) {
+						let tempM = response.stuArray[i]
+						tempM.showText = tempM.sno!=null&&tempM.sno.length>0?tempM.text+'（'+tempM.sno+'）':tempM.text;
+					}
 					this.stuList=response.stuArray
 					this.kmList=response.subArray
 					response.stuArray.map((item,index)=>{

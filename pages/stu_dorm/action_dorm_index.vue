@@ -35,7 +35,7 @@
 				<uni-list-item showArrow clickable @click="toDetails(item)" :key="index" v-for="(item,index) in pagedata" :border="true">
 					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
-							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.cls_name}}  {{item.stu_name}}</view></uni-col>
+							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.cls_name}}  {{item.stu_name}}{{item.sno!=null&&item.sno.length>0?'（'+item.sno+'）':''}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">{{item.dorm_name}}{{item.floor_num}}层{{item.room_name}}{{item.bed_num}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text">考勤:{{item.item_name}}</view></uni-col>
 							<uni-col :span="12"><view class="detail-text" style="text-align: right;">{{item.attendance_date}}</view></uni-col>

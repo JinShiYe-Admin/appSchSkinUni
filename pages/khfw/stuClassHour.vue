@@ -309,9 +309,9 @@
 						var tempDs = [];
 						tempCol.push({
 							label: '学生',
-							name: 'stu_name',
+							name: 'stu_name_show',
 							align:'center',
-							fixed:true
+							// fixed:true
 						})
 						tempCol.push({
 							label: '年级',
@@ -340,6 +340,7 @@
 						this.columns = tempCol;
 						for (var i = 0; i < data.data.list.length; i++) {
 							var tempM = data.data.list[i];
+							tempM.stu_name_show = tempM.sno&&tempM.sno.length>0?tempM.stu_name+'('+tempM.sno+')':tempM.stu_name
 							tempM.stu_sub_num = parseInt(tempM.stu_sub_num);
 							tempM.stu_sign_num = parseInt(tempM.stu_sign_num);
 						}

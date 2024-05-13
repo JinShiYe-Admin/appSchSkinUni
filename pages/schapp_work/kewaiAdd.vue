@@ -125,7 +125,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'smsConf/getConf',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					if (response && response.user_types) {
 						let config_types=response.user_types.split(",");
 						let local_types=this.STUKQ_MSG_SMS.OUTCLS.USER_TYPE.split(",");
@@ -156,7 +156,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'smsWords/page',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.WORDS=response.list
 					this.hideLoading()
 				})
@@ -168,7 +168,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					let grds = response.grd_list;
 					let grdList=[];
 					grds.map(function(currentValue) {
@@ -193,7 +193,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					let clss = response.cls_list;
 					let clssList=[];
 					clss.map(function(currentValue) {
@@ -219,7 +219,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					let stu = response.stu_list;
 					let stuList=[];
 					stu.map(function(currentValue) {
@@ -242,7 +242,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK+'ExtraAttendance/getDict',comData,response=>{
-				    console.log("responsesabaa: " + JSON.stringify(response));
+				    // console.log("responsesabaa: " + JSON.stringify(response));
 					this.hideLoading()
 					this.xwxxList =  [].concat(response.qaArray);
 				})
@@ -300,7 +300,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK+'ExtraAttendance/saveData',comData,(response0,response)=>{
-					console.log("response: " + JSON.stringify(response));
+					// console.log("response: " + JSON.stringify(response));
 				     if (response.code == 0) {
 						 this.hideLoading()
 						 this.showToast(response.msg);
@@ -334,7 +334,7 @@
 					 this.stuNameList= [] 
 					 this.stuIdList= [] 
 					 	this.getStu(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value)
-						this.getKm(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value);
+						// this.getKm(this.grdList[this.grdIndex].value,this.clsList[e.detail.value].value);
 				}
 			},
 			selectStu(e){
@@ -354,12 +354,15 @@
 						refreshSetPeople(data){//子页面调用父页面需要的方法
 							 let stuNameList= []
 							 let stuIdList= []
+							 console.log('datadata:'+JSON.stringify(data))
 							 data.data.map(item=>{
 								 if(item.checked){
-									 stuNameList.push(item.text)
+									 stuNameList.push(item.sno.length>0?item.text+'('+item.sno+')':item.text)
+									 // stuNameList.push(item.text)
 									 stuIdList.push(item.value)
 								 }
 							 })
+							 console.log('stuNameList:'+JSON.stringify(stuNameList))
 							 that.stuNameList=stuNameList
 							 that.stuIdList=stuIdList
 						}
@@ -419,6 +422,9 @@
 		word-break: break-all;
 		color: #787878;
 		text-align: right;
+		overflow:hidden;
+		white-space:nowrap; /*不允许换行*/
+		text-overflow:ellipsis;/*超出部分省略号显示*/
 	}
 	::v-deep .form-right .placeholder{
 		color: grey;

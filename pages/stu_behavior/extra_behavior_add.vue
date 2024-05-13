@@ -153,7 +153,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'smsConf/getConf',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					if (response && response.user_types) {
 						let config_types=response.user_types.split(",");
 						let local_types=this.ACTION_MSG_SMS.OUTCLSBEHAVIOR.USER_TYPE.split(",");
@@ -184,7 +184,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'smsWords/page',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					this.WORDS=response.list
 					this.hideLoading()
 				})
@@ -196,7 +196,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					let grds = response.grd_list;
 					let grdList=[];
 					grds.map(function(currentValue) {
@@ -221,7 +221,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					let clss = response.cls_list;
 					let clssList=[];
 					clss.map(function(currentValue) {
@@ -247,13 +247,14 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					let stu = response.stu_list;
 					let stuList=[];
 					stu.map(function(currentValue) {
 						let obj = {};
 						obj.value = currentValue.value;
 						obj.text = currentValue.name;
+						obj.sno = currentValue.sno;
 						stuList.push(obj)
 					})
 					if(stuList.length>0 ){
@@ -270,7 +271,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_STUXWSUB+'ExtraBehavior/getDict',comData,response=>{
-				    console.log("responsesabaa: " + JSON.stringify(response));
+				    //console.log("responsesabaa: " + JSON.stringify(response));
 					this.hideLoading()
 					this.xwxxList =  [].concat(response.qbArray);
 				})
@@ -314,28 +315,28 @@
 			},
 			//附件上传相关👇
 			chooseFile(list, v,f) {
-			  // console.log("上传图片_list：", list)
-			  // console.log("上传图片_v：", v);
-			  //  console.log("上传图片_f：", f);
+			  // //console.log("上传图片_list：", list)
+			  // //console.log("上传图片_v：", v);
+			  //  //console.log("上传图片_f：", f);
 			  this.imgList=list
 			  this.imgFiles=this.imgFiles.concat(f)
 			  this.maxCount=this.showMaxCount-list.length
 			},
 			imgDelete(list, eq,fileeq) {
-			  // console.log("删除图片_list：", list)
-			  // console.log("删除图片_eq：", eq)
-			  // console.log("删除图片_fileeq：", fileeq)
+			  // //console.log("删除图片_list：", list)
+			  // //console.log("删除图片_eq：", eq)
+			  // //console.log("删除图片_fileeq：", fileeq)
 			  this.imgList=list
 			  this.imgFiles.splice(fileeq, 1); //删除临时路径
 			   this.imgNames.splice(eq, 1); //删除文件名
 			  this.maxCount=this.showMaxCount-list.length
-			  // console.log("删除图片_fileeq：", this.imgFiles)
+			  // //console.log("删除图片_fileeq：", this.imgFiles)
 			},
 			upLoadImg(){
 				this.showLoading('正在上传文件...')
 				cloudFileUtil.uploadFiles(this,'1',this.imgList,this.QN_PB_NAME,this.QN_XSXW_KWXW,(encName,encAddrStr)=>{
-					console.log("encAddrStr: " + JSON.stringify(encAddrStr));
-					console.log("names: " + JSON.stringify(encName));
+					//console.log("encAddrStr: " + JSON.stringify(encAddrStr));
+					//console.log("names: " + JSON.stringify(encName));
 					this.submitData(encName,encAddrStr)
 				})
 			},
@@ -371,7 +372,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_STUXWSUB+'ExtraBehavior/saveExtra',comData,(response0,response)=>{
-					console.log("response: " + JSON.stringify(response));
+					//console.log("response: " + JSON.stringify(response));
 				     if (response.code == 0) {
 						 this.hideLoading()
 						 this.showToast(response.msg);
@@ -432,7 +433,7 @@
 							 let stuIdList= []
 							 data.data.map(item=>{
 								 if(item.checked){
-									 stuNameList.push(item.text)
+									 stuNameList.push(item.sno.length>0?item.text+'('+item.sno+')':item.text)
 									 stuIdList.push(item.value)
 								 }
 							 })

@@ -3,7 +3,7 @@
 		<mynavBar ref="mynavBar" :navItem='navItem' :personInfo='personInfo'></mynavBar>
 		
 		<uni-grid :column="2" :showBorder="false"  :square="false" :highlight="false" style="padding: 0.5rem 0;">
-			<uni-grid-item>
+			<uni-grid-item style="width: 140px;margin-right: 20px;">
 				<uni-datetime-picker class="healthmsg-date-picker" type="date" :end="curDate" :clear-icon="false" 
 					:value="date" @change="dateChange"/>
 			</uni-grid-item>

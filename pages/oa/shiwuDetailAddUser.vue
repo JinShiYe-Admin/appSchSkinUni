@@ -94,7 +94,18 @@
 		</uni-popup>
 		<uni-popup ref="popupPeople" type="dialog">
 			<uni-popup-dialog :title="popupAddPeople" :duration="2000" :before-close="true" @close="closePeople"
-				@confirm="confirmPeople"></uni-popup-dialog>
+				@confirm="confirmPeople">
+				<view v-if="dialogFlag == 0" style="text-align: left;color:gray;font-size:14px;">
+					<p>以下人员已在在当前事务中，系统为您自动排除:</p>
+					<view><p style="font-size:14px;font-weight:600">{{repeatUsers.join(',')}}</p></view>
+					<view><br><p>以下人员将作为新增人员添加到当前事务中:</p></view>
+					<view><p style="font-size:14px;font-weight:600;color:#000">{{receiveManNames.join(',')}}</p></view>
+				</view>
+				<view v-if="dialogFlag == 1" style="text-align: left">
+					<view><p>以下人员将作为新增人员添加到当前事务中:</p></view>
+					<view><p style="font-size:14px;font-weight:600;color:#000">{{receiveManNames.join(',')}}</p></view>
+				</view>
+			</uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -137,7 +148,9 @@
 				imgNames: [], //服务器回传的图片名称
 				imgList: [], //选择的或服务器回传的图片地址，如果是私有空间，需要先获取token再放入，否则会预览失败
 				imgFiles: [], //选择的文件对象，用于上传时获取文件名  不需要改动
-				wxTips: ''
+				wxTips: '',
+				dialogFlag:0,
+				repeatUsers:[],
 			}
 		},
 		components: {
@@ -272,17 +285,20 @@
 						// console.log("afterSelectPeople: " + JSON.stringify(afterSelectPeople));
 						if (afterSelectPeople.length > 0) {
 							if (repeatUsers.length > 0) {
-								_this.popupAddPeople = `<view style="text-align: left;color:gray;font-size:14px;">
-									<p>以下人员已在在当前事务中，系统为您自动排除:</p>
-									<view><p style="font-size:14px;font-weight:600">${repeatUsers.join(',')}</p></view>
-									<view><br><p>以下人员将作为新增人员添加到当前事务中:</p></view>
-									<view><p style="font-size:14px;font-weight:600;color:#000">${_this.receiveManNames.join(',')}</p></view>
-									</view>`
+								_this.dialogFlag = 0
+								_this.repeatUsers = repeatUsers
+								// _this.popupAddPeople = `<view style="text-align: left;color:gray;font-size:14px;">
+								// 	<p>以下人员已在在当前事务中，系统为您自动排除:</p>
+								// 	<view><p style="font-size:14px;font-weight:600">${repeatUsers.join(',')}</p></view>
+								// 	<view><br><p>以下人员将作为新增人员添加到当前事务中:</p></view>
+								// 	<view><p style="font-size:14px;font-weight:600;color:#000">${_this.receiveManNames.join(',')}</p></view>
+								// 	</view>`
 							} else {
-								_this.popupAddPeople = `<view style="text-align: left">
-									<view><p>以下人员将作为新增人员添加到当前事务中:</p></view>
-									<view><p style="font-size:14px;font-weight:600;color:#000">${_this.receiveManNames.join(',')}</p></view>
-									</view>`
+								_this.dialogFlag = 1
+								// _this.popupAddPeople = `<view style="text-align: left">
+								// 	<view><p>以下人员将作为新增人员添加到当前事务中:</p></view>
+								// 	<view><p style="font-size:14px;font-weight:600;color:#000">${_this.receiveManNames.join(',')}</p></view>
+								// 	</view>`
 							}
 							_this.$refs.popupPeople.open();
 						} else {

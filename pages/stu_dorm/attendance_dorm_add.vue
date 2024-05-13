@@ -347,6 +347,7 @@
 						stuList.map(item=>{
 							if(stuItem.grd_code==item.grd_code  && stuItem.cls_code==item.cls_code && stuItem.stu_code==item.stu_code){
 								item.card_id=stuItem.card_no?stuItem.card_no:''
+								item.sno=stuItem.sno?stuItem.sno:''
 								if(stuItem.card_no){
 									cardIdList.push(stuItem.card_no)
 								}

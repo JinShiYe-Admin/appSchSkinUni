@@ -9,7 +9,7 @@
 							<view style="float: left;height: 40px;width: 60px;margin-top: 10px;">
 								<view v-if="model.status == 1">
 									<view v-if="model.pay_status == 2" class='otherIndex otherIndex1'>已缴费</view>
-									<view v-else-if="model.total_price == 0" class='otherIndex otherIndex2'>免缴</view>
+									<view v-else-if="parseFloat(model.total_price) == 0" class='otherIndex otherIndex2'>免缴</view>
 									<view v-else class='otherIndex'>未缴费</view>
 								</view>
 								<view v-else>
@@ -26,7 +26,7 @@
 							{{model.total_price}}</view>
 					</uni-card>
 				</view>
-				<view style="text-align: center;margin-top: 50px;color: gray;font-size: 13px;">暂无数据</view>
+				<view v-if="pageArray.length==0" style="text-align: center;margin-top: 50px;color: gray;font-size: 13px;">暂无数据</view>
 				<view style="height: 5px;"></view>
 			</view>
 		</view>

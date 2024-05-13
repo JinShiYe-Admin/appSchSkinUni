@@ -14,7 +14,7 @@
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">姓名</view>
-				<view class="form-right">{{detailData.stu_name}}</view>
+				<view class="form-right">{{detailData.stu_name}}{{detailData.sno!=null&&detailData.sno.length>0?'（'+detailData.sno+'）':''}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">

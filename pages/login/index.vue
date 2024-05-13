@@ -535,9 +535,12 @@
 							if (tempArray.length==1&&tempVal) {
 								util.openwithData(tempArray[0].pagePath1, tempArray[0]);
 							} else{
-								uni.switchTab({
-									url: tempArray[0].pagePath
-								});
+								this.showToast('登录成功');
+								setTimeout(() => {
+									uni.switchTab({
+										url: tempArray[0].pagePath
+									});
+								}, 1000);
 							}
 							// #ifdef APP-PLUS
 								// 注册消息推送服务

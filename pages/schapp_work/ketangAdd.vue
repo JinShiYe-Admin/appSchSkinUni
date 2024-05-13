@@ -207,7 +207,7 @@
 						subList.push(obj)
 					})
 					if(subList.length>0){
-						this.kmList=subList;
+						this.kmList=[{text: "请选择",value: "-1"}].concat(subList);
 					}else{
 						 this.showToast('无数据授权 无法获取科目');
 					}
@@ -399,7 +399,7 @@
 						grd:this.grdList[this.grdIndex],
 						cls:this.clsList[this.clsIndex],
 						jc:this.jcList[this.jcIndex],
-						km:this.kmIndex>0?this.kmList[this.kmIndex]:'',
+						km:this.kmIndex>=0?this.kmList[this.kmIndex]:'',
 						time:this.time,
 						attendanceDict:this.attendanceDict,
 						locList:locList,
@@ -419,7 +419,7 @@
 						grd:this.grdList[this.grdIndex],
 						cls:this.clsList[this.clsIndex],
 						jc:this.jcList[this.jcIndex],
-						km:this.kmList[this.kmIndex],
+						km:this.kmIndex>=0?this.kmList[this.kmIndex]:'',
 						time:this.time,
 						attendanceDict:this.attendanceDict,
 						stuList:stuList,

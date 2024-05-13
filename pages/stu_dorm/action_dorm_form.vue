@@ -25,7 +25,7 @@
 					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(model)">
 						<view class="title-text">{{model.grd_name}} {{model.cls_name}}</view>
 						<uni-row>
-							<uni-col :key='index2' :span="8" v-for="(item,index2) in model.subList">
+							<uni-col :key='index2' :span="24" v-for="(item,index2) in model.subList">
 								<view class="detail-text">{{item.name}}:{{item.value}} 次</view>
 							</uni-col>
 						</uni-row>
@@ -285,7 +285,7 @@
 	 .title-text{
 		 display: flex;
 		 align-items: center;
-	 	width: 80vw;
+	 	width: 60vw;
 		color: #5C5C5C;
 	 	overflow: hidden;
 	 	text-overflow: ellipsis;

@@ -18,7 +18,7 @@
 						<view class="title-text" style="margin-top: 5px;">{{item.name}}({{item.list.length}}次)</view>
 						<view class="line" style="margin-top: 5px;"></view>
 						<uni-row :key="index2" v-for="(model,index2) in item.list">
-							<uni-col :span="24"><view class="detail-text">姓名:{{model.stu_name}}</view></uni-col>
+							<uni-col :span="24"><view class="detail-text">姓名:{{model.stu_name}}{{model.sno&&model.sno.length>0?'('+model.sno+')':''}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">床位:{{model.dorm_name}}{{model.floor_num}}层{{model.room_name}}房间{{model.bed_num}}床位</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">说明:{{model.remark}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">日期:{{model.attendance_date}}</view></uni-col>

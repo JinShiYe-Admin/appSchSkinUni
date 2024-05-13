@@ -14,7 +14,7 @@
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
 				<view class="form-left">学生</view>
-				<view class="form-right">{{navItem.stu_name}}</view>
+				<view class="form-right">{{navItem.stu_name}}{{navItem.sno&&navItem.sno.length>0?'('+navItem.sno+')':''}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view">
@@ -156,7 +156,7 @@
 						<view class="form-left">姓名</view>
 						<picker style="width:100% !important;" mode="selector" @change="stuSelect" :value="formByClass.stuIndex" :range="formByClass.stuList" range-key="showText">
 							<!-- <input class="uni-input form-right"  :value="formByClass.stuIndex>=0?formByClass.stuList[formByClass.stuIndex].text:''" placeholder="请选择" disabled/> -->
-							<view class="uni-input form-right">{{formByClass.stuIndex>=0?formByClass.stuList[formByClass.stuIndex].text:'请选择'}}</view>
+							<view class="uni-input form-right">{{formByClass.stuIndex>=0?formByClass.stuList[formByClass.stuIndex].showText:'请选择'}}</view>
 						</picker>
 						<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 					</view>
@@ -272,7 +272,7 @@
 			if(itemData.edit==1){
 				this.text=['编辑']
 			}
-			console.log("itemData: " + JSON.stringify(itemData));
+			//console.log("itemData: " + JSON.stringify(itemData));
 			//#ifdef H5
 				document.title=""
 			//#endif
@@ -296,7 +296,7 @@
 				}
 			},
 			async textClickRight(data) {
-				console.log('textClickRight')
+				//console.log('textClickRight')
 				if (_this.text.length==1) {
 					_this.editStatus=1
 					_this.icon=''
@@ -543,7 +543,7 @@
 					index_code:this.index_code,
 				}
 				this.post(url,comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    //console.log("responseaaa: " + JSON.stringify(response));
 					this.showToast('操作成功')
 					const eventChannel = this.getOpenerEventChannel()
 					eventChannel.emit('refreshList', {data: 1});
@@ -559,7 +559,7 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-					    // console.log("responseaaa: " + JSON.stringify(response));
+					    // //console.log("responseaaa: " + JSON.stringify(response));
 						let grds = response.grd_list;
 						let grdList=[];
 						grds.map(function(currentValue) {
@@ -585,9 +585,9 @@
 						get_cls:true,
 						index_code:this.index_code,
 					}
-					// console.log("comDataaaaaaaaaaa: " + JSON.stringify(comData));
+					// //console.log("comDataaaaaaaaaaa: " + JSON.stringify(comData));
 					this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-						// console.log("responseaaa: " + JSON.stringify(response));
+						// //console.log("responseaaa: " + JSON.stringify(response));
 						let clss = response.cls_list;
 						let clssList=[];
 						clss.map(function(currentValue) {
@@ -615,7 +615,7 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-						// console.log("responseaaa: " + JSON.stringify(response));
+						// //console.log("responseaaa: " + JSON.stringify(response));
 						let stu = response.stu_list;
 						let stuList=[];
 						stu.map(function(currentValue) {
@@ -640,7 +640,7 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_DORM+'dorm/queryDorm',comData,response=>{
-						// console.log("responseaaa: " + JSON.stringify(response));
+						// //console.log("responseaaa: " + JSON.stringify(response));
 						let list =response.list
 						if(list.length>0){
 							 this.formByDorm.build_floor_list=list
@@ -686,7 +686,7 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_DORM+'dorm/queryRoom',comData,response=>{
-						// console.log("responseaaa: " + JSON.stringify(response));
+						// //console.log("responseaaa: " + JSON.stringify(response));
 						this.formByDorm.dormList=response.list
 						resolve()
 					})
@@ -704,7 +704,7 @@
 						index_code:this.index_code,
 					}
 					this.post(this.globaData.INTERFACE_DORM+'dormAttendance/getDict',comData,response=>{
-						// console.log("responseaaa: " + JSON.stringify(response));
+						// //console.log("responseaaa: " + JSON.stringify(response));
 						this.hideLoading()
 						this.attendanceList=response.item_array
 						// this.attendanceList=[{text:'晚休缺勤',value:'晚休缺勤'}]

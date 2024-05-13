@@ -22,7 +22,7 @@
 			</view>
 		</view>
 		<uni-list>
-			<uni-list-item v-for="(item,index) in navItem.stuList" :key="index" :ellipsis="1" :title="item.stu_name" :note="item.card_id" >
+			<uni-list-item v-for="(item,index) in navItem.stuList" :key="index" :ellipsis="1" :title="item.stu_name" :note="item.sno" >
 				<template v-slot:footer>
 					<view class="uni-flex uni-row form-view">
 						<template v-if="item.interface">

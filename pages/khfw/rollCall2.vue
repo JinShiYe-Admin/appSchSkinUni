@@ -28,7 +28,7 @@
 			</view>
 		</view>
 		<uni-list>
-			<uni-list-item v-for="(item,index) in stuList" :key="index" :title="item.stu_name" style="height: 50px;">
+			<uni-list-item v-for="(item,index) in stuList" :key="index" :title="item.showName" class="listTitle">
 				<template v-slot:footer>
 					<view @click="clickItem(item,1)" class="listBtn" :style="{color:item.sign_status==1?'white':'',background:item.sign_status==1?'#2C96BD':''}">已到</view>
 					<view @click="clickItem(item,3)" class="listBtn" :style="{color:item.sign_status==3?'white':'',background:item.sign_status==3?'#2C96BD':''}">迟到</view>
@@ -78,7 +78,7 @@
 			itemData.text = '点名'
 			this.navItem = itemData;
 			this.index_code = itemData.index_code
-			console.log("this.navItem: " + JSON.stringify(this.navItem));
+			//console.log("this.navItem: " + JSON.stringify(this.navItem));
 			this.getToSign();
 			//#ifdef H5
 			document.title = ""
@@ -101,6 +101,10 @@
 					this.hideLoading()
 					if (pageData.code == 0) {
 						this.pageData = pageData.data;
+						for (var i = 0; i < pageData.data.stu_list.length; i++) {
+							let tempM = pageData.data.stu_list[i]
+							tempM.showName = tempM.sno&&tempM.sno.length>0?tempM.stu_name+'('+tempM.sno+')':tempM.stu_name
+						}
 						this.stuList = pageData.data.stu_list;
 						for (var i = 0; i < this.stuList.length; i++) {
 							var tempM = this.stuList[i];
@@ -157,16 +161,24 @@
 					var tempM = this.stuList[i];
 					tempArr.push({
 						id:tempM.id,
+						stu_code:tempM.stu_code,
+						stu_name:tempM.stu_name,
+						grd_code:tempM.grd_code,
+						cls_code:tempM.cls_code,
+						grd_name:tempM.grd_name,
+						cls_name:tempM.cls_name,
+						sno:tempM.sno,
 						sign_status:tempM.sign_status
 					})
 				}
 				let comData = {
 					data: tempArr,
+					after_class_sign_tec_id:this.navItem.id,
 					index_code: this.index_code,
 				}
 				//点名
 				this.post(this.globaData.INTERFACE_KHFW + 'afterClassSignStu/sign', comData, (response0, response) => {
-					console.log("responseaaaa: " + JSON.stringify(response));
+					//console.log("responseaaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					if (response.code == 0) {
 						const eventChannel = this.getOpenerEventChannel()
@@ -232,6 +244,15 @@
 </script>
 
 <style>
+	.listTitle{
+		height: 50px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		word-break: break-all;
+	}
 	.title-text {
 		text-align: center;
 		word-break: break-all;

@@ -5,7 +5,8 @@
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">报销类型</view>
 			<picker style="width:100% !important;" mode="selector" @change="selectAccountType" :value="selectAccountTypeIndex" :range="selectAccountTypeArray" range-key="type_name">
-				<input class="uni-input form-right"  :value="selectAccountTypeIndex>=0?selectAccountTypeArray[selectAccountTypeIndex].type_name:''"  placeholder="请选择" disabled/>
+				<!-- <input class="uni-input form-right"  :value="selectAccountTypeIndex>=0?selectAccountTypeArray[selectAccountTypeIndex].type_name:''"  placeholder="请选择" disabled/> -->
+				<view class="uni-input form-right">{{selectAccountTypeIndex>=0?selectAccountTypeArray[selectAccountTypeIndex].type_name:'请选择'}}</view>
 			</picker>
 			<uni-icons size="13" type="arrowdown" color="#808080"></uni-icons>
 		</view>

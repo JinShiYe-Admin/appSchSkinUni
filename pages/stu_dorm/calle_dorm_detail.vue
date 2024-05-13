@@ -12,7 +12,7 @@
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
 			<view class="form-left">被访学生</view>
-			<view class="form-right">{{tabBarItem.stu_name}}</view>
+			<view class="form-right">{{tabBarItem.stu_name}}{{tabBarItem.sno!=null&&tabBarItem.sno.length>0?'（'+tabBarItem.sno+'）':''}}</view>
 		</view>
 		<view class="line"></view>
 		<view class="uni-flex uni-row form-view">
