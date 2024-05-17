@@ -2,8 +2,8 @@
     "name" : "教宝校园",
     "appid" : "__UNI__720E42A",
     "description" : "",
-    "versionName" : "1.0.29",
-    "versionCode" : 1029,
+    "versionName" : "1.0.30",
+    "versionCode" : 1030,
     "transformPx" : false,
     "networkTimeout" : {
         /*全局网络请求超时时间*/

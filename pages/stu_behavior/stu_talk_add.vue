@@ -409,6 +409,9 @@
 		word-break: break-all;
 		color: #787878;
 		text-align: right;
+		overflow:hidden;
+		white-space:nowrap; /*不允许换行*/
+		text-overflow:ellipsis;/*超出部分省略号显示*/
 	}
 
 	::v-deep .form-right .placeholder {
