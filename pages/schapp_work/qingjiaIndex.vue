@@ -30,8 +30,8 @@
 		</view>
 		<view style="padding-top: 44px;">
 			<uni-list :border="false">
-				<uni-list-item  :key="index" v-for="(item,index) in pagedata" :border="true">
-					<view slot="body" class="slot-box slot-text">
+				<uni-list-item showArrow clickable :key="index" v-for="(item,index) in pagedata" :border="true" @click="toDetails(item)">
+					<view slot="body" class="slot-box slot-text" @click.stop="toDetails(item)">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">{{item.grd_name}} {{item.class_name}}&ensp;{{item.stu_name}}{{item.sno!=null&&item.sno.length>0?'（'+item.sno+'）':''}}</view></uni-col>
 							<uni-col :span="24"><view class="detail-text">请假类型:{{item.item_txt}}</view></uni-col>
@@ -254,6 +254,19 @@
 					}
 				})
 			},
+			toDetails(item){
+				item.index_code=this.index_code
+				let that=this
+				util.openwithData('/pages/schapp_work/qingjiaDetail',item,{
+					refreshQingjiaIndex(data){//子页面调用父页面需要的方法
+						that.showLoading()
+						that.pageobj0.loadFlag=0
+						that.pageobj0.canload=true
+						that.pageobj0.page_number=1
+						that.getList0()
+					}
+				})
+			}
 		},
 		onLoad(options) {
 			_this = this;

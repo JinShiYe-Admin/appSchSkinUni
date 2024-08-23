@@ -27,7 +27,7 @@
 					<view slot="body" class="slot-box slot-text">
 						<uni-row>
 							<uni-col :span="7"><view class="title-text-total">{{listTotal.row_name}}:{{listTotal.people_num}} 人</view></uni-col>
-							<uni-col :span="17"><view class="detail-text"  style="text-align: right;">{{listTotal.section}}({{listTotal.time_range}})</view></uni-col>
+							<uni-col v-if="pagedata.length>0" :span="17"><view class="detail-text"  style="text-align: right;">{{pagedata[0].section}}({{pagedata[0].time_range}})</view></uni-col>
 							<template v-for="(item,index) in listTotal.kqxxList">
 								<uni-col :key="index" :span="8"><view class="detail-text">{{item.name}}:{{item.value}} 人</view></uni-col>
 							</template>
@@ -41,9 +41,11 @@
 					<view slot="body" class="slot-box slot-text">
 						<uni-row>
 							<uni-col :span="24"><view class="title-text">{{model.grd_name}}&ensp;{{model.class_name}}({{model.people_num}}人)</view></uni-col>
+							<uni-col :span="8"><view class="detail-text">是否点名:{{model.is_roll_call}}</view></uni-col>
 							<template v-for="(item,index2) in model.kqxxList">
 								<uni-col :key="index2" :span="8"><view class="detail-text">{{item.name}}:{{item.value}} 人</view></uni-col>
 							</template>
+							
 						</uni-row>
 					</view>
 				</uni-list-item>
@@ -105,7 +107,7 @@
 				}
 			},
 			timeSelect(e){
-				console.log(e);
+				// console.log(e);
 				this.time=e
 				this.showLoading()
 				this.pageobj0.loadFlag=0
@@ -121,7 +123,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB+'acl/dataRange',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let grds = response.grd_list;
 					let grdArray=[];
@@ -146,7 +148,7 @@
 					index_code:this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK+'AttendanceReport/getDict',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					this.hideLoading()
 					let list = [].concat(response.classtimeArray);
 					if(list.length>0){
@@ -160,15 +162,15 @@
 			getList0(){//获取页面数据
 				let comData={
 					grd_code: this.grdArray[this.grdIndex].value,
-					cls_code:'0',
+					cls_code:'-1',
 					classtime_schedule_id: this.jcArray[this.jcIndex].value,
-					query_time: this.time,
+					attendance_time: this.time,
 					page_number: this.pageobj0.page_number, //当前页数
 					page_size: this.pageSize, //每页记录数
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_WORK+'AttendanceReport/statisticsClasstimeAttendance',comData,response=>{
-				    console.log("responseaaa: " + JSON.stringify(response));
+				    // console.log("responseaaa: " + JSON.stringify(response));
 					setTimeout(function () {
 						uni.stopPullDownRefresh();
 					}, 1000);
@@ -235,7 +237,7 @@
 						currValue.section=section
 					}
 				})
-				console.log("list: " + JSON.stringify(list));
+				// console.log("list: " + JSON.stringify(list));
 				callback(list)
 			}
 		},
@@ -306,22 +308,22 @@
 	 }
 	 
 	 .title-text-total{
-		 display: flex;
+		 /* display: flex;
 		 align-items: center;
-	 	width: 80vw;
+	 	width: 80vw; */
 		font-size: 16px;
 	 	overflow: hidden;
 	 	text-overflow: ellipsis;
 	 	white-space: nowrap;
 	 }
 	 .title-text{
-		 display: flex;
-		 align-items: center;
-	 	width: 80vw;
+		 /* display: flex; */
+		 /* align-items: center; */
+	 	/* width: 80vw; */
 		color: #5C5C5C;
-	 	overflow: hidden;
+	 	/* overflow: hidden;
 	 	text-overflow: ellipsis;
-	 	white-space: nowrap;
+	 	white-space: nowrap; */
 	 }
 	 
 	 .detail-text{

@@ -53,7 +53,7 @@
 			<uni-popup-dialog type="warn" title="提醒" content="已存在考勤记录,保存将覆盖原有记录！" closeText='取消' confirmText="继续" @confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
 		</uni-popup>
 		<uni-popup ref="alertDialog2" type="dialog">
-			<uni-popup-dialog type="warn" title="提醒" content="当前班级所有学生均已正常到勤，无需记录！" closeText='取消' confirmText="返回" @confirm="dialogConfirm2"></uni-popup-dialog>
+			<uni-popup-dialog type="warn" title="提醒" content="点名成功，无异常记录！" closeText='取消' confirmText="返回" @confirm="dialogConfirm2"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template> 
@@ -197,6 +197,23 @@
 				})
 			},
 			submitData(){
+				let tempData={
+					grd_code:this.navItem.grd.value,
+					grd_name:this.navItem.grd.text,
+					cls_code:this.navItem.cls.value,
+					cls_name:this.navItem.cls.text,
+					attendance_time:this.navItem.time,
+					class_node:this.navItem.jc.value,
+					sub_code:this.navItem.km?this.navItem.km.value:'',
+					sub_name:this.navItem.km?this.navItem.km.text:'',
+					index_code:this.index_code,
+					create_user_code:this.personInfo.user_code,
+					create_user_name:this.personInfo.user_name,
+				}
+				//114.课堂考勤-添加点名记录
+				this.post(this.globaData.INTERFACE_WORK+'StudentAttendance/saveRollCall',tempData,(response0,response)=>{})
+				
+				
 				let comData={
 					grd_code:this.navItem.grd.value,
 					grd_name:this.navItem.grd.text,

@@ -1998,7 +1998,66 @@ function getPageArray() {
 			pagePath: "/pages/payTec/index",
 			url: 'schapp_Paydetails',
 			noReadCut: 0
-		},
+		},{
+			name: "班级评比", //班级评比
+			pagePath: '/pages/bjpbT/index',
+			iconPath: tempAAA + '/static/tabbar/jiaxiaogongyu.png',
+			selectedIconPath: tempAAA + '/static/tabbar/jiaxiaogongyu_select.png',
+			noReadCut: 0,
+			isDot: false,
+			customIcon: false,
+			icon: tempAAA + "/static/tabbar/bjlhkp_img.png",
+			url: 'schapp_PayTec',
+			childList: []
+		},{
+			name: '巡查记录',//班级评比
+			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			pagePath: "/pages/bjpbT/xcjlIndex",
+			url: 'schapp_bjpbT_xcjl',
+			noReadCut: 0
+		},{
+			name: '评比统计',//班级评比
+			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			pagePath: "/pages/bjpbT/pbtjIndex",
+			url: 'schapp_bjpbT_pbtj',
+			noReadCut: 0
+		},{
+			name: '荣誉表彰',//班级评比
+			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			pagePath: "/pages/bjpbT/rybzIndex",
+			url: 'schapp_bjpbT_rybz',
+			noReadCut: 0
+		},{
+			name: '评比分析',//班级评比
+			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			pagePath: "/pages/bjpbT/pbfxIndex",
+			url: 'schapp_bjpbT_pbfx',
+			noReadCut: 0
+		},{
+			name: '值日安排',//班级评比
+			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			pagePath: "/pages/bjpbT/zrapIndex",
+			url: 'schapp_bjpbT_zrap',
+			noReadCut: 0
+		},{
+			name: '巡查班级',//班级评比
+			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			pagePath: "/pages/bjpbT/xcbjIndex",
+			url: 'schapp_bjpbT_xcbj',
+			noReadCut: 0
+		},{
+			name: '巡查宿舍',//班级评比
+			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			pagePath: "/pages/bjpbT/xcssIndex",
+			url: 'schapp_bjpbT_xcss',
+			noReadCut: 0
+		},{
+			name: '申诉审核',//班级评比
+			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			pagePath: "/pages/bjpbT/ssshIndex",
+			url: 'schapp_bjpbT_sssh',
+			noReadCut: 0
+		}
 	];
 	return tempArray;
 }

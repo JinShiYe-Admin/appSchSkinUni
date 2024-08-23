@@ -61,7 +61,7 @@
 			<view class="uni-flex uni-row form-view2">
 				<view class="form-left">年级</view>
 				<!-- <input class="uni-input form-right"  :value="detailData.grd_name" disabled/> -->
-				<view class="uni-input form-right">{{jcIndex>=0?jcList[jcIndex].text:'请选择'}}</view>
+				<view class="uni-input form-right">{{detailData.grd_name}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="uni-flex uni-row form-view2">

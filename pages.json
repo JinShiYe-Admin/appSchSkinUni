@@ -6165,6 +6165,144 @@
     		"navigationBarTitleText" : "",
     		"enablePullDownRefresh" : false
     	}
+    },
+    {
+    	"path" : "pages/schapp_work/qingjiaDetail",
+    	"style" : 
+    	{
+			"navigationStyle": "custom", // 隐藏系统导航栏
+    		"navigationBarTitleText" : "",
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/index",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "班级评比",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/xcjlIndex",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "巡查记录",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh": true,
+			"app-plus": {
+			  "pullToRefresh": {
+			    "support": true,
+			    "style": "circle",
+			    "offset": "76px"
+			  }
+			},
+			"h5": {
+			  "pullToRefresh": {
+			    "offset": "44px"
+			  }
+			}
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/pbtjIndex",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "评比统计",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/rybzIndex",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "荣誉表彰",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/pbfxIndex",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "评比分析",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/zrapIndex",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "值日安排",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/xcbjIndex",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "巡查班级",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/xcssIndex",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "巡查宿舍",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/ssshIndex",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "申诉审核",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/xcssIndex1",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "巡查宿舍",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/xcssIndex2",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "巡查宿舍",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/ssshDetail",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "申诉审核",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/xcjlDetail",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "巡查记录详情",
+			"navigationStyle": "custom", // 隐藏系统导航栏
+			"enablePullDownRefresh" : false
+    	}
     }
   ],
   //配置项如果有注释，注释内容为官网文档中的 平台差异说明

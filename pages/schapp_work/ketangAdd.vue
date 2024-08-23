@@ -487,7 +487,9 @@
 					let comData={
 						grd_code: this.grdList[this.grdIndex].value,
 						cls_code: this.clsList[this.clsIndex].value,
-						query_time:this.time,
+						// query_time:this.time,
+						begintime:this.time+' '+this.jcList[this.jcIndex].begintime,
+						endtime:this.time+' '+this.jcList[this.jcIndex].endtime,
 						item_code:"",
 						page_number: 1, //当前页数
 						page_size:9999999, //每页记录数

@@ -176,19 +176,19 @@
 						this.hideLoading();
 						if(data&&data.list&&data.list.length){
 							const reduceList = data.list.reduce((total,curr) => ({
-								full_attend: Number(total.full_attend) + Number(curr.full_attend)*100,
-								attend: Number(total.attend) + Number(curr.attend)*100,
-								lacks: Number(total.lacks) + Number(curr.lacks)*100,
-								bizs: Number(total.bizs) + Number(curr.bizs)*100,
-								ots: Number(total.ots) + Number(curr.ots)*100,
-								outs: Number(total.outs) + Number(curr.outs)*100,
-								lates: Number(total.lates) + Number(curr.lates)*100,
-								abs: Number(total.abs) + Number(curr.abs)*100,
-								leaves: Number(total.leaves) + Number(curr.leaves)*100,
-								earlys: Number(total.earlys) + Number(curr.earlys)*100,
+								full_attend: curr.full_attend=='-'?curr.full_attend:Number(total.full_attend) + Number(curr.full_attend)*100,
+								attend: curr.attend=='-'?curr.attend:Number(total.attend) + Number(curr.attend)*100,
+								lacks: curr.lacks=='-'?curr.lacks:Number(total.lacks) + Number(curr.lacks)*100,
+								bizs: curr.bizs=='-'?curr.bizs:Number(total.bizs) + Number(curr.bizs)*100,
+								ots: curr.ots=='-'?curr.ots:Number(total.ots) + Number(curr.ots)*100,
+								outs: curr.outs=='-'?curr.outs:Number(total.outs) + Number(curr.outs)*100,
+								lates: curr.lates=='-'?curr.lates:Number(total.lates) + Number(curr.lates)*100,
+								abs: curr.abs=='-'?curr.abs:Number(total.abs) + Number(curr.abs)*100,
+								leaves: curr.leaves=='-'?curr.leaves:Number(total.leaves) + Number(curr.leaves)*100,
+								earlys: curr.earlys=='-'?curr.earlys:Number(total.earlys) + Number(curr.earlys)*100,
 							}), {...statDataDefault})
 							for (let key in reduceList) {
-								this.statData[key] = reduceList[key]/100
+								this.statData[key] = reduceList[key]=='-'?reduceList[key]: reduceList[key]/100
 							}
 						}else{
 							this.statData = {...statDataDefault}
