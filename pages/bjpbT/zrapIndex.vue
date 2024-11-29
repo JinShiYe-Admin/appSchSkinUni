@@ -106,7 +106,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 .riliView{
 	background: white;
 	border-radius: 0 0 10px 10px;

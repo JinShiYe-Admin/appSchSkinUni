@@ -2,8 +2,8 @@
     "name" : "教宝校园",
     "appid" : "__UNI__720E42A",
     "description" : "",
-    "versionName" : "1.0.32",
-    "versionCode" : 1032,
+    "versionName" : "1.0.33",
+    "versionCode" : 1033,
     "transformPx" : false,
     "networkTimeout" : {
         /*全局网络请求超时时间*/
@@ -240,7 +240,7 @@
         "sdkConfigs" : {
             "maps" : {
                 "qqmap" : {
-                    "key" : "TKUBZ-D24AF-GJ4JY-JDVM2-IBYKK-KEBCU"
+                    "key" : "2WRBZ-43IK4-GD4U2-FPWD6-NIMA7-UEFY3"
                 }
             }
         }

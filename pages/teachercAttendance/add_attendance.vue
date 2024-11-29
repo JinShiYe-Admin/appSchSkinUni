@@ -136,6 +136,7 @@
 					type: 'gcj02',
 					geocode: true,
 					// altitude:true,
+					// isHighAccuracy:true,
 					success: function(res) {
 						console.log('当前位置的经度：' + res.longitude);
 						console.log('当前位置的纬度：' + res.latitude);
@@ -151,16 +152,18 @@
 						_this.longitude = res.longitude
 						_this.latitude = res.latitude
 					},
-					fail() {
+					fail(errMsg) {
 						// #ifdef H5
 							_this.showToast('请开启位置服务')
 						// #endif
 						// #ifdef APP-PLUS
 							_this.openGps();
 						// #endif
-						console.log("获取位置失败");
+						console.log("获取位置失败："+JSON.stringify(errMsg));
 					},
 					complete: () => {
+						console.log('_this.latitude:'+_this.latitude)
+						console.log('_this.longitude:'+_this.longitude)
 						//#ifdef H5
 						_this.$jsonp("https://apis.map.qq.com/ws/geocoder/v1/", {
 								key: "3BSBZ-L7MLV-S2QPR-ULWG7-MKT3E-M5BDW",

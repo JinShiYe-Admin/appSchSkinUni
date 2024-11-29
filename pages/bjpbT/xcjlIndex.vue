@@ -19,26 +19,26 @@
 			</view>
 		</view>
 		<view style="margin-top: 110px;"></view>
-		<view class="pbList" v-for="model in 4" @click="gotoDetail(model)">
+		<view class="pbList" v-for="model in pageArray" @click="gotoDetail(model)">
 			<view class="clsView flexBetween">
-				<view class="clsStr">2203班、2204班、2205班</view>
-				<view class="clsStr">110室</view>
+				<view class="clsStr">{{model.cls_name}}</view>
+				<view class="clsStr">{{model.dorm_room}}</view>
 			</view>
-			<view class="shenSS">审</view>
+			<!-- <view class="shenSS">审</view> -->
 			<view class="cellList">
-				<view class="flexStart pbCell" v-for="item in 4">
-					<view class="ellipsis-2 pbCont">洗过的鞋子没有晾晒</view>
-					<view class="pbCount">-3</view>
+				<view class="flexStart pbCell" v-for="item in model.item_list">
+					<view class="ellipsis-2 pbCont">{{item.item_name}}</view>
+					<view class="pbCount">{{parseInt(item.score)}}</view>
 				</view>
 			</view>
 			<view class="stuView flexStart">
 				<uni-icons class="stuIcon" type="person" size="15"></uni-icons>
-				<!-- <view class="stuStr">{{tempName.length==0?'-':tempName}}</view> -->
+				<view class="stuStr">{{model.stuStr.length==0?'-':model.stuStr}}</view>
 			</view>
 			<view class="timeView flexEnd">
-				<view class="personStr">哈哈哈</view>
+				<view class="personStr">{{model.create_user_name}}</view>
 				<uni-icons class="timeIcon" type="calendar" size="15" color="#555"></uni-icons>
-				<view class="timeStr">2023-02-22 09:12</view>
+				<view class="timeStr">{{model.create_time}}</view>
 			</view>
 		</view>
 		<view v-if="pageArray.length>0" style="height: 10px;"></view>
@@ -98,6 +98,7 @@
 	import util from '../../commom/util.js';
 	import mynavBar from '@/components/my-navBar/m-navBar';
 	import moment from 'moment/moment.js';
+	let _this;
 	export default {
 		data() {
 			return {
@@ -140,6 +141,7 @@
 			mynavBar
 		},
 		onLoad(options) {
+			_this = this;
 			this.personInfo = util.getPersonal();
 			console.log('this.personInfo:' + JSON.stringify(this.personInfo));
 			this.navItem = util.getPageData(options);
@@ -182,6 +184,10 @@
 				if (flag == 0) {
 					this.selectDate = moment(this.selectDate).add(-1,'days').format('YYYY-MM-DD')
 					this.noRightColor = ''
+					this.loadMoreText = "加载中..."
+					this.flagRef = 0;
+					this.pageIndex = 1;
+					this.getList0();
 				} else{
 					if (this.selectDate == this.nowDate) {
 						
@@ -192,6 +198,10 @@
 						} else{
 							this.noRightColor = ''
 						}
+						this.loadMoreText = "加载中..."
+						this.flagRef = 0;
+						this.pageIndex = 1;
+						this.getList0();
 					}
 				}
 			},
@@ -248,7 +258,7 @@
 				let comData = {
 					op_code: 'index',
 					get_grd: true,
-					all_grd: false,
+					all_grd: true,
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
@@ -276,7 +286,7 @@
 					op_code: 'index',
 					grd_code: this.grdArray[this.grdIndexTemp].value,
 					get_cls: true,
-					all_cls: false,
+					all_cls: true,
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_HR_SUB + 'acl/dataRange', comData, response => {
@@ -327,6 +337,7 @@
 					grd_code:this.grdArray[this.grdIndex].value,
 					cls_code:this.clsArray[this.clsIndex].value,
 					create_user_code:this.stuArray[this.stuIndex].create_user_code,
+					user_code:this.personInfo.user_code,
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_BJLHKP + 'kpScore/page', comData, (data0, data) => {
@@ -334,6 +345,20 @@
 					if (data.code == 0) {
 						this.pageIndex++;
 						this.total_page = data0.total_page;
+						for (var i = 0; i < data0.list.length; i++) {
+							let tempM = data0.list[i]
+							tempM.stuStr = ''
+							let tempArr = []
+							if (tempM.stu_list&&tempM.stu_list.length>0) {
+								for (var a = 0; a < tempM.stu_list.length; a++) {
+									let tempA = tempM.stu_list[a]
+									if (tempA.stu_name) {
+										tempArr.push(tempA.stu_name)
+									}
+								}
+								tempM.stuStr = tempArr.join('、')
+							}
+						}
 						if (this.flagRef == 0) {
 							if (data0.list.length == 0) {
 								this.showToast('暂无数据');
@@ -349,16 +374,33 @@
 				})
 			},
 			gotoDetail(model){
-				util.openwithData('/pages/bjpbT/xcjlDetail', model);
+				model.index_code = this.index_code
+				let tempM = {
+					index_code:this.index_code,
+					id:model.id
+				}
+				util.openwithData('/pages/bjpbT/xcjlDetail', model,{
+					refreshXcjlIndex() { //子页面调用父页面需要的方法
+						_this.loadMoreText = "加载中..."
+						_this.flagRef = 0;
+						_this.pageIndex = 1;
+						_this.getList0();
+					}
+				});
 			}
 		}
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.pageHead{
 		position: fixed;
+		/* #ifdef APP */
+		top: 80px;
+		/* #endif */
+		/* #ifndef APP */
 		top: 40px;
+		/* #endif */
 		left: 0;
 		width: 100%;
 		background: white;
@@ -450,12 +492,12 @@
 		}
 		
 		.cellList{
-			margin-top: -75px;
+			/* margin-top: -75px; */
 		}
 		
 		.pbCell{
 			background: white;
-			margin: 10px;
+			margin: 5px 10px 5px 10px;
 			height: 55px;
 			
 			.pbCont{
@@ -466,12 +508,12 @@
 				background: #f2f2f2;
 				padding: 5px 10px;
 				border-radius: 5px;
-				width: calc(100% - 53px);
+				width: calc(100% - 73px);
 			}
 			
 			.pbCount{
 				height: 55px;
-				width: 55px;
+				width: 75px;
 				background: #f2f2f2;
 				border-radius: 5px;
 				margin-left: 3px;

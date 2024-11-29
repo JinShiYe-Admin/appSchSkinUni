@@ -148,7 +148,7 @@
 								this.roomArray[a].selectFlag = 0
 							}
 						} else{
-							tempM.selectFlag = 1
+							tempM.selectFlag = 0
 						}
 					}
 				} else {
@@ -173,11 +173,11 @@
 						}
 					}
 				}
-				if (this.dataFlag == 1) {//只有二级
+				// if (this.dataFlag == 1) {//只有二级
 					
-				} else{//混合
+				// } else{//混合
 					
-				}
+				// }
 			},
 			roomSelect(item, index){
 				if (item.selectFlag == 0) {
@@ -208,9 +208,9 @@
 				this.post(this.globaData.INTERFACE_BJLHKP + 'kpScore/getClsItem', comData, (data0, data) => {
 					this.hideLoading()
 					if (data.code == 0) {
-						// this.grdArray = data.data.list
-						// this.grdIndex = 0
-						// this.getCls()
+						this.houseArray = data0.list
+						this.houseIndex = 0
+						this.setFirstLevel()
 					} else {
 						this.showToast(data.msg);
 					}
@@ -244,7 +244,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	::v-deep .uni-grid-item--border {
 		border-bottom: 0px !important;
 		border-right: 0px !important;

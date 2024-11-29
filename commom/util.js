@@ -346,7 +346,7 @@ function getBroswerId() {
  */
 function openwithData(url, data = {}, _events = {}) {
 	uni.navigateTo({
-		url: url + '?pagedata=' + encodeURIComponent(JSON.stringify(data)),
+		url: url + '?pagedata=' + encodeURIComponent(JSON.stringify(data).replace(/%/g, '%25')),
 		// url: url + '?pagedata=' + encodeURI(JSON.stringify(data)),
 		animationType: 'pop-in',
 		events: {
@@ -2007,53 +2007,53 @@ function getPageArray() {
 			isDot: false,
 			customIcon: false,
 			icon: tempAAA + "/static/tabbar/bjlhkp_img.png",
-			url: 'schapp_PayTec',
+			url: 'schapp_bjpbT',
 			childList: []
 		},{
 			name: '巡查记录',//班级评比
-			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			icon: tempAAA + '/static/images/schapp_work/qingjiajilu.png',
 			pagePath: "/pages/bjpbT/xcjlIndex",
 			url: 'schapp_bjpbT_xcjl',
 			noReadCut: 0
 		},{
 			name: '评比统计',//班级评比
-			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			icon: tempAAA + '/static/images/new/keshitongji.png',
 			pagePath: "/pages/bjpbT/pbtjIndex",
 			url: 'schapp_bjpbT_pbtj',
 			noReadCut: 0
 		},{
 			name: '荣誉表彰',//班级评比
-			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			icon: tempAAA + '/static/images/new/chengzhangdangan.png',
 			pagePath: "/pages/bjpbT/rybzIndex",
 			url: 'schapp_bjpbT_rybz',
 			noReadCut: 0
 		},{
 			name: '评比分析',//班级评比
-			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			icon: tempAAA + '/static/images/homeworkAndWeektest/stu/qusetionAnalysis.png',
 			pagePath: "/pages/bjpbT/pbfxIndex",
 			url: 'schapp_bjpbT_pbfx',
 			noReadCut: 0
 		},{
 			name: '值日安排',//班级评比
-			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			icon: tempAAA + '/static/images/teachercAttendance/OutExamine.png',
 			pagePath: "/pages/bjpbT/zrapIndex",
 			url: 'schapp_bjpbT_zrap',
 			noReadCut: 0
 		},{
 			name: '巡查班级',//班级评比
-			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			icon: tempAAA + '/static/images/new/xueshengshouce.png',
 			pagePath: "/pages/bjpbT/xcbjIndex",
 			url: 'schapp_bjpbT_xcbj',
 			noReadCut: 0
 		},{
 			name: '巡查宿舍',//班级评比
-			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			icon: tempAAA + '/static/images/stu_dorm/evaluation_dorm.png',
 			pagePath: "/pages/bjpbT/xcssIndex",
 			url: 'schapp_bjpbT_xcss',
 			noReadCut: 0
 		},{
 			name: '申诉审核',//班级评比
-			icon: tempAAA + '/static/images/schapp_item/wupinruku.png',
+			icon: tempAAA + '/static/images/new/zuoyepigai.png',
 			pagePath: "/pages/bjpbT/ssshIndex",
 			url: 'schapp_bjpbT_sssh',
 			noReadCut: 0

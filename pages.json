@@ -6265,7 +6265,19 @@
     	{
     		"navigationBarTitleText" : "申诉审核",
 			"navigationStyle": "custom", // 隐藏系统导航栏
-			"enablePullDownRefresh" : false
+			"enablePullDownRefresh": true,
+			"app-plus": {
+			  "pullToRefresh": {
+			    "support": true,
+			    "style": "circle",
+			    "offset": "76px"
+			  }
+			},
+			"h5": {
+			  "pullToRefresh": {
+			    "offset": "44px"
+			  }
+			}
     	}
     },
     {
@@ -6302,6 +6314,15 @@
     		"navigationBarTitleText" : "巡查记录详情",
 			"navigationStyle": "custom", // 隐藏系统导航栏
 			"enablePullDownRefresh" : false
+    	}
+    },
+    {
+    	"path" : "pages/bjpbT/rybzSetting",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "荣誉表彰设置",
+    		"navigationStyle": "custom", // 隐藏系统导航栏
+    		"enablePullDownRefresh" : false
     	}
     }
   ],

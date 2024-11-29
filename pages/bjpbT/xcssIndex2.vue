@@ -7,22 +7,23 @@
 			<view class="pb1">评比项：</view>
 			<view class="pb2">（扣分请在数字前面输入“-”号）</view>
 		</view>
-		<view class="pbList">
-			<view class="flexStart pbCell" v-for="item in navItem.roomArray">
+		<view class="pbList" v-if="navItem.roomArray.length>0">
+			<view class="flexStart pbCell" v-for="(item,index) in navItem.roomArray" :key="index">
 				<view class="ellipsis-2 pbCont">{{item.name}}</view>
 				<view class="pbCount">
-					<uni-easyinput class="pbInput" :value="parseInt(item.score)" placeholder="" type="number"></uni-easyinput>
+					<uni-easyinput @blur="inputBlur($event,index)" class="pbInput" :clearable='false' :value="parseInt(item.score)" placeholder="" type="number" maxlength="4"></uni-easyinput>
 				</view>
-				<uni-icons class="pbDel" type="trash" size="30" color="#7f7f7f"></uni-icons>
+				<uni-icons class="pbDel" type="trash" size="30" color="#7f7f7f" @click="delectBtn(index)"></uni-icons>
 			</view>
 		</view>
+		<view v-else style="text-align: center;margin: 10px;font-size: 13px;color: gray;">请返回上一步，选择评比项！</view>
 		<view class="typeCss">{{navItem.from==0?'床位号：':'学生：'}}</view>
 		<view class="seletStu flexStart" @click="seletStu()">
 			<view class="showStu ellipsis-1">{{selectStu.length>0?selectStu:'请选择'}}</view>
 			<uni-icons class="selectIcon" type="down" size="20" color="#7f7f7f"></uni-icons>
 		</view>
 		<view class="typeCss">说明：</view>
-		<uni-easyinput class="smInput" type="textarea" v-model="smCont" placeholder="请输入内容" maxlength="100"></uni-easyinput>
+		<uni-easyinput class="smInput" type="textarea" v-model="smCont" :clearable='false' placeholder="请输入内容" maxlength="100"></uni-easyinput>
 		<!-- <view class="typeCss">照片：</view> -->
 		<view class="uni-flex uni-row form-view choose-file">
 			<view class="choose-file-text">照片<view class="file-des">
@@ -35,7 +36,8 @@
 		</view>
 		<uni-popup ref="popup" type="bottom" background-color="#fff" style="">
 			<view style="margin-top: 10px;text-align: center;font-size: 16px;color: #000000;">请选择{{navItem.from==0?'床位号':'学生'}}</view>
-			<view style="margin: 15px 10px;">
+			<view v-if="stuArrayTemp.length>0" style="margin: 15px 10px;">
+				<scroll-view scroll-y="true" style="max-height: 400px;">
 				<uni-grid :column="navItem.from==0?4:3">
 					<uni-grid-item v-for="(item, index) in stuArrayTemp" :key="index" style="height: 40px;">
 						<view class="grid-item-box gridBox" @click='bedSelect(item, index)'
@@ -44,7 +46,9 @@
 						</view>
 					</uni-grid-item>
 				</uni-grid>
+				</scroll-view>
 			</view>
+			<view v-else style="text-align: center;margin: 20px;font-size: 13px;color: gray;">暂无数据，请管理员添加！</view>
 			<view style="height: 50px;margin: 20px 0;">
 				<button class="mini-btn" type="default" size="mini"
 					style="background-color: #049f95;border-color: #049f95;color: #ffffff;"
@@ -52,6 +56,9 @@
 				<button class="mini-btn" style="margin-left: 50px;" type="default" size="mini"
 					@click="popSure(0)">取消</button>
 			</view>
+		</uni-popup>
+		<uni-popup ref="alertDialog" type="dialog">
+			<uni-popup-dialog type="success" cancelText="取消" confirmText="确定" title="提示" content="您确定要删除这条评比项？" @confirm="dialogConfirm"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -69,11 +76,12 @@
 				index_code: '',
 				personInfo: {},
 				navItem: {},
-				value:'',
+				tempIndex:'',
 				smCont:'',
 				selectStu:'',
 				stuArray:[],
 				stuArrayTemp:[],
+				delectIndex:0,
 				// 附件上传相关👇
 				control: true, //是否显示上传 + 按钮 一般用于显示
 				deleteBtn: true, //是否显示删除 按钮 一般用于显示
@@ -101,7 +109,7 @@
 			if (this.navItem.from == 0) {//巡查宿舍
 				this.getDormStuList()
 			} else{//巡查班级
-				// this.getClsList()
+				this.getStuList()
 			}
 			//#ifdef H5
 			document.title = ""
@@ -109,6 +117,22 @@
 			//#endif
 		},
 		methods: {
+			delectBtn(index){
+				this.delectIndex = index
+				this.$refs.alertDialog.open()
+			},
+			dialogConfirm(){
+				this.$refs.alertDialog.close()
+				this.navItem.roomArray.splice(this.delectIndex, 1)
+			},
+			inputBlur(e,index){
+				for (var i = 0; i < this.navItem.roomArray.length; i++) {
+					if (index == i) {
+						let tempM = this.navItem.roomArray[i]
+						tempM.score = e.detail.value
+					}
+				}
+			},
 			seletStu(){
 				this.$refs.popup.open()
 			},
@@ -130,7 +154,11 @@
 				for (var i = 0; i < this.stuArray.length; i++) {
 					let tempM = this.stuArray[i]
 					if (tempM.selectFlag == 1) {
-						tempArray.push(tempM.bed_num+'.'+tempM.stu_name)
+						if (this.navItem.from == 0) {//巡查宿舍
+							tempArray.push(tempM.bed_num+'.'+tempM.stu_name)
+						} else{//巡查班级
+							tempArray.push(tempM.stu_name)
+						}
 					}
 				}
 				this.selectStu = tempArray.join('、')
@@ -144,6 +172,27 @@
 					index_code: this.index_code,
 				}
 				this.post(this.globaData.INTERFACE_DORM1 + 'stuDorm/stuList', comData, (data0, data) => {
+					this.hideLoading()
+					if (data.code == 0) {
+						for (var i = 0; i < data0.list.length; i++) {
+							let tempM = data0.list[i]
+							tempM.selectFlag = 0
+						}
+						this.stuArray = data0.list
+						this.stuArrayTemp = data0.list
+					} else {
+						this.showToast(data.msg);
+					}
+				})
+			},
+			getStuList() {
+				//9.1.学生列表
+				let comData = {
+					grd_codes: this.navItem.grdCode,
+					cls_codes: this.navItem.clsCode,
+					index_code: this.index_code,
+				}
+				this.post(this.globaData.INTERFACE_HR_SUB + 'stu', comData, (data0, data) => {
 					this.hideLoading()
 					if (data.code == 0) {
 						for (var i = 0; i < data0.list.length; i++) {
@@ -171,7 +220,7 @@
 			},
 			upLoadImg() {
 				this.showLoading();
-				cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PV_NAME, this.QN_OA_GZL, (encName,
+				cloudFileUtil.uploadFiles(this, '1', this.imgList, this.QN_PB_NAME, this.QN_BJLHKP, (encName,
 					encAddrStr) => {
 					this.hideLoading();
 					// console.log("encAddrStr: " + JSON.stringify(encAddrStr));
@@ -184,36 +233,133 @@
 				// console.log('encNameStr:' + JSON.stringify(encNameStr));
 				// console.log('encAddrStr:' + JSON.stringify(encAddrStr));
 				this.showLoading()
-				let encNameTemp = '';
-				let encAddrTemp = '';
-				if (encNameStr.length > 0) {
-					encNameTemp = encNameStr.join('|');
-					encAddrTemp = encAddrStr.join('|');
+				let tempFileList = []
+				if (encAddrStr.length > 0) {
+					for (var i = 0; i < encAddrStr.length; i++) {
+						tempFileList.push({
+							name:encNameStr[i],
+							url:encAddrStr[i],
+						})
+					}
 				}
 				// console.log('this.content:' + this.content);
 				this.showLoading();
-				var tempContent = this.content.replace(/\n/g, '<br>');
+				var tempContent = this.smCont.replace(/\n/g, '<br>');
 				tempContent = tempContent.replace(/ /g, '&nbsp;');
-				tempContent = '<p>' + tempContent + '</p>';
+				// tempContent = '<p>' + tempContent + '</p>';
 				var tempData = {}
 				// console.log('tempData:' + JSON.stringify(tempData));
-				//28.回复通知公告
-				// this.post(this.globaData.INTERFACE_OA + 'approve/addAffairApply', tempData, (data0, data) => {
-					
-				// });
+				// 5.7.添加
+				let comData = {
+					kp_date: this.navItem.date,
+					date: this.navItem.date,
+					grd_code:this.navItem.grdCode,
+					cls_code:this.navItem.clsCode,
+					first_level_id:this.navItem.dormModel.id,
+					first_level_name:this.navItem.dormModel.name,
+					remark:tempContent,
+					asset_list:tempFileList,
+					create_user_code:this.personInfo.user_code,
+					create_user_name:this.personInfo.user_name,
+					index_code: this.index_code,
+				}
+				// 二级分类
+				if (this.navItem.floorFlag == 1) {
+					comData.second_level_id = this.navItem.floorModel.id
+					comData.second_level_name = this.navItem.floorModel.name
+				}
+				// 评比项
+				comData.item_list = []
+				comData.score = 0
+				for (var i = 0; i < this.navItem.roomArray.length; i++) {
+					let tempM = this.navItem.roomArray[i]
+					comData.item_list.push({
+						item_id:tempM.id,
+						item_name:tempM.name,
+						score:tempM.score
+					})
+					comData.score = comData.score + parseInt(tempM.score)
+				}
+				if (this.navItem.from == 0) {//宿舍
+					comData.dorm_door_code = this.navItem.dormeName
+					comData.dorm_door = this.navItem.dormId
+					comData.dorm_floor_code = this.navItem.floorName
+					comData.dorm_floor = this.navItem.floorId
+					comData.dorm_room_code = this.navItem.roomName
+					comData.dorm_room = this.navItem.roomId
+				} else{
+					comData.grd_name = this.navItem.grdName
+					comData.grd_code = this.navItem.grdCode
+					comData.cls_code = this.navItem.clsCode
+					comData.cls_name = this.navItem.clsName
+				}
+				comData.stu_list = []
+				for (var i = 0; i < this.stuArray.length; i++) {
+					let tempM = this.stuArray[i]
+					if (tempM.selectFlag == 1) {
+						comData.stu_list.push({
+							grd_code:tempM.grd_code,
+							grd_name:tempM.grd_name,
+							cls_code:tempM.cls_code,
+							cls_name:tempM.cls_name,
+							stu_code:tempM.stu_code,
+							stu_name:tempM.stu_name,
+							dorm_bed_code:tempM.bed_num,
+							dorm_bed:tempM.bed_num
+						})
+					}
+				}
+				if (comData.stu_list.length==0) {
+					for (var i = 0; i < this.stuArray.length; i++) {
+						let tempM = this.stuArray[i]
+						comData.stu_list.push({
+							grd_code:tempM.grd_code,
+							grd_name:tempM.grd_name,
+							cls_code:tempM.cls_code,
+							cls_name:tempM.cls_name,
+						})
+					}
+					if (comData.stu_list.length>0) {
+						comData.stu_list = util.ArrayUnique(comData.stu_list, 'cls_code');
+					}
+				}
+				this.post(this.globaData.INTERFACE_BJLHKP + 'kpScore/add', comData, (data0, data) => {
+					this.hideLoading()
+					this.showToast(data.msg);
+					if (data.code == 0) {
+						uni.navigateBack({
+							delta: 2
+						});
+					}
+				})
 			},
 			textClick() {
-				// if (_this.title.trim().length == 0 || _this.content.trim().length == 0) {
-				// 	_this.showToast("请填写具体内容后再发布");
-				// 	return;
-				// }
+				if (this.navItem.roomArray.length==0) {
+					_this.showToast('请返回上一步，选择评比项！')
+					return
+				}
+				if (this.navItem.from == 0&&this.stuArray.length==0) {//宿舍
+					_this.showToast('当前宿舍没有安排学生，请联系管理员')
+					return
+				}
+				let tempFlag = 0
+				for (var i = 0; i < this.navItem.roomArray.length; i++) {
+					let tempM = this.navItem.roomArray[i]
+					if (tempM.score.length>0&&parseInt(tempM.score)<=100&&parseInt(tempM.score)>=-100) {
+						tempFlag++
+					}
+				}
+				if (tempFlag < this.navItem.roomArray.length) {
+					_this.showToast('请输入-100到100之间的评比项分数')
+					return
+				}
 				_this.upLoadImg();
 			},
 		}
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.xcTitle{
 		font-weight: 700;
 		color: #333333;
@@ -227,7 +373,8 @@
 			margin: 5px 5px 0 10px;
 		}
 		.pb1{
-			font-size: 13px;
+			font-size: 14px;
+			color: #000;
 		}
 		.pb2{
 			margin-top: 2px;
@@ -291,7 +438,9 @@
 			font-size: 14px;
 			color: #000;
 			width: calc(100% - 30px);
-			padding: 10px;
+			padding: 10px 10px 5px 10px;
+			height: 25px;
+			line-height: 25px;
 		}
 		
 		.selectIcon{

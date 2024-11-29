@@ -510,7 +510,7 @@
 						tempNow.new_lesson_time = tempM.nowCls.name;//调课安排-上课时间
 						tempNow.new_place = this.addrList[tempM.addrIndex].address;//调课安排-地点
 						tempNow.new_addr_id = this.addrList[tempM.addrIndex].id;//调课安排-地点
-						tempNow.new_lesson_sign_id = tempM.nowCls.after_class_sign_id?tempM.nowCls.after_class_sign_id:tempM.nowCls.id;//调课安排-课程签到代码
+						// tempNow.new_lesson_sign_id = tempM.nowCls.after_class_sign_id?tempM.nowCls.after_class_sign_id:tempM.nowCls.id;//调课安排-课程签到代码----未知原因，接口修改
 						tempNow.new_lesson_name = tempM.nowCls.sub_name;//调课安排-课程名称
 						tempNow.new_start_time = tempM.nowCls.start_time;//调课安排-开始时间
 						tempNow.new_end_time = tempM.nowCls.end_time;//调课安排-结束时间

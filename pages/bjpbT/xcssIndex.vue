@@ -36,7 +36,7 @@
 						:style="index==roomIndex?'background-color: #2c96bd;color: #ffffff;':''"> -->
 					<view class="grid-item-box gridBoxRoom" @click='roomSelect(item, index)'>
 						{{item.text}}
-						<view class="roomCount">{{item.score}}</view>
+						<view class="roomCount">{{parseInt(item.score)}}</view>
 					</view>
 				</uni-grid-item>
 			</uni-grid>
@@ -81,11 +81,14 @@
 			this.nowDate = tempA
 			this.selectDate = tempA;
 			this.noRightColor = '#999'
-			console.log('tempA:'+tempA)
-			this.getQueryDorm()
+			// console.log('tempA:'+tempA)
+			// this.getQueryDorm()
 			//#ifdef H5
 			document.title = ""
 			//#endif
+		},
+		onShow() {
+			this.getQueryDorm()
 		},
 		methods: {
 			changeDate(flag){
@@ -185,7 +188,7 @@
 						if (data.data.list && data.data.list.length > 0) {
 							for (var i = 0; i < data.data.list.length; i++) {
 								let tempM = data.data.list[i]
-								for (var a = 0; i < this.roomArray.length; a++) {
+								for (var a = 0; a < this.roomArray.length; a++) {
 									let tempN = this.roomArray[a]
 									if (tempM.dorm_room_code == tempN.value) {
 										tempN.score = tempM.score
@@ -218,7 +221,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.riqiView{
 		width: 100%;
 		margin: 10px;

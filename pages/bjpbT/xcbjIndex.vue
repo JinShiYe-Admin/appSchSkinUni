@@ -26,7 +26,7 @@
 							<view class="grid-item-box gridBoxRoom" @click='clsSelect(item, index)'
 								:style="index==clsIndex?'background-color: #2c96bd;color: #ffffff;':''">
 								{{item.cls_name}}
-								<view class="roomCount">{{item.score}}</view>
+								<view class="roomCount">{{parseInt(item.score)}}</view>
 							</view>
 						</uni-grid-item>
 					</uni-grid>
@@ -76,12 +76,12 @@
 			this.selectDate = tempA;
 			this.noRightColor = '#999'
 			console.log('tempA:'+tempA)
-			
-			this.getGrd()
-			
 			//#ifdef H5
 			document.title = ""
 			//#endif
+		},
+		onShow() {
+			this.getGrd()
 		},
 		methods: {
 			changeDate(flag){
@@ -109,6 +109,7 @@
 					date: this.selectDate,
 					index_code: this.index_code,
 				}
+				this.showLoading()
 				this.post(this.globaData.INTERFACE_BJLHKP + 'kpScore/getGrd', comData, (data0, data) => {
 					this.hideLoading()
 					if (data.code == 0) {
@@ -116,7 +117,9 @@
 						this.is_duty = data.data.is_duty
 						this.grdArray = data.data.list
 						this.grdIndex = 0
-						this.getCls()
+						if (this.grdArray.length>0) {
+							this.getCls()
+						}
 					} else {
 						this.showToast(data.msg);
 					}
@@ -129,6 +132,7 @@
 					grd_code:this.grdArray[this.grdIndex].grd_code,
 					index_code: this.index_code,
 				}
+				this.showLoading()
 				this.post(this.globaData.INTERFACE_BJLHKP + 'kpScore/getCls', comData, (data0, data) => {
 					this.hideLoading()
 					if (data.code == 0) {
@@ -163,7 +167,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.riqiView{
 		width: 100%;
 		margin: 10px;
